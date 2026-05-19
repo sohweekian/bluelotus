@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aladdin — The Machine That Runs the World's Money</title>
+<meta name="description" content="The extraordinary story of how a $100 million failure became the most powerful financial AI ever built.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080808;
+    --off-black: #0d0d0d;
+    --dark: #111111;
+    --dark-2: #1a1a1a;
+    --border: rgba(255,255,255,0.06);
+    --border-bright: rgba(255,255,255,0.15);
+    --text: #e8e3da;
+    --text-muted: #7a7469;
+    --text-dim: #3d3a35;
+    --gold: #c9a84c;
+    --gold-light: #e8c96a;
+    --gold-dim: rgba(201,168,76,0.1);
+    --gold-dim2: rgba(201,168,76,0.05);
+    --red-accent: #8b2020;
+    --serif: 'Playfair Display', Georgia, serif;
+    --mono: 'DM Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* GRAIN OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: var(--black); }
+  ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(to bottom, rgba(8,8,8,0.95), transparent);
+  }
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 70% 40%, rgba(201,168,76,0.04) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(139,32,32,0.06) 0%, transparent 60%);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse at 50% 100%, black 0%, transparent 70%);
+  }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(52px, 8vw, 112px);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    max-width: 900px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.4s forwards;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-subtitle {
+    margin-top: 32px;
+    font-size: 18px;
+    color: var(--text-muted);
+    max-width: 540px;
+    line-height: 1.6;
+    font-weight: 300;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.6s forwards;
+  }
+
+  .hero-meta {
+    margin-top: 48px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.8s forwards;
+  }
+
+  .hero-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .hero-stat-val {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--gold-light);
+    line-height: 1;
+  }
+  .hero-stat-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+  .hero-divider {
+    width: 1px;
+    height: 48px;
+    background: var(--border-bright);
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 32px;
+    right: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 1.2s forwards;
+  }
+  .scroll-line {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s ease infinite;
+  }
+  .scroll-text {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    writing-mode: vertical-rl;
+  }
+
+  /* SECTIONS */
+  .section {
+    padding: 120px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-full {
+    padding: 120px 0;
+  }
+
+  /* CHAPTER LABEL */
+  .chapter {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  .chapter-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  .chapter-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--border-bright), transparent);
+    max-width: 80px;
+  }
+  .chapter-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  /* PULL QUOTE */
+  .pull-quote {
+    font-family: var(--serif);
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.3;
+    color: var(--text);
+    padding: 0 48px;
+    border-left: 2px solid var(--gold);
+    margin: 64px 0;
+  }
+  .pull-quote cite {
+    display: block;
+    margin-top: 16px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    font-style: normal;
+    text-transform: uppercase;
+  }
+
+  /* BODY TEXT */
+  .body-text {
+    font-size: 18px;
+    line-height: 1.8;
+    color: var(--text);
+    font-weight: 300;
+    max-width: 680px;
+  }
+  .body-text + .body-text { margin-top: 24px; }
+  .body-text strong {
+    color: var(--gold-light);
+    font-weight: 500;
+  }
+
+  /* TWO COL */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  /* SECTION HEADING */
+  .section-heading {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+  }
+  .section-heading em { font-style: italic; color: var(--gold); }
+
+  /* HIGHLIGHT BOX */
+  .highlight-box {
+    background: var(--gold-dim2);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 2px;
+    padding: 32px;
+    margin: 40px 0;
+  }
+  .highlight-box-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .highlight-box-text {
+    font-size: 16px;
+    color: var(--text);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* TIMELINE */
+  .timeline {
+    position: relative;
+    padding-left: 48px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 8px; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 56px;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.6s ease;
+  }
+  .timeline-item.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -52px;
+    top: 8px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 16px rgba(201,168,76,0.4);
+  }
+  .timeline-year {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .timeline-heading {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+  .timeline-text {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    max-width: 560px;
+  }
+
+  /* ENGINE CARDS */
+  .engines {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    margin: 48px 0;
+    background: var(--border);
+  }
+  .engine-card {
+    background: var(--off-black);
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .engine-card:hover { background: var(--dark-2); }
+  .engine-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .engine-card:hover::before { opacity: 1; }
+  .engine-num {
+    font-family: var(--mono);
+    font-size: 48px;
+    font-weight: 300;
+    color: var(--text-dim);
+    line-height: 1;
+    margin-bottom: 20px;
+  }
+  .engine-title {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+  .engine-text {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* STATS ROW */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--border);
+    margin: 64px 0;
+  }
+  .stat-block {
+    background: var(--off-black);
+    padding: 48px 40px;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 900;
+    color: var(--gold-light);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    line-height: 1.5;
+  }
+
+  /* ADVANTAGES */
+  .advantages {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin: 48px 0;
+  }
+  .advantage {
+    border-top: 1px solid var(--border-bright);
+    padding-top: 24px;
+  }
+  .advantage-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+  .advantage-title {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .advantage-text {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* FULL WIDTH QUOTE */
+  .full-quote {
+    padding: 120px 48px;
+    background: var(--dark);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+  }
+  .full-quote-text {
+    font-family: var(--serif);
+    font-size: clamp(28px, 4vw, 52px);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.3;
+    max-width: 900px;
+    margin: 0 auto 32px;
+  }
+  .full-quote-text em { color: var(--gold); font-style: normal; }
+  .full-quote-attr {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  /* RELEVANCE SECTION */
+  .relevance {
+    background: var(--gold-dim2);
+    border: 1px solid rgba(201,168,76,0.12);
+    padding: 80px 48px;
+    margin: 0;
+  }
+  .relevance-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 80px 48px 48px;
+    border-top: 1px solid var(--border);
+  }
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .footer-logo {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 700;
+    font-style: italic;
+    color: var(--gold);
+  }
+  .footer-text {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    text-align: right;
+    line-height: 1.8;
+  }
+
+  /* DIVIDER */
+  .ornament {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 64px 0;
+  }
+  .ornament-line { flex: 1; height: 1px; background: var(--border); }
+  .ornament-diamond {
+    width: 6px; height: 6px;
+    background: var(--gold);
+    transform: rotate(45deg);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.4; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.1); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: all 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    .hero { padding: 0 24px 60px; }
+    .section { padding: 80px 24px; }
+    .two-col { grid-template-columns: 1fr; gap: 40px; }
+    .engines { grid-template-columns: 1fr; }
+    .stats-row { grid-template-columns: 1fr; }
+    .advantages { grid-template-columns: 1fr; }
+    .pull-quote { padding: 0 24px; font-size: 24px; }
+    .full-quote { padding: 80px 24px; }
+    .relevance { padding: 60px 24px; }
+    footer { padding: 60px 24px 40px; }
+    .footer-inner { flex-direction: column; gap: 24px; align-items: flex-start; }
+    .footer-text { text-align: left; }
+    .hero-meta { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Aladdin</div>
+  <ul class="nav-links">
+    <li><a href="#origin">Origin</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#edge">The edge</a></li>
+    <li><a href="#relevance">Relevance</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-eyebrow">BlackRock's Aladdin — The Full Story</div>
+
+  <h1 class="hero-title">
+    The Machine That<br>
+    Runs the <em>World's</em><br>
+    Money
+  </h1>
+
+  <p class="hero-subtitle">
+    How a $100 million failure became the most powerful financial AI ever built — and why it matters to every investor alive.
+  </p>
+
+  <div class="hero-meta">
+    <div class="hero-stat">
+      <div class="hero-stat-val">$21.6T</div>
+      <div class="hero-stat-label">Assets monitored</div>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-stat">
+      <div class="hero-stat-val">35+</div>
+      <div class="hero-stat-label">Years of market data</div>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-stat">
+      <div class="hero-stat-val">70</div>
+      <div class="hero-stat-label">Countries</div>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-stat">
+      <div class="hero-stat-val">4,500+</div>
+      <div class="hero-stat-label">Engineers</div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    <div class="scroll-text">Scroll</div>
+  </div>
+</section>
+
+<!-- PART 1: ORIGIN -->
+<section class="section" id="origin">
+  <div class="chapter">
+    <span class="chapter-num">Part I</span>
+    <div class="chapter-line"></div>
+    <span class="chapter-title">Born from failure</span>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h2 class="section-heading reveal">A $100 Million <em>Mistake</em></h2>
+      <p class="body-text reveal">1986. Larry Fink is a hotshot mortgage bond trader at First Boston, making millions pioneering mortgage-backed securities — one of Wall Street's most celebrated young stars.</p>
+      <p class="body-text reveal">Then one catastrophic miscalculation. A $100 million loss in a single trade. The cause: poor risk assessment. He didn't understand his own exposure.</p>
+      <p class="body-text reveal">He lost his job. Humiliated. Exiled from the firm he had helped build.</p>
+    </div>
+    <div>
+      <div class="pull-quote reveal">
+        "I didn't control the back office. I didn't know my risk."
+        <cite>— Larry Fink, 1986</cite>
+      </div>
+      <p class="body-text reveal">That humiliation became an obsession. Fink was determined that no investor — ever again — should make a decision without knowing their true risk exposure.</p>
+      <p class="body-text reveal">Two years later, in 1988, he co-founded BlackRock in a modest New York office with colleagues from First Boston — Charles Hallac, Ben Golub, and others. From day one, the mission was singular: <strong>know every risk in every portfolio, at all times.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="section-full">
+  <div class="section" style="padding-top:0; padding-bottom:0;">
+    <div class="chapter reveal">
+      <span class="chapter-num">Timeline</span>
+      <div class="chapter-line"></div>
+      <span class="chapter-title">The rise of Aladdin</span>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-year">1986</div>
+        <div class="timeline-heading">The $100 Million Lesson</div>
+        <div class="timeline-text">Larry Fink loses $100M in a single trade at First Boston. The cause: inadequate risk management. He loses his job. The obsession begins.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">1988</div>
+        <div class="timeline-heading">BlackRock Founded</div>
+        <div class="timeline-text">Fink co-founds BlackRock with Charles Hallac, Ben Golub, and others. Hallac begins building the risk system. Early days: clunky spreadsheets and hand-fed data. The system is named Aladdin — Asset, Liability, Debt and Derivative Investment Network.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">1994</div>
+        <div class="timeline-heading">The Great Bond Massacre</div>
+        <div class="timeline-text">The Fed raises rates unexpectedly. Fixed income portfolios across Wall Street blow up. Aladdin users saw it coming. Everyone else got destroyed. Aladdin's value is proven beyond doubt.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">Late 1990s</div>
+        <div class="timeline-heading">First Commercial Gig</div>
+        <div class="timeline-text">Aladdin is tasked with valuing General Electric's nightmare mortgage portfolio from the collapsed Kidder Peabody deal. Aladdin performs flawlessly. Wall Street takes notice.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">1999</div>
+        <div class="timeline-heading">The Genius Move — Licensing</div>
+        <div class="timeline-text">Fink makes a counterintuitive decision: sell access to competitors. His reasoning: a safer Wall Street benefits everyone. BlackRock now earns licensing fees on top of AUM fees. The moat widens permanently.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2008</div>
+        <div class="timeline-heading">The US Government Calls</div>
+        <div class="timeline-text">During the global financial crisis, the Federal Reserve hires Aladdin to value toxic mortgage assets. BlackRock becomes systemically indispensable. Not just a firm. Infrastructure.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2020</div>
+        <div class="timeline-heading">COVID — The Fed Calls Again</div>
+        <div class="timeline-text">During the COVID bond market stress, the Fed turns to BlackRock again. Aladdin is deployed at the centre of the global financial response. No competitor comes close.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">Today</div>
+        <div class="timeline-heading">$21.6 Trillion Under Watch</div>
+        <div class="timeline-text">Aladdin monitors approximately $21.6 trillion in assets — roughly 10% of all traded stocks and bonds on the planet. More than the combined GDP of the United States and China.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PART 2: HOW IT WORKS -->
+<section class="section" id="how">
+  <div class="chapter reveal">
+    <span class="chapter-num">Part II</span>
+    <div class="chapter-line"></div>
+    <span class="chapter-title">How Aladdin actually works</span>
+  </div>
+
+  <h2 class="section-heading reveal">Not Software.<br><em>An Operating System.</em></h2>
+  <p class="body-text reveal">Aladdin is not just software. It is a complete financial operating system — front office trading, middle office compliance, back office accounting, all in one seamless machine. Hosted on Microsoft Azure. Maintained by 4,500+ engineers running 24/7 across 70 countries.</p>
+
+  <div class="engines reveal">
+    <div class="engine-card">
+      <div class="engine-num">01</div>
+      <div class="engine-title">Risk Simulation Engine</div>
+      <div class="engine-text">Runs tens of thousands of Monte Carlo simulations daily — stress testing portfolios against every conceivable scenario. Interest rate spikes. Currency crashes. Geopolitical shocks. Oil supply disruptions. It asks: what happens to this portfolio if X occurs?</div>
+    </div>
+    <div class="engine-card">
+      <div class="engine-num">02</div>
+      <div class="engine-title">Data Ingestion Engine</div>
+      <div class="engine-text">Ingests real-time data from custodians, exchanges, central banks, news feeds, economic indicators, and social media. NLP algorithms extract signals from unstructured data — news articles, earnings calls, even social sentiment.</div>
+    </div>
+    <div class="engine-card">
+      <div class="engine-num">03</div>
+      <div class="engine-title">Portfolio Optimization Engine</div>
+      <div class="engine-text">Given risk parameters and client objectives, Aladdin continuously rebalances — optimizing asset allocation across thousands of positions simultaneously. No emotion. No fatigue. No hesitation.</div>
+    </div>
+    <div class="engine-card">
+      <div class="engine-num">04</div>
+      <div class="engine-title">Execution & Compliance Engine</div>
+      <div class="engine-text">Front office trading, middle office compliance, back office accounting — all integrated. Every single trade is checked against regulatory limits before execution. No rule gets broken. No exception gets missed.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FULL QUOTE -->
+<div class="full-quote">
+  <div class="full-quote-text">
+    "When Aladdin says buy — <em>426 institutions follow.</em> When Aladdin says reduce — 213 institutions follow."
+  </div>
+  <div class="full-quote-attr">The scale of institutional coordination</div>
+</div>
+
+<!-- STATS -->
+<section class="section" style="padding-top: 80px; padding-bottom: 0;">
+  <div class="stats-row reveal">
+    <div class="stat-block">
+      <div class="stat-num">$21.6T</div>
+      <div class="stat-label">Assets under<br>Aladdin's watch</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num">10%</div>
+      <div class="stat-label">Of all traded stocks<br>and bonds globally</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num">70</div>
+      <div class="stat-label">Countries where<br>Aladdin operates</div>
+    </div>
+  </div>
+</section>
+
+<!-- PART 3: THE GENIUS MOVE -->
+<section class="section">
+  <div class="chapter reveal">
+    <span class="chapter-num">Part III</span>
+    <div class="chapter-line"></div>
+    <span class="chapter-title">The counterintuitive genius</span>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h2 class="section-heading reveal">Selling the Weapon<br>to <em>Rivals</em></h2>
+      <p class="body-text reveal">By 1999 — just 11 years in — Aladdin was so powerful that rivals wanted access. Fink made a decision that seemed insane: sell access to competitors.</p>
+      <p class="body-text reveal">His reasoning: a safer Wall Street benefits everyone. If major institutions all use superior risk management, systemic failures become less likely — and BlackRock earns licensing fees on top of AUM fees.</p>
+    </div>
+    <div>
+      <div class="highlight-box reveal">
+        <div class="highlight-box-label">Who uses Aladdin today</div>
+        <div class="highlight-box-text">Pension funds. Sovereign wealth funds. Insurance companies. Central banks. Rival asset managers. Even the United States Federal Reserve has called on Aladdin in times of crisis — twice. The system has become the shared infrastructure of global finance.</div>
+      </div>
+      <p class="body-text reveal">Little did anyone realize — this "generous" move would birth a technology titan influencing everything from your retirement fund to central bank bailouts. The moat didn't just widen. It became the ocean.</p>
+    </div>
+  </div>
+
+  <div class="ornament reveal">
+    <div class="ornament-line"></div>
+    <div class="ornament-diamond"></div>
+    <div class="ornament-line"></div>
+  </div>
+</section>
+
+<!-- PART 4: THE EDGE -->
+<section class="section" id="edge">
+  <div class="chapter reveal">
+    <span class="chapter-num">Part IV</span>
+    <div class="chapter-line"></div>
+    <span class="chapter-title">Three unfair advantages</span>
+  </div>
+
+  <h2 class="section-heading reveal">What Gave Larry Fink<br>the <em>Edge</em></h2>
+
+  <div class="advantages reveal">
+    <div class="advantage">
+      <div class="advantage-num">01 — Information superiority</div>
+      <div class="advantage-title">Seeing What No One Else Can</div>
+      <div class="advantage-text">When you're monitoring $21.6 trillion across every asset class, sector, and geography simultaneously — you see patterns no single investor ever could. Aladdin processes data at a scale that is structurally impossible for any human team to replicate.</div>
+    </div>
+    <div class="advantage">
+      <div class="advantage-num">02 — First mover compounding</div>
+      <div class="advantage-title">35 Years of Compounding Intelligence</div>
+      <div class="advantage-text">Every year of data makes the models smarter. 35+ years of market data — bull markets, crashes, crises, recoveries — trained into a single system. The 2008 crisis. COVID. The 2022 rate shock. Every event made Aladdin sharper. Competitors starting today are 35 years behind.</div>
+    </div>
+    <div class="advantage">
+      <div class="advantage-num">03 — Crisis credibility</div>
+      <div class="advantage-title">Called When It Matters Most</div>
+      <div class="advantage-text">When the US government needed help in 2008 — they called BlackRock. The Fed hired Aladdin to value toxic mortgage assets. Again in 2020 during COVID bond market stress. That's not credibility. That's structural positioning at the centre of global finance.</div>
+    </div>
+  </div>
+</section>
+
+<!-- RELEVANCE -->
+<div class="relevance" id="relevance">
+  <div class="relevance-inner">
+    <div class="chapter reveal">
+      <span class="chapter-num">Why it matters</span>
+      <div class="chapter-line"></div>
+      <span class="chapter-title">The relevance to every investor</span>
+    </div>
+
+    <h2 class="section-heading reveal">You Are Trading Alongside<br>the Most Sophisticated<br><em>Machine Ever Built.</em></h2>
+
+    <div class="two-col" style="margin-top: 48px;">
+      <div>
+        <p class="body-text reveal">When BlackRock added <strong>$199M of ASTS</strong> in Q1 2026 — that wasn't a human analyst's gut feel. That was Aladdin's risk model determining that ASTS deserved a position at that price and risk profile.</p>
+        <p class="body-text reveal">When Norges Bank added $198M. When State Street added $127M. When Vanguard added $114M. None of these were accidents. None were emotion. All were Aladdin.</p>
+      </div>
+      <div>
+        <div class="highlight-box reveal">
+          <div class="highlight-box-label">The principle that changes everything</div>
+          <div class="highlight-box-text">You don't need to beat Aladdin. You need to understand which direction it's pointing — and position yourself in front of it. When the world's largest passive fund managers are collectively adding $638M to a single mid-cap stock in a single quarter, that is Aladdin speaking. Listen.</div>
+        </div>
+        <p class="body-text reveal">The same philosophy that built Aladdin applies at any scale: <strong>know your risk before you take your position.</strong> That principle cost Larry Fink $100 million to learn. You now know it for free.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL QUOTE -->
+<div class="full-quote">
+  <div class="full-quote-text">
+    "Born from the ashes of a $100 million mistake — Aladdin became the <em>nervous system</em> of global finance."
+  </div>
+  <div class="full-quote-attr">35 years. $21.6 trillion. One obsession.</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Aladdin</div>
+      <div style="margin-top: 12px; font-family: var(--mono); font-size: 10px; color: var(--text-dim); letter-spacing: 0.1em;">Asset, Liability, Debt and Derivative Investment Network</div>
+    </div>
+    <div class="footer-text">
+      An editorial on BlackRock's Aladdin system<br>
+      Research compiled 2026<br>
+      For educational purposes only
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Intersection Observer for reveal animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+  document.querySelectorAll('.reveal, .timeline-item').forEach(el => {
+    observer.observe(el);
+  });
+
+  // Stagger timeline items
+  document.querySelectorAll('.timeline-item').forEach((el, i) => {
+    el.style.transitionDelay = (i * 0.08) + 's';
+  });
+</script>
+</body>
+</html>
