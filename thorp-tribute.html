@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edward O. Thorp — A Tribute | BlueLotus Fund</title>
+<meta name="description" content="A tribute to Edward O. Thorp — mathematician, blackjack pioneer, hedge fund visionary, and the Godfather of Quantitative Finance.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lora:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:#07080a;--ink2:#0d0f12;--ink3:#13161a;--ink4:#1a1e24;
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);
+  --text:#e8e2d4;--text2:#9a9080;--text3:#4a4540;
+  --gold:#c9a84c;--gold-light:#e8c96a;--gold-dim:rgba(201,168,76,0.08);
+  --gold-dim2:rgba(201,168,76,0.04);--gold-border:rgba(201,168,76,0.2);
+  --serif:'Playfair Display',Georgia,serif;
+  --body:'Lora',Georgia,serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--ink);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.8;overflow-x:hidden;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:999;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--ink);}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:18px 56px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to bottom,rgba(7,8,10,0.97),transparent);backdrop-filter:blur(8px);}
+.nav-logo{font-family:var(--mono);font-size:11px;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;}
+.nav-logo span{color:var(--text3);font-weight:300;}
+.nav-links{display:flex;gap:28px;list-style:none;}
+.nav-links a{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;color:var(--text3);text-decoration:none;text-transform:uppercase;transition:color 0.2s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-home{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;color:var(--text3);text-decoration:none;text-transform:uppercase;padding:7px 16px;border:1px solid var(--border);border-radius:4px;transition:all 0.2s;}
+.nav-home:hover{border-color:var(--gold-border);color:var(--gold);}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 56px 80px;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 80% 30%,rgba(201,168,76,0.04) 0%,transparent 60%),radial-gradient(ellipse 50% 70% at 10% 90%,rgba(201,168,76,0.03) 0%,transparent 60%);}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.015) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(ellipse at 50% 100%,black 0%,transparent 70%);}
+.hero-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;margin-bottom:20px;opacity:0;animation:fadeUp 0.8s ease 0.2s forwards;}
+.hero-title{font-family:var(--serif);font-size:clamp(52px,8vw,110px);font-weight:900;line-height:0.95;letter-spacing:-0.02em;max-width:900px;opacity:0;animation:fadeUp 0.8s ease 0.4s forwards;}
+.hero-title em{font-style:italic;color:var(--gold);}
+.hero-dates{font-family:var(--mono);font-size:12px;letter-spacing:0.2em;color:var(--text3);margin-top:20px;opacity:0;animation:fadeUp 0.8s ease 0.55s forwards;}
+.hero-subtitle{font-family:var(--body);font-size:20px;color:var(--text2);max-width:560px;line-height:1.6;margin-top:28px;font-style:italic;opacity:0;animation:fadeUp 0.8s ease 0.7s forwards;}
+.hero-tags{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px;opacity:0;animation:fadeUp 0.8s ease 0.85s forwards;}
+.hero-tag{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:6px 14px;border:1px solid var(--gold-border);border-radius:3px;color:var(--gold);background:var(--gold-dim2);}
+.scroll-hint{position:absolute;bottom:32px;right:56px;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeUp 0.8s ease 1.2s forwards;}
+.scroll-line{width:1px;height:56px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollPulse 2s ease infinite;}
+.scroll-text{font-family:var(--mono);font-size:9px;letter-spacing:0.2em;color:var(--text3);text-transform:uppercase;writing-mode:vertical-rl;}
+
+/* SECTION STYLES */
+.section{padding:100px 56px;max-width:1100px;margin:0 auto;}
+.section-full{padding:100px 0;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+
+/* CHAPTER */
+.chapter{display:flex;align-items:center;gap:16px;margin-bottom:48px;}
+.ch-num{font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;}
+.ch-line{width:48px;height:1px;background:linear-gradient(to right,var(--gold),transparent);}
+.ch-title{font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:var(--text3);text-transform:uppercase;}
+
+/* HEADINGS */
+.section-h{font-family:var(--serif);font-size:clamp(34px,4.5vw,56px);font-weight:700;line-height:1.1;letter-spacing:-0.01em;margin-bottom:28px;}
+.section-h em{font-style:italic;color:var(--gold);}
+
+/* BODY TEXT */
+.prose{font-size:17px;color:var(--text2);line-height:1.9;font-family:var(--body);}
+.prose+.prose{margin-top:20px;}
+.prose strong{color:var(--text);font-weight:500;}
+.prose em{color:var(--gold-light);font-style:italic;}
+
+/* PULL QUOTE */
+.pull-quote{font-family:var(--serif);font-size:clamp(24px,3.5vw,38px);font-style:italic;line-height:1.4;padding:0 40px;border-left:2px solid var(--gold);margin:56px 0;color:var(--text);}
+.pull-quote cite{display:block;font-family:var(--mono);font-size:10px;font-style:normal;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase;margin-top:14px;}
+
+/* FULL WIDTH QUOTE */
+.full-quote{padding:100px 56px;background:var(--ink2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);text-align:center;}
+.fq-text{font-family:var(--serif);font-size:clamp(26px,4vw,48px);font-style:italic;line-height:1.35;max-width:860px;margin:0 auto 24px;}
+.fq-text em{font-style:normal;color:var(--gold);}
+.fq-attr{font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:var(--text3);text-transform:uppercase;}
+
+/* BOOKS */
+.books-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2px;background:var(--border);margin:48px 0;}
+.book-card{background:var(--ink2);padding:36px 32px;position:relative;overflow:hidden;transition:background 0.2s;}
+.book-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--gold),transparent);opacity:0;transition:opacity 0.2s;}
+.book-card:hover{background:var(--ink3);}
+.book-card:hover::before{opacity:1;}
+.book-year{font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase;margin-bottom:12px;}
+.book-title{font-family:var(--serif);font-size:20px;font-weight:700;line-height:1.3;margin-bottom:12px;color:var(--text);}
+.book-synopsis{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:20px;}
+.book-link{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid var(--gold-border);padding:7px 14px;border-radius:3px;transition:all 0.2s;}
+.book-link:hover{background:var(--gold-dim);border-color:var(--gold);}
+
+/* STATS ROW */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--border);margin:64px 0;}
+.stat-block{background:var(--ink2);padding:44px 36px;text-align:center;}
+.stat-num{font-family:var(--serif);font-size:clamp(32px,4vw,56px);font-weight:900;color:var(--gold-light);line-height:1;margin-bottom:10px;}
+.stat-label{font-family:var(--mono);font-size:9px;letter-spacing:0.15em;color:var(--text3);text-transform:uppercase;line-height:1.5;}
+
+/* TIMELINE */
+.timeline{position:relative;padding-left:48px;margin:48px 0;}
+.timeline::before{content:'';position:absolute;left:0;top:8px;bottom:0;width:1px;background:linear-gradient(to bottom,var(--gold),transparent);}
+.tl-item{position:relative;margin-bottom:52px;}
+.tl-item::before{content:'';position:absolute;left:-52px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 16px rgba(201,168,76,0.5);}
+.tl-year{font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:var(--gold);margin-bottom:8px;text-transform:uppercase;}
+.tl-head{font-family:var(--serif);font-size:22px;font-weight:700;margin-bottom:10px;}
+.tl-text{font-size:14px;color:var(--text2);line-height:1.75;max-width:600px;}
+
+/* FORMULA BOX */
+.formula-box{background:var(--gold-dim2);border:1px solid var(--gold-border);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:32px 36px;margin:40px 0;}
+.formula-label{font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.formula-text{font-family:var(--serif);font-size:28px;font-style:italic;color:var(--text);margin-bottom:12px;}
+.formula-desc{font-size:14px;color:var(--text2);line-height:1.6;}
+
+/* HIGHLIGHT */
+.highlight{background:var(--ink2);border:1px solid var(--border);border-radius:8px;padding:32px 36px;margin:36px 0;}
+.highlight-label{font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;}
+.highlight-text{font-size:15px;color:var(--text2);line-height:1.75;}
+
+/* ORNAMENT */
+.ornament{display:flex;align-items:center;gap:16px;margin:64px 0;}
+.ornament-line{flex:1;height:1px;background:var(--border);}
+.ornament-diamond{width:6px;height:6px;background:var(--gold);transform:rotate(45deg);}
+
+/* TRIBUTE FOOTER */
+.tribute-section{background:linear-gradient(to bottom,var(--ink2),var(--ink));border-top:1px solid var(--border);padding:100px 56px 60px;text-align:center;}
+.tribute-lotus{font-size:32px;margin-bottom:20px;}
+.tribute-title{font-family:var(--serif);font-size:clamp(28px,4vw,48px);font-weight:700;font-style:italic;color:var(--gold-light);margin-bottom:20px;line-height:1.2;}
+.tribute-text{font-size:16px;color:var(--text2);max-width:640px;margin:0 auto 48px;line-height:1.8;}
+
+/* FOOTER */
+footer{padding:40px 56px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.footer-brand{font-family:var(--serif);font-size:18px;font-style:italic;color:var(--gold);}
+.footer-note{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:0.08em;text-align:right;line-height:1.9;}
+
+/* DIVIDER */
+.section-divider{height:1px;background:var(--border);margin:0 56px;}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:all 0.7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes scrollPulse{0%,100%{opacity:0.4;}50%{opacity:1;}}
+
+@media(max-width:900px){
+  nav{padding:16px 24px;}
+  .nav-links{display:none;}
+  .hero{padding:0 24px 60px;}
+  .section{padding:60px 24px;}
+  .two-col{grid-template-columns:1fr;gap:40px;}
+  .stats-row{grid-template-columns:1fr 1fr;}
+  .books-grid{grid-template-columns:1fr;}
+  .pull-quote{padding:0 20px;font-size:22px;}
+  .full-quote{padding:60px 24px;}
+  .tribute-section{padding:60px 24px;}
+  footer{flex-direction:column;gap:16px;padding:32px 24px;text-align:center;}
+  .footer-note{text-align:center;}
+  .section-divider{margin:0 24px;}
+  .scroll-hint{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">BlueLotus <span>/ Tribute Series</span></div>
+  <ul class="nav-links">
+    <li><a href="#books">Books</a></li>
+    <li><a href="#shannon">Shannon</a></li>
+    <li><a href="#buffett">Buffett</a></li>
+    <li><a href="#legacy">Legacy</a></li>
+  </ul>
+  <a class="nav-home" href="https://sohweekian.github.io/bluelotus/">← BlueLotus Fund</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-eyebrow">🪷 BlueLotus Fund · Tribute Series</div>
+  <h1 class="hero-title">Edward O.<br><em>Thorp</em></h1>
+  <div class="hero-dates">Born August 14, 1932 · Chicago, Illinois · Age 93</div>
+  <p class="hero-subtitle">Mathematician. Blackjack pioneer. Hedge fund visionary. The man who turned probability into profit — and in doing so, invented the future of finance.</p>
+  <div class="hero-tags">
+    <span class="hero-tag">Godfather of Quants</span>
+    <span class="hero-tag">First Wearable Computer</span>
+    <span class="hero-tag">Beat the Dealer</span>
+    <span class="hero-tag">Father of Quantitative Finance</span>
+    <span class="hero-tag">Princeton Newport Partners</span>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <div class="scroll-text">Scroll</div>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="stats-row reveal">
+  <div class="stat-block"><div class="stat-num">20</div><div class="stat-label">Years without a<br>single losing quarter</div></div>
+  <div class="stat-block"><div class="stat-num">19.1%</div><div class="stat-label">Average annual return<br>Princeton Newport Partners</div></div>
+  <div class="stat-block"><div class="stat-num">6</div><div class="stat-label">Books that changed<br>gambling and finance</div></div>
+  <div class="stat-block"><div class="stat-num">17</div><div class="stat-label">Years before anyone else<br>spotted Bernie Madoff</div></div>
+</div>
+
+<!-- PART I: THE ORIGIN -->
+<section class="section" id="origin">
+  <div class="chapter reveal"><span class="ch-num">Part I</span><div class="ch-line"></div><span class="ch-title">The origin of a genius</span></div>
+  <div class="two-col">
+    <div>
+      <h2 class="section-h reveal">A Child Who Taught<br>Himself <em>Everything</em></h2>
+      <p class="prose reveal">Edward Oakley Thorp was born in Chicago in 1932, in the depths of the Great Depression, to a father who worked long hours and a mother consumed with caring for a younger brother who had nearly died of pneumonia. Left largely on his own as a child, Thorp responded by reading voraciously — exploring endless worlds in books his father gave him.</p>
+      <p class="prose reveal">He was not given opportunity. He created it. As a teenager, he earned the top score in the state of California on a prominent physics exam — winning a scholarship that funded his university education. He graduated with a bachelor's degree in physics from UCLA in 1953, a master's in 1955, and a PhD in mathematics in 1958.</p>
+      <p class="prose reveal">He joined MIT as a professor in 1959. It was there, among the most brilliant minds of the 20th century, that the trajectory of his life — and of quantitative finance — would be changed forever.</p>
+    </div>
+    <div>
+      <div class="pull-quote reveal">
+        "This left me much more on my own and I responded by exploring endless worlds, both real and imagined, to be found in the books my father gave me."
+        <cite>— Edward O. Thorp, A Man for All Markets</cite>
+      </div>
+      <div class="highlight reveal">
+        <div class="highlight-label">Academic Credentials</div>
+        <div class="highlight-text">B.Sc. Physics · UCLA 1953<br>M.Sc. Physics · UCLA 1955<br>PhD Mathematics · UCLA 1958<br>Professor of Mathematics · MIT 1959–1961<br>Professor of Mathematics · New Mexico State 1961–1965<br>Founding Faculty · UC Irvine 1965–1982<br>Blackjack Hall of Fame · Inducted 2002</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- PART II: BLACKJACK -->
+<section class="section" id="blackjack">
+  <div class="chapter reveal"><span class="ch-num">Part II</span><div class="ch-line"></div><span class="ch-title">The casino years — finding the edge</span></div>
+  <h2 class="section-h reveal">The Man Who <em>Broke</em><br>the Casino</h2>
+
+  <div class="two-col" style="margin-bottom:48px;">
+    <div>
+      <p class="prose reveal">In 1958, the freshly minted Dr. Thorp visited Las Vegas for the first time — not to gamble, but to see whether his mathematical mind could find a flaw in what everyone called an unbeatable game. He tried blackjack using a strategy he had encountered in a mathematics paper, and realised immediately: <strong>the people running this game do not understand it.</strong></p>
+      <p class="prose reveal">He returned to MIT and went to work. Using an IBM 704 mainframe computer — one of the most powerful machines of its era — he ran millions of card combinations, modelling the probability of winning based on which cards remained in the deck. He learned Fortran to program the equations himself.</p>
+      <p class="prose reveal">His discovery was revolutionary: as cards are played from a deck, the statistical composition of what remains changes. When the remaining cards are rich in high values — tens and aces — the player gains a mathematical advantage over the house. By tracking the cards played (card counting) and adjusting bet size accordingly, the house edge could not just be neutralised — it could be reversed.</p>
+    </div>
+    <div>
+      <p class="prose reveal">He also discovered, at this precise moment, the principle that would govern everything he did for the next 60 years: the Kelly Criterion. John L. Kelly had published his formula in 1956. It would be Claude Shannon — Thorp's colleague at MIT — who brought it to his attention in November 1960.</p>
+      <p class="prose reveal">Thorp submitted an abstract to the American Mathematical Society on "Fortune's Formula: The Game of Blackjack." The abstract committee nearly rejected it — "This is just another fool with a system that doesn't work. We know you can't beat gambling games." It was only because a number theorist named John Selfridge knew Thorp personally that the abstract was accepted.</p>
+      <p class="prose reveal">When he presented, he expected 50 mathematicians. Instead, 300 people packed the room. Many wore pinky rings, sunglasses, and Hawaiian shirts in the middle of winter. When he finished, they lunged for his handout.</p>
+    </div>
+  </div>
+
+  <div class="timeline reveal">
+    <div class="tl-item">
+      <div class="tl-year">1958</div>
+      <div class="tl-head">First Visit to Las Vegas</div>
+      <div class="tl-text">Thorp recognises that blackjack dealers do not understand the probability structure of their own game. The obsession begins.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1959–1960</div>
+      <div class="tl-head">The IBM 704 Calculations</div>
+      <div class="tl-text">Using MIT's mainframe computer, Thorp runs millions of card simulations. He learns Fortran to program the equations himself. Card counting is born.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1960</div>
+      <div class="tl-head">Claude Shannon Introduces the Kelly Criterion</div>
+      <div class="tl-text">At MIT, Claude Shannon — the father of information theory — brings Kelly's 1956 paper to Thorp's attention. This single introduction changes the course of financial history.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1961</div>
+      <div class="tl-head">American Mathematical Society Presentation</div>
+      <div class="tl-text">"Fortune's Formula: The Game of Blackjack." The room of 300 people — including many with pinky rings and Hawaiian shirts — signals that this discovery reaches far beyond academia.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1962</div>
+      <div class="tl-head">Beat the Dealer Published</div>
+      <div class="tl-text">The New York Times bestseller sells over one million copies. Casinos across Nevada change their rules within weeks. Thorp is blacklisted from every major casino — at which point he begins wearing disguises.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1962–1967</div>
+      <div class="tl-head">The Casino Years</div>
+      <div class="tl-text">Thorp wins $11,000 in a single weekend in Reno and Lake Tahoe during the first live test. Casinos drug his drinks. Tamper with his car's brakes. He wears fake beards and wraparound glasses. He realises it is time to apply his edge to a bigger, safer game.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FULL QUOTE -->
+<div class="full-quote">
+  <div class="fq-text reveal">"Having an edge and surviving are <em>two different things.</em> The first requires the second."</div>
+  <div class="fq-attr reveal">— Edward O. Thorp</div>
+</div>
+
+<!-- PART III: BOOKS -->
+<section class="section" id="books">
+  <div class="chapter reveal"><span class="ch-num">Part III</span><div class="ch-line"></div><span class="ch-title">The books that changed everything</span></div>
+  <h2 class="section-h reveal">Six Books That Built<br>a <em>New Discipline</em></h2>
+  <p class="prose reveal">Edward Thorp did not keep his discoveries to himself out of ego. He published — even when publication meant the casinos changed their rules, even when Wall Street would now face a scientist armed with a formula it didn't yet understand. These six books are the foundational texts of quantitative finance.</p>
+
+  <div class="books-grid reveal">
+
+    <div class="book-card">
+      <div class="book-year">1962 · Random House</div>
+      <div class="book-title">Beat the Dealer:<br>A Winning Strategy for the Game of Twenty-One</div>
+      <div class="book-synopsis">The book that made the casinos panic. The first mathematical proof that blackjack could be beaten through card counting. Sold over one million copies. Within weeks of publication, casinos across Nevada changed their rules — the greatest compliment a gambling strategy has ever received. This is where it all began: find the edge, size the bet, harvest the mathematical advantage.</div>
+      <a class="book-link" href="http://www.edwardothorp.com/books/beat-the-dealer/" target="_blank">View Book ↗</a>
+    </div>
+
+    <div class="book-card">
+      <div class="book-year">1967 · Random House · with Sheen T. Kassouf</div>
+      <div class="book-title">Beat the Market:<br>A Scientific Stock Market System</div>
+      <div class="book-synopsis">The book that launched quantitative finance. Thorp transferred his blackjack logic — find mispricings, hedge the position, collect the spread — to stock warrants. The first systematic mathematical approach to options valuation, predating the famous Black-Scholes model by six years. Wall Street had never seen anything like it. This book directly influenced Fischer Black and Myron Scholes, whose 1973 paper won the Nobel Prize for a formula Thorp had already derived and was quietly using to generate profits.</div>
+      <a class="book-link" href="http://www.edwardothorp.com/books/beat-the-market/" target="_blank">View Book ↗</a>
+    </div>
+
+    <div class="book-card">
+      <div class="book-year">1977 · Prentice Hall</div>
+      <div class="book-title">Elementary Probability</div>
+      <div class="book-synopsis">The mathematical foundation. Thorp distilled the probability theory that underpinned all his work into an accessible textbook — offering real-world applications of statistical thinking that most textbooks of the era deliberately avoided. For those who want to understand how Thorp thought before they understand what he did, this is the foundation.</div>
+      <a class="book-link" href="http://www.edwardothorp.com/books/" target="_blank">View Book ↗</a>
+    </div>
+
+    <div class="book-card">
+      <div class="book-year">1984 · Gambling Times</div>
+      <div class="book-title">The Mathematics of Gambling</div>
+      <div class="book-synopsis">The comprehensive reference. Compiling decades of research into blackjack, roulette, baccarat, and other casino games, this 161-page volume provides the full analytical framework for evaluating odds and constructing strategies across every major gambling game. It demonstrated conclusively that the same mathematical principles govern all probability-based games — casino or market.</div>
+      <a class="book-link" href="http://www.edwardothorp.com/books/the-mathematics-of-gambling/" target="_blank">View Book ↗</a>
+    </div>
+
+    <div class="book-card">
+      <div class="book-year">2011 · World Scientific · co-edited</div>
+      <div class="book-title">The Kelly Capital Growth Investment Criterion:<br>Theory and Practice</div>
+      <div class="book-synopsis">The definitive academic treatment of Fortune's Formula. Co-edited with Leonard C. MacLean and William T. Ziemba, this volume brings together decades of theoretical development and practical application of the Kelly Criterion — the formula for optimal position sizing that maximises long-term wealth growth while avoiding ruin. The intellectual bedrock of every serious quantitative fund manager alive today.</div>
+      <a class="book-link" href="http://www.edwardothorp.com/books/the-kelly-capital-growth-investment-criterion/" target="_blank">View Book ↗</a>
+    </div>
+
+    <div class="book-card">
+      <div class="book-year">2017 · Random House · New York Times Bestseller</div>
+      <div class="book-title">A Man for All Markets:<br>From Las Vegas to Wall Street, How I Beat the Dealer and the Market</div>
+      <div class="book-synopsis">The masterwork. Part memoir, part investment manifesto, part history of modern finance — written by the man who invented it. From the card tables of Vegas to the trading floors of Wall Street. From Claude Shannon's laboratory to Warren Buffett's living room. From Princeton Newport Partners to spotting Bernie Madoff 17 years before everyone else. The essential book for anyone who believes that mathematics can illuminate what intuition cannot. This is the book that inspired BlueLotus Fund.</div>
+      <a class="book-link" href="http://www.edwardothorp.com/books/a-man-for-all-markets/" target="_blank">View Book ↗</a>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- PART IV: CLAUDE SHANNON -->
+<section class="section" id="shannon">
+  <div class="chapter reveal"><span class="ch-num">Part IV</span><div class="ch-line"></div><span class="ch-title">The Shannon collaboration</span></div>
+  <div class="two-col">
+    <div>
+      <h2 class="section-h reveal">Two Geniuses,<br>One <em>Wearable Computer</em></h2>
+      <p class="prose reveal">Claude Shannon was the father of information theory — the mathematician whose 1948 paper "A Mathematical Theory of Communication" laid the theoretical foundations for all digital technology, data compression, and artificial intelligence. He was notoriously reclusive. He did not meet people casually. Five minutes of his time was an extraordinary gift.</p>
+      <p class="prose reveal">When Thorp arrived at MIT in 1959 and sought out Shannon to discuss his blackjack research, Shannon reportedly agreed to meet "probably just to get rid of me." Those five minutes became a collaboration that lasted years — and produced the first wearable computer in history.</p>
+      <p class="prose reveal">Between 1960 and 1961, Thorp and Shannon co-developed a tiny computer — the size of a cigarette pack — designed to predict where a roulette ball would land. One operator watched the wheel and used a toe switch to input the cadence of the spinning wheel. The other received musical tones through a hidden earpiece corresponding to which octant of the wheel the ball would land in. The device gave them a 44% edge at roulette — a number that should be mathematically impossible.</p>
+    </div>
+    <div>
+      <p class="prose reveal">Shannon also brought something of even greater lasting importance to their collaboration: the Kelly Criterion. Shannon had refereed John L. Kelly's 1956 paper on optimal bet sizing — the paper that would become the mathematical formula governing how Thorp sized every position for the rest of his career. Shannon brought it to Thorp's attention in November 1960.</p>
+      <div class="pull-quote reveal">
+        "Claude Shannon — who refereed the Kelly paper — brought it to my attention in November of 1960. I have continued to use it successfully in gambling and in investing ever since."
+        <cite>— Edward O. Thorp</cite>
+      </div>
+      <div class="highlight reveal">
+        <div class="highlight-label">The Claude Shannon Connection</div>
+        <div class="highlight-text">Claude Shannon's name lives on in more ways than one. The AI named Claude — built by Anthropic — is a direct tribute to Claude Shannon, whose information theory made machine intelligence conceptually possible. The chain of intellectual lineage runs from Shannon to Thorp to quantitative finance to the AI systems that now power the next generation of investment intelligence.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FULL QUOTE 2 -->
+<div class="full-quote">
+  <div class="fq-text reveal">"It was like <em>firearms versus bows and arrows</em> on the trading floor — my model was far superior to the primitive methods most other market participants used."</div>
+  <div class="fq-attr reveal">— Edward O. Thorp, on his options pricing formula vs. Wall Street, 1967</div>
+</div>
+
+<!-- PART V: BUFFETT -->
+<section class="section" id="buffett">
+  <div class="chapter reveal"><span class="ch-num">Part V</span><div class="ch-line"></div><span class="ch-title">The meeting of two legends</span></div>
+  <h2 class="section-h reveal">Thorp Meets Buffett:<br><em>"This Will Be the Richest<br>Man in the World."</em></h2>
+
+  <div class="two-col" style="margin-bottom:48px;">
+    <div>
+      <p class="prose reveal">It is 1968. Warren Buffett has done the unthinkable — he is closing his investment partnership. Everything is overpriced. He cannot find value. He is returning money to investors and directing his attention toward a failing textile company called Berkshire Hathaway.</p>
+      <p class="prose reveal">The Dean of the Graduate Division at UC Irvine happened to be one of Buffett's original investors. As Buffett wound down his partnership, the Dean needed to know where to move his money. He arranged a meeting between Thorp — then running a small, highly successful hedging operation — and Buffett, to have the Oracle of Omaha evaluate whether Thorp was a suitable manager.</p>
+      <p class="prose reveal">Buffett introduced Thorp to a probability puzzle — nontransitive dice. These are a mathematical curiosity: Die A reliably beats Die B. Die B reliably beats Die C. But Die C reliably beats Die A. The transitive relationship that most people assume governs all comparisons breaks down entirely. It was Buffett's way of demonstrating that in probability — and in markets — intuition frequently misleads, and only rigorous thinking reveals the truth.</p>
+    </div>
+    <div>
+      <p class="prose reveal">They chatted about compound interest, nontransitive dice, and bridge — then played bridge together twice. Two geniuses from opposite ends of the investment philosophy spectrum, finding common ground in their shared worship of mathematical clarity and the compounding of small edges over long periods.</p>
+      <p class="prose reveal">Thorp walked away having recognised something extraordinary. Buffett had been compounding at nearly 30% annually for 12 consecutive years — a feat that Thorp, as a probability theorist, understood to be statistically incompatible with luck. This was skill. Deep, structural, repeatable skill. He told his wife: "This is going to be the richest man in the world."</p>
+      <p class="prose reveal">He was right. And the feeling was mutual — Buffett's report to the Dean was favourable, and the Dean invested heavily with Thorp when Princeton Newport Partners opened in 1969. Thorp, for his part, became a Berkshire Hathaway investor — making his first purchase in 1983 at $982.50 per share and continuing to accumulate thereafter.</p>
+    </div>
+  </div>
+
+  <div class="pull-quote reveal">
+    "Impressed by Warren's mind and his methods, as well as his record as an investor, I told Vivian that I believed he would eventually become the richest man in America."
+    <cite>— Edward O. Thorp, A Man for All Markets</cite>
+  </div>
+
+  <div class="highlight reveal">
+    <div class="highlight-label">What Thorp saw in Buffett — and what it tells us about edges</div>
+    <div class="highlight-text">Thorp's recognition of Buffett's genius was itself an act of quantitative analysis. A 30% annual return, sustained for 12 years, is not a random distribution — the probability of achieving this through luck alone is astronomically small. Thorp applied the same thinking he used to evaluate a blackjack strategy: if the returns are this consistent and this large, there must be a structural, repeatable edge. He was right. The greatest probability theorist of his generation recognised the greatest value investor of his generation — not through intuition, but through mathematics.</div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- PART VI: THE FORMULA -->
+<section class="section" id="formula">
+  <div class="chapter reveal"><span class="ch-num">Part VI</span><div class="ch-line"></div><span class="ch-title">The formula — from blackjack to Wall Street</span></div>
+  <h2 class="section-h reveal">The Translation of<br>an <em>Edge</em></h2>
+
+  <p class="prose reveal">The genius of Edward Thorp was not that he was exceptional at any single game. It was that he understood something profound and transferable: in any system governed by probability, if you can calculate the true odds and bet accordingly, you will win in the long run. The blackjack table and the stock market are the same mathematical problem in different disguises.</p>
+
+  <div class="formula-box reveal">
+    <div class="formula-label">The Kelly Criterion — Fortune's Formula</div>
+    <div class="formula-text">Optimal Bet = Edge ÷ Odds</div>
+    <div class="formula-desc">If your mathematical edge is 10% and the odds are 1:1, bet 10% of your bankroll. Not more — overconfidence leads to ruin. Not less — under-betting fails to compound the edge efficiently. This formula, derived by John L. Kelly in 1956 and brought to Thorp by Claude Shannon in 1960, is the mathematical engine behind every serious quantitative fund ever built.</div>
+  </div>
+
+  <div class="two-col" style="margin:48px 0;">
+    <div>
+      <h3 style="font-family:var(--serif);font-size:24px;font-weight:700;margin-bottom:20px;color:var(--gold);">At the Blackjack Table</h3>
+      <p class="prose reveal">Cards are dealt from a finite deck. As cards are played, the composition of the remaining deck changes. When the remaining deck is rich in high cards, the player has a mathematical advantage. Increase your bet when the odds are in your favour. Decrease when they are not. Never bet so much that a bad run destroys you.</p>
+    </div>
+    <div>
+      <h3 style="font-family:var(--serif);font-size:24px;font-weight:700;margin-bottom:20px;color:var(--gold);">On Wall Street</h3>
+      <p class="prose reveal">Securities are mispriced relative to their mathematical fair value. The mispricing can be calculated using probability models. Buy the underpriced security, short the overpriced one. The positions hedge each other — eliminating market risk. Collect the spread as the mispricing corrects. Size every position using the Kelly Criterion.</p>
+    </div>
+  </div>
+
+  <div class="highlight reveal">
+    <div class="highlight-label">The Black-Scholes Priority</div>
+    <div class="highlight-text">In 1967, Thorp independently derived a formula for pricing stock warrants using recursive backward integration — a formula that was mathematically identical to the Black-Scholes model published six years later in 1973. He chose not to publish it, using it instead as a proprietary trading weapon at Princeton Newport Partners. Fischer Black and Myron Scholes published the same formula in 1973 and Scholes received the Nobel Prize in Economics in 1997. Black had died in 1995 and was ineligible. Nassim Nicholas Taleb refers to the formula as the Bachelier-Thorp model — a correction that financial historians increasingly regard as more accurate.</div>
+  </div>
+</section>
+
+<!-- PART VII: PRINCETON NEWPORT -->
+<section class="section" id="legacy">
+  <div class="chapter reveal"><span class="ch-num">Part VII</span><div class="ch-line"></div><span class="ch-title">Princeton Newport Partners — the proof</span></div>
+  <h2 class="section-h reveal">The World's First<br><em>Quantitative</em> Hedge Fund</h2>
+
+  <div class="two-col" style="margin-bottom:48px;">
+    <div>
+      <p class="prose reveal">In 1969, Thorp co-founded Convertible Hedge Associates with Jay Regan — later renamed Princeton Newport Partners in 1974. It was, by Thorp's own account and by the judgment of financial historians, the world's first market-neutral hedge fund. The first quantitative fund. The prototype from which every subsequent quant operation — Renaissance Technologies, D.E. Shaw, Citadel, Two Sigma — directly or indirectly descends.</p>
+      <p class="prose reveal">The fund's strategy was the direct translation of Thorp's blackjack logic to financial markets. Find derivatives that are mathematically mispriced. Buy the cheap security. Short the expensive one. Hedge the market risk entirely. Collect the spread. Size every position using the Kelly Criterion.</p>
+      <p class="prose reveal">The results were unlike anything Wall Street had ever seen — not because the returns were the highest ever recorded, but because of their extraordinary consistency. Markets crashed. Recessions came. Inflation surged. And Princeton Newport Partners just kept generating positive returns, quarter after quarter, year after year, as if the broader market's chaos was entirely irrelevant.</p>
+    </div>
+    <div>
+      <div class="highlight reveal">
+        <div class="highlight-label">Princeton Newport Partners — The Record</div>
+        <div class="highlight-text">
+          Founded: 1969 as Convertible Hedge Associates<br>
+          Renamed: Princeton Newport Partners, 1974<br>
+          Annualised return: 19.1% after fees<br>
+          Duration: Nearly 20 years<br>
+          Down quarters: Zero<br>
+          Down months: Three — none exceeding 1%<br>
+          AUM growth: $1.4M → $273M<br><br>
+          1973: S&P fell 15.2% · PNP up 6.5%<br>
+          1974: S&P fell 27.1% · PNP up 9.0%<br>
+          1987 (Black Monday): S&P down 22% · PNP broadly flat<br><br>
+          Closure: 1989, entangled in — though ultimately cleared of — the Michael Milken junk bond investigation. The legal costs and disruption forced liquidation. The track record was never blemished.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ornament reveal"><div class="ornament-line"></div><div class="ornament-diamond"></div><div class="ornament-line"></div></div>
+
+  <h2 class="section-h reveal">The Godfather of <em>Quants</em></h2>
+  <div class="two-col">
+    <div>
+      <p class="prose reveal">The lineage of quantitative finance runs directly from Edward Thorp. Jim Simons of Renaissance Technologies — whose Medallion Fund is the most successful investment vehicle in history — acknowledged Thorp as the godfather of quants, crediting his early quantitative approaches as foundational to everything Simons built. Three of Princeton Newport Partners' own alumni went on to found TGS Management, another pioneering quant fund.</p>
+      <p class="prose reveal">Stephen Cohen of SAC Capital. David Shaw of D.E. Shaw. Kenneth Griffin of Citadel. All trace their intellectual lineage — directly or indirectly — to the mathematics professor who first proved that markets, like blackjack tables, could be beaten by anyone with enough mathematical rigour and the discipline to size positions correctly.</p>
+    </div>
+    <div>
+      <p class="prose reveal">And then there was Bernie Madoff. In 1991 — seventeen years before the world's largest Ponzi scheme collapsed — Thorp was asked to evaluate a portfolio that included a position in Madoff's fund. He applied his mathematician's eye to the reported returns and found them statistically impossible. The trading volumes claimed were larger than the entire options market. The reported correlation with market movements was impossible to achieve with the stated strategy. He recommended immediate divestment. He was right.</p>
+      <div class="pull-quote reveal">
+        "As Warren Buffett said, in order to succeed, you must first survive."
+        <cite>— Edward O. Thorp, quoting the lesson both men independently reached</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FULL QUOTE 3 -->
+<div class="full-quote">
+  <div class="fq-text reveal">"Investing is like the Super Bowl. If you want a good team, you need a good offense <em>and</em> a good defense. A good defense keeps other people from taking your money."</div>
+  <div class="fq-attr reveal">— Edward O. Thorp</div>
+</div>
+
+<!-- PART VIII: THE SYNTHESIS -->
+<section class="section">
+  <div class="chapter reveal"><span class="ch-num">Part VIII</span><div class="ch-line"></div><span class="ch-title">The synthesis — what Thorp actually proved</span></div>
+  <h2 class="section-h reveal">The Five Steps That<br><em>Changed Finance</em></h2>
+
+  <p class="prose reveal" style="margin-bottom:48px;">Edward O. Thorp proved something that no one before him had demonstrated with such clarity and sustained proof: the market is not a casino. But a casino, properly understood, has the same mathematical structure as the market. And if you can find your edge — calculate it, quantify it, size it correctly, and hedge the downside — you do not speculate. You harvest a mathematical certainty.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:2px;background:var(--border);margin-bottom:56px;" class="reveal">
+    <div style="background:var(--ink2);padding:32px 28px;">
+      <div style="font-family:var(--mono);font-size:32px;font-weight:300;color:var(--text3);line-height:1;margin-bottom:16px;">01</div>
+      <div style="font-family:var(--serif);font-size:20px;font-weight:700;margin-bottom:10px;color:var(--gold);">Find the Edge</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.7;">Where does the mathematical advantage exist? In blackjack, it was card composition. In markets, it was mispriced derivatives and statistical arbitrage. The edge must be real, quantifiable, and repeatable.</div>
+    </div>
+    <div style="background:var(--ink2);padding:32px 28px;">
+      <div style="font-family:var(--mono);font-size:32px;font-weight:300;color:var(--text3);line-height:1;margin-bottom:16px;">02</div>
+      <div style="font-family:var(--serif);font-size:20px;font-weight:700;margin-bottom:10px;color:var(--gold);">Quantify It</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.7;">What are the true odds — not the perceived odds? Thorp never relied on intuition. He calculated. The IBM 704. The options pricing formula. The warrant mispricing model. Mathematics, not feeling.</div>
+    </div>
+    <div style="background:var(--ink2);padding:32px 28px;">
+      <div style="font-family:var(--mono);font-size:32px;font-weight:300;color:var(--text3);line-height:1;margin-bottom:16px;">03</div>
+      <div style="font-family:var(--serif);font-size:20px;font-weight:700;margin-bottom:10px;color:var(--gold);">Size It Correctly</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.7;">The Kelly Criterion. Not too much — overconfidence leads to ruin. Not too little — under-betting fails to compound the edge. The optimal bet is a mathematical function of your edge and your odds. Always.</div>
+    </div>
+    <div style="background:var(--ink2);padding:32px 28px;">
+      <div style="font-family:var(--mono);font-size:32px;font-weight:300;color:var(--text3);line-height:1;margin-bottom:16px;">04</div>
+      <div style="font-family:var(--serif);font-size:20px;font-weight:700;margin-bottom:10px;color:var(--gold);">Hedge the Downside</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.7;">Eliminate the risks you do not need to take. At the blackjack table, this meant careful bankroll management. In markets, it meant pairing long positions with short hedges — isolating the mathematical edge while eliminating directional market risk.</div>
+    </div>
+    <div style="background:var(--ink2);padding:32px 28px;">
+      <div style="font-family:var(--mono);font-size:32px;font-weight:300;color:var(--text3);line-height:1;margin-bottom:16px;">05</div>
+      <div style="font-family:var(--serif);font-size:20px;font-weight:700;margin-bottom:10px;color:var(--gold);">Repeat Systematically</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.7;">Discipline, not brilliance, is the differentiator. Anyone can have a good idea once. Princeton Newport Partners was not a series of brilliant individual trades — it was a system, applied relentlessly and without emotion, for nearly two decades without a single losing quarter.</div>
+    </div>
+  </div>
+
+  <p class="prose reveal">This framework — find, quantify, size, hedge, repeat — is what made Edward O. Thorp the Father of Quantitative Finance. Not a single discovery. Not a single trade. A systematic philosophy that transformed speculation from an art into a science, and in doing so created an entirely new profession: the quantitative analyst — the quant — who now inhabits every major investment bank and hedge fund on earth.</p>
+</section>
+
+<!-- TRIBUTE -->
+<div class="tribute-section">
+  <div class="tribute-lotus reveal">🪷</div>
+  <div class="tribute-title reveal">A BlueLotus Fund Tribute</div>
+  <p class="tribute-text reveal">The books of Edward O. Thorp — particularly <em>Beat the Market</em>, <em>A Man for All Markets</em>, and his work on the Kelly Criterion — are the intellectual inspiration behind BlueLotus Fund's 8-Lens Analytical Framework and 5-Layer Aladdin Execution System. His foundational principle — <em>know your edge, quantify it, size it correctly, and hedge the downside</em> — lives in every position we take, every order we place, and every risk we manage.</p>
+  <p class="tribute-text reveal" style="margin-top:0;">We stand on the shoulders of the man who first proved that markets could be understood mathematically, sized rationally, and navigated without the interference of emotion. Born in 1932. Still sharp at 93. The most important investor most people have never heard of.</p>
+  <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;" class="reveal">
+    <a href="http://www.edwardothorp.com/" target="_blank" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;color:var(--gold);border:1px solid var(--gold-border);padding:12px 24px;border-radius:4px;background:var(--gold-dim2);transition:all 0.2s;">Visit EdwardOThorp.com ↗</a>
+    <a href="https://sohweekian.github.io/bluelotus/bluelotus-framework.html" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;color:var(--text2);border:1px solid var(--border);padding:12px 24px;border-radius:4px;transition:all 0.2s;">Our Framework ↗</a>
+  </div>
+</div>
+
+<footer>
+  <div>
+    <div class="footer-brand">🪷 BlueLotus Fund</div>
+    <div style="font-family:var(--mono);font-size:9px;color:var(--text3);margin-top:6px;letter-spacing:0.08em;">Tribute to Edward O. Thorp · Singapore 2026</div>
+  </div>
+  <div class="footer-note">
+    All book links direct to edwardothorp.com<br>
+    Research sourced from public biographical records<br>
+    For educational purposes · Not investment advice
+  </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold:0.08, rootMargin:'0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
