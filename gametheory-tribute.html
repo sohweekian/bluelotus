@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Von Neumann & Nash — A Tribute | BlueLotus Fund</title>
+<meta name="description" content="A tribute to John von Neumann and John Nash — the architects of Game Theory, and the mathematical framework behind every strategic decision in markets, geopolitics, and life.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lora:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#08080a;--ink2:#0e0e11;--ink3:#141418;--ink4:#1c1c22;
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);
+  --text:#ece8f8;--text2:#8880a8;--text3:#403860;
+  --white:#f0eeff;--white2:#c8c0f0;
+  --white-dim:rgba(240,238,255,0.06);--white-dim2:rgba(240,238,255,0.03);
+  --white-border:rgba(240,238,255,0.15);
+  --purple:#9b7fff;--purple-dim:rgba(155,127,255,0.08);
+  --serif:'Playfair Display',Georgia,serif;
+  --body:'Lora',Georgia,serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--ink);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.8;overflow-x:hidden;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:999;}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:var(--ink);}::-webkit-scrollbar-thumb{background:var(--purple);border-radius:2px;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:18px 56px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to bottom,rgba(8,8,10,0.97),transparent);backdrop-filter:blur(8px);}
+.nav-logo{font-family:var(--mono);font-size:11px;letter-spacing:0.2em;color:var(--white);text-transform:uppercase;}
+.nav-logo span{color:var(--text3);font-weight:300;}
+.nav-links{display:flex;gap:28px;list-style:none;}
+.nav-links a{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;color:var(--text3);text-decoration:none;text-transform:uppercase;transition:color 0.2s;}
+.nav-links a:hover{color:var(--white);}
+.nav-home{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;color:var(--text3);text-decoration:none;text-transform:uppercase;padding:7px 16px;border:1px solid var(--border);border-radius:4px;transition:all 0.2s;}
+.nav-home:hover{border-color:var(--white-border);color:var(--white);}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 56px 80px;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 30% 30%,rgba(240,238,255,0.04) 0%,transparent 60%),radial-gradient(ellipse 50% 60% at 80% 80%,rgba(155,127,255,0.03) 0%,transparent 60%);}
+.matrix-bg{position:absolute;inset:0;overflow:hidden;opacity:0.03;}
+.hero-split{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:flex-end;position:relative;z-index:1;}
+.hero-left{}
+.hero-right{border-left:1px solid var(--border);padding-left:60px;}
+.hero-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:0.3em;color:var(--white);text-transform:uppercase;margin-bottom:16px;opacity:0;animation:fadeUp 0.8s ease 0.2s forwards;}
+.hero-name{font-family:var(--serif);font-size:clamp(40px,6vw,88px);font-weight:900;line-height:0.95;letter-spacing:-0.02em;opacity:0;animation:fadeUp 0.8s ease 0.35s forwards;}
+.hero-name em{font-style:italic;color:var(--white2);}
+.hero-name.right{opacity:0;animation:fadeUp 0.8s ease 0.5s forwards;}
+.hero-dates{font-family:var(--mono);font-size:11px;letter-spacing:0.15em;color:var(--text3);margin-top:14px;opacity:0;animation:fadeUp 0.8s ease 0.6s forwards;}
+.hero-sub{font-size:16px;color:var(--text2);max-width:420px;line-height:1.6;margin-top:20px;font-style:italic;font-family:var(--body);opacity:0;animation:fadeUp 0.8s ease 0.75s forwards;}
+.hero-tag-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px;opacity:0;animation:fadeUp 0.8s ease 0.9s forwards;}
+.hero-tag{font-family:var(--mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;padding:5px 12px;border:1px solid var(--white-border);border-radius:3px;color:var(--white2);background:var(--white-dim2);}
+.scroll-hint{position:absolute;bottom:32px;right:56px;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeUp 0.8s ease 1.2s forwards;}
+.scroll-line{width:1px;height:56px;background:linear-gradient(to bottom,var(--white),transparent);animation:scrollPulse 2s ease infinite;}
+.scroll-text{font-family:var(--mono);font-size:9px;letter-spacing:0.2em;color:var(--text3);text-transform:uppercase;writing-mode:vertical-rl;}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--border);}
+.stat-block{background:var(--ink2);padding:44px 36px;text-align:center;}
+.stat-num{font-family:var(--serif);font-size:clamp(28px,4vw,52px);font-weight:900;color:var(--white2);line-height:1;margin-bottom:10px;}
+.stat-label{font-family:var(--mono);font-size:9px;letter-spacing:0.15em;color:var(--text3);text-transform:uppercase;line-height:1.5;}
+
+/* SECTIONS */
+.section{padding:100px 56px;max-width:1100px;margin:0 auto;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+.chapter{display:flex;align-items:center;gap:16px;margin-bottom:48px;}
+.ch-num{font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:var(--white);text-transform:uppercase;}
+.ch-line{width:48px;height:1px;background:linear-gradient(to right,var(--white),transparent);}
+.ch-title{font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:var(--text3);text-transform:uppercase;}
+.section-h{font-family:var(--serif);font-size:clamp(34px,4.5vw,56px);font-weight:700;line-height:1.1;letter-spacing:-0.01em;margin-bottom:28px;}
+.section-h em{font-style:italic;color:var(--white2);}
+.prose{font-size:17px;color:var(--text2);line-height:1.9;font-family:var(--body);}
+.prose+.prose{margin-top:20px;}
+.prose strong{color:var(--text);font-weight:500;}
+
+/* DIVIDER BETWEEN VON NEUMANN AND NASH */
+.legend-divider{background:var(--ink2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:60px 56px;text-align:center;}
+.ld-label{font-family:var(--mono);font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--text3);margin-bottom:16px;}
+.ld-text{font-family:var(--serif);font-size:clamp(24px,3.5vw,40px);font-weight:700;font-style:italic;color:var(--white2);}
+.ld-text em{font-style:normal;color:var(--white);}
+
+/* PULL QUOTE */
+.pull-quote{font-family:var(--serif);font-size:clamp(22px,3vw,36px);font-style:italic;line-height:1.4;padding:0 40px;border-left:2px solid var(--white2);margin:56px 0;color:var(--text);}
+.pull-quote cite{display:block;font-family:var(--mono);font-size:10px;font-style:normal;letter-spacing:0.15em;color:var(--white2);text-transform:uppercase;margin-top:14px;}
+
+/* FULL QUOTE */
+.full-quote{padding:100px 56px;background:var(--ink2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);text-align:center;}
+.fq-text{font-family:var(--serif);font-size:clamp(24px,4vw,46px);font-style:italic;line-height:1.35;max-width:860px;margin:0 auto 24px;}
+.fq-text em{font-style:normal;color:var(--white2);}
+.fq-attr{font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:var(--text3);text-transform:uppercase;}
+
+/* HIGHLIGHT */
+.highlight{background:var(--ink2);border:1px solid var(--border);border-radius:8px;padding:32px 36px;margin:36px 0;}
+.highlight-label{font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;}
+.highlight-text{font-size:15px;color:var(--text2);line-height:1.75;}
+
+/* FORMULA */
+.formula-box{background:var(--white-dim2);border:1px solid var(--white-border);border-left:3px solid var(--white2);border-radius:0 8px 8px 0;padding:32px 36px;margin:40px 0;}
+.formula-label{font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--white2);margin-bottom:12px;}
+.formula-main{font-family:var(--serif);font-size:26px;font-style:italic;color:var(--text);margin-bottom:10px;line-height:1.4;}
+.formula-desc{font-size:14px;color:var(--text2);line-height:1.7;}
+
+/* CONTRIB GRID */
+.contrib-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2px;background:var(--border);margin:48px 0;}
+.contrib-card{background:var(--ink2);padding:32px 28px;position:relative;overflow:hidden;transition:background 0.2s;}
+.contrib-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--white2),transparent);opacity:0;transition:opacity 0.2s;}
+.contrib-card:hover{background:var(--ink3);}
+.contrib-card:hover::before{opacity:1;}
+.contrib-num{font-family:var(--mono);font-size:32px;font-weight:300;color:var(--text3);line-height:1;margin-bottom:16px;}
+.contrib-title{font-family:var(--serif);font-size:20px;font-weight:700;margin-bottom:10px;color:var(--white2);}
+.contrib-text{font-size:13px;color:var(--text2);line-height:1.7;}
+
+/* GAME MATRIX */
+.game-matrix{background:var(--ink3);border:1px solid var(--border);border-radius:12px;padding:48px;margin:48px 0;}
+.gm-title{font-family:var(--mono);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--white2);margin-bottom:32px;text-align:center;}
+.gm-table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:13px;}
+.gm-table th{padding:14px 20px;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);font-weight:400;border-bottom:1px solid var(--border);}
+.gm-table td{padding:20px;border:1px solid var(--border);text-align:center;line-height:1.5;}
+.gm-nash{background:var(--white-dim);border-color:var(--white-border);color:var(--white2);}
+.gm-label{font-size:10px;color:var(--text3);margin-top:4px;}
+
+/* TIMELINE */
+.timeline{position:relative;padding-left:48px;margin:48px 0;}
+.timeline::before{content:'';position:absolute;left:0;top:8px;bottom:0;width:1px;background:linear-gradient(to bottom,var(--white2),transparent);}
+.tl-item{position:relative;margin-bottom:48px;}
+.tl-item::before{content:'';position:absolute;left:-52px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--white2);box-shadow:0 0 12px rgba(200,192,240,0.4);}
+.tl-year{font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:var(--white2);margin-bottom:8px;text-transform:uppercase;}
+.tl-head{font-family:var(--serif);font-size:22px;font-weight:700;margin-bottom:10px;}
+.tl-text{font-size:14px;color:var(--text2);line-height:1.75;max-width:620px;}
+
+/* APPLICATIONS */
+.app-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin:48px 0;}
+.app-card{background:var(--ink2);border:1px solid var(--border);border-radius:10px;padding:28px 24px;transition:border-color 0.2s;}
+.app-card:hover{border-color:var(--white-border);}
+.app-icon{font-size:26px;margin-bottom:14px;}
+.app-title{font-family:var(--serif);font-size:18px;font-weight:700;margin-bottom:10px;color:var(--white2);}
+.app-text{font-size:13px;color:var(--text2);line-height:1.7;}
+
+/* SECTION DIVIDER */
+.section-divider{height:1px;background:var(--border);margin:0 56px;}
+.ornament{display:flex;align-items:center;gap:16px;margin:64px 0;}
+.ornament-line{flex:1;height:1px;background:var(--border);}
+.ornament-dot{width:6px;height:6px;background:var(--white2);border-radius:50%;}
+
+/* TRIBUTE FOOTER */
+.tribute-section{background:linear-gradient(to bottom,var(--ink2),var(--ink));border-top:1px solid var(--border);padding:100px 56px 60px;text-align:center;}
+.tribute-icon{font-size:32px;margin-bottom:20px;}
+.tribute-title{font-family:var(--serif);font-size:clamp(28px,4vw,48px);font-weight:700;font-style:italic;color:var(--white2);margin-bottom:20px;line-height:1.2;}
+.tribute-text{font-size:16px;color:var(--text2);max-width:680px;margin:0 auto 40px;line-height:1.8;}
+
+footer{padding:40px 56px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.footer-brand{font-family:var(--serif);font-size:18px;font-style:italic;color:var(--white2);}
+.footer-note{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:0.08em;text-align:right;line-height:1.9;}
+
+.reveal{opacity:0;transform:translateY(28px);transition:all 0.7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes scrollPulse{0%,100%{opacity:0.4;}50%{opacity:1;}}
+
+@media(max-width:900px){
+  nav{padding:16px 24px;}.nav-links{display:none;}
+  .hero{padding:0 24px 60px;}
+  .hero-split{grid-template-columns:1fr;gap:40px;}
+  .hero-right{border-left:none;padding-left:0;border-top:1px solid var(--border);padding-top:40px;}
+  .section{padding:60px 24px;}
+  .two-col{grid-template-columns:1fr;gap:40px;}
+  .stats-row{grid-template-columns:1fr 1fr;}
+  .pull-quote{padding:0 20px;font-size:20px;}
+  .full-quote,.tribute-section,.legend-divider{padding:60px 24px;}
+  footer{flex-direction:column;gap:16px;padding:32px 24px;text-align:center;}
+  .footer-note{text-align:center;}
+  .section-divider{margin:0 24px;}
+  .scroll-hint{display:none;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">BlueLotus <span>/ Tribute Series</span></div>
+  <ul class="nav-links">
+    <li><a href="#vonneumann">Von Neumann</a></li>
+    <li><a href="#nash">Nash</a></li>
+    <li><a href="#gametheory">Game Theory</a></li>
+    <li><a href="#markets">In Markets</a></li>
+  </ul>
+  <a class="nav-home" href="https://sohweekian.github.io/bluelotus/">← BlueLotus Fund</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-split">
+    <div class="hero-left">
+      <div class="hero-eyebrow">🪷 BlueLotus Fund · Tribute Series · Vairochana White</div>
+      <h1 class="hero-name">John von<br><em>Neumann</em></h1>
+      <div class="hero-dates">December 28, 1903 — February 8, 1957 · Budapest to Washington</div>
+      <p class="hero-sub">The most complete intellect of the 20th century. Quantum mechanics. The atomic bomb. The computer. Game theory. He built the mathematical architecture of the modern world.</p>
+      <div class="hero-tag-row">
+        <span class="hero-tag">Father of Game Theory</span>
+        <span class="hero-tag">Von Neumann Architecture</span>
+        <span class="hero-tag">Minimax Theorem</span>
+        <span class="hero-tag">Manhattan Project</span>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-eyebrow" style="opacity:1;animation:none;">& John Forbes</div>
+      <h1 class="hero-name right">Nash <em>Jr.</em></h1>
+      <div class="hero-dates" style="opacity:1;animation:none;">June 13, 1928 — May 23, 2015 · West Virginia to Princeton</div>
+      <p class="hero-sub" style="opacity:1;animation:none;">27 pages. One equation. 44 years of schizophrenia. Then the Nobel Prize. The most beautiful mind — and the most beautiful proof — in the history of economics.</p>
+      <div class="hero-tag-row" style="opacity:1;animation:none;">
+        <span class="hero-tag">Nash Equilibrium</span>
+        <span class="hero-tag">Non-Cooperative Games</span>
+        <span class="hero-tag">Nobel Prize 1994</span>
+        <span class="hero-tag">A Beautiful Mind</span>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <div class="scroll-text">Scroll</div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-row reveal">
+  <div class="stat-block"><div class="stat-num">1928</div><div class="stat-label">Von Neumann's minimax<br>theorem — Game Theory born</div></div>
+  <div class="stat-block"><div class="stat-num">27</div><div class="stat-label">Pages in Nash's thesis<br>that won the Nobel Prize</div></div>
+  <div class="stat-block"><div class="stat-num">44</div><div class="stat-label">Years between Nash's<br>thesis and his Nobel Prize</div></div>
+  <div class="stat-block"><div class="stat-num">∞</div><div class="stat-label">Every strategic decision<br>on earth uses their framework</div></div>
+</div>
+
+<!-- PART I: VON NEUMANN -->
+<section class="section" id="vonneumann">
+  <div class="chapter reveal"><span class="ch-num">Part I</span><div class="ch-line"></div><span class="ch-title">John von Neumann — the most complete mind</span></div>
+  <div class="two-col">
+    <div>
+      <h2 class="section-h reveal">The Man Who Could<br>Have Won <em>Four<br>Nobel Prizes</em></h2>
+      <p class="prose reveal">János Lajos Neumann was born on December 28, 1903, in Budapest, Hungary — the son of a wealthy banker who purchased an Austrian hereditary title, giving the family the "von." As a child, he memorised phone books for entertainment. At six, he could divide eight-digit numbers in his head. At eight, he had mastered calculus. His teachers — themselves outstanding mathematicians — quickly realised they had nothing left to teach him.</p>
+      <p class="prose reveal">He received his PhD in mathematics from the University of Budapest at 23 — simultaneously completing a degree in chemical engineering from ETH Zurich, at his father's practical insistence. By his mid-twenties, he was already being pointed out at international conferences as a <em>wunderkind</em> — a wonder-child — by the greatest mathematicians alive.</p>
+      <p class="prose reveal">The scope of his contributions defies conventional academic categorisation. Had the Nobel Prize covered mathematics and computer science, he would have won them alongside economics and physics. His biographer writes that he was, conservatively, a three-and-a-half-fold Nobel laureate.</p>
+    </div>
+    <div>
+      <div class="pull-quote reveal">
+        "To gain a measure of von Neumann's achievements, consider that had he lived a normal span of years, he would certainly have been a recipient of a Nobel Prize in economics. And if there were Nobel Prizes in computer science and mathematics, he would have been honored by these, too — a triple Nobel laureate, or possibly three-and-a-half-fold."
+        <cite>— Herman Goldstine · von Neumann's colleague</cite>
+      </div>
+      <div class="highlight reveal">
+        <div class="highlight-label">The Fields He Dominated</div>
+        <div class="highlight-text">
+          Mathematics — set theory, functional analysis, operator algebras<br>
+          Physics — quantum mechanics, mathematical foundations<br>
+          Game Theory — minimax theorem, cooperative game theory<br>
+          Computer Science — von Neumann architecture, stored-program computer<br>
+          Statistics — Monte Carlo simulation with Stanislaw Ulam<br>
+          Biology — cellular automata, theory of self-replicating automata<br>
+          Military Science — implosion design of the atomic bomb<br><br>
+          In any single one of these fields, his contribution would have defined a distinguished lifetime career. He did all of them simultaneously, at the highest level, in 53 years.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- GAME THEORY: VON NEUMANN'S FOUNDATION -->
+<section class="section">
+  <div class="chapter reveal"><span class="ch-num">Part II</span><div class="ch-line"></div><span class="ch-title">Von Neumann builds the house — 1928</span></div>
+  <h2 class="section-h reveal">The Minimax Theorem:<br><em>The Mathematical<br>Architecture of Strategy</em></h2>
+
+  <div class="two-col" style="margin-bottom:48px;">
+    <div>
+      <p class="prose reveal">In 1928, Von Neumann published his proof of the Minimax Theorem — the foundational result of Game Theory. The theorem proved that in any finite, two-person, zero-sum game — where one player's gain is precisely the other's loss — there exists an optimal mixed strategy for each player, and the value of the game is uniquely determined.</p>
+      <p class="prose reveal">Zero-sum thinking was not abstract. It described war. It described nuclear standoffs. It described every negotiation where one party's advantage comes at the other's expense. Von Neumann had given these ancient human dynamics their first rigorous mathematical treatment.</p>
+      <p class="prose reveal">In 1944, he co-authored <em>Theory of Games and Economic Behavior</em> with economist Oskar Morgenstern — the foundational text that transformed Game Theory from a mathematical curiosity into a complete framework for analysing strategic interaction. The book introduced utility theory, cooperative games, and the concept of the coalition — the mathematical formalisation of alliance-building.</p>
+    </div>
+    <div>
+      <div class="formula-box reveal">
+        <div class="formula-label">The Minimax Theorem — Von Neumann 1928</div>
+        <div class="formula-main">max[min V(x,y)] = min[max V(x,y)]</div>
+        <div class="formula-desc">In any finite two-person zero-sum game, the maximum of the minimum payoff one player can guarantee equals the minimum of the maximum payoff the other player can guarantee. Every such game has a unique value — a mathematically precise outcome that both optimal players will achieve. Neither player can do better by deviating unilaterally from their optimal mixed strategy. This was the first proof that strategic conflict has a mathematical structure — that even war has a solution.</div>
+      </div>
+      <div class="highlight reveal">
+        <div class="highlight-label">Von Neumann Architecture — The Computer Inside Everything</div>
+        <div class="highlight-text">In 1945, while at the Manhattan Project, von Neumann published the first complete description of the stored-program computer — a machine where both the program and the data reside in the same memory. This is the von Neumann Architecture. Every computer, smartphone, server, and microcontroller built since then uses this architecture. Turing defined what a computer <em>is</em> in the abstract. Von Neumann defined what it looks like in physical reality.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="contrib-grid reveal">
+    <div class="contrib-card">
+      <div class="contrib-num">01</div>
+      <div class="contrib-title">Minimax Theorem</div>
+      <div class="contrib-text">Proves that every finite two-person zero-sum game has a unique optimal value and mixed strategy. The mathematical foundation of all strategic conflict analysis. Influenced Cold War nuclear doctrine, military strategy, and every competitive market model built since 1928.</div>
+    </div>
+    <div class="contrib-card">
+      <div class="contrib-num">02</div>
+      <div class="contrib-title">Theory of Games (1944)</div>
+      <div class="contrib-text">Co-authored with Morgenstern — the foundational text of Game Theory as an academic discipline. Introduced utility theory, coalitional games, and the mathematical formalisation of economic decision-making. Every economics textbook since references this work.</div>
+    </div>
+    <div class="contrib-card">
+      <div class="contrib-num">03</div>
+      <div class="contrib-title">Von Neumann Architecture</div>
+      <div class="contrib-text">The stored-program computer — program and data in the same memory space, processed by a central unit sequentially. Every computer ever built uses this architecture. The physical realisation of Turing's Universal Machine, translated from abstract mathematics to engineering blueprint.</div>
+    </div>
+    <div class="contrib-card">
+      <div class="contrib-num">04</div>
+      <div class="contrib-title">Quantum Mechanics</div>
+      <div class="contrib-text">Provided the first rigorous mathematical formulation of quantum mechanics using Hilbert spaces and linear operators. Settled the apparent contradiction between Schrödinger and Heisenberg formulations. Proved — controversially, and correctly — the impossibility of hidden variables.</div>
+    </div>
+    <div class="contrib-card">
+      <div class="contrib-num">05</div>
+      <div class="contrib-title">Monte Carlo Simulation</div>
+      <div class="contrib-text">Co-developed with Stanislaw Ulam for nuclear calculations — the method of using random sampling to solve problems too complex for analytical solutions. Now the most widely used computational technique in finance, physics, engineering, and AI. Every options pricing model uses Monte Carlo.</div>
+    </div>
+    <div class="contrib-card">
+      <div class="contrib-num">06</div>
+      <div class="contrib-title">Cellular Automata & Self-Replication</div>
+      <div class="contrib-text">Designed the theoretical framework for self-reproducing automata — machines that can copy themselves. The mathematical foundation of modern complexity science, artificial life, and the theoretical basis for understanding biological reproduction at the computational level. His design for a self-replicating program is the conceptual ancestor of the computer virus.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TRANSITION -->
+<div class="legend-divider">
+  <div class="ld-label">From the Architect to the Radical</div>
+  <div class="ld-text">Von Neumann built the house of Game Theory.<br><em>Nash blew the walls off it.</em></div>
+</div>
+
+<!-- PART III: JOHN NASH -->
+<section class="section" id="nash">
+  <div class="chapter reveal"><span class="ch-num">Part III</span><div class="ch-line"></div><span class="ch-title">John Nash — 27 pages that changed everything</span></div>
+  <div class="two-col">
+    <div>
+      <h2 class="section-h reveal">A 21-Year-Old With<br>a <em>27-Page Thesis</em><br>and Two Citations</h2>
+      <p class="prose reveal">John Forbes Nash Jr. was born on June 13, 1928, in Bluefield, West Virginia — a small industrial town in the Appalachian Mountains. His father was an electrical engineer; his mother a former schoolteacher. Unlike Von Neumann, there were no early prodigy stories. He was brilliant but not obviously exceptional until Princeton, where he arrived in 1948 as a graduate student in mathematics.</p>
+      <p class="prose reveal">His letter of recommendation from his Carnegie undergraduate advisor was a single, legendary sentence: <strong>"This man is a genius."</strong> Princeton admitted him immediately.</p>
+      <p class="prose reveal">In 1950 — just one year into his doctoral studies — Nash submitted his PhD dissertation: <em>"Non-Cooperative Games."</em> It was 27 pages long. It cited only two sources. The first was Von Neumann and Morgenstern's 1944 foundational text. The second was a paper Nash himself had published the previous year. He was 21 years old.</p>
+      <p class="prose reveal">Those 27 pages contained the Nash Equilibrium — a concept so profound that it would win the Nobel Prize in Economics 44 years later and reshape every field that deals with strategic human behaviour.</p>
+    </div>
+    <div>
+      <div class="pull-quote reveal">
+        "This man is a genius."
+        <cite>— Richard Duffin · Nash's undergraduate advisor<br>Entire letter of recommendation to Princeton · 1948</cite>
+      </div>
+      <div class="highlight reveal">
+        <div class="highlight-label">What Von Neumann Said When Nash Showed Him</div>
+        <div class="highlight-text">When Nash showed Von Neumann his early results, the older man dismissed them curtly: <em>"That's trivial. You know, that's just a fixed-point theorem."</em><br><br>He was wrong. Von Neumann had spent his career on zero-sum games — where the total payoff is always fixed, one player's gain always another's loss. Nash had solved the far harder, far more realistic problem: what happens when the game is non-zero-sum — when cooperation and competition can coexist, when both players can win or both can lose? Von Neumann's framework described chess. Nash's framework described the world.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- NASH EQUILIBRIUM -->
+<section class="section">
+  <div class="chapter reveal"><span class="ch-num">Part IV</span><div class="ch-line"></div><span class="ch-title">The Nash Equilibrium — the equation that describes the world</span></div>
+  <h2 class="section-h reveal">The Most Powerful Idea<br>in <em>Strategic Thinking</em></h2>
+
+  <div class="two-col" style="margin-bottom:48px;">
+    <div>
+      <p class="prose reveal">The Nash Equilibrium is deceptively simple to state: a set of strategies — one for each player in a game — where no player can improve their outcome by unilaterally changing their own strategy, given that all other players keep theirs fixed.</p>
+      <p class="prose reveal">In plain language: <strong>if everyone is doing the best they can, given what everyone else is doing, no one has any reason to change.</strong> That is the equilibrium. It is the stable state of any strategic system.</p>
+      <p class="prose reveal">What made Nash's contribution revolutionary was his proof that such an equilibrium always exists in any finite game — not just zero-sum games, but any game with any number of players, any payoff structure, any degree of cooperation or competition. He used a fixed-point theorem from topology — Kakutani's theorem — to prove existence without constructing the equilibrium explicitly. The proof was profound in its mathematical elegance.</p>
+    </div>
+    <div>
+      <div class="formula-box reveal">
+        <div class="formula-label">The Nash Equilibrium — Formal Definition</div>
+        <div class="formula-main">∀i: uᵢ(sᵢ*, s₋ᵢ*) ≥ uᵢ(sᵢ, s₋ᵢ*)</div>
+        <div class="formula-desc">For every player i, their utility under the equilibrium strategy profile (sᵢ*, s₋ᵢ*) is at least as great as their utility under any alternative strategy sᵢ, given that all other players maintain their equilibrium strategies s₋ᵢ*. No player can unilaterally improve their payoff by deviating. The system is stable. Nash proved this equilibrium exists in every finite game — a result of extraordinary generality and power that transformed economics, political science, biology, and our understanding of markets.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRISONER'S DILEMMA MATRIX -->
+  <div class="game-matrix reveal">
+    <div class="gm-title">The Prisoner's Dilemma — The Most Famous Nash Equilibrium</div>
+    <table class="gm-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Player B: Stay Silent</th>
+          <th>Player B: Confess</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th style="font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);padding:14px 20px;">Player A: Stay Silent</th>
+          <td>A: 6 months · B: 6 months<div class="gm-label">Optimal collective outcome<br>but not an equilibrium</div></td>
+          <td>A: 10 years · B: Free<div class="gm-label">A deviates — B betrays</div></td>
+        </tr>
+        <tr>
+          <th style="font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);padding:14px 20px;">Player A: Confess</th>
+          <td>A: Free · B: 10 years<div class="gm-label">B deviates — A betrays</div></td>
+          <td class="gm-nash">A: 8 years · B: 8 years<div class="gm-label">⬡ NASH EQUILIBRIUM<br>Neither can improve alone</div></td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:13px;color:var(--text2);text-align:center;margin-top:24px;line-height:1.7;">The Nash Equilibrium is for both players to confess — even though mutual silence would be better for both. This is the tragedy of the Nash Equilibrium: it is individually rational but collectively suboptimal. It describes arms races, trade wars, price wars, pollution, and every situation where individual self-interest produces outcomes that harm everyone.</p>
+  </div>
+</section>
+
+<!-- GAME THEORY IN MARKETS -->
+<section class="section" id="gametheory">
+  <div class="chapter reveal"><span class="ch-num">Part V</span><div class="ch-line"></div><span class="ch-title">Why Game Theory is the G-spot of market analysis</span></div>
+  <h2 class="section-h reveal">Every Market Is a Game.<br>Every Price Is an <em>Equilibrium.</em></h2>
+
+  <p class="prose reveal" style="margin-bottom:40px;">This is the insight that makes Game Theory not merely academic — but operationally essential for any serious investor. A market is not a mechanism that discovers value. A market is a game where millions of players — each with different information, different time horizons, different risk tolerances, different incentives — simultaneously choose strategies. Prices are not truth. Prices are Nash Equilibria — the stable states where, given what everyone else is doing, no participant has an incentive to trade differently.</p>
+
+  <div class="app-grid reveal">
+    <div class="app-card">
+      <div class="app-icon">📈</div>
+      <div class="app-title">Market Pricing</div>
+      <div class="app-text">Every market price is a Nash Equilibrium — a point where buyers and sellers, given each other's strategies, have no incentive to change their bids or offers. Understanding this means understanding that prices are stable <em>strategies</em>, not stable <em>truths</em>. When information changes, the equilibrium shifts — violently and immediately.</div>
+    </div>
+    <div class="app-card">
+      <div class="app-icon">🏦</div>
+      <div class="app-title">Institutional Coordination</div>
+      <div class="app-text">When BlackRock, Norges Bank, and Vanguard all add ASTS in the same quarter, they are not coordinating explicitly. They are reaching the same Nash Equilibrium independently — each finding that buying ASTS is optimal given what they expect others to do. This is institutional flow as Game Theory in action. BlueLotus tracks it through Aladdin's own positions.</div>
+    </div>
+    <div class="app-card">
+      <div class="app-icon">⚔️</div>
+      <div class="app-title">Geopolitical Strategy</div>
+      <div class="app-text">The Cold War nuclear standoff was a perfect Nash Equilibrium — the US and USSR both heavily armed because neither could unilaterally disarm without catastrophic risk. The Iran war oil premium, the US-China chip war, the SpaceX IPO capital rotation — all are Nash Equilibria in geopolitical games that directly affect every position in the BlueLotus portfolio.</div>
+    </div>
+    <div class="app-card">
+      <div class="app-icon">💡</div>
+      <div class="app-title">Earnings Reactions</div>
+      <div class="app-text">Why does Nvidia fall after a beat? Because the Nash Equilibrium before earnings — everyone long, pricing in a beat — shifts the moment the beat is confirmed. "Sell the news" is Game Theory: if everyone anticipates a beat and buys, the equilibrium after the beat is for everyone to sell. The BlueLotus 4-scenario framework models these equilibrium shifts explicitly.</div>
+    </div>
+    <div class="app-card">
+      <div class="app-icon">🔄</div>
+      <div class="app-title">Sector Rotation</div>
+      <div class="app-text">When Warsh signals rate hikes, institutional capital simultaneously rotates from growth to value — not because anyone coordinates, but because each player independently reaches the same Nash Equilibrium. The player who moves first captures alpha. The player who moves last gets stuck. BlueLotus's sector rotation lens exists to detect these equilibrium transitions early.</div>
+    </div>
+    <div class="app-card">
+      <div class="app-icon">🪜</div>
+      <div class="app-title">Ladder Orders as Game Theory</div>
+      <div class="app-text">The BlueLotus ladder strategy — placing buy orders at $78/$75/$72/$71/$70/$69 — is a direct application of Game Theory. We are not predicting the price. We are setting a strategy that is optimal given the distribution of possible equilibria. When the SpaceX IPO rotation creates a new equilibrium below $80, our ladder captures it. The machine is a Nash strategy.</div>
+    </div>
+  </div>
+</section>
+
+<!-- NASH'S JOURNEY -->
+<section class="section" id="markets">
+  <div class="chapter reveal"><span class="ch-num">Part VI</span><div class="ch-line"></div><span class="ch-title">The beautiful mind — Nash's extraordinary journey</span></div>
+  <h2 class="section-h reveal">30 Years of Madness.<br>Then the <em>Nobel Prize.</em></h2>
+
+  <div class="two-col" style="margin-bottom:48px;">
+    <div>
+      <p class="prose reveal">In 1959, at the age of 30 — at the peak of his mathematical brilliance and reputation — John Nash's mind began to fracture. He started receiving what he described as messages from outer space. He saw patterns in newspaper headlines that he believed were coded communications from extraterrestrial beings. He resigned from MIT, wandered Europe trying to renounce his US citizenship, and was eventually hospitalised involuntarily.</p>
+      <p class="prose reveal">The diagnosis was paranoid schizophrenia. Over the next three decades, Nash was in and out of hospitals, largely unable to work, dependent on his ex-wife Alicia — who, despite having divorced him, continued to care for him and eventually allowed him to live with her. He became a haunting figure at Princeton, "the phantom of Fine Hall" — a ghost who wandered the corridors writing equations on blackboards that nobody would erase out of respect.</p>
+    </div>
+    <div>
+      <p class="prose reveal">Then, in the 1980s, something extraordinary happened. Nash began to recover — spontaneously, without medication, through a process he later described as choosing to reject his delusional thoughts through an act of rational will. By the late 1970s he was allowed to teach again. By the 1990s he was producing new mathematical work.</p>
+      <p class="prose reveal">In 1994 — 44 years after his 27-page thesis — the Royal Swedish Academy of Sciences awarded John Nash the Nobel Memorial Prize in Economic Sciences for his work on Game Theory. He was 66 years old. He dedicated the prize to Alicia, who had never stopped believing in him.</p>
+      <div class="highlight reveal">
+        <div class="highlight-label">The Abel Prize — and the Tragic End</div>
+        <div class="highlight-text">In May 2015, Nash and his collaborator Louis Nirenberg were awarded the Abel Prize — mathematics' equivalent of the Nobel — for their contributions to the theory of nonlinear partial differential equations. It was the highest honour in pure mathematics.<br><br>Four days after the ceremony in Oslo, Nash and Alicia were killed in a taxi accident on the New Jersey Turnpike returning from the airport. He was 86. The man who had survived schizophrenia, hospitalisation, and 30 years of mathematical exile died in an ordinary car crash, days after receiving the greatest honour of his life.<br><br>Princeton called it "a tragic but meaningful life." It was both.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline reveal">
+    <div class="tl-item">
+      <div class="tl-year">1928 — Von Neumann</div>
+      <div class="tl-head">Minimax Theorem — Game Theory Founded</div>
+      <div class="tl-text">Von Neumann proves the first mathematical theorem in Game Theory. Zero-sum games have a unique optimal value. The mathematical framework for strategic conflict is born.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1944 — Von Neumann & Morgenstern</div>
+      <div class="tl-head">Theory of Games and Economic Behavior</div>
+      <div class="tl-text">The foundational text. Game Theory becomes a complete academic discipline. Utility theory, cooperative games, coalition formation — the full mathematical treatment of strategic interaction in economics.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1945 — Von Neumann</div>
+      <div class="tl-head">Von Neumann Architecture — The Modern Computer</div>
+      <div class="tl-text">While working on ENIAC at the Manhattan Project, publishes the stored-program computer design. Every computer built since uses this architecture. Turing's abstract machine made physical reality.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1950 — Nash · Age 21</div>
+      <div class="tl-head">Non-Cooperative Games — 27 Pages, Nobel Prize Enclosed</div>
+      <div class="tl-text">Nash submits his doctoral thesis at Princeton. 27 pages. Two citations. The Nash Equilibrium — proving that every finite game has a stable strategic solution. Von Neumann's zero-sum framework is a special case. The real world now has a mathematical model.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1957 — Von Neumann</div>
+      <div class="tl-head">Death — The Greatest Mind of the Century Silenced</div>
+      <div class="tl-text">Von Neumann dies of cancer at 53 — almost certainly caused by radiation exposure during the Manhattan Project. His last years were spent advising the US government on nuclear policy and computing from a wheelchair. He was still doing mathematics in hospital. He died with ideas unfinished.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1959–1986 — Nash</div>
+      <div class="tl-head">The Lost Decades — Schizophrenia</div>
+      <div class="tl-text">Nash descends into paranoid schizophrenia. Hospitalised. Divorced. Dependent. Wandering Princeton as "the phantom of Fine Hall." The man who proved the existence of equilibrium in every game could find no equilibrium in his own mind.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1994 — Nash · Age 66</div>
+      <div class="tl-head">Nobel Prize in Economics — 44 Years Later</div>
+      <div class="tl-text">The Royal Swedish Academy awards Nash the Nobel for his 1950 thesis. 44 years. The longest gap between work and recognition in Nobel history. He dedicates the prize to Alicia. The Nobel, he later said, "completed the cure."</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2015 — Nash · Age 86</div>
+      <div class="tl-head">Abel Prize — Then Death on the New Jersey Turnpike</div>
+      <div class="tl-text">Awarded the Abel Prize — the highest honour in pure mathematics. Four days later, killed in a taxi accident returning from Oslo. A tragic but meaningful life, Princeton said. The most beautiful mind, taken at the moment of its greatest recognition.</div>
+    </div>
+  </div>
+</section>
+
+<div class="full-quote">
+  <div class="fq-text reveal">"The best outcome comes when everyone in the group does <em>what's best for himself</em> and the group."</div>
+  <div class="fq-attr reveal">— John Nash · Princeton, 1994 · A Beautiful Mind</div>
+</div>
+
+<!-- SYNTHESIS -->
+<section class="section">
+  <div class="chapter reveal"><span class="ch-num">Part VII</span><div class="ch-line"></div><span class="ch-title">The synthesis — why both geniuses were necessary</span></div>
+  <h2 class="section-h reveal">Von Neumann Built<br>the Framework. Nash<br>Made It <em>Real.</em></h2>
+  <div class="two-col">
+    <div>
+      <p class="prose reveal">Von Neumann's Game Theory described a world of pure conflict — zero-sum, adversarial, where every gain comes at another's expense. It was mathematically elegant and strategically useful, but it described only a fraction of the real strategic landscape. Most human interactions are not zero-sum. Most markets are not zero-sum. Most geopolitical situations are not zero-sum.</p>
+      <p class="prose reveal">Nash's extension proved that even in non-zero-sum games — games where cooperation is possible, where both parties can gain or both can lose — stable equilibria exist. This made Game Theory applicable to oligopolies, arms control negotiations, trade agreements, environmental policy, and financial markets. It made Game Theory a universal framework for human strategic interaction.</p>
+    </div>
+    <div>
+      <p class="prose reveal">Together, they gave the world a mathematical language for strategy — one that has since penetrated economics, biology, political science, computer science, AI, and investment management. Every auction mechanism is Game Theory. Every OPEC production decision is Game Theory. Every nuclear deterrent is Game Theory. Every market price is a Nash Equilibrium.</p>
+      <div class="highlight reveal">
+        <div class="highlight-label">Game Theory in the BlueLotus 8-Lens Framework</div>
+        <div class="highlight-text">Game Theory sits at the intersection of four of our eight lenses:<br><br><strong>Macro Analysis</strong> — every central bank decision is a Nash Equilibrium between inflation and growth<br><strong>Geopolitical Analysis</strong> — US-China chip war, Iran war, NATO rearmament are all strategic games<br><strong>Institutional Flow</strong> — institutional coordination without communication is Game Theory<br><strong>Sector Rotation</strong> — the rotation game: who moves first captures alpha, who moves last gets trapped<br><br>Understanding Game Theory is not optional for a serious investor. It is the lens that reveals the meta-structure beneath every market movement.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRIBUTE -->
+<div class="tribute-section">
+  <div class="tribute-icon reveal">🪷</div>
+  <div class="tribute-title reveal">A BlueLotus Fund Tribute<br>to Von Neumann & Nash</div>
+  <p class="tribute-text reveal">Vairochana — the White Buddha of all-pervading wisdom. The centre of the mandala. The light that contains all colours. John von Neumann and John Nash are together the white light of strategic intelligence — the mathematical framework through which all competitive interaction can be understood, measured, and navigated.</p>
+  <p class="tribute-text reveal" style="margin-top:0;">Von Neumann built the house of Game Theory in 1928. Nash blew the walls off it in 1950 with 27 pages and two citations. Together they gave the world a language for strategy that every serious investor, every geopolitical analyst, and every AI system now uses — whether they know it or not. BlueLotus knows it. And trades accordingly.</p>
+  <p class="tribute-text reveal" style="margin-top:0;font-style:italic;color:var(--white2);">"If everyone is doing the best they can, given what everyone else is doing — that is the equilibrium. Understand the equilibrium, and you understand the market."</p>
+  <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;" class="reveal">
+    <a href="https://sohweekian.github.io/bluelotus/turing-tribute.html" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;color:var(--white2);border:1px solid var(--white-border);padding:12px 24px;border-radius:4px;background:var(--white-dim2);">← Turing Tribute</a>
+    <a href="https://sohweekian.github.io/bluelotus/shannon-tribute.html" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;color:var(--text2);border:1px solid var(--border);padding:12px 24px;border-radius:4px;">← Shannon Tribute</a>
+    <a href="https://sohweekian.github.io/bluelotus/thorp-tribute.html" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;color:var(--text2);border:1px solid var(--border);padding:12px 24px;border-radius:4px;">← Thorp Tribute</a>
+    <a href="https://sohweekian.github.io/bluelotus/" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;color:var(--text2);border:1px solid var(--border);padding:12px 24px;border-radius:4px;">BlueLotus Fund ↗</a>
+  </div>
+</div>
+
+<footer>
+  <div>
+    <div class="footer-brand">🪷 BlueLotus Fund</div>
+    <div style="font-family:var(--mono);font-size:9px;color:var(--text3);margin-top:6px;letter-spacing:0.08em;">Tribute to Von Neumann & Nash · Singapore 2026</div>
+  </div>
+  <div class="footer-note">
+    Research sourced from Princeton, Institute for Advanced Study,<br>
+    Nobel Prize archives, and published biographical records<br>
+    For educational purposes only
+  </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold:0.08, rootMargin:'0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
