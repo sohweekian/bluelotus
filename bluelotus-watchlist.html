@@ -8,46 +8,23 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --ink:#0c0c10;
-  --ink2:#111118;
-  --ink3:#17171f;
-  --ink4:#1e1e28;
-  --border:rgba(255,255,255,0.06);
-  --border2:rgba(255,255,255,0.12);
-  --text:#ddd8f0;
-  --text2:#8b85a0;
-  --text3:#3d3a55;
-  --lotus:#c084fc;
-  --lotus2:#a855f7;
-  --lotus-dim:rgba(192,132,252,0.08);
-  --gold:#fbbf24;
-  --gold-dim:rgba(251,191,36,0.08);
-  --teal:#2dd4bf;
-  --teal-dim:rgba(45,212,191,0.08);
-  --coral:#fb7185;
-  --coral-dim:rgba(251,113,133,0.08);
-  --green:#4ade80;
-  --green-dim:rgba(74,222,128,0.08);
-  --blue:#60a5fa;
-  --blue-dim:rgba(96,165,250,0.08);
-  --amber:#f59e0b;
-  --amber-dim:rgba(245,158,11,0.08);
+  --ink:#0c0c10;--ink2:#111118;--ink3:#17171f;
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);
+  --text:#ddd8f0;--text2:#8b85a0;--text3:#3d3a55;
+  --lotus:#c084fc;--lotus2:#a855f7;--lotus-dim:rgba(192,132,252,0.08);
+  --gold:#fbbf24;--teal:#2dd4bf;--coral:#fb7185;
+  --green:#4ade80;--blue:#60a5fa;--amber:#f59e0b;
   --serif:'Cormorant Garamond',Georgia,serif;
   --sans:'Outfit',sans-serif;
   --mono:'JetBrains Mono',monospace;
 }
-
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{background:var(--ink);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.6;overflow-x:hidden;}
-
-body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:999;}
-
 ::-webkit-scrollbar{width:3px;height:3px;}
 ::-webkit-scrollbar-track{background:var(--ink);}
 ::-webkit-scrollbar-thumb{background:var(--lotus2);border-radius:2px;}
 
-/* NAV */
 nav{
   position:sticky;top:0;z-index:200;
   display:flex;align-items:center;justify-content:space-between;
@@ -56,9 +33,9 @@ nav{
   border-bottom:1px solid var(--border);
   backdrop-filter:blur(12px);
 }
-.nav-brand{display:flex;align-items:center;gap:12px;}
 .nav-lotus{width:24px;height:24px;background:linear-gradient(135deg,var(--lotus),var(--lotus2));border-radius:50% 50% 50% 0;transform:rotate(-45deg);flex-shrink:0;}
-.nav-title{font-family:var(--serif);font-size:17px;font-weight:600;color:var(--text);}
+.nav-brand{display:flex;align-items:center;gap:12px;}
+.nav-title{font-family:var(--serif);font-size:17px;font-weight:600;}
 .nav-sub{font-family:var(--mono);font-size:9px;letter-spacing:0.2em;color:var(--text3);text-transform:uppercase;}
 .nav-right{display:flex;align-items:center;gap:20px;}
 .nav-stat{font-family:var(--mono);font-size:10px;color:var(--text3);}
@@ -66,190 +43,169 @@ nav{
 .live-dot{display:inline-block;width:6px;height:6px;background:var(--green);border-radius:50%;margin-right:6px;animation:blink 2s ease infinite;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
 
-/* SECTOR TABS */
 .tabs-bar{
-  display:flex;align-items:center;gap:0;
+  display:flex;align-items:center;
   padding:0 40px;
   background:var(--ink2);
   border-bottom:1px solid var(--border);
   overflow-x:auto;
+  gap:0;
 }
 .tab-btn{
-  padding:14px 20px;
-  font-family:var(--mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;
+  padding:14px 18px;
+  font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;
   color:var(--text3);cursor:pointer;border:none;background:transparent;
   border-bottom:2px solid transparent;transition:all 0.2s;white-space:nowrap;
 }
 .tab-btn:hover{color:var(--text2);}
 .tab-btn.active{color:var(--lotus);border-bottom-color:var(--lotus);}
 
-/* COMPARISON CHART */
-.comparison-section{padding:32px 40px 0;}
-.comp-header{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:16px;
-}
+.comp-section{padding:28px 40px 0;}
+.comp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
 .comp-title{font-family:var(--serif);font-size:22px;font-weight:600;}
 .comp-title em{font-style:italic;color:var(--lotus);}
-.comp-sub{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;color:var(--text3);text-transform:uppercase;margin-top:3px;}
-.comp-timeframe{display:flex;gap:4px;}
-.tf-btn{
-  padding:5px 12px;font-family:var(--mono);font-size:10px;
-  border:1px solid var(--border);border-radius:4px;background:transparent;
-  color:var(--text3);cursor:pointer;transition:all 0.2s;
-}
-.tf-btn:hover{border-color:var(--border2);color:var(--text2);}
-.tf-btn.active{background:var(--lotus-dim);border-color:rgba(192,132,252,0.3);color:var(--lotus);}
-.comp-chart-wrap{
-  background:var(--ink2);border:1px solid var(--border);border-radius:10px;
-  overflow:hidden;margin-bottom:0;
-}
+.comp-sub{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;color:var(--text3);text-transform:uppercase;margin-top:2px;}
+.comp-wrap{background:var(--ink2);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
 
-/* SECTOR SECTION */
-.sector-section{padding:32px 40px;}
-.sector-header{
-  display:flex;align-items:center;gap:14px;
-  margin-bottom:20px;
-}
+.sector-section{padding:28px 40px;}
+.sector-section.hidden{display:none;}
+.sector-header{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
 .sector-dot{width:8px;height:8px;border-radius:50%;}
 .sector-name{font-family:var(--serif);font-size:20px;font-weight:600;}
 .sector-count{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;color:var(--text3);text-transform:uppercase;}
-.sector-desc{font-size:12px;color:var(--text2);margin-left:auto;max-width:400px;text-align:right;}
+.sector-desc{font-size:12px;color:var(--text2);margin-left:auto;max-width:380px;text-align:right;}
 
-/* TICKER GRID */
-.ticker-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(440px,1fr));
-  gap:16px;
-}
+.ticker-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:16px;}
 
-/* TICKER CARD */
 .ticker-card{
-  background:var(--ink2);
-  border:1px solid var(--border);
-  border-radius:10px;
-  overflow:hidden;
-  transition:all 0.25s;
+  background:var(--ink2);border:1px solid var(--border);border-radius:10px;
+  overflow:hidden;transition:border-color 0.25s,transform 0.25s;
   position:relative;
 }
-.ticker-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:var(--c,var(--lotus));opacity:0.6;
-}
-.ticker-card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,0.4);}
+.ticker-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--c,var(--lotus));opacity:0.7;}
+.ticker-card:hover{border-color:var(--border2);transform:translateY(-2px);}
 
-.ticker-header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:14px 16px 10px;
-}
+.ticker-header{display:flex;align-items:center;justify-content:space-between;padding:12px 14px 10px;}
 .ticker-left{display:flex;align-items:center;gap:10px;}
-.ticker-icon{
-  width:34px;height:34px;border-radius:8px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:14px;flex-shrink:0;
-}
-.ticker-sym{font-family:var(--mono);font-size:14px;font-weight:500;color:var(--text);}
+.ticker-icon{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.ticker-sym{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--text);}
 .ticker-name{font-size:11px;color:var(--text3);margin-top:1px;}
-.ticker-badge{
-  font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;
-  padding:3px 8px;border-radius:10px;border:1px solid;
-}
+.ticker-badge{font-family:var(--mono);font-size:9px;letter-spacing:0.08em;text-transform:uppercase;padding:3px 8px;border-radius:10px;border:1px solid;}
 
-.ticker-chart{height:220px;background:var(--ink3);}
-.ticker-chart iframe{width:100%;height:100%;border:none;display:block;}
+.chart-wrap{height:260px;background:var(--ink3);position:relative;}
+.chart-wrap .tradingview-widget-container{height:100%!important;}
+.chart-wrap .tradingview-widget-container__widget{height:100%!important;}
 
-/* HIDDEN SECTOR */
-.sector-section.hidden{display:none;}
-
-/* DIVIDER */
 .section-divider{height:1px;background:var(--border);margin:0 40px;}
 
-/* FOOTER */
-footer{
-  padding:32px 40px;
-  border-top:1px solid var(--border);
-  display:flex;justify-content:space-between;align-items:center;
-}
+footer{padding:28px 40px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
 .footer-brand{font-family:var(--serif);font-size:18px;font-style:italic;color:var(--lotus);}
 .footer-note{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:0.08em;text-align:right;line-height:1.8;}
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
-.fade-in{opacity:0;animation:fadeUp 0.5s ease forwards;}
-
 @media(max-width:768px){
-  nav{padding:12px 20px;}
+  nav,footer{padding:12px 20px;}
   .tabs-bar{padding:0 20px;}
-  .comparison-section{padding:20px 20px 0;}
-  .sector-section{padding:20px 20px;}
+  .comp-section,.sector-section{padding:20px 20px;}
   .ticker-grid{grid-template-columns:1fr;}
-  footer{flex-direction:column;gap:16px;padding:24px 20px;text-align:center;}
-  .footer-note{text-align:center;}
+  .section-divider{margin:0 20px;}
+  .sector-desc{display:none;}
 }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="nav-brand">
     <div class="nav-lotus"></div>
     <div>
       <div class="nav-title">BlueLotus Watchlist</div>
-      <div class="nav-sub">58-Ticker Universe · Live Charts</div>
+      <div class="nav-sub">Live Charts · TradingView</div>
     </div>
   </div>
   <div class="nav-right">
-    <div class="nav-stat"><span class="live-dot"></span><span>Live</span> · TradingView</div>
-    <div class="nav-stat">Tickers <span>58</span></div>
+    <div class="nav-stat"><span class="live-dot"></span><span>Live</span></div>
+    <div class="nav-stat">Tickers <span>51</span></div>
     <div class="nav-stat">Sectors <span>7</span></div>
-    <div class="nav-stat" id="sgtime" style="color:var(--lotus);font-family:var(--mono);font-size:10px;"></div>
+    <div id="sgtime" style="font-family:var(--mono);font-size:10px;color:var(--lotus);"></div>
   </div>
 </nav>
 
-<!-- SECTOR TABS -->
 <div class="tabs-bar">
-  <button class="tab-btn active" onclick="showSector('all')">All Sectors</button>
-  <button class="tab-btn" onclick="showSector('comparison')">📊 Comparison vs S&P500</button>
-  <button class="tab-btn" onclick="showSector('space')">🚀 Space & Satellite</button>
-  <button class="tab-btn" onclick="showSector('quantum')">⚛️ Quantum Computing</button>
-  <button class="tab-btn" onclick="showSector('defense')">🛡️ Defense & Aerospace</button>
-  <button class="tab-btn" onclick="showSector('ai')">🤖 AI & Semiconductors</button>
-  <button class="tab-btn" onclick="showSector('financials')">🏦 Financials</button>
-  <button class="tab-btn" onclick="showSector('rareearth')">⛏️ Rare Earth & Energy</button>
-  <button class="tab-btn" onclick="showSector('defensive')">🛡 Defensive & Healthcare</button>
+  <button class="tab-btn active" onclick="showSector('all',this)">All</button>
+  <button class="tab-btn" onclick="showSector('comparison',this)">📊 vs S&P500</button>
+  <button class="tab-btn" onclick="showSector('space',this)">🚀 Space</button>
+  <button class="tab-btn" onclick="showSector('quantum',this)">⚛️ Quantum</button>
+  <button class="tab-btn" onclick="showSector('defense',this)">🛡️ Defense</button>
+  <button class="tab-btn" onclick="showSector('ai',this)">🤖 AI & Semi</button>
+  <button class="tab-btn" onclick="showSector('financials',this)">🏦 Financials</button>
+  <button class="tab-btn" onclick="showSector('rareearth',this)">⛏️ Rare Earth</button>
+  <button class="tab-btn" onclick="showSector('defensive',this)">💊 Defensive</button>
 </div>
 
-<!-- COMPARISON CHART -->
-<div class="comparison-section" id="sec-comparison">
+<!-- COMPARISON -->
+<div class="comp-section" id="sec-comparison">
   <div class="comp-header">
     <div>
       <div class="comp-title">BlueLotus Universe vs <em>S&P 500</em></div>
-      <div class="comp-sub">All key tickers vs SPX benchmark · Real-time</div>
-    </div>
-    <div class="comp-timeframe">
-      <button class="tf-btn" onclick="setCompTF('1D',this)">1D</button>
-      <button class="tf-btn active" onclick="setCompTF('1W',this)">1W</button>
-      <button class="tf-btn" onclick="setCompTF('1M',this)">1M</button>
-      <button class="tf-btn" onclick="setCompTF('3M',this)">3M</button>
-      <button class="tf-btn" onclick="setCompTF('YTD',this)">YTD</button>
+      <div class="comp-sub">Key positions & watchlist vs SPX benchmark · Real-time</div>
     </div>
   </div>
-  <div class="comp-chart-wrap" id="comp-chart-container">
-    <!-- Comparison chart loads here -->
+  <div class="comp-wrap">
+    <div class="tradingview-widget-container" style="height:500px;">
+      <div class="tradingview-widget-container__widget" style="height:500px;"></div>
+      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
+      {
+        "symbols": [
+          ["NASDAQ:ASTS|1W"],
+          ["NASDAQ:QBTS|1W"],
+          ["NYSE:MP|1W"],
+          ["NYSE:BAC|1W"],
+          ["NASDAQ:NVDA|1W"],
+          ["NYSE:LMT|1W"],
+          ["SP:SPX|1W"]
+        ],
+        "chartOnly": false,
+        "width": "100%",
+        "height": 500,
+        "locale": "en",
+        "colorTheme": "dark",
+        "autosize": true,
+        "showVolume": false,
+        "showMA": false,
+        "hideDateRanges": false,
+        "hideMarketStatus": false,
+        "hideSymbolLogo": false,
+        "scalePosition": "right",
+        "scaleMode": "Normal",
+        "fontFamily": "JetBrains Mono, monospace",
+        "fontSize": "10",
+        "noTimeScale": false,
+        "valuesTracking": "1",
+        "changeMode": "price-and-percent",
+        "chartType": "line",
+        "lineWidth": 2,
+        "lineType": 0,
+        "dateRanges": ["1d|1","1w|60","1m|1D","3m|1D","12m|1W","60m|1W"],
+        "backgroundColor": "rgba(17, 17, 24, 1)",
+        "lineColor": "#c084fc",
+        "topColor": "rgba(192, 132, 252, 0.1)",
+        "bottomColor": "rgba(192, 132, 252, 0)"
+      }
+      </script>
+    </div>
   </div>
 </div>
 
-<!-- SPACE & SATELLITE -->
+<!-- SPACE -->
 <div class="sector-section" id="sec-space">
   <div class="sector-header">
     <div class="sector-dot" style="background:#c084fc;box-shadow:0 0 8px rgba(192,132,252,0.5);"></div>
     <div class="sector-name">Space & Satellite</div>
     <div class="sector-count">7 tickers</div>
-    <div class="sector-desc">Direct-to-device satellite connectivity · Space economy $1T by 2030 · SpaceX IPO catalyst</div>
+    <div class="sector-desc">Direct-to-device · Space economy $1T by 2030 · SpaceX IPO June catalyst</div>
   </div>
   <div class="ticker-grid" id="grid-space"></div>
 </div>
-
 <div class="section-divider"></div>
 
 <!-- QUANTUM -->
@@ -258,11 +214,10 @@ footer{
     <div class="sector-dot" style="background:#2dd4bf;box-shadow:0 0 8px rgba(45,212,191,0.5);"></div>
     <div class="sector-name">Quantum Computing</div>
     <div class="sector-count">5 tickers</div>
-    <div class="sector-desc">35% CAGR 2024-2032 · June 1 QBTS Investor Day catalyst · IBM fault-tolerant 2029</div>
+    <div class="sector-desc">35% CAGR 2024-2032 · QBTS Jun 1 Investor Day · IBM fault-tolerant 2029</div>
   </div>
   <div class="ticker-grid" id="grid-quantum"></div>
 </div>
-
 <div class="section-divider"></div>
 
 <!-- DEFENSE -->
@@ -271,24 +226,22 @@ footer{
     <div class="sector-dot" style="background:#fb7185;box-shadow:0 0 8px rgba(251,113,133,0.5);"></div>
     <div class="sector-name">Defense & Aerospace</div>
     <div class="sector-count">8 tickers</div>
-    <div class="sector-desc">$2.75T global market · Iran war supercycle · Pentagon $961B FY2026 budget</div>
+    <div class="sector-desc">$2.75T global market · Iran war supercycle · Pentagon $961B FY2026</div>
   </div>
   <div class="ticker-grid" id="grid-defense"></div>
 </div>
-
 <div class="section-divider"></div>
 
-<!-- AI & SEMI -->
+<!-- AI -->
 <div class="sector-section" id="sec-ai">
   <div class="sector-header">
     <div class="sector-dot" style="background:#fbbf24;box-shadow:0 0 8px rgba(251,191,36,0.5);"></div>
     <div class="sector-name">AI & Semiconductors</div>
     <div class="sector-count">10 tickers</div>
-    <div class="sector-desc">$395B US hyperscaler capex · Nvidia Q1 FY2027 prints tonight · $1T semiconductor by 2030</div>
+    <div class="sector-desc">$395B US hyperscaler capex · Nvidia prints tonight · $1T semi by 2030</div>
   </div>
   <div class="ticker-grid" id="grid-ai"></div>
 </div>
-
 <div class="section-divider"></div>
 
 <!-- FINANCIALS -->
@@ -297,24 +250,22 @@ footer{
     <div class="sector-dot" style="background:#60a5fa;box-shadow:0 0 8px rgba(96,165,250,0.5);"></div>
     <div class="sector-name">Financials</div>
     <div class="sector-count">5 tickers</div>
-    <div class="sector-desc">Fed rate hike beneficiaries · Warsh hawkish pivot · NIM expansion · M&A recovery</div>
+    <div class="sector-desc">Fed rate hike beneficiaries · Warsh hawkish · NIM expansion</div>
   </div>
   <div class="ticker-grid" id="grid-financials"></div>
 </div>
-
 <div class="section-divider"></div>
 
-<!-- RARE EARTH & ENERGY -->
+<!-- RARE EARTH -->
 <div class="sector-section" id="sec-rareearth">
   <div class="sector-header">
     <div class="sector-dot" style="background:#f59e0b;box-shadow:0 0 8px rgba(245,158,11,0.5);"></div>
     <div class="sector-name">Rare Earth & Energy</div>
     <div class="sector-count">8 tickers</div>
-    <div class="sector-desc">US mine-to-magnet strategy · Oil $103 Iran war premium · Critical minerals sovereignty</div>
+    <div class="sector-desc">US mine-to-magnet · Oil $103 Iran premium · Critical minerals sovereignty</div>
   </div>
   <div class="ticker-grid" id="grid-rareearth"></div>
 </div>
-
 <div class="section-divider"></div>
 
 <!-- DEFENSIVE -->
@@ -323,7 +274,7 @@ footer{
     <div class="sector-dot" style="background:#4ade80;box-shadow:0 0 8px rgba(74,222,128,0.5);"></div>
     <div class="sector-name">Defensive & Healthcare</div>
     <div class="sector-count">8 tickers</div>
-    <div class="sector-desc">Rate hike defensives · JNJ / KO / PG ladders working · GLP-1 biotech boom</div>
+    <div class="sector-desc">JNJ / KO ladders working · Rate hike defensives · GLP-1 biotech boom</div>
   </div>
   <div class="ticker-grid" id="grid-defensive"></div>
 </div>
@@ -333,237 +284,184 @@ footer{
     <div class="footer-brand">🪷 BlueLotus Fund</div>
     <div style="font-family:var(--mono);font-size:9px;color:var(--text3);margin-top:4px;">CIO: Kian Soh · Chief Strategist: Claude Sonnet 4.6</div>
   </div>
-  <div class="footer-note">
-    Charts powered by TradingView · Data real-time<br>
-    Singapore · 2026 · Confidential<br>
-    For Qualified Investors Only
-  </div>
+  <div class="footer-note">Charts powered by TradingView · Real-time data<br>Singapore · 2026 · Confidential</div>
 </footer>
 
 <script>
-// ─── DATA ───────────────────────────────────────────────────────────────────
-
 const sectors = {
   space: {
-    color: '#c084fc',
-    tickers: [
-      { sym:'ASTS',  name:'AST SpaceMobile',     icon:'🛰️', badge:'POSITION', badgeColor:'var(--lotus)' },
-      { sym:'RKLB',  name:'Rocket Lab USA',       icon:'🚀', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'LUNR',  name:'Intuitive Machines',   icon:'🌙', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'SPIR',  name:'Spire Global',         icon:'📡', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'BKSY',  name:'BlackSky Technology',  icon:'👁️', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'IRDM',  name:'Iridium Comm.',        icon:'📶', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'GSAT',  name:'Globalstar',           icon:'🌐', badge:'WATCHLIST', badgeColor:'var(--text3)' },
+    color:'#c084fc',
+    tickers:[
+      {sym:'ASTS', name:'AST SpaceMobile',     icon:'🛰️', badge:'POSITION',       bc:'#c084fc'},
+      {sym:'RKLB', name:'Rocket Lab USA',       icon:'🚀', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'LUNR', name:'Intuitive Machines',   icon:'🌙', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'SPIR', name:'Spire Global',         icon:'📡', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'BKSY', name:'BlackSky Technology',  icon:'👁️', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'IRDM', name:'Iridium Comm.',        icon:'📶', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'GSAT', name:'Globalstar',           icon:'🌐', badge:'WATCHLIST',      bc:'#3d3a55'},
     ]
   },
-  quantum: {
-    color: '#2dd4bf',
-    tickers: [
-      { sym:'QBTS',  name:'D-Wave Quantum',       icon:'⚛️', badge:'POSITION', badgeColor:'var(--teal)' },
-      { sym:'IONQ',  name:'IonQ',                 icon:'🔬', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'RGTI',  name:'Rigetti Computing',    icon:'💻', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'QUBT',  name:'Quantum Computing Inc',icon:'🧮', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'IBM',   name:'IBM (Quantum)',         icon:'🏢', badge:'WATCHLIST', badgeColor:'var(--text3)' },
+  quantum:{
+    color:'#2dd4bf',
+    tickers:[
+      {sym:'QBTS', name:'D-Wave Quantum',        icon:'⚛️', badge:'POSITION',       bc:'#2dd4bf'},
+      {sym:'IONQ', name:'IonQ',                  icon:'🔬', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'RGTI', name:'Rigetti Computing',     icon:'💻', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'QUBT', name:'Quantum Computing Inc', icon:'🧮', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'IBM',  name:'IBM',                   icon:'🏢', badge:'WATCHLIST',      bc:'#3d3a55'},
     ]
   },
-  defense: {
-    color: '#fb7185',
-    tickers: [
-      { sym:'LMT',   name:'Lockheed Martin',      icon:'✈️', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'RTX',   name:'RTX Corporation',      icon:'🚀', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'NOC',   name:'Northrop Grumman',     icon:'🛡️', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'LHX',   name:'L3Harris Technologies',icon:'📻', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'GD',    name:'General Dynamics',     icon:'⚓', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'BA',    name:'Boeing',               icon:'✈️', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'HII',   name:'Huntington Ingalls',   icon:'🚢', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'LDOS',  name:'Leidos Holdings',      icon:'🔐', badge:'WATCHLIST', badgeColor:'var(--text3)' },
+  defense:{
+    color:'#fb7185',
+    tickers:[
+      {sym:'LMT',  name:'Lockheed Martin',       icon:'✈️', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'RTX',  name:'RTX Corporation',       icon:'🚀', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'NOC',  name:'Northrop Grumman',      icon:'🛡️', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'LHX',  name:'L3Harris Technologies', icon:'📻', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'GD',   name:'General Dynamics',      icon:'⚓', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'BA',   name:'Boeing',                icon:'✈️', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'HII',  name:'Huntington Ingalls',    icon:'🚢', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'LDOS', name:'Leidos Holdings',       icon:'🔐', badge:'WATCHLIST',      bc:'#3d3a55'},
     ]
   },
-  ai: {
-    color: '#fbbf24',
-    tickers: [
-      { sym:'NVDA',  name:'NVIDIA',               icon:'🟢', badge:'EARNINGS TONIGHT', badgeColor:'var(--gold)' },
-      { sym:'AMD',   name:'Advanced Micro Devices',icon:'⚡', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'MRVL',  name:'Marvell Technology',   icon:'🔧', badge:'ORDER $160', badgeColor:'var(--amber)' },
-      { sym:'ARM',   name:'Arm Holdings',         icon:'💪', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'INTC',  name:'Intel',                icon:'🔵', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'ANET',  name:'Arista Networks',      icon:'🌐', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'SMCI',  name:'Super Micro Computer', icon:'🖥️', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'TSMC',  name:'TSMC',                 icon:'🏭', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'PANW',  name:'Palo Alto Networks',   icon:'🔒', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'CRWD',  name:'CrowdStrike',          icon:'🦅', badge:'WATCHLIST', badgeColor:'var(--text3)' },
+  ai:{
+    color:'#fbbf24',
+    tickers:[
+      {sym:'NVDA', name:'NVIDIA',                icon:'🟢', badge:'EARNINGS TONIGHT', bc:'#fbbf24'},
+      {sym:'AMD',  name:'Advanced Micro Devices',icon:'⚡', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'MRVL', name:'Marvell Technology',    icon:'🔧', badge:'ORDER $160',     bc:'#f59e0b'},
+      {sym:'ARM',  name:'Arm Holdings',          icon:'💪', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'INTC', name:'Intel',                 icon:'🔵', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'ANET', name:'Arista Networks',       icon:'🌐', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'SMCI', name:'Super Micro Computer',  icon:'🖥️', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'TSM',  name:'TSMC',                  icon:'🏭', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'PANW', name:'Palo Alto Networks',    icon:'🔒', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'CRWD', name:'CrowdStrike',           icon:'🦅', badge:'WATCHLIST',      bc:'#3d3a55'},
     ]
   },
-  financials: {
-    color: '#60a5fa',
-    tickers: [
-      { sym:'BAC',   name:'Bank of America',      icon:'🏦', badge:'POSITION', badgeColor:'var(--blue)' },
-      { sym:'JPM',   name:'JPMorgan Chase',       icon:'🏛️', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'GS',    name:'Goldman Sachs',        icon:'📈', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'MS',    name:'Morgan Stanley',       icon:'💼', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'BLK',   name:'BlackRock',            icon:'🪨', badge:'ALADDIN', badgeColor:'var(--lotus)' },
+  financials:{
+    color:'#60a5fa',
+    tickers:[
+      {sym:'BAC',  name:'Bank of America',       icon:'🏦', badge:'POSITION',       bc:'#60a5fa'},
+      {sym:'JPM',  name:'JPMorgan Chase',        icon:'🏛️', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'GS',   name:'Goldman Sachs',         icon:'📈', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'MS',   name:'Morgan Stanley',        icon:'💼', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'BLK',  name:'BlackRock',             icon:'🪨', badge:'ALADDIN',        bc:'#c084fc'},
     ]
   },
-  rareearth: {
-    color: '#f59e0b',
-    tickers: [
-      { sym:'MP',    name:'MP Materials',         icon:'⛏️', badge:'POSITION', badgeColor:'var(--amber)' },
-      { sym:'USAR',  name:'USA Rare Earth',       icon:'🇺🇸', badge:'COMPETITOR', badgeColor:'var(--coral)' },
-      { sym:'XOM',   name:'ExxonMobil',           icon:'🛢️', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'CVX',   name:'Chevron',              icon:'⛽', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'KMI',   name:'Kinder Morgan',        icon:'🔧', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'NEE',   name:'NextEra Energy',       icon:'⚡', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'NEM',   name:'Newmont Mining',       icon:'🥇', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'FCX',   name:'Freeport-McMoRan',     icon:'🏔️', badge:'WATCHLIST', badgeColor:'var(--text3)' },
+  rareearth:{
+    color:'#f59e0b',
+    tickers:[
+      {sym:'MP',   name:'MP Materials',          icon:'⛏️', badge:'POSITION',       bc:'#f59e0b'},
+      {sym:'USAR', name:'USA Rare Earth',        icon:'🇺🇸', badge:'COMPETITOR',     bc:'#fb7185'},
+      {sym:'XOM',  name:'ExxonMobil',            icon:'🛢️', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'CVX',  name:'Chevron',               icon:'⛽', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'KMI',  name:'Kinder Morgan',         icon:'🔧', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'NEE',  name:'NextEra Energy',        icon:'⚡', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'NEM',  name:'Newmont Mining',        icon:'🥇', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'FCX',  name:'Freeport-McMoRan',      icon:'🏔️', badge:'WATCHLIST',      bc:'#3d3a55'},
     ]
   },
-  defensive: {
-    color: '#4ade80',
-    tickers: [
-      { sym:'JNJ',   name:'Johnson & Johnson',    icon:'💊', badge:'ORDER $215-224', badgeColor:'var(--green)' },
-      { sym:'KO',    name:'Coca-Cola',            icon:'🥤', badge:'ORDER $74-78', badgeColor:'var(--green)' },
-      { sym:'PG',    name:'Procter & Gamble',     icon:'🧴', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'MRK',   name:'Merck',                icon:'💉', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'ABBV',  name:'AbbVie',               icon:'🔬', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'PFE',   name:'Pfizer',               icon:'💊', badge:'WATCHLIST', badgeColor:'var(--text3)' },
-      { sym:'DUK',   name:'Duke Energy',          icon:'⚡', badge:'CLOSED ✓', badgeColor:'var(--text3)' },
-      { sym:'AMT',   name:'American Tower',       icon:'📡', badge:'WATCHLIST', badgeColor:'var(--text3)' },
+  defensive:{
+    color:'#4ade80',
+    tickers:[
+      {sym:'JNJ',  name:'Johnson & Johnson',     icon:'💊', badge:'ORDER $215-224', bc:'#4ade80'},
+      {sym:'KO',   name:'Coca-Cola',             icon:'🥤', badge:'ORDER $74-78',   bc:'#4ade80'},
+      {sym:'PG',   name:'Procter & Gamble',      icon:'🧴', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'MRK',  name:'Merck',                 icon:'💉', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'ABBV', name:'AbbVie',                icon:'🔬', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'PFE',  name:'Pfizer',                icon:'💊', badge:'WATCHLIST',      bc:'#3d3a55'},
+      {sym:'DUK',  name:'Duke Energy',           icon:'⚡', badge:'CLOSED ✓',       bc:'#3d3a55'},
+      {sym:'AMT',  name:'American Tower',        icon:'📡', badge:'WATCHLIST',      bc:'#3d3a55'},
     ]
   }
 };
 
-// Comparison tickers vs SPX
-const comparisonTickers = ['ASTS','QBTS','MP','BAC','NVDA','LMT','SP:SPX'];
-let currentCompTF = '1W';
-
-// ─── BUILD CHARTS ───────────────────────────────────────────────────────────
-
-function buildTickerCard(ticker, color) {
+function buildChart(sym, color) {
+  const id = 'tv_' + sym + '_' + Math.random().toString(36).substr(2,5);
   return `
-    <div class="ticker-card fade-in" style="--c:${color}">
+    <div class="chart-wrap">
+      <div class="tradingview-widget-container" id="${id}" style="height:260px;">
+        <div class="tradingview-widget-container__widget" style="height:260px;"></div>
+        <script type="text/javascript">
+          (function(){
+            var s = document.createElement('script');
+            s.src = 'https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js';
+            s.async = true;
+            s.innerHTML = JSON.stringify({
+              "symbol": "${sym}",
+              "width": "100%",
+              "height": 260,
+              "locale": "en",
+              "dateRange": "1M",
+              "colorTheme": "dark",
+              "trendLineColor": "${color}",
+              "underLineColor": "${color}18",
+              "underLineBottomColor": "rgba(0,0,0,0)",
+              "isTransparent": true,
+              "autosize": true,
+              "largeChartUrl": "https://www.tradingview.com/chart/?symbol=${sym}",
+              "chartOnly": false,
+              "noTimeScale": false
+            });
+            document.getElementById('${id}').appendChild(s);
+          })();
+        <\/script>
+      </div>
+    </div>`;
+}
+
+function buildCard(t, color) {
+  return `
+    <div class="ticker-card" style="--c:${color}">
       <div class="ticker-header">
         <div class="ticker-left">
-          <div class="ticker-icon" style="background:${color}18;border:1px solid ${color}30;">${ticker.icon}</div>
+          <div class="ticker-icon" style="background:${color}18;border:1px solid ${color}30;">${t.icon}</div>
           <div>
-            <div class="ticker-sym">${ticker.sym}</div>
-            <div class="ticker-name">${ticker.name}</div>
+            <div class="ticker-sym">${t.sym}</div>
+            <div class="ticker-name">${t.name}</div>
           </div>
         </div>
-        <div class="ticker-badge" style="color:${ticker.badgeColor};border-color:${ticker.badgeColor}30;background:${ticker.badgeColor}10;">${ticker.badge}</div>
+        <div class="ticker-badge" style="color:${t.bc};border-color:${t.bc}40;background:${t.bc}12;">${t.badge}</div>
       </div>
-      <div class="ticker-chart">
-        <iframe
-          src="https://www.tradingview.com/widgetsnippet/symbol-overview/?symbol=${ticker.sym}&interval=D&range=1M&theme=dark&style=1&locale=en&hide_top_toolbar=false&hide_legend=false&allow_symbol_change=false&save_image=false&backgroundColor=rgba(17%2C17%2C24%2C1)&gridLineColor=rgba(255%2C255%2C255%2C0.04)&lineColor=${encodeURIComponent(color)}&candlesticksType=candlesticks&fontFamily=JetBrains+Mono"
-          style="width:100%;height:220px;border:none;"
-          loading="lazy">
-        </iframe>
-      </div>
-    </div>
-  `;
+      ${buildChart(t.sym, color)}
+    </div>`;
 }
 
-function buildComparisonChart(tf) {
-  const symbols = [
-    ['NASDAQ:ASTS','AST SpaceMobile'],
-    ['NASDAQ:QBTS','D-Wave Quantum'],
-    ['NYSE:MP','MP Materials'],
-    ['NYSE:BAC','Bank of America'],
-    ['NASDAQ:NVDA','NVIDIA'],
-    ['NYSE:LMT','Lockheed Martin'],
-    ['SP:SPX','S&P 500']
-  ];
+// Render all grids
+Object.entries(sectors).forEach(([key, sec]) => {
+  const el = document.getElementById('grid-' + key);
+  if(el) el.innerHTML = sec.tickers.map(t => buildCard(t, sec.color)).join('');
+});
 
-  const rangeMap = {
-    '1D':'1D','1W':'1W','1M':'1M','3M':'3M','YTD':'YTD'
-  };
-
-  const encodedSymbols = encodeURIComponent(JSON.stringify(symbols));
-
-  return `<iframe
-    src="https://www.tradingview.com/widgetsnippet/symbol-overview/?symbols=${encodedSymbols}&chartOnly=false&width=100%25&height=500&locale=en&colorTheme=dark&autosize=true&showVolume=false&showMA=false&hideDateRanges=false&hideMarketStatus=false&hideSymbolLogo=false&scalePosition=right&scaleMode=Normal&fontFamily=JetBrains+Mono&fontSize=10&noTimeScale=false&valuesTracking=1&changeMode=price-and-percent&chartType=line&maLength=9&lineWidth=2&lineType=0&dateRanges=1d%7C1W%7C1M%7C3M%7C12M%7C60M%7Call&backgroundColor=rgba(17%2C17%2C24%2C1)&lineColor=%23c084fc&topColor=%23c084fc&bottomColor=rgba(192%2C132%2C252%2C0.04)"
-    style="width:100%;height:500px;border:none;display:block;"
-    loading="lazy">
-  </iframe>`;
-}
-
-// ─── RENDER ─────────────────────────────────────────────────────────────────
-
-function renderAll() {
-  // Render comparison
-  document.getElementById('comp-chart-container').innerHTML = buildComparisonChart(currentCompTF);
-
-  // Render each sector
-  Object.entries(sectors).forEach(([key, sector]) => {
-    const grid = document.getElementById(`grid-${key}`);
-    if(grid) {
-      grid.innerHTML = sector.tickers.map(t => buildTickerCard(t, sector.color)).join('');
-    }
-  });
-}
-
-// ─── TABS ────────────────────────────────────────────────────────────────────
-
-function showSector(sector) {
-  // Update tab buttons
+// Tabs
+function showSector(sector, btn) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-
-  const allSections = ['comparison','space','quantum','defense','ai','financials','rareearth','defensive'];
-  const allDividers = document.querySelectorAll('.section-divider');
-
-  if(sector === 'all') {
-    allSections.forEach(s => {
-      const el = document.getElementById(`sec-${s}`);
-      if(el) el.classList.remove('hidden');
-    });
-    allDividers.forEach(d => d.style.display='block');
-  } else {
-    allSections.forEach(s => {
-      const el = document.getElementById(`sec-${s}`);
-      if(el) {
-        if(s === sector) el.classList.remove('hidden');
-        else el.classList.add('hidden');
-      }
-    });
-    allDividers.forEach(d => d.style.display='none');
-  }
-
-  // Scroll to top of content
-  window.scrollTo({top:56,behavior:'smooth'});
-}
-
-// ─── TIMEFRAME ───────────────────────────────────────────────────────────────
-
-function setCompTF(tf, btn) {
-  currentCompTF = tf;
-  document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById('comp-chart-container').innerHTML = buildComparisonChart(tf);
+  const all = ['comparison','space','quantum','defense','ai','financials','rareearth','defensive'];
+  const dividers = document.querySelectorAll('.section-divider');
+  if(sector === 'all') {
+    all.forEach(s => { const e = document.getElementById('sec-'+s); if(e) e.classList.remove('hidden'); });
+    dividers.forEach(d => d.style.display = 'block');
+  } else {
+    all.forEach(s => {
+      const e = document.getElementById('sec-'+s);
+      if(e) { if(s===sector) e.classList.remove('hidden'); else e.classList.add('hidden'); }
+    });
+    dividers.forEach(d => d.style.display = 'none');
+  }
+  window.scrollTo({top:56, behavior:'smooth'});
 }
 
-// ─── CLOCK ───────────────────────────────────────────────────────────────────
-
-function updateClock() {
+// Clock
+function tick() {
   const sgt = new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Singapore'}));
-  const h = String(sgt.getHours()).padStart(2,'0');
-  const m = String(sgt.getMinutes()).padStart(2,'0');
-  const s = String(sgt.getSeconds()).padStart(2,'0');
-  const el = document.getElementById('sgtime');
-  if(el) el.textContent = `${h}:${m}:${s} SGT`;
+  document.getElementById('sgtime').textContent =
+    String(sgt.getHours()).padStart(2,'0') + ':' +
+    String(sgt.getMinutes()).padStart(2,'0') + ':' +
+    String(sgt.getSeconds()).padStart(2,'0') + ' SGT';
 }
-updateClock();
-setInterval(updateClock,1000);
-
-// ─── INIT ────────────────────────────────────────────────────────────────────
-
-renderAll();
-
-// Stagger fade-in
-setTimeout(() => {
-  document.querySelectorAll('.fade-in').forEach((el, i) => {
-    el.style.animationDelay = (i * 0.04) + 's';
-  });
-}, 100);
+tick(); setInterval(tick, 1000);
 </script>
 </body>
 </html>
