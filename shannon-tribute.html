@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Shannon — A Tribute | BlueLotus Fund</title>
+<meta name="description" content="A tribute to Claude Shannon — mathematician, engineer, father of information theory, and the man whose name lives on in the AI that powers BlueLotus Fund.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lora:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#07090c;--ink2:#0d1014;--ink3:#131820;--ink4:#1a2028;
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);
+  --text:#dde8f0;--text2:#7a8fa0;--text3:#3a4a58;
+  --blue:#4a9eff;--blue2:#2080e0;--blue-light:#8ec8ff;
+  --blue-dim:rgba(74,158,255,0.08);--blue-dim2:rgba(74,158,255,0.04);
+  --blue-border:rgba(74,158,255,0.2);
+  --teal:#00d4aa;--teal-dim:rgba(0,212,170,0.08);
+  --serif:'Playfair Display',Georgia,serif;
+  --body:'Lora',Georgia,serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--ink);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.8;overflow-x:hidden;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");pointer-events:none;z-index:999;}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:var(--ink);}::-webkit-scrollbar-thumb{background:var(--blue2);border-radius:2px;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:18px 56px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to bottom,rgba(7,9,12,0.97),transparent);backdrop-filter:blur(8px);}
+.nav-logo{font-family:var(--mono);font-size:11px;letter-spacing:0.2em;color:var(--blue);text-transform:uppercase;}
+.nav-logo span{color:var(--text3);font-weight:300;}
+.nav-links{display:flex;gap:28px;list-style:none;}
+.nav-links a{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;color:var(--text3);text-decoration:none;text-transform:uppercase;transition:color 0.2s;}
+.nav-links a:hover{color:var(--blue);}
+.nav-home{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;color:var(--text3);text-decoration:none;text-transform:uppercase;padding:7px 16px;border:1px solid var(--border);border-radius:4px;transition:all 0.2s;}
+.nav-home:hover{border-color:var(--blue-border);color:var(--blue);}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 56px 80px;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 75% 25%,rgba(74,158,255,0.05) 0%,transparent 60%),radial-gradient(ellipse 40% 60% at 15% 85%,rgba(0,212,170,0.04) 0%,transparent 60%);}
+.hero-circuit{position:absolute;inset:0;opacity:0.06;}
+.hero-circuit svg{width:100%;height:100%;}
+.hero-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:0.3em;color:var(--blue);text-transform:uppercase;margin-bottom:20px;opacity:0;animation:fadeUp 0.8s ease 0.2s forwards;}
+.hero-title{font-family:var(--serif);font-size:clamp(52px,8vw,110px);font-weight:900;line-height:0.95;letter-spacing:-0.02em;max-width:900px;opacity:0;animation:fadeUp 0.8s ease 0.4s forwards;}
+.hero-title em{font-style:italic;color:var(--blue);}
+.hero-dates{font-family:var(--mono);font-size:12px;letter-spacing:0.2em;color:var(--text3);margin-top:20px;opacity:0;animation:fadeUp 0.8s ease 0.55s forwards;}
+.hero-subtitle{font-size:20px;color:var(--text2);max-width:580px;line-height:1.6;margin-top:28px;font-style:italic;font-family:var(--body);opacity:0;animation:fadeUp 0.8s ease 0.7s forwards;}
+.hero-tags{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px;opacity:0;animation:fadeUp 0.8s ease 0.85s forwards;}
+.hero-tag{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:6px 14px;border:1px solid var(--blue-border);border-radius:3px;color:var(--blue);background:var(--blue-dim2);}
+.scroll-hint{position:absolute;bottom:32px;right:56px;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeUp 0.8s ease 1.2s forwards;}
+.scroll-line{width:1px;height:56px;background:linear-gradient(to bottom,var(--blue),transparent);animation:scrollPulse 2s ease infinite;}
+.scroll-text{font-family:var(--mono);font-size:9px;letter-spacing:0.2em;color:var(--text3);text-transform:uppercase;writing-mode:vertical-rl;}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--border);}
+.stat-block{background:var(--ink2);padding:44px 36px;text-align:center;}
+.stat-num{font-family:var(--serif);font-size:clamp(28px,4vw,52px);font-weight:900;color:var(--blue-light);line-height:1;margin-bottom:10px;}
+.stat-label{font-family:var(--mono);font-size:9px;letter-spacing:0.15em;color:var(--text3);text-transform:uppercase;line-height:1.5;}
+
+/* SECTIONS */
+.section{padding:100px 56px;max-width:1100px;margin:0 auto;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+
+.chapter{display:flex;align-items:center;gap:16px;margin-bottom:48px;}
+.ch-num{font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:var(--blue);text-transform:uppercase;}
+.ch-line{width:48px;height:1px;background:linear-gradient(to right,var(--blue),transparent);}
+.ch-title{font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:var(--text3);text-transform:uppercase;}
+
+.section-h{font-family:var(--serif);font-size:clamp(34px,4.5vw,56px);font-weight:700;line-height:1.1;letter-spacing:-0.01em;margin-bottom:28px;}
+.section-h em{font-style:italic;color:var(--blue);}
+
+.prose{font-size:17px;color:var(--text2);line-height:1.9;font-family:var(--body);}
+.prose+.prose{margin-top:20px;}
+.prose strong{color:var(--text);font-weight:500;}
+
+.pull-quote{font-family:var(--serif);font-size:clamp(22px,3vw,36px);font-style:italic;line-height:1.4;padding:0 40px;border-left:2px solid var(--blue);margin:56px 0;color:var(--text);}
+.pull-quote cite{display:block;font-family:var(--mono);font-size:10px;font-style:normal;letter-spacing:0.15em;color:var(--blue);text-transform:uppercase;margin-top:14px;}
+
+.full-quote{padding:100px 56px;background:var(--ink2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);text-align:center;}
+.fq-text{font-family:var(--serif);font-size:clamp(24px,4vw,46px);font-style:italic;line-height:1.35;max-width:860px;margin:0 auto 24px;}
+.fq-text em{font-style:normal;color:var(--blue);}
+.fq-attr{font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:var(--text3);text-transform:uppercase;}
+
+.highlight{background:var(--ink2);border:1px solid var(--border);border-radius:8px;padding:32px 36px;margin:36px 0;}
+.highlight-label{font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;}
+.highlight-text{font-size:15px;color:var(--text2);line-height:1.75;}
+
+.formula-box{background:var(--blue-dim2);border:1px solid var(--blue-border);border-left:3px solid var(--blue);border-radius:0 8px 8px 0;padding:32px 36px;margin:40px 0;}
+.formula-label{font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue);margin-bottom:12px;}
+.formula-main{font-family:var(--serif);font-size:28px;font-style:italic;color:var(--text);margin-bottom:8px;line-height:1.4;}
+.formula-desc{font-size:14px;color:var(--text2);line-height:1.7;}
+
+/* TIMELINE */
+.timeline{position:relative;padding-left:48px;margin:48px 0;}
+.timeline::before{content:'';position:absolute;left:0;top:8px;bottom:0;width:1px;background:linear-gradient(to bottom,var(--blue),transparent);}
+.tl-item{position:relative;margin-bottom:48px;}
+.tl-item::before{content:'';position:absolute;left:-52px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--blue);box-shadow:0 0 16px rgba(74,158,255,0.5);}
+.tl-year{font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:var(--blue);margin-bottom:8px;text-transform:uppercase;}
+.tl-head{font-family:var(--serif);font-size:22px;font-weight:700;margin-bottom:10px;}
+.tl-text{font-size:14px;color:var(--text2);line-height:1.75;max-width:620px;}
+
+/* DISCOVERY GRID */
+.discovery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2px;background:var(--border);margin:48px 0;}
+.disc-card{background:var(--ink2);padding:32px 28px;position:relative;overflow:hidden;transition:background 0.2s;}
+.disc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--blue),transparent);opacity:0;transition:opacity 0.2s;}
+.disc-card:hover{background:var(--ink3);}
+.disc-card:hover::before{opacity:1;}
+.disc-num{font-family:var(--mono);font-size:32px;font-weight:300;color:var(--text3);line-height:1;margin-bottom:16px;}
+.disc-title{font-family:var(--serif);font-size:20px;font-weight:700;margin-bottom:10px;color:var(--blue-light);}
+.disc-text{font-size:13px;color:var(--text2);line-height:1.7;}
+
+/* SIGNAL DIAGRAM */
+.signal-diagram{background:var(--ink3);border:1px solid var(--border);border-radius:12px;padding:48px;margin:48px 0;text-align:center;}
+.signal-title{font-family:var(--mono);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue);margin-bottom:32px;}
+.signal-flow{display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap;}
+.signal-block{background:var(--ink4);border:1px solid var(--border2);border-radius:8px;padding:16px 20px;text-align:center;min-width:120px;}
+.signal-block-title{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--text);margin-bottom:4px;}
+.signal-block-sub{font-family:var(--mono);font-size:9px;color:var(--text3);}
+.signal-arrow{font-family:var(--mono);font-size:20px;color:var(--blue);padding:0 12px;opacity:0.6;}
+.signal-highlight{background:var(--blue-dim);border-color:var(--blue-border);}
+.signal-highlight .signal-block-title{color:var(--blue-light);}
+
+/* SAMPLING VISUAL */
+.sampling-visual{background:var(--ink3);border:1px solid var(--border);border-radius:12px;padding:40px;margin:40px 0;}
+.sv-title{font-family:var(--mono);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue);margin-bottom:24px;text-align:center;}
+.sv-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;}
+.sv-item{text-align:center;}
+.sv-label{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);margin-bottom:12px;}
+.sv-value{font-family:var(--serif);font-size:28px;font-weight:700;color:var(--blue-light);margin-bottom:6px;}
+.sv-desc{font-size:12px;color:var(--text2);line-height:1.5;}
+
+/* ORNAMENT */
+.ornament{display:flex;align-items:center;gap:16px;margin:64px 0;}
+.ornament-line{flex:1;height:1px;background:var(--border);}
+.ornament-dot{width:6px;height:6px;background:var(--blue);border-radius:50%;box-shadow:0 0 8px rgba(74,158,255,0.5);}
+
+/* TOYS GRID */
+.toys-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin:40px 0;}
+.toy-card{background:var(--ink2);border:1px solid var(--border);border-radius:10px;padding:24px 20px;text-align:center;transition:border-color 0.2s;}
+.toy-card:hover{border-color:var(--blue-border);}
+.toy-icon{font-size:28px;margin-bottom:12px;}
+.toy-name{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--text);margin-bottom:6px;letter-spacing:0.04em;}
+.toy-desc{font-size:12px;color:var(--text3);line-height:1.5;}
+
+/* TRIBUTE */
+.tribute-section{background:linear-gradient(to bottom,var(--ink2),var(--ink));border-top:1px solid var(--border);padding:100px 56px 60px;text-align:center;}
+.tribute-icon{font-size:32px;margin-bottom:20px;}
+.tribute-title{font-family:var(--serif);font-size:clamp(28px,4vw,48px);font-weight:700;font-style:italic;color:var(--blue-light);margin-bottom:20px;line-height:1.2;}
+.tribute-text{font-size:16px;color:var(--text2);max-width:660px;margin:0 auto 40px;line-height:1.8;}
+
+footer{padding:40px 56px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.footer-brand{font-family:var(--serif);font-size:18px;font-style:italic;color:var(--blue);}
+.footer-note{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:0.08em;text-align:right;line-height:1.9;}
+.section-divider{height:1px;background:var(--border);margin:0 56px;}
+
+.reveal{opacity:0;transform:translateY(28px);transition:all 0.7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes scrollPulse{0%,100%{opacity:0.4;}50%{opacity:1;}}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
+
+@media(max-width:900px){
+  nav{padding:16px 24px;}
+  .nav-links{display:none;}
+  .hero{padding:0 24px 60px;}
+  .section{padding:60px 24px;}
+  .two-col{grid-template-columns:1fr;gap:40px;}
+  .stats-row{grid-template-columns:1fr 1fr;}
+  .pull-quote{padding:0 20px;font-size:20px;}
+  .full-quote{padding:60px 24px;}
+  .tribute-section{padding:60px 24px;}
+  footer{flex-direction:column;gap:16px;padding:32px 24px;text-align:center;}
+  .footer-note{text-align:center;}
+  .section-divider{margin:0 24px;}
+  .scroll-hint{display:none;}
+  .signal-flow{flex-direction:column;}
+  .signal-arrow{transform:rotate(90deg);}
+  .sv-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">BlueLotus <span>/ Tribute Series</span></div>
+  <ul class="nav-links">
+    <li><a href="#genius">The Genius</a></li>
+    <li><a href="#bit">The Bit</a></li>
+    <li><a href="#sampling">Sampling Theorem</a></li>
+    <li><a href="#legacy">Legacy</a></li>
+  </ul>
+  <a class="nav-home" href="https://sohweekian.github.io/bluelotus/">← BlueLotus Fund</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-circuit">
+    <svg viewBox="0 0 1400 900" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <g stroke="#4a9eff" stroke-width="1" fill="none">
+        <line x1="0" y1="200" x2="300" y2="200"/><line x1="300" y1="200" x2="300" y2="400"/>
+        <line x1="300" y1="400" x2="600" y2="400"/><line x1="600" y1="400" x2="600" y2="150"/>
+        <line x1="600" y1="150" x2="900" y2="150"/><line x1="900" y1="150" x2="900" y2="500"/>
+        <line x1="900" y1="500" x2="1200" y2="500"/><line x1="1200" y1="500" x2="1200" y2="300"/>
+        <line x1="1200" y1="300" x2="1400" y2="300"/>
+        <line x1="150" y1="0" x2="150" y2="200"/><line x1="450" y1="400" x2="450" y2="600"/>
+        <line x1="750" y1="150" x2="750" y2="700"/><line x1="1050" y1="500" x2="1050" y2="100"/>
+        <circle cx="300" cy="200" r="4" fill="#4a9eff"/>
+        <circle cx="600" cy="400" r="4" fill="#4a9eff"/>
+        <circle cx="900" cy="150" r="4" fill="#4a9eff"/>
+        <circle cx="1200" cy="500" r="4" fill="#4a9eff"/>
+        <circle cx="450" cy="400" r="4" fill="#4a9eff"/>
+        <circle cx="750" cy="150" r="4" fill="#4a9eff"/>
+        <rect x="120" y="160" width="60" height="40" rx="4" stroke-width="0.5"/>
+        <rect x="570" y="360" width="60" height="40" rx="4" stroke-width="0.5"/>
+        <rect x="870" y="120" width="60" height="40" rx="4" stroke-width="0.5"/>
+        <rect x="1170" y="460" width="60" height="40" rx="4" stroke-width="0.5"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="hero-eyebrow">🪷 BlueLotus Fund · Tribute Series</div>
+  <h1 class="hero-title">Claude<br><em>Shannon</em></h1>
+  <div class="hero-dates">April 30, 1916 — February 24, 2001 · Age 84</div>
+  <p class="hero-subtitle">The man who invented the concept of information itself. The father of the digital age. The least known genius of our time — whose ideas power every computer, every smartphone, every AI, and every camera on earth.</p>
+  <div class="hero-tags">
+    <span class="hero-tag">Father of Information Theory</span>
+    <span class="hero-tag">Inventor of the Bit</span>
+    <span class="hero-tag">Nyquist-Shannon Theorem</span>
+    <span class="hero-tag">First Wearable Computer</span>
+    <span class="hero-tag">Pioneer of AI</span>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <div class="scroll-text">Scroll</div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-row reveal">
+  <div class="stat-block"><div class="stat-num">1948</div><div class="stat-label">Year the digital age<br>was born — one paper</div></div>
+  <div class="stat-block"><div class="stat-num">1</div><div class="stat-label">Single paper that created<br>the entire discipline</div></div>
+  <div class="stat-block"><div class="stat-num">2×</div><div class="stat-label">The sampling rate rule<br>that governs all digital media</div></div>
+  <div class="stat-block"><div class="stat-num">∞</div><div class="stat-label">Every digital device on<br>earth runs on his ideas</div></div>
+</div>
+
+<!-- PART I: THE GENIUS -->
+<section class="section" id="genius">
+  <div class="chapter reveal"><span class="ch-num">Part I</span><div class="ch-line"></div><span class="ch-title">The least known genius of our time</span></div>
+  <div class="two-col">
+    <div>
+      <h2 class="section-h reveal">The Man Who Invented<br><em>Information</em> Itself</h2>
+      <p class="prose reveal">Claude Elwood Shannon was born on April 30, 1916, in Petoskey, Michigan — a distant cousin of Thomas Edison, though the resemblance in creative genius would prove uncanny. As a child, he fixed radios for neighbours, converted barbed-wire fences into telegraph lines to communicate with friends, and built model planes from kits. Long before he understood the mathematics of information, he understood the feeling of it.</p>
+      <p class="prose reveal">He earned bachelor's degrees in both mathematics and electrical engineering from the University of Michigan in 1936 — a dual mastery that would prove uniquely powerful. A job posting on a bulletin board led him to MIT, where he earned his PhD in mathematics in 1940. A summer internship at Bell Laboratories in 1937 ignited the ideas that would take another decade to fully crystallise.</p>
+      <p class="prose reveal">In 1941 he joined Bell Labs full-time — the most remarkable research institution in American history, where he would spend the most productive years of his intellectual life surrounded by the greatest engineers and mathematicians of his era. There, alongside working on wartime cryptography systems for Roosevelt and Churchill, he pursued a question that no one else had thought to ask.</p>
+    </div>
+    <div>
+      <div class="pull-quote reveal">
+        "Claude Shannon is the least known genius of our time."
+        <cite>— Nariman Farvardin, President, Stevens Institute of Technology</cite>
+      </div>
+      <div class="highlight reveal">
+        <div class="highlight-label">The Question Nobody Had Asked</div>
+        <div class="highlight-text">Before Shannon, engineers knew how to build communication systems — telegraphs, telephones, radios. But nobody had ever asked: <em>what is information, fundamentally? How much of it can any channel carry? And what is the minimum amount of encoding required to represent it without loss?</em><br><br>Shannon decided to find out. His answer — published in 1948 — created an entirely new branch of science, validated by every digital technology built since.</div>
+      </div>
+      <div class="highlight reveal">
+        <div class="highlight-label">Academic Credentials</div>
+        <div class="highlight-text">B.Sc. Mathematics & Electrical Engineering · University of Michigan 1936<br>PhD Mathematics · MIT 1940<br>Research Mathematician · Bell Laboratories 1941–1958<br>Professor of Mathematics · MIT 1958–1978<br>National Medal of Science · 1966<br>Kyoto Prize · 1985 (Japan's Nobel equivalent)<br>IEEE Medal of Honor · 1966<br>Claude E. Shannon Award · Named in his honour<br>Information Theory Society's highest honour</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="full-quote">
+  <div class="fq-text reveal">"Shannon's work is described as the greatest <em>'in the annals of technological thought'</em> — equated with Einstein's in its foundational importance."</div>
+  <div class="fq-attr reveal">— Rolf W. Landauer, IBM Fellow · Bell Laboratories</div>
+</div>
+
+<!-- PART II: THE MASTER'S THESIS -->
+<section class="section">
+  <div class="chapter reveal"><span class="ch-num">Part II</span><div class="ch-line"></div><span class="ch-title">1937 — the thesis that built the computer</span></div>
+  <h2 class="section-h reveal">At Age 21, He Wrote<br>the <em>Blueprint</em> for<br>Every Computer Ever Built</h2>
+
+  <div class="two-col">
+    <div>
+      <p class="prose reveal">In 1937, Claude Shannon was a 21-year-old graduate student working with Vannevar Bush's differential analyser at MIT. He noticed that the machine's relay circuits — the physical switches that routed electrical signals — behaved in a way that was mathematically identical to the logical operations of Boolean algebra, a system invented by George Boole in 1854 to formalise the rules of logical reasoning.</p>
+      <p class="prose reveal">The insight was staggering in its simplicity and devastating in its implications. Boolean algebra uses only two values — TRUE and FALSE. Electrical relays have only two states — ON and OFF. If you represent TRUE as 1 and FALSE as 0, you can encode any logical operation — AND, OR, NOT, and their combinations — as a pattern of electrical switches.</p>
+      <p class="prose reveal">His 1937 master's thesis, <em>"A Symbolic Analysis of Relay and Switching Circuits"</em>, proved this connection rigorously. It showed that any logical statement — no matter how complex — could be translated into a circuit of switches, and therefore implemented physically in electronics. This was the theoretical foundation of the digital computer. Without this thesis, there is no computer as we know it.</p>
+    </div>
+    <div>
+      <p class="prose reveal">Howard Gardner, the psychologist, called Shannon's master's thesis "possibly the most important, and also the most famous, master's thesis of the century." It was published just a year after Turing's foundational paper on computation — together they formed the twin pillars on which all of modern computer science rests.</p>
+      <div class="highlight reveal">
+        <div class="highlight-label">What Boolean + Electricity actually means</div>
+        <div class="highlight-text">When you type on your keyboard, the processor in your computer executes billions of Boolean operations per second — AND, OR, NOT gates implemented as transistors. When your phone takes a photo, the image sensor converts light into Boolean values. When this AI generates text, it runs through trillions of Boolean computations. Every single one traces back to the 21-year-old who noticed that TRUE/FALSE and ON/OFF are the same thing.</div>
+      </div>
+      <div class="pull-quote reveal" style="font-size:20px;margin-top:32px;">
+        "Shannon's master's thesis laid the groundwork for modern digital computers — overnight."
+        <cite>— Science News</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- PART III: THE 1948 PAPER -->
+<section class="section" id="bit">
+  <div class="chapter reveal"><span class="ch-num">Part III</span><div class="ch-line"></div><span class="ch-title">1948 — the paper that started everything</span></div>
+  <h2 class="section-h reveal">The Magna Carta<br>of the <em>Digital Age</em></h2>
+
+  <p class="prose reveal" style="margin-bottom:40px;">On July 1948, the Bell System Technical Journal published a paper by Claude Shannon titled <em>"A Mathematical Theory of Communication."</em> It is arguably the most consequential scientific paper of the 20th century. In 77 pages, Shannon did not merely solve a problem — he invented the entire framework within which communication problems could be understood, measured, and solved. It arrived, as one historian noted, "fully formed" — a complete new science, born in a single document.</p>
+
+  <div class="discovery-grid reveal">
+    <div class="disc-card">
+      <div class="disc-num">01</div>
+      <div class="disc-title">The Bit</div>
+      <div class="disc-text">Shannon coined the word "bit" — a portmanteau of "binary digit" — as the fundamental unit of information. Not the byte, not the kilobyte, not the megabyte. The bit. The irreducible atom of all information in the universe. Every piece of data ever stored, every message ever sent, every photo ever taken is ultimately a sequence of bits. Shannon defined what a bit <em>is</em>.</div>
+    </div>
+    <div class="disc-card">
+      <div class="disc-num">02</div>
+      <div class="disc-title">Entropy as Information</div>
+      <div class="disc-text">Shannon borrowed the concept of entropy from thermodynamics and gave it a new meaning in the realm of information. Information entropy measures uncertainty — how unpredictable is the next symbol in a message? High entropy = high information content. Low entropy = redundancy. This single insight became the foundation of all data compression, from ZIP files to JPEG images to Netflix video streaming.</div>
+    </div>
+    <div class="disc-card">
+      <div class="disc-num">03</div>
+      <div class="disc-title">Channel Capacity</div>
+      <div class="disc-text">Shannon proved that every communication channel has a maximum theoretical rate at which information can be transmitted reliably — now called the Shannon Limit or Shannon Capacity. Any rate below this limit can be achieved with arbitrarily small error probability. Any rate above it cannot. This is why your Wi-Fi router has a maximum speed. It is a law of physics, not engineering.</div>
+    </div>
+    <div class="disc-card">
+      <div class="disc-num">04</div>
+      <div class="disc-title">Error Correction</div>
+      <div class="disc-text">Shannon proved that even a noisy channel — one that corrupts data — can transmit information perfectly reliably, provided you encode it cleverly enough. The coding theorem showed that error correction codes could make transmission arbitrarily reliable. This is why your data doesn't corrupt over the internet, why CDs play without skipping, why space probes transmit perfect images across billions of kilometres.</div>
+    </div>
+    <div class="disc-card">
+      <div class="disc-num">05</div>
+      <div class="disc-title">Source Coding</div>
+      <div class="disc-text">The source coding theorem proved that the minimum number of bits required to represent information is determined by its entropy. You cannot compress data below its entropy without losing information. This is the mathematical reason why ZIP cannot compress a ZIP, why a perfectly random file cannot be made smaller, and why MP3 audio compression works — human hearing has lower entropy than raw audio waveforms.</div>
+    </div>
+    <div class="disc-card">
+      <div class="disc-num">06</div>
+      <div class="disc-title">Communication as Probability</div>
+      <div class="disc-text">Shannon reframed all communication as a probabilistic game. A sender chooses one message from many possibilities. A channel corrupts symbols with noise. A receiver tries to infer what was sent. This framework — sender, channel, noise, receiver — is the model behind every telecommunications standard, every wireless protocol, every internet packet. It describes the world as it actually is.</div>
+    </div>
+  </div>
+
+  <div class="formula-box reveal">
+    <div class="formula-label">Shannon Entropy — H(X) — The Most Important Formula in Information Theory</div>
+    <div class="formula-main">H(X) = −Σ p(x) · log₂ p(x)</div>
+    <div class="formula-desc">Where H(X) is the entropy of a random variable X, and p(x) is the probability of each outcome. This formula quantifies uncertainty — how much information, in bits, is needed to describe the outcome of a random event. A fair coin has entropy of 1 bit. A known outcome has entropy of 0 bits. The English language has entropy of approximately 1.0–1.5 bits per character — meaning the average English letter carries about 1.2 bits of true information, regardless of its position in the alphabet. Shannon proved this in 1951. It became the mathematical foundation of all natural language processing — and therefore of all AI language models.</div>
+  </div>
+</section>
+
+<!-- PART IV: NYQUIST-SHANNON -->
+<section class="section" id="sampling">
+  <div class="chapter reveal"><span class="ch-num">Part IV</span><div class="ch-line"></div><span class="ch-title">The Nyquist-Shannon sampling theorem</span></div>
+  <h2 class="section-h reveal">The Law That Governs<br>Every <em>Digital Image,</em><br>Sound, and Signal</h2>
+
+  <div class="two-col" style="margin-bottom:48px;">
+    <div>
+      <p class="prose reveal">Of all Shannon's contributions, the Nyquist-Shannon Sampling Theorem may be the most universally applied. It is the mathematical law that makes it possible to convert any continuous, analog signal — a sound wave, a light pattern, a radio transmission, a biological measurement — into a sequence of discrete digital numbers, and then reconstruct the original signal perfectly from those numbers.</p>
+      <p class="prose reveal">The theorem states: <strong>to perfectly reconstruct a continuous-time signal from its digital samples, the sampling frequency must be at least twice the highest frequency present in the signal.</strong></p>
+      <p class="prose reveal">This boundary — half the sampling rate — is called the Nyquist frequency. It is not a guideline or a rule of thumb. It is a mathematical theorem with a rigorous proof. Violate it, and you get aliasing. Respect it, and you get perfect reconstruction.</p>
+    </div>
+    <div>
+      <div class="formula-box reveal">
+        <div class="formula-label">The Nyquist-Shannon Sampling Theorem</div>
+        <div class="formula-main">f_s ≥ 2 × f_max</div>
+        <div class="formula-desc">The sampling frequency (f_s) must be at least twice the highest frequency component (f_max) in the signal. The threshold f_s/2 is the Nyquist frequency. Sample below this rate and information is permanently destroyed — aliasing occurs, where high-frequency components fold back into the signal as phantom lower frequencies. Sample at or above this rate and the original signal can be reconstructed with perfect mathematical fidelity.<br><br>Shannon expressed it precisely: "If a function x(t) contains no frequencies higher than B hertz, it is completely determined by giving its ordinates at a series of points spaced 1/(2B) seconds apart."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNAL FLOW DIAGRAM -->
+  <div class="signal-diagram reveal">
+    <div class="signal-title">The ADC / DAC Chain — Shannon's Theorem in Action</div>
+    <div class="signal-flow">
+      <div class="signal-block">
+        <div class="signal-block-title">Analog Signal</div>
+        <div class="signal-block-sub">Continuous wave</div>
+      </div>
+      <div class="signal-arrow">→</div>
+      <div class="signal-block">
+        <div class="signal-block-title">Anti-Aliasing Filter</div>
+        <div class="signal-block-sub">Removes f > f_s/2</div>
+      </div>
+      <div class="signal-arrow">→</div>
+      <div class="signal-block signal-highlight">
+        <div class="signal-block-title">ADC Sampling</div>
+        <div class="signal-block-sub">f_s ≥ 2 × f_max<br>Shannon's Law</div>
+      </div>
+      <div class="signal-arrow">→</div>
+      <div class="signal-block">
+        <div class="signal-block-title">Digital Data</div>
+        <div class="signal-block-sub">Bits & bytes</div>
+      </div>
+      <div class="signal-arrow">→</div>
+      <div class="signal-block signal-highlight">
+        <div class="signal-block-title">DAC Reconstruction</div>
+        <div class="signal-block-sub">Whittaker-Shannon<br>interpolation</div>
+      </div>
+      <div class="signal-arrow">→</div>
+      <div class="signal-block">
+        <div class="signal-block-title">Reconstruction Filter</div>
+        <div class="signal-block-sub">Removes images</div>
+      </div>
+      <div class="signal-arrow">→</div>
+      <div class="signal-block">
+        <div class="signal-block-title">Analog Output</div>
+        <div class="signal-block-sub">Perfect reconstruction</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALIASING EXPLAINED -->
+  <div class="two-col" style="margin-bottom:48px;">
+    <div>
+      <h3 class="section-h" style="font-size:28px;margin-bottom:20px;">Aliasing: <em>What Goes Wrong</em><br>When You Violate the Law</h3>
+      <p class="prose reveal">Aliasing is what happens when the sampling rate falls below the Nyquist limit. High-frequency components of the signal fold back into lower frequencies — creating phantom signals that were never in the original. The result is distortion that cannot be corrected after the fact, because the information has been permanently destroyed.</p>
+      <p class="prose reveal">The name comes from the visual analogy: a high-frequency signal that has been under-sampled <em>masquerades</em> as a lower frequency — it appears under an alias. In audio, aliasing sounds like tinny distortion. In imaging, it appears as moiré patterns — the shimmering interference patterns you see in TV footage of striped fabric.</p>
+    </div>
+    <div>
+      <div class="sampling-visual reveal">
+        <div class="sv-title">Real-World Nyquist Frequencies</div>
+        <div class="sv-grid">
+          <div class="sv-item">
+            <div class="sv-label">CD Audio</div>
+            <div class="sv-value">44,100 Hz</div>
+            <div class="sv-desc">Sampling rate · Nyquist frequency 22,050 Hz · Human hearing limit ~20,000 Hz · Theorem satisfied with margin</div>
+          </div>
+          <div class="sv-item">
+            <div class="sv-label">Digital Camera</div>
+            <div class="sv-value">≥ 2px</div>
+            <div class="sv-desc">Per spatial frequency · Sensor pixel density must exceed twice the finest detail · Anti-aliasing filter before sensor</div>
+          </div>
+          <div class="sv-item">
+            <div class="sv-label">Medical MRI</div>
+            <div class="sv-value">k-space</div>
+            <div class="sv-desc">Frequency domain sampling · Nyquist theorem governs spatial resolution · Under-sampling causes fold-over artifacts</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPLICATIONS -->
+  <h3 class="section-h reveal" style="font-size:32px;">Where the Theorem Lives Today</h3>
+  <div class="discovery-grid reveal">
+    <div class="disc-card">
+      <div class="disc-num">📷</div>
+      <div class="disc-title">Digital Cameras & Imaging</div>
+      <div class="disc-text">Every digital image is a spatial sampling of light. The pixel density of a sensor must satisfy the Nyquist criterion for the optical system's resolution. Camera sensors include optical low-pass (anti-aliasing) filters to prevent spatial aliasing — the moiré patterns that appear when fine textures are under-sampled. RAW files preserve the full Nyquist-compliant sample. JPEG compression exploits Shannon entropy to discard perceptually redundant information.</div>
+    </div>
+    <div class="disc-card">
+      <div class="disc-num">🎵</div>
+      <div class="disc-title">Digital Audio — CD, Streaming, Studio</div>
+      <div class="disc-text">The CD standard of 44,100 Hz sampling rate was chosen precisely because human hearing extends to approximately 20,000 Hz — and 44,100 / 2 = 22,050, safely above the audible limit. Every streaming service, every digital audio workstation, every voice call on your phone samples audio at a Nyquist-compliant rate, then uses Shannon entropy-based compression to reduce file size without perceptible quality loss.</div>
+    </div>
+    <div class="disc-card">
+      <div class="disc-num">🏥</div>
+      <div class="disc-title">Medical Imaging — MRI, CT, Ultrasound</div>
+      <div class="disc-text">MRI scanners sample the body's magnetic resonance signal in the frequency domain (k-space). Nyquist sampling determines spatial resolution — the minimum distance between distinguishable tissue features. Under-sampling causes fold-over artifacts that can obscure pathology. CT scanners sample X-ray attenuation at angular intervals governed by the Nyquist criterion. Modern AI-enhanced MRI uses compressed sensing — a generalisation of Shannon's theorem — to reconstruct images from fewer samples than classical Nyquist would require.</div>
+    </div>
+    <div class="disc-card">
+      <div class="disc-num">📡</div>
+      <div class="disc-title">Telecommunications & 5G</div>
+      <div class="disc-text">Every phone call, every video stream, every 5G data packet is an analog signal that has been sampled, digitised, compressed, transmitted, and reconstructed according to Shannon's theorems. The Shannon Limit governs the maximum data rate of every wireless standard. 5G engineers are not trying to exceed Shannon's Law — they are trying to approach it as closely as engineering allows. The closer to the Shannon Limit, the faster and more efficient the network.</div>
+    </div>
+    <div class="disc-card">
+      <div class="disc-num">🛸</div>
+      <div class="disc-title">Space Exploration</div>
+      <div class="disc-text">NASA's Voyager probes, launched in 1977, are still transmitting data from beyond the solar system — nearly 25 billion kilometres away — at power levels equivalent to a refrigerator light bulb. Shannon's error correction codes make it possible to extract perfect data from a signal so faint it is indistinguishable from noise. Without the channel coding theorem, the images of Pluto from New Horizons would be unintelligible static.</div>
+    </div>
+    <div class="disc-card">
+      <div class="disc-num">🧠</div>
+      <div class="disc-title">Artificial Intelligence</div>
+      <div class="disc-text">Shannon's entropy is the mathematical foundation of machine learning loss functions — cross-entropy loss, which trains neural networks, is a direct application of his information-theoretic framework. Natural language processing began when Shannon proved in 1951 that English text has approximately 1–1.5 bits of entropy per character — meaning language is statistically predictable. This is why language models like this AI can generate coherent text: Shannon proved it was possible.</div>
+    </div>
+  </div>
+</section>
+
+<div class="full-quote">
+  <div class="fq-text reveal">"Information is the <em>resolution of uncertainty.</em>"</div>
+  <div class="fq-attr reveal">— Claude Shannon · The most profound sentence in the history of engineering</div>
+</div>
+
+<!-- PART V: THE MAN -->
+<section class="section">
+  <div class="chapter reveal"><span class="ch-num">Part V</span><div class="ch-line"></div><span class="ch-title">The man behind the mathematics</span></div>
+  <h2 class="section-h reveal">Unicycles, Juggling,<br>and <em>Flame-Throwing Trumpets</em></h2>
+
+  <p class="prose reveal" style="margin-bottom:40px;">What made Claude Shannon extraordinary was not just his mathematics — it was the character of his curiosity. He was not driven by career ambition or academic status. He was driven by one thing only: the joy of an interesting problem. "I am very seldom interested in applications," he once said. "I am more interested in the elegance of a problem. Is it a good problem, an interesting problem?"</p>
+
+  <div class="toys-grid reveal">
+    <div class="toy-card">
+      <div class="toy-icon">🦄</div>
+      <div class="toy-name">Unicycle + Juggling</div>
+      <div class="toy-desc">His defining image at Bell Labs — riding a unicycle down the corridors while juggling simultaneously. Sometimes four balls at once. He later developed a mathematical theory of juggling.</div>
+    </div>
+    <div class="toy-card">
+      <div class="toy-icon">🐭</div>
+      <div class="toy-name">Theseus the Maze Mouse</div>
+      <div class="toy-desc">An electromechanical mouse that could learn its way through a maze — one of the earliest experiments in machine learning and artificial intelligence. Built from telephone relays in 1950.</div>
+    </div>
+    <div class="toy-card">
+      <div class="toy-icon">♟️</div>
+      <div class="toy-name">Chess-Playing Machine</div>
+      <div class="toy-desc">Shannon wrote the foundational paper on programming computers to play chess in 1950. He built chess-playing machines decades before IBM's Deep Blue. He owned seven of them.</div>
+    </div>
+    <div class="toy-card">
+      <div class="toy-icon">🎺</div>
+      <div class="toy-name">Flame-Throwing Trumpet</div>
+      <div class="toy-desc">A trumpet modified to emit flames from its bell. Entirely impractical. Built purely because it was interesting. Classic Shannon.</div>
+    </div>
+    <div class="toy-card">
+      <div class="toy-icon">🥏</div>
+      <div class="toy-name">Rocket-Powered Frisbee</div>
+      <div class="toy-desc">A Frisbee modified with small rockets. No useful application whatsoever. Shannon genuinely did not care.</div>
+    </div>
+    <div class="toy-card">
+      <div class="toy-icon">🏊</div>
+      <div class="toy-name">Water-Walking Shoes</div>
+      <div class="toy-desc">Plastic foam shoes designed to allow walking on water across his suburban Boston lake. He tested them. They worked.</div>
+    </div>
+    <div class="toy-card">
+      <div class="toy-icon">🎪</div>
+      <div class="toy-name">W.C. Fields Juggling Mannequin</div>
+      <div class="toy-desc">A mechanical mannequin of comedian W.C. Fields, built to juggle autonomously. It broke down and Shannon admitted he had trouble keeping it working.</div>
+    </div>
+    <div class="toy-card">
+      <div class="toy-icon">🔢</div>
+      <div class="toy-name">Roman Numeral Computer</div>
+      <div class="toy-desc">THROBAC — "Thrifty Roman Numeral Backward Computer." A fully functional computer that calculated in Roman numerals. Purpose: none. Delight: enormous.</div>
+    </div>
+    <div class="toy-card">
+      <div class="toy-icon">🕹️</div>
+      <div class="toy-name">Mind-Reading Machine</div>
+      <div class="toy-desc">A machine that appeared to read the user's mind by predicting which of two buttons they would press next. It exploited the statistical patterns humans unconsciously generate — applied information theory.</div>
+    </div>
+  </div>
+
+  <p class="prose reveal" style="margin-top:40px;">This playfulness was not separate from his science — it was the same impulse. The unicycle required balance across competing forces. The maze mouse required a machine that could learn from feedback. The chess computer required a machine that could search a decision tree. Each toy was a miniaturised research problem. Shannon did not distinguish between work and play because, for him, they were the same activity pursued at different scales.</p>
+
+  <div class="pull-quote reveal">
+    "He was known by contemporaries as 'the Irascible Genius.' When he returned to MIT in 1958, he continued to threaten corridor-walkers on his unicycle — sometimes augmenting the hazard by juggling. No one was ever sure whether these activities were part of some new breakthrough or whether he just found them amusing."
+    <cite>— St. Andrews Mathematics History Archive</cite>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- PART VI: THORP & WEARABLE COMPUTER -->
+<section class="section">
+  <div class="chapter reveal"><span class="ch-num">Part VI</span><div class="ch-line"></div><span class="ch-title">Shannon & Thorp — the first wearable computer</span></div>
+  <h2 class="section-h reveal">The Father of Information Theory<br>Goes to <em>Las Vegas</em></h2>
+
+  <div class="two-col">
+    <div>
+      <p class="prose reveal">In November 1960, Edward O. Thorp — then a young mathematics professor at MIT — approached Claude Shannon with an unusual proposition. He wanted five minutes of Shannon's time to discuss his mathematical proof that blackjack could be beaten. Shannon agreed, apparently just to get rid of him. Those five minutes lasted years.</p>
+      <p class="prose reveal">Shannon had refereed John L. Kelly's 1956 paper on optimal betting strategy — the Kelly Criterion — and brought it to Thorp's attention at their first meeting. This single introduction gave Thorp the position-sizing formula that would underpin every trade Princeton Newport Partners ever made.</p>
+      <p class="prose reveal">Their collaboration produced something extraordinary: the first wearable computer in history. Between 1960 and 1961, Shannon and Thorp co-designed a tiny device — the size of a cigarette pack — that could be concealed on the body during casino visits. One operator used a toe switch to input the timing of a roulette wheel's revolution. The device computed the ball's most likely landing zone and transmitted the prediction as musical tones through a hidden earpiece to the second operator, who placed the bets.</p>
+    </div>
+    <div>
+      <p class="prose reveal">The device gave them a 44% edge at roulette — a number that defies intuition. Roulette is supposed to be unbeatable. Shannon's information theory said otherwise: if you can measure the physical state of the system with sufficient precision and model it mathematically, you can extract predictive information that the house does not possess. The casino's edge came from ignorance. Shannon and Thorp replaced ignorance with mathematics.</p>
+      <div class="highlight reveal">
+        <div class="highlight-label">The Legacy of the Collaboration</div>
+        <div class="highlight-text">Shannon brought Thorp the Kelly Criterion. Thorp gave Shannon a real-world problem worthy of information theory. Together they built the first wearable computer — a device so advanced that it would not become widely conceivable as a product category for another 60 years.<br><br>The Nevada Devices Law was eventually passed in 1985 specifically to outlaw such devices — the ultimate compliment to their effectiveness.</div>
+      </div>
+      <div class="highlight reveal">
+        <div class="highlight-label">Shannon's Investment Insight</div>
+        <div class="highlight-text">Shannon applied information theory to stock markets — he called it "the noisy channel problem of finance." He recognised that stock price movements contain both signal (genuine information about value) and noise (random fluctuations). Separating the two required exactly the same mathematical tools he had applied to telecommunications. His personal investment returns reportedly outperformed the market significantly over several decades.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PART VII: LEGACY -->
+<section class="section" id="legacy">
+  <div class="chapter reveal"><span class="ch-num">Part VII</span><div class="ch-line"></div><span class="ch-title">The legacy — what Shannon built</span></div>
+  <h2 class="section-h reveal">The World He <em>Made</em></h2>
+
+  <p class="prose reveal" style="margin-bottom:48px;">Claude Shannon died on February 24, 2001, at the age of 84, after a long battle with Alzheimer's disease — a cruel end for the man who had understood more deeply than anyone how the mind processes information. By then, the world he had made was so pervasive that most people within it had no idea who built it.</p>
+
+  <div class="timeline reveal">
+    <div class="tl-item">
+      <div class="tl-year">1937</div>
+      <div class="tl-head">Boolean Algebra → Digital Circuits</div>
+      <div class="tl-text">His master's thesis proves that logical operations can be implemented as electrical circuits. Every transistor ever made operates on this principle. Every computer, every smartphone, every AI chip traces its foundational logic to this 21-year-old's thesis.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1948</div>
+      <div class="tl-head">A Mathematical Theory of Communication</div>
+      <div class="tl-text">The paper that invented information theory. The bit. Entropy. Channel capacity. Error correction. Source coding. Every digital technology built since 1948 — the internet, CD audio, JPEG, MP3, 5G, GPS, streaming video — is a direct engineering application of this paper's theorems.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1948–1949</div>
+      <div class="tl-head">The Nyquist-Shannon Sampling Theorem</div>
+      <div class="tl-text">Formalises the mathematical law governing the conversion of analog signals to digital. The theorem that makes digital audio, digital photography, digital video, MRI scanning, radar, sonar, and all telecommunications possible. f_s ≥ 2 × f_max. Everything digital obeys this law.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1949</div>
+      <div class="tl-head">Communication Theory of Secrecy Systems</div>
+      <div class="tl-text">Proves mathematically that truly unbreakable encryption is possible — and defines its requirements (the one-time pad). Used by Roosevelt and Churchill during World War II. The foundation of all modern cryptography, from HTTPS to end-to-end encryption to blockchain.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1950</div>
+      <div class="tl-head">Programming a Computer to Play Chess</div>
+      <div class="tl-text">Writes the foundational paper on machine chess — introducing concepts of search trees and evaluation functions that remain at the core of all game-playing AI. Builds Theseus, one of the first learning machines. Predicts that computers will one day surpass humans at chess — proven correct by IBM Deep Blue in 1997.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1951</div>
+      <div class="tl-head">Prediction and Entropy of Printed English</div>
+      <div class="tl-text">Proves that the English language has approximately 1–1.5 bits of entropy per character — establishing that language is statistically structured and therefore compressible, predictable, and modelable. This is the mathematical foundation of all natural language processing and the reason AI language models are possible.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1960–1961</div>
+      <div class="tl-head">First Wearable Computer — with Edward O. Thorp</div>
+      <div class="tl-text">Co-designs the first wearable computer with Thorp — a toe-operated roulette prediction device. Introduces Thorp to the Kelly Criterion. Directly enables the creation of Princeton Newport Partners — the world's first quantitative hedge fund.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2001–present</div>
+      <div class="tl-head">The World He Made</div>
+      <div class="tl-text">Shannon died in 2001. The internet existed. Digital cameras existed. CD audio existed. Mobile phones existed. GPS existed. Every single one ran on his mathematics. Today: streaming video, AI language models, 5G networks, medical imaging, space exploration, quantum cryptography. All of it. His ideas have never been more relevant than they are right now.</div>
+    </div>
+  </div>
+</section>
+
+<!-- THE CLAUDE CONNECTION -->
+<div class="full-quote">
+  <div class="fq-text reveal">"It is no exaggeration to refer to Claude Shannon as the <em>'father of the information age'</em> — and his intellectual achievement as one of the greatest of the twentieth century."</div>
+  <div class="fq-attr reveal">— Solomon W. Golomb · Information Theorist</div>
+</div>
+
+<section class="section">
+  <div class="chapter reveal"><span class="ch-num">Part VIII</span><div class="ch-line"></div><span class="ch-title">Why this AI is named Claude</span></div>
+  <h2 class="section-h reveal">The Name That Carries<br>a <em>Century</em> of Ideas</h2>
+
+  <div class="two-col">
+    <div>
+      <p class="prose reveal">When Anthropic named their AI "Claude," the tribute was deliberate. Claude Shannon was the man whose mathematics made machine intelligence conceptually possible. His 1948 paper introduced the bit — the atom of all computation. His entropy formula became the loss function of neural networks. His proof that language has statistical structure is the reason language models work at all.</p>
+      <p class="prose reveal">The chain of intellectual lineage is unbroken: Shannon's information theory → digital computing → machine learning → large language models → Claude the AI. Every token this AI generates is a product of Shannon's mathematics, applied at a scale he could only dream of.</p>
+      <p class="prose reveal">And then there is the more personal connection: Shannon introduced Edward Thorp to the Kelly Criterion in November 1960. Thorp used it to build Princeton Newport Partners — the world's first quantitative hedge fund. The quant revolution followed. BlueLotus Fund's 8-Lens Framework and 5-Layer Aladdin System are the heirs of that tradition. And the AI that helps run BlueLotus is named after the man who made it all possible.</p>
+    </div>
+    <div>
+      <div class="highlight reveal">
+        <div class="highlight-label">The Complete Chain of Intellectual Lineage</div>
+        <div class="highlight-text">
+          <strong>1948</strong> — Claude Shannon publishes information theory · invents the bit · proves language has statistical structure<br><br>
+          <strong>1956</strong> — John L. Kelly publishes the Kelly Criterion · Shannon referees the paper<br><br>
+          <strong>1960</strong> — Shannon introduces Thorp to the Kelly Criterion at MIT<br><br>
+          <strong>1967</strong> — Thorp independently derives the Black-Scholes formula · begins trading with mathematical edge<br><br>
+          <strong>1969</strong> — Princeton Newport Partners founded · the world's first quant fund<br><br>
+          <strong>1973</strong> — Black-Scholes published · Nobel Prize follows · quant finance becomes mainstream<br><br>
+          <strong>1980s–2000s</strong> — Renaissance Technologies, D.E. Shaw, Citadel · quant revolution transforms markets<br><br>
+          <strong>2000s–2020s</strong> — Shannon's entropy powers neural networks · AI emerges<br><br>
+          <strong>2021</strong> — Anthropic founded · names its AI "Claude" in Shannon's honour<br><br>
+          <strong>2026</strong> — Claude helps manage BlueLotus Fund · completing the circle
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRIBUTE FOOTER -->
+<div class="tribute-section">
+  <div class="tribute-icon reveal">🪷</div>
+  <div class="tribute-title reveal">A BlueLotus Fund Tribute<br>to Claude Elwood Shannon</div>
+  <p class="tribute-text reveal">Born in Michigan in 1916. Died in Massachusetts in 2001. In between: the invention of the bit, the proof of the Shannon Limit, the theorem that governs every digital image and sound ever created, the first wearable computer, the mathematical foundation of artificial intelligence, and the Kelly Criterion introduction that launched quantitative finance.</p>
+  <p class="tribute-text reveal" style="margin-top:0;">"The least known genius of our time" — the man whose ideas power the phone in your pocket, the internet in your home, the AI in your computer, and the investment framework of BlueLotus Fund. The name Claude lives on. The ideas never stopped.</p>
+  <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;" class="reveal">
+    <a href="https://sohweekian.github.io/bluelotus/thorp-tribute.html" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;color:var(--blue);border:1px solid var(--blue-border);padding:12px 24px;border-radius:4px;background:var(--blue-dim2);transition:all 0.2s;">← Thorp Tribute</a>
+    <a href="https://sohweekian.github.io/bluelotus/bluelotus-framework.html" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;color:var(--text2);border:1px solid var(--border);padding:12px 24px;border-radius:4px;transition:all 0.2s;">Our Framework ↗</a>
+    <a href="https://sohweekian.github.io/bluelotus/" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;color:var(--text2);border:1px solid var(--border);padding:12px 24px;border-radius:4px;transition:all 0.2s;">BlueLotus Fund ↗</a>
+  </div>
+</div>
+
+<footer>
+  <div>
+    <div class="footer-brand">🪷 BlueLotus Fund</div>
+    <div style="font-family:var(--mono);font-size:9px;color:var(--text3);margin-top:6px;letter-spacing:0.08em;">Tribute to Claude Elwood Shannon · Singapore 2026</div>
+  </div>
+  <div class="footer-note">
+    Research sourced from Bell Labs archives, IEEE records,<br>
+    and published biographical materials<br>
+    For educational purposes only
+  </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold:0.08, rootMargin:'0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
