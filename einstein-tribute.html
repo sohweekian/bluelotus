@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Albert Einstein — A Tribute | BlueLotus Fund</title>
+<meta name="description" content="A tribute to Albert Einstein — the Prime Mover. The man whose 1905 discoveries created the technological canvas upon which every company in the BlueLotus universe was built.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lora:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#080608;--ink2:#0e0b10;--ink3:#141018;--ink4:#1c1624;
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);
+  --text:#f0e8ff;--text2:#9080b0;--text3:#483860;
+  --red:#ff5566;--red2:#e03348;--red-light:#ffaabb;
+  --red-dim:rgba(255,85,102,0.07);--red-dim2:rgba(255,85,102,0.03);
+  --red-border:rgba(255,85,102,0.2);
+  --serif:'Playfair Display',Georgia,serif;
+  --body:'Lora',Georgia,serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--ink);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.8;overflow-x:hidden;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:999;}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:var(--ink);}::-webkit-scrollbar-thumb{background:var(--red2);border-radius:2px;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:18px 56px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to bottom,rgba(8,6,8,0.97),transparent);backdrop-filter:blur(8px);}
+.nav-logo{font-family:var(--mono);font-size:11px;letter-spacing:0.2em;color:var(--red);text-transform:uppercase;}
+.nav-logo span{color:var(--text3);font-weight:300;}
+.nav-links{display:flex;gap:28px;list-style:none;}
+.nav-links a{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;color:var(--text3);text-decoration:none;text-transform:uppercase;transition:color 0.2s;}
+.nav-links a:hover{color:var(--red);}
+.nav-home{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;color:var(--text3);text-decoration:none;text-transform:uppercase;padding:7px 16px;border:1px solid var(--border);border-radius:4px;transition:all 0.2s;}
+.nav-home:hover{border-color:var(--red-border);color:var(--red);}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 56px 80px;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 65% 55% at 75% 25%,rgba(255,85,102,0.06) 0%,transparent 60%),radial-gradient(ellipse 45% 65% at 15% 85%,rgba(224,51,72,0.03) 0%,transparent 60%);}
+.starfield{position:absolute;inset:0;overflow:hidden;}
+.star{position:absolute;background:#fff;border-radius:50%;animation:twinkle var(--d,3s) ease infinite;}
+@keyframes twinkle{0%,100%{opacity:0.2;}50%{opacity:0.9;}}
+.hero-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:0.3em;color:var(--red);text-transform:uppercase;margin-bottom:20px;opacity:0;animation:fadeUp 0.8s ease 0.2s forwards;}
+.hero-title{font-family:var(--serif);font-size:clamp(52px,8vw,110px);font-weight:900;line-height:0.95;letter-spacing:-0.02em;max-width:900px;opacity:0;animation:fadeUp 0.8s ease 0.4s forwards;}
+.hero-title em{font-style:italic;color:var(--red);}
+.hero-dates{font-family:var(--mono);font-size:12px;letter-spacing:0.2em;color:var(--text3);margin-top:20px;opacity:0;animation:fadeUp 0.8s ease 0.55s forwards;}
+.hero-subtitle{font-size:20px;color:var(--text2);max-width:620px;line-height:1.6;margin-top:28px;font-style:italic;font-family:var(--body);opacity:0;animation:fadeUp 0.8s ease 0.7s forwards;}
+.hero-tags{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px;opacity:0;animation:fadeUp 0.8s ease 0.85s forwards;}
+.hero-tag{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:6px 14px;border:1px solid var(--red-border);border-radius:3px;color:var(--red);background:var(--red-dim2);}
+.scroll-hint{position:absolute;bottom:32px;right:56px;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeUp 0.8s ease 1.2s forwards;}
+.scroll-line{width:1px;height:56px;background:linear-gradient(to bottom,var(--red),transparent);animation:scrollPulse 2s ease infinite;}
+.scroll-text{font-family:var(--mono);font-size:9px;letter-spacing:0.2em;color:var(--text3);text-transform:uppercase;writing-mode:vertical-rl;}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--border);}
+.stat-block{background:var(--ink2);padding:44px 36px;text-align:center;}
+.stat-num{font-family:var(--serif);font-size:clamp(28px,4vw,52px);font-weight:900;color:var(--red-light);line-height:1;margin-bottom:10px;}
+.stat-label{font-family:var(--mono);font-size:9px;letter-spacing:0.15em;color:var(--text3);text-transform:uppercase;line-height:1.5;}
+
+/* SECTIONS */
+.section{padding:100px 56px;max-width:1100px;margin:0 auto;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+.chapter{display:flex;align-items:center;gap:16px;margin-bottom:48px;}
+.ch-num{font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:var(--red);text-transform:uppercase;}
+.ch-line{width:48px;height:1px;background:linear-gradient(to right,var(--red),transparent);}
+.ch-title{font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:var(--text3);text-transform:uppercase;}
+.section-h{font-family:var(--serif);font-size:clamp(34px,4.5vw,56px);font-weight:700;line-height:1.1;letter-spacing:-0.01em;margin-bottom:28px;}
+.section-h em{font-style:italic;color:var(--red);}
+.prose{font-size:17px;color:var(--text2);line-height:1.9;font-family:var(--body);}
+.prose+.prose{margin-top:20px;}
+.prose strong{color:var(--text);font-weight:500;}
+
+/* PULL QUOTE */
+.pull-quote{font-family:var(--serif);font-size:clamp(22px,3vw,36px);font-style:italic;line-height:1.4;padding:0 40px;border-left:2px solid var(--red);margin:56px 0;color:var(--text);}
+.pull-quote cite{display:block;font-family:var(--mono);font-size:10px;font-style:normal;letter-spacing:0.15em;color:var(--red);text-transform:uppercase;margin-top:14px;}
+
+/* FULL QUOTE */
+.full-quote{padding:100px 56px;background:var(--ink2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);text-align:center;}
+.fq-text{font-family:var(--serif);font-size:clamp(24px,4vw,46px);font-style:italic;line-height:1.35;max-width:860px;margin:0 auto 24px;}
+.fq-text em{font-style:normal;color:var(--red);}
+.fq-attr{font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:var(--text3);text-transform:uppercase;}
+
+/* HIGHLIGHT */
+.highlight{background:var(--ink2);border:1px solid var(--border);border-radius:8px;padding:32px 36px;margin:36px 0;}
+.highlight-label{font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;}
+.highlight-text{font-size:15px;color:var(--text2);line-height:1.75;}
+
+/* FORMULA */
+.formula-box{background:var(--red-dim2);border:1px solid var(--red-border);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:32px 36px;margin:40px 0;}
+.formula-label{font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--red);margin-bottom:12px;}
+.formula-main{font-family:var(--serif);font-size:32px;font-style:italic;color:var(--text);margin-bottom:10px;line-height:1.3;}
+.formula-desc{font-size:14px;color:var(--text2);line-height:1.7;}
+
+/* YEAR PAPERS */
+.papers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:2px;background:var(--border);margin:48px 0;}
+.paper-card{background:var(--ink2);padding:32px 28px;position:relative;overflow:hidden;transition:background 0.2s;}
+.paper-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--red),transparent);opacity:0;transition:opacity 0.2s;}
+.paper-card:hover{background:var(--ink3);}
+.paper-card:hover::before{opacity:1;}
+.paper-year{font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--red);margin-bottom:8px;}
+.paper-title{font-family:var(--serif);font-size:18px;font-weight:700;margin-bottom:10px;color:var(--red-light);}
+.paper-text{font-size:13px;color:var(--text2);line-height:1.7;}
+.paper-impact{font-family:var(--mono);font-size:10px;color:var(--red);margin-top:14px;padding-top:14px;border-top:1px solid var(--border);letter-spacing:0.05em;}
+
+/* CHAIN DIAGRAM */
+.chain{background:var(--ink3);border:1px solid var(--border);border-radius:12px;padding:48px;margin:48px 0;}
+.chain-title{font-family:var(--mono);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--red);margin-bottom:32px;text-align:center;}
+.chain-row{display:flex;align-items:flex-start;gap:0;margin-bottom:16px;flex-wrap:wrap;}
+.chain-block{background:var(--ink4);border:1px solid var(--border);border-radius:8px;padding:16px 20px;min-width:140px;flex:1;}
+.chain-block.highlight-chain{background:var(--red-dim);border-color:var(--red-border);}
+.chain-block-year{font-family:var(--mono);font-size:9px;letter-spacing:0.12em;color:var(--red);text-transform:uppercase;margin-bottom:4px;}
+.chain-block-title{font-family:var(--sans,var(--mono));font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px;}
+.chain-block-sub{font-size:11px;color:var(--text3);}
+.chain-arrow{display:flex;align-items:center;padding:0 12px;color:var(--text3);font-size:18px;flex-shrink:0;margin-top:20px;}
+
+/* INVESTMENT GRID */
+.invest-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin:48px 0;}
+.invest-card{background:var(--ink2);border:1px solid var(--border);border-radius:10px;padding:28px 24px;transition:border-color 0.2s;position:relative;overflow:hidden;}
+.invest-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:2px;background:var(--red);opacity:0.5;}
+.invest-card:hover{border-color:var(--red-border);}
+.invest-icon{font-size:26px;margin-bottom:14px;}
+.invest-title{font-family:var(--serif);font-size:18px;font-weight:700;margin-bottom:6px;color:var(--red-light);}
+.invest-paper{font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--red);margin-bottom:12px;}
+.invest-text{font-size:13px;color:var(--text2);line-height:1.7;}
+.invest-tickers{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px;}
+.invest-ticker{font-family:var(--mono);font-size:9px;padding:3px 8px;border-radius:4px;border:1px solid var(--red-border);color:var(--red);background:var(--red-dim2);}
+
+/* TIMELINE */
+.timeline{position:relative;padding-left:48px;margin:48px 0;}
+.timeline::before{content:'';position:absolute;left:0;top:8px;bottom:0;width:1px;background:linear-gradient(to bottom,var(--red),transparent);}
+.tl-item{position:relative;margin-bottom:48px;}
+.tl-item::before{content:'';position:absolute;left:-52px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 12px rgba(255,85,102,0.5);}
+.tl-year{font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:var(--red);margin-bottom:8px;text-transform:uppercase;}
+.tl-head{font-family:var(--serif);font-size:22px;font-weight:700;margin-bottom:10px;}
+.tl-text{font-size:14px;color:var(--text2);line-height:1.75;max-width:620px;}
+
+.section-divider{height:1px;background:var(--border);margin:0 56px;}
+.ornament{display:flex;align-items:center;gap:16px;margin:64px 0;}
+.ornament-line{flex:1;height:1px;background:var(--border);}
+.ornament-dot{width:6px;height:6px;background:var(--red);border-radius:50%;box-shadow:0 0 8px rgba(255,85,102,0.5);}
+
+/* TRIBUTE */
+.tribute-section{background:linear-gradient(to bottom,var(--ink2),var(--ink));border-top:1px solid var(--border);padding:100px 56px 60px;text-align:center;}
+.tribute-title{font-family:var(--serif);font-size:clamp(28px,4vw,48px);font-weight:700;font-style:italic;color:var(--red-light);margin-bottom:20px;line-height:1.2;}
+.tribute-text{font-size:16px;color:var(--text2);max-width:680px;margin:0 auto 40px;line-height:1.8;}
+
+footer{padding:40px 56px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.footer-brand{font-family:var(--serif);font-size:18px;font-style:italic;color:var(--red);}
+.footer-note{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:0.08em;text-align:right;line-height:1.9;}
+
+.reveal{opacity:0;transform:translateY(28px);transition:all 0.7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes scrollPulse{0%,100%{opacity:0.4;}50%{opacity:1;}}
+
+@media(max-width:900px){
+  nav{padding:16px 24px;}.nav-links{display:none;}
+  .hero{padding:0 24px 60px;}.section{padding:60px 24px;}
+  .two-col{grid-template-columns:1fr;gap:40px;}
+  .stats-row{grid-template-columns:1fr 1fr;}
+  .pull-quote{padding:0 20px;font-size:20px;}
+  .full-quote,.tribute-section{padding:60px 24px;}
+  footer{flex-direction:column;gap:16px;padding:32px 24px;text-align:center;}
+  .footer-note{text-align:center;}
+  .section-divider{margin:0 24px;}
+  .scroll-hint{display:none;}
+  .chain-row{flex-direction:column;}
+  .chain-arrow{transform:rotate(90deg);margin:0 auto;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">BlueLotus <span>/ Tribute Series</span></div>
+  <ul class="nav-links">
+    <li><a href="#1905">Annus Mirabilis</a></li>
+    <li><a href="#canvas">The Canvas</a></li>
+    <li><a href="#investment">Investment Link</a></li>
+    <li><a href="#legacy">Legacy</a></li>
+  </ul>
+  <a class="nav-home" href="https://sohweekian.github.io/bluelotus/">← BlueLotus Fund</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="starfield" id="starfield"></div>
+
+  <div style="position:relative;z-index:1;">
+    <div class="hero-eyebrow">🪷 BlueLotus Fund · Tribute Series · Amitabha Red · The Prime Mover</div>
+    <h1 class="hero-title">Albert<br><em>Einstein</em></h1>
+    <div class="hero-dates">March 14, 1879 — April 18, 1955 · Ulm to Princeton</div>
+    <p class="hero-subtitle">The man who did not invent a technology. He invented the physics that made all technology possible. Every semiconductor, every satellite, every laser, every solar panel, every AI chip, every company in the BlueLotus universe — all trace their existence to four papers published by a 26-year-old patent clerk in 1905.</p>
+    <div class="hero-tags">
+      <span class="hero-tag">The Prime Mover</span>
+      <span class="hero-tag">Photoelectric Effect → Semiconductors</span>
+      <span class="hero-tag">Brownian Motion → Black-Scholes</span>
+      <span class="hero-tag">Relativity → GPS → ASTS</span>
+      <span class="hero-tag">E=mc² → Nuclear Age</span>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <div class="scroll-text">Scroll</div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-row reveal">
+  <div class="stat-block"><div class="stat-num">1905</div><div class="stat-label">The miraculous year —<br>four papers that changed everything</div></div>
+  <div class="stat-block"><div class="stat-num">4</div><div class="stat-label">Papers published in one year<br>by a patent clerk aged 26</div></div>
+  <div class="stat-block"><div class="stat-num">10km</div><div class="stat-label">GPS error per day<br>without Einstein's corrections</div></div>
+  <div class="stat-block"><div class="stat-num">∞</div><div class="stat-label">Technologies born from<br>one man's physics</div></div>
+</div>
+
+<!-- PART I: THE PRIME MOVER -->
+<section class="section">
+  <div class="chapter reveal"><span class="ch-num">Part I</span><div class="ch-line"></div><span class="ch-title">The Prime Mover — understanding the framing</span></div>
+
+  <div class="two-col">
+    <div>
+      <h2 class="section-h reveal">He Did Not Invent<br>Technology.<br>He Made <em>All Technology</em><br>Possible.</h2>
+      <p class="prose reveal">Every genius in the BlueLotus Tribute Series — Shannon, Turing, Thorp, Von Neumann, Nash — worked within a universe of physical laws that Einstein revealed. Shannon's bits travel through channels whose physical behaviour obeys Maxwell's equations, validated by Special Relativity. Turing's computers run on transistors whose quantum behaviour was unlocked by Einstein's photoelectric effect. Thorp's Black-Scholes derivation rests on stochastic calculus built on Einstein's Brownian motion mathematics. Von Neumann's quantum mechanics was a direct extension of Einstein's photon hypothesis.</p>
+      <p class="prose reveal">Einstein is not one genius among equals in this series. He is the geological layer beneath all the others — the bedrock of physics upon which the entire civilisation of digital technology was constructed. Without Einstein's 1905 papers, there are no semiconductors. Without semiconductors, there are no computers. Without computers, there is no internet, no AI, no satellite communications, no digital photography, no GPS — no companies for BlueLotus to analyse, trade, or hold.</p>
+    </div>
+    <div>
+      <div class="pull-quote reveal">
+        "Imagination is more important than knowledge. Knowledge is limited. Imagination encircles the world."
+        <cite>— Albert Einstein</cite>
+      </div>
+      <div class="highlight reveal">
+        <div class="highlight-label">Why Amitabha Red — Discriminating Wisdom</div>
+        <div class="highlight-text">Amitabha Buddha — the Red Buddha of the West — embodies discriminating wisdom: the ability to perceive what others cannot, to distinguish clearly in a world of confusion. Einstein looked at the same universe every physicist had studied for 300 years — and saw what Newton had missed. He discriminated that light travels at a constant speed regardless of the observer's motion. That single act of perceptual clarity dissolved three centuries of Newtonian physics and rebuilt our understanding of reality from the ground up. Discriminating wisdom of the highest order.</div>
+      </div>
+      <div class="highlight reveal">
+        <div class="highlight-label">The Patent Clerk</div>
+        <div class="highlight-text">In 1905, Einstein was not a professor. He was a 26-year-old technical expert (third class) at the Swiss Patent Office in Berne — a job he had taken because no university would hire him after graduation. His days were spent examining patent applications. His evenings were spent rewriting physics. In one calendar year, working entirely in his spare time, he published the four papers that created quantum mechanics, validated atomic theory, dissolved Newtonian spacetime, and gave the world E=mc².</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="full-quote">
+  <div class="fq-text reveal">"A person who never made a mistake <em>never tried anything new.</em>"</div>
+  <div class="fq-attr reveal">— Albert Einstein · The man who remade physics four times in one year</div>
+</div>
+
+<!-- PART II: 1905 ANNUS MIRABILIS -->
+<section class="section" id="1905">
+  <div class="chapter reveal"><span class="ch-num">Part II</span><div class="ch-line"></div><span class="ch-title">Annus Mirabilis — the miraculous year</span></div>
+  <h2 class="section-h reveal">Four Papers.<br>One Year.<br><em>One Patent Clerk.</em></h2>
+  <p class="prose reveal" style="margin-bottom:48px;">Between March and November 1905, Albert Einstein submitted four papers to the journal <em>Annalen der Physik.</em> Each one, individually, would have defined a distinguished scientific career. Together they constitute the most extraordinary intellectual output in the history of science. Einstein himself later called the first — on the photoelectric effect — "the only truly revolutionary thing I did." He was, characteristically, being modest.</p>
+
+  <div class="papers-grid reveal">
+    <div class="paper-card">
+      <div class="paper-year">March 1905 · Nobel Prize 1921</div>
+      <div class="paper-title">The Photoelectric Effect</div>
+      <div class="paper-text">Light does not travel as continuous waves — it comes in discrete packets of energy called photons. When photons strike certain materials, they knock electrons loose, generating an electric current. Einstein proved that the energy of the ejected electron depends on the frequency of light, not its intensity — utterly contradicting classical physics. This paper launched quantum mechanics.</div>
+      <div class="paper-impact">→ Transistors · Semiconductors · Solar Panels · Digital Cameras · Lasers · LEDs · Every chip ever made</div>
+    </div>
+    <div class="paper-card">
+      <div class="paper-year">May 1905 · Statistical Physics</div>
+      <div class="paper-title">Brownian Motion</div>
+      <div class="paper-text">Einstein provided the first mathematical explanation of why microscopic particles suspended in liquid move in erratic, random paths — they are being bombarded by invisible molecules. He derived precise statistical equations for this motion, simultaneously proving the existence of atoms and giving physicists — and later, economists — a rigorous mathematical framework for random processes.</div>
+      <div class="paper-impact">→ Stochastic Calculus · Black-Scholes · Options Pricing · Risk Models · Thorp's Formula · All Quantitative Finance</div>
+    </div>
+    <div class="paper-card">
+      <div class="paper-year">September 1905 · Revolution</div>
+      <div class="paper-title">Special Relativity</div>
+      <div class="paper-text">The speed of light is constant for all observers regardless of their motion. This single, seemingly modest postulate — combined with the principle of relativity — dissolved 300 years of Newtonian physics. Space and time are not absolute. They are relative to the observer's motion. Length contracts. Time dilates. The universe is fundamentally different from what Newton described.</div>
+      <div class="paper-impact">→ GPS Corrections · Satellite Navigation · ASTS Constellation · Particle Accelerators · Nuclear Physics</div>
+    </div>
+    <div class="paper-card">
+      <div class="paper-year">November 1905 · The Most Famous Equation</div>
+      <div class="paper-title">E = mc²</div>
+      <div class="paper-text">Mass and energy are equivalent — interchangeable at the ratio of the speed of light squared. A tiny amount of mass contains an almost incomprehensible amount of energy. This three-symbol equation — the most recognisable in human history — united mass and energy into a single concept and set the theoretical foundation for nuclear physics, particle physics, and the nuclear age.</div>
+      <div class="paper-impact">→ Nuclear Power · Medical PET Scans · Particle Physics · Fundamental materials science</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- PART III: THE TECHNOLOGICAL CANVAS -->
+<section class="section" id="canvas">
+  <div class="chapter reveal"><span class="ch-num">Part III</span><div class="ch-line"></div><span class="ch-title">The technological canvas Einstein created</span></div>
+  <h2 class="section-h reveal">Before Einstein, None<br>of This Could <em>Exist.</em></h2>
+  <p class="prose reveal" style="margin-bottom:40px;">The framing of this tribute is precise and intentional: Einstein did not create technologies. He revealed the physics that made technologies possible — and in doing so, painted the canvas upon which every subsequent genius worked. Shannon, Turing, Thorp, Von Neumann, Nash — each one's contributions were enabled, extended, or made physically implementable by Einstein's discoveries. Here is the direct chain of causation from 1905 to the companies in the BlueLotus Qualified Ticker Universe today.</p>
+
+  <!-- CHAIN 1: PHOTOELECTRIC → SEMICONDUCTORS → CHIPS -->
+  <div class="chain reveal">
+    <div class="chain-title">Chain 1 — Photoelectric Effect → Every Semiconductor Company in Our Universe</div>
+    <div class="chain-row">
+      <div class="chain-block highlight-chain">
+        <div class="chain-block-year">1905 · Einstein</div>
+        <div class="chain-block-title">Photoelectric Effect</div>
+        <div class="chain-block-sub">Light = discrete photons. Energy quantised.</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-block">
+        <div class="chain-block-year">1925–1930</div>
+        <div class="chain-block-title">Quantum Mechanics</div>
+        <div class="chain-block-sub">Schrödinger, Heisenberg. Electron behaviour in atoms explained.</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-block">
+        <div class="chain-block-year">1947 · Bell Labs</div>
+        <div class="chain-block-title">Transistor Invented</div>
+        <div class="chain-block-sub">Shockley, Bardeen, Brattain. Quantum electron behaviour in silicon.</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-block">
+        <div class="chain-block-year">1958–present</div>
+        <div class="chain-block-title">Integrated Circuit → CPU → GPU</div>
+        <div class="chain-block-sub">Every chip ever made runs on quantum electron physics.</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-block highlight-chain">
+        <div class="chain-block-year">2026 · BlueLotus</div>
+        <div class="chain-block-title">NVDA · AMD · MRVL · ARM · INTC · TSM · ANET · SMCI</div>
+        <div class="chain-block-sub">$395B AI capex flows into companies built on Einstein's physics.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAIN 2: BROWNIAN MOTION → FINANCE -->
+  <div class="chain reveal">
+    <div class="chain-title">Chain 2 — Brownian Motion → All Quantitative Finance → Thorp → BlueLotus</div>
+    <div class="chain-row">
+      <div class="chain-block highlight-chain">
+        <div class="chain-block-year">1905 · Einstein</div>
+        <div class="chain-block-title">Brownian Motion Mathematics</div>
+        <div class="chain-block-sub">Random particle movement given precise statistical equations.</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-block">
+        <div class="chain-block-year">1900–1923</div>
+        <div class="chain-block-title">Bachelier + Wiener Process</div>
+        <div class="chain-block-sub">Stock prices follow random walks. Stochastic calculus born.</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-block">
+        <div class="chain-block-year">1967 · Thorp</div>
+        <div class="chain-block-title">Warrant Pricing Formula</div>
+        <div class="chain-block-sub">Identical to Black-Scholes. Built on stochastic differential equations from Einstein's Brownian motion.</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-block">
+        <div class="chain-block-year">1973 · Nobel Prize</div>
+        <div class="chain-block-title">Black-Scholes Published</div>
+        <div class="chain-block-sub">Quantitative finance becomes mainstream. Every options market worldwide.</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-block highlight-chain">
+        <div class="chain-block-year">2026 · BlueLotus</div>
+        <div class="chain-block-title">8-Lens Framework</div>
+        <div class="chain-block-sub">Our risk models, scenario analysis, and position sizing descend from Einstein's 1905 equations.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAIN 3: RELATIVITY → GPS → ASTS -->
+  <div class="chain reveal">
+    <div class="chain-title">Chain 3 — Special & General Relativity → GPS → ASTS Direct-to-Device Satellite Network</div>
+    <div class="chain-row">
+      <div class="chain-block highlight-chain">
+        <div class="chain-block-year">1905 + 1915 · Einstein</div>
+        <div class="chain-block-title">Special + General Relativity</div>
+        <div class="chain-block-sub">Time dilates at speed. Gravity curves spacetime. Clocks run differently at altitude.</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-block">
+        <div class="chain-block-year">1973–1978</div>
+        <div class="chain-block-title">GPS Designed</div>
+        <div class="chain-block-sub">Engineers must correct for 38.7 microseconds/day drift from relativistic effects. Without correction: 10km error daily.</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-block">
+        <div class="chain-block-year">1995–present</div>
+        <div class="chain-block-title">GPS Operational</div>
+        <div class="chain-block-sub">Every satellite navigation system on earth runs Einstein's corrections continuously. Without relativity: GPS fails within hours.</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-block highlight-chain">
+        <div class="chain-block-year">2026 · BlueLotus</div>
+        <div class="chain-block-title">ASTS · RKLB · LUNR · IRDM · GSAT · SPIR · BKSY</div>
+        <div class="chain-block-sub">Every satellite in our Space & Satellite sector depends on Einstein's relativistic corrections to function.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAIN 4: PHOTONS → SOLAR → NEE -->
+  <div class="chain reveal">
+    <div class="chain-title">Chain 4 — Photoelectric Effect → Solar Panels → Clean Energy → NEE</div>
+    <div class="chain-row">
+      <div class="chain-block highlight-chain">
+        <div class="chain-block-year">1905 · Einstein</div>
+        <div class="chain-block-title">Photons Knock Electrons Loose</div>
+        <div class="chain-block-sub">Light striking semiconductor materials generates electric current.</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-block">
+        <div class="chain-block-year">1954 · Bell Labs</div>
+        <div class="chain-block-title">First Practical Solar Cell</div>
+        <div class="chain-block-sub">Silicon photovoltaic cell converts sunlight to electricity at 6% efficiency.</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-block">
+        <div class="chain-block-year">2000s–present</div>
+        <div class="chain-block-title">Solar at Grid Scale</div>
+        <div class="chain-block-sub">Modern panels at 22%+ efficiency. Fastest-growing energy source globally.</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-block highlight-chain">
+        <div class="chain-block-year">2026 · BlueLotus</div>
+        <div class="chain-block-title">NEE · CVX · XOM · KMI</div>
+        <div class="chain-block-sub">NextEra is the world's largest solar and wind operator. Powering AI data centres. Built on Einstein's photoelectric effect.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PART IV: INVESTMENT INTELLIGENCE FRAMEWORK -->
+<section class="section" id="investment">
+  <div class="chapter reveal"><span class="ch-num">Part IV</span><div class="ch-line"></div><span class="ch-title">Einstein's direct relevance to BlueLotus investment intelligence</span></div>
+  <h2 class="section-h reveal">Every Company We<br>Analyse Exists Because<br><em>Einstein Existed First.</em></h2>
+
+  <p class="prose reveal" style="margin-bottom:40px;">The BlueLotus 8-Lens Framework exists to analyse companies. But those companies only exist because Einstein's physics made their technologies possible. Here is how each of Einstein's four 1905 papers maps directly to companies in our 51-ticker universe — and why the 8-lens framework has something to analyse in the first place.</p>
+
+  <div class="invest-grid reveal">
+    <div class="invest-card">
+      <div class="invest-icon">⚡</div>
+      <div class="invest-title">Photoelectric Effect → AI & Semiconductors</div>
+      <div class="invest-paper">1905 Paper I · Nobel Prize 1921</div>
+      <div class="invest-text">Einstein proved that light's energy comes in discrete quanta — photons. This launched quantum mechanics, which explained how electrons behave inside semiconductor materials. Without quantum mechanics, there are no transistors. Without transistors, there are no chips. NVIDIA's H100 GPU contains 80 billion transistors — each one a direct physical consequence of Einstein's 1905 insight that energy is quantised.</div>
+      <div class="invest-tickers">
+        <span class="invest-ticker">NVDA</span><span class="invest-ticker">AMD</span><span class="invest-ticker">MRVL</span><span class="invest-ticker">ARM</span><span class="invest-ticker">INTC</span><span class="invest-ticker">TSM</span><span class="invest-ticker">ANET</span><span class="invest-ticker">SMCI</span>
+      </div>
+    </div>
+
+    <div class="invest-card">
+      <div class="invest-icon">📡</div>
+      <div class="invest-title">Special & General Relativity → Space & Satellite</div>
+      <div class="invest-paper">1905 Paper III + 1915 General Relativity</div>
+      <div class="invest-text">GPS satellites experience time differently from ground observers — moving fast (special relativity slows their clocks) while further from Earth's gravity (general relativity speeds them up). The net effect is 38.7 microseconds per day — equivalent to 11km of positional error. Einstein's corrections run continuously in every GPS satellite. Without them, ASTS's direct-to-device service cannot locate a phone. Every satellite in our Space sector is Einstein-dependent.</div>
+      <div class="invest-tickers">
+        <span class="invest-ticker">ASTS</span><span class="invest-ticker">RKLB</span><span class="invest-ticker">LUNR</span><span class="invest-ticker">IRDM</span><span class="invest-ticker">GSAT</span><span class="invest-ticker">SPIR</span><span class="invest-ticker">BKSY</span>
+      </div>
+    </div>
+
+    <div class="invest-card">
+      <div class="invest-icon">🎲</div>
+      <div class="invest-title">Brownian Motion → Quantitative Finance Framework</div>
+      <div class="invest-paper">1905 Paper II · Mathematical Physics</div>
+      <div class="invest-text">Einstein's equations for random particle movement became, 50 years later, the stochastic calculus that underlies all derivatives pricing. The Black-Scholes formula — which Thorp independently derived — is a partial differential equation of the same form as Einstein's Brownian motion equations. Monte Carlo simulation, our scenario analysis tool (Bull/Base/Bear/Black Swan), uses the same stochastic mathematics Einstein derived for pollen particles in water in 1905.</div>
+      <div class="invest-tickers">
+        <span class="invest-ticker">BlueLotus 8-Lens</span><span class="invest-ticker">Risk Framework</span><span class="invest-ticker">All Positions</span>
+      </div>
+    </div>
+
+    <div class="invest-card">
+      <div class="invest-icon">☀️</div>
+      <div class="invest-title">Photoelectric Effect → Solar & Clean Energy</div>
+      <div class="invest-paper">1905 Paper I · Applied Energy Technology</div>
+      <div class="invest-text">Solar panels are direct applications of Einstein's photoelectric effect — photons from sunlight strike silicon semiconductor material, knocking electrons loose and generating current. Modern photovoltaic cells achieve 22%+ efficiency. NextEra Energy — the world's largest solar and wind operator — powers AI data centres that NVIDIA chips run in. The AI energy demand thesis depends on Einstein's photoelectric effect being efficiently harvested at scale.</div>
+      <div class="invest-tickers">
+        <span class="invest-ticker">NEE</span><span class="invest-ticker">XOM</span><span class="invest-ticker">CVX</span><span class="invest-ticker">KMI</span>
+      </div>
+    </div>
+
+    <div class="invest-card">
+      <div class="invest-icon">🔬</div>
+      <div class="invest-title">Quantum Mechanics → Quantum Computing</div>
+      <div class="invest-paper">1905 Paper I → Quantum Mechanics → QBTS · IONQ · RGTI</div>
+      <div class="invest-text">Quantum computing exploits the quantum mechanical behaviour of particles — superposition, entanglement, interference — to perform computations impossible for classical computers. Quantum mechanics was launched by Einstein's photon hypothesis. The entire quantum computing sector — D-Wave, IonQ, Rigetti, IBM Quantum — exists within a conceptual framework Einstein's 1905 paper made possible. Einstein himself was famously uncomfortable with quantum mechanics. His discomfort did not prevent him from founding it.</div>
+      <div class="invest-tickers">
+        <span class="invest-ticker">QBTS</span><span class="invest-ticker">IONQ</span><span class="invest-ticker">RGTI</span><span class="invest-ticker">QUBT</span><span class="invest-ticker">IBM</span>
+      </div>
+    </div>
+
+    <div class="invest-card">
+      <div class="invest-icon">🏥</div>
+      <div class="invest-title">Relativity + Quantum → Medical Technology</div>
+      <div class="invest-paper">All Four Papers · Applied Medicine</div>
+      <div class="invest-text">PET scans use E=mc² directly — detecting the gamma rays produced when a positron (antimatter electron) annihilates with an electron, converting mass to energy. MRI machines exploit nuclear magnetic resonance — a quantum phenomenon. Laser surgery, radiation oncology, molecular imaging — all require Einstein's physics. Merck's Keytruda, delivered by precise medical imaging. Johnson & Johnson's MedTech. AbbVie's biologics guided by quantum chemistry.</div>
+      <div class="invest-tickers">
+        <span class="invest-ticker">MRK</span><span class="invest-ticker">JNJ</span><span class="invest-ticker">ABBV</span><span class="invest-ticker">PFE</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PART V: GENERAL RELATIVITY & COMPASSION -->
+<section class="section">
+  <div class="chapter reveal"><span class="ch-num">Part V</span><div class="ch-line"></div><span class="ch-title">The compassionate genius — Amitabha's red wisdom</span></div>
+  <h2 class="section-h reveal">The Physicist Who<br>Chose <em>Humanity</em><br>Over Fame</h2>
+
+  <div class="two-col">
+    <div>
+      <p class="prose reveal">Einstein is unique among scientific geniuses in that his compassion was as large as his intellect. He used his extraordinary fame — the most recognisable face on earth by the 1930s — not for personal gain but as a weapon for human dignity.</p>
+      <p class="prose reveal">When the Nazis rose to power in 1933, Einstein was in the United States giving lectures. He was Jewish. He resigned from the Prussian Academy of Sciences before they could expel him, renounced his German citizenship, and never returned. He wrote to President Roosevelt in 1939 warning of Germany's nuclear research — a letter that led to the Manhattan Project. He spent the last years of his life campaigning for nuclear disarmament, horrified by the weapon his equation had enabled.</p>
+      <p class="prose reveal">He championed civil rights at a time when it was dangerous to do so — calling racism "America's worst disease" and corresponding with W.E.B. Du Bois. He offered to house Paul Robeson when hotels refused him. He stood for the oppressed when standing was costly. This is Amitabha's compassion made flesh — discriminating wisdom combined with genuine care for human suffering.</p>
+    </div>
+    <div>
+      <div class="pull-quote reveal">
+        "The most important human endeavour is the striving for morality in our actions. Our inner balance and even our very existence depend on it. Only morality in our actions can give beauty and dignity to life."
+        <cite>— Albert Einstein · 1950</cite>
+      </div>
+      <div class="highlight reveal">
+        <div class="highlight-label">The Regret of E=mc²</div>
+        <div class="highlight-text">Einstein spent the last decade of his life in profound regret over the atomic bomb — not because his equation was wrong, but because of what humanity chose to do with it. He had written to Roosevelt warning of the possibility of a German bomb. He never imagined the US would use it on civilian populations.<br><br>"I made one great mistake in my life," he said, "when I signed the letter to President Roosevelt recommending that atom bombs be made."<br><br>A genius who understood the weight of his own discoveries — and bore it with full awareness. That is the rarest kind of intellect.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- PART VI: TIMELINE -->
+<section class="section" id="legacy">
+  <div class="chapter reveal"><span class="ch-num">Part VI</span><div class="ch-line"></div><span class="ch-title">A life that remade the world</span></div>
+  <h2 class="section-h reveal">From Ulm to Princeton —<br>76 Years That <em>Changed<br>Everything</em></h2>
+
+  <div class="timeline reveal">
+    <div class="tl-item">
+      <div class="tl-year">1879 · Ulm, Germany</div>
+      <div class="tl-head">Born — the child who talked late</div>
+      <div class="tl-text">Albert Einstein is born to Hermann and Pauline Einstein. He is so slow to speak that his parents fear he is intellectually disabled. He is actually teaching himself language with characteristic precision — refusing to say anything until he could say it in complete sentences. He will later describe this as his first act of rebellion against approximation.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1895 · Age 16</div>
+      <div class="tl-head">The Thought Experiment That Changed Physics</div>
+      <div class="tl-text">Einstein imagines riding alongside a beam of light — what would the light look like? Classical physics gave a paradoxical answer. This thought experiment planted the seed of Special Relativity that would germinate for ten years. He is 16 years old, still in school, already thinking thoughts that will dissolve Newton's universe.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1900–1902</div>
+      <div class="tl-head">Rejected by Academia — Hired by the Patent Office</div>
+      <div class="tl-text">Unable to find an academic position after graduating — no professor will hire him — Einstein takes a job as Technical Expert (Third Class) at the Swiss Patent Office in Berne. He examines patent applications by day. He does physics by night. The isolation from academic politics allows him to think with complete freedom. The patent office was, he later said, "a worldly cloister where I hatched my most beautiful ideas."</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1905 · Annus Mirabilis</div>
+      <div class="tl-head">Four Papers — The Most Productive Year in Scientific History</div>
+      <div class="tl-text">In one calendar year, working as a patent clerk: proves light comes in photons (photoelectric effect), proves atoms exist (Brownian motion), dissolves Newtonian spacetime (Special Relativity), derives E=mc² (mass-energy equivalence). Four papers. Four separate revolutions. One 26-year-old. The most extraordinary scientific output in history.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1915 · General Relativity</div>
+      <div class="tl-head">Space Itself Curves — The Greatest Scientific Achievement of Any Individual</div>
+      <div class="tl-text">Einstein publishes his General Theory of Relativity — the theory that gravity is the curvature of spacetime caused by mass and energy. Not a force acting at a distance, as Newton believed, but a geometric property of the universe itself. Confirmed in 1919 by the bending of starlight around the sun during a solar eclipse. Einstein becomes the most famous scientist in human history overnight.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1921 · Nobel Prize</div>
+      <div class="tl-head">Nobel Prize — for the Photoelectric Effect, Not Relativity</div>
+      <div class="tl-text">Einstein receives the Nobel Prize in Physics — not for Relativity, which the Nobel Committee considered too speculative, but for the photoelectric effect of 1905. The irony is profound: the paper Einstein himself called "the only truly revolutionary thing I did" earned the prize. The paper the world considers his greatest achievement — General Relativity — never did.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1933 · Princeton</div>
+      <div class="tl-head">Exile — Never Returns to Germany</div>
+      <div class="tl-text">With the Nazis in power, Einstein resigns from the Prussian Academy, renounces German citizenship, and joins the Institute for Advanced Study at Princeton. He will spend the last 22 years of his life in New Jersey, searching for a unified field theory that eluded him, championing civil rights, and warning against nuclear weapons.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1939 · The Letter</div>
+      <div class="tl-head">Writes to Roosevelt — Warns of Nazi Nuclear Research</div>
+      <div class="tl-text">Einstein co-signs a letter to President Roosevelt warning that Germany may be developing nuclear weapons using uranium fission — a consequence of E=mc². The letter initiates the Manhattan Project. Einstein himself is denied a security clearance to work on it. He later calls signing the letter "the greatest mistake of my life."</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1955 · Princeton</div>
+      <div class="tl-head">Death — The Unified Theory Unfinished</div>
+      <div class="tl-text">Albert Einstein dies on April 18, 1955, at Princeton Hospital, of an aortic aneurysm. He refuses surgery: "I want to go when I want to go. It is tasteless to prolong life artificially." He is 76. Beside his bed: pages of equations for the unified field theory he never completed. He asked that his body be cremated and the ashes scattered — no grave, no monument, no place of pilgrimage. He remains the most cited scientist in history.</div>
+    </div>
+  </div>
+</section>
+
+<div class="full-quote">
+  <div class="fq-text reveal">"The important thing is to <em>not stop questioning.</em> Curiosity has its own reason for existing."</div>
+  <div class="fq-attr reveal">— Albert Einstein · The Prime Mover</div>
+</div>
+
+<!-- PART VII: SYNTHESIS -->
+<section class="section">
+  <div class="chapter reveal"><span class="ch-num">Part VII</span><div class="ch-line"></div><span class="ch-title">The synthesis — Einstein and the BlueLotus pantheon</span></div>
+  <h2 class="section-h reveal">The Geological Layer<br><em>Beneath Everything</em></h2>
+
+  <div class="two-col">
+    <div>
+      <p class="prose reveal">Every genius in the BlueLotus Tribute Series stands on Einstein's physics. Shannon's information theory described signals that travel through physical channels governed by Maxwell's equations — unified by Special Relativity. Turing's computers run on transistors whose quantum behaviour Einstein's photoelectric effect made possible. Thorp's Black-Scholes formula is a stochastic differential equation whose mathematical lineage traces to Einstein's Brownian motion paper. Von Neumann's quantum mechanics was a direct elaboration of Einstein's photon hypothesis. Nash's Game Theory was applied to nuclear deterrence — made possible by E=mc².</p>
+      <p class="prose reveal">Einstein is not one contributor among equals. He is the Prime Mover — the man whose discriminating wisdom saw through the surface of the known world to the deeper physics beneath, and in doing so, created the entire technological canvas upon which the digital age was painted.</p>
+    </div>
+    <div>
+      <div class="formula-box reveal">
+        <div class="formula-label">The Most Famous Equation in History</div>
+        <div class="formula-main">E = mc²</div>
+        <div class="formula-desc">Energy equals mass times the speed of light squared. A tiny amount of matter contains an almost incomprehensible amount of energy — 90 quadrillion joules per kilogram. This equation did not create a single technology directly. It revealed the fundamental equivalence of mass and energy — a truth about the universe that every subsequent technology either exploits, depends upon, or is constrained by. The equation that says: at the deepest level, matter and energy are the same thing. Everything is energy. Everything is convertible. Everything is connected.<br><br>Including, somehow, a 26-year-old patent clerk in Berne who saw what Newton missed.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRIBUTE -->
+<div class="tribute-section">
+  <div style="font-size:32px;margin-bottom:20px;" class="reveal">🪷</div>
+  <div class="tribute-title reveal">A BlueLotus Fund Tribute<br>to Albert Einstein</div>
+  <p class="tribute-text reveal">Amitabha — the Red Buddha of discriminating wisdom. The ability to see clearly what others cannot perceive. Albert Einstein looked at the same universe every physicist had studied for 300 years and saw it differently. Not with better instruments. Not with more data. With purer thought — the most powerful instrument ever wielded by a human mind.</p>
+  <p class="tribute-text reveal" style="margin-top:0;">His 1905 papers did not create companies. They created the physics that made companies possible. Every semiconductor in our AI & Semiconductors sector, every satellite in our Space & Satellite sector, every solar panel powering our Energy sector, every quantum computer in our Quantum sector, every GPS-dependent service in our portfolio — all exist because a patent clerk in Berne spent his evenings rewriting physics.</p>
+  <p class="tribute-text reveal" style="margin-top:0;font-style:italic;color:var(--red-light);">BlueLotus analyses companies that exist because Einstein made them possible. We invest in the technologies he enabled. We use the mathematics he gave us. We stand — as all of modern civilisation stands — on the foundation he built in 1905.</p>
+  <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;" class="reveal">
+    <a href="https://sohweekian.github.io/bluelotus/gametheory-tribute.html" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;color:var(--red);border:1px solid var(--red-border);padding:12px 24px;border-radius:4px;background:var(--red-dim2);">← Von Neumann & Nash</a>
+    <a href="https://sohweekian.github.io/bluelotus/turing-tribute.html" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;color:var(--text2);border:1px solid var(--border);padding:12px 24px;border-radius:4px;">← Turing Tribute</a>
+    <a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist.html" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;color:var(--text2);border:1px solid var(--border);padding:12px 24px;border-radius:4px;">Watchlist ↗</a>
+    <a href="https://sohweekian.github.io/bluelotus/" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;color:var(--text2);border:1px solid var(--border);padding:12px 24px;border-radius:4px;">BlueLotus Fund ↗</a>
+  </div>
+</div>
+
+<footer>
+  <div>
+    <div class="footer-brand">🪷 BlueLotus Fund</div>
+    <div style="font-family:var(--mono);font-size:9px;color:var(--text3);margin-top:6px;letter-spacing:0.08em;">Tribute to Albert Einstein · Singapore 2026</div>
+  </div>
+  <div class="footer-note">
+    Research sourced from Nobel Prize archives, Institute for Advanced Study,<br>
+    and published biographical and scientific records<br>
+    For educational purposes only
+  </div>
+</footer>
+
+<script>
+// Stars
+const sf = document.getElementById('starfield');
+for(let i=0;i<80;i++){
+  const s=document.createElement('div');
+  s.className='star';
+  const size=Math.random()*2+1;
+  s.style.cssText=`width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2+Math.random()*4}s;animation-delay:${Math.random()*4}s;opacity:${Math.random()*0.5+0.1}`;
+  sf.appendChild(s);
+}
+
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
