@@ -1333,27 +1333,57 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold:0.08, rootMargin:'0px 0px -40px 0px' });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// Download PDF function
+// Download PDF function — force all reveals visible before printing
 function downloadPDF() {
+  // 1. Force ALL reveal elements visible immediately
+  document.querySelectorAll('.reveal').forEach(el => {
+    el.classList.add('visible');
+    el.style.opacity = '1';
+    el.style.transform = 'none';
+  });
+
+  // 2. Inject print stylesheet
   const style = document.createElement('style');
+  style.id = 'print-style';
   style.textContent = `
     @media print {
-      nav, .nav-download, .btn-primary, .btn-secondary, .dl-btn, .hero-cta { display:none!important; }
-      body { background:#0c0c10!important; }
-      .reveal { opacity:1!important; transform:none!important; }
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      nav, .nav-download, .btn-primary, .btn-secondary, .dl-btn, .hero-cta, .nav-links { display:none!important; }
+      body { background:#0c0c10!important; -webkit-print-color-adjust:exact; }
+      .reveal { opacity:1!important; transform:none!important; transition:none!important; }
+      .hero { min-height:auto!important; padding-top:60px!important; }
+      .hero-lotus-wrap { display:none!important; }
+      .hero { grid-template-columns:1fr!important; }
+      .lenses-grid { grid-template-columns:1fr 1fr!important; }
+      .stats-strip { grid-template-columns:1fr 1fr 1fr!important; }
+      .lens-card, .layer-row, .defence-card, .parallel-col, .stat-item, .stat-block { break-inside:avoid; }
+      .section { padding:40px 32px!important; }
+      .thesis-quote { padding:40px!important; }
+      .download-section { display:none!important; }
+      footer { padding:24px 32px!important; }
+      body::after { display:none!important; }
     }
   `;
   document.head.appendChild(style);
 
+  // 3. Set title for filename
   const original = document.title;
   document.title = 'BlueLotus_Chief_Strategist_Framework_2026';
 
-  window.print();
-
-  setTimeout(() => {
-    document.head.removeChild(style);
-    document.title = original;
-  }, 1000);
+  // 4. Wait for paint then print
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        window.print();
+        // 5. Clean up after print dialog closes
+        setTimeout(() => {
+          const s = document.getElementById('print-style');
+          if(s) s.remove();
+          document.title = original;
+        }, 2000);
+      }, 400);
+    });
+  });
 }
 
 // Lens card hover enhancement
