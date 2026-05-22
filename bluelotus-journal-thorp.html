@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edward Thorp — The Soul of BlueLotus | CIO Journal</title>
+<meta name="description" content="BlueLotus Fund CIO Journal — How Edward Thorp's mathematics, discipline and genius became the foundation of our fund's philosophy.">
+<meta name="keywords" content="Edward Thorp, BlueLotus Fund, Kelly Criterion, quantitative investing, Singapore hedge fund, CIO Journal">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a0a;
+    --paper: #f5f0e8;
+    --lotus: #c8a882;
+    --lotus-deep: #8b6f47;
+    --lotus-light: #e8dcc8;
+    --accent: #1a3a2a;
+    --rule: #c8a882;
+    --muted: #6b5a45;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Libre Baskerville', Georgia, serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* Navigation */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 1.2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(245, 240, 232, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+    z-index: 100;
+  }
+
+  .nav-brand {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .nav-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 6rem 3rem 4rem;
+    position: relative;
+    border-bottom: 2px solid var(--rule);
+  }
+
+  .hero-meta {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--lotus-deep);
+    border: 1px solid var(--lotus);
+    padding: 0.35rem 0.8rem;
+  }
+
+  .hero-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--lotus-deep);
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 900;
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    max-width: 900px;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--lotus-deep);
+  }
+
+  .hero-subtitle {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--muted);
+    margin-top: 2rem;
+    max-width: 600px;
+    line-height: 1.7;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .hero-rule {
+    width: 60px;
+    height: 2px;
+    background: var(--lotus);
+    margin-top: 2.5rem;
+    animation: expandWidth 0.8s 0.5s ease both;
+  }
+
+  /* Author strip */
+  .author-strip {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem 3rem;
+    border-bottom: 1px solid var(--lotus-light);
+    background: var(--lotus-light);
+  }
+
+  .author-lotus {
+    font-size: 1.8rem;
+    line-height: 1;
+  }
+
+  .author-info {
+    flex: 1;
+  }
+
+  .author-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .author-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.75rem;
+    font-style: italic;
+    color: var(--muted);
+    margin-top: 0.2rem;
+  }
+
+  .author-fund {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--lotus-deep);
+    text-align: right;
+  }
+
+  /* Article layout */
+  .article-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  /* Main content */
+  .article-body h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 3rem 0 1.2rem;
+    line-height: 1.2;
+  }
+
+  .article-body h2:first-child {
+    margin-top: 0;
+  }
+
+  .article-body h3 {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--lotus-deep);
+    margin: 2.5rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--lotus-light);
+  }
+
+  .article-body p {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: #2a2018;
+    margin-bottom: 1.5rem;
+  }
+
+  .article-body strong {
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  /* Pull quote */
+  .pull-quote {
+    margin: 3rem -2rem;
+    padding: 2.5rem 2rem;
+    border-left: 4px solid var(--lotus);
+    border-right: 4px solid var(--lotus);
+    background: var(--lotus-light);
+    text-align: center;
+  }
+
+  .pull-quote p {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .pull-quote cite {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 1rem;
+    font-style: normal;
+  }
+
+  /* Data tables */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+  }
+
+  .data-table th {
+    background: var(--accent);
+    color: var(--paper);
+    padding: 0.7rem 1rem;
+    text-align: left;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+  }
+
+  .data-table td {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--lotus-light);
+    color: var(--ink);
+    vertical-align: top;
+  }
+
+  .data-table tr:nth-child(even) td {
+    background: rgba(200, 168, 130, 0.08);
+  }
+
+  .data-table td:first-child {
+    color: var(--lotus-deep);
+    font-weight: 500;
+  }
+
+  /* Rules box */
+  .rules-box {
+    background: var(--accent);
+    color: var(--paper);
+    padding: 2.5rem;
+    margin: 2.5rem 0;
+    position: relative;
+  }
+
+  .rules-box::before {
+    content: '🪷';
+    position: absolute;
+    top: -1rem;
+    left: 2rem;
+    font-size: 1.5rem;
+  }
+
+  .rules-box h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--lotus);
+    margin-bottom: 1.5rem;
+  }
+
+  .rule-item {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+    align-items: flex-start;
+  }
+
+  .rule-label {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--lotus);
+    min-width: 200px;
+    line-height: 1.5;
+    flex-shrink: 0;
+  }
+
+  .rule-apply {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: rgba(245, 240, 232, 0.8);
+    line-height: 1.6;
+    border-left: 1px solid var(--lotus-deep);
+    padding-left: 1rem;
+  }
+
+  /* Genius lineage */
+  .lineage {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-wrap: wrap;
+    margin: 2rem 0;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+  }
+
+  .genius-node {
+    padding: 0.5rem 1rem;
+    background: var(--lotus-light);
+    border: 1px solid var(--lotus);
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .genius-node.highlight {
+    background: var(--accent);
+    color: var(--lotus);
+    border-color: var(--accent);
+  }
+
+  .genius-arrow {
+    color: var(--lotus-deep);
+    padding: 0 0.3rem;
+    font-size: 0.8rem;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    position: sticky;
+    top: 6rem;
+  }
+
+  .sidebar-card {
+    border: 1px solid var(--lotus);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    background: white;
+  }
+
+  .sidebar-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--lotus-deep);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--lotus-light);
+  }
+
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--lotus-light);
+  }
+
+  .stat-row:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .stat-label {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .stat-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.9rem;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .stat-value.big {
+    font-size: 1.4rem;
+    color: var(--lotus-deep);
+  }
+
+  .kelly-formula {
+    background: var(--ink);
+    color: var(--lotus);
+    padding: 1.5rem;
+    text-align: center;
+    margin: 1rem 0;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-style: italic;
+    letter-spacing: 0.05em;
+  }
+
+  .kelly-caption {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 0.5rem;
+  }
+
+  .sidebar-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.6;
+    margin-bottom: 0.8rem;
+  }
+
+  .sidebar-attribution {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* Footer */
+  .article-footer {
+    border-top: 2px solid var(--rule);
+    padding: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--lotus-light);
+  }
+
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .footer-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: right;
+    line-height: 1.8;
+  }
+
+  /* Journal index tag */
+  .journal-index {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--lotus-deep);
+  }
+
+  .journal-index::before {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 1px;
+    background: var(--lotus);
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes expandWidth {
+    from { width: 0; }
+    to { width: 60px; }
+  }
+
+  /* Drop cap */
+  .drop-cap::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 4.5rem;
+    font-weight: 900;
+    float: left;
+    line-height: 0.8;
+    margin: 0.1em 0.1em 0 0;
+    color: var(--lotus-deep);
+  }
+
+  /* Horizontal rule */
+  .section-rule {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, var(--lotus), transparent);
+    margin: 3rem 0;
+    border: none;
+  }
+
+  @media (max-width: 900px) {
+    .article-container {
+      grid-template-columns: 1fr;
+      padding: 3rem 1.5rem;
+    }
+    .sidebar { position: static; }
+    nav { padding: 1rem 1.5rem; }
+    .hero { padding: 5rem 1.5rem 3rem; }
+    .author-strip { padding: 1.2rem 1.5rem; }
+    .pull-quote { margin: 2rem 0; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="https://sohweekian.github.io/bluelotus/" class="nav-brand">🪷 BlueLotus Fund</a>
+  <span class="nav-label">CIO Journal — Vol. I</span>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-meta">
+    <span class="hero-tag">CIO Journal</span>
+    <span class="hero-date">May 22, 2026 · Singapore</span>
+  </div>
+  <p class="hero-eyebrow">The Intellectual Lineage of BlueLotus Fund</p>
+  <h1 class="hero-title">Edward Thorp —<br><em>The Soul of</em><br>BlueLotus</h1>
+  <p class="hero-subtitle">How one man with a mechanical calculator, a rotary telephone, and the purest mathematical mind in finance built the blueprint we follow today.</p>
+  <div class="hero-rule"></div>
+</section>
+
+<!-- Author -->
+<div class="author-strip">
+  <div class="author-lotus">🪷</div>
+  <div class="author-info">
+    <div class="author-name">Kian Soh · Chief Investment Officer</div>
+    <div class="author-title">BlueLotus Fund, Singapore</div>
+  </div>
+  <div class="author-fund">
+    <div>sohweekian.github.io/bluelotus</div>
+    <div style="margin-top:0.3rem; color:var(--muted)">Recovery Target: $30,000</div>
+  </div>
+</div>
+
+<!-- Article -->
+<div class="article-container">
+
+  <!-- Main body -->
+  <main class="article-body">
+
+    <p class="drop-cap">Most people know Edward Thorp as the man who beat the dealer in blackjack. That is the footnote. The real story — the one that matters to every serious investor — is something far greater, and it is the foundation upon which BlueLotus Fund was built.</p>
+
+    <p>Thorp didn't just beat casinos. He looked at an unfair system, applied mathematics with absolute discipline, and extracted consistent edge year after year after year. That is precisely what we are attempting to do in the markets today.</p>
+
+    <hr class="section-rule">
+
+    <h2>The Blackjack Foundation — 1962</h2>
+
+    <p>Thorp published <em>Beat the Dealer</em> — the first mathematically proven system to give a player a genuine edge over the house. Las Vegas casinos were so threatened they changed the rules of blackjack overnight. One man's mathematics broke an entire industry's business model.</p>
+
+    <p>But Thorp himself said blackjack was just a <strong>warm-up problem.</strong></p>
+
+    <div class="pull-quote">
+      <p>"The stock market is just a bigger casino — and I intend to beat it the same way I beat the other one."</p>
+      <cite>— Edward O. Thorp</cite>
+    </div>
+
+    <h2>Princeton Newport Partners — The Real Masterpiece</h2>
+
+    <p>What Thorp built from 1969 to 1988 was the <strong>first quantitative hedge fund in history.</strong> No Bloomberg terminals. No algorithmic trading platforms. No Python. No cloud computing. Just a mechanical calculator, statistical theory from his own mind, and a rotary telephone to call in trades.</p>
+
+    <p>He derived options pricing theory <strong>before Black-Scholes was published.</strong> He understood market neutral strategies before the term existed. He applied the Kelly Criterion to position sizing with a precision that institutional funds with armies of quants still struggle to match today.</p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Achievement</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Annual Return</td><td>+19.1% compounded</td></tr>
+        <tr><td>Years Running</td><td>19 consecutive years</td></tr>
+        <tr><td>Losing Years</td><td>Zero</td></tr>
+        <tr><td>Sharpe Ratio</td><td>Among the highest ever recorded</td></tr>
+        <tr><td>Strategy</td><td>Market neutral — profits in ALL conditions</td></tr>
+        <tr><td>Technology Available</td><td>Mechanical calculator + rotary telephone</td></tr>
+      </tbody>
+    </table>
+
+    <p>19 years. Not one losing year. Before computers did any of it. This is the standard we hold ourselves to — not in returns, but in discipline.</p>
+
+    <hr class="section-rule">
+
+    <h2>What Thorp Actually Discovered</h2>
+
+    <h3>The Kelly Criterion — Thorp's Gift to BlueLotus</h3>
+
+    <p>The Kelly Criterion is Thorp's most enduring contribution to investment management. Derived originally for information theory by John Kelly at Bell Labs, Thorp recognised its power and applied it to gambling — then to markets — with devastating effectiveness.</p>
+
+    <p>The formula is elegant in its simplicity:</p>
+
+    <div class="kelly-formula">f* = edge / odds</div>
+    <p class="kelly-caption">Where f is the optimal fraction of capital to risk on any single bet</p>
+
+    <p>This single formula — four words and two variables — is the most important equation in BlueLotus Fund's operating philosophy. Every rule in our standing orders traces directly to it.</p>
+
+    <div class="rules-box">
+      <h4>Thorp's Rules — Live in BlueLotus Today</h4>
+
+      <div class="rule-item">
+        <div class="rule-label">"Size by edge, not conviction"</div>
+        <div class="rule-apply">Our $4,000 per ticker soft limit. We do not bet more simply because we feel more strongly. The Kelly formula determines the size — not our emotions.</div>
+      </div>
+
+      <div class="rule-item">
+        <div class="rule-label">"Scale out in tranches into spikes"</div>
+        <div class="rule-apply">QBTS sold at $21.56 / $22.00 / $22.50. Three tranches. $834 locked. Never sell everything at once — you cannot time the top.</div>
+      </div>
+
+      <div class="rule-item">
+        <div class="rule-label">"Never chase your own sells"</div>
+        <div class="rule-apply">QBTS re-entry ladder set at $17.80–$19.00. We sold at $22. We do not buy back above our sell price. The machine waits.</div>
+      </div>
+
+      <div class="rule-item">
+        <div class="rule-label">"Take the edge when offered"</div>
+        <div class="rule-apply">WFC at $75 the moment the Warsh thesis crystallised. Edge identified. Position taken. No hesitation — that is the Thorp way.</div>
+      </div>
+
+      <div class="rule-item">
+        <div class="rule-label">"The last dollar is not worth the risk"</div>
+        <div class="rule-apply">90% sell at target. 10% held as free rider. Never squeeze every cent — the risk of losing it all outweighs the marginal gain.</div>
+      </div>
+    </div>
+
+    <hr class="section-rule">
+
+    <h2>The Technology Gap — What Makes It More Impressive</h2>
+
+    <p>When Thorp was running Princeton Newport Partners at the height of its performance, this was the technology landscape available to him compared to what BlueLotus operates with today:</p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>What Thorp Had</th>
+          <th>What BlueLotus Has</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Mechanical calculator</td><td>Claude Sonnet AI + Moomoo terminal</td></tr>
+        <tr><td>Rotary telephone</td><td>Instant digital execution globally</td></tr>
+        <tr><td>Hand-calculated options pricing</td><td>Real-time Greeks and live data feeds</td></tr>
+        <tr><td>Physical newspaper</td><td>BlueLotus 30+ RSS feed AI intelligence monitor</td></tr>
+        <tr><td>One research assistant</td><td>Full agentic AI pipeline — 8-Lens Framework</td></tr>
+        <tr><td>Weekly price data</td><td>Millisecond live BlueLotus feeds — SGT</td></tr>
+        <tr><td>Manual position tracking</td><td>Automated P/L dashboard — Moomoo SG</td></tr>
+      </tbody>
+    </table>
+
+    <p>Thorp generated 19% annually — compounded, over 19 years — with a calculator and a phone. We have one thousand times the analytical firepower he had.</p>
+
+    <p>The question Thorp would ask us: <em>"With all that technology advantage — are you applying the same mathematical discipline I used? Or are you letting the technology make you sloppy?"</em></p>
+
+    <p>That question keeps us honest every single session.</p>
+
+    <hr class="section-rule">
+
+    <h2>The Intellectual Lineage of BlueLotus</h2>
+
+    <p>Thorp did not emerge from nothing. He stood on the shoulders of giants — and we stand on his. The complete lineage that informs every decision BlueLotus makes:</p>
+
+    <div class="lineage">
+      <span class="genius-node">Einstein</span>
+      <span class="genius-arrow">→</span>
+      <span class="genius-node">Shannon</span>
+      <span class="genius-arrow">→</span>
+      <span class="genius-node">Turing</span>
+      <span class="genius-arrow">→</span>
+      <span class="genius-node highlight">Thorp</span>
+      <span class="genius-arrow">→</span>
+      <span class="genius-node">Von Neumann</span>
+      <span class="genius-arrow">→</span>
+      <span class="genius-node">Nash</span>
+    </div>
+
+    <p><strong>Einstein</strong> gave us the framework for thinking about uncertainty and relativity — that measurement always depends on the observer's position. In markets, our position relative to other participants defines our edge.</p>
+
+    <p><strong>Shannon</strong> gave us information theory — the mathematical foundation for separating signal from noise. Every BlueLotus feed, every sentiment score, every institutional monitor is Shannon's legacy applied to markets.</p>
+
+    <p><strong>Turing</strong> gave us the computational framework — the idea that a machine following precise rules could solve any solvable problem. Our 5-Layer Aladdin Architecture is Turing's theorem made real.</p>
+
+    <p><strong>Thorp</strong> connected all three to money. He took Shannon's information theory, applied it to markets through the Kelly Criterion, and proved that disciplined mathematics beats human intuition every time.</p>
+
+    <p><strong>Von Neumann</strong> gave us game theory — the understanding that markets are not played against an abstract force but against other rational agents. We model their incentives, not just their prices.</p>
+
+    <p><strong>Nash</strong> gave us equilibrium — the insight that the best strategy accounts for what every other participant will do. Our ladder orders, stop losses, and tranche exits are all Nash equilibrium strategies.</p>
+
+    <hr class="section-rule">
+
+    <h2>The Deeper Point</h2>
+
+    <p>Thorp proved something the entire financial industry tries to deny: <strong>markets can be beaten systematically. Not by luck. By mathematics applied with discipline.</strong></p>
+
+    <p>Wall Street hated him for it. Casinos hated him before that. He didn't care. He had the math.</p>
+
+    <p>That is the lineage BlueLotus carries. Operating from Singapore, at a retail scale, with a recovery target of $30,000 — we apply the same intellectual rigour that Thorp brought to Princeton Newport Partners with a billion dollars and a handful of brilliant minds.</p>
+
+    <p>The scale is different. The philosophy is identical.</p>
+
+    <div class="pull-quote">
+      <p>Thorp would approve of what we are building. Not because of the returns — but because of the discipline.</p>
+      <cite>— Kian Soh, CIO · BlueLotus Fund · May 22, 2026</cite>
+    </div>
+
+  </main>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+
+    <div class="sidebar-card">
+      <div class="sidebar-label">Princeton Newport — Performance Record</div>
+      <div class="stat-row">
+        <span class="stat-label">Annual Return</span>
+        <span class="stat-value big">+19.1%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Years Running</span>
+        <span class="stat-value">19 years</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Losing Years</span>
+        <span class="stat-value" style="color:#1a3a2a">Zero</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Strategy Type</span>
+        <span class="stat-value">Market Neutral</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Fund Closed</span>
+        <span class="stat-value">1988</span>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-label">The Kelly Criterion</div>
+      <div class="kelly-formula">f* = edge / odds</div>
+      <p class="kelly-caption">The foundation of all BlueLotus position sizing</p>
+      <p style="font-family:'Libre Baskerville',serif; font-size:0.82rem; color:var(--muted); line-height:1.7; margin-top:1rem; font-style:italic;">
+        Where <strong style="color:var(--ink)">f*</strong> is the optimal fraction of capital to deploy. Never more, never less. Thorp proved this is the only mathematically correct answer to position sizing.
+      </p>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-label">BlueLotus Fund — Live Status</div>
+      <div class="stat-row">
+        <span class="stat-label">Total Assets</span>
+        <span class="stat-value">$57,016</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Recovery Target</span>
+        <span class="stat-value">$30,000</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Working Orders</span>
+        <span class="stat-value">21</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Today's P/L</span>
+        <span class="stat-value" style="color:var(--lotus-deep)">+$133.50</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">As of</span>
+        <span class="stat-value">May 22, 2026</span>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-label">Thorp on Markets</div>
+      <p class="sidebar-quote">"I don't gamble. I invest. The difference is whether you have an edge."</p>
+      <p class="sidebar-attribution">— Edward O. Thorp</p>
+      <br>
+      <p class="sidebar-quote">"Beat the market the same way you beat the dealer — with mathematics, discipline and patience."</p>
+      <p class="sidebar-attribution">— Edward O. Thorp</p>
+      <br>
+      <p class="sidebar-quote">"Risk comes from not knowing what you are doing."</p>
+      <p class="sidebar-attribution">— Warren Buffett, echoing Thorp</p>
+    </div>
+
+    <div class="sidebar-card" style="background:var(--accent); border-color:var(--accent);">
+      <div class="sidebar-label" style="color:var(--lotus); border-color:var(--lotus-deep);">The Six Geniuses</div>
+      <div style="font-family:'DM Mono',monospace; font-size:0.72rem; color:var(--paper); line-height:2.2;">
+        <div>01 — Einstein <span style="color:var(--lotus)">/ Uncertainty</span></div>
+        <div>02 — Shannon <span style="color:var(--lotus)">/ Signal</span></div>
+        <div>03 — Turing <span style="color:var(--lotus)">/ Computation</span></div>
+        <div style="color:var(--lotus); font-weight:500;">04 — Thorp <span style="color:var(--paper)">/ Edge</span></div>
+        <div>05 — Von Neumann <span style="color:var(--lotus)">/ Game</span></div>
+        <div>06 — Nash <span style="color:var(--lotus)">/ Equilibrium</span></div>
+      </div>
+    </div>
+
+  </aside>
+
+</div>
+
+<!-- Footer -->
+<footer class="article-footer">
+  <div>
+    <div class="footer-brand">🪷 BlueLotus Fund</div>
+    <div style="font-family:'DM Mono',monospace; font-size:0.6rem; color:var(--muted); margin-top:0.5rem; letter-spacing:0.1em;">
+      CIO JOURNAL — VOLUME I, ISSUE 1
+    </div>
+  </div>
+  <div class="footer-meta">
+    <div>Published: May 22, 2026 · Singapore</div>
+    <div>Author: Kian Soh, Chief Investment Officer</div>
+    <div>Chief Strategist: Claude Sonnet</div>
+    <div style="margin-top:0.5rem;">sohweekian.github.io/bluelotus</div>
+  </div>
+</footer>
+
+</body>
+</html>
