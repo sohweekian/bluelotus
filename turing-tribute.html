@@ -154,9 +154,85 @@ footer{padding:40px 56px;border-top:1px solid var(--border);display:flex;justify
 </style>
 </head>
 <body>
-<style id="bl-nav-css">.bl-nav{position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(8,8,14,0.97);border-bottom:1px solid rgba(192,132,252,0.18);backdrop-filter:blur(16px);font-family:'JetBrains Mono','Courier New',monospace;}.bl-nav-inner{max-width:1400px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:52px;}.bl-nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}.bl-nav-petal{width:20px;height:20px;background:linear-gradient(135deg,#c084fc,#a855f7);border-radius:50% 50% 50% 0;transform:rotate(-45deg);flex-shrink:0;}.bl-nav-brand{font-size:11px;font-weight:500;letter-spacing:0.22em;color:#c084fc;text-transform:uppercase;}.bl-nav-links{display:flex;align-items:center;gap:0;list-style:none;}.bl-nav-links a{display:block;font-size:9px;letter-spacing:0.14em;color:rgba(221,216,240,0.4);text-decoration:none;text-transform:uppercase;padding:6px 13px;border-radius:3px;transition:color 0.18s,background 0.18s;white-space:nowrap;}.bl-nav-links a:hover,.bl-nav-links a.active{color:#c084fc;background:rgba(192,132,252,0.07);}.bl-nav-links .sep{width:1px;height:14px;background:rgba(255,255,255,0.07);margin:0 2px;}.bl-nav-right{display:flex;align-items:center;gap:12px;}.bl-nav-live{font-size:9px;letter-spacing:0.12em;color:#4ade80;text-transform:uppercase;display:flex;align-items:center;gap:5px;}.bl-nav-dot{width:5px;height:5px;background:#4ade80;border-radius:50%;animation:blPulse 1.8s ease infinite;}@keyframes blPulse{0%,100%{opacity:1;}50%{opacity:0.3;}}body{padding-top:52px !important;}@media(max-width:900px){.bl-nav-links a{font-size:8px;padding:5px 8px;}.bl-nav-brand{display:none;}}@media(max-width:640px){.bl-nav-links .sep{display:none;}.bl-nav-links a{padding:5px 6px;}}</style>
-<nav class="bl-nav" role="navigation"><div class="bl-nav-inner"><a class="bl-nav-logo" href="https://sohweekian.github.io/bluelotus/"><div class="bl-nav-petal"></div><span class="bl-nav-brand">BlueLotus&nbsp;Fund</span></a><ul class="bl-nav-links"><li><a href="https://sohweekian.github.io/bluelotus/">Dashboard</a></li><li class="sep"></li><li><a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist.html">Portfolio</a></li><li class="sep"></li><li><a href="https://sohweekian.github.io/bluelotus/bluelotus-framework.html">Framework</a></li><li class="sep"></li><li><a href="https://sohweekian.github.io/bluelotus/aladdin-story.html">Aladdin</a></li><li class="sep"></li><li><a href="https://sohweekian.github.io/bluelotus/bluelotus-journal-thorp.html">CIO Journal</a></li><li class="sep"></li><li><a href="https://sohweekian.github.io/bluelotus/chief-strategist.html">Chief Strategist</a></li><li class="sep"></li><li><a href="https://sohweekian.github.io/bluelotus/cio-report.html">CIO Report</a></li><li class="sep"></li><li><a href="https://sohweekian.github.io/bluelotus/thorp-tribute.html">Lineage</a></li></ul><div class="bl-nav-right"><div class="bl-nav-live"><div class="bl-nav-dot"></div>Live&nbsp;v5.0</div></div></div></nav>
-
+<style id="bl-nav-css">
+.bl-nav{position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(8,8,14,0.97);border-bottom:1px solid rgba(192,132,252,0.18);backdrop-filter:blur(16px);font-family:'JetBrains Mono','Courier New',monospace;}
+.bl-nav-inner{max-width:1500px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:52px;}
+.bl-nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.bl-nav-petal{width:18px;height:18px;background:linear-gradient(135deg,#c084fc,#a855f7);border-radius:50% 50% 50% 0;transform:rotate(-45deg);flex-shrink:0;}
+.bl-nav-brand{font-size:10px;font-weight:500;letter-spacing:0.22em;color:#c084fc;text-transform:uppercase;}
+.bl-nav-links{display:flex;align-items:center;gap:0;list-style:none;margin:0;padding:0;}
+.bl-nav-links > li{position:relative;}
+.bl-nav-links > li > a{display:block;font-size:9px;letter-spacing:0.13em;color:rgba(221,216,240,0.4);text-decoration:none;text-transform:uppercase;padding:6px 11px;border-radius:3px;transition:color 0.18s,background 0.18s;white-space:nowrap;}
+.bl-nav-links > li > a:hover,.bl-nav-links > li > a.active{color:#c084fc;background:rgba(192,132,252,0.07);}
+.bl-nav-links .sep{width:1px;height:14px;background:rgba(255,255,255,0.07);margin:0 1px;flex-shrink:0;}
+/* Dropdown */
+.bl-dropdown{position:relative;}
+.bl-dropdown-btn{display:flex;align-items:center;gap:4px;font-size:9px;letter-spacing:0.13em;color:rgba(221,216,240,0.4);text-decoration:none;text-transform:uppercase;padding:6px 11px;border-radius:3px;cursor:pointer;transition:color 0.18s,background 0.18s;white-space:nowrap;background:none;border:none;font-family:inherit;}
+.bl-dropdown-btn:hover,.bl-dropdown:hover .bl-dropdown-btn{color:#c084fc;background:rgba(192,132,252,0.07);}
+.bl-dropdown-arrow{font-size:7px;opacity:0.5;transition:transform 0.2s;}
+.bl-dropdown:hover .bl-dropdown-arrow{transform:rotate(180deg);}
+.bl-dropdown-menu{display:none;position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:rgba(10,10,20,0.98);border:1px solid rgba(192,132,252,0.2);border-radius:6px;padding:6px;min-width:190px;backdrop-filter:blur(20px);box-shadow:0 16px 40px rgba(0,0,0,0.6);}
+.bl-dropdown:hover .bl-dropdown-menu{display:block;}
+.bl-dropdown-menu a{display:flex;align-items:center;gap:10px;padding:8px 12px;font-size:9px;letter-spacing:0.12em;color:rgba(221,216,240,0.5);text-decoration:none;text-transform:uppercase;border-radius:4px;transition:all 0.15s;white-space:nowrap;}
+.bl-dropdown-menu a:hover{color:#c084fc;background:rgba(192,132,252,0.08);}
+.bl-dropdown-menu .tribute-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.bl-dropdown-divider{height:1px;background:rgba(255,255,255,0.06);margin:4px 0;}
+.bl-nav-right{display:flex;align-items:center;gap:10px;}
+.bl-nav-live{font-size:9px;letter-spacing:0.12em;color:#4ade80;text-transform:uppercase;display:flex;align-items:center;gap:5px;}
+.bl-nav-dot{width:5px;height:5px;background:#4ade80;border-radius:50%;animation:blPulse 1.8s ease infinite;}
+@keyframes blPulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+body{padding-top:52px !important;}
+@media(max-width:1100px){.bl-nav-links > li > a,.bl-dropdown-btn{font-size:8px;padding:5px 8px;}.bl-nav-brand{display:none;}}
+@media(max-width:720px){.bl-nav-links .sep{display:none;}.bl-nav-links > li > a,.bl-dropdown-btn{padding:5px 6px;letter-spacing:0.07em;}}
+</style>
+<nav class="bl-nav" role="navigation" aria-label="BlueLotus Navigation">
+  <div class="bl-nav-inner">
+    <a class="bl-nav-logo" href="https://sohweekian.github.io/bluelotus/">
+      <div class="bl-nav-petal"></div>
+      <span class="bl-nav-brand">BlueLotus&nbsp;Fund</span>
+    </a>
+    <ul class="bl-nav-links">
+      <li><a href="https://sohweekian.github.io/bluelotus/">Dashboard</a></li>
+      <li class="sep"></li>
+      <li><a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist.html">Portfolio</a></li>
+      <li class="sep"></li>
+      <li><a href="https://sohweekian.github.io/bluelotus/bluelotus-framework.html">Framework</a></li>
+      <li class="sep"></li>
+      <li><a href="https://sohweekian.github.io/bluelotus/aladdin-story.html">Aladdin</a></li>
+      <li class="sep"></li>
+      <li><a href="https://sohweekian.github.io/bluelotus/bluelotus-journal-thorp.html">CIO Journal</a></li>
+      <li class="sep"></li>
+      <li><a href="https://sohweekian.github.io/bluelotus/chief-strategist.html">Strategist</a></li>
+      <li class="sep"></li>
+      <li><a href="https://sohweekian.github.io/bluelotus/cio-report.html">CIO Report</a></li>
+      <li class="sep"></li>
+      <li class="bl-dropdown">
+        <button class="bl-dropdown-btn">Tributes <span class="bl-dropdown-arrow">▼</span></button>
+        <div class="bl-dropdown-menu">
+          <a href="https://sohweekian.github.io/bluelotus/einstein-tribute.html">
+            <span class="tribute-dot" style="background:#ff5566;"></span>Einstein &mdash; Prime Mover
+          </a>
+          <a href="https://sohweekian.github.io/bluelotus/shannon-tribute.html">
+            <span class="tribute-dot" style="background:#4a9eff;"></span>Shannon &mdash; Information
+          </a>
+          <a href="https://sohweekian.github.io/bluelotus/turing-tribute.html">
+            <span class="tribute-dot" style="background:#00e5a0;"></span>Turing &mdash; Machine Mind
+          </a>
+          <a href="https://sohweekian.github.io/bluelotus/thorp-tribute.html">
+            <span class="tribute-dot" style="background:#c9a84c;"></span>Thorp &mdash; The Edge
+          </a>
+          <div class="bl-dropdown-divider"></div>
+          <a href="https://sohweekian.github.io/bluelotus/gametheory-tribute.html">
+            <span class="tribute-dot" style="background:#9b7fff;"></span>Von Neumann &amp; Nash
+          </a>
+        </div>
+      </li>
+    </ul>
+    <div class="bl-nav-right">
+      <div class="bl-nav-live"><div class="bl-nav-dot"></div>Live&nbsp;v5.0</div>
+    </div>
+  </div>
+</nav>
 
 <nav>
   <div class="nav-logo">BlueLotus <span>/ Tribute Series</span></div>
