@@ -1,0 +1,138 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta http-equiv="refresh" content="3600">
+<title>BlueLotus | Market Intelligence v5.0</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#08080f;color:#ddd8f0;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.6}
+.hdr{background:linear-gradient(135deg,#0d0520,#080814);border-bottom:2px solid rgba(192,132,252,0.3);padding:20px 32px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:#c084fc;letter-spacing:2px}.logo span{color:#4ade80}
+.ts{color:#555;font-size:11px}
+.con{max-width:1400px;margin:0 auto;padding:24px 32px}
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.card{background:#0d0d18;border:1px solid rgba(192,132,252,0.12);border-radius:8px;padding:18px;margin-bottom:16px}
+.ct{color:#c084fc;font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;border-bottom:1px solid rgba(192,132,252,0.12);padding-bottom:8px}
+.mb{font-size:28px;font-weight:bold;margin:8px 0}.ms{color:#666;font-size:11px}
+table{width:100%;border-collapse:collapse}
+th{color:#c084fc;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:6px 8px;border-bottom:1px solid rgba(192,132,252,0.1);text-align:left}
+td{padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.03)}tr:hover{background:rgba(192,132,252,0.03)}
+.ni{padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px}.ns{color:#c084fc;font-size:10px;margin-right:6px}.sc{color:#555;font-size:10px;float:right}
+.bul{background:#0d0d18;border:1px solid rgba(192,132,252,0.12);border-left:3px solid #c084fc;border-radius:8px;padding:24px;margin-bottom:16px;line-height:2;font-size:13px}
+.lens-div{border:none;border-top:1px solid rgba(192,132,252,0.15);margin:10px 0}
+.ftr{text-align:center;color:#333;font-size:11px;padding:24px;border-top:1px solid rgba(192,132,252,0.1)}
+.v5{display:inline-block;background:rgba(192,132,252,0.1);border:1px solid rgba(192,132,252,0.3);border-radius:4px;padding:2px 8px;font-size:9px;color:#c084fc;letter-spacing:0.15em;margin-left:8px;vertical-align:middle}
+.rpt-links{text-align:center;padding:16px 0;display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.rpt-link{color:#c084fc;font-size:11px;letter-spacing:0.12em;text-decoration:none;border:1px solid rgba(192,132,252,0.3);padding:8px 18px;border-radius:4px;transition:all 0.2s}
+.rpt-link:hover{background:rgba(192,132,252,0.08);}
+.rpt-link.gold{color:#fbbf24;border-color:rgba(251,191,36,0.3)}
+.rpt-link.gold:hover{background:rgba(251,191,36,0.08)}
+hr{border:none;border-top:1px solid rgba(192,132,252,0.1);margin:10px 0}
+@media(max-width:900px){.grid,.grid2{grid-template-columns:1fr}}
+</style>
+<style id="bl-nav-css">
+.bl-nav{position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(8,8,14,0.97);border-bottom:1px solid rgba(192,132,252,0.18);backdrop-filter:blur(16px);font-family:'JetBrains Mono','Courier New',monospace;}
+.bl-nav-inner{max-width:1500px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:52px;}
+.bl-nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.bl-nav-petal{width:18px;height:18px;background:linear-gradient(135deg,#c084fc,#a855f7);border-radius:50% 50% 50% 0;transform:rotate(-45deg);flex-shrink:0;}
+.bl-nav-brand{font-size:10px;font-weight:500;letter-spacing:0.22em;color:#c084fc;text-transform:uppercase;}
+.bl-nav-links{display:flex;align-items:center;gap:0;list-style:none;margin:0;padding:0;}
+.bl-nav-links > li{position:relative;}
+.bl-nav-links > li > a{display:block;font-size:9px;letter-spacing:0.13em;color:rgba(221,216,240,0.4);text-decoration:none;text-transform:uppercase;padding:6px 11px;border-radius:3px;transition:color 0.18s,background 0.18s;white-space:nowrap;}
+.bl-nav-links > li > a:hover,.bl-nav-links > li > a.active{color:#c084fc;background:rgba(192,132,252,0.07);}
+.bl-nav-links .sep{width:1px;height:14px;background:rgba(255,255,255,0.07);margin:0 1px;flex-shrink:0;}
+.bl-dropdown{position:relative;}
+.bl-dropdown-btn{display:flex;align-items:center;gap:4px;font-size:9px;letter-spacing:0.13em;color:rgba(221,216,240,0.4);text-decoration:none;text-transform:uppercase;padding:6px 11px;border-radius:3px;cursor:pointer;transition:color 0.18s,background 0.18s;white-space:nowrap;background:none;border:none;font-family:inherit;}
+.bl-dropdown-btn:hover,.bl-dropdown:hover .bl-dropdown-btn{color:#c084fc;background:rgba(192,132,252,0.07);}
+.bl-dropdown-arrow{font-size:7px;opacity:0.5;transition:transform 0.2s;}
+.bl-dropdown:hover .bl-dropdown-arrow{transform:rotate(180deg);}
+.bl-dropdown-menu{display:none;position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:rgba(10,10,20,0.98);border:1px solid rgba(192,132,252,0.2);border-radius:6px;padding:6px;min-width:190px;backdrop-filter:blur(20px);box-shadow:0 16px 40px rgba(0,0,0,0.6);}
+.bl-dropdown:hover .bl-dropdown-menu{display:block;}
+.bl-dropdown-menu a{display:flex;align-items:center;gap:10px;padding:8px 12px;font-size:9px;letter-spacing:0.12em;color:rgba(221,216,240,0.5);text-decoration:none;text-transform:uppercase;border-radius:4px;transition:all 0.15s;white-space:nowrap;}
+.bl-dropdown-menu a:hover{color:#c084fc;background:rgba(192,132,252,0.08);}
+.bl-dropdown-menu .tribute-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.bl-dropdown-divider{height:1px;background:rgba(255,255,255,0.06);margin:4px 0;}
+.bl-nav-right{display:flex;align-items:center;gap:10px;}
+.bl-nav-live{font-size:9px;letter-spacing:0.12em;color:#4ade80;text-transform:uppercase;display:flex;align-items:center;gap:5px;}
+.bl-nav-dot{width:5px;height:5px;background:#4ade80;border-radius:50%;animation:blPulse 1.8s ease infinite;}
+@keyframes blPulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+body{padding-top:52px !important;}
+@media(max-width:1100px){.bl-nav-links > li > a,.bl-dropdown-btn{font-size:8px;padding:5px 8px;}.bl-nav-brand{display:none;}}
+@media(max-width:720px){.bl-nav-links .sep{display:none;}.bl-nav-links > li > a,.bl-dropdown-btn{padding:5px 6px;letter-spacing:0.07em;}}
+</style>
+<nav class="bl-nav" role="navigation" aria-label="BlueLotus Navigation">
+  <div class="bl-nav-inner">
+    <a class="bl-nav-logo" href="https://sohweekian.github.io/bluelotus/">
+      <div class="bl-nav-petal"></div>
+      <span class="bl-nav-brand">BlueLotus&nbsp;Fund</span>
+    </a>
+    <ul class="bl-nav-links">
+      <li><a href="https://sohweekian.github.io/bluelotus/" class="active">Dashboard</a></li>
+      <li class="sep"></li>
+      <li><a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist.html">Portfolio</a></li>
+      <li class="sep"></li>
+      <li><a href="https://sohweekian.github.io/bluelotus/bluelotus-framework.html">Framework</a></li>
+      <li class="sep"></li>
+      <li><a href="https://sohweekian.github.io/bluelotus/aladdin-story.html">Aladdin</a></li>
+      <li class="sep"></li>
+      <li><a href="https://sohweekian.github.io/bluelotus/chief-strategist.html">Strategist</a></li>
+      <li class="sep"></li>
+      <li><a href="https://sohweekian.github.io/bluelotus/cio-letter.html">CIO Letter</a></li>
+      <li class="sep"></li>
+      <li class="bl-dropdown">
+        <button class="bl-dropdown-btn">Tributes <span class="bl-dropdown-arrow">&#9660;</span></button>
+        <div class="bl-dropdown-menu">
+          <a href="https://sohweekian.github.io/bluelotus/einstein-tribute.html"><span class="tribute-dot" style="background:#ff5566;"></span>Einstein &mdash; Prime Mover</a>
+          <a href="https://sohweekian.github.io/bluelotus/shannon-tribute.html"><span class="tribute-dot" style="background:#4a9eff;"></span>Shannon &mdash; Information</a>
+          <a href="https://sohweekian.github.io/bluelotus/turing-tribute.html"><span class="tribute-dot" style="background:#00e5a0;"></span>Turing &mdash; Machine Mind</a>
+          <a href="https://sohweekian.github.io/bluelotus/thorp-tribute.html"><span class="tribute-dot" style="background:#c9a84c;"></span>Thorp &mdash; The Edge</a>
+          <div class="bl-dropdown-divider"></div>
+          <a href="https://sohweekian.github.io/bluelotus/gametheory-tribute.html"><span class="tribute-dot" style="background:#9b7fff;"></span>Von Neumann &amp; Nash</a>
+        </div>
+      </li>
+    </ul>
+    <div class="bl-nav-right">
+      <div class="bl-nav-live"><div class="bl-nav-dot"></div>Live&nbsp;v5.0</div>
+    </div>
+  </div>
+</nav>
+
+</head><body>
+<div class="hdr">
+  <div>
+    <div class="logo">BLUE<span>LOTUS</span> 🪷 <span class="v5">v5.0</span></div>
+    <div class="ts">8-Lens Intelligence Terminal | 5-Layer Aladdin Engine | Auto-refreshes hourly</div>
+  </div>
+  <div style="text-align:right">
+    <div style="color:#4ade80;font-size:14px;font-weight:bold">2026-05-23 17:19 SGT</div>
+    <div class="ts">BlueLotus v5.0 | Claude Sonnet | Singapore</div>
+  </div>
+</div>
+<div class="con">
+  <div class="grid">
+    <div class="card"><div class="ct">📊 Portfolio Value</div><div class="mb" style="color:#c084fc">$18,558</div><div class="ms" style="color:#4ade80">P/L: $+570 (+3.17%)</div></div>
+    <div class="card"><div class="ct">L5 — Fear & Greed Index</div><div class="mb" style="color:#ffaa00">50 / 100</div><div class="ms">😐 NEUTRAL | Yesterday: 50 | 1wk: 50</div></div>
+    <div class="card"><div class="ct">L6 — Market Regime</div><div class="mb" style="color:#4ade80;font-size:18px">🟡 MILD RISK ON</div><div class="ms">Score: +1/12 | VIX: 16.7</div><div class="ms" style="margin-top:4px">Cautious growth. Keep defensive ballast.</div></div>
+  </div>
+  <div class="card"><div class="ct">💼 Portfolio Positions [L1+L2]</div>
+    <table><tr><th>Ticker</th><th>Qty</th><th>Avg Cost</th><th>Price</th><th>Change</th><th>Market Value</th><th>Unrealized P/L</th></tr><tr><td><b>BAC</b></td><td>150</td><td>$50.344</td><td>$51.80</td><td style='color:#ff4444'>▼ -0.1%</td><td>$7,770</td><td style='color:#4ade80'>$+218 (+2.9%)</td></tr><tr><td><b>MP</b></td><td>120</td><td>$61.968</td><td>$64.43</td><td style='color:#4ade80'>▲ +0.2%</td><td>$7,732</td><td style='color:#4ade80'>$+295 (+4.0%)</td></tr><tr><td><b>WFC</b></td><td>40</td><td>$75.000</td><td>$76.40</td><td style='color:#4ade80'>▲ +0.0%</td><td>$3,056</td><td style='color:#4ade80'>$+56 (+1.9%)</td></tr></table>
+  </div>
+  <div class="grid2">
+    <div class="card"><div class="ct">L6 — Top Movers / Sector Rotation</div><table><tr><th>Ticker</th><th>Price</th><th>Change</th></tr><tr><td><b>QBTS</b></td><td>$29.38</td><td style='color:#4ade80'>▲ +3.8%</td></tr><tr><td><b>RGTI</b></td><td>$26.47</td><td style='color:#4ade80'>▲ +3.1%</td></tr><tr><td><b>FCEL</b></td><td>$25.01</td><td style='color:#ff4444'>▼ -2.5%</td></tr><tr><td><b>LUNR</b></td><td>$38.27</td><td style='color:#4ade80'>▲ +2.2%</td></tr><tr><td><b>IONQ</b></td><td>$63.60</td><td style='color:#4ade80'>▲ +1.9%</td></tr><tr><td><b>ANET</b></td><td>$154.01</td><td style='color:#4ade80'>▲ +1.3%</td></tr><tr><td><b>QUBT</b></td><td>$12.30</td><td style='color:#4ade80'>▲ +1.3%</td></tr><tr><td><b>AXON</b></td><td>$385.93</td><td style='color:#ff4444'>▼ -1.3%</td></tr><tr><td><b>MU</b></td><td>$750.79</td><td style='color:#ff4444'>▼ -1.2%</td></tr><tr><td><b>BKSY</b></td><td>$47.81</td><td style='color:#4ade80'>▲ +1.1%</td></tr><tr><td><b>ARM</b></td><td>$306.55</td><td style='color:#4ade80'>▲ +1.1%</td></tr><tr><td><b>ASTS</b></td><td>$105.84</td><td style='color:#4ade80'>▲ +1.0%</td></tr></table></div>
+    <div class="card"><div class="ct">L7 — Institutional Signals</div><div class='ni'><span class='ns'>[Yahoo_Fin]</span> <span style='color:#ff4444'>🔴</span> Europe's AI stocks shine through gloom of Iran war <span class='sc'>-0.818</span></div><div class='ni'><span class='ns'>[CNBC_Markets]</span> <span style='color:#ff4444'>🔴</span> Consumer sentiment hits fresh record low in May as Iran war fuels inflation worries <span class='sc'>-0.758</span></div><div class='ni'><span class='ns'>[CNBC_Finance]</span> <span style='color:#4ade80'>🟢</span> Surge in 'risk-free' treasury yields sends bond investors in search of better opportunities <span class='sc'>+0.743</span></div><div class='ni'><span class='ns'>[CNBC_Markets]</span> <span style='color:#ff4444'>🔴</span> Putin-Xi talks revive stalled Russian gas pipeline as Iran war rattles energy markets <span class='sc'>-0.296</span></div><div class='ni'><span class='ns'>[CNBC_Finance]</span> <span style='color:#aaa'>⚪</span> Kevin Warsh's real Fed 'regime change' may happen deep inside Wall Street's plumbing <span class='sc'>+0.000</span></div><div class='ni'><span class='ns'>[MarketWatch]</span> <span style='color:#aaa'>⚪</span> Nvidia poured $18.6 billion into venture-capital investments in just three months. Where does the cash trail lead? <span class='sc'>+0.000</span></div><div class='ni'><span class='ns'>[MarketWatch]</span> <span style='color:#aaa'>⚪</span> This 2008 ‘train wreck’ oil scenario could unfold if Hormuz isn’t opened by end of August <span class='sc'>+0.000</span></div><div class='ni'><span class='ns'>[Bloomberg]</span> <span style='color:#aaa'>⚪</span> Charting the Global Economy: Factory Activity Sags on Inflation <span class='sc'>+0.000</span></div></div>
+  </div>
+  <div class="card"><div class="ct">L3+L4 — Fed / Trump / Macro</div><div class='ni'><span class='ns'>🏦 FED</span> 🟢 Federal Reserve Board requests public comment on a proposal to establish a "payment account," which legally eligible fin</div><div class='ni'><span class='ns'>🏦 FED</span> ⚪ Kevin Warsh takes oath of office as chairman and a member of the Board of Governors of the Federal Reserve System, and t</div><div class='ni'><span class='ns'>🇺🇸 TRUMP</span> 🔴 Iran war updates: Tehran says US violated ceasefire, targeted ships - Al Jazeera</div><div class='ni'><span class='ns'>🇺🇸 TRUMP</span> 🔴 Iran War Updates: Trump Says Iran Must Make Deal or Face Renewed Attacks - The New York Times</div><div class='ni'><span class='ns'>📈 ECON</span> 🔴 Worried About a Recession? Here's Why Selling When Economists Call It is Already Too Late - 24/7 Wall St.</div><div class='ni'><span class='ns'>📈 ECON</span> 🔴 As of April 2026, Idaho's labor force has decreased, but unemployment rate stays stagnant - KTVB</div></div>
+  <div class="ct" style="color:#c084fc;letter-spacing:2px;margin-bottom:12px;font-size:10px">🗞️ 8-LENS MARKET INTELLIGENCE BULLETIN — CLAUDE SONNET v5.0</div>
+  <div class="bul">════ DOCUMENT 1: MARKET INTELLIGENCE BULLETIN ════<br><br><hr class='lens-div'> MARKET PULSE [L3+L4] <hr class='lens-div'><br>Markets hold fragile NEUTRAL posture (Fear & Greed: 50/100, VIX: 16.7) as Iran ceasefire tensions resurface with Tehran claiming US violations while Trump signals willingness to wait "a few days" for peace deal. Treasury yields surge drives rotation into financials while energy shock timeline extends to potential August Hormuz crisis, creating bifurcated risk environment favoring defensive growth.<br><br><hr class='lens-div'> 8-LENS SNAPSHOT <hr class='lens-div'><br><br>L1 FUNDAMENTAL: Financials benefit from rising treasury yield environment; MP rare earth positioning strengthens amid China-US decoupling narrative; earnings season approaching (BAC/WFC Jul 14-15) with NIM expansion tailwinds.<br><br>L2 TECHNICAL: BAC +0.1% resistance at $52.50, holding above $51 support; MP +0.2% momentum continuation above $64, eyeing $66 breakout; WFC flat at $76.40, consolidating gains with $78 next technical level.<br><br>L3 MACRO: Treasury yield surge (+0.743 sentiment) creates favorable NIM expansion for banks; Fed/Warsh plumbing reform commentary suggests continued higher-for-longer regime; May consumer sentiment record low signals demand destruction risk.<br><br>L4 GEOPOLITICAL: Iran-US ceasefire fragile with Tehran violation claims; Trump rhetoric suggests negotiation window open but narrow; Putin-Xi energy talks reroute supply chains; Hormuz closure timeline extends to August creating energy price ceiling risk.<br><br>L5 SENTIMENT: Fear & Greed exactly neutral (50/100) signals market indecision; institutional positioning defensive per consumer sentiment collapse; VIX 16.7 suggests complacency despite geopolitical tail risks.<br><br>L6 ROTATION: Quantum/space sectors lead (QBTS +3.8%, RGTI +3.1%, LUNR +2.2%) indicating speculative risk appetite; financials hold gains on yield dynamics; tech semiconductors soften (MU -1.2%, AXON -1.3%) on demand concerns.<br><br>L7 INSTITUTIONAL: Europe AI outperformance narrative emerging; CNBC treasury yield surge coverage signals institutional repositioning into bonds; Nvidia $18.6B VC deployment suggests AI infrastructure confidence despite macro headwinds.<br><br>L8 NEWS FLOW: Dominant narrative split between geopolitical risk (Iran ceasefire instability) and financial system restructuring (Warsh Fed reforms, treasury yield surge); energy shock timing debates intensify with August Hormuz deadline.<br><br><hr class='lens-div'> PORTFOLIO POSITIONS [A3+A4] <hr class='lens-div'><br><br>**BAC** | $51.80 | 🟢 BULLISH | UP-TREND | Rising yields expand NIMs; Jul 14 earnings catalyst; ceasefire stability extends credit cycle favorability.<br><br>**MP** | $64.43 | 🟢 BULLISH | MOMENTUM | China-US decoupling strengthens rare earth domestic sourcing thesis; defense/tech supply chain kritical material positioning.<br><br>**WFC** | $76.40 | 🟢 BULLISH | CONSOLIDATION | Yield curve steepening benefits; Jul 15 earnings; asset cap removal speculation builds as Warsh reforms plumbing.<br><br><hr class='lens-div'> WATCHLIST ALERTS [L2+L8] <hr class='lens-div'><br><br>**QBTS** | $29.38 | +3.8% | Continue monitoring above $30 breakout; quantum momentum accelerating with institutional AI narrative shift.<br><br>**RGTI** | $26.47 | +3.1% | Quantum sector sympathy play; expect consolidation $26-27 range next 1-2 hours unless sector catalyst emerges.<br><br>**LUNR** | $38.27 | +2.2% | Space sector strength on defense budget speculation; watch $40 psychological resistance.<br><br>**IONQ** | $63.60 | +1.9% | Quantum leader holding gains; $65 next technical target if broader tech stabilizes.<br><br>**FCEL** | $25.01 | -2.5% | Energy infrastructure weakness on demand destruction fears; potential bounce if Hormuz tensions escalate.<br><br><hr class='lens-div'> ALADDIN RISK SCENARIOS [A2] <hr class='lens-div'><br><br>**BULL 20%:** Iran peace deal signed within 72 hours + PCE (May 28) prints <2.5% → BAC $54, MP $68, WFC $80 → Portfolio $19,800 (+6.7%)<br><br>**BASE 50%:** Ceasefire holds shakily, no deal; PCE 2.6-2.8%; yield curve stable → BAC $52-53, MP $64-66, WFC $76-78 → Portfolio $18,800-19,200 (+1.3% to +3.5%)<br><br>**BEAR 25%:** Tehran violates ceasefire materially OR PCE >3.0% → Risk-off rotation, financials pull back → BAC $49, MP $60, WFC $73 → Portfolio $17,200 (-7.3%)<br><br>**BLACK SWAN 5%:** Hormuz closure before August + oil spike >$140 → Recession fears, credit cycle reversal → Portfolio $15,500-16,000 (-16% to -19%)<br><br><hr class='lens-div'> EXECUTION SIGNALS [A4+A5] <hr class='lens-div'><br><br>1. **HOLD ALL POSITIONS** — Portfolio green (+3.17%), no chase-sell into weekend volatility; let Jul earnings catalysts approach; Thorp Rule: targets not yet hit (BAC $54, MP $70, WFC $80).<br><br>2. **TRANCHE SCALE PREPARATION** — If BAC hits $54 pre-earnings (Jul 14), sell 90% (135 shares), ride 10% (15 shares) as free runner through earnings; repeat protocol for WFC at $80 (Jul 15).<br><br>3. **WATCHLIST ACTIVATION** — QBTS above $31.50 triggers 2-tranche entry ($1,500 initial, $1,500 at $33); quantum sector momentum + institutional AI narrative alignment creates 72-hour edge window.<br><br><hr class='lens-div'> RISK RADAR <hr class='lens-div'><br>• **[L4] Iran ceasefire violation** — Tehran claims US targeting ships; Trump "few days" comment suggests negotiation runway shortening<br>• **[L3] PCE May 28** — Consumer sentiment record low may presage hot inflation print >3.0%, forcing Fed hawkish pivot<br>• **[L7] Treasury yield surge** — While NIM-positive short-term, rapid rise risks credit market dislocation and recession acceleration</div>
+  <div class="rpt-links">
+    <a href="https://sohweekian.github.io/bluelotus/chief-strategist.html" class="rpt-link">📋 Chief Strategist Report →</a>
+    <a href="https://sohweekian.github.io/bluelotus/cio-report.html" class="rpt-link gold">📊 CIO Report →</a>
+    <a href="https://sohweekian.github.io/bluelotus/bluelotus-framework.html" class="rpt-link">🔭 8-Lens Framework →</a>
+    <a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist.html" class="rpt-link">📈 Watchlist →</a>
+  </div>
+</div>
+<div class="ftr">BlueLotus Intelligence Agency v5.0 | 🪷 8-Lens + 5-Layer Aladdin Engine<br>
+Auto-publishes every 60 minutes | 2026-05-23 17:19 SGT | Einstein → Shannon → Turing → Thorp → Von Neumann → Nash<br>
+<span style="color:#111">For information only. Not financial advice.</span></div>
+</body></html>
