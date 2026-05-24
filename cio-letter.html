@@ -490,6 +490,32 @@ body{padding-top:52px !important;}
   }
   .edition-divider {
     borde
+
+  /* ── Flowchart embed in CIO letter ── */
+  .flowchart-embed {
+    background: var(--paper2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin: 32px 0;
+  }
+  .flowchart-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--lotus);
+    margin-bottom: 20px;
+  }
+
+  code {
+    font-family: var(--mono);
+    font-size: 12px;
+    background: var(--paper2);
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: var(--lotus2);
+  }
 </style>
 </head>
 <body>
@@ -500,7 +526,7 @@ body{padding-top:52px !important;}
   <div class="hero-meta">
     <span class="hero-pill">Kian Soh · Chief Investment Officer</span>
     <span class="hero-pill">24 May 2026</span>
-    <span class="hero-pill">Edition 002</span>
+    <span class="hero-pill">Edition 003</span>
   </div>
   <div class="hero-rule"></div>
 </div>
@@ -512,10 +538,154 @@ body{padding-top:52px !important;}
       <div class="letter-tag">Chief Investment Officer · Official Correspondence</div>
       <div class="letter-body">
 
-      <!-- ══ EDITION 002 — MAY 24, 2026 ══ -->
+      <!-- ══ EDITION 003 — MAY 24, 2026 ══ -->
       <div class="edition-block">
         <div class="edition-tag">
-          <span class="edition-num">Edition 002</span>
+          <span class="edition-num">Edition 003</span>
+          <span class="edition-date">24 May 2026</span>
+        </div>
+
+        <p>
+          Today marks another milestone in BlueLotus's journey toward fully autonomous,
+          disciplined investing. We have completed the architectural design of our
+          <strong>Paper Trading Agentic AI</strong> — a structured decision engine that
+          will validate our 21 working orders in Moomoo's simulated environment before
+          any live capital is deployed.
+        </p>
+
+        <p>
+          The system follows a strict 5-gate decision process — inspired directly by the
+          engineering standards I hold our Chief Strategist to:
+          <em>design, build, test, verify, then and only then deploy.</em>
+        </p>
+
+        <div class="flowchart-embed">
+          <div class="flowchart-label">Paper Trading Agent — Decision Flow</div>
+          <svg width="100%" viewBox="0 0 580 820" role="img" style="display:block;margin:0 auto">
+            <title>Paper Trading Agent Decision Flow</title>
+            <desc>7-step decision process from data ingestion through human approval to paper execution and graduation</desc>
+            <defs>
+              <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M2 1L8 5L2 9" fill="none" stroke="#8b6914" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </marker>
+            </defs>
+
+            <!-- ① Live data -->
+            <rect x="100" y="10" width="380" height="54" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
+            <text x="290" y="30" text-anchor="middle" font-family="monospace" font-size="10" fill="#085041" letter-spacing="1">① DATA INGESTION</text>
+            <text x="290" y="48" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#0F6E56">Moomoo OpenD · prices · positions · institutional intel</text>
+            <line x1="290" y1="64" x2="290" y2="88" stroke="#8b6914" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+            <!-- ② Risk regime gate -->
+            <rect x="100" y="88" width="380" height="54" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+            <text x="290" y="108" text-anchor="middle" font-family="monospace" font-size="10" fill="#412402" letter-spacing="1">② RISK REGIME GATE</text>
+            <text x="290" y="126" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#633806">RISK OFF → all orders suspended · RISK ON → proceed</text>
+            <line x1="290" y1="142" x2="290" y2="166" stroke="#8b6914" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+            <!-- RISK OFF branch -->
+            <line x1="480" y1="115" x2="540" y2="115" stroke="#E24B4A" stroke-width="1" stroke-dasharray="4 3"/>
+            <rect x="480" y="96" width="0" height="0" rx="0" fill="none"/>
+            <text x="490" y="112" font-family="sans-serif" font-size="10" fill="#E24B4A">Risk</text>
+            <text x="490" y="124" font-family="sans-serif" font-size="10" fill="#E24B4A">Off →</text>
+            <rect x="535" y="100" width="42" height="28" rx="5" fill="#FCEBEB" stroke="#E24B4A" stroke-width="1"/>
+            <text x="556" y="118" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#A32D2D">STOP</text>
+
+            <!-- ③ 8-Lens + price trigger -->
+            <rect x="100" y="166" width="380" height="54" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
+            <text x="290" y="186" text-anchor="middle" font-family="monospace" font-size="10" fill="#26215C" letter-spacing="1">③ 8-LENS ANALYSIS + PRICE TRIGGER</text>
+            <text x="290" y="204" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#3C3489">Grok analyses all lenses · order fires only at limit price</text>
+            <line x1="290" y1="220" x2="290" y2="244" stroke="#8b6914" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+            <!-- PRICE DECISION DIAMOND -->
+            <polygon points="290,244 370,272 290,300 210,272" fill="#FFF8EC" stroke="#BA7517" stroke-width="1"/>
+            <text x="290" y="268" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="500" fill="#412402">Price hit</text>
+            <text x="290" y="282" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="500" fill="#412402">limit?</text>
+
+            <!-- NO branch -->
+            <line x1="210" y1="272" x2="120" y2="272" stroke="#888" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#arr2)"/>
+            <text x="160" y="265" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#888">No → wait</text>
+
+            <!-- YES continues -->
+            <text x="308" y="312" font-family="sans-serif" font-size="10" fill="#3B6D11">Yes</text>
+            <line x1="290" y1="300" x2="290" y2="324" stroke="#8b6914" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+            <!-- ④ Kelly size gate -->
+            <rect x="100" y="324" width="380" height="54" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+            <text x="290" y="344" text-anchor="middle" font-family="monospace" font-size="10" fill="#412402" letter-spacing="1">④ KELLY SIZE GATE (THORP RULE)</text>
+            <text x="290" y="362" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#633806">Verify qty vs cash · max exposure · auto-reduce if over</text>
+            <line x1="290" y1="378" x2="290" y2="402" stroke="#8b6914" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+            <!-- ⑤ Human confirmation — HIGHLIGHTED -->
+            <rect x="90" y="402" width="400" height="60" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="2"/>
+            <text x="290" y="424" text-anchor="middle" font-family="monospace" font-size="10" fill="#4A1B0C" letter-spacing="1">⑤ HUMAN CONFIRMATION — CIO (YOU)</text>
+            <text x="290" y="442" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#712B13">Telegram alert · full brief · rationale · approve or reject</text>
+            <line x1="290" y1="462" x2="290" y2="486" stroke="#8b6914" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+            <!-- CONFIRM DIAMOND -->
+            <polygon points="290,486 380,514 290,542 200,514" fill="#FFF8EC" stroke="#993C1D" stroke-width="1.5"/>
+            <text x="290" y="508" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="500" fill="#4A1B0C">Approved</text>
+            <text x="290" y="522" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="500" fill="#4A1B0C">by CIO?</text>
+
+            <!-- REJECTED branch -->
+            <line x1="380" y1="514" x2="450" y2="514" stroke="#E24B4A" stroke-width="1" stroke-dasharray="4 3"/>
+            <text x="400" y="508" font-family="sans-serif" font-size="10" fill="#E24B4A">No →</text>
+            <rect x="450" y="500" width="50" height="28" rx="5" fill="#FCEBEB" stroke="#E24B4A" stroke-width="1"/>
+            <text x="475" y="518" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#A32D2D">Cancel</text>
+
+            <!-- YES continues -->
+            <text x="308" y="554" font-family="sans-serif" font-size="10" fill="#3B6D11">Approved</text>
+            <line x1="290" y1="542" x2="290" y2="566" stroke="#8b6914" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+            <!-- ⑥ Paper execution -->
+            <rect x="100" y="566" width="380" height="54" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
+            <text x="290" y="586" text-anchor="middle" font-family="monospace" font-size="10" fill="#085041" letter-spacing="1">⑥ PAPER EXECUTION + TRACKING</text>
+            <text x="290" y="604" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#0F6E56">Moomoo SIMULATE · win rate · edge score · drawdown</text>
+            <line x1="290" y1="620" x2="290" y2="644" stroke="#8b6914" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+            <!-- ⑦ Graduation -->
+            <rect x="100" y="644" width="380" height="54" rx="8" fill="#EAF3DE" stroke="#3B6D11" stroke-width="1.5"/>
+            <text x="290" y="664" text-anchor="middle" font-family="monospace" font-size="10" fill="#173404" letter-spacing="1">⑦ GRADUATION GATE</text>
+            <text x="290" y="682" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#27500A">Edge proven → upgrade to TrdEnv.REAL · live capital</text>
+
+            <!-- NOT YET loop back -->
+            <line x1="100" y1="671" x2="60" y2="671" stroke="#888" stroke-width="1" stroke-dasharray="4 3"/>
+            <line x1="60" y1="671" x2="60" y2="37" stroke="#888" stroke-width="1" stroke-dasharray="4 3"/>
+            <line x1="60" y1="37" x2="100" y2="37" stroke="#888" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#arr2)"/>
+            <text x="30" y="360" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#888" transform="rotate(-90,30,360)">not yet proven → continue paper trading</text>
+          </svg>
+          </div></div>
+
+        <p>
+          The design principle is absolute: <strong>the agent prepares and recommends —
+          the CIO decides.</strong> There is no path to live execution that bypasses human
+          judgment. This is not a limitation of the system. It is the system's most
+          important feature.
+        </p>
+
+        <p>
+          Thorp never risked real capital without first proving the edge mathematically.
+          We follow that discipline exactly. Paper trade first. Accumulate the track record.
+          Let the data confirm what the framework suggests. Then, and only then, deploy.
+        </p>
+
+        <p>
+          The infrastructure is ready. The three modules — <code>portfolio_agent.py</code>,
+          <code>moomoo_trader.py</code>, and <code>moomoo_intelligence.py</code> — are
+          tested, integrated, and live. The Paper Trading Agent is the next chapter.
+        </p>
+
+        <div class="edition-sign">
+          <span class="sign-name-sm">Kian Soh</span>
+          <span class="sign-title-sm">Chief Investment Officer · BlueLotus Fund · Singapore</span>
+        </div>
+      </div>
+
+      <div class="edition-divider"></div>
+
+<!-- ══ EDITION 002 — MAY 24, 2026 ══ -->
+      <div class="edition-block">
+        <div class="edition-tag">
+          <span class="edition-num">Edition 003</span>
           <span class="edition-date">24 May 2026</span>
         </div>
 
@@ -641,7 +811,6 @@ body{padding-top:52px !important;}
         </div>
       </div>
 
-    </div>
     </div>
   </main>
 
