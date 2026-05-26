@@ -1,3 +1,99 @@
+<style id="bl-nav-css">
+.bl-nav{position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(8,8,14,0.97);border-bottom:1px solid rgba(192,132,252,0.18);backdrop-filter:blur(16px);font-family:'JetBrains Mono','Courier New',monospace;}
+.bl-nav-inner{max-width:1500px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:52px;}
+.bl-nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.bl-nav-petal{width:18px;height:18px;background:linear-gradient(135deg,#c084fc,#a855f7);border-radius:50% 50% 50% 0;transform:rotate(-45deg);flex-shrink:0;}
+.bl-nav-brand{font-size:10px;font-weight:500;letter-spacing:0.22em;color:#c084fc;text-transform:uppercase;}
+.bl-nav-links{display:flex;align-items:center;gap:0;list-style:none;margin:0;padding:0;}
+.bl-nav-links > li{position:relative;}
+.bl-nav-links > li > a{display:block;font-size:9px;letter-spacing:0.13em;color:rgba(221,216,240,0.4);text-decoration:none;text-transform:uppercase;padding:6px 11px;border-radius:3px;transition:color 0.18s,background 0.18s;white-space:nowrap;}
+.bl-nav-links > li > a:hover,.bl-nav-links > li > a.active{color:#c084fc;background:rgba(192,132,252,0.07);}
+.bl-nav-links .sep{width:1px;height:14px;background:rgba(255,255,255,0.07);margin:0 1px;flex-shrink:0;}
+.bl-dropdown{position:relative;}
+.bl-dropdown-btn{display:flex;align-items:center;gap:4px;font-size:9px;letter-spacing:0.13em;color:rgba(221,216,240,0.4);text-decoration:none;text-transform:uppercase;padding:6px 11px;border-radius:3px;cursor:pointer;transition:color 0.18s,background 0.18s;white-space:nowrap;background:none;border:none;font-family:inherit;}
+.bl-dropdown-btn:hover,.bl-dropdown:hover .bl-dropdown-btn{color:#c084fc;background:rgba(192,132,252,0.07);}
+.bl-dropdown-arrow{font-size:7px;opacity:0.5;transition:transform 0.2s;}
+.bl-dropdown:hover .bl-dropdown-arrow,.bl-dropdown.open .bl-dropdown-arrow{transform:rotate(180deg);}
+.bl-dropdown-menu{display:none;position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:rgba(10,10,20,0.98);border:1px solid rgba(192,132,252,0.2);border-radius:6px;padding:6px;min-width:190px;backdrop-filter:blur(20px);box-shadow:0 16px 40px rgba(0,0,0,0.6);}
+.bl-dropdown:hover .bl-dropdown-menu,.bl-dropdown.open .bl-dropdown-menu{display:block;}
+.bl-dropdown-menu a{display:flex;align-items:center;gap:10px;padding:8px 12px;font-size:9px;letter-spacing:0.12em;color:rgba(221,216,240,0.5);text-decoration:none;text-transform:uppercase;border-radius:4px;transition:all 0.15s;white-space:nowrap;}
+.bl-dropdown-menu a:hover{color:#c084fc;background:rgba(192,132,252,0.08);}
+.bl-dropdown-menu .tribute-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.bl-dropdown-divider{height:1px;background:rgba(255,255,255,0.06);margin:4px 0;}
+.bl-nav-right{display:flex;align-items:center;gap:10px;}
+.bl-nav-live{font-size:9px;letter-spacing:0.12em;color:#4ade80;text-transform:uppercase;display:flex;align-items:center;gap:5px;}
+.bl-nav-dot{width:5px;height:5px;background:#4ade80;border-radius:50%;animation:blPulse 1.8s ease infinite;}
+@keyframes blPulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.bl-dropdown-menu.wide{min-width:250px;text-align:left;}
+.bl-dropdown-menu .subline{display:block;font-size:7px;letter-spacing:.06em;color:rgba(221,216,240,.28);text-transform:none;margin-top:2px;line-height:1.25;}
+.bl-nav-action{border:1px solid rgba(192,132,252,.22)!important;background:rgba(192,132,252,.06)!important;color:rgba(232,222,255,.72)!important;}
+.bl-nav-action:hover{background:rgba(192,132,252,.12)!important;color:#fff!important;}
+body{padding-top:52px !important;}
+@media(max-width:1100px){.bl-nav-links > li > a,.bl-dropdown-btn{font-size:8px;padding:5px 8px;}.bl-nav-brand{display:none;}}
+@media(max-width:720px){.bl-nav-links .sep{display:none;}.bl-nav-links > li > a,.bl-dropdown-btn{padding:5px 6px;letter-spacing:0.07em;}}
+</style>
+<nav class="bl-nav" role="navigation" aria-label="BlueLotus Navigation">
+  <div class="bl-nav-inner">
+    <a class="bl-nav-logo" href="https://sohweekian.github.io/bluelotus/">
+      <div class="bl-nav-petal"></div>
+      <span class="bl-nav-brand">BlueLotus&nbsp;Fund</span>
+    </a>
+    <ul class="bl-nav-links">
+      <li><a href="https://sohweekian.github.io/bluelotus/">Dashboard</a></li>
+      <li class="sep"></li>
+      <li><a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist.html">Portfolio</a></li>
+      <li class="sep"></li>
+      <li class="bl-dropdown">
+        <button class="bl-dropdown-btn bl-nav-action">Forecast <span class="bl-dropdown-arrow">&#9660;</span></button>
+        <div class="bl-dropdown-menu wide">
+          <a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist-superforecast.html"><span class="tribute-dot" style="background:#4ade80;"></span><span>Superforecast<span class="subline">78-ticker valuation + Brier tracker</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/superforecasting-thesis.html"><span class="tribute-dot" style="background:#fbbf24;"></span><span>Forecast Thesis<span class="subline">Protocol, calibration, Kelly discipline</span></span></a>
+        </div>
+      </li>
+      <li class="sep"></li>
+      <li><a href="https://sohweekian.github.io/bluelotus/bluelotus-framework.html">Framework</a></li>
+      <li class="sep"></li>
+      <li><a href="https://sohweekian.github.io/bluelotus/aladdin-story.html">Aladdin</a></li>
+      <li class="sep"></li>
+      <li><a href="https://sohweekian.github.io/bluelotus/chief-strategist.html">Strategist</a></li>
+      <li class="sep"></li>
+      <li><a href="https://sohweekian.github.io/bluelotus/cio-letter.html">CIO Letter</a></li>
+      <li class="sep"></li>
+      <li class="bl-dropdown">
+        <button class="bl-dropdown-btn">Tributes <span class="bl-dropdown-arrow">&#9660;</span></button>
+        <div class="bl-dropdown-menu">
+          <a href="https://sohweekian.github.io/bluelotus/einstein-tribute.html"><span class="tribute-dot" style="background:#ff5566;"></span>Einstein &mdash; Prime Mover</a>
+          <a href="https://sohweekian.github.io/bluelotus/shannon-tribute.html"><span class="tribute-dot" style="background:#4a9eff;"></span>Shannon &mdash; Information</a>
+          <a href="https://sohweekian.github.io/bluelotus/turing-tribute.html"><span class="tribute-dot" style="background:#00e5a0;"></span>Turing &mdash; Machine Mind</a>
+          <a href="https://sohweekian.github.io/bluelotus/thorp-tribute.html"><span class="tribute-dot" style="background:#c9a84c;"></span>Thorp &mdash; The Edge</a>
+          <div class="bl-dropdown-divider"></div>
+          <a href="https://sohweekian.github.io/bluelotus/gametheory-tribute.html"><span class="tribute-dot" style="background:#9b7fff;"></span>Von Neumann &amp; Nash</a>
+        </div>
+      </li>
+    </ul>
+    <div class="bl-nav-right">
+      <div class="bl-nav-live"><div class="bl-nav-dot"></div>Live&nbsp;v5.9</div>
+    </div>
+  </div>
+</nav>
+<script id="bl-nav-js">
+(function(){
+  document.querySelectorAll('.bl-dropdown-btn').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      var parent = btn.closest('.bl-dropdown');
+      document.querySelectorAll('.bl-dropdown.open').forEach(function(el){ if(el!==parent) el.classList.remove('open'); });
+      if(parent) parent.classList.toggle('open');
+    });
+  });
+  document.addEventListener('click', function(e){
+    if(!e.target.closest('.bl-dropdown')){
+      document.querySelectorAll('.bl-dropdown.open').forEach(function(el){ el.classList.remove('open'); });
+    }
+  });
+})();
+</script>
+
 <!DOCTYPE html>
 
 <html lang="en"><head>
@@ -27,56 +123,7 @@ table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
 table tr:hover td{background:rgba(192,132,252,0.05)}
 td{padding:7px 6px;border-bottom:1px solid rgba(255,255,255,0.03);vertical-align:middle}
 .footer{text-align:center;color:#21262d;font-size:10px;padding:28px;margin-top:20px;border-top:1px solid #21262d}
-</style><style id="bl-nav-css">
-.bl-nav{position:fixed;top:0;left:0;right:0;z-index:99999;background:rgba(8,8,14,.985);border-bottom:1px solid rgba(192,132,252,.18);backdrop-filter:blur(18px);font-family:'JetBrains Mono','DM Mono','Courier New',monospace;color:#ddd8f0}
-.bl-nav *{box-sizing:border-box}.bl-nav-inner{max-width:1560px;margin:0 auto;padding:0 22px;display:flex;align-items:center;justify-content:space-between;height:56px;gap:18px}.bl-nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:max-content}.bl-nav-petal{width:18px;height:18px;background:linear-gradient(135deg,#c084fc,#a855f7);border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 0 18px rgba(192,132,252,.28)}.bl-nav-brand{font-size:10px;font-weight:600;letter-spacing:.22em;color:#c084fc;text-transform:uppercase}.bl-nav-links{display:flex;align-items:center;gap:0;list-style:none;margin:0;padding:0}.bl-nav-links>li{position:relative}.bl-nav-links a,.bl-dropdown-btn{display:flex;align-items:center;gap:5px;font-size:9px;letter-spacing:.12em;color:rgba(221,216,240,.48);text-decoration:none;text-transform:uppercase;padding:7px 10px;border-radius:5px;transition:color .18s,background .18s,border-color .18s;white-space:nowrap;background:none;border:0;font-family:inherit;cursor:pointer}.bl-nav-links a:hover,.bl-dropdown-btn:hover,.bl-dropdown.open>.bl-dropdown-btn,.bl-dropdown:hover>.bl-dropdown-btn,.bl-nav-links a.active,.bl-dropdown-btn.active{color:#c084fc;background:rgba(192,132,252,.08)}.bl-nav-links .sep{width:1px;height:16px;background:rgba(255,255,255,.07);margin:0 2px;flex-shrink:0}.bl-dropdown-arrow{font-size:8px;opacity:.55;transition:transform .2s}.bl-dropdown.open .bl-dropdown-arrow,.bl-dropdown:hover .bl-dropdown-arrow{transform:rotate(180deg)}.bl-dropdown-menu{display:none;position:absolute;top:calc(100% + 7px);left:50%;transform:translateX(-50%);background:rgba(10,10,20,.99);border:1px solid rgba(192,132,252,.22);border-radius:10px;padding:7px;min-width:230px;backdrop-filter:blur(22px);box-shadow:0 18px 46px rgba(0,0,0,.64)}.bl-dropdown:hover .bl-dropdown-menu,.bl-dropdown.open .bl-dropdown-menu{display:block}.bl-dropdown-menu a{display:flex;align-items:center;gap:10px;padding:9px 12px;font-size:9px;letter-spacing:.11em;color:rgba(221,216,240,.58);border-radius:7px}.bl-dropdown-menu a:hover,.bl-dropdown-menu a.active{color:#fff;background:rgba(192,132,252,.10)}.tribute-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}.bl-dropdown-divider{height:1px;background:rgba(255,255,255,.07);margin:5px 0}.bl-nav-right{display:flex;align-items:center;gap:10px;min-width:max-content}.bl-nav-live{font-size:9px;letter-spacing:.12em;color:#4ade80;text-transform:uppercase;display:flex;align-items:center;gap:6px}.bl-nav-dot{width:6px;height:6px;background:#4ade80;border-radius:50%;animation:blPulse 1.8s ease infinite}@keyframes blPulse{0%,100%{opacity:1}50%{opacity:.35}}.bl-mobile-toggle{display:none;background:rgba(192,132,252,.08);border:1px solid rgba(192,132,252,.2);color:#c084fc;border-radius:8px;padding:7px 9px;font-size:14px;cursor:pointer}.bl-nav-pad{height:56px}.bl-nav ~ nav:not(.bl-nav){display:none!important}body{padding-top:56px!important}body>nav:not(.bl-nav){display:none!important}@media(max-width:1180px){.bl-nav-brand{display:none}.bl-nav-links a,.bl-dropdown-btn{font-size:8px;padding:7px 7px;letter-spacing:.08em}}@media(max-width:820px){.bl-nav-inner{height:auto;min-height:56px;align-items:flex-start;padding:10px 16px;flex-wrap:wrap}.bl-mobile-toggle{display:block;margin-left:auto}.bl-nav-links{display:none;flex-direction:column;align-items:stretch;width:100%;order:3;border-top:1px solid rgba(255,255,255,.07);padding-top:8px}.bl-nav.open .bl-nav-links{display:flex}.bl-nav-links .sep{display:none}.bl-nav-links a,.bl-dropdown-btn{justify-content:space-between;width:100%;padding:10px 8px}.bl-dropdown-menu{position:static;display:none;transform:none;box-shadow:none;min-width:0;width:100%;margin:4px 0 7px;background:rgba(255,255,255,.035)}.bl-dropdown.open .bl-dropdown-menu{display:block}.bl-nav-right{display:none}body{padding-top:76px!important}}
-</style></head><body><nav aria-label="BlueLotus Universal Navigation" class="bl-nav" role="navigation">
-<div class="bl-nav-inner">
-<a class="bl-nav-logo" href="https://sohweekian.github.io/bluelotus/"><div class="bl-nav-petal"></div><span class="bl-nav-brand">BlueLotus Fund</span></a>
-<button aria-label="Toggle navigation" class="bl-mobile-toggle" type="button">☰</button>
-<ul class="bl-nav-links">
-<li><a class="" href="https://sohweekian.github.io/bluelotus/">Dashboard</a></li><li class="sep"></li>
-<li><a class="" href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist.html">Portfolio</a></li><li class="sep"></li>
-<li class="bl-dropdown"><button class="bl-dropdown-btn active" type="button">Forecast <span class="bl-dropdown-arrow">▼</span></button>
-<div class="bl-dropdown-menu">
-<a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist-superforecast.html">◈ Superforecast Report</a>
-<a href="https://sohweekian.github.io/bluelotus/superforecasting-thesis.html">◆ Forecast Thesis</a>
-</div>
-</li><li class="sep"></li>
-<li><a class="" href="https://sohweekian.github.io/bluelotus/bluelotus-framework.html">Framework</a></li><li class="sep"></li>
-<li><a class="" href="https://sohweekian.github.io/bluelotus/aladdin-story.html">Aladdin</a></li><li class="sep"></li>
-<li><a class="" href="https://sohweekian.github.io/bluelotus/chief-strategist.html">Strategist</a></li><li class="sep"></li>
-<li><a class="" href="https://sohweekian.github.io/bluelotus/cio-letter.html">CIO Letter</a></li><li class="sep"></li>
-<li class="bl-dropdown"><button class="bl-dropdown-btn" type="button">Tributes <span class="bl-dropdown-arrow">▼</span></button>
-<div class="bl-dropdown-menu">
-<a href="https://sohweekian.github.io/bluelotus/einstein-tribute.html"><span class="tribute-dot" style="background:#ff5566"></span>Einstein — Prime Mover</a>
-<a href="https://sohweekian.github.io/bluelotus/shannon-tribute.html"><span class="tribute-dot" style="background:#4a9eff"></span>Shannon — Information</a>
-<a href="https://sohweekian.github.io/bluelotus/turing-tribute.html"><span class="tribute-dot" style="background:#00e5a0"></span>Turing — Machine Mind</a>
-<a href="https://sohweekian.github.io/bluelotus/thorp-tribute.html"><span class="tribute-dot" style="background:#c9a84c"></span>Thorp — The Edge</a>
-<div class="bl-dropdown-divider"></div>
-<a href="https://sohweekian.github.io/bluelotus/gametheory-tribute.html"><span class="tribute-dot" style="background:#9b7fff"></span>Von Neumann &amp; Nash</a>
-</div>
-</li>
-</ul>
-<div class="bl-nav-right"><div class="bl-nav-live"><div class="bl-nav-dot"></div>Live v5.9</div></div>
-</div>
-</nav>
-<script id="bl-nav-js">
-(function(){
-  var nav=document.querySelector('.bl-nav');
-  if(!nav) return;
-  var toggle=nav.querySelector('.bl-mobile-toggle');
-  if(toggle) toggle.addEventListener('click',function(e){e.stopPropagation();nav.classList.toggle('open');});
-  nav.querySelectorAll('.bl-dropdown-btn').forEach(function(btn){
-    btn.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();
-      var dd=btn.closest('.bl-dropdown');
-      nav.querySelectorAll('.bl-dropdown.open').forEach(function(x){if(x!==dd)x.classList.remove('open');});
-      dd.classList.toggle('open');
-    });
-  });
-  document.addEventListener('click',function(){nav.querySelectorAll('.bl-dropdown.open').forEach(function(x){x.classList.remove('open');});});
-})();
-</script>
+</style>
 <div class="hdr">
 <div class="hdr-top">
 <div>
