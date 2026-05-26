@@ -37,7 +37,8 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .empty-state{text-align:center;padding:80px 24px;color:rgba(221,216,240,0.2)}
 .empty-state p{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.15em}
 @media(max-width:640px){.hero{padding:60px 24px 40px}.container{padding:0 24px 60px}.meta-grid{margin:0 24px 40px}}
-</style><style id="bl-nav-css">
+</style></head><body>
+<style id="bl-nav-css">
 .bl-nav{position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(8,8,14,0.97);border-bottom:1px solid rgba(192,132,252,0.18);backdrop-filter:blur(16px);font-family:'JetBrains Mono','Courier New',monospace;}
 .bl-nav-inner{max-width:1500px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:52px;}
 .bl-nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
@@ -52,9 +53,9 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .bl-dropdown-btn{display:flex;align-items:center;gap:4px;font-size:9px;letter-spacing:0.13em;color:rgba(221,216,240,0.4);text-decoration:none;text-transform:uppercase;padding:6px 11px;border-radius:3px;cursor:pointer;transition:color 0.18s,background 0.18s;white-space:nowrap;background:none;border:none;font-family:inherit;}
 .bl-dropdown-btn:hover,.bl-dropdown:hover .bl-dropdown-btn{color:#c084fc;background:rgba(192,132,252,0.07);}
 .bl-dropdown-arrow{font-size:7px;opacity:0.5;transition:transform 0.2s;}
-.bl-dropdown:hover .bl-dropdown-arrow{transform:rotate(180deg);}
+.bl-dropdown:hover .bl-dropdown-arrow,.bl-dropdown.open .bl-dropdown-arrow{transform:rotate(180deg);}
 .bl-dropdown-menu{display:none;position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:rgba(10,10,20,0.98);border:1px solid rgba(192,132,252,0.2);border-radius:6px;padding:6px;min-width:190px;backdrop-filter:blur(20px);box-shadow:0 16px 40px rgba(0,0,0,0.6);}
-.bl-dropdown:hover .bl-dropdown-menu{display:block;}
+.bl-dropdown:hover .bl-dropdown-menu,.bl-dropdown.open .bl-dropdown-menu{display:block;}
 .bl-dropdown-menu a{display:flex;align-items:center;gap:10px;padding:8px 12px;font-size:9px;letter-spacing:0.12em;color:rgba(221,216,240,0.5);text-decoration:none;text-transform:uppercase;border-radius:4px;transition:all 0.15s;white-space:nowrap;}
 .bl-dropdown-menu a:hover{color:#c084fc;background:rgba(192,132,252,0.08);}
 .bl-dropdown-menu .tribute-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
@@ -85,8 +86,8 @@ body{padding-top:52px !important;}
       <li class="bl-dropdown">
         <button class="bl-dropdown-btn bl-nav-action">Forecast <span class="bl-dropdown-arrow">&#9660;</span></button>
         <div class="bl-dropdown-menu wide">
-          <a href="https://sohweekian.github.io/bluelotus/data/bluelotus-watchlist-superforecast_fixed.html"><span class="tribute-dot" style="background:#4ade80;"></span><span>Superforecast<span class="subline">78-ticker valuation + Brier tracker</span></span></a>
-          <a href="https://sohweekian.github.io/bluelotus/data/bluelotus-superforecasting-thesis.html"><span class="tribute-dot" style="background:#fbbf24;"></span><span>Forecast Thesis<span class="subline">Protocol, calibration, Kelly discipline</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist-superforecast.html"><span class="tribute-dot" style="background:#4ade80;"></span><span>Superforecast<span class="subline">78-ticker valuation + Brier tracker</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/superforecasting-thesis.html"><span class="tribute-dot" style="background:#fbbf24;"></span><span>Forecast Thesis<span class="subline">Protocol, calibration, Kelly discipline</span></span></a>
         </div>
       </li>
       <li class="sep"></li>
@@ -111,12 +112,29 @@ body{padding-top:52px !important;}
       </li>
     </ul>
     <div class="bl-nav-right">
-      <div class="bl-nav-live"><div class="bl-nav-dot"></div>Live&nbsp;v5.1</div>
+      <div class="bl-nav-live"><div class="bl-nav-dot"></div>Live&nbsp;v5.9</div>
     </div>
   </div>
 </nav>
+<script id="bl-nav-js">
+(function(){
+  document.querySelectorAll('.bl-dropdown-btn').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      var parent = btn.closest('.bl-dropdown');
+      document.querySelectorAll('.bl-dropdown.open').forEach(function(el){ if(el!==parent) el.classList.remove('open'); });
+      if(parent) parent.classList.toggle('open');
+    });
+  });
+  document.addEventListener('click', function(e){
+    if(!e.target.closest('.bl-dropdown')){
+      document.querySelectorAll('.bl-dropdown.open').forEach(function(el){ el.classList.remove('open'); });
+    }
+  });
+})();
+</script>
 
-</head><body>
+
 <div class="hero">
   <div class="hero-eyebrow">BlueLotus Fund · Singapore · 2026</div>
   <h1 class="hero-title">Chief Strategist<br><em>Report Archive</em></h1>
