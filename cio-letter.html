@@ -1,107 +1,3 @@
-<style id="bl-nav-css">
-.bl-nav{position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(8,8,14,0.97);border-bottom:1px solid rgba(192,132,252,0.18);backdrop-filter:blur(16px);font-family:'JetBrains Mono','Courier New',monospace;}
-.bl-nav-inner{max-width:1500px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:52px;}
-.bl-nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
-.bl-nav-petal{width:18px;height:18px;background:linear-gradient(135deg,#c084fc,#a855f7);border-radius:50% 50% 50% 0;transform:rotate(-45deg);flex-shrink:0;}
-.bl-nav-brand{font-size:10px;font-weight:500;letter-spacing:0.22em;color:#c084fc;text-transform:uppercase;}
-.bl-nav-links{display:flex;align-items:center;gap:0;list-style:none;margin:0;padding:0;}
-.bl-nav-links > li{position:relative;}
-.bl-nav-links > li > a{display:block;font-size:9px;letter-spacing:0.13em;color:rgba(221,216,240,0.4);text-decoration:none;text-transform:uppercase;padding:6px 11px;border-radius:3px;transition:color 0.18s,background 0.18s;white-space:nowrap;}
-.bl-nav-links > li > a:hover,.bl-nav-links > li > a.active{color:#c084fc;background:rgba(192,132,252,0.07);}
-.bl-nav-links .sep{width:1px;height:14px;background:rgba(255,255,255,0.07);margin:0 1px;flex-shrink:0;}
-.bl-dropdown{position:relative;}
-.bl-dropdown-btn{display:flex;align-items:center;gap:4px;font-size:9px;letter-spacing:0.13em;color:rgba(221,216,240,0.4);text-decoration:none;text-transform:uppercase;padding:6px 11px;border-radius:3px;cursor:pointer;transition:color 0.18s,background 0.18s;white-space:nowrap;background:none;border:none;font-family:inherit;}
-.bl-dropdown-btn:hover,.bl-dropdown:hover .bl-dropdown-btn{color:#c084fc;background:rgba(192,132,252,0.07);}
-.bl-dropdown-arrow{font-size:7px;opacity:0.5;transition:transform 0.2s;}
-.bl-dropdown:hover .bl-dropdown-arrow,.bl-dropdown.open .bl-dropdown-arrow{transform:rotate(180deg);}
-.bl-dropdown-menu{display:none;position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:rgba(10,10,20,0.98);border:1px solid rgba(192,132,252,0.2);border-radius:6px;padding:6px;min-width:190px;backdrop-filter:blur(20px);box-shadow:0 16px 40px rgba(0,0,0,0.6);}
-.bl-dropdown:hover .bl-dropdown-menu,.bl-dropdown.open .bl-dropdown-menu{display:block;}
-.bl-dropdown-menu a{display:flex;align-items:center;gap:10px;padding:8px 12px;font-size:9px;letter-spacing:0.12em;color:rgba(221,216,240,0.5);text-decoration:none;text-transform:uppercase;border-radius:4px;transition:all 0.15s;white-space:nowrap;}
-.bl-dropdown-menu a:hover{color:#c084fc;background:rgba(192,132,252,0.08);}
-.bl-dropdown-menu .tribute-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.bl-dropdown-divider{height:1px;background:rgba(255,255,255,0.06);margin:4px 0;}
-.bl-nav-right{display:flex;align-items:center;gap:10px;}
-.bl-nav-live{font-size:9px;letter-spacing:0.12em;color:#4ade80;text-transform:uppercase;display:flex;align-items:center;gap:5px;}
-.bl-nav-dot{width:5px;height:5px;background:#4ade80;border-radius:50%;animation:blPulse 1.8s ease infinite;}
-@keyframes blPulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
-.bl-dropdown-menu.wide{min-width:250px;text-align:left;}
-.bl-dropdown-menu .subline{display:block;font-size:7px;letter-spacing:.06em;color:rgba(221,216,240,.28);text-transform:none;margin-top:2px;line-height:1.25;}
-.bl-nav-action{border:1px solid rgba(192,132,252,.22)!important;background:rgba(192,132,252,.06)!important;color:rgba(232,222,255,.72)!important;}
-.bl-nav-action:hover{background:rgba(192,132,252,.12)!important;color:#fff!important;}
-body{padding-top:52px !important;}
-@media(max-width:1100px){.bl-nav-links > li > a,.bl-dropdown-btn{font-size:8px;padding:5px 8px;}.bl-nav-brand{display:none;}}
-@media(max-width:720px){.bl-nav-links .sep{display:none;}.bl-nav-links > li > a,.bl-dropdown-btn{padding:5px 6px;letter-spacing:0.07em;}}
-</style>
-<nav class="bl-nav" role="navigation" aria-label="BlueLotus Navigation">
-  <div class="bl-nav-inner">
-    <a class="bl-nav-logo" href="https://sohweekian.github.io/bluelotus/">
-      <div class="bl-nav-petal"></div>
-      <span class="bl-nav-brand">BlueLotus&nbsp;Fund</span>
-    </a>
-    <ul class="bl-nav-links">
-      <li><a href="https://sohweekian.github.io/bluelotus/">Dashboard</a></li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist.html">Portfolio</a></li>
-      <li class="sep"></li>
-      <li class="bl-dropdown">
-        <button class="bl-dropdown-btn bl-nav-action">Forecast <span class="bl-dropdown-arrow">&#9660;</span></button>
-        <div class="bl-dropdown-menu wide">
-          <a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist-superforecast.html"><span class="tribute-dot" style="background:#4ade80;"></span><span>Superforecast<span class="subline">78-ticker valuation + Brier tracker</span></span></a>
-          <a href="https://sohweekian.github.io/bluelotus/superforecasting-thesis.html"><span class="tribute-dot" style="background:#fbbf24;"></span><span>Forecast Thesis<span class="subline">Protocol, calibration, Kelly discipline</span></span></a>
-        </div>
-      </li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/bluelotus-framework.html">Framework</a></li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/aladdin-story.html">Aladdin</a></li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/chief-strategist.html">Strategist</a></li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/cio-letter.html" class="active">CIO Letter</a></li>
-      <li class="sep"></li>
-      <li class="bl-dropdown">
-        <button class="bl-dropdown-btn">Tributes <span class="bl-dropdown-arrow">&#9660;</span></button>
-        <div class="bl-dropdown-menu">
-          <a href="https://sohweekian.github.io/bluelotus/einstein-tribute.html"><span class="tribute-dot" style="background:#ff5566;"></span>Einstein &mdash; Prime Mover</a>
-          <a href="https://sohweekian.github.io/bluelotus/shannon-tribute.html"><span class="tribute-dot" style="background:#4a9eff;"></span>Shannon &mdash; Information</a>
-          <a href="https://sohweekian.github.io/bluelotus/turing-tribute.html"><span class="tribute-dot" style="background:#00e5a0;"></span>Turing &mdash; Machine Mind</a>
-          <a href="https://sohweekian.github.io/bluelotus/thorp-tribute.html"><span class="tribute-dot" style="background:#c9a84c;"></span>Thorp &mdash; The Edge</a>
-          <div class="bl-dropdown-divider"></div>
-          <a href="https://sohweekian.github.io/bluelotus/gametheory-tribute.html"><span class="tribute-dot" style="background:#9b7fff;"></span>Von Neumann &amp; Nash</a>
-        </div>
-      </li>
-    </ul>
-    <div class="bl-nav-right">
-      <div class="bl-nav-live"><div class="bl-nav-dot"></div>Live&nbsp;v5.9</div>
-    </div>
-  </div>
-</nav>
-<script id="bl-nav-js">
-(function(){
-  document.querySelectorAll('.bl-dropdown-btn').forEach(function(btn){
-    btn.addEventListener('click', function(e){
-      e.preventDefault();
-      var parent = btn.closest('.bl-dropdown');
-      document.querySelectorAll('.bl-dropdown.open').forEach(function(el){ if(el!==parent) el.classList.remove('open'); });
-      if(parent) parent.classList.toggle('open');
-    });
-  });
-  document.addEventListener('click', function(e){
-    if(!e.target.closest('.bl-dropdown')){
-      document.querySelectorAll('.bl-dropdown.open').forEach(function(el){ el.classList.remove('open'); });
-    }
-  });
-})();
-</script>
-
-
-
-
-
-
-
-
-
 <!DOCTYPE html>
 
 <html lang="en">
@@ -546,7 +442,57 @@ body{padding-top:52px !important;}
     color: var(--lotus2);
   }
 </style>
-
+<style id="bl-nav-css">
+.bl-nav{position:fixed;top:0;left:0;right:0;z-index:99999;background:rgba(8,8,14,.985);border-bottom:1px solid rgba(192,132,252,.18);backdrop-filter:blur(18px);font-family:'JetBrains Mono','DM Mono','Courier New',monospace;color:#ddd8f0}
+.bl-nav *{box-sizing:border-box}.bl-nav-inner{max-width:1560px;margin:0 auto;padding:0 22px;display:flex;align-items:center;justify-content:space-between;height:56px;gap:18px}.bl-nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:max-content}.bl-nav-petal{width:18px;height:18px;background:linear-gradient(135deg,#c084fc,#a855f7);border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 0 18px rgba(192,132,252,.28)}.bl-nav-brand{font-size:10px;font-weight:600;letter-spacing:.22em;color:#c084fc;text-transform:uppercase}.bl-nav-links{display:flex;align-items:center;gap:0;list-style:none;margin:0;padding:0}.bl-nav-links>li{position:relative}.bl-nav-links a,.bl-dropdown-btn{display:flex;align-items:center;gap:5px;font-size:9px;letter-spacing:.12em;color:rgba(221,216,240,.48);text-decoration:none;text-transform:uppercase;padding:7px 10px;border-radius:5px;transition:color .18s,background .18s,border-color .18s;white-space:nowrap;background:none;border:0;font-family:inherit;cursor:pointer}.bl-nav-links a:hover,.bl-dropdown-btn:hover,.bl-dropdown.open>.bl-dropdown-btn,.bl-dropdown:hover>.bl-dropdown-btn,.bl-nav-links a.active,.bl-dropdown-btn.active{color:#c084fc;background:rgba(192,132,252,.08)}.bl-nav-links .sep{width:1px;height:16px;background:rgba(255,255,255,.07);margin:0 2px;flex-shrink:0}.bl-dropdown-arrow{font-size:8px;opacity:.55;transition:transform .2s}.bl-dropdown.open .bl-dropdown-arrow,.bl-dropdown:hover .bl-dropdown-arrow{transform:rotate(180deg)}.bl-dropdown-menu{display:none;position:absolute;top:calc(100% + 7px);left:50%;transform:translateX(-50%);background:rgba(10,10,20,.99);border:1px solid rgba(192,132,252,.22);border-radius:10px;padding:7px;min-width:230px;backdrop-filter:blur(22px);box-shadow:0 18px 46px rgba(0,0,0,.64)}.bl-dropdown:hover .bl-dropdown-menu,.bl-dropdown.open .bl-dropdown-menu{display:block}.bl-dropdown-menu a{display:flex;align-items:center;gap:10px;padding:9px 12px;font-size:9px;letter-spacing:.11em;color:rgba(221,216,240,.58);border-radius:7px}.bl-dropdown-menu a:hover,.bl-dropdown-menu a.active{color:#fff;background:rgba(192,132,252,.10)}.tribute-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}.bl-dropdown-divider{height:1px;background:rgba(255,255,255,.07);margin:5px 0}.bl-nav-right{display:flex;align-items:center;gap:10px;min-width:max-content}.bl-nav-live{font-size:9px;letter-spacing:.12em;color:#4ade80;text-transform:uppercase;display:flex;align-items:center;gap:6px}.bl-nav-dot{width:6px;height:6px;background:#4ade80;border-radius:50%;animation:blPulse 1.8s ease infinite}@keyframes blPulse{0%,100%{opacity:1}50%{opacity:.35}}.bl-mobile-toggle{display:none;background:rgba(192,132,252,.08);border:1px solid rgba(192,132,252,.2);color:#c084fc;border-radius:8px;padding:7px 9px;font-size:14px;cursor:pointer}.bl-nav-pad{height:56px}.bl-nav ~ nav:not(.bl-nav){display:none!important}body{padding-top:56px!important}body>nav:not(.bl-nav){display:none!important}@media(max-width:1180px){.bl-nav-brand{display:none}.bl-nav-links a,.bl-dropdown-btn{font-size:8px;padding:7px 7px;letter-spacing:.08em}}@media(max-width:820px){.bl-nav-inner{height:auto;min-height:56px;align-items:flex-start;padding:10px 16px;flex-wrap:wrap}.bl-mobile-toggle{display:block;margin-left:auto}.bl-nav-links{display:none;flex-direction:column;align-items:stretch;width:100%;order:3;border-top:1px solid rgba(255,255,255,.07);padding-top:8px}.bl-nav.open .bl-nav-links{display:flex}.bl-nav-links .sep{display:none}.bl-nav-links a,.bl-dropdown-btn{justify-content:space-between;width:100%;padding:10px 8px}.bl-dropdown-menu{position:static;display:none;transform:none;box-shadow:none;min-width:0;width:100%;margin:4px 0 7px;background:rgba(255,255,255,.035)}.bl-dropdown.open .bl-dropdown-menu{display:block}.bl-nav-right{display:none}body{padding-top:76px!important}}
+</style></head>
+<body><nav aria-label="BlueLotus Universal Navigation" class="bl-nav" role="navigation">
+<div class="bl-nav-inner">
+<a class="bl-nav-logo" href="https://sohweekian.github.io/bluelotus/"><div class="bl-nav-petal"></div><span class="bl-nav-brand">BlueLotus Fund</span></a>
+<button aria-label="Toggle navigation" class="bl-mobile-toggle" type="button">☰</button>
+<ul class="bl-nav-links">
+<li><a class="" href="https://sohweekian.github.io/bluelotus/">Dashboard</a></li><li class="sep"></li>
+<li><a class="" href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist.html">Portfolio</a></li><li class="sep"></li>
+<li class="bl-dropdown"><button class="bl-dropdown-btn" type="button">Forecast <span class="bl-dropdown-arrow">▼</span></button>
+<div class="bl-dropdown-menu">
+<a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist-superforecast.html">◈ Superforecast Report</a>
+<a href="https://sohweekian.github.io/bluelotus/superforecasting-thesis.html">◆ Forecast Thesis</a>
+</div>
+</li><li class="sep"></li>
+<li><a class="" href="https://sohweekian.github.io/bluelotus/bluelotus-framework.html">Framework</a></li><li class="sep"></li>
+<li><a class="" href="https://sohweekian.github.io/bluelotus/aladdin-story.html">Aladdin</a></li><li class="sep"></li>
+<li><a class="" href="https://sohweekian.github.io/bluelotus/chief-strategist.html">Strategist</a></li><li class="sep"></li>
+<li><a class="active" href="https://sohweekian.github.io/bluelotus/cio-letter.html">CIO Letter</a></li><li class="sep"></li>
+<li class="bl-dropdown"><button class="bl-dropdown-btn" type="button">Tributes <span class="bl-dropdown-arrow">▼</span></button>
+<div class="bl-dropdown-menu">
+<a href="https://sohweekian.github.io/bluelotus/einstein-tribute.html"><span class="tribute-dot" style="background:#ff5566"></span>Einstein — Prime Mover</a>
+<a href="https://sohweekian.github.io/bluelotus/shannon-tribute.html"><span class="tribute-dot" style="background:#4a9eff"></span>Shannon — Information</a>
+<a href="https://sohweekian.github.io/bluelotus/turing-tribute.html"><span class="tribute-dot" style="background:#00e5a0"></span>Turing — Machine Mind</a>
+<a href="https://sohweekian.github.io/bluelotus/thorp-tribute.html"><span class="tribute-dot" style="background:#c9a84c"></span>Thorp — The Edge</a>
+<div class="bl-dropdown-divider"></div>
+<a href="https://sohweekian.github.io/bluelotus/gametheory-tribute.html"><span class="tribute-dot" style="background:#9b7fff"></span>Von Neumann &amp; Nash</a>
+</div>
+</li>
+</ul>
+<div class="bl-nav-right"><div class="bl-nav-live"><div class="bl-nav-dot"></div>Live v5.9</div></div>
+</div>
+</nav>
+<script id="bl-nav-js">
+(function(){
+  var nav=document.querySelector('.bl-nav');
+  if(!nav) return;
+  var toggle=nav.querySelector('.bl-mobile-toggle');
+  if(toggle) toggle.addEventListener('click',function(e){e.stopPropagation();nav.classList.toggle('open');});
+  nav.querySelectorAll('.bl-dropdown-btn').forEach(function(btn){
+    btn.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();
+      var dd=btn.closest('.bl-dropdown');
+      nav.querySelectorAll('.bl-dropdown.open').forEach(function(x){if(x!==dd)x.classList.remove('open');});
+      dd.classList.toggle('open');
+    });
+  });
+  document.addEventListener('click',function(){nav.querySelectorAll('.bl-dropdown.open').forEach(function(x){x.classList.remove('open');});});
+})();
+</script>
 
 
 
@@ -556,7 +502,7 @@ body{padding-top:52px !important;}
 <div class="hero-meta">
 <span class="hero-pill">Kian Soh · Chief Investment Officer</span>
 <span class="hero-pill">24 May 2026</span>
-<span class="hero-pill">Edition 007</span>
+<span class="hero-pill">Edition 008</span>
 </div>
 <div class="hero-rule"></div>
 </div>
@@ -565,6 +511,220 @@ body{padding-top:52px !important;}
 <div class="letter-block">
 <div class="letter-tag">Chief Investment Officer · Official Correspondence</div>
 <div class="letter-body">
+<!-- ══ EDITION 008 — MAY 27, 2026 ══ -->
+      <div class="edition-block">
+        <div class="edition-tag">
+          <span class="edition-num">Edition 008</span>
+          <span class="edition-date">27 May 2026</span>
+        </div>
+
+        <p style="font-style:italic;color:var(--muted);font-size:14px;margin-bottom:20px">
+          Subject: Late-Cycle Intelligence — What the Market Is Telling Us
+        </p>
+
+        <p>
+          This edition is unusual. It is not about a specific trade or portfolio
+          action. It is about situational awareness — reading the market regime
+          correctly, neither panicking nor being complacent, and understanding
+          where BlueLotus stands relative to the landscape.
+        </p>
+
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:28px 0 10px">
+          What the data says
+        </h3>
+
+        <p>
+          Market valuations are historically stretched by every major metric we
+          track. The S&amp;P 500 CAPE ratio sits at approximately 39.8 — a level
+          only exceeded twice in 153 years of recorded data: briefly before the
+          1929 crash, and at the peak of the dot-com bubble in 2000. The Buffett
+          Indicator — total market capitalisation as a percentage of GDP — stands
+          at 217–228%, dwarfing even the dot-com peak of 150%.
+        </p>
+
+        <p>
+          These are not minor anomalies. They are structural signals that the
+          market is pricing in a great deal of future optimism.
+        </p>
+
+        <p>
+          At the same time, our 78-ticker Superforecasting Watchlist tells a
+          consistent story: the majority of stocks across AI infrastructure,
+          semiconductors, space, quantum computing, and clean energy are trading
+          above our independently derived BlueLotus fair value targets. This is
+          not a coincidence. It reflects a market where narrative momentum has
+          moved price significantly ahead of fundamentals across entire sectors
+          simultaneously.
+        </p>
+
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:28px 0 10px">
+          What the data does not say
+        </h3>
+
+        <p>
+          This is where intellectual honesty matters.
+        </p>
+
+        <p>
+          Stretched valuations are not a timing signal. They are a risk signal.
+          Markets can remain expensive for extended periods — sometimes years —
+          before mean reversion occurs. The late 1990s ran for four years at CAPE
+          ratios above 30 before the dot-com collapse. Amazon was considered
+          overvalued at $10. Microsoft was considered expensive at $50. Both went
+          on to become the most valuable companies in history.
+        </p>
+
+        <p>
+          More importantly, today's market structure is materially different from
+          1929. S&amp;P 500 companies are projecting approximately 15% earnings
+          growth in 2026. AI infrastructure spending is generating real,
+          measurable revenue for companies like NVIDIA, Broadcom, and Microsoft.
+          This is not the speculative fiction of dot-com page-view metrics. Real
+          earnings exist today. That matters enormously.
+        </p>
+
+        <p>
+          The most accurate framing is not <em>imminent crash</em> — it is a
+          late-cycle AI and liquidity expansion regime, characterised by elevated
+          valuations, thematic concentration, suppressed volatility, and periodic
+          violent sector repricings within a continuing multi-year AI
+          infrastructure cycle. Sharp corrections are likely. Systemic collapse
+          is not the base case.
+        </p>
+
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:28px 0 10px">
+          What this means for BlueLotus
+        </h3>
+
+        <p>
+          Our portfolio is defensively positioned — not by accident, but by
+          design.
+        </p>
+
+        <p>
+          We hold BAC (150 units) and WFC (40 units) — the two names in our
+          78-ticker universe that benefit structurally from the most likely macro
+          trigger: Warsh rate hikes driving net interest margin expansion. In a
+          rate-driven correction, banks are relatively insulated — even
+          advantaged — compared to long-duration speculative growth names. This
+          is not a guarantee. If the correction evolves into a full recession
+          with credit deterioration, banks face their own pressures. But relative
+          to quantum, space, and clean energy names, the risk-reward is
+          significantly more favourable.
+        </p>
+
+        <p>
+          We hold 81% cash — approximately $45,544 — uncommitted and ready. This
+          is not paralysis. This is optionality. We are not forced to chase
+          momentum. We are not forced to panic-sell. We can deploy capital when
+          prices come to us, not when we chase them.
+        </p>
+
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:28px 0 10px">
+          The sector correction context
+        </h3>
+
+        <p>
+          For investors who want to understand what a correction means in
+          concrete terms for the names on our watchlist, the historical data from
+          comparable episodes is instructive. In a mild 15–20% market
+          correction — our most probable scenario at 55% — speculative quantum
+          and space names historically fall 40–60%, not 15–20%. Pre-revenue
+          names with thin floats are always the first and hardest hit. AI
+          infrastructure names with real earnings fall 20–35%. Banks, in a
+          rate-hike driven correction, may be flat to modestly positive.
+        </p>
+
+        <p>
+          This asymmetry is why our working order entries for quantum and space
+          names are set where they are. QBTS at $17.80–$22 and ASTS at $85–$88
+          are not wishful thinking. They are disciplined entry points that become
+          available precisely when the correction the market is building toward
+          eventually arrives. The oscillation trade thesis captures post-correction
+          recoveries in high-momentum names — not exposure through the correction
+          itself.
+        </p>
+
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:28px 0 10px">
+          The Aladdin scenario matrix — current probabilities
+        </h3>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);
+          border-radius:8px;padding:20px 24px;margin:16px 0">
+          <table style="width:100%;border-collapse:collapse;font-size:13px">
+            <tr style="border-bottom:1px solid var(--border)">
+              <th style="padding:8px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:10px">SCENARIO</th>
+              <th style="padding:8px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:10px">PROBABILITY</th>
+              <th style="padding:8px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:10px">TRIGGER</th>
+              <th style="padding:8px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:10px">BANK IMPACT</th>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+              <td style="padding:10px 8px;font-weight:600">Orderly correction 15–20%</td>
+              <td style="padding:10px 8px;font-family:var(--mono);color:#16a34a">55%</td>
+              <td style="padding:10px 8px;color:var(--muted)">Hot PCE + Warsh hike</td>
+              <td style="padding:10px 8px;color:#16a34a">Flat to +10% — NIM expands</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+              <td style="padding:10px 8px;font-weight:600">Melt-up continues</td>
+              <td style="padding:10px 8px;font-family:var(--mono);color:#ca8a04">25%</td>
+              <td style="padding:10px 8px;color:var(--muted)">AI earnings beat, Iran resolution</td>
+              <td style="padding:10px 8px;color:#16a34a">+5 to +15%</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+              <td style="padding:10px 8px;font-weight:600">Severe correction 30–40%</td>
+              <td style="padding:10px 8px;font-family:var(--mono);color:#dc2626">15%</td>
+              <td style="padding:10px 8px;color:var(--muted)">Recession signal + credit stress</td>
+              <td style="padding:10px 8px;color:#dc2626">-20 to -35%</td>
+            </tr>
+            <tr>
+              <td style="padding:10px 8px;font-weight:600">Crash 50%+</td>
+              <td style="padding:10px 8px;font-family:var(--mono);color:#dc2626">5%</td>
+              <td style="padding:10px 8px;color:var(--muted)">Hormuz closure + systemic event</td>
+              <td style="padding:10px 8px;color:#dc2626">-50 to -70%</td>
+            </tr>
+          </table>
+        </div>
+
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:28px 0 10px">
+          The honest strategic summary
+        </h3>
+
+        <p>
+          We are in a late-cycle environment where cash is valuable optionality
+          rather than a missed opportunity. Banks are relatively well positioned
+          for the most likely macro trigger. Quantum, space, and clean energy
+          names carry severe correction risk at current prices. The AI
+          infrastructure cycle is real and continuing — but current prices across
+          most names price in perfection.
+        </p>
+
+        <p>
+          PCE on Thursday 28 May at 8:30pm SGT is the single most important
+          near-term data point. Our strategy is unchanged: deploy into BAC and
+          WFC on a hot print, allow oscillation working orders to fill during any
+          correction, maintain the cash buffer, and let the machine work.
+        </p>
+
+        <p>
+          Thorp did not bet until the edge was proven mathematically. Tetlock did
+          not claim forecasting skill until the Brier Score confirmed it across
+          hundreds of questions. BlueLotus does not deploy capital until the
+          risk-reward is asymmetric in our favour.
+        </p>
+
+        <p>
+          The current position — defensively constructed, patiently held — is not
+          a failure of conviction. It is the expression of it.
+        </p>
+
+        <div class="edition-sign">
+          <span class="sign-name-sm">Kian Soh</span>
+          <span class="sign-title-sm">Chief Investment Officer · BlueLotus Fund · Singapore</span>
+        </div>
+      </div>
+
+      <div class="edition-divider"></div>
+
 <!-- ══ EDITION 007 — MAY 26, 2026 ══ -->
 <div class="edition-block">
 <div class="edition-tag">
