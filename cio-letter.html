@@ -1,109 +1,11 @@
-<style id="bl-nav-css">
-.bl-nav{position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(8,8,14,0.97);border-bottom:1px solid rgba(192,132,252,0.18);backdrop-filter:blur(16px);font-family:'JetBrains Mono','Courier New',monospace;}
-.bl-nav-inner{max-width:1500px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:52px;}
-.bl-nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
-.bl-nav-petal{width:18px;height:18px;background:linear-gradient(135deg,#c084fc,#a855f7);border-radius:50% 50% 50% 0;transform:rotate(-45deg);flex-shrink:0;}
-.bl-nav-brand{font-size:10px;font-weight:500;letter-spacing:0.22em;color:#c084fc;text-transform:uppercase;}
-.bl-nav-links{display:flex;align-items:center;gap:0;list-style:none;margin:0;padding:0;}
-.bl-nav-links > li{position:relative;}
-.bl-nav-links > li > a{display:block;font-size:9px;letter-spacing:0.13em;color:rgba(221,216,240,0.4);text-decoration:none;text-transform:uppercase;padding:6px 11px;border-radius:3px;transition:color 0.18s,background 0.18s;white-space:nowrap;}
-.bl-nav-links > li > a:hover,.bl-nav-links > li > a.active{color:#c084fc;background:rgba(192,132,252,0.07);}
-.bl-nav-links .sep{width:1px;height:14px;background:rgba(255,255,255,0.07);margin:0 1px;flex-shrink:0;}
-.bl-dropdown{position:relative;}
-.bl-dropdown-btn{display:flex;align-items:center;gap:4px;font-size:9px;letter-spacing:0.13em;color:rgba(221,216,240,0.4);text-decoration:none;text-transform:uppercase;padding:6px 11px;border-radius:3px;cursor:pointer;transition:color 0.18s,background 0.18s;white-space:nowrap;background:none;border:none;font-family:inherit;}
-.bl-dropdown-btn:hover,.bl-dropdown:hover .bl-dropdown-btn{color:#c084fc;background:rgba(192,132,252,0.07);}
-.bl-dropdown-arrow{font-size:7px;opacity:0.5;transition:transform 0.2s;}
-.bl-dropdown:hover .bl-dropdown-arrow,.bl-dropdown.open .bl-dropdown-arrow{transform:rotate(180deg);}
-.bl-dropdown-menu{display:none;position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:rgba(10,10,20,0.98);border:1px solid rgba(192,132,252,0.2);border-radius:6px;padding:6px;min-width:190px;backdrop-filter:blur(20px);box-shadow:0 16px 40px rgba(0,0,0,0.6);}
-.bl-dropdown:hover .bl-dropdown-menu,.bl-dropdown.open .bl-dropdown-menu{display:block;}
-.bl-dropdown-menu a{display:flex;align-items:center;gap:10px;padding:8px 12px;font-size:9px;letter-spacing:0.12em;color:rgba(221,216,240,0.5);text-decoration:none;text-transform:uppercase;border-radius:4px;transition:all 0.15s;white-space:nowrap;}
-.bl-dropdown-menu a:hover{color:#c084fc;background:rgba(192,132,252,0.08);}
-.bl-dropdown-menu .tribute-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.bl-dropdown-divider{height:1px;background:rgba(255,255,255,0.06);margin:4px 0;}
-.bl-nav-right{display:flex;align-items:center;gap:10px;}
-.bl-nav-live{font-size:9px;letter-spacing:0.12em;color:#4ade80;text-transform:uppercase;display:flex;align-items:center;gap:5px;}
-.bl-nav-dot{width:5px;height:5px;background:#4ade80;border-radius:50%;animation:blPulse 1.8s ease infinite;}
-@keyframes blPulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
-.bl-dropdown-menu.wide{min-width:250px;text-align:left;}
-.bl-dropdown-menu .subline{display:block;font-size:7px;letter-spacing:.06em;color:rgba(221,216,240,.28);text-transform:none;margin-top:2px;line-height:1.25;}
-.bl-nav-action{border:1px solid rgba(192,132,252,.22)!important;background:rgba(192,132,252,.06)!important;color:rgba(232,222,255,.72)!important;}
-.bl-nav-action:hover{background:rgba(192,132,252,.12)!important;color:#fff!important;}
-body{padding-top:52px !important;}
-@media(max-width:1100px){.bl-nav-links > li > a,.bl-dropdown-btn{font-size:8px;padding:5px 8px;}.bl-nav-brand{display:none;}}
-@media(max-width:720px){.bl-nav-links .sep{display:none;}.bl-nav-links > li > a,.bl-dropdown-btn{padding:5px 6px;letter-spacing:0.07em;}}
-</style>
-<nav class="bl-nav" role="navigation" aria-label="BlueLotus Navigation">
-  <div class="bl-nav-inner">
-    <a class="bl-nav-logo" href="https://sohweekian.github.io/bluelotus/">
-      <div class="bl-nav-petal"></div>
-      <span class="bl-nav-brand">BlueLotus&nbsp;Fund</span>
-    </a>
-    <ul class="bl-nav-links">
-      <li><a href="https://sohweekian.github.io/bluelotus/">Dashboard</a></li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist.html">Portfolio</a></li>
-      <li class="sep"></li>
-      <li class="bl-dropdown">
-        <button class="bl-dropdown-btn bl-nav-action">Forecast <span class="bl-dropdown-arrow">&#9660;</span></button>
-        <div class="bl-dropdown-menu wide">
-          <a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist-superforecast.html"><span class="tribute-dot" style="background:#4ade80;"></span><span>Superforecast<span class="subline">78-ticker valuation + Brier tracker</span></span></a>
-          <a href="https://sohweekian.github.io/bluelotus/superforecasting-thesis.html"><span class="tribute-dot" style="background:#fbbf24;"></span><span>Forecast Thesis<span class="subline">Protocol, calibration, Kelly discipline</span></span></a>
-        </div>
-      </li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/bluelotus-framework.html">Framework</a></li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/aladdin-story.html">Aladdin</a></li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/chief-strategist.html">Strategist</a></li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/cio-letter.html" class="active">CIO Letter</a></li>
-      <li class="sep"></li>
-      <li class="bl-dropdown">
-        <button class="bl-dropdown-btn">Tributes <span class="bl-dropdown-arrow">&#9660;</span></button>
-        <div class="bl-dropdown-menu">
-          <a href="https://sohweekian.github.io/bluelotus/einstein-tribute.html"><span class="tribute-dot" style="background:#ff5566;"></span>Einstein &mdash; Prime Mover</a>
-          <a href="https://sohweekian.github.io/bluelotus/shannon-tribute.html"><span class="tribute-dot" style="background:#4a9eff;"></span>Shannon &mdash; Information</a>
-          <a href="https://sohweekian.github.io/bluelotus/turing-tribute.html"><span class="tribute-dot" style="background:#00e5a0;"></span>Turing &mdash; Machine Mind</a>
-          <a href="https://sohweekian.github.io/bluelotus/thorp-tribute.html"><span class="tribute-dot" style="background:#c9a84c;"></span>Thorp &mdash; The Edge</a>
-          <div class="bl-dropdown-divider"></div>
-          <a href="https://sohweekian.github.io/bluelotus/gametheory-tribute.html"><span class="tribute-dot" style="background:#9b7fff;"></span>Von Neumann &amp; Nash</a>
-        </div>
-      </li>
-    </ul>
-    <div class="bl-nav-right">
-      <div class="bl-nav-live"><div class="bl-nav-dot"></div>Live&nbsp;v5.9</div>
-    </div>
-  </div>
-</nav>
-<script id="bl-nav-js">
-(function(){
-  document.querySelectorAll('.bl-dropdown-btn').forEach(function(btn){
-    btn.addEventListener('click', function(e){
-      e.preventDefault();
-      var parent = btn.closest('.bl-dropdown');
-      document.querySelectorAll('.bl-dropdown.open').forEach(function(el){ if(el!==parent) el.classList.remove('open'); });
-      if(parent) parent.classList.toggle('open');
-    });
-  });
-  document.addEventListener('click', function(e){
-    if(!e.target.closest('.bl-dropdown')){
-      document.querySelectorAll('.bl-dropdown.open').forEach(function(el){ el.classList.remove('open'); });
-    }
-  });
-})();
-</script>
-
-
-
 <!DOCTYPE html>
 
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>CIO Letter Edition 009 — Cognitive Infrastructure | BlueLotus Fund</title>
-<meta content="BlueLotus Fund CIO Letter Edition 009 — Toward Cognitive Infrastructure for Decision Compression. From Kian Soh, Chief Investment Officer. 27 May 2026." name="description"/>
+<title>CIO Letter Edition 010 — Evening Session Debrief | BlueLotus Fund</title>
+<meta content="BlueLotus Fund CIO Letter Edition 010 — Evening Session Debrief, May 27 2026. Portfolio repositioning ahead of PCE. From Kian Soh, Chief Investment Officer." name="description"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&amp;family=DM+Mono:wght@300;400;500&amp;family=Lora:ital,wght@0,400;0,500;1,400&amp;display=swap" rel="stylesheet"/>
 <style>
@@ -540,7 +442,57 @@ body{padding-top:52px !important;}
     color: var(--lotus2);
   }
 </style>
-
+<style id="bl-nav-css">
+.bl-nav{position:fixed;top:0;left:0;right:0;z-index:99999;background:rgba(8,8,14,.985);border-bottom:1px solid rgba(192,132,252,.18);backdrop-filter:blur(18px);font-family:'JetBrains Mono','DM Mono','Courier New',monospace;color:#ddd8f0}
+.bl-nav *{box-sizing:border-box}.bl-nav-inner{max-width:1560px;margin:0 auto;padding:0 22px;display:flex;align-items:center;justify-content:space-between;height:56px;gap:18px}.bl-nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:max-content}.bl-nav-petal{width:18px;height:18px;background:linear-gradient(135deg,#c084fc,#a855f7);border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 0 18px rgba(192,132,252,.28)}.bl-nav-brand{font-size:10px;font-weight:600;letter-spacing:.22em;color:#c084fc;text-transform:uppercase}.bl-nav-links{display:flex;align-items:center;gap:0;list-style:none;margin:0;padding:0}.bl-nav-links>li{position:relative}.bl-nav-links a,.bl-dropdown-btn{display:flex;align-items:center;gap:5px;font-size:9px;letter-spacing:.12em;color:rgba(221,216,240,.48);text-decoration:none;text-transform:uppercase;padding:7px 10px;border-radius:5px;transition:color .18s,background .18s,border-color .18s;white-space:nowrap;background:none;border:0;font-family:inherit;cursor:pointer}.bl-nav-links a:hover,.bl-dropdown-btn:hover,.bl-dropdown.open>.bl-dropdown-btn,.bl-dropdown:hover>.bl-dropdown-btn,.bl-nav-links a.active,.bl-dropdown-btn.active{color:#c084fc;background:rgba(192,132,252,.08)}.bl-nav-links .sep{width:1px;height:16px;background:rgba(255,255,255,.07);margin:0 2px;flex-shrink:0}.bl-dropdown-arrow{font-size:8px;opacity:.55;transition:transform .2s}.bl-dropdown.open .bl-dropdown-arrow,.bl-dropdown:hover .bl-dropdown-arrow{transform:rotate(180deg)}.bl-dropdown-menu{display:none;position:absolute;top:calc(100% + 7px);left:50%;transform:translateX(-50%);background:rgba(10,10,20,.99);border:1px solid rgba(192,132,252,.22);border-radius:10px;padding:7px;min-width:230px;backdrop-filter:blur(22px);box-shadow:0 18px 46px rgba(0,0,0,.64)}.bl-dropdown:hover .bl-dropdown-menu,.bl-dropdown.open .bl-dropdown-menu{display:block}.bl-dropdown-menu a{display:flex;align-items:center;gap:10px;padding:9px 12px;font-size:9px;letter-spacing:.11em;color:rgba(221,216,240,.58);border-radius:7px}.bl-dropdown-menu a:hover,.bl-dropdown-menu a.active{color:#fff;background:rgba(192,132,252,.10)}.tribute-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}.bl-dropdown-divider{height:1px;background:rgba(255,255,255,.07);margin:5px 0}.bl-nav-right{display:flex;align-items:center;gap:10px;min-width:max-content}.bl-nav-live{font-size:9px;letter-spacing:.12em;color:#4ade80;text-transform:uppercase;display:flex;align-items:center;gap:6px}.bl-nav-dot{width:6px;height:6px;background:#4ade80;border-radius:50%;animation:blPulse 1.8s ease infinite}@keyframes blPulse{0%,100%{opacity:1}50%{opacity:.35}}.bl-mobile-toggle{display:none;background:rgba(192,132,252,.08);border:1px solid rgba(192,132,252,.2);color:#c084fc;border-radius:8px;padding:7px 9px;font-size:14px;cursor:pointer}.bl-nav-pad{height:56px}.bl-nav ~ nav:not(.bl-nav){display:none!important}body{padding-top:56px!important}body>nav:not(.bl-nav){display:none!important}@media(max-width:1180px){.bl-nav-brand{display:none}.bl-nav-links a,.bl-dropdown-btn{font-size:8px;padding:7px 7px;letter-spacing:.08em}}@media(max-width:820px){.bl-nav-inner{height:auto;min-height:56px;align-items:flex-start;padding:10px 16px;flex-wrap:wrap}.bl-mobile-toggle{display:block;margin-left:auto}.bl-nav-links{display:none;flex-direction:column;align-items:stretch;width:100%;order:3;border-top:1px solid rgba(255,255,255,.07);padding-top:8px}.bl-nav.open .bl-nav-links{display:flex}.bl-nav-links .sep{display:none}.bl-nav-links a,.bl-dropdown-btn{justify-content:space-between;width:100%;padding:10px 8px}.bl-dropdown-menu{position:static;display:none;transform:none;box-shadow:none;min-width:0;width:100%;margin:4px 0 7px;background:rgba(255,255,255,.035)}.bl-dropdown.open .bl-dropdown-menu{display:block}.bl-nav-right{display:none}body{padding-top:76px!important}}
+</style></head>
+<body><nav aria-label="BlueLotus Universal Navigation" class="bl-nav" role="navigation">
+<div class="bl-nav-inner">
+<a class="bl-nav-logo" href="https://sohweekian.github.io/bluelotus/"><div class="bl-nav-petal"></div><span class="bl-nav-brand">BlueLotus Fund</span></a>
+<button aria-label="Toggle navigation" class="bl-mobile-toggle" type="button">☰</button>
+<ul class="bl-nav-links">
+<li><a class="" href="https://sohweekian.github.io/bluelotus/">Dashboard</a></li><li class="sep"></li>
+<li><a class="" href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist.html">Portfolio</a></li><li class="sep"></li>
+<li class="bl-dropdown"><button class="bl-dropdown-btn" type="button">Forecast <span class="bl-dropdown-arrow">▼</span></button>
+<div class="bl-dropdown-menu">
+<a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist-superforecast.html">◈ Superforecast Report</a>
+<a href="https://sohweekian.github.io/bluelotus/superforecasting-thesis.html">◆ Forecast Thesis</a>
+</div>
+</li><li class="sep"></li>
+<li><a class="" href="https://sohweekian.github.io/bluelotus/bluelotus-framework.html">Framework</a></li><li class="sep"></li>
+<li><a class="" href="https://sohweekian.github.io/bluelotus/aladdin-story.html">Aladdin</a></li><li class="sep"></li>
+<li><a class="" href="https://sohweekian.github.io/bluelotus/chief-strategist.html">Strategist</a></li><li class="sep"></li>
+<li><a class="active" href="https://sohweekian.github.io/bluelotus/cio-letter.html">CIO Letter</a></li><li class="sep"></li>
+<li class="bl-dropdown"><button class="bl-dropdown-btn" type="button">Tributes <span class="bl-dropdown-arrow">▼</span></button>
+<div class="bl-dropdown-menu">
+<a href="https://sohweekian.github.io/bluelotus/einstein-tribute.html"><span class="tribute-dot" style="background:#ff5566"></span>Einstein — Prime Mover</a>
+<a href="https://sohweekian.github.io/bluelotus/shannon-tribute.html"><span class="tribute-dot" style="background:#4a9eff"></span>Shannon — Information</a>
+<a href="https://sohweekian.github.io/bluelotus/turing-tribute.html"><span class="tribute-dot" style="background:#00e5a0"></span>Turing — Machine Mind</a>
+<a href="https://sohweekian.github.io/bluelotus/thorp-tribute.html"><span class="tribute-dot" style="background:#c9a84c"></span>Thorp — The Edge</a>
+<div class="bl-dropdown-divider"></div>
+<a href="https://sohweekian.github.io/bluelotus/gametheory-tribute.html"><span class="tribute-dot" style="background:#9b7fff"></span>Von Neumann &amp; Nash</a>
+</div>
+</li>
+</ul>
+<div class="bl-nav-right"><div class="bl-nav-live"><div class="bl-nav-dot"></div>Live v5.9</div></div>
+</div>
+</nav>
+<script id="bl-nav-js">
+(function(){
+  var nav=document.querySelector('.bl-nav');
+  if(!nav) return;
+  var toggle=nav.querySelector('.bl-mobile-toggle');
+  if(toggle) toggle.addEventListener('click',function(e){e.stopPropagation();nav.classList.toggle('open');});
+  nav.querySelectorAll('.bl-dropdown-btn').forEach(function(btn){
+    btn.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();
+      var dd=btn.closest('.bl-dropdown');
+      nav.querySelectorAll('.bl-dropdown.open').forEach(function(x){if(x!==dd)x.classList.remove('open');});
+      dd.classList.toggle('open');
+    });
+  });
+  document.addEventListener('click',function(){nav.querySelectorAll('.bl-dropdown.open').forEach(function(x){x.classList.remove('open');});});
+})();
+</script>
 
 
 
@@ -550,7 +502,7 @@ body{padding-top:52px !important;}
 <div class="hero-meta">
 <span class="hero-pill">Kian Soh · Chief Investment Officer</span>
 <span class="hero-pill">27 May 2026</span>
-<span class="hero-pill">Edition 009</span>
+<span class="hero-pill">Edition 010</span>
 </div>
 <div class="hero-rule"></div>
 </div>
@@ -559,231 +511,391 @@ body{padding-top:52px !important;}
 <div class="letter-block">
 <div class="letter-tag">Chief Investment Officer · Official Correspondence</div>
 <div class="letter-body">
-<!-- ══ EDITION 009 — MAY 27, 2026 ══ -->
-      <div class="edition-block" id="edition-009">
+<!-- ══ EDITION 010 — MAY 27, 2026 ══ -->
+      <div class="edition-block" id="edition-010">
         <div class="edition-tag">
-          <span class="edition-num">Edition 009</span>
+          <span class="edition-num">Edition 010</span>
           <span class="edition-date">27 May 2026</span>
         </div>
 
         <h2 style="font-family:var(--serif);font-size:30px;line-height:1.15;margin:4px 0 18px;color:var(--ink)">
-          Toward Cognitive Infrastructure for Decision Compression
+          Evening Session Debrief — 22:55 SGT
         </h2>
 
         <p style="font-style:italic;color:var(--muted);font-size:14px;margin-bottom:20px">
-          A defensible architectural thesis for AI-assisted strategic intelligence systems in finance, economics, and econometrics
+          Strategic repositioning ahead of PCE · Thorp 90/10 Execution · Warsh/Inflation Thesis
         </p>
 
         <p>
-          This thesis argues that the next defensible frontier in private fund intelligence is not the
-          accumulation of more market data, charts, indicators, or terminal-like screens, but the
-          disciplined compression of complexity into actionable strategic cognition. BlueLotus Fund is
-          therefore not positioned as a Bloomberg Terminal clone, a Moomoo clone, or a retail trading
-          dashboard. It is being architected as an AI-assisted strategic war room: a modular cognitive
-          infrastructure that senses, filters, correlates, classifies, synthesizes, remembers, and
-          communicates intelligence under uncertainty.
+          BlueLotus Fund concludes the May 27 trading session in a disciplined, forward-leaning posture.
+          The portfolio has been strategically repositioned ahead of tomorrow's PCE release, reflecting
+          conviction that Warsh's Federal Reserve will use hot inflation data as justification for a more
+          hawkish pivot. The CIO executed a textbook 90/10 Thorp exit on Bank of America, consolidated
+          the financials thesis through Wells Fargo, and rationalised the order book by eliminating
+          concentration risk and narrative-weak positions.
         </p>
 
-        <div class="highlight">
-          High-quality financial intelligence systems should be approximately deterministic where the
-          world is structured, and selectively AI-assisted where the world is ambiguous.
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:28px 0 10px">
+          Portfolio Snapshot — 22:52 SGT
+        </h3>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:20px 24px;margin:16px 0;overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:12px">
+            <tr style="border-bottom:1px solid var(--border)">
+              <th style="padding:8px 6px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px;white-space:nowrap">SYMBOL</th>
+              <th style="padding:8px 6px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">NAME</th>
+              <th style="padding:8px 6px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">POSITION</th>
+              <th style="padding:8px 6px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">AVG COST</th>
+              <th style="padding:8px 6px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">CURRENT</th>
+              <th style="padding:8px 6px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">ROLE</th>
+              <th style="padding:8px 6px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">STATUS</th>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+              <td style="padding:9px 6px;font-family:var(--mono);font-weight:700;color:var(--lotus)">BAC</td>
+              <td style="padding:9px 6px">Bank of America</td>
+              <td style="padding:9px 6px;font-family:var(--mono);font-size:11px">150 shares</td>
+              <td style="padding:9px 6px;font-family:var(--mono)">$50.344</td>
+              <td style="padding:9px 6px;font-family:var(--mono)">$51.09</td>
+              <td style="padding:9px 6px;font-size:11px;color:var(--muted)">90% Exit Working Order</td>
+              <td style="padding:9px 6px;font-size:11px;color:#ca8a04">⏳ SELL WORKING</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+              <td style="padding:9px 6px;font-family:var(--mono);font-weight:700;color:var(--lotus)">WFC</td>
+              <td style="padding:9px 6px">Wells Fargo &amp; Co</td>
+              <td style="padding:9px 6px;font-family:var(--mono);font-size:11px">80 shares</td>
+              <td style="padding:9px 6px;font-family:var(--mono)">$75.50</td>
+              <td style="padding:9px 6px;font-family:var(--mono)">$76.42</td>
+              <td style="padding:9px 6px;font-size:11px;color:var(--muted)">Primary Financials</td>
+              <td style="padding:9px 6px;font-size:11px;color:#16a34a">🟢 CORE HOLD</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+              <td style="padding:9px 6px;font-family:var(--mono);font-weight:700;color:var(--lotus)">NVDA</td>
+              <td style="padding:9px 6px">NVIDIA</td>
+              <td style="padding:9px 6px;font-family:var(--mono);font-size:11px">Ladder $190–$200</td>
+              <td style="padding:9px 6px;font-family:var(--mono)">TBD on fill</td>
+              <td style="padding:9px 6px;font-family:var(--mono)">Working</td>
+              <td style="padding:9px 6px;font-size:11px;color:var(--muted)">Crown Jewel AI</td>
+              <td style="padding:9px 6px;font-size:11px;color:#ca8a04">⏳ WORKING BUY</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+              <td style="padding:9px 6px;font-family:var(--mono);font-weight:700;color:var(--lotus)">QBTS</td>
+              <td style="padding:9px 6px">D-Wave Quantum</td>
+              <td style="padding:9px 6px;font-family:var(--mono);font-size:11px">Ladder $17.80–$22</td>
+              <td style="padding:9px 6px;font-family:var(--mono)">TBD on fill</td>
+              <td style="padding:9px 6px;font-family:var(--mono)">Working</td>
+              <td style="padding:9px 6px;font-size:11px;color:var(--muted)">Oscillation Engine</td>
+              <td style="padding:9px 6px;font-size:11px;color:#6b4f9e">🔄 OSCILLATION</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+              <td style="padding:9px 6px;font-family:var(--mono);font-weight:700;color:var(--lotus)">ASTS</td>
+              <td style="padding:9px 6px">AST SpaceMobile</td>
+              <td style="padding:9px 6px;font-family:var(--mono);font-size:11px">$85–$88 levels</td>
+              <td style="padding:9px 6px;font-family:var(--mono)">TBD on fill</td>
+              <td style="padding:9px 6px;font-family:var(--mono)">Working</td>
+              <td style="padding:9px 6px;font-size:11px;color:var(--muted)">Oscillation Engine</td>
+              <td style="padding:9px 6px;font-size:11px;color:#6b4f9e">🔄 OSCILLATION</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+              <td style="padding:9px 6px;font-family:var(--mono);font-weight:700;color:var(--muted)">CCJ/CEG</td>
+              <td style="padding:9px 6px;color:var(--muted)">Nuclear Cluster</td>
+              <td style="padding:9px 6px;font-family:var(--mono);font-size:11px;color:var(--muted)">CANCELLED</td>
+              <td style="padding:9px 6px;font-family:var(--mono);color:var(--muted)">—</td>
+              <td style="padding:9px 6px;font-family:var(--mono);color:var(--muted)">—</td>
+              <td style="padding:9px 6px;font-size:11px;color:var(--muted)">N/A</td>
+              <td style="padding:9px 6px;font-size:11px;color:#dc2626">❌ CANCELLED</td>
+            </tr>
+            <tr>
+              <td style="padding:9px 6px;font-family:var(--mono);font-weight:700;color:var(--muted)">C</td>
+              <td style="padding:9px 6px;color:var(--muted)">Citigroup</td>
+              <td style="padding:9px 6px;font-family:var(--mono);font-size:11px;color:var(--muted)">CANCELLED</td>
+              <td style="padding:9px 6px;font-family:var(--mono);color:var(--muted)">—</td>
+              <td style="padding:9px 6px;font-family:var(--mono);color:var(--muted)">—</td>
+              <td style="padding:9px 6px;font-size:11px;color:var(--muted)">N/A</td>
+              <td style="padding:9px 6px;font-size:11px;color:#dc2626">❌ CANCELLED</td>
+            </tr>
+          </table>
+          <div style="margin-top:14px;font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:0.05em">
+            Total Assets: ~$57,233 &nbsp;|&nbsp; Market Value: ~$13,709 &nbsp;|&nbsp; Available Cash: ~$36,568 &nbsp;|&nbsp; Funds on Hold: $23,029
+          </div>
         </div>
 
         <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:28px 0 10px">
-          1. Research Problem: Information Expansion Is Not Intelligence
+          Key Decisions &amp; Rationale
         </h3>
 
+        <h3 style="font-size:13px;font-weight:600;color:var(--lotus);margin:20px 0 8px;font-family:var(--mono);letter-spacing:0.05em">
+          1. BAC — 90% Exit at $62 (Thorp 90/10 Execution)
+        </h3>
         <p>
-          Modern financial platforms overwhelmingly optimise for information expansion. They add more
-          feeds, more dashboards, more indicators, more breaking alerts, and more social velocity. The
-          implicit assumption is that more information improves judgment. In practice, beyond a threshold,
-          more information becomes anti-intelligence: it fragments attention, increases emotional
-          reactivity, and reduces the investor's capacity for coherent judgment.
+          The CIO raised the BAC sell target from $61 to $62, anchoring to analyst consensus pricing
+          rather than BlueLotus internal modelling. This reflects sound capital discipline: we take the
+          institutional bid at the consensus mark, not our own potentially optimistic fair value. The 90%
+          exit crystallises gains on the position while the retained 10% free-rider preserves optionality.
         </p>
         <p>
-          The problem is not that investors lack information. The problem is that they lack disciplined
-          systems for converting information into meaning. BlueLotus therefore treats cognition, not data
-          access, as the true bottleneck.
+          The Warsh-PCE thesis makes this exit timing almost prescient. BAC at $52.16 tonight trades well
+          below the $61.32 analyst target — but if tomorrow's PCE prints hot and Warsh signals rate hike
+          intent, financial stocks face a near-term headwind that could compress multiples before the
+          fundamental case reasserts itself. The free-rider 10% is a call option on the bull scenario —
+          $65 Morningstar fair value, $58+ BlueLotus bull target. The existing working BAC buy at $48.50
+          (50 shares) and sell at $62 (135 shares) form a coherent DCA architecture: exit strength,
+          reload weakness.
+        </p>
+
+        <h3 style="font-size:13px;font-weight:600;color:var(--lotus);margin:20px 0 8px;font-family:var(--mono);letter-spacing:0.05em">
+          2. WFC — Now the Primary Financials Vehicle
+        </h3>
+        <p>
+          With the WFC 40-unit buy filling at $76.00 today, the position is now 80 shares at an average
+          cost of $75.50. WFC at $76.42 versus the $95.81 analyst consensus target represents 25.4%
+          upside to consensus. The wide-moat designation, combined with sector rotation from
+          tech/semiconductors into financials, supports the thesis.
+        </p>
+        <p>
+          RSI(6) overbought is a short-term caution flag. If PCE prints hot and triggers a rate-shock
+          sell-off, WFC could test $73–74 before recovering. The sell ladder at $88/$92/$98/$108 remains
+          correctly positioned for the medium-term exit architecture. With BAC reduced to a free-rider
+          stub, WFC now carries the full financials thesis — accepted as an intentional conviction bet,
+          not a risk oversight.
+        </p>
+
+        <h3 style="font-size:13px;font-weight:600;color:var(--lotus);margin:20px 0 8px;font-family:var(--mono);letter-spacing:0.05em">
+          3. NVDA — Crown Jewel, Patient Accumulation
+        </h3>
+        <p>
+          NVIDIA buy orders maintained at $190/$195/$200. NVDA is a structural AI infrastructure holding,
+          not a momentum trade to be abandoned in a sector rotation. The late-stage euphoria narrative in
+          AI/semis is real — but NVDA is the infrastructure backbone of the AI buildout: Stargate, data
+          centres, sovereign AI. Structural demand does not disappear when sentiment rotates. The
+          $190–$200 ladder is disciplined entry into weakness.
+        </p>
+
+        <h3 style="font-size:13px;font-weight:600;color:var(--lotus);margin:20px 0 8px;font-family:var(--mono);letter-spacing:0.05em">
+          4. QBTS &amp; ASTS — Oscillation Cash Engine
+        </h3>
+        <p>
+          D-Wave Quantum and AST SpaceMobile are maintained as oscillation trading vehicles — not
+          conviction holds but active cash generation strategies. Both names carry elevated volatility
+          which is exactly what the strategy requires to generate alpha. Keep oscillation bands tight.
+          Do not let these become accidental bagholders.
+        </p>
+
+        <h3 style="font-size:13px;font-weight:600;color:var(--lotus);margin:20px 0 8px;font-family:var(--mono);letter-spacing:0.05em">
+          5. Nuclear Cluster (CCJ/CEG) &amp; Citigroup — Cancelled
+        </h3>
+        <p>
+          All working orders for CCJ, CEG, and C have been cancelled. The USD 80 billion Trump nuclear
+          promise lacks a credible Congressional funding pathway given current debt ceiling dynamics. The
+          Iran war narrative does not benefit nuclear in the near term — the oil supply shock dominates;
+          nuclear is a years-long buildout story. Energy/Uranium basket showed -1.83% tonight. Capital
+          freed is better deployed in higher-conviction ideas or held as dry powder ahead of PCE. For
+          Citigroup: with WFC as primary and BAC retained as a free-rider, a third bank creates
+          concentration without differentiation.
         </p>
 
         <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:28px 0 10px">
-          2. Core Proposition: Decision Compression
+          Macro Thesis — Warsh / PCE / Cycle Positioning
         </h3>
-
         <p>
-          BlueLotus is built around one governing proposition: the institutional advantage of the future
-          lies in decision compression. Decision compression means reducing many heterogeneous signals
-          into a small number of strategically meaningful implications. The system should answer not
-          merely "what happened?" but "what changes because this happened?"
+          Kevin Warsh at the FOMC has consistently signalled discomfort with asset price inflation and
+          irrational exuberance in equity markets. Tomorrow's PCE release is the gating catalyst. Iran
+          war supply-side shocks, combined with the Big Beautiful Bill fiscal stimulus and Stargate
+          infrastructure spending, create structural inflation pressures that a Warsh-led Fed cannot
+          ignore. If PCE prints above 2.8%, the probability of a Warsh rate hike signal rises sharply —
+          causing near-term pain in rate-sensitive equities before the subsequent repricing benefits the
+          sector through wider net interest margins.
         </p>
         <p>
-          This distinction is essential. A market headline has little value by itself. Its strategic value
-          emerges only when connected to portfolio exposures, macro regimes, liquidity conditions,
-          geopolitical pathways, sector rotations, valuation context, and behavioural reflexivity.
+          The current AI/infrastructure/space cluster exhibits late-stage cycle FOMO characteristics.
+          When the euphoria cycle ends — and the PCE/Warsh narrative could be the catalyst — sector
+          rotation into financials becomes the structural trade. The Iran war ripple effect on oil supply
+          compounds this: no rapid replenishment of strategic reserves, persistent energy cost inflation,
+          and a 60-day ceasefire window that remains fragile.
         </p>
 
         <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:28px 0 10px">
-          3. Architectural Principle: Deterministic Systems First, AI Cognition Selectively
+          PCE Decision Tree — May 28
         </h3>
 
-        <p>
-          A mature AI system should not use large language models indiscriminately. Most of BlueLotus's
-          infrastructure should remain deterministic: RSS parsing, price ingestion, event normalisation,
-          metadata filtering, signal deduplication, source balancing, and threshold scoring. These tasks
-          are structured, auditable, reproducible, and better handled procedurally.
-        </p>
-        <p>
-          The LLM layer should be introduced only where ambiguity is high and semantic interpretation is
-          required — semantic theme classification, scenario reasoning, contradiction detection,
-          adversarial thesis review, and CIO-level narrative synthesis. This creates a defensible hybrid
-          system: procedural reliability below, cognitive flexibility above.
-        </p>
-
-        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:28px 0 10px">
-          4. Organism Architecture
-        </h3>
-
-        <p>
-          BlueLotus now follows an organism architecture. The <strong>sensory layer</strong> consists of
-          feeds: RSS, X, Moomoo, macro calendars, earnings, commodities, and future geopolitical data.
-          The <strong>nervous system</strong> is the normalised IntelligenceEvent schema. The
-          <strong>brain</strong> is the intelligence layer: signal filtering, correlation, regime
-          detection, ranking, and narrative synthesis. <strong>Memory</strong> is the next planned layer.
-          Telegram, dashboard, and CIO letters are the <strong>speech layer</strong>. The orchestrator is
-          the executive function.
-        </p>
-
-        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:28px 0 10px">
-          5. Noble Eightfold Path as Governance Philosophy
-        </h3>
-
-        <p>
-          The BlueLotus design philosophy maps naturally onto the Noble Eightfold Path — not as
-          devotional religion, but as an epistemological discipline for reducing confusion, craving,
-          noise, delusion, and impulsive reaction in financial decision-making.
-        </p>
-
-        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:20px 24px;margin:20px 0">
-          <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:20px 24px;margin:16px 0;overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:12px">
             <tr style="border-bottom:1px solid var(--border)">
-              <th style="padding:8px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:10px">EIGHTFOLD PATH</th>
-              <th style="padding:8px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:10px">BLUELOTUS EQUIVALENT</th>
-              <th style="padding:8px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:10px">SYSTEM EXPRESSION</th>
+              <th style="padding:8px 6px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">SCENARIO</th>
+              <th style="padding:8px 6px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">PCE PRINT</th>
+              <th style="padding:8px 6px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">PROBABILITY</th>
+              <th style="padding:8px 6px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">IMMEDIATE IMPACT</th>
+              <th style="padding:8px 6px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">BLUELOTUS ACTION</th>
             </tr>
             <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
-              <td style="padding:10px 8px;font-weight:600">Right Understanding</td>
-              <td style="padding:10px 8px;color:var(--lotus)">Regime awareness</td>
-              <td style="padding:10px 8px;color:var(--muted);font-size:12px">Correlation and regime engines distinguish signal from noise.</td>
+              <td style="padding:9px 6px;font-weight:700;color:#dc2626">🔴 HOT</td>
+              <td style="padding:9px 6px;font-family:var(--mono)">Above 2.8%</td>
+              <td style="padding:9px 6px;font-family:var(--mono);color:#dc2626;font-weight:600">40%</td>
+              <td style="padding:9px 6px;font-size:11px">Rate hike risk rises; equities sell off; WFC tests $73–74</td>
+              <td style="padding:9px 6px;font-size:11px">Hold WFC; begin BAC DCA if dip; NVDA may fill lower rungs</td>
             </tr>
             <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
-              <td style="padding:10px 8px;font-weight:600">Right Thought</td>
-              <td style="padding:10px 8px;color:var(--lotus)">Strategic intention</td>
-              <td style="padding:10px 8px;color:var(--muted);font-size:12px">Probabilistic framing and disciplined optionality.</td>
-            </tr>
-            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
-              <td style="padding:10px 8px;font-weight:600">Right Speech</td>
-              <td style="padding:10px 8px;color:var(--lotus)">Intelligence reporting</td>
-              <td style="padding:10px 8px;color:var(--muted);font-size:12px">Telegram and CIO letters communicate compressed truth, not noise.</td>
-            </tr>
-            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
-              <td style="padding:10px 8px;font-weight:600">Right Action</td>
-              <td style="padding:10px 8px;color:var(--lotus)">Execution discipline</td>
-              <td style="padding:10px 8px;color:var(--muted);font-size:12px">Position sizing, trimming rules, and non-impulsive action.</td>
-            </tr>
-            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
-              <td style="padding:10px 8px;font-weight:600">Right Livelihood</td>
-              <td style="padding:10px 8px;color:var(--lotus)">Ethical intelligence</td>
-              <td style="padding:10px 8px;color:var(--muted);font-size:12px">Rejects hype, gambling psychology, and dopamine finance.</td>
-            </tr>
-            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
-              <td style="padding:10px 8px;font-weight:600">Right Effort</td>
-              <td style="padding:10px 8px;color:var(--lotus)">Signal refinement</td>
-              <td style="padding:10px 8px;color:var(--muted);font-size:12px">Filtering, classification, source balancing, and continuous improvement.</td>
-            </tr>
-            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
-              <td style="padding:10px 8px;font-weight:600">Right Mindfulness</td>
-              <td style="padding:10px 8px;color:var(--lotus)">Situational awareness</td>
-              <td style="padding:10px 8px;color:var(--muted);font-size:12px">Regime tracking without emotional attachment.</td>
+              <td style="padding:9px 6px;font-weight:700;color:#ca8a04">🟡 IN-LINE</td>
+              <td style="padding:9px 6px;font-family:var(--mono)">2.5%–2.8%</td>
+              <td style="padding:9px 6px;font-family:var(--mono);color:#ca8a04;font-weight:600">40%</td>
+              <td style="padding:9px 6px;font-size:11px">Relief rally; WFC $76–79; BAC $62 sell may execute</td>
+              <td style="padding:9px 6px;font-size:11px">Hold all; no new tranches; let working orders operate</td>
             </tr>
             <tr>
-              <td style="padding:10px 8px;font-weight:600">Right Concentration</td>
-              <td style="padding:10px 8px;color:var(--lotus)">Strategic focus</td>
-              <td style="padding:10px 8px;color:var(--muted);font-size:12px">Coherent synthesis over fragmented attention.</td>
+              <td style="padding:9px 6px;font-weight:700;color:#16a34a">🟢 COOL</td>
+              <td style="padding:9px 6px;font-family:var(--mono)">Below 2.5%</td>
+              <td style="padding:9px 6px;font-family:var(--mono);color:#16a34a;font-weight:600">20%</td>
+              <td style="padding:9px 6px;font-size:11px">Dovish surprise; WFC could run to $80; semis relief bounce</td>
+              <td style="padding:9px 6px;font-size:11px">Reassess WFC sell ladder; consider partial NVDA trim</td>
             </tr>
           </table>
         </div>
 
         <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:28px 0 10px">
-          6. Why BlueLotus Should Not Become a Terminal Clone
+          Risk Register
         </h3>
 
-        <p>
-          Bloomberg, Moomoo, and TradingView solve the data access problem. BlueLotus should solve the
-          meaning extraction problem. Attempting to become another terminal would be strategically
-          unsound, capital-intensive, and undifferentiated. The real opportunity is to sit above
-          terminals as a strategic interpretation layer.
-        </p>
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:20px 24px;margin:16px 0;overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:12px">
+            <tr style="border-bottom:1px solid var(--border)">
+              <th style="padding:8px 6px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">RISK FACTOR</th>
+              <th style="padding:8px 6px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">LENS</th>
+              <th style="padding:8px 6px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">PROB</th>
+              <th style="padding:8px 6px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">IMPACT</th>
+              <th style="padding:8px 6px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">MITIGATION</th>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+              <td style="padding:9px 6px;font-weight:600">Iran ceasefire breakdown</td>
+              <td style="padding:9px 6px;font-family:var(--mono);font-size:10px;color:var(--lotus)">L4 Geo</td>
+              <td style="padding:9px 6px;font-family:var(--mono);color:#ca8a04">25%</td>
+              <td style="padding:9px 6px;font-size:11px">Oil spike; VIX >30; -8% drawdown</td>
+              <td style="padding:9px 6px;font-size:11px">Cash buffer; no leveraged positions</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+              <td style="padding:9px 6px;font-weight:600">PCE hot + Warsh signal</td>
+              <td style="padding:9px 6px;font-family:var(--mono);font-size:10px;color:var(--lotus)">L3 Macro</td>
+              <td style="padding:9px 6px;font-family:var(--mono);color:#dc2626">40%</td>
+              <td style="padding:9px 6px;font-size:11px">Near-term WFC/BAC -3–5%</td>
+              <td style="padding:9px 6px;font-size:11px">BAC exit executed; WFC held for NIM upside</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+              <td style="padding:9px 6px;font-weight:600">NVDA orders never fill</td>
+              <td style="padding:9px 6px;font-family:var(--mono);font-size:10px;color:var(--lotus)">L6 Rotate</td>
+              <td style="padding:9px 6px;font-family:var(--mono);color:#ca8a04">20%</td>
+              <td style="padding:9px 6px;font-size:11px">Opportunity cost; miss AI run</td>
+              <td style="padding:9px 6px;font-size:11px">Acceptable — discipline &gt; FOMO</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+              <td style="padding:9px 6px;font-weight:600">ASTS/QBTS oscillation baghold</td>
+              <td style="padding:9px 6px;font-family:var(--mono);font-size:10px;color:var(--lotus)">L2 Tech</td>
+              <td style="padding:9px 6px;font-family:var(--mono);color:#16a34a">15%</td>
+              <td style="padding:9px 6px;font-size:11px">Capital tied in illiquid names</td>
+              <td style="padding:9px 6px;font-size:11px">Strict band discipline; sizing limits</td>
+            </tr>
+            <tr>
+              <td style="padding:9px 6px;font-weight:600">Big Beautiful Bill passes</td>
+              <td style="padding:9px 6px;font-family:var(--mono);font-size:10px;color:var(--lotus)">L3 Macro</td>
+              <td style="padding:9px 6px;font-family:var(--mono);color:#dc2626">35%</td>
+              <td style="padding:9px 6px;font-size:11px">USD weakness; inflation entrenched</td>
+              <td style="padding:9px 6px;font-size:11px">Financials benefit from NIM; positioning correct</td>
+            </tr>
+          </table>
+        </div>
+
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:28px 0 10px">
+          Catalyst Calendar
+        </h3>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:20px 24px;margin:16px 0;overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:12px">
+            <tr style="border-bottom:1px solid var(--border)">
+              <th style="padding:8px 6px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">DATE</th>
+              <th style="padding:8px 6px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">EVENT</th>
+              <th style="padding:8px 6px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">SIGNIFICANCE</th>
+              <th style="padding:8px 6px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">EXPECTED ACTION</th>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+              <td style="padding:9px 6px;font-family:var(--mono);font-weight:700;color:var(--ink)">May 28, 2026</td>
+              <td style="padding:9px 6px;font-weight:600">PCE Release</td>
+              <td style="padding:9px 6px;color:#dc2626;font-weight:600">🔴 HIGH</td>
+              <td style="padding:9px 6px;font-size:11px">Gating event — follow decision tree above</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+              <td style="padding:9px 6px;font-family:var(--mono)">Jun 5, 2026</td>
+              <td style="padding:9px 6px">BAC Ex-Dividend Date</td>
+              <td style="padding:9px 6px;color:#ca8a04;font-weight:600">🟡 MEDIUM</td>
+              <td style="padding:9px 6px;font-size:11px">Free-rider 10% captures dividend; monitor</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+              <td style="padding:9px 6px;font-family:var(--mono)">Jun 16–17, 2026</td>
+              <td style="padding:9px 6px">FOMC Meeting</td>
+              <td style="padding:9px 6px;color:#dc2626;font-weight:600">🔴 HIGH</td>
+              <td style="padding:9px 6px;font-size:11px">Warsh signals; key for rate trajectory</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+              <td style="padding:9px 6px;font-family:var(--mono)">Jul 14, 2026</td>
+              <td style="padding:9px 6px">BAC Earnings (Pre-Market)</td>
+              <td style="padding:9px 6px;color:#dc2626;font-weight:600">🔴 HIGH</td>
+              <td style="padding:9px 6px;font-size:11px">DCA vehicle if fundamentals hold; set alerts</td>
+            </tr>
+            <tr>
+              <td style="padding:9px 6px;font-family:var(--mono)">Jul 15, 2026</td>
+              <td style="padding:9px 6px">WFC Earnings</td>
+              <td style="padding:9px 6px;color:#dc2626;font-weight:600">🔴 HIGH</td>
+              <td style="padding:9px 6px;font-size:11px">Primary position catalyst; NIM expansion key metric</td>
+            </tr>
+          </table>
+        </div>
+
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:28px 0 10px">
+          Strategic Recommendation Summary
+        </h3>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:20px 24px;margin:16px 0">
+          <table style="width:100%;border-collapse:collapse;font-size:12px">
+            <tr style="border-bottom:1px solid var(--border)">
+              <th style="padding:8px 6px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">POSITION</th>
+              <th style="padding:8px 6px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">BULL 20%</th>
+              <th style="padding:8px 6px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">BASE 50%</th>
+              <th style="padding:8px 6px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">BEAR 25%</th>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+              <td style="padding:9px 6px;font-weight:700;font-family:var(--mono);color:var(--lotus)">WFC</td>
+              <td style="padding:9px 6px;font-family:var(--mono);color:#16a34a;font-weight:600">$88–$95</td>
+              <td style="padding:9px 6px;font-family:var(--mono);color:var(--lotus)">$82</td>
+              <td style="padding:9px 6px;font-family:var(--mono);color:#dc2626">$72</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+              <td style="padding:9px 6px;font-weight:700;font-family:var(--mono);color:var(--lotus)">BAC (Free Rider)</td>
+              <td style="padding:9px 6px;font-family:var(--mono);color:#16a34a;font-weight:600">$65</td>
+              <td style="padding:9px 6px;font-family:var(--mono);color:var(--lotus)">$55</td>
+              <td style="padding:9px 6px;font-family:var(--mono);color:#dc2626">$48</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+              <td style="padding:9px 6px;font-weight:700;font-family:var(--mono);color:var(--lotus)">NVDA</td>
+              <td style="padding:9px 6px;font-family:var(--mono);color:#16a34a;font-weight:600">$230+</td>
+              <td style="padding:9px 6px;font-family:var(--mono);color:var(--lotus)">Fills $190–$200</td>
+              <td style="padding:9px 6px;font-family:var(--mono);color:#dc2626">Lower rung fills</td>
+            </tr>
+            <tr>
+              <td style="padding:9px 6px;font-weight:700;font-family:var(--mono);color:var(--lotus)">Portfolio</td>
+              <td style="padding:9px 6px;font-family:var(--mono);color:#16a34a;font-weight:600">+8–12%</td>
+              <td style="padding:9px 6px;font-family:var(--mono);color:var(--lotus)">+2–4% grind</td>
+              <td style="padding:9px 6px;font-family:var(--mono);color:#dc2626">-3–5% drawdown</td>
+            </tr>
+          </table>
+        </div>
 
         <div class="highlight">
-          The CIO does not need five hundred headlines. The CIO needs three implications, two risks,
-          one regime diagnosis, and a set of disciplined actions. This is the practical meaning of
-          decision compression.
+          <strong>Chief Strategist closing note:</strong><br>
+          Tonight's session demonstrates the fund operating exactly as designed. We did not chase the
+          FOMO. We did not hold positions whose narratives had expired. We identified the macro inflection
+          point — the Warsh/PCE/inflation nexus — and repositioned before the catalyst, not after.<br><br>
+          The dry powder position — approximately $36,700 in available funds — is our strategic weapon.
+          We deploy it with conviction after PCE, not before. Patience is not inaction. Patience is the position.
         </div>
 
-        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:28px 0 10px">
-          7. Defensibility Against AI, Finance, Economics, and Econometrics Review
-        </h3>
-
-        <p>
-          From an AI systems perspective, the architecture is defensible because it separates
-          deterministic computation from generative cognition. From a finance perspective, it is
-          defensible because it links signals to portfolio action, regime awareness, and risk
-          management. From an economics perspective, it recognises that markets are embedded in macro,
-          policy, and geopolitical systems. From an econometrics perspective, it avoids false precision
-          by treating forecasts probabilistically and emphasising model calibration, source weighting,
-          and outcome feedback.
-        </p>
-
-        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:28px 0 10px">
-          8. Immediate Implementation Roadmap
-        </h3>
-
-        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:20px 24px;margin:20px 0">
-          <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--lotus);margin-bottom:14px">Next Phase — System Upgrades</div>
-          <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
-            <div style="display:grid;grid-template-columns:28px 1fr;gap:12px">
-              <span style="font-family:var(--mono);color:var(--lotus);font-weight:600">①</span>
-              <span>Continue improving <code style="font-family:var(--mono);font-size:12px;background:var(--paper);padding:1px 5px;border-radius:3px">signal_filter.py</code> to remove low-value noise and metadata pollution.</span>
-            </div>
-            <div style="display:grid;grid-template-columns:28px 1fr;gap:12px">
-              <span style="font-family:var(--mono);color:var(--lotus);font-weight:600">②</span>
-              <span>Build <code style="font-family:var(--mono);font-size:12px;background:var(--paper);padding:1px 5px;border-radius:3px">semantic_classifier.py</code> for LLM-assisted meaning classification.</span>
-            </div>
-            <div style="display:grid;grid-template-columns:28px 1fr;gap:12px">
-              <span style="font-family:var(--mono);color:var(--lotus);font-weight:600">③</span>
-              <span>Create <code style="font-family:var(--mono);font-size:12px;background:var(--paper);padding:1px 5px;border-radius:3px">memory/</code> with <code style="font-family:var(--mono);font-size:12px;background:var(--paper);padding:1px 5px;border-radius:3px">event_memory.json</code>, <code style="font-family:var(--mono);font-size:12px;background:var(--paper);padding:1px 5px;border-radius:3px">regime_memory.json</code>, and <code style="font-family:var(--mono);font-size:12px;background:var(--paper);padding:1px 5px;border-radius:3px">forecast_history.json</code>.</span>
-            </div>
-            <div style="display:grid;grid-template-columns:28px 1fr;gap:12px">
-              <span style="font-family:var(--mono);color:var(--lotus);font-weight:600">④</span>
-              <span>Add regime transition detection and signal half-life weighting.</span>
-            </div>
-            <div style="display:grid;grid-template-columns:28px 1fr;gap:12px">
-              <span style="font-family:var(--mono);color:var(--lotus);font-weight:600">⑤</span>
-              <span>Publish filtered intelligence into the website Command Centre and CIO Letter archive.</span>
-            </div>
-          </div>
-        </div>
-
-        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:28px 0 10px">
-          9. Conclusion
-        </h3>
-
-        <p>
-          BlueLotus is evolving from software into cognitive infrastructure. Its purpose is not to
-          entertain investors with more data, but to discipline perception under uncertainty. In a world
-          of escalating information overload, the competitive edge belongs not to those who see the most,
-          but to those who understand what matters most.
-        </p>
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin:20px 0 6px">Next briefing</div>
+        <p style="font-size:13px;color:var(--muted);margin:0 0 24px">Post-PCE release · May 28, 2026 · Morning Session SGT</p>
 
         <div class="edition-sign">
           <span class="sign-name-sm">Kian Soh</span>
