@@ -1,117 +1,11 @@
-<style id="bl-nav-css">
-.bl-nav{position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(8,8,14,0.97);border-bottom:1px solid rgba(192,132,252,0.18);backdrop-filter:blur(16px);font-family:'JetBrains Mono','Courier New',monospace;}
-.bl-nav-inner{max-width:1500px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:52px;}
-.bl-nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
-.bl-nav-petal{width:18px;height:18px;background:linear-gradient(135deg,#c084fc,#a855f7);border-radius:50% 50% 50% 0;transform:rotate(-45deg);flex-shrink:0;}
-.bl-nav-brand{font-size:10px;font-weight:500;letter-spacing:0.22em;color:#c084fc;text-transform:uppercase;}
-.bl-nav-links{display:flex;align-items:center;gap:0;list-style:none;margin:0;padding:0;}
-.bl-nav-links > li{position:relative;}
-.bl-nav-links > li > a{display:block;font-size:9px;letter-spacing:0.13em;color:rgba(221,216,240,0.4);text-decoration:none;text-transform:uppercase;padding:6px 11px;border-radius:3px;transition:color 0.18s,background 0.18s;white-space:nowrap;}
-.bl-nav-links > li > a:hover,.bl-nav-links > li > a.active{color:#c084fc;background:rgba(192,132,252,0.07);}
-.bl-nav-links .sep{width:1px;height:14px;background:rgba(255,255,255,0.07);margin:0 1px;flex-shrink:0;}
-.bl-dropdown{position:relative;}
-.bl-dropdown-btn{display:flex;align-items:center;gap:4px;font-size:9px;letter-spacing:0.13em;color:rgba(221,216,240,0.4);text-decoration:none;text-transform:uppercase;padding:6px 11px;border-radius:3px;cursor:pointer;transition:color 0.18s,background 0.18s;white-space:nowrap;background:none;border:none;font-family:inherit;}
-.bl-dropdown-btn:hover,.bl-dropdown:hover .bl-dropdown-btn{color:#c084fc;background:rgba(192,132,252,0.07);}
-.bl-dropdown-arrow{font-size:7px;opacity:0.5;transition:transform 0.2s;}
-.bl-dropdown:hover .bl-dropdown-arrow,.bl-dropdown.open .bl-dropdown-arrow{transform:rotate(180deg);}
-.bl-dropdown-menu{display:none;position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:rgba(10,10,20,0.98);border:1px solid rgba(192,132,252,0.2);border-radius:6px;padding:6px;min-width:190px;backdrop-filter:blur(20px);box-shadow:0 16px 40px rgba(0,0,0,0.6);}
-.bl-dropdown:hover .bl-dropdown-menu,.bl-dropdown.open .bl-dropdown-menu{display:block;}
-.bl-dropdown-menu a{display:flex;align-items:center;gap:10px;padding:8px 12px;font-size:9px;letter-spacing:0.12em;color:rgba(221,216,240,0.5);text-decoration:none;text-transform:uppercase;border-radius:4px;transition:all 0.15s;white-space:nowrap;}
-.bl-dropdown-menu a:hover{color:#c084fc;background:rgba(192,132,252,0.08);}
-.bl-dropdown-menu .tribute-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.bl-dropdown-divider{height:1px;background:rgba(255,255,255,0.06);margin:4px 0;}
-.bl-nav-right{display:flex;align-items:center;gap:10px;}
-.bl-nav-live{font-size:9px;letter-spacing:0.12em;color:#4ade80;text-transform:uppercase;display:flex;align-items:center;gap:5px;}
-.bl-nav-dot{width:5px;height:5px;background:#4ade80;border-radius:50%;animation:blPulse 1.8s ease infinite;}
-@keyframes blPulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
-.bl-dropdown-menu.wide{min-width:250px;text-align:left;}
-.bl-dropdown-menu .subline{display:block;font-size:7px;letter-spacing:.06em;color:rgba(221,216,240,.28);text-transform:none;margin-top:2px;line-height:1.25;}
-.bl-nav-action{border:1px solid rgba(192,132,252,.22)!important;background:rgba(192,132,252,.06)!important;color:rgba(232,222,255,.72)!important;}
-.bl-nav-action:hover{background:rgba(192,132,252,.12)!important;color:#fff!important;}
-body{padding-top:52px !important;}
-@media(max-width:1100px){.bl-nav-links > li > a,.bl-dropdown-btn{font-size:8px;padding:5px 8px;}.bl-nav-brand{display:none;}}
-@media(max-width:720px){.bl-nav-links .sep{display:none;}.bl-nav-links > li > a,.bl-dropdown-btn{padding:5px 6px;letter-spacing:0.07em;}}
-</style>
-<nav class="bl-nav" role="navigation" aria-label="BlueLotus Navigation">
-  <div class="bl-nav-inner">
-    <a class="bl-nav-logo" href="https://sohweekian.github.io/bluelotus/">
-      <div class="bl-nav-petal"></div>
-      <span class="bl-nav-brand">BlueLotus&nbsp;Fund</span>
-    </a>
-    <ul class="bl-nav-links">
-      <li><a href="https://sohweekian.github.io/bluelotus/">Dashboard</a></li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist.html">Portfolio</a></li>
-      <li class="sep"></li>
-      <li class="bl-dropdown">
-        <button class="bl-dropdown-btn bl-nav-action">Forecast <span class="bl-dropdown-arrow">&#9660;</span></button>
-        <div class="bl-dropdown-menu wide">
-          <a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist-superforecast.html"><span class="tribute-dot" style="background:#4ade80;"></span><span>Superforecast<span class="subline">78-ticker valuation + Brier tracker</span></span></a>
-          <a href="https://sohweekian.github.io/bluelotus/superforecasting-thesis.html"><span class="tribute-dot" style="background:#fbbf24;"></span><span>Forecast Thesis<span class="subline">Protocol, calibration, Kelly discipline</span></span></a>
-        </div>
-      </li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/bluelotus-framework.html">Framework</a></li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/aladdin-story.html">Aladdin</a></li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/chief-strategist.html">Strategist</a></li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/cio-letter.html" class="active">CIO Letter</a></li>
-      <li class="sep"></li>
-      <li class="bl-dropdown">
-        <button class="bl-dropdown-btn">Tributes <span class="bl-dropdown-arrow">&#9660;</span></button>
-        <div class="bl-dropdown-menu">
-          <a href="https://sohweekian.github.io/bluelotus/einstein-tribute.html"><span class="tribute-dot" style="background:#ff5566;"></span>Einstein &mdash; Prime Mover</a>
-          <a href="https://sohweekian.github.io/bluelotus/shannon-tribute.html"><span class="tribute-dot" style="background:#4a9eff;"></span>Shannon &mdash; Information</a>
-          <a href="https://sohweekian.github.io/bluelotus/turing-tribute.html"><span class="tribute-dot" style="background:#00e5a0;"></span>Turing &mdash; Machine Mind</a>
-          <a href="https://sohweekian.github.io/bluelotus/thorp-tribute.html"><span class="tribute-dot" style="background:#c9a84c;"></span>Thorp &mdash; The Edge</a>
-          <div class="bl-dropdown-divider"></div>
-          <a href="https://sohweekian.github.io/bluelotus/gametheory-tribute.html"><span class="tribute-dot" style="background:#9b7fff;"></span>Von Neumann &amp; Nash</a>
-        </div>
-      </li>
-    </ul>
-    <div class="bl-nav-right">
-      <div class="bl-nav-live"><div class="bl-nav-dot"></div>Live&nbsp;v5.9</div>
-    </div>
-  </div>
-</nav>
-<script id="bl-nav-js">
-(function(){
-  document.querySelectorAll('.bl-dropdown-btn').forEach(function(btn){
-    btn.addEventListener('click', function(e){
-      e.preventDefault();
-      var parent = btn.closest('.bl-dropdown');
-      document.querySelectorAll('.bl-dropdown.open').forEach(function(el){ if(el!==parent) el.classList.remove('open'); });
-      if(parent) parent.classList.toggle('open');
-    });
-  });
-  document.addEventListener('click', function(e){
-    if(!e.target.closest('.bl-dropdown')){
-      document.querySelectorAll('.bl-dropdown.open').forEach(function(el){ el.classList.remove('open'); });
-    }
-  });
-})();
-</script>
-
-
-
-
-
-
-
-
-
-
-
 <!DOCTYPE html>
 
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>CIO Letter Edition 010 — Evening Session Debrief | BlueLotus Fund</title>
-<meta content="BlueLotus Fund CIO Letter Edition 010 — Evening Session Debrief, May 27 2026. Portfolio repositioning ahead of PCE. From Kian Soh, Chief Investment Officer." name="description"/>
+<title>CIO Letter Edition 011 — V2.0 Architecture Plan | BlueLotus Fund</title>
+<meta content="BlueLotus Digital Institution CIO Letter Edition 011 — V2.0 Final Architecture Plan. From Static Publishing to Institutional Cognitive Operating System. Kian Soh, CIO. May 2026." name="description"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&amp;family=DM+Mono:wght@300;400;500&amp;family=Lora:ital,wght@0,400;0,500;1,400&amp;display=swap" rel="stylesheet"/>
 <style>
@@ -548,7 +442,57 @@ body{padding-top:52px !important;}
     color: var(--lotus2);
   }
 </style>
-
+<style id="bl-nav-css">
+.bl-nav{position:fixed;top:0;left:0;right:0;z-index:99999;background:rgba(8,8,14,.985);border-bottom:1px solid rgba(192,132,252,.18);backdrop-filter:blur(18px);font-family:'JetBrains Mono','DM Mono','Courier New',monospace;color:#ddd8f0}
+.bl-nav *{box-sizing:border-box}.bl-nav-inner{max-width:1560px;margin:0 auto;padding:0 22px;display:flex;align-items:center;justify-content:space-between;height:56px;gap:18px}.bl-nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:max-content}.bl-nav-petal{width:18px;height:18px;background:linear-gradient(135deg,#c084fc,#a855f7);border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 0 18px rgba(192,132,252,.28)}.bl-nav-brand{font-size:10px;font-weight:600;letter-spacing:.22em;color:#c084fc;text-transform:uppercase}.bl-nav-links{display:flex;align-items:center;gap:0;list-style:none;margin:0;padding:0}.bl-nav-links>li{position:relative}.bl-nav-links a,.bl-dropdown-btn{display:flex;align-items:center;gap:5px;font-size:9px;letter-spacing:.12em;color:rgba(221,216,240,.48);text-decoration:none;text-transform:uppercase;padding:7px 10px;border-radius:5px;transition:color .18s,background .18s,border-color .18s;white-space:nowrap;background:none;border:0;font-family:inherit;cursor:pointer}.bl-nav-links a:hover,.bl-dropdown-btn:hover,.bl-dropdown.open>.bl-dropdown-btn,.bl-dropdown:hover>.bl-dropdown-btn,.bl-nav-links a.active,.bl-dropdown-btn.active{color:#c084fc;background:rgba(192,132,252,.08)}.bl-nav-links .sep{width:1px;height:16px;background:rgba(255,255,255,.07);margin:0 2px;flex-shrink:0}.bl-dropdown-arrow{font-size:8px;opacity:.55;transition:transform .2s}.bl-dropdown.open .bl-dropdown-arrow,.bl-dropdown:hover .bl-dropdown-arrow{transform:rotate(180deg)}.bl-dropdown-menu{display:none;position:absolute;top:calc(100% + 7px);left:50%;transform:translateX(-50%);background:rgba(10,10,20,.99);border:1px solid rgba(192,132,252,.22);border-radius:10px;padding:7px;min-width:230px;backdrop-filter:blur(22px);box-shadow:0 18px 46px rgba(0,0,0,.64)}.bl-dropdown:hover .bl-dropdown-menu,.bl-dropdown.open .bl-dropdown-menu{display:block}.bl-dropdown-menu a{display:flex;align-items:center;gap:10px;padding:9px 12px;font-size:9px;letter-spacing:.11em;color:rgba(221,216,240,.58);border-radius:7px}.bl-dropdown-menu a:hover,.bl-dropdown-menu a.active{color:#fff;background:rgba(192,132,252,.10)}.tribute-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}.bl-dropdown-divider{height:1px;background:rgba(255,255,255,.07);margin:5px 0}.bl-nav-right{display:flex;align-items:center;gap:10px;min-width:max-content}.bl-nav-live{font-size:9px;letter-spacing:.12em;color:#4ade80;text-transform:uppercase;display:flex;align-items:center;gap:6px}.bl-nav-dot{width:6px;height:6px;background:#4ade80;border-radius:50%;animation:blPulse 1.8s ease infinite}@keyframes blPulse{0%,100%{opacity:1}50%{opacity:.35}}.bl-mobile-toggle{display:none;background:rgba(192,132,252,.08);border:1px solid rgba(192,132,252,.2);color:#c084fc;border-radius:8px;padding:7px 9px;font-size:14px;cursor:pointer}.bl-nav-pad{height:56px}.bl-nav ~ nav:not(.bl-nav){display:none!important}body{padding-top:56px!important}body>nav:not(.bl-nav){display:none!important}@media(max-width:1180px){.bl-nav-brand{display:none}.bl-nav-links a,.bl-dropdown-btn{font-size:8px;padding:7px 7px;letter-spacing:.08em}}@media(max-width:820px){.bl-nav-inner{height:auto;min-height:56px;align-items:flex-start;padding:10px 16px;flex-wrap:wrap}.bl-mobile-toggle{display:block;margin-left:auto}.bl-nav-links{display:none;flex-direction:column;align-items:stretch;width:100%;order:3;border-top:1px solid rgba(255,255,255,.07);padding-top:8px}.bl-nav.open .bl-nav-links{display:flex}.bl-nav-links .sep{display:none}.bl-nav-links a,.bl-dropdown-btn{justify-content:space-between;width:100%;padding:10px 8px}.bl-dropdown-menu{position:static;display:none;transform:none;box-shadow:none;min-width:0;width:100%;margin:4px 0 7px;background:rgba(255,255,255,.035)}.bl-dropdown.open .bl-dropdown-menu{display:block}.bl-nav-right{display:none}body{padding-top:76px!important}}
+</style></head>
+<body><nav aria-label="BlueLotus Universal Navigation" class="bl-nav" role="navigation">
+<div class="bl-nav-inner">
+<a class="bl-nav-logo" href="https://sohweekian.github.io/bluelotus/"><div class="bl-nav-petal"></div><span class="bl-nav-brand">BlueLotus Fund</span></a>
+<button aria-label="Toggle navigation" class="bl-mobile-toggle" type="button">☰</button>
+<ul class="bl-nav-links">
+<li><a class="" href="https://sohweekian.github.io/bluelotus/">Dashboard</a></li><li class="sep"></li>
+<li><a class="" href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist.html">Portfolio</a></li><li class="sep"></li>
+<li class="bl-dropdown"><button class="bl-dropdown-btn" type="button">Forecast <span class="bl-dropdown-arrow">▼</span></button>
+<div class="bl-dropdown-menu">
+<a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist-superforecast.html">◈ Superforecast Report</a>
+<a href="https://sohweekian.github.io/bluelotus/superforecasting-thesis.html">◆ Forecast Thesis</a>
+</div>
+</li><li class="sep"></li>
+<li><a class="" href="https://sohweekian.github.io/bluelotus/bluelotus-framework.html">Framework</a></li><li class="sep"></li>
+<li><a class="" href="https://sohweekian.github.io/bluelotus/aladdin-story.html">Aladdin</a></li><li class="sep"></li>
+<li><a class="" href="https://sohweekian.github.io/bluelotus/chief-strategist.html">Strategist</a></li><li class="sep"></li>
+<li><a class="active" href="https://sohweekian.github.io/bluelotus/cio-letter.html">CIO Letter</a></li><li class="sep"></li>
+<li class="bl-dropdown"><button class="bl-dropdown-btn" type="button">Tributes <span class="bl-dropdown-arrow">▼</span></button>
+<div class="bl-dropdown-menu">
+<a href="https://sohweekian.github.io/bluelotus/einstein-tribute.html"><span class="tribute-dot" style="background:#ff5566"></span>Einstein — Prime Mover</a>
+<a href="https://sohweekian.github.io/bluelotus/shannon-tribute.html"><span class="tribute-dot" style="background:#4a9eff"></span>Shannon — Information</a>
+<a href="https://sohweekian.github.io/bluelotus/turing-tribute.html"><span class="tribute-dot" style="background:#00e5a0"></span>Turing — Machine Mind</a>
+<a href="https://sohweekian.github.io/bluelotus/thorp-tribute.html"><span class="tribute-dot" style="background:#c9a84c"></span>Thorp — The Edge</a>
+<div class="bl-dropdown-divider"></div>
+<a href="https://sohweekian.github.io/bluelotus/gametheory-tribute.html"><span class="tribute-dot" style="background:#9b7fff"></span>Von Neumann &amp; Nash</a>
+</div>
+</li>
+</ul>
+<div class="bl-nav-right"><div class="bl-nav-live"><div class="bl-nav-dot"></div>Live v5.9</div></div>
+</div>
+</nav>
+<script id="bl-nav-js">
+(function(){
+  var nav=document.querySelector('.bl-nav');
+  if(!nav) return;
+  var toggle=nav.querySelector('.bl-mobile-toggle');
+  if(toggle) toggle.addEventListener('click',function(e){e.stopPropagation();nav.classList.toggle('open');});
+  nav.querySelectorAll('.bl-dropdown-btn').forEach(function(btn){
+    btn.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();
+      var dd=btn.closest('.bl-dropdown');
+      nav.querySelectorAll('.bl-dropdown.open').forEach(function(x){if(x!==dd)x.classList.remove('open');});
+      dd.classList.toggle('open');
+    });
+  });
+  document.addEventListener('click',function(){nav.querySelectorAll('.bl-dropdown.open').forEach(function(x){x.classList.remove('open');});});
+})();
+</script>
 
 
 
@@ -557,8 +501,8 @@ body{padding-top:52px !important;}
 <h1 class="hero-title">CIO Letter<br/><em>To Our Investors</em></h1>
 <div class="hero-meta">
 <span class="hero-pill">Kian Soh · Chief Investment Officer</span>
-<span class="hero-pill">27 May 2026</span>
-<span class="hero-pill">Edition 010</span>
+<span class="hero-pill">28 May 2026</span>
+<span class="hero-pill">Edition 011</span>
 </div>
 <div class="hero-rule"></div>
 </div>
@@ -567,6 +511,379 @@ body{padding-top:52px !important;}
 <div class="letter-block">
 <div class="letter-tag">Chief Investment Officer · Official Correspondence</div>
 <div class="letter-body">
+<!-- ══ EDITION 011 — MAY 28, 2026 ══ -->
+      <div class="edition-block" id="edition-011">
+        <div class="edition-tag">
+          <span class="edition-num">Edition 011</span>
+          <span class="edition-date">28 May 2026</span>
+        </div>
+
+        <h2 style="font-family:var(--serif);font-size:30px;line-height:1.15;margin:4px 0 6px;color:var(--ink)">
+          BlueLotus V2.0 — Final Architecture Plan
+        </h2>
+        <p style="font-style:italic;color:var(--muted);font-size:14px;margin:0 0 24px">
+          From a static publishing institution into an Institutional Cognitive Operating System
+        </p>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:16px 22px;margin:0 0 28px;display:flex;flex-wrap:wrap;gap:20px;font-size:12px">
+          <div><span style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px">CIO / Vision Layer</span><strong>Kian Soh</strong></div>
+          <div><span style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px">Architecture Dept</span><strong>ChatGPT</strong></div>
+          <div><span style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px">Frontend / Publishing</span><strong>Claude</strong></div>
+          <div style="margin-left:auto;align-self:center"><span style="background:var(--lotus);color:#fff;font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:4px 10px;border-radius:4px">Architecture Dept: Approved</span></div>
+        </div>
+
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:0 0 10px">1. Executive Summary</h3>
+
+        <div class="highlight">
+          90% Deterministic Systems &nbsp;+&nbsp; 10% AI Cognition &nbsp;=&nbsp; Institutional Intelligence
+        </div>
+
+        <p>
+          This document presents the approved action plan for upgrading BlueLotus Digital Institution
+          from its current v1 architecture — static GitHub Pages and Python scripts — to a structured
+          V2.0 Cognitive Intelligence Platform. The plan is jointly reviewed by the Architecture
+          Department (ChatGPT), the Frontend/Publishing Department (Claude), and approved by the CIO
+          (Kian Soh) as the governing human authority.
+        </p>
+        <p>
+          The core philosophy remains unchanged throughout the upgrade. Intelligence must be
+          deterministic first, and AI-assisted only where ambiguity demands it.
+        </p>
+
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:28px 0 10px">2. Current State — V1 Assessment</h3>
+
+        <p>
+          The current BlueLotus Command Center (v5.6–5.9) is a functioning intelligence platform
+          producing real institutional value: 68+ Chief Strategist Reports, a 78-ticker Superforecast
+          model with Brier Score tracking, live signal feeds, and a philosophical governance layer
+          grounded in the Eightfold Path. What it lacks is infrastructure for durability.
+        </p>
+
+        <p style="color:var(--muted);font-size:13px;margin-bottom:8px;font-family:var(--mono);letter-spacing:0.05em">STRUCTURAL LIMITATIONS TO RESOLVE</p>
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:18px 22px;margin:0 0 24px;font-size:13px">
+          <div style="display:grid;grid-template-columns:20px 1fr;gap:8px 12px">
+            <span style="color:#dc2626;font-weight:700">—</span><span>Static HTML on GitHub Pages — no real-time updates without manual script push</span>
+            <span style="color:#dc2626;font-weight:700">—</span><span>No persistent database — each report starts from scratch, no institutional memory</span>
+            <span style="color:#dc2626;font-weight:700">—</span><span>No structured event schema — signals exist as flat text, not queryable objects</span>
+            <span style="color:#dc2626;font-weight:700">—</span><span>Brier Score tracking is manual JSON — not automated or self-auditing</span>
+            <span style="color:#dc2626;font-weight:700">—</span><span>No feedback learning — the institution cannot improve its forecasting over time</span>
+          </div>
+        </div>
+
+        <p style="color:var(--muted);font-size:13px;margin-bottom:8px;font-family:var(--mono);letter-spacing:0.05em">TECHNOLOGY STACK — V1 VS V2.0</p>
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:20px 22px;margin:0 0 28px;overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:12px">
+            <tr style="border-bottom:1px solid var(--border)">
+              <th style="padding:7px 8px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">LAYER</th>
+              <th style="padding:7px 8px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">CURRENT (V1)</th>
+              <th style="padding:7px 8px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">V2.0 UPGRADE</th>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:8px;font-weight:600">Frontend</td><td style="padding:8px;color:var(--muted)">Static GitHub Pages HTML</td><td style="padding:8px;color:#16a34a">Next.js + Tailwind + Supabase Real-time</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:8px;font-weight:600">Database</td><td style="padding:8px;color:var(--muted)">None (flat JSON files)</td><td style="padding:8px;color:#16a34a">PostgreSQL via Supabase</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:8px;font-weight:600">Data Schema</td><td style="padding:8px;color:var(--muted)">Unstructured text</td><td style="padding:8px;color:#16a34a">Pydantic typed event objects</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:8px;font-weight:600">Research</td><td style="padding:8px;color:var(--muted)">Generated at report time, discarded</td><td style="padding:8px;color:#16a34a">Persistent Python Research Engine</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:8px;font-weight:600">Risk</td><td style="padding:8px;color:var(--muted)">Generated at report time, discarded</td><td style="padding:8px;color:#16a34a">Persistent Python Risk Engine</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:8px;font-weight:600">Brier Score</td><td style="padding:8px;color:var(--muted)">Manual JSON, no automation</td><td style="padding:8px;color:#16a34a">Automated resolution engine</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:8px;font-weight:600">Memory</td><td style="padding:8px;color:var(--muted)">None — no cross-session learning</td><td style="padding:8px;color:#16a34a">PostgreSQL + Qdrant (Stage 6)</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:8px;font-weight:600">Real-time</td><td style="padding:8px;color:var(--muted)">None — static files</td><td style="padding:8px;color:#16a34a">WebSockets + Supabase subscriptions</td></tr>
+            <tr><td style="padding:8px;font-weight:600">Hosting</td><td style="padding:8px;color:var(--muted)">GitHub Pages (free tier)</td><td style="padding:8px;color:#16a34a">Vercel (Next.js) + Supabase cloud</td></tr>
+          </table>
+        </div>
+
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:0 0 14px">3. Six-Stage Action Plan</h3>
+        <p style="font-size:13px;color:var(--muted);margin:0 0 20px">Each stage must be completed and validated before the next begins. No stage may be skipped. The CIO approves the start of each stage.</p>
+
+        <!-- Stage cards -->
+        <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:28px">
+
+          <div style="background:var(--paper2);border:1px solid var(--border);border-left:3px solid var(--lotus);border-radius:0 8px 8px 0;padding:18px 22px">
+            <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:8px">
+              <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--lotus);font-weight:700">Stage 1</span>
+              <span style="font-weight:700;font-size:14px;color:var(--ink)">Institutional Memory — PostgreSQL via Supabase</span>
+              <span style="margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--muted)">2–3 weeks</span>
+            </div>
+            <p style="font-size:13px;margin:0 0 10px">Create Supabase project and configure PostgreSQL. Design 9 core tables: <code style="font-family:var(--mono);font-size:11px;background:var(--paper);padding:1px 5px;border-radius:3px">events</code>, <code style="font-family:var(--mono);font-size:11px;background:var(--paper);padding:1px 5px;border-radius:3px">signals</code>, <code style="font-family:var(--mono);font-size:11px;background:var(--paper);padding:1px 5px;border-radius:3px">forecasts</code>, <code style="font-family:var(--mono);font-size:11px;background:var(--paper);padding:1px 5px;border-radius:3px">brier_scores</code>, <code style="font-family:var(--mono);font-size:11px;background:var(--paper);padding:1px 5px;border-radius:3px">regime_states</code>, <code style="font-family:var(--mono);font-size:11px;background:var(--paper);padding:1px 5px;border-radius:3px">cio_decisions</code>, <code style="font-family:var(--mono);font-size:11px;background:var(--paper);padding:1px 5px;border-radius:3px">strategist_reports</code>, <code style="font-family:var(--mono);font-size:11px;background:var(--paper);padding:1px 5px;border-radius:3px">decision_audit_log</code>, <code style="font-family:var(--mono);font-size:11px;background:var(--paper);padding:1px 5px;border-radius:3px">daily_regime_snapshot</code>. Migrate all existing data. Document schema for Architecture sign-off.</p>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--lotus)">Gate: Is the PostgreSQL schema correct and complete?</div>
+          </div>
+
+          <div style="background:var(--paper2);border:1px solid var(--border);border-left:3px solid var(--border);border-radius:0 8px 8px 0;padding:18px 22px">
+            <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:8px">
+              <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);font-weight:700">Stage 2</span>
+              <span style="font-weight:700;font-size:14px;color:var(--ink)">Structured Signal Ingestion — Pydantic Event Schema</span>
+              <span style="margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--muted)">2–3 weeks</span>
+            </div>
+            <p style="font-size:13px;margin:0 0 10px">Define Pydantic BaseModel for normalised event objects. Refactor RSS and Moomoo OpenD ingestion to typed outputs. Implement Redis Queue for async ingestion. Add APScheduler: RSS 15min, Prices 5min, Macro 1hr.</p>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">Gate: Are all signal types normalised and trust scores calibrated?</div>
+          </div>
+
+          <div style="background:var(--paper2);border:1px solid var(--border);border-left:3px solid var(--border);border-radius:0 8px 8px 0;padding:18px 22px">
+            <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:8px">
+              <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);font-weight:700">Stage 3</span>
+              <span style="font-weight:700;font-size:14px;color:var(--ink)">Frontend Modernisation — Next.js Real-time Dashboard</span>
+              <span style="margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--muted)">3–4 weeks</span>
+            </div>
+            <p style="font-size:13px;margin:0 0 10px">Initialise Next.js with Tailwind CSS. Recreate all pages as React components. Connect to Supabase JS client with real-time subscriptions. Add D3.js/Recharts for regime history, P/L timeline, and Brier Score trend. Deploy to Vercel.</p>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">Gate: Does the new frontend faithfully reproduce all existing functionality?</div>
+          </div>
+
+          <div style="background:var(--paper2);border:1px solid var(--border);border-left:3px solid var(--border);border-radius:0 8px 8px 0;padding:18px 22px">
+            <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:8px">
+              <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);font-weight:700">Stage 4</span>
+              <span style="font-weight:700;font-size:14px;color:var(--ink)">Research &amp; Risk Engines — Persistent Python Services</span>
+              <span style="margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--muted)">3–4 weeks</span>
+            </div>
+            <p style="font-size:13px;margin:0 0 10px">Build Research Engine and Risk Engine as standalone Python services. Research Engine outputs: scenario models, probability-weighted valuations, macro adjustments. Risk Engine outputs: correlation matrices, Monte Carlo stress tests, regime detection scores. Both run on 3-hour schedules and on high-impact signal events.</p>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">Gate: Are Research and Risk engine outputs accurate and trusted?</div>
+          </div>
+
+          <div style="background:var(--paper2);border:1px solid var(--border);border-left:3px solid var(--border);border-radius:0 8px 8px 0;padding:18px 22px">
+            <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:8px">
+              <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);font-weight:700">Stage 5</span>
+              <span style="font-weight:700;font-size:14px;color:var(--ink)">Feedback Learning — Automated Brier Score Resolution</span>
+              <span style="margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--muted)">2–3 weeks</span>
+            </div>
+            <p style="font-size:13px;margin:0 0 10px">Daily job resolves all open forecasts. Fetch actual outcomes from Polygon.io/Yahoo Finance. Compute Brier Score: <code style="font-family:var(--mono);font-size:11px;background:var(--paper);padding:1px 5px;border-radius:3px">BS = (confidence/100 − outcome)²</code>. Build source ranking and analyst ranking by historical accuracy. Surface trends on the Superforecast dashboard. This is where BlueLotus transitions from publishing institution to adaptive intelligence institution.</p>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">Gate: Is the Brier resolution logic correct and are source rankings sensible?</div>
+          </div>
+
+          <div style="background:var(--paper2);border:1px solid var(--border);border-left:3px solid var(--border);border-radius:0 8px 8px 0;padding:18px 22px">
+            <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:8px">
+              <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);font-weight:700">Stage 6</span>
+              <span style="font-weight:700;font-size:14px;color:var(--ink)">Semantic Memory — Vector Database (Qdrant)</span>
+              <span style="margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--muted)">4–6 weeks</span>
+            </div>
+            <p style="font-size:13px;margin:0 0 10px">Deploy Qdrant. Generate embeddings for all historical strategist reports. Build historical analogue retrieval: given current regime, surface the 3 most similar historical periods. Enable semantic search across all CIO Letters and Strategist Reports. This stage begins only after Stages 1–5 are fully stable.</p>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">Gate: Is institutional memory stable enough for semantic retrieval?</div>
+          </div>
+
+        </div>
+
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:0 0 14px">4. V2.0 Intelligence Pipeline — Flow Chart</h3>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:22px 24px;margin:0 0 28px;font-size:12px">
+          <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--lotus);text-align:center;margin-bottom:18px">BlueLotus V2.0 — Cognitive Intelligence Flow</div>
+          <div style="display:flex;flex-direction:column;gap:0;max-width:560px;margin:0 auto">
+
+            <div style="background:var(--paper);border:1px solid var(--border);border-radius:6px;padding:10px 16px;text-align:center">
+              <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Layer 0</div>
+              <div style="font-weight:600;margin-top:2px">External World</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:2px">RSS · Moomoo OpenD · FRED · Polygon.io · SEC EDGAR · X · Central Banks · Analyst Targets</div>
+            </div>
+            <div style="text-align:center;color:var(--lotus);font-size:18px;line-height:1.4">↓</div>
+
+            <div style="background:var(--paper);border:1px solid var(--border);border-radius:6px;padding:10px 16px;text-align:center">
+              <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Layer 1</div>
+              <div style="font-weight:600;margin-top:2px">Signal Acquisition</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:2px">Python ingestion · APScheduler · Redis Queue</div>
+            </div>
+            <div style="text-align:center;color:var(--lotus);font-size:18px;line-height:1.4">↓</div>
+
+            <div style="background:var(--paper);border:1px solid var(--border);border-radius:6px;padding:10px 16px;text-align:center">
+              <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Layer 2</div>
+              <div style="font-weight:600;margin-top:2px">Event Normalisation Engine</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:2px">Pydantic schema · Category tagging · Trust scoring · Impact scoring · Entity extraction</div>
+            </div>
+            <div style="text-align:center;color:var(--lotus);font-size:18px;line-height:1.4">↓</div>
+
+            <div style="background:var(--paper);border:1px solid var(--border);border-radius:6px;padding:10px 16px;text-align:center;border-color:var(--lotus)">
+              <div style="font-family:var(--mono);font-size:9px;color:var(--lotus);letter-spacing:0.1em;text-transform:uppercase">Layer 3 — Core</div>
+              <div style="font-weight:600;margin-top:2px">Institutional Memory (PostgreSQL)</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:2px">Events · Signals · Forecasts · Brier scores · Regime states · CIO decisions · Reports · Audit log · Regime snapshots</div>
+            </div>
+            <div style="text-align:center;color:var(--lotus);font-size:18px;line-height:1.4">↓</div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <div style="background:var(--paper);border:1px solid var(--border);border-radius:6px;padding:10px 14px;text-align:center">
+                <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Layer 4a</div>
+                <div style="font-weight:600;font-size:12px;margin-top:2px">Research Engine</div>
+                <div style="font-size:10px;color:var(--muted);margin-top:2px">Scenario models · 8-Lens · Probability-weighted valuations</div>
+              </div>
+              <div style="background:var(--paper);border:1px solid var(--border);border-radius:6px;padding:10px 14px;text-align:center">
+                <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Layer 4b</div>
+                <div style="font-weight:600;font-size:12px;margin-top:2px">Risk Engine</div>
+                <div style="font-size:10px;color:var(--muted);margin-top:2px">Correlation · Monte Carlo · Regime detection · Tail risk</div>
+              </div>
+            </div>
+            <div style="text-align:center;color:var(--lotus);font-size:18px;line-height:1.4">↓</div>
+
+            <div style="background:var(--paper);border:1px solid var(--border);border-radius:6px;padding:10px 16px;text-align:center">
+              <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Layer 5</div>
+              <div style="font-weight:600;margin-top:2px">Cognitive Synthesis</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:2px">Research + Risk + Historical memory + Governance doctrines → Strategic conclusions · Regime score · Institutional positioning</div>
+            </div>
+            <div style="text-align:center;color:var(--lotus);font-size:18px;line-height:1.4">↓</div>
+
+            <div style="background:var(--paper);border:2px solid var(--lotus);border-radius:6px;padding:12px 16px;text-align:center">
+              <div style="font-family:var(--mono);font-size:9px;color:var(--lotus);letter-spacing:0.1em;text-transform:uppercase">Layer 6 — Human Governance</div>
+              <div style="font-weight:700;margin-top:2px">CIO / Vision Layer</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:2px">Kian Soh reviews synthesis · Applies philosophical judgment · Approves narrative direction · Human-in-the-loop checkpoint</div>
+            </div>
+            <div style="text-align:center;color:var(--lotus);font-size:18px;line-height:1.4">↓</div>
+
+            <div style="background:var(--paper);border:1px solid var(--border);border-radius:6px;padding:10px 16px;text-align:center">
+              <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Layer 7</div>
+              <div style="font-weight:600;margin-top:2px">Publication Engine</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:2px">Chief Strategist Report · CIO Letter · Dashboard · Event Correlation refresh · Written to PostgreSQL</div>
+            </div>
+            <div style="text-align:center;color:var(--lotus);font-size:18px;line-height:1.4">↓</div>
+
+            <div style="background:var(--paper);border:1px solid var(--border);border-radius:6px;padding:10px 16px;text-align:center">
+              <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Layer 8</div>
+              <div style="font-weight:600;margin-top:2px">Frontend / Command Center (Next.js)</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:2px">Real-time dashboard · Supabase subscriptions · React components · Recharts · WebSocket prices · Vercel</div>
+            </div>
+            <div style="text-align:center;color:var(--lotus);font-size:18px;line-height:1.4">↓</div>
+
+            <div style="background:var(--paper);border:1px solid var(--border);border-radius:6px;padding:10px 16px;text-align:center">
+              <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Layer 9</div>
+              <div style="font-weight:600;margin-top:2px">Memory / Archive</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:2px">All outputs to PostgreSQL · Embeddings to Qdrant (Stage 6) · Regime history · Doctrine continuity</div>
+            </div>
+            <div style="text-align:center;color:var(--lotus);font-size:18px;line-height:1.4">↓</div>
+
+            <div style="background:var(--paper);border:1px solid var(--border);border-radius:6px;padding:10px 16px;text-align:center">
+              <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Layer 10</div>
+              <div style="font-weight:600;margin-top:2px">Feedback Learning Loop</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:2px">Daily Brier resolution · Source ranking · Analyst accuracy · Model rebalancing → feeds back to Layer 3</div>
+            </div>
+
+            <div style="text-align:center;font-style:italic;font-size:12px;color:var(--muted);margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
+              Every layer feeds the next. Memory feeds every layer. The CIO governs the whole.
+            </div>
+          </div>
+        </div>
+
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:0 0 14px">5. Implementation Timeline</h3>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:20px 22px;margin:0 0 28px;overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:12px">
+            <tr style="border-bottom:1px solid var(--border)">
+              <th style="padding:7px 8px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">STAGE</th>
+              <th style="padding:7px 8px;text-align:center;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">M1</th>
+              <th style="padding:7px 8px;text-align:center;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">M2</th>
+              <th style="padding:7px 8px;text-align:center;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">M3</th>
+              <th style="padding:7px 8px;text-align:center;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">M4</th>
+              <th style="padding:7px 8px;text-align:center;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">M5</th>
+              <th style="padding:7px 8px;text-align:center;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">M6+</th>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+              <td style="padding:8px;font-weight:600">S1: Memory</td>
+              <td style="padding:8px;text-align:center;background:rgba(106,79,158,0.12);color:var(--lotus);font-family:var(--mono);font-size:10px;font-weight:700">ACTIVE</td>
+              <td style="padding:8px;text-align:center;background:rgba(106,79,158,0.12);color:var(--lotus);font-family:var(--mono);font-size:10px;font-weight:700">ACTIVE</td>
+              <td style="padding:8px"></td><td style="padding:8px"></td><td style="padding:8px"></td><td style="padding:8px"></td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+              <td style="padding:8px;font-weight:600">S2: Ingest</td>
+              <td style="padding:8px"></td>
+              <td style="padding:8px;text-align:center;background:rgba(106,79,158,0.08);color:var(--lotus);font-family:var(--mono);font-size:10px">ACTIVE</td>
+              <td style="padding:8px;text-align:center;background:rgba(106,79,158,0.08);color:var(--lotus);font-family:var(--mono);font-size:10px">ACTIVE</td>
+              <td style="padding:8px"></td><td style="padding:8px"></td><td style="padding:8px"></td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+              <td style="padding:8px;font-weight:600">S3: Frontend</td>
+              <td style="padding:8px"></td><td style="padding:8px"></td>
+              <td style="padding:8px;text-align:center;background:rgba(106,79,158,0.08);color:var(--lotus);font-family:var(--mono);font-size:10px">ACTIVE</td>
+              <td style="padding:8px;text-align:center;background:rgba(106,79,158,0.08);color:var(--lotus);font-family:var(--mono);font-size:10px">ACTIVE</td>
+              <td style="padding:8px"></td><td style="padding:8px"></td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+              <td style="padding:8px;font-weight:600">S4: Engines</td>
+              <td style="padding:8px"></td><td style="padding:8px"></td><td style="padding:8px"></td>
+              <td style="padding:8px;text-align:center;background:rgba(106,79,158,0.08);color:var(--lotus);font-family:var(--mono);font-size:10px">ACTIVE</td>
+              <td style="padding:8px;text-align:center;background:rgba(106,79,158,0.08);color:var(--lotus);font-family:var(--mono);font-size:10px">ACTIVE</td>
+              <td style="padding:8px"></td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+              <td style="padding:8px;font-weight:600">S5: Brier</td>
+              <td style="padding:8px"></td><td style="padding:8px"></td><td style="padding:8px"></td><td style="padding:8px"></td>
+              <td style="padding:8px;text-align:center;background:rgba(106,79,158,0.08);color:var(--lotus);font-family:var(--mono);font-size:10px">ACTIVE</td>
+              <td style="padding:8px;text-align:center;background:rgba(106,79,158,0.08);color:var(--lotus);font-family:var(--mono);font-size:10px">ACTIVE</td>
+            </tr>
+            <tr>
+              <td style="padding:8px;font-weight:600">S6: Vector</td>
+              <td style="padding:8px"></td><td style="padding:8px"></td><td style="padding:8px"></td><td style="padding:8px"></td><td style="padding:8px"></td>
+              <td style="padding:8px;text-align:center;background:rgba(106,79,158,0.08);color:var(--lotus);font-family:var(--mono);font-size:10px">ACTIVE</td>
+            </tr>
+          </table>
+          <div style="margin-top:12px;font-size:11px;color:var(--muted);font-style:italic">Total estimated duration: 4–6 months to full V2.0 deployment including Stage 6 vector memory.</div>
+        </div>
+
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:0 0 14px">6. Governance &amp; Guardrails</h3>
+
+        <p style="color:var(--muted);font-size:13px;margin-bottom:8px;font-family:var(--mono);letter-spacing:0.05em">EXPLICITLY EXCLUDED FROM V2.0</p>
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:18px 22px;margin:0 0 20px;font-size:13px">
+          <div style="display:grid;grid-template-columns:20px 1fr;gap:8px 12px">
+            <span style="color:var(--muted)">—</span><span>Apache Kafka / Redpanda — enterprise event bus not required at current signal volume</span>
+            <span style="color:var(--muted)">—</span><span>Neo4j — knowledge graph deferred; PostgreSQL relational model is sufficient</span>
+            <span style="color:var(--muted)">—</span><span>LangGraph / Temporal / Airflow — distributed orchestration is premature</span>
+            <span style="color:var(--muted)">—</span><span>Autonomous AI agent meshes — violates the 90/10 principle</span>
+            <span style="color:var(--muted)">—</span><span>Multi-agent cognitive swarms — scale does not yet justify this complexity</span>
+          </div>
+        </div>
+
+        <div class="highlight">
+          90% Deterministic Infrastructure &nbsp;│&nbsp; 10% High-Level AI Cognition<br><br>
+          BlueLotus must evolve as a deterministic institution, not an AI-dependent one. The value is in
+          the architecture, the memory, and the governance — not in AI token consumption. AI is used for
+          high-value synthesis only.
+        </div>
+
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:28px 0 14px">7. Architecture Department Final Review</h3>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:20px 22px;margin:0 0 20px">
+          <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--lotus);margin-bottom:12px">Full Concurrence — Approved for Execution</div>
+          <p style="font-size:13px;margin:0 0 16px">The V2.0 Action Plan is assessed as internally coherent, properly sequenced, institutionally aligned, technically realistic, and philosophically consistent with BlueLotus doctrine.</p>
+          <div style="font-style:italic;font-size:13px;color:var(--muted);border-left:3px solid var(--border);padding-left:14px;margin-bottom:16px">"Complexity must justify itself." — Architecture Department, May 2026</div>
+
+          <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Architecture Additions (Incorporated into Stage 1)</div>
+          <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
+            <div style="display:grid;grid-template-columns:28px 1fr;gap:10px">
+              <span style="font-family:var(--mono);color:var(--lotus);font-weight:700">A</span>
+              <span><strong>decision_audit_log</strong> — governance traceability, historical reconstruction, forecast attribution. Fields: <code style="font-family:var(--mono);font-size:11px;background:var(--paper);padding:1px 4px;border-radius:3px">id, timestamp, actor, action_type, previous_value, new_value, confidence_shift, reason, model_version</code></span>
+            </div>
+            <div style="display:grid;grid-template-columns:28px 1fr;gap:10px">
+              <span style="font-family:var(--mono);color:var(--lotus);font-weight:700">B</span>
+              <span><strong>daily_regime_snapshot</strong> — historical regime reconstruction and longitudinal macro analysis. Fields: <code style="font-family:var(--mono);font-size:11px;background:var(--paper);padding:1px 4px;border-radius:3px">date, regime_score, VIX, Fear_Greed, DXY, SPY, QQQ, TNX, oil_price, sector_leadership, volatility_state, macro_bias</code></span>
+            </div>
+            <div style="display:grid;grid-template-columns:28px 1fr;gap:10px">
+              <span style="font-family:var(--mono);color:var(--lotus);font-weight:700">C</span>
+              <span><strong>Structured Report Metadata</strong> — reports must NOT be stored as text blobs only. Fields: <code style="font-family:var(--mono);font-size:11px;background:var(--paper);padding:1px 4px;border-radius:3px">report_date, regime, bullish_score, bearish_score, top_risks, top_opportunities, confidence, key_entities, forecast_horizon</code></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="highlight">
+          BlueLotus is evolving correctly toward Institutional Cognition — not AI chatbot dependency.<br><br>
+          The real long-term value of BlueLotus will become its institutional memory, governance structure,
+          feedback learning, structured reasoning, and historical continuity — not merely AI-generated
+          text outputs.
+        </div>
+
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:28px 0 10px">8. Final Institutional Principle</h3>
+
+        <p style="font-size:16px;text-align:center;font-style:italic;color:var(--ink);margin:24px 0 8px">The purpose of intelligence is not domination.</p>
+        <p style="font-size:14px;text-align:center;color:var(--muted);margin:0 0 28px">The purpose of intelligence is wise continuity, compassionate stewardship, and enduring benefit across generations.</p>
+
+        <p style="font-size:13px;color:var(--muted);font-style:italic;text-align:center;margin:0 0 28px">
+          This upgrade does not change what BlueLotus is. It gives BlueLotus the infrastructure to become
+          what it was always designed to be: an Institutional Cognitive Operating System, governed by
+          human wisdom, disciplined by philosophy, and built to endure.
+        </p>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:16px 22px;margin:0 0 24px;display:flex;flex-wrap:wrap;gap:20px;font-size:12px;justify-content:center;text-align:center">
+          <div><span style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px">CIO / Vision Layer</span><strong>Kian Soh</strong><br><span style="color:var(--muted);font-size:11px">Vision · Strategy · Direction</span></div>
+          <div><span style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px">Architecture Dept</span><strong>ChatGPT</strong><br><span style="color:var(--muted);font-size:11px">Systems · Cognitive Design</span></div>
+          <div><span style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px">Frontend / Publishing</span><strong>Claude</strong><br><span style="color:var(--muted);font-size:11px">Engineering · Publication</span></div>
+        </div>
+
+        <div class="edition-sign">
+          <span class="sign-name-sm">Kian Soh</span>
+          <span class="sign-title-sm">Chief Investment Officer · BlueLotus Digital Institution · Singapore · May 2026 · Confidential</span>
+        </div>
+      </div>
+
+      <div class="edition-divider"></div>
+
 <!-- ══ EDITION 010 — MAY 27, 2026 ══ -->
       <div class="edition-block" id="edition-010">
         <div class="edition-tag">
