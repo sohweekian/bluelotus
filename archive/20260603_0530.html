@@ -1,0 +1,228 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta http-equiv="refresh" content="10800">
+<title>BlueLotus Command Center</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Cormorant+Garamond:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#060712;--panel:#0c0f1c;--line:rgba(192,132,252,.16);--muted:#7d8590;--text:#e6edf3;--lotus:#c084fc;--green:#4ade80;--red:#ff5566;--yellow:#fbbf24}
+body{background:radial-gradient(circle at top left,rgba(192,132,252,.13),transparent 32%),linear-gradient(180deg,#060712,#08080f 46%,#05060b);color:var(--text);font-family:'Outfit',sans-serif;font-size:14px;line-height:1.55}
+.shell{max-width:1480px;margin:0 auto;padding:22px 28px 44px}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;margin-bottom:16px}
+.card,.hero-card{background:rgba(12,15,28,.94);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 24px 70px rgba(0,0,0,.28)}
+.brand{font-family:'Cormorant Garamond',serif;font-size:42px;line-height:1;font-weight:700;letter-spacing:.04em;color:var(--lotus)}
+.brand span{color:var(--green)}
+.eyebrow,.label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+.regime{font-family:'JetBrains Mono',monospace;font-size:31px;font-weight:700;color:#4ade80;letter-spacing:.04em;margin-top:14px}
+.command-line{margin-top:12px;color:#cbd5e1;max-width:760px;font-size:15px}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.kpi{background:rgba(12,15,28,.94);border:1px solid var(--line);border-radius:14px;padding:15px;min-height:105px}
+.kpi-value{font-family:'JetBrains Mono',monospace;font-size:23px;font-weight:700;margin-top:8px}
+.kpi-sub{font-size:12px;color:var(--muted);margin-top:5px}
+.section-title{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--lotus);margin:22px 0 10px;display:flex;gap:10px;align-items:center}
+.section-title::after{content:'';height:1px;flex:1;background:var(--line)}
+.priority-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.mini-card,.event-card{background:rgba(12,15,28,.94);border:1px solid rgba(255,255,255,.06);border-left:3px solid var(--accent);border-radius:14px;padding:14px;min-height:145px}
+.mini-top,.event-row{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:9px}
+.mini-top b,.event-row b{color:var(--accent)}
+.mini-title{font-weight:650;color:#f4f7fb;font-size:14px;line-height:1.45}
+.mini-meta{font-size:11px;color:#7d8590;margin-top:10px;line-height:1.45}
+.event-card h3{font-family:'JetBrains Mono',monospace;font-size:15px;color:#f4f7fb;margin-bottom:8px}
+.event-card p{font-size:12px;color:#aeb8c5;line-height:1.55}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.card h3{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--lotus);letter-spacing:.16em;text-transform:uppercase;margin-bottom:12px}
+ul{margin-left:18px;color:#c8d0dd}
+li{margin-bottom:6px}
+table{width:100%;border-collapse:collapse;font-family:'JetBrains Mono',monospace;font-size:12px}
+th{color:var(--lotus);font-size:10px;letter-spacing:.1em;text-transform:uppercase;text-align:left;padding:8px;border-bottom:1px solid var(--line)}
+td{padding:8px;border-bottom:1px solid rgba(255,255,255,.045)}
+details{background:rgba(12,15,28,.72);border:1px solid var(--line);border-radius:14px;margin-bottom:10px;overflow:hidden}
+summary{cursor:pointer;padding:14px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--lotus);text-transform:uppercase}
+.details-body{padding:0 16px 14px}
+.feed-item{border-bottom:1px solid rgba(255,255,255,.055);padding:9px 0;color:#c8d0dd;font-size:13px;line-height:1.55}
+.feed-item:last-child{border-bottom:0}
+.feed-item span{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--lotus);border:1px solid rgba(192,132,252,.25);padding:1px 6px;border-radius:4px;margin-right:8px;vertical-align:1px}
+.bulletin{background:rgba(8,10,18,.96);border:1px solid var(--line);border-left:3px solid var(--lotus);border-radius:16px;padding:20px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.85;color:#cbd5e1}
+.lens-div{border:none;border-top:1px solid var(--line);margin:12px 0}
+.empty{color:#64748b;font-style:italic;padding:12px 0}
+.links{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:22px 0}
+.links a{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-decoration:none;color:var(--lotus);border:1px solid rgba(192,132,252,.25);padding:9px 16px;border-radius:8px}
+.forecast-bridge{display:flex;align-items:center;justify-content:space-between;gap:20px;border-left:3px solid var(--green);background:linear-gradient(135deg,rgba(74,222,128,.08),rgba(192,132,252,.05));}
+.forecast-bridge h3{font-family:'Cormorant Garamond',serif;font-size:28px;color:#fff;margin-bottom:6px;letter-spacing:-.02em}
+.forecast-bridge p{color:#aeb7c7;max-width:780px}
+.forecast-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;min-width:260px}
+.forecast-actions a{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-decoration:none;color:#e9d5ff;border:1px solid rgba(192,132,252,.26);padding:10px 13px;border-radius:10px;background:rgba(192,132,252,.08);white-space:nowrap}
+.forecast-actions a:hover{background:rgba(192,132,252,.16)}
+.footer{text-align:center;color:#46515f;font-size:11px;padding:24px;border-top:1px solid var(--line);margin-top:20px}
+@media(max-width:1100px){.hero,.two-col,.three-col{grid-template-columns:1fr}.kpi-grid,.priority-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:680px){.shell{padding:16px}.kpi-grid,.priority-grid{grid-template-columns:1fr}.brand{font-size:34px}.regime{font-size:24px}}
+</style>
+<style id="bl-nav-css">
+.bl-nav{position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(8,8,14,0.97);border-bottom:1px solid rgba(192,132,252,0.18);backdrop-filter:blur(16px);font-family:'JetBrains Mono','Courier New',monospace;}
+.bl-nav-inner{max-width:1500px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:52px;}
+.bl-nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.bl-nav-petal{width:18px;height:18px;background:linear-gradient(135deg,#c084fc,#a855f7);border-radius:50% 50% 50% 0;transform:rotate(-45deg);flex-shrink:0;}
+.bl-nav-brand{font-size:10px;font-weight:500;letter-spacing:0.22em;color:#c084fc;text-transform:uppercase;}
+.bl-nav-links{display:flex;align-items:center;gap:0;list-style:none;margin:0;padding:0;}
+.bl-nav-links > li{position:relative;}
+.bl-nav-links > li > a{display:block;font-size:9px;letter-spacing:0.13em;color:rgba(221,216,240,0.4);text-decoration:none;text-transform:uppercase;padding:6px 11px;border-radius:3px;transition:color 0.18s,background 0.18s;white-space:nowrap;}
+.bl-nav-links > li > a:hover,.bl-nav-links > li > a.active{color:#c084fc;background:rgba(192,132,252,0.07);}
+.bl-nav-links .sep{width:1px;height:14px;background:rgba(255,255,255,0.07);margin:0 1px;flex-shrink:0;}
+.bl-dropdown{position:relative;}
+.bl-dropdown-btn{display:flex;align-items:center;gap:4px;font-size:9px;letter-spacing:0.13em;color:rgba(221,216,240,0.4);text-decoration:none;text-transform:uppercase;padding:6px 11px;border-radius:3px;cursor:pointer;transition:color 0.18s,background 0.18s;white-space:nowrap;background:none;border:none;font-family:inherit;}
+.bl-dropdown-btn:hover,.bl-dropdown:hover .bl-dropdown-btn{color:#c084fc;background:rgba(192,132,252,0.07);}
+.bl-dropdown-arrow{font-size:7px;opacity:0.5;transition:transform 0.2s;}
+.bl-dropdown:hover .bl-dropdown-arrow,.bl-dropdown.open .bl-dropdown-arrow{transform:rotate(180deg);}
+.bl-dropdown-menu{display:none;position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:rgba(10,10,20,0.98);border:1px solid rgba(192,132,252,0.2);border-radius:6px;padding:6px;min-width:190px;backdrop-filter:blur(20px);box-shadow:0 16px 40px rgba(0,0,0,0.6);}
+.bl-dropdown:hover .bl-dropdown-menu,.bl-dropdown.open .bl-dropdown-menu{display:block;}
+.bl-dropdown-menu a{display:flex;align-items:center;gap:10px;padding:8px 12px;font-size:9px;letter-spacing:0.12em;color:rgba(221,216,240,0.5);text-decoration:none;text-transform:uppercase;border-radius:4px;transition:all 0.15s;white-space:nowrap;}
+.bl-dropdown-menu a:hover{color:#c084fc;background:rgba(192,132,252,0.08);}
+.bl-dropdown-menu .tribute-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.bl-dropdown-divider{height:1px;background:rgba(255,255,255,0.06);margin:4px 0;}
+.bl-nav-right{display:flex;align-items:center;gap:10px;}
+.bl-nav-live{font-size:9px;letter-spacing:0.12em;color:#4ade80;text-transform:uppercase;display:flex;align-items:center;gap:5px;}
+.bl-nav-dot{width:5px;height:5px;background:#4ade80;border-radius:50%;animation:blPulse 1.8s ease infinite;}
+@keyframes blPulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.bl-dropdown-menu.wide{min-width:250px;text-align:left;}
+.bl-dropdown-menu .subline{display:block;font-size:7px;letter-spacing:.06em;color:rgba(221,216,240,.28);text-transform:none;margin-top:2px;line-height:1.25;}
+.bl-nav-action{border:1px solid rgba(192,132,252,.22)!important;background:rgba(192,132,252,.06)!important;color:rgba(232,222,255,.72)!important;}
+.bl-nav-action:hover{background:rgba(192,132,252,.12)!important;color:#fff!important;}
+body{padding-top:52px !important;}
+@media(max-width:1100px){.bl-nav-links > li > a,.bl-dropdown-btn{font-size:8px;padding:5px 8px;}.bl-nav-brand{display:none;}}
+@media(max-width:720px){.bl-nav-links .sep{display:none;}.bl-nav-links > li > a,.bl-dropdown-btn{padding:5px 6px;letter-spacing:0.07em;}}
+</style>
+<nav class="bl-nav" role="navigation" aria-label="BlueLotus Navigation">
+  <div class="bl-nav-inner">
+    <a class="bl-nav-logo" href="https://sohweekian.github.io/bluelotus/">
+      <div class="bl-nav-petal"></div>
+      <span class="bl-nav-brand">BlueLotus&nbsp;Fund</span>
+    </a>
+    <ul class="bl-nav-links">
+      <li><a href="https://sohweekian.github.io/bluelotus/" class="active">Dashboard</a></li>
+      <li class="sep"></li>
+      <li><a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist.html">Portfolio</a></li>
+      <li class="sep"></li>
+      <li class="bl-dropdown">
+        <button class="bl-dropdown-btn bl-nav-action">Forecast <span class="bl-dropdown-arrow">&#9660;</span></button>
+        <div class="bl-dropdown-menu wide">
+          <a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist-superforecast.html"><span class="tribute-dot" style="background:#4ade80;"></span><span>Superforecast<span class="subline">78-ticker valuation + Brier tracker</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/superforecasting-thesis.html"><span class="tribute-dot" style="background:#fbbf24;"></span><span>Forecast Thesis<span class="subline">Protocol, calibration, Kelly discipline</span></span></a>
+        </div>
+      </li>
+      <li class="sep"></li>
+      <li><a href="https://sohweekian.github.io/bluelotus/bluelotus-framework.html">Framework</a></li>
+      <li class="sep"></li>
+      <li><a href="https://sohweekian.github.io/bluelotus/aladdin-story.html">Aladdin</a></li>
+      <li class="sep"></li>
+      <li><a href="https://sohweekian.github.io/bluelotus/chief-strategist.html">Strategist</a></li>
+      <li class="sep"></li>
+      <li><a href="https://sohweekian.github.io/bluelotus/cio-letter.html">CIO Letter</a></li>
+      <li class="sep"></li>
+      <li class="bl-dropdown">
+        <button class="bl-dropdown-btn">Tributes <span class="bl-dropdown-arrow">&#9660;</span></button>
+        <div class="bl-dropdown-menu">
+          <a href="https://sohweekian.github.io/bluelotus/einstein-tribute.html"><span class="tribute-dot" style="background:#ff5566;"></span>Einstein &mdash; Prime Mover</a>
+          <a href="https://sohweekian.github.io/bluelotus/shannon-tribute.html"><span class="tribute-dot" style="background:#4a9eff;"></span>Shannon &mdash; Information</a>
+          <a href="https://sohweekian.github.io/bluelotus/turing-tribute.html"><span class="tribute-dot" style="background:#00e5a0;"></span>Turing &mdash; Machine Mind</a>
+          <a href="https://sohweekian.github.io/bluelotus/thorp-tribute.html"><span class="tribute-dot" style="background:#c9a84c;"></span>Thorp &mdash; The Edge</a>
+          <div class="bl-dropdown-divider"></div>
+          <a href="https://sohweekian.github.io/bluelotus/gametheory-tribute.html"><span class="tribute-dot" style="background:#9b7fff;"></span>Von Neumann &amp; Nash</a>
+        </div>
+      </li>
+    </ul>
+    <div class="bl-nav-right">
+      <div class="bl-nav-live"><div class="bl-nav-dot"></div>Live&nbsp;v6.0</div>
+    </div>
+  </div>
+</nav>
+<script id="bl-nav-js">
+(function(){
+  document.querySelectorAll('.bl-dropdown-btn').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      var parent = btn.closest('.bl-dropdown');
+      document.querySelectorAll('.bl-dropdown.open').forEach(function(el){ if(el!==parent) el.classList.remove('open'); });
+      if(parent) parent.classList.toggle('open');
+    });
+  });
+  document.addEventListener('click', function(e){
+    if(!e.target.closest('.bl-dropdown')){
+      document.querySelectorAll('.bl-dropdown.open').forEach(function(el){ el.classList.remove('open'); });
+    }
+  });
+})();
+</script>
+
+</head><body>
+<div class="shell">
+  <section class="hero">
+    <div class="hero-card">
+      <div class="brand">BLUE<span>LOTUS</span> 🪷</div>
+      <div class="eyebrow">Command Center · 2026-06-03 05:28 SGT</div>
+      <div class="regime">🟡 MILD RISK ON</div>
+      <div class="command-line"><b>GEOPOLITICAL</b> is the dominant event cluster. Direction: <b style="color:#4ade80">WATCH</b>. Basket: <b style="color:#4ade80">+0.00%</b>. How the ‘double scar’ of past inflation woes and geopolitical shocks amid the Iran war is hitting consumers</div>
+    </div>
+    <div class="hero-card">
+      <div class="label">What Matters Now</div>
+      <div class="two-col" style="margin-top:12px">
+        <div><h3 style="color:var(--green);font-family:JetBrains Mono,monospace;font-size:11px;margin-bottom:8px">DRIVERS</h3><ul><li>Growth mild outperformance</li></ul></div>
+        <div><h3 style="color:var(--red);font-family:JetBrains Mono,monospace;font-size:11px;margin-bottom:8px">WARNINGS</h3><ul><li>No major warnings detected.</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="kpi-grid">
+    <div class="kpi"><div class="label">Portfolio</div><div class="kpi-value" style="color:var(--lotus)">$1,581</div><div class="kpi-sub" style="color:#4ade80">P/L $+71 (+4.70%)</div></div>
+    <div class="kpi"><div class="label">Cash Buffer</div><div class="kpi-value">97.3%</div><div class="kpi-sub">Cash $56,076 · Assets $57,658</div></div>
+    <div class="kpi"><div class="label">Fear & Greed</div><div class="kpi-value" style="color:#fbbf24">50/100</div><div class="kpi-sub">😐 NEUTRAL</div></div>
+    <div class="kpi"><div class="label">Volatility</div><div class="kpi-value">VIX 20.0</div><div class="kpi-sub">ELEVATED · Score +1/12</div></div>
+  </section>
+
+  <section class="card forecast-bridge">
+    <div>
+      <div class="label">Superforecast Layer</div>
+      <h3>Probability-weighted valuation layer now sits beside the Command Center.</h3>
+      <p>Use the Command Center for current regime, the Superforecast report for 78-ticker valuation targets, and the Thesis for methodology, calibration and Kelly sizing discipline.</p>
+    </div>
+    <div class="forecast-actions">
+      <a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist-superforecast.html">Open Superforecast →</a>
+      <a href="https://sohweekian.github.io/bluelotus/superforecasting-thesis.html">Read Thesis →</a>
+    </div>
+  </section>
+
+  <div class="section-title">Priority Signals</div>
+  <section class="priority-grid"><article class='mini-card' style='--accent:#ff5566'><div class='mini-top'><span>VERIFIED RSS</span><b>CONFIRMED</b></div><div class='mini-title'>How the ‘double scar’ of past inflation woes and geopolitical shocks amid the Iran war is hitting consumers</div><div class='mini-meta'>CNBC_Markets · Trust 0.78 · Impact 1.00 · INFLATION / DATA, GEOPOLITICAL</div></article><article class='mini-card' style='--accent:#ff5566'><div class='mini-top'><span>VERIFIED RSS</span><b>CONFIRMED</b></div><div class='mini-title'>Inflation hits 3.2% in the euro zone as Iran war pushes energy costs higher</div><div class='mini-meta'>CNBC_Markets · Trust 0.78 · Impact 1.00 · INFLATION / DATA, GEOPOLITICAL</div></article><article class='mini-card' style='--accent:#ff5566'><div class='mini-top'><span>VERIFIED RSS</span><b>CONFIRMED</b></div><div class='mini-title'>Iran war cost: Average U.S. household paying $450 more on gas and energy</div><div class='mini-meta'>CNBC_Markets · Trust 0.78 · Impact 1.00 · GEOPOLITICAL, ENERGY / URANIUM</div></article><article class='mini-card' style='--accent:#ff5566'><div class='mini-top'><span>MACRO CATALYST</span><b>CONFIRMED</b></div><div class='mini-title'>Iran, US reach deal to extend ceasefire, pending Trump&#x27;s approval - Reuters</div><div class='mini-meta'>Trump_Iran · Trust 0.82 · Impact 1.00 · TRUMP / TRADE, GEOPOLITICAL</div></article><article class='mini-card' style='--accent:#ff5566'><div class='mini-top'><span>MACRO CATALYST</span><b>CONFIRMED</b></div><div class='mini-title'>Iran war updates: Tehran slams US’s ‘reckless military adventure’ in Hormuz - Al Jazeera</div><div class='mini-meta'>Trump_Iran · Trust 0.82 · Impact 1.00 · GEOPOLITICAL, AI / SEMIS</div></article><article class='mini-card' style='--accent:#ff5566'><div class='mini-top'><span>MACRO CATALYST</span><b>CONFIRMED</b></div><div class='mini-title'>Trump signs executive order threatening tariffs for countries trading with Iran - BBC</div><div class='mini-meta'>Trump_News · Trust 0.82 · Impact 1.00 · TRUMP / TRADE, GEOPOLITICAL</div></article></section>
+
+  <div class="section-title">Event Correlation Engine</div>
+  <section class="priority-grid"><article class='event-card' style='--accent:#4ade80'><div class='event-row'><span>WATCH</span><b>95%</b></div><h3>GEOPOLITICAL</h3><p>How the ‘double scar’ of past inflation woes and geopolitical shocks amid the Iran war is hitting consumers</p><div class='mini-meta'>13 signals · MACRO CATALYST + VERIFIED RSS + X VELOCITY · Basket <span style='color:#4ade80'>+0.00%</span></div></article><article class='event-card' style='--accent:#4ade80'><div class='event-row'><span>WATCH</span><b>95%</b></div><h3>TRUMP / TRADE</h3><p>Iran, US reach deal to extend ceasefire, pending Trump&#x27;s approval - Reuters</p><div class='mini-meta'>7 signals · MACRO CATALYST + X VELOCITY · Basket <span style='color:#4ade80'>+0.00%</span></div></article><article class='event-card' style='--accent:#4ade80'><div class='event-row'><span>WATCH</span><b>95%</b></div><h3>INFLATION / DATA</h3><p>How the ‘double scar’ of past inflation woes and geopolitical shocks amid the Iran war is hitting consumers</p><div class='mini-meta'>4 signals · MACRO CATALYST + VERIFIED RSS · Basket <span style='color:#4ade80'>+0.00%</span></div></article><article class='event-card' style='--accent:#4ade80'><div class='event-row'><span>RISK-ON</span><b>95%</b></div><h3>ENERGY / URANIUM</h3><p>Inflation hits 3.2% in the euro zone as Iran war pushes energy costs higher</p><div class='mini-meta'>3 signals · MACRO CATALYST + VERIFIED RSS · Basket <span style='color:#4ade80'>+2.19%</span></div></article></section>
+
+  <div class="section-title">Tactical Layer</div>
+  <section class="two-col">
+    <div class="card"><h3>Execution Signals</h3><ul><li>Hold current positioning unless regime score breaks materially.</li><li>Use event correlations as early-warning layer; confirm via price action.</li></ul></div>
+    <div class="card"><h3>Portfolio Snapshot</h3><table><tr><th>Ticker</th><th>Qty</th><th>Price</th><th>Day</th><th>P/L</th></tr><tr><td><b>WFC</b></td><td>10</td><td>$79.43</td><td style='color:#4ade80'>+2.9%</td><td style='color:#4ade80'>$+39</td></tr><tr><td><b>BAC</b></td><td>15</td><td>$52.46</td><td style='color:#4ade80'>+1.9%</td><td style='color:#4ade80'>$+32</td></tr></table></div>
+  </section>
+
+  <div class="section-title">Rotation Watch</div>
+  <section class="card"><h3>Top Movers</h3><table><tr><th>Ticker</th><th>Price</th><th>Change</th></tr><tr><td><b>MRVL</b></td><td>$290.79</td><td style='color:#4ade80'>+32.5%</td></tr><tr><td><b>FCEL</b></td><td>$24.64</td><td style='color:#4ade80'>+15.6%</td></tr><tr><td><b>ENPH</b></td><td>$72.33</td><td style='color:#4ade80'>+13.5%</td></tr><tr><td><b>ASTS</b></td><td>$118.17</td><td style='color:#4ade80'>+11.8%</td></tr><tr><td><b>UUUU</b></td><td>$19.54</td><td style='color:#4ade80'>+10.9%</td></tr><tr><td><b>BE</b></td><td>$302.85</td><td style='color:#4ade80'>+10.7%</td></tr></table></section>
+
+  <div class="section-title">Raw Intelligence Tapes — collapsed by default</div>
+  <details><summary>Moomoo Institutional Intelligence</summary><div class="details-body"><div class='feed-item'><span>MOOMOO</span>[WALL ST. ANALYSTS] BAC: Wall St. Consensus: Buy | Analyst Price Target: $61.04</div><div class='feed-item'><span>MOOMOO</span>[ANALYST RATINGS] BAC: Buy=92 Hold=7 Sell=0 — 99 analysts surveyed</div><div class='feed-item'><span>MOOMOO</span>[MORNINGSTAR] BAC: ⭐4/5 Stars | Fair Value: $65.00 | Uncertainty: Medium | Moat: Wide</div><div class='feed-item'><span>MOOMOO</span>[TECHNICAL] BAC: May 28 The MACD indicator has formed a death cross, signaling potential downward</div><div class='feed-item'><span>MOOMOO</span>[FINANCIAL] BAC: On Jun 2, extra large trades recorded a net inflow of 32.96M, and the inflows an</div><div class='feed-item'><span>MOOMOO</span>[WALL ST. ANALYSTS] WFC: Wall St. Consensus: Buy | Analyst Price Target: $95.81</div><div class='feed-item'><span>MOOMOO</span>[ANALYST RATINGS] WFC: Buy=66 Hold=33 Sell=0 — 99 analysts surveyed</div><div class='feed-item'><span>MOOMOO</span>[MORNINGSTAR] WFC: ⭐4/5 Stars | Fair Value: $88.00 | Uncertainty: Medium | Moat: Wide</div><div class='feed-item'><span>MOOMOO</span>[TECHNICAL] WFC: Jun 1 The KDJ indicator has moved from neutral to strong overbought levels, sugg</div><div class='feed-item'><span>MOOMOO</span>[FINANCIAL] WFC: As of Jun 2, block trades have consistently shown a net outflow over the past 9 </div><div class='feed-item'><span>MOOMOO</span>[WALL ST. ANALYSTS] NVDA: Wall St. Consensus: Buy | Analyst Price Target: $309.94</div><div class='feed-item'><span>MOOMOO</span>[ANALYST RATINGS] NVDA: Buy=95 Hold=2 Sell=2 — 99 analysts surveyed</div></div></details>
+  <details><summary>RSS Verified News Tape</summary><div class="details-body"><div class='feed-item'><span>CNBC_Markets</span>How the ‘double scar’ of past inflation woes and geopolitical shocks amid the Iran war is hitting consumers</div><div class='feed-item'><span>CNBC_Markets</span>Inflation hits 3.2% in the euro zone as Iran war pushes energy costs higher</div><div class='feed-item'><span>CNBC_Markets</span>Iran war cost: Average U.S. household paying $450 more on gas and energy</div><div class='feed-item'><span>CNBC_Finance</span>Goldman Sachs CEO David Solomon says markets are in &#x27;greed&#x27; mode as AI companies seek billions</div><div class='feed-item'><span>Bloomberg</span>Bitcoin’s Inflation-Hedging Promise in Tatters After Plunge</div><div class='feed-item'><span>FT_Economy</span>Let’s stop mismeasuring inflation</div><div class='feed-item'><span>FT_Economy</span>Shipping tycoon prefers $200,000 fee to cross Strait of Hormuz to ‘this hassle’</div><div class='feed-item'><span>Bloomberg</span>Emerging-Market Currencies Gain on ‘No News Is Good News’ Day</div><div class='feed-item'><span>MarketWatch</span>Palo Alto Networks’ stock is rising as earnings show AI is a friend, not a foe</div><div class='feed-item'><span>Yahoo_Fin</span>The Charitable Gift Annuity Strategy a 75-Year-Old Widow Used to Get $4,200 a Month Tax-Advantaged for Life</div><div class='feed-item'><span>FT_Companies</span>Chinese investors fear missing out on SpaceX IPO after crackdown</div><div class='feed-item'><span>CNBC_Finance</span>Greg Abel just made his first big deal as Berkshire CEO. Why Warren Buffett is happy</div></div></details>
+  <details><summary>X Velocity Feed</summary><div class="details-body"><div class='feed-item'><span>MACRO</span>@KobeissiLetter: S&amp;P 500 hits record high close, eyeing 10-week win streak</div><div class='feed-item'><span>MACRO</span>@KobeissiLetter: US tech +42% in 2 months, semis +66%, biggest rally since 2000</div><div class='feed-item'><span>MACRO</span>@KobeissiLetter: S&amp;P 500 surges to all-time high, now valued at $69 trillion</div><div class='feed-item'><span>MACRO</span>@zerohedge: Bitcoin battered as oil bids amid Hormuz closure risks</div><div class='feed-item'><span>MACRO</span>@unusual_whales: $1.23B crypto liquidations in 24h from 196k traders</div><div class='feed-item'><span>GEOPOLITICAL</span>@unusual_whales: Rubio: War in Iran is over</div><div class='feed-item'><span>GEOPOLITICAL</span>@DeItaone: Trump: US-Iran talks ongoing daily, denies freeze reports</div><div class='feed-item'><span>MACRO</span>@KobeissiLetter: Bitcoin drops below $68k, down $6.5k in 40 hours</div></div></details>
+  <details><summary>Macro Catalyst Tape</summary><div class="details-body"><div class='feed-item'><span>FED</span>Powell, Acceptance Remarks</div><div class='feed-item'><span>FED</span>Federal Reserve Board issues enforcement actions with former employee of Atlantic Union Bank and former employee of Frost Bank</div><div class='feed-item'><span>FED</span>Kevin Warsh takes oath of office as chairman and a member of the Board of Governors of the Federal Reserve System, and the Federal Open Market Committee unanimously selects Warsh as its chairman</div><div class='feed-item'><span>FED</span>Agencies remove additional references to reputation risk</div><div class='feed-item'><span>WHITE HOUSE</span>Iran, US reach deal to extend ceasefire, pending Trump&#x27;s approval - Reuters</div><div class='feed-item'><span>WHITE HOUSE</span>Iran war updates: Tehran slams US’s ‘reckless military adventure’ in Hormuz - Al Jazeera</div><div class='feed-item'><span>WHITE HOUSE</span>Trump signs executive order threatening tariffs for countries trading with Iran - BBC</div><div class='feed-item'><span>WHITE HOUSE</span>Warsh Takes Charge of a Fed Facing Rising Inflation Threat - The New York Times</div><div class='feed-item'><span>ECON</span>Canada&#x27;s economy is struggling, but a recession hasn&#x27;t arrived yet: top economist - mpamag.com</div><div class='feed-item'><span>ECON</span>Charles St-Arnaud: Recession or not, Canada&#x27;s economy doesn&#x27;t look good - Financial Post</div><div class='feed-item'><span>ECON</span>Payroll Jobs Up, Unemployment Rate Ticks Up in March - Illinois.gov</div><div class='feed-item'><span>ECON</span>Carney addresses technical recession, says economy going through &#x27;settling-in&#x27; period - CBC</div></div></details>
+
+  <div class="section-title">Chief Strategist Bulletin — Deep Analysis</div>
+  <details open><summary>Open Strategist Brief</summary><div class="details-body"><section class="bulletin">[BULLETIN SUPPRESSED — Price feed offline. Portfolio data may be stale. No narrative generated this cycle.]</section></div></details>
+
+  <div class="links">
+    <a href="https://sohweekian.github.io/bluelotus/chief-strategist.html">Chief Strategist Report →</a>
+    <a href="https://sohweekian.github.io/bluelotus/bluelotus-framework.html">8-Lens Framework →</a>
+    <a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist.html">Watchlist →</a>
+    <a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist-superforecast.html">Superforecast →</a>
+    <a href="https://sohweekian.github.io/bluelotus/superforecasting-thesis.html">Forecast Thesis →</a>
+  </div>
+</div>
+<div class="cal-block"><div class="ct" style="color:#c084fc;letter-spacing:2px;margin-bottom:10px;font-size:10px">&#128197; WEEKLY CATALYST CALENDAR &#8212; Jun 01 — Jun 05, 2026</div><div style="display:flex;gap:8px;flex-wrap:wrap"><div style="flex:1;min-width:140px;background:#111;border:1px solid #222;border-radius:6px;padding:12px;"><div style="font-family:monospace;font-size:10px;color:#888;letter-spacing:1px;margin-bottom:2px">MON</div><div style="font-size:13px;font-weight:600;color:#e6edf3;margin-bottom:10px">Jun 01</div><div style="background:rgba(74,158,255,0.08);border-left:2px solid #4a9eff;padding:4px 7px;border-radius:3px;margin-bottom:4px;font-size:11px;color:#4a9eff;line-height:1.5">Futures + overnight positioning</div></div><div style="flex:1;min-width:140px;background:#111;border:1px solid #222;border-radius:6px;padding:12px;"><div style="font-family:monospace;font-size:10px;color:#888;letter-spacing:1px;margin-bottom:2px">TUE</div><div style="font-size:13px;font-weight:600;color:#e6edf3;margin-bottom:10px">Jun 02</div><div style="background:rgba(251,191,36,0.08);border-left:2px solid #fbbf24;padding:4px 7px;border-radius:3px;margin-bottom:4px;font-size:11px;color:#fbbf24;line-height:1.5">Consumer Confidence</div><div style="background:rgba(251,191,36,0.08);border-left:2px solid #fbbf24;padding:4px 7px;border-radius:3px;margin-bottom:4px;font-size:11px;color:#fbbf24;line-height:1.5">JOLTS Job Openings</div></div><div style="flex:1;min-width:140px;background:#111;border:1px solid #222;border-radius:6px;padding:12px;border-top:2px solid #c084fc;"><div style="font-family:monospace;font-size:10px;color:#888;letter-spacing:1px;margin-bottom:2px">WED</div><div style="font-size:13px;font-weight:600;color:#e6edf3;margin-bottom:10px">Jun 03 <span style="color:#c084fc;font-size:9px;font-family:monospace">TODAY</span></div><div style="background:rgba(192,132,252,0.08);border-left:2px solid #c084fc;padding:4px 7px;border-radius:3px;margin-bottom:4px;font-size:11px;color:#c084fc;line-height:1.5">Fed Beige Book</div><div style="background:rgba(251,191,36,0.08);border-left:2px solid #fbbf24;padding:4px 7px;border-radius:3px;margin-bottom:4px;font-size:11px;color:#fbbf24;line-height:1.5">ADP Private Payrolls</div><div style="background:rgba(74,222,128,0.08);border-left:2px solid #4ade80;padding:4px 7px;border-radius:3px;margin-bottom:4px;font-size:11px;color:#4ade80;line-height:1.5">💰 AVGO Q2 FY2026 after close</div></div><div style="flex:1;min-width:140px;background:#111;border:1px solid #222;border-radius:6px;padding:12px;"><div style="font-family:monospace;font-size:10px;color:#888;letter-spacing:1px;margin-bottom:2px">THU</div><div style="font-size:13px;font-weight:600;color:#e6edf3;margin-bottom:10px">Jun 04</div><div style="background:rgba(255,85,102,0.08);border-left:2px solid #ff5566;padding:4px 7px;border-radius:3px;margin-bottom:4px;font-size:11px;color:#ff5566;line-height:1.5">Initial Jobless Claims</div><div style="background:rgba(255,85,102,0.08);border-left:2px solid #ff5566;padding:4px 7px;border-radius:3px;margin-bottom:4px;font-size:11px;color:#ff5566;line-height:1.5">GDP 2nd Release Q1 2026</div><div style="background:rgba(255,85,102,0.08);border-left:2px solid #ff5566;padding:4px 7px;border-radius:3px;margin-bottom:4px;font-size:11px;color:#ff5566;line-height:1.5">PCE + Personal Income and Spending</div><div style="background:rgba(251,191,36,0.08);border-left:2px solid #fbbf24;padding:4px 7px;border-radius:3px;margin-bottom:4px;font-size:11px;color:#fbbf24;line-height:1.5">Durable Goods Orders</div></div><div style="flex:1;min-width:140px;background:#111;border:1px solid #222;border-radius:6px;padding:12px;"><div style="font-family:monospace;font-size:10px;color:#888;letter-spacing:1px;margin-bottom:2px">FRI</div><div style="font-size:13px;font-weight:600;color:#e6edf3;margin-bottom:10px">Jun 05</div><div style="background:rgba(255,85,102,0.08);border-left:2px solid #ff5566;padding:4px 7px;border-radius:3px;margin-bottom:4px;font-size:11px;color:#ff5566;line-height:1.5">Core PCE YoY — inflation gauge</div><div style="background:rgba(251,191,36,0.08);border-left:2px solid #fbbf24;padding:4px 7px;border-radius:3px;margin-bottom:4px;font-size:11px;color:#fbbf24;line-height:1.5">Chicago PMI</div><div style="background:rgba(251,191,36,0.08);border-left:2px solid #fbbf24;padding:4px 7px;border-radius:3px;margin-bottom:4px;font-size:11px;color:#fbbf24;line-height:1.5">UMich Consumer Sentiment (final)</div></div></div><div style="margin-top:10px;font-size:10px;color:#666;display:flex;gap:16px;flex-wrap:wrap"><span style="color:#c084fc">&#9632; Fed</span><span style="color:#fbbf24">&#9632; Macro</span><span style="color:#4ade80">&#9632; Earnings</span><span style="color:#ff5566">&#9632; High Impact</span><span style="color:#4a9eff">&#9632; Info</span></div></div>
+<div class="footer">BlueLotus Command Center v5.6 · Synthesis first, raw intelligence on demand · For information only. Not financial advice.</div>
+</body></html>
