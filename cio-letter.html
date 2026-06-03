@@ -1,107 +1,11 @@
-<style id="bl-nav-css">
-.bl-nav{position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(8,8,14,0.97);border-bottom:1px solid rgba(192,132,252,0.18);backdrop-filter:blur(16px);font-family:'JetBrains Mono','Courier New',monospace;}
-.bl-nav-inner{max-width:1500px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:52px;}
-.bl-nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
-.bl-nav-petal{width:18px;height:18px;background:linear-gradient(135deg,#c084fc,#a855f7);border-radius:50% 50% 50% 0;transform:rotate(-45deg);flex-shrink:0;}
-.bl-nav-brand{font-size:10px;font-weight:500;letter-spacing:0.22em;color:#c084fc;text-transform:uppercase;}
-.bl-nav-links{display:flex;align-items:center;gap:0;list-style:none;margin:0;padding:0;}
-.bl-nav-links > li{position:relative;}
-.bl-nav-links > li > a{display:block;font-size:9px;letter-spacing:0.13em;color:rgba(221,216,240,0.4);text-decoration:none;text-transform:uppercase;padding:6px 11px;border-radius:3px;transition:color 0.18s,background 0.18s;white-space:nowrap;}
-.bl-nav-links > li > a:hover,.bl-nav-links > li > a.active{color:#c084fc;background:rgba(192,132,252,0.07);}
-.bl-nav-links .sep{width:1px;height:14px;background:rgba(255,255,255,0.07);margin:0 1px;flex-shrink:0;}
-.bl-dropdown{position:relative;}
-.bl-dropdown-btn{display:flex;align-items:center;gap:4px;font-size:9px;letter-spacing:0.13em;color:rgba(221,216,240,0.4);text-decoration:none;text-transform:uppercase;padding:6px 11px;border-radius:3px;cursor:pointer;transition:color 0.18s,background 0.18s;white-space:nowrap;background:none;border:none;font-family:inherit;}
-.bl-dropdown-btn:hover,.bl-dropdown:hover .bl-dropdown-btn{color:#c084fc;background:rgba(192,132,252,0.07);}
-.bl-dropdown-arrow{font-size:7px;opacity:0.5;transition:transform 0.2s;}
-.bl-dropdown:hover .bl-dropdown-arrow,.bl-dropdown.open .bl-dropdown-arrow{transform:rotate(180deg);}
-.bl-dropdown-menu{display:none;position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:rgba(10,10,20,0.98);border:1px solid rgba(192,132,252,0.2);border-radius:6px;padding:6px;min-width:190px;backdrop-filter:blur(20px);box-shadow:0 16px 40px rgba(0,0,0,0.6);}
-.bl-dropdown:hover .bl-dropdown-menu,.bl-dropdown.open .bl-dropdown-menu{display:block;}
-.bl-dropdown-menu a{display:flex;align-items:center;gap:10px;padding:8px 12px;font-size:9px;letter-spacing:0.12em;color:rgba(221,216,240,0.5);text-decoration:none;text-transform:uppercase;border-radius:4px;transition:all 0.15s;white-space:nowrap;}
-.bl-dropdown-menu a:hover{color:#c084fc;background:rgba(192,132,252,0.08);}
-.bl-dropdown-menu .tribute-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.bl-dropdown-divider{height:1px;background:rgba(255,255,255,0.06);margin:4px 0;}
-.bl-nav-right{display:flex;align-items:center;gap:10px;}
-.bl-nav-live{font-size:9px;letter-spacing:0.12em;color:#4ade80;text-transform:uppercase;display:flex;align-items:center;gap:5px;}
-.bl-nav-dot{width:5px;height:5px;background:#4ade80;border-radius:50%;animation:blPulse 1.8s ease infinite;}
-@keyframes blPulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
-.bl-dropdown-menu.wide{min-width:250px;text-align:left;}
-.bl-dropdown-menu .subline{display:block;font-size:7px;letter-spacing:.06em;color:rgba(221,216,240,.28);text-transform:none;margin-top:2px;line-height:1.25;}
-.bl-nav-action{border:1px solid rgba(192,132,252,.22)!important;background:rgba(192,132,252,.06)!important;color:rgba(232,222,255,.72)!important;}
-.bl-nav-action:hover{background:rgba(192,132,252,.12)!important;color:#fff!important;}
-body{padding-top:52px !important;}
-@media(max-width:1100px){.bl-nav-links > li > a,.bl-dropdown-btn{font-size:8px;padding:5px 8px;}.bl-nav-brand{display:none;}}
-@media(max-width:720px){.bl-nav-links .sep{display:none;}.bl-nav-links > li > a,.bl-dropdown-btn{padding:5px 6px;letter-spacing:0.07em;}}
-</style>
-<nav class="bl-nav" role="navigation" aria-label="BlueLotus Navigation">
-  <div class="bl-nav-inner">
-    <a class="bl-nav-logo" href="https://sohweekian.github.io/bluelotus/">
-      <div class="bl-nav-petal"></div>
-      <span class="bl-nav-brand">BlueLotus&nbsp;Fund</span>
-    </a>
-    <ul class="bl-nav-links">
-      <li><a href="https://sohweekian.github.io/bluelotus/">Dashboard</a></li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist.html">Portfolio</a></li>
-      <li class="sep"></li>
-      <li class="bl-dropdown">
-        <button class="bl-dropdown-btn bl-nav-action">Forecast <span class="bl-dropdown-arrow">&#9660;</span></button>
-        <div class="bl-dropdown-menu wide">
-          <a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist-superforecast.html"><span class="tribute-dot" style="background:#4ade80;"></span><span>Superforecast<span class="subline">78-ticker valuation + Brier tracker</span></span></a>
-          <a href="https://sohweekian.github.io/bluelotus/superforecasting-thesis.html"><span class="tribute-dot" style="background:#fbbf24;"></span><span>Forecast Thesis<span class="subline">Protocol, calibration, Kelly discipline</span></span></a>
-        </div>
-      </li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/bluelotus-framework.html">Framework</a></li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/aladdin-story.html">Aladdin</a></li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/chief-strategist.html">Strategist</a></li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/cio-letter.html" class="active">CIO Letter</a></li>
-      <li class="sep"></li>
-      <li class="bl-dropdown">
-        <button class="bl-dropdown-btn">Tributes <span class="bl-dropdown-arrow">&#9660;</span></button>
-        <div class="bl-dropdown-menu">
-          <a href="https://sohweekian.github.io/bluelotus/einstein-tribute.html"><span class="tribute-dot" style="background:#ff5566;"></span>Einstein &mdash; Prime Mover</a>
-          <a href="https://sohweekian.github.io/bluelotus/shannon-tribute.html"><span class="tribute-dot" style="background:#4a9eff;"></span>Shannon &mdash; Information</a>
-          <a href="https://sohweekian.github.io/bluelotus/turing-tribute.html"><span class="tribute-dot" style="background:#00e5a0;"></span>Turing &mdash; Machine Mind</a>
-          <a href="https://sohweekian.github.io/bluelotus/thorp-tribute.html"><span class="tribute-dot" style="background:#c9a84c;"></span>Thorp &mdash; The Edge</a>
-          <div class="bl-dropdown-divider"></div>
-          <a href="https://sohweekian.github.io/bluelotus/gametheory-tribute.html"><span class="tribute-dot" style="background:#9b7fff;"></span>Von Neumann &amp; Nash</a>
-        </div>
-      </li>
-    </ul>
-    <div class="bl-nav-right">
-      <div class="bl-nav-live"><div class="bl-nav-dot"></div>Live&nbsp;v6.0</div>
-    </div>
-  </div>
-</nav>
-<script id="bl-nav-js">
-(function(){
-  document.querySelectorAll('.bl-dropdown-btn').forEach(function(btn){
-    btn.addEventListener('click', function(e){
-      e.preventDefault();
-      var parent = btn.closest('.bl-dropdown');
-      document.querySelectorAll('.bl-dropdown.open').forEach(function(el){ if(el!==parent) el.classList.remove('open'); });
-      if(parent) parent.classList.toggle('open');
-    });
-  });
-  document.addEventListener('click', function(e){
-    if(!e.target.closest('.bl-dropdown')){
-      document.querySelectorAll('.bl-dropdown.open').forEach(function(el){ el.classList.remove('open'); });
-    }
-  });
-})();
-</script>
-
 <!DOCTYPE html>
 
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>CIO Letter Edition 016 — V2 Chief Strategist Report | BlueLotus Fund</title>
-<meta content="BlueLotus Fund CIO Letter Edition 016 — V2 Architecture Chief Strategist Report. 11,660 signals · 63 sources · AVGO earnings · NVDA deep dive · 3 June 2026." name="description"/>
+<title>CIO Letter Edition 017 — Captain's Log: The BlueLotus V2 Story | BlueLotus Fund</title>
+<meta content="BlueLotus Fund CIO Letter Edition 017 — Captain's Log. How a Solo CIO Built an Institutional-Grade AI Intelligence Platform in Three Weeks. Kian Soh. 3 June 2026." name="description"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&amp;family=DM+Mono:wght@300;400;500&amp;family=Lora:ital,wght@0,400;0,500;1,400&amp;display=swap" rel="stylesheet"/>
 <style>
@@ -538,7 +442,57 @@ body{padding-top:52px !important;}
     color: var(--lotus2);
   }
 </style>
-
+<style id="bl-nav-css">
+.bl-nav{position:fixed;top:0;left:0;right:0;z-index:99999;background:rgba(8,8,14,.985);border-bottom:1px solid rgba(192,132,252,.18);backdrop-filter:blur(18px);font-family:'JetBrains Mono','DM Mono','Courier New',monospace;color:#ddd8f0}
+.bl-nav *{box-sizing:border-box}.bl-nav-inner{max-width:1560px;margin:0 auto;padding:0 22px;display:flex;align-items:center;justify-content:space-between;height:56px;gap:18px}.bl-nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:max-content}.bl-nav-petal{width:18px;height:18px;background:linear-gradient(135deg,#c084fc,#a855f7);border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 0 18px rgba(192,132,252,.28)}.bl-nav-brand{font-size:10px;font-weight:600;letter-spacing:.22em;color:#c084fc;text-transform:uppercase}.bl-nav-links{display:flex;align-items:center;gap:0;list-style:none;margin:0;padding:0}.bl-nav-links>li{position:relative}.bl-nav-links a,.bl-dropdown-btn{display:flex;align-items:center;gap:5px;font-size:9px;letter-spacing:.12em;color:rgba(221,216,240,.48);text-decoration:none;text-transform:uppercase;padding:7px 10px;border-radius:5px;transition:color .18s,background .18s,border-color .18s;white-space:nowrap;background:none;border:0;font-family:inherit;cursor:pointer}.bl-nav-links a:hover,.bl-dropdown-btn:hover,.bl-dropdown.open>.bl-dropdown-btn,.bl-dropdown:hover>.bl-dropdown-btn,.bl-nav-links a.active,.bl-dropdown-btn.active{color:#c084fc;background:rgba(192,132,252,.08)}.bl-nav-links .sep{width:1px;height:16px;background:rgba(255,255,255,.07);margin:0 2px;flex-shrink:0}.bl-dropdown-arrow{font-size:8px;opacity:.55;transition:transform .2s}.bl-dropdown.open .bl-dropdown-arrow,.bl-dropdown:hover .bl-dropdown-arrow{transform:rotate(180deg)}.bl-dropdown-menu{display:none;position:absolute;top:calc(100% + 7px);left:50%;transform:translateX(-50%);background:rgba(10,10,20,.99);border:1px solid rgba(192,132,252,.22);border-radius:10px;padding:7px;min-width:230px;backdrop-filter:blur(22px);box-shadow:0 18px 46px rgba(0,0,0,.64)}.bl-dropdown:hover .bl-dropdown-menu,.bl-dropdown.open .bl-dropdown-menu{display:block}.bl-dropdown-menu a{display:flex;align-items:center;gap:10px;padding:9px 12px;font-size:9px;letter-spacing:.11em;color:rgba(221,216,240,.58);border-radius:7px}.bl-dropdown-menu a:hover,.bl-dropdown-menu a.active{color:#fff;background:rgba(192,132,252,.10)}.tribute-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}.bl-dropdown-divider{height:1px;background:rgba(255,255,255,.07);margin:5px 0}.bl-nav-right{display:flex;align-items:center;gap:10px;min-width:max-content}.bl-nav-live{font-size:9px;letter-spacing:.12em;color:#4ade80;text-transform:uppercase;display:flex;align-items:center;gap:6px}.bl-nav-dot{width:6px;height:6px;background:#4ade80;border-radius:50%;animation:blPulse 1.8s ease infinite}@keyframes blPulse{0%,100%{opacity:1}50%{opacity:.35}}.bl-mobile-toggle{display:none;background:rgba(192,132,252,.08);border:1px solid rgba(192,132,252,.2);color:#c084fc;border-radius:8px;padding:7px 9px;font-size:14px;cursor:pointer}.bl-nav-pad{height:56px}.bl-nav ~ nav:not(.bl-nav){display:none!important}body{padding-top:56px!important}body>nav:not(.bl-nav){display:none!important}@media(max-width:1180px){.bl-nav-brand{display:none}.bl-nav-links a,.bl-dropdown-btn{font-size:8px;padding:7px 7px;letter-spacing:.08em}}@media(max-width:820px){.bl-nav-inner{height:auto;min-height:56px;align-items:flex-start;padding:10px 16px;flex-wrap:wrap}.bl-mobile-toggle{display:block;margin-left:auto}.bl-nav-links{display:none;flex-direction:column;align-items:stretch;width:100%;order:3;border-top:1px solid rgba(255,255,255,.07);padding-top:8px}.bl-nav.open .bl-nav-links{display:flex}.bl-nav-links .sep{display:none}.bl-nav-links a,.bl-dropdown-btn{justify-content:space-between;width:100%;padding:10px 8px}.bl-dropdown-menu{position:static;display:none;transform:none;box-shadow:none;min-width:0;width:100%;margin:4px 0 7px;background:rgba(255,255,255,.035)}.bl-dropdown.open .bl-dropdown-menu{display:block}.bl-nav-right{display:none}body{padding-top:76px!important}}
+</style></head>
+<body><nav aria-label="BlueLotus Universal Navigation" class="bl-nav" role="navigation">
+<div class="bl-nav-inner">
+<a class="bl-nav-logo" href="https://sohweekian.github.io/bluelotus/"><div class="bl-nav-petal"></div><span class="bl-nav-brand">BlueLotus Fund</span></a>
+<button aria-label="Toggle navigation" class="bl-mobile-toggle" type="button">☰</button>
+<ul class="bl-nav-links">
+<li><a class="" href="https://sohweekian.github.io/bluelotus/">Dashboard</a></li><li class="sep"></li>
+<li><a class="" href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist.html">Portfolio</a></li><li class="sep"></li>
+<li class="bl-dropdown"><button class="bl-dropdown-btn" type="button">Forecast <span class="bl-dropdown-arrow">▼</span></button>
+<div class="bl-dropdown-menu">
+<a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist-superforecast.html">◈ Superforecast Report</a>
+<a href="https://sohweekian.github.io/bluelotus/superforecasting-thesis.html">◆ Forecast Thesis</a>
+</div>
+</li><li class="sep"></li>
+<li><a class="" href="https://sohweekian.github.io/bluelotus/bluelotus-framework.html">Framework</a></li><li class="sep"></li>
+<li><a class="" href="https://sohweekian.github.io/bluelotus/aladdin-story.html">Aladdin</a></li><li class="sep"></li>
+<li><a class="" href="https://sohweekian.github.io/bluelotus/chief-strategist.html">Strategist</a></li><li class="sep"></li>
+<li><a class="active" href="https://sohweekian.github.io/bluelotus/cio-letter.html">CIO Letter</a></li><li class="sep"></li>
+<li class="bl-dropdown"><button class="bl-dropdown-btn" type="button">Tributes <span class="bl-dropdown-arrow">▼</span></button>
+<div class="bl-dropdown-menu">
+<a href="https://sohweekian.github.io/bluelotus/einstein-tribute.html"><span class="tribute-dot" style="background:#ff5566"></span>Einstein — Prime Mover</a>
+<a href="https://sohweekian.github.io/bluelotus/shannon-tribute.html"><span class="tribute-dot" style="background:#4a9eff"></span>Shannon — Information</a>
+<a href="https://sohweekian.github.io/bluelotus/turing-tribute.html"><span class="tribute-dot" style="background:#00e5a0"></span>Turing — Machine Mind</a>
+<a href="https://sohweekian.github.io/bluelotus/thorp-tribute.html"><span class="tribute-dot" style="background:#c9a84c"></span>Thorp — The Edge</a>
+<div class="bl-dropdown-divider"></div>
+<a href="https://sohweekian.github.io/bluelotus/gametheory-tribute.html"><span class="tribute-dot" style="background:#9b7fff"></span>Von Neumann &amp; Nash</a>
+</div>
+</li>
+</ul>
+<div class="bl-nav-right"><div class="bl-nav-live"><div class="bl-nav-dot"></div>Live v5.9</div></div>
+</div>
+</nav>
+<script id="bl-nav-js">
+(function(){
+  var nav=document.querySelector('.bl-nav');
+  if(!nav) return;
+  var toggle=nav.querySelector('.bl-mobile-toggle');
+  if(toggle) toggle.addEventListener('click',function(e){e.stopPropagation();nav.classList.toggle('open');});
+  nav.querySelectorAll('.bl-dropdown-btn').forEach(function(btn){
+    btn.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();
+      var dd=btn.closest('.bl-dropdown');
+      nav.querySelectorAll('.bl-dropdown.open').forEach(function(x){if(x!==dd)x.classList.remove('open');});
+      dd.classList.toggle('open');
+    });
+  });
+  document.addEventListener('click',function(){nav.querySelectorAll('.bl-dropdown.open').forEach(function(x){x.classList.remove('open');});});
+})();
+</script>
 
 
 
@@ -548,7 +502,7 @@ body{padding-top:52px !important;}
 <div class="hero-meta">
 <span class="hero-pill">Kian Soh · Chief Investment Officer</span>
 <span class="hero-pill">3 June 2026</span>
-<span class="hero-pill">Edition 016</span>
+<span class="hero-pill">Edition 017</span>
 </div>
 <div class="hero-rule"></div>
 </div>
@@ -557,6 +511,319 @@ body{padding-top:52px !important;}
 <div class="letter-block">
 <div class="letter-tag">Chief Investment Officer · Official Correspondence</div>
 <div class="letter-body">
+<!-- ══ EDITION 017 — JUNE 3, 2026 ══ -->
+      <div class="edition-block" id="edition-017">
+        <div class="edition-tag">
+          <span class="edition-num">Edition 017</span>
+          <span class="edition-date">3 June 2026 · 23:45 SGT</span>
+        </div>
+
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Memory / Archive Department · Internal Archive · Confidential</div>
+
+        <h2 style="font-family:var(--serif);font-size:30px;line-height:1.15;margin:4px 0 6px;color:var(--ink)">
+          Captain's Log
+        </h2>
+        <p style="font-family:var(--serif);font-size:18px;font-style:italic;color:var(--muted);margin:0 0 6px">The BlueLotus V2 Story</p>
+        <p style="font-size:13px;color:var(--muted);margin:0 0 24px">How a Solo CIO Built an Institutional-Grade AI Intelligence Platform in Three Weeks</p>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);border-left:3px solid var(--lotus);border-radius:0 8px 8px 0;padding:18px 22px;margin:0 0 32px;font-size:13px;color:var(--muted);font-style:italic">
+          This is not a technical manual. It is not a pitch deck. It is a captain's log — an honest, unfiltered record of what it took to build BlueLotus V2 from nothing, written in the hours after the system first ran live, while the memory of every frustration, every breakthrough, and every hard-won architectural decision is still raw.<br><br>
+          I am writing this because institutions are built on memory. Every decision made in the heat of construction deserves to be recorded. Not for posterity. For accountability. So that when V3 is built, we remember what V2 actually cost.<br><br>
+          And because there is something worth saying publicly: a solo CIO, with no engineering team, no Bloomberg terminal subscription, and a commitment to frugality, built an institutional-grade intelligence platform in three weeks. Not by being brilliant. By being disciplined.<br><br>
+          <em style="color:var(--ink)">This is that story.</em>
+        </div>
+
+        <!-- Chapter I -->
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:0 0 12px">Chapter I — The Problem With V1</h3>
+
+        <p>BlueLotus V1 existed. It generated research. It processed signals. On the surface, it looked like a functioning system. But it had a foundational flaw that compounded silently with every cycle: it relied on a large language model — Grok-4 — as its backbone.</p>
+        <p>The LLM was doing everything. Collecting information. Interpreting it. Formatting it. Drawing conclusions. And because it was doing everything, it was occasionally making things up. Not dramatically. Not in ways that were immediately obvious. But subtly — a hallucinated API call here, a slightly softened statistic there, an analyst consensus figure presented with false precision.</p>
+
+        <div class="highlight">
+          In investment research, subtle is worse than obvious. An obviously wrong number gets caught. A subtly wrong number gets acted on.
+        </div>
+
+        <p>V1 also had no architecture — no departments, no separation of concerns, no single source of truth. Every component was tangled with every other. Fixing one thing broke three others. Adding a new data source required touching half the codebase. The system was fragile in proportion to its complexity.</p>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);border-left:3px solid #dc2626;border-radius:0 8px 8px 0;padding:16px 22px;margin:16px 0 24px;font-size:13px">
+          <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#dc2626;margin-bottom:8px">The Decision</div>
+          The decision to build V2 was not made in a boardroom. It was made at approximately 2am after discovering that Grok-4 had been confidently citing Moomoo API endpoints that did not exist.<br><br>
+          <em>The LLM was not a backbone. It was a liability dressed as intelligence.</em><br><br>
+          V2 would be different. Every component would be deterministic. Every data source would be verified against official documentation. The LLM would be removed from the pipeline entirely — its role reduced to advisory, called only when human-quality reasoning was needed, never when truth was required.<br><br>
+          <strong>The architecture principle was simple: AI for cognition, Python for everything else.</strong>
+        </div>
+
+        <!-- Chapter II -->
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:0 0 12px">Chapter II — The Architecture</h3>
+
+        <p>V2 was designed around a single governing idea: one source of truth, read by all, written by none except the pipeline that owns it.</p>
+        <p>The <code style="font-family:var(--mono);font-size:12px;background:var(--paper);padding:2px 6px;border-radius:3px">dataset_raw.json</code> file became the spine of the entire system. Every department reads from this single export. No department talks to another directly. No department modifies shared state. The data flows in one direction: from raw sources through ingest, into the dataset, out to each department independently.</p>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:20px 22px;margin:16px 0 20px">
+          <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:14px">Departmental Structure</div>
+          <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
+            <div style="display:grid;grid-template-columns:180px 1fr;gap:12px;padding:10px 14px;background:var(--paper);border:1px solid var(--border);border-radius:6px">
+              <span style="font-family:var(--mono);font-weight:700;color:var(--lotus);font-size:11px">MID</span>
+              <span>Market Intelligence Department — owns data collection. 54 live sources. Writes to <code style="font-family:var(--mono);font-size:11px">dataset_raw.json</code>. Owns nothing else.</span>
+            </div>
+            <div style="display:grid;grid-template-columns:180px 1fr;gap:12px;padding:10px 14px;background:var(--paper);border:1px solid var(--border);border-radius:6px">
+              <span style="font-family:var(--mono);font-weight:700;color:var(--lotus);font-size:11px">Research</span>
+              <span>Owns intelligence synthesis. Reads dataset. Runs ECE across 23 sector themes. Scores 83 tickers on 8 lenses. Writes the research report. Calls no APIs.</span>
+            </div>
+            <div style="display:grid;grid-template-columns:180px 1fr;gap:12px;padding:10px 14px;background:var(--paper);border:1px solid var(--border);border-radius:6px">
+              <span style="font-family:var(--mono);font-weight:700;color:var(--lotus);font-size:11px">Risk</span>
+              <span>Owns exposure monitoring. Flags regime warnings, portfolio integrity issues, ECE confidence miscalibrations. Never trades. Never recommends.</span>
+            </div>
+            <div style="display:grid;grid-template-columns:180px 1fr;gap:12px;padding:10px 14px;background:var(--paper);border:1px solid var(--border);border-radius:6px">
+              <span style="font-family:var(--mono);font-weight:700;color:var(--lotus);font-size:11px">Publishing</span>
+              <span>Owns output formatting. Takes the structured report and produces the human-readable deliverable. Zero cognition. Zero data transformation. Pure presentation.</span>
+            </div>
+            <div style="display:grid;grid-template-columns:180px 1fr;gap:12px;padding:10px 14px;background:var(--paper);border:1px solid var(--border);border-radius:6px">
+              <span style="font-family:var(--mono);font-weight:700;color:var(--lotus);font-size:11px">Archive</span>
+              <span>Owns institutional memory. Stores decisions, work orders, audit trails, and this letter.</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:18px 22px;margin:0 0 28px;overflow-x:auto">
+          <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Technical Foundation — Live Production Stats</div>
+          <table style="width:100%;border-collapse:collapse;font-size:12px">
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:7px 0;color:var(--muted)">Sources active</td><td style="padding:7px 0;text-align:right;font-family:var(--mono);font-weight:600">54 external (RSS, API, central banks, tech publications)</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:7px 0;color:var(--muted)">Signals per cycle</td><td style="padding:7px 0;text-align:right;font-family:var(--mono);font-weight:600">12,503 at peak</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:7px 0;color:var(--muted)">Export file</td><td style="padding:7px 0;text-align:right;font-family:var(--mono);font-weight:600">dataset_raw.json — single source of truth</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:7px 0;color:var(--muted)">Report generation</td><td style="padding:7px 0;text-align:right;font-family:var(--mono);font-weight:600">Fully deterministic — zero LLM calls</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:7px 0;color:var(--muted)">AI cost per cycle</td><td style="padding:7px 0;text-align:right;font-family:var(--mono);font-weight:700;color:#16a34a">$0.00</td></tr>
+            <tr><td style="padding:7px 0;color:var(--muted)">Report latency</td><td style="padding:7px 0;text-align:right;font-family:var(--mono);font-weight:600">Seconds from ingest completion</td></tr>
+          </table>
+        </div>
+
+        <!-- Chapter III -->
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:0 0 12px">Chapter III — The Pain of Building</h3>
+
+        <p>No architecture document captures what building actually feels like. This chapter does.</p>
+
+        <p>The hardest part of building BlueLotus V2 was not the code. It was the discipline of staying in the right department at the right time. Every bug discovered in the Research output tempted an immediate fix in MID. Every formatting issue tempted a data structure change in the export. The boundaries kept collapsing under the pressure of urgency, and every time they collapsed, something else broke.</p>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);border-left:3px solid var(--lotus);border-radius:0 8px 8px 0;padding:14px 20px;margin:0 0 20px;font-size:13px">
+          The discipline that finally held was the Work Order system. Nothing moved between departments without a written Work Order, endorsed by the relevant departments, approved by the CIO, and acknowledged by the receiving engineering team. It felt bureaucratic at times. It was also the only thing that prevented the system from becoming V1 again.
+        </div>
+
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin:20px 0 12px">The Six Defects — Formally Identified, Documented, and Tracked</div>
+
+        <div style="display:flex;flex-direction:column;gap:10px;margin:0 0 28px">
+
+          <div style="background:var(--paper2);border:1px solid var(--border);border-left:3px solid #dc2626;border-radius:0 8px 8px 0;padding:14px 20px">
+            <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:6px">
+              <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#dc2626;font-weight:700">DEFECT-01 · CRITICAL</span>
+              <span style="font-weight:700;font-size:13px">ECE Analyst Percentage Bug</span>
+            </div>
+            <p style="font-size:12px;color:var(--muted);margin:0 0 6px">The Event Correlation Engine was printing analyst rating percentages that were mathematically impossible. BAC: Buy 657%, Hold −557%. IONQ: Buy 1088%, Hold −988%. Percentages were being recalculated inside the ECE engine rather than read directly from source fields — a classic double-processing error.</p>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--lotus)">Fix: One line. Lesson: Institutional credibility is destroyed not by catastrophic failures but by small, absurd details that should never have shipped.</div>
+          </div>
+
+          <div style="background:var(--paper2);border:1px solid var(--border);border-left:3px solid #ea580c;border-radius:0 8px 8px 0;padding:14px 20px">
+            <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:6px">
+              <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#ea580c;font-weight:700">DEFECT-02 · HIGH</span>
+              <span style="font-weight:700;font-size:13px">Regime Label Pollution Bug</span>
+            </div>
+            <p style="font-size:12px;color:var(--muted);margin:0 0 6px">The regime field was outputting <code style="font-family:var(--mono);font-size:11px;background:var(--paper);padding:1px 4px;border-radius:3px">[DUP] NEUTRAL</code> instead of <code style="font-family:var(--mono);font-size:11px;background:var(--paper);padding:1px 4px;border-radius:3px">NEUTRAL</code>. A session flag was being concatenated into the regime label string and propagating into every downstream consumer — research report, risk flags, CIO compression — all reading a corrupted field.</p>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--lotus)">Lesson: Systems should not trust themselves. Assert the format of every field every cycle.</div>
+          </div>
+
+          <div style="background:var(--paper2);border:1px solid var(--border);border-left:3px solid #ea580c;border-radius:0 8px 8px 0;padding:14px 20px">
+            <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:6px">
+              <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#ea580c;font-weight:700">DEFECT-03 · HIGH</span>
+              <span style="font-weight:700;font-size:13px">Fear &amp; Greed Freshness Contradiction</span>
+            </div>
+            <p style="font-size:12px;color:var(--muted);margin:0 0 6px">Two independent freshness engines with different thresholds producing contradictory outputs. The meta layer said STALE. The object layer said <code style="font-family:var(--mono);font-size:11px;background:var(--paper);padding:1px 4px;border-radius:3px">stale: false</code>. Both technically correct under their own logic. Neither correct in the context of the system.</p>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--lotus)">Fix: Single arbiter. FRESH &lt;60min · SAME_DAY_STALE &lt;480min · STALE &gt;480min. Universal. Non-negotiable. Lesson: Two correct things can produce a wrong answer when operating in isolation.</div>
+          </div>
+
+          <div style="background:var(--paper2);border:1px solid var(--border);border-left:3px solid #ca8a04;border-radius:0 8px 8px 0;padding:14px 20px">
+            <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:6px">
+              <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#ca8a04;font-weight:700">DEFECT-04 · MEDIUM</span>
+              <span style="font-weight:700;font-size:13px">Portfolio Integrity Flag Without Explanation</span>
+            </div>
+            <p style="font-size:12px;color:var(--muted);margin:0 0 6px">The portfolio section was flagging <code style="font-family:var(--mono);font-size:11px;background:var(--paper);padding:1px 4px;border-radius:3px">integrity_flag = TRUE</code> without explaining why. The field was computed, then silently dropped before being written to the database.</p>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--lotus)">Lesson: Every system that raises an alarm without explaining it is training its users to ignore alarms. That is how catastrophic failures happen.</div>
+          </div>
+
+          <div style="background:var(--paper2);border:1px solid var(--border);border-left:3px solid #ca8a04;border-radius:0 8px 8px 0;padding:14px 20px">
+            <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:6px">
+              <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#ca8a04;font-weight:700">DEFECT-05 · MEDIUM</span>
+              <span style="font-weight:700;font-size:13px">Freshness UNKNOWN Problem</span>
+            </div>
+            <p style="font-size:12px;color:var(--muted);margin:0 0 6px">Three data sections — conference_calendar, ceo_appearances, tech_pub_signals — showing UNKNOWN freshness despite containing live data. The ingest pipeline was writing the data but not writing the timestamps. Three separate root causes for one symptom.</p>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--lotus)">Fix: Run the missing fetchers, wire fetched_at timestamps into every data section write, update SELECT queries to include the freshness column. Resolved.</div>
+          </div>
+
+          <div style="background:var(--paper2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 8px 8px 0;padding:14px 20px">
+            <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:6px">
+              <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);font-weight:700">DEFECT-06 · MEDIUM · PHASE 2</span>
+              <span style="font-weight:700;font-size:13px">ECE Confidence Miscalibration</span>
+            </div>
+            <p style="font-size:12px;color:var(--muted);margin:0 0 6px">Seven ECE themes carrying 95% confidence anchored to analyst consensus — a static opinion that cannot explain same-day sector moves. Five-tier evidence hierarchy introduced with hard caps: Government actions 95% · Earnings/macro 90% · News clusters 80% · Flow anomalies 70% · Analyst consensus 55%.</p>
+            <div style="font-family:var(--mono);font-size:10px;color:#ca8a04">Status: PARTIALLY RESOLVED. Infrastructure built. Classifier logic requires one more targeted fix. Phase 2 will close it.</div>
+          </div>
+
+        </div>
+
+        <!-- Chapter IV -->
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:0 0 12px">Chapter IV — The Two Research Departments</h3>
+
+        <p>One of the more unusual features of V2 development was the decision to run two independent Research Department reviews simultaneously — one by Claude, one by ChatGPT. This was not vanity. It was quality control. Two reviewers with different training, different tendencies, and different blind spots will find different things. The disagreements between them are as valuable as the agreements.</p>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:18px 22px;margin:16px 0 16px;overflow-x:auto">
+          <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Joint Audit Scorecard — WO-RD-20260603-001</div>
+          <table style="width:100%;border-collapse:collapse;font-size:12px">
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:7px 0;color:var(--muted)">Structural score</td><td style="padding:7px 0;text-align:right;font-family:var(--mono);font-weight:700;color:#16a34a">8.7 / 10</td><td style="padding:7px 0;text-align:right;font-size:11px;color:var(--muted)">report contains the right components</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:7px 0;color:var(--muted)">Reliability-adjusted score</td><td style="padding:7px 0;text-align:right;font-family:var(--mono);font-weight:700;color:#16a34a">8.4 / 10</td><td style="padding:7px 0;text-align:right;font-size:11px;color:var(--muted)">ECE confidence calibration still damaged</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:7px 0;color:var(--muted)">Causal chain pass rate</td><td style="padding:7px 0;text-align:right;font-family:var(--mono);font-weight:700;color:#16a34a">0.800</td><td style="padding:7px 0;text-align:right;font-size:11px;color:var(--muted)">up from 0.400 in previous cycle</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:7px 0;color:var(--muted)">Blind spot penalty</td><td style="padding:7px 0;text-align:right;font-family:var(--mono);font-weight:700;color:#ca8a04">−0.200</td><td style="padding:7px 0;text-align:right;font-size:11px;color:var(--muted)">five unexplained large moves remain</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:7px 0;color:var(--muted)">Defects agreed</td><td style="padding:7px 0;text-align:right;font-family:var(--mono);font-weight:700">6 / 6</td><td style="padding:7px 0;text-align:right;font-size:11px;color:var(--muted)">both departments full concurrence</td></tr>
+            <tr><td style="padding:7px 0;color:var(--muted)">Final CIO action</td><td style="padding:7px 0;text-align:right;font-family:var(--mono);font-weight:700;color:var(--lotus)">WAIT / HOLD</td><td style="padding:7px 0;text-align:right;font-size:11px;color:var(--muted)">correct and preserved</td></tr>
+          </table>
+          <div style="margin-top:10px;font-size:11px;color:var(--muted)">Sign-off chain: Research Dept → ChatGPT RD (conditional endorsement) → CIO approval → MID Engineering acknowledgement. 5 of 6 defects fully resolved. DEFECT-06 Phase 2.</div>
+        </div>
+
+        <div class="highlight">
+          Having two AI departments review each other's work is not about distrust. It is about the same principle that governs all good institutional processes: no single point of failure, no single reviewer, no single source of truth that is not cross-checked.<br><br>
+          The irony is not lost on me. The system built to remove LLM hallucinations from the data pipeline used two LLMs to audit each other's audit of that pipeline. The difference is that in the audit layer, hallucinations are caught by the other party. In the data pipeline, there is no one to catch them. That is why the pipeline is deterministic.
+        </div>
+
+        <!-- Chapter V -->
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:28px 0 12px">Chapter V — The Architecture Decision That Changed Everything</h3>
+
+        <p>On the evening of 3 June 2026, after reviewing the live research report and conducting a full Chief Strategist advisory session against live portfolio data, the final architectural decision of V2 was made.</p>
+
+        <div style="background:var(--paper2);border:2px solid var(--lotus);border-radius:8px;padding:16px 22px;margin:16px 0 16px;text-align:center">
+          <div style="font-family:var(--mono);font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--lotus);font-weight:700">research_agent.py was retired from the live pipeline.</div>
+        </div>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:18px 22px;margin:0 0 16px;overflow-x:auto">
+          <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Consequences of the Decision</div>
+          <table style="width:100%;border-collapse:collapse;font-size:12px">
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:8px 0;font-weight:600">AI cost per cycle</td><td style="padding:8px 0;text-align:right;font-family:var(--mono);font-weight:700;color:#16a34a">$0.00</td><td style="padding:8px 0;text-align:right;font-size:11px;color:var(--muted)">every Grok-4 call eliminated</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:8px 0;font-weight:600">Data accuracy</td><td style="padding:8px 0;text-align:right;font-family:var(--mono);font-weight:700;color:#16a34a">Maximum</td><td style="padding:8px 0;text-align:right;font-size:11px;color:var(--muted)">no LLM interpolation between signal and reader</td></tr>
+            <tr><td style="padding:8px 0;font-weight:600">Report latency</td><td style="padding:8px 0;text-align:right;font-family:var(--mono);font-weight:700;color:#16a34a">Minimum</td><td style="padding:8px 0;text-align:right;font-size:11px;color:var(--muted)">no API round-trip in the generation pipeline</td></tr>
+          </table>
+        </div>
+
+        <p>The LLM has not been removed from BlueLotus. It has been repositioned. Claude now operates as an advisory layer — called by the CIO when human-quality reasoning is needed, reading the clean deterministic report, adding scenario analysis, institutional behaviour pattern recognition, and trade thesis construction on top of pure signal data.</p>
+
+        <div class="highlight">
+          This is what Bloomberg Terminal figured out decades ago. Pure structured data. Deterministic display. The human is the intelligence layer. The system is the truth layer.<br><br>
+          BlueLotus V2 arrived at the same architecture independently.
+        </div>
+
+        <!-- Chapter VI -->
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:28px 0 12px">Chapter VI — What Exists Today</h3>
+        <p style="font-size:13px;color:var(--muted);margin:0 0 16px">As of 3 June 2026, 23:45 SGT, BlueLotus V2 is operational. The following is a full accounting of what was built.</p>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 28px">
+          <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:16px 20px;font-size:12px">
+            <div style="font-family:var(--mono);font-size:9px;color:var(--lotus);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;font-weight:700">Infrastructure</div>
+            <table style="width:100%;border-collapse:collapse">
+              <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:5px 0;color:var(--muted)">ingest.py</td><td style="padding:5px 0;text-align:right;font-family:var(--mono);font-size:11px;font-weight:600">v2.6 — production</td></tr>
+              <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:5px 0;color:var(--muted)">export_dataset_raw.py</td><td style="padding:5px 0;text-align:right;font-family:var(--mono);font-size:11px;font-weight:600">v1.8u — production</td></tr>
+              <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:5px 0;color:var(--muted)">research_report_generator.py</td><td style="padding:5px 0;text-align:right;font-family:var(--mono);font-size:11px;font-weight:600">v1.0 — zero AI cost</td></tr>
+              <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:5px 0;color:var(--muted)">Database</td><td style="padding:5px 0;text-align:right;font-family:var(--mono);font-size:11px;font-weight:600">MySQL · 23 tables</td></tr>
+              <tr><td style="padding:5px 0;color:var(--muted)">Circuit breakers</td><td style="padding:5px 0;text-align:right;font-family:var(--mono);font-size:11px;font-weight:600;color:#16a34a">54 · all CLOSED</td></tr>
+            </table>
+          </div>
+          <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:16px 20px;font-size:12px">
+            <div style="font-family:var(--mono);font-size:9px;color:var(--lotus);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;font-weight:700">Intelligence Capabilities</div>
+            <table style="width:100%;border-collapse:collapse">
+              <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:5px 0;color:var(--muted)">Sources</td><td style="padding:5px 0;text-align:right;font-family:var(--mono);font-size:11px;font-weight:600">54 external</td></tr>
+              <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:5px 0;color:var(--muted)">Signal volume</td><td style="padding:5px 0;text-align:right;font-family:var(--mono);font-size:11px;font-weight:600">12,503 per cycle</td></tr>
+              <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:5px 0;color:var(--muted)">ECE themes</td><td style="padding:5px 0;text-align:right;font-family:var(--mono);font-size:11px;font-weight:600">23 canonical sectors</td></tr>
+              <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:5px 0;color:var(--muted)">Watchlist scored</td><td style="padding:5px 0;text-align:right;font-family:var(--mono);font-size:11px;font-weight:600">83 tickers · 8 lenses</td></tr>
+              <tr><td style="padding:5px 0;color:var(--muted)">Last cycle</td><td style="padding:5px 0;text-align:right;font-family:var(--mono);font-size:11px;font-weight:600">Written=168 · Dup=443 · Err=0</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);border-left:3px solid var(--lotus);border-radius:0 8px 8px 0;padding:16px 22px;margin:0 0 28px;font-size:13px">
+          <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--lotus);margin-bottom:10px">Portfolio Intelligence — What the System Identified Tonight</div>
+          <div style="display:flex;flex-direction:column;gap:6px;font-size:12px">
+            <div style="display:grid;grid-template-columns:20px 1fr;gap:8px"><span style="color:#16a34a;font-weight:700">✓</span><span>BAC and WFC institutional distribution signals before CIO reviewed positions</span></div>
+            <div style="display:grid;grid-template-columns:20px 1fr;gap:8px"><span style="color:#16a34a;font-weight:700">✓</span><span>AVGO as the session's binary event, with retail buying into institutional distribution</span></div>
+            <div style="display:grid;grid-template-columns:20px 1fr;gap:8px"><span style="color:#16a34a;font-weight:700">✓</span><span>Quantum sector RSI oversold condition — QBTS (31) and QUBT (25)</span></div>
+            <div style="display:grid;grid-template-columns:20px 1fr;gap:8px"><span style="color:#16a34a;font-weight:700">✓</span><span>Working order exposure risk at original $50.80 and $76.50 limits</span></div>
+            <div style="display:grid;grid-template-columns:20px 1fr;gap:8px"><span style="color:#16a34a;font-weight:700">✓</span><span>AVGO beat confirmation via live web search — +6% after hours, EPS and revenue beat</span></div>
+            <div style="display:grid;grid-template-columns:20px 1fr;gap:8px"><span style="color:#16a34a;font-weight:700">✓</span><span>Consequent weakening of the bank dip thesis for the following session</span></div>
+          </div>
+        </div>
+
+        <!-- Chapter VII -->
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:0 0 12px">Chapter VII — What This Is Not</h3>
+
+        <p>BlueLotus V2 is not a robo-advisor. It does not execute trades. It does not manage risk autonomously. It does not replace the CIO.</p>
+        <p>It is an intelligence platform. It collects truth, organises it, checks it against itself, flags what it cannot explain, and presents it cleanly to the human who makes decisions.</p>
+        <p>The CIO still makes every call. The working orders were set by a human who understood the institutional flow data well enough to move the limits from $50.80 to $48.00 on BAC and from $76.50 to $74.00 on WFC — a disciplined, deliberate adjustment that no algorithm made. The decision not to chase AVGO into the earnings print was a human decision, informed by data the system surfaced but not made by the system itself.</p>
+
+        <div class="highlight">
+          The system's job is to make the CIO's judgment better. Not to replace it.<br><br>
+          That distinction matters. It is the difference between a tool and a dependency. BlueLotus V2 is a tool.
+        </div>
+
+        <!-- Chapter VIII -->
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:28px 0 12px">Chapter VIII — What Comes Next</h3>
+
+        <p>Phase 1 is complete. Phase 2 is queued. The path from 8.4/10 to 9.5/10 is mapped and documented.</p>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:20px 22px;margin:16px 0 20px;overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:12px">
+            <tr style="border-bottom:1px solid var(--border)">
+              <th style="padding:7px 8px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">PHASE</th>
+              <th style="padding:7px 8px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">ITEMS</th>
+              <th style="padding:7px 8px;text-align:right;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">TARGET SCORE</th>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+              <td style="padding:8px;font-weight:700;color:var(--lotus)">Phase 2</td>
+              <td style="padding:8px;font-size:11px;color:var(--muted)">Volume &amp; relative volume · Short interest &amp; squeeze risk · Top-mover catalyst verification · Company-name-to-ticker mapping · ECE evidence tier classifier fix · ECE confidence cap enforcement</td>
+              <td style="padding:8px;text-align:right;font-family:var(--mono);font-weight:700;color:#16a34a">9.2 / 10</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+              <td style="padding:8px;font-weight:700;color:var(--muted)">Phase 3</td>
+              <td style="padding:8px;font-size:11px;color:var(--muted)">Sector ETF confirmation · Index breadth · Credit &amp; liquidity stress (HYG, LQD, DXY, MOVE) · Index futures &amp; premarket direction</td>
+              <td style="padding:8px;text-align:right;font-family:var(--mono);font-weight:700;color:var(--muted)">9.4 / 10</td>
+            </tr>
+            <tr>
+              <td style="padding:8px;font-weight:700;color:var(--muted)">Phase 4</td>
+              <td style="padding:8px;font-size:11px;color:var(--muted)">Options pressure layer · Experimental regime probability model · Historical analog memory</td>
+              <td style="padding:8px;text-align:right;font-family:var(--mono);font-weight:700;color:var(--muted)">9.5 / 10</td>
+            </tr>
+          </table>
+          <div style="margin-top:10px;font-size:11px;color:var(--muted);font-style:italic">No new AI model calls required to reach 9.2. The improvements are deterministic, rules-based, and frugal. Consistent with BlueLotus institutional values.</div>
+        </div>
+
+        <!-- Closing -->
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:0 0 12px">Closing — A Personal Note</h3>
+
+        <p>Three weeks ago, BlueLotus V1 was running on an LLM backbone that was occasionally making things up.</p>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);border-left:3px solid var(--lotus);border-radius:0 8px 8px 0;padding:18px 22px;margin:16px 0 16px;font-size:13px">
+          Tonight, BlueLotus V2 processed 12,503 signals from 54 verified sources, generated a fully deterministic research report in seconds, flagged five unexplained market moves with honest uncertainty, correctly identified institutional distribution patterns in two portfolio holdings, verified a live earnings result against web sources in real time, and supported a complete Chief Strategist advisory session from portfolio position review through to limit order strategy.<br><br>
+          <strong>All of that happened at zero AI pipeline cost.</strong>
+        </div>
+
+        <p>It happened because every shortcut was resisted. Because every bug was documented before it was fixed. Because every department boundary was enforced even when it slowed things down. Because the Work Order existed before the code was written. Because two AI departments audited each other before a single line of the fix went to production.</p>
+        <p>This is what institutional discipline looks like when a solo CIO applies it to himself.</p>
+        <p style="font-style:italic;color:var(--muted)">The temptation throughout was to move faster. To fix things informally. To skip the Work Order. To let the LLM handle the parts that were hard to structure deterministically. Every time that temptation was resisted, the system got better. Every time it was not, something broke.</p>
+        <p style="font-style:italic;color:var(--muted)">The log is honest about both.</p>
+
+        <div style="font-size:16px;text-align:center;font-family:var(--serif);color:var(--ink);margin:28px 0 8px;font-weight:600">V2 is live. The pipeline is running. The intelligence is clean.</div>
+        <div style="font-size:14px;text-align:center;color:var(--lotus);font-family:var(--mono);letter-spacing:0.1em;margin:0 0 28px">Now we build V3.</div>
+
+        <div class="edition-sign">
+          <span class="sign-name-sm">Kian Soh</span>
+          <span class="sign-title-sm">Chief Investment Officer · BlueLotus Fund · Singapore · 3 June 2026 · Internal Archive · Confidential</span>
+        </div>
+      </div>
+
+      <div class="edition-divider"></div>
+
 <!-- ══ EDITION 016 — JUNE 3, 2026 ══ -->
       <div class="edition-block" id="edition-016">
         <div class="edition-tag">
