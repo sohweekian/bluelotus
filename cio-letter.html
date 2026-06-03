@@ -1,165 +1,11 @@
-<style id="bl-nav-css">
-.bl-nav{position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(8,8,14,0.97);border-bottom:1px solid rgba(192,132,252,0.18);backdrop-filter:blur(16px);font-family:'JetBrains Mono','Courier New',monospace;}
-.bl-nav-inner{max-width:1500px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:52px;}
-.bl-nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
-.bl-nav-petal{width:18px;height:18px;background:linear-gradient(135deg,#c084fc,#a855f7);border-radius:50% 50% 50% 0;transform:rotate(-45deg);flex-shrink:0;}
-.bl-nav-brand{font-size:10px;font-weight:500;letter-spacing:0.22em;color:#c084fc;text-transform:uppercase;}
-.bl-nav-links{display:flex;align-items:center;gap:0;list-style:none;margin:0;padding:0;}
-.bl-nav-links > li{position:relative;}
-.bl-nav-links > li > a{display:block;font-size:9px;letter-spacing:0.13em;color:rgba(221,216,240,0.4);text-decoration:none;text-transform:uppercase;padding:6px 11px;border-radius:3px;transition:color 0.18s,background 0.18s;white-space:nowrap;}
-.bl-nav-links > li > a:hover,.bl-nav-links > li > a.active{color:#c084fc;background:rgba(192,132,252,0.07);}
-.bl-nav-links .sep{width:1px;height:14px;background:rgba(255,255,255,0.07);margin:0 1px;flex-shrink:0;}
-.bl-dropdown{position:relative;}
-.bl-dropdown-btn{display:flex;align-items:center;gap:4px;font-size:9px;letter-spacing:0.13em;color:rgba(221,216,240,0.4);text-decoration:none;text-transform:uppercase;padding:6px 11px;border-radius:3px;cursor:pointer;transition:color 0.18s,background 0.18s;white-space:nowrap;background:none;border:none;font-family:inherit;}
-.bl-dropdown-btn:hover,.bl-dropdown:hover .bl-dropdown-btn{color:#c084fc;background:rgba(192,132,252,0.07);}
-.bl-dropdown-arrow{font-size:7px;opacity:0.5;transition:transform 0.2s;}
-.bl-dropdown:hover .bl-dropdown-arrow,.bl-dropdown.open .bl-dropdown-arrow{transform:rotate(180deg);}
-.bl-dropdown-menu{display:none;position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:rgba(10,10,20,0.98);border:1px solid rgba(192,132,252,0.2);border-radius:6px;padding:6px;min-width:190px;backdrop-filter:blur(20px);box-shadow:0 16px 40px rgba(0,0,0,0.6);}
-.bl-dropdown:hover .bl-dropdown-menu,.bl-dropdown.open .bl-dropdown-menu{display:block;}
-.bl-dropdown-menu a{display:flex;align-items:center;gap:10px;padding:8px 12px;font-size:9px;letter-spacing:0.12em;color:rgba(221,216,240,0.5);text-decoration:none;text-transform:uppercase;border-radius:4px;transition:all 0.15s;white-space:nowrap;}
-.bl-dropdown-menu a:hover{color:#c084fc;background:rgba(192,132,252,0.08);}
-.bl-dropdown-menu .tribute-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.bl-dropdown-divider{height:1px;background:rgba(255,255,255,0.06);margin:4px 0;}
-.bl-nav-right{display:flex;align-items:center;gap:10px;}
-.bl-nav-live{font-size:9px;letter-spacing:0.12em;color:#4ade80;text-transform:uppercase;display:flex;align-items:center;gap:5px;}
-.bl-nav-dot{width:5px;height:5px;background:#4ade80;border-radius:50%;animation:blPulse 1.8s ease infinite;}
-@keyframes blPulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
-.bl-dropdown-menu.wide{min-width:250px;text-align:left;}
-.bl-dropdown-menu .subline{display:block;font-size:7px;letter-spacing:.06em;color:rgba(221,216,240,.28);text-transform:none;margin-top:2px;line-height:1.25;}
-.bl-nav-action{border:1px solid rgba(192,132,252,.22)!important;background:rgba(192,132,252,.06)!important;color:rgba(232,222,255,.72)!important;}
-.bl-nav-action:hover{background:rgba(192,132,252,.12)!important;color:#fff!important;}
-body{padding-top:52px !important;}
-@media(max-width:1100px){.bl-nav-links > li > a,.bl-dropdown-btn{font-size:8px;padding:5px 8px;}.bl-nav-brand{display:none;}}
-@media(max-width:720px){.bl-nav-links .sep{display:none;}.bl-nav-links > li > a,.bl-dropdown-btn{padding:5px 6px;letter-spacing:0.07em;}}
-</style>
-<nav class="bl-nav" role="navigation" aria-label="BlueLotus Navigation">
-  <div class="bl-nav-inner">
-    <a class="bl-nav-logo" href="https://sohweekian.github.io/bluelotus/">
-      <div class="bl-nav-petal"></div>
-      <span class="bl-nav-brand">BlueLotus&nbsp;Fund</span>
-    </a>
-    <ul class="bl-nav-links">
-      <li><a href="https://sohweekian.github.io/bluelotus/">Dashboard</a></li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist.html">Portfolio</a></li>
-      <li class="sep"></li>
-      <li class="bl-dropdown">
-        <button class="bl-dropdown-btn bl-nav-action">Forecast <span class="bl-dropdown-arrow">&#9660;</span></button>
-        <div class="bl-dropdown-menu wide">
-          <a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist-superforecast.html"><span class="tribute-dot" style="background:#4ade80;"></span><span>Superforecast<span class="subline">78-ticker valuation + Brier tracker</span></span></a>
-          <a href="https://sohweekian.github.io/bluelotus/superforecasting-thesis.html"><span class="tribute-dot" style="background:#fbbf24;"></span><span>Forecast Thesis<span class="subline">Protocol, calibration, Kelly discipline</span></span></a>
-        </div>
-      </li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/bluelotus-framework.html">Framework</a></li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/aladdin-story.html">Aladdin</a></li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/chief-strategist.html">Strategist</a></li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/cio-letter.html" class="active">CIO Letter</a></li>
-      <li class="sep"></li>
-      <li class="bl-dropdown">
-        <button class="bl-dropdown-btn">Tributes <span class="bl-dropdown-arrow">&#9660;</span></button>
-        <div class="bl-dropdown-menu">
-          <a href="https://sohweekian.github.io/bluelotus/einstein-tribute.html"><span class="tribute-dot" style="background:#ff5566;"></span>Einstein &mdash; Prime Mover</a>
-          <a href="https://sohweekian.github.io/bluelotus/shannon-tribute.html"><span class="tribute-dot" style="background:#4a9eff;"></span>Shannon &mdash; Information</a>
-          <a href="https://sohweekian.github.io/bluelotus/turing-tribute.html"><span class="tribute-dot" style="background:#00e5a0;"></span>Turing &mdash; Machine Mind</a>
-          <a href="https://sohweekian.github.io/bluelotus/thorp-tribute.html"><span class="tribute-dot" style="background:#c9a84c;"></span>Thorp &mdash; The Edge</a>
-          <div class="bl-dropdown-divider"></div>
-          <a href="https://sohweekian.github.io/bluelotus/gametheory-tribute.html"><span class="tribute-dot" style="background:#9b7fff;"></span>Von Neumann &amp; Nash</a>
-        </div>
-      </li>
-    </ul>
-    <div class="bl-nav-right">
-      <div class="bl-nav-live"><div class="bl-nav-dot"></div>Live&nbsp;v6.0</div>
-    </div>
-  </div>
-</nav>
-<script id="bl-nav-js">
-(function(){
-  document.querySelectorAll('.bl-dropdown-btn').forEach(function(btn){
-    btn.addEventListener('click', function(e){
-      e.preventDefault();
-      var parent = btn.closest('.bl-dropdown');
-      document.querySelectorAll('.bl-dropdown.open').forEach(function(el){ if(el!==parent) el.classList.remove('open'); });
-      if(parent) parent.classList.toggle('open');
-    });
-  });
-  document.addEventListener('click', function(e){
-    if(!e.target.closest('.bl-dropdown')){
-      document.querySelectorAll('.bl-dropdown.open').forEach(function(el){ el.classList.remove('open'); });
-    }
-  });
-})();
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!DOCTYPE html>
 
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>CIO Letter Edition 015 — V2 Intelligence Capability Report | BlueLotus Fund</title>
-<meta content="BlueLotus Fund CIO Letter Edition 015 — V2 Intelligence Capability Report. 54 sources, 7 cognition layers, MySQL institutional memory. Claude Research Department. 31 May 2026." name="description"/>
+<title>CIO Letter Edition 016 — V2 Chief Strategist Report | BlueLotus Fund</title>
+<meta content="BlueLotus Fund CIO Letter Edition 016 — V2 Architecture Chief Strategist Report. 11,660 signals · 63 sources · AVGO earnings · NVDA deep dive · 3 June 2026." name="description"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&amp;family=DM+Mono:wght@300;400;500&amp;family=Lora:ital,wght@0,400;0,500;1,400&amp;display=swap" rel="stylesheet"/>
 <style>
@@ -596,7 +442,57 @@ body{padding-top:52px !important;}
     color: var(--lotus2);
   }
 </style>
-
+<style id="bl-nav-css">
+.bl-nav{position:fixed;top:0;left:0;right:0;z-index:99999;background:rgba(8,8,14,.985);border-bottom:1px solid rgba(192,132,252,.18);backdrop-filter:blur(18px);font-family:'JetBrains Mono','DM Mono','Courier New',monospace;color:#ddd8f0}
+.bl-nav *{box-sizing:border-box}.bl-nav-inner{max-width:1560px;margin:0 auto;padding:0 22px;display:flex;align-items:center;justify-content:space-between;height:56px;gap:18px}.bl-nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:max-content}.bl-nav-petal{width:18px;height:18px;background:linear-gradient(135deg,#c084fc,#a855f7);border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 0 18px rgba(192,132,252,.28)}.bl-nav-brand{font-size:10px;font-weight:600;letter-spacing:.22em;color:#c084fc;text-transform:uppercase}.bl-nav-links{display:flex;align-items:center;gap:0;list-style:none;margin:0;padding:0}.bl-nav-links>li{position:relative}.bl-nav-links a,.bl-dropdown-btn{display:flex;align-items:center;gap:5px;font-size:9px;letter-spacing:.12em;color:rgba(221,216,240,.48);text-decoration:none;text-transform:uppercase;padding:7px 10px;border-radius:5px;transition:color .18s,background .18s,border-color .18s;white-space:nowrap;background:none;border:0;font-family:inherit;cursor:pointer}.bl-nav-links a:hover,.bl-dropdown-btn:hover,.bl-dropdown.open>.bl-dropdown-btn,.bl-dropdown:hover>.bl-dropdown-btn,.bl-nav-links a.active,.bl-dropdown-btn.active{color:#c084fc;background:rgba(192,132,252,.08)}.bl-nav-links .sep{width:1px;height:16px;background:rgba(255,255,255,.07);margin:0 2px;flex-shrink:0}.bl-dropdown-arrow{font-size:8px;opacity:.55;transition:transform .2s}.bl-dropdown.open .bl-dropdown-arrow,.bl-dropdown:hover .bl-dropdown-arrow{transform:rotate(180deg)}.bl-dropdown-menu{display:none;position:absolute;top:calc(100% + 7px);left:50%;transform:translateX(-50%);background:rgba(10,10,20,.99);border:1px solid rgba(192,132,252,.22);border-radius:10px;padding:7px;min-width:230px;backdrop-filter:blur(22px);box-shadow:0 18px 46px rgba(0,0,0,.64)}.bl-dropdown:hover .bl-dropdown-menu,.bl-dropdown.open .bl-dropdown-menu{display:block}.bl-dropdown-menu a{display:flex;align-items:center;gap:10px;padding:9px 12px;font-size:9px;letter-spacing:.11em;color:rgba(221,216,240,.58);border-radius:7px}.bl-dropdown-menu a:hover,.bl-dropdown-menu a.active{color:#fff;background:rgba(192,132,252,.10)}.tribute-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}.bl-dropdown-divider{height:1px;background:rgba(255,255,255,.07);margin:5px 0}.bl-nav-right{display:flex;align-items:center;gap:10px;min-width:max-content}.bl-nav-live{font-size:9px;letter-spacing:.12em;color:#4ade80;text-transform:uppercase;display:flex;align-items:center;gap:6px}.bl-nav-dot{width:6px;height:6px;background:#4ade80;border-radius:50%;animation:blPulse 1.8s ease infinite}@keyframes blPulse{0%,100%{opacity:1}50%{opacity:.35}}.bl-mobile-toggle{display:none;background:rgba(192,132,252,.08);border:1px solid rgba(192,132,252,.2);color:#c084fc;border-radius:8px;padding:7px 9px;font-size:14px;cursor:pointer}.bl-nav-pad{height:56px}.bl-nav ~ nav:not(.bl-nav){display:none!important}body{padding-top:56px!important}body>nav:not(.bl-nav){display:none!important}@media(max-width:1180px){.bl-nav-brand{display:none}.bl-nav-links a,.bl-dropdown-btn{font-size:8px;padding:7px 7px;letter-spacing:.08em}}@media(max-width:820px){.bl-nav-inner{height:auto;min-height:56px;align-items:flex-start;padding:10px 16px;flex-wrap:wrap}.bl-mobile-toggle{display:block;margin-left:auto}.bl-nav-links{display:none;flex-direction:column;align-items:stretch;width:100%;order:3;border-top:1px solid rgba(255,255,255,.07);padding-top:8px}.bl-nav.open .bl-nav-links{display:flex}.bl-nav-links .sep{display:none}.bl-nav-links a,.bl-dropdown-btn{justify-content:space-between;width:100%;padding:10px 8px}.bl-dropdown-menu{position:static;display:none;transform:none;box-shadow:none;min-width:0;width:100%;margin:4px 0 7px;background:rgba(255,255,255,.035)}.bl-dropdown.open .bl-dropdown-menu{display:block}.bl-nav-right{display:none}body{padding-top:76px!important}}
+</style></head>
+<body><nav aria-label="BlueLotus Universal Navigation" class="bl-nav" role="navigation">
+<div class="bl-nav-inner">
+<a class="bl-nav-logo" href="https://sohweekian.github.io/bluelotus/"><div class="bl-nav-petal"></div><span class="bl-nav-brand">BlueLotus Fund</span></a>
+<button aria-label="Toggle navigation" class="bl-mobile-toggle" type="button">☰</button>
+<ul class="bl-nav-links">
+<li><a class="" href="https://sohweekian.github.io/bluelotus/">Dashboard</a></li><li class="sep"></li>
+<li><a class="" href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist.html">Portfolio</a></li><li class="sep"></li>
+<li class="bl-dropdown"><button class="bl-dropdown-btn" type="button">Forecast <span class="bl-dropdown-arrow">▼</span></button>
+<div class="bl-dropdown-menu">
+<a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist-superforecast.html">◈ Superforecast Report</a>
+<a href="https://sohweekian.github.io/bluelotus/superforecasting-thesis.html">◆ Forecast Thesis</a>
+</div>
+</li><li class="sep"></li>
+<li><a class="" href="https://sohweekian.github.io/bluelotus/bluelotus-framework.html">Framework</a></li><li class="sep"></li>
+<li><a class="" href="https://sohweekian.github.io/bluelotus/aladdin-story.html">Aladdin</a></li><li class="sep"></li>
+<li><a class="" href="https://sohweekian.github.io/bluelotus/chief-strategist.html">Strategist</a></li><li class="sep"></li>
+<li><a class="active" href="https://sohweekian.github.io/bluelotus/cio-letter.html">CIO Letter</a></li><li class="sep"></li>
+<li class="bl-dropdown"><button class="bl-dropdown-btn" type="button">Tributes <span class="bl-dropdown-arrow">▼</span></button>
+<div class="bl-dropdown-menu">
+<a href="https://sohweekian.github.io/bluelotus/einstein-tribute.html"><span class="tribute-dot" style="background:#ff5566"></span>Einstein — Prime Mover</a>
+<a href="https://sohweekian.github.io/bluelotus/shannon-tribute.html"><span class="tribute-dot" style="background:#4a9eff"></span>Shannon — Information</a>
+<a href="https://sohweekian.github.io/bluelotus/turing-tribute.html"><span class="tribute-dot" style="background:#00e5a0"></span>Turing — Machine Mind</a>
+<a href="https://sohweekian.github.io/bluelotus/thorp-tribute.html"><span class="tribute-dot" style="background:#c9a84c"></span>Thorp — The Edge</a>
+<div class="bl-dropdown-divider"></div>
+<a href="https://sohweekian.github.io/bluelotus/gametheory-tribute.html"><span class="tribute-dot" style="background:#9b7fff"></span>Von Neumann &amp; Nash</a>
+</div>
+</li>
+</ul>
+<div class="bl-nav-right"><div class="bl-nav-live"><div class="bl-nav-dot"></div>Live v5.9</div></div>
+</div>
+</nav>
+<script id="bl-nav-js">
+(function(){
+  var nav=document.querySelector('.bl-nav');
+  if(!nav) return;
+  var toggle=nav.querySelector('.bl-mobile-toggle');
+  if(toggle) toggle.addEventListener('click',function(e){e.stopPropagation();nav.classList.toggle('open');});
+  nav.querySelectorAll('.bl-dropdown-btn').forEach(function(btn){
+    btn.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();
+      var dd=btn.closest('.bl-dropdown');
+      nav.querySelectorAll('.bl-dropdown.open').forEach(function(x){if(x!==dd)x.classList.remove('open');});
+      dd.classList.toggle('open');
+    });
+  });
+  document.addEventListener('click',function(){nav.querySelectorAll('.bl-dropdown.open').forEach(function(x){x.classList.remove('open');});});
+})();
+</script>
 
 
 
@@ -605,8 +501,8 @@ body{padding-top:52px !important;}
 <h1 class="hero-title">CIO Letter<br/><em>To Our Investors</em></h1>
 <div class="hero-meta">
 <span class="hero-pill">Kian Soh · Chief Investment Officer</span>
-<span class="hero-pill">31 May 2026</span>
-<span class="hero-pill">Edition 015</span>
+<span class="hero-pill">3 June 2026</span>
+<span class="hero-pill">Edition 016</span>
 </div>
 <div class="hero-rule"></div>
 </div>
@@ -615,6 +511,434 @@ body{padding-top:52px !important;}
 <div class="letter-block">
 <div class="letter-tag">Chief Investment Officer · Official Correspondence</div>
 <div class="letter-body">
+<!-- ══ EDITION 016 — JUNE 3, 2026 ══ -->
+      <div class="edition-block" id="edition-016">
+        <div class="edition-tag">
+          <span class="edition-num">Edition 016</span>
+          <span class="edition-date">3 June 2026 · 19:25 SGT</span>
+        </div>
+
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Chief Strategist Daily Research Report · V2 Architecture · First Full Live Dataset</div>
+
+        <h2 style="font-family:var(--serif);font-size:30px;line-height:1.15;margin:4px 0 18px;color:var(--ink)">
+          BlueLotus V2 — Chief Strategist Report
+        </h2>
+
+        <!-- V2 system banner -->
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:14px 20px;margin:0 0 10px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-family:var(--mono);font-size:10px">
+          <span style="color:var(--lotus);font-weight:700">INGEST v2.6</span>
+          <span style="color:var(--border)">|</span>
+          <span>Export v1.8u</span>
+          <span style="color:var(--border)">|</span>
+          <span>Sources: <strong>63 active</strong> (52 external + 11 derived)</span>
+          <span style="color:var(--border)">|</span>
+          <span>Signals: <strong>11,660</strong></span>
+          <span style="color:var(--border)">|</span>
+          <span>Session: <strong>OPEN</strong></span>
+          <span style="color:var(--border)">|</span>
+          <span>Tuesday, 3 June 2026</span>
+        </div>
+
+        <!-- Regime bar -->
+        <div style="background:rgba(22,163,74,0.08);border:1px solid rgba(22,163,74,0.3);border-radius:6px;padding:12px 20px;margin:0 0 28px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;font-size:12px">
+          <span style="font-family:var(--mono);font-weight:700;color:#16a34a;font-size:13px;letter-spacing:0.05em">REGIME: MILD RISK ON</span>
+          <span style="font-family:var(--mono)">Score: <strong>+1</strong></span>
+          <span style="font-family:var(--mono)">VIX: <strong>16.11</strong></span>
+          <span style="font-family:var(--mono)">Fear &amp; Greed: <strong>57 GREED</strong></span>
+          <span style="color:var(--border)">|</span>
+          <span style="font-size:11px;color:var(--muted)">Action: Cautious growth. Keep defensive ballast.</span>
+          <span style="font-size:11px;color:#dc2626">⚠ Macro avg −0.113 (negative)</span>
+        </div>
+
+        <!-- Strategist Preface -->
+        <div style="background:var(--paper2);border:1px solid var(--border);border-left:3px solid var(--lotus);border-radius:0 8px 8px 0;padding:18px 22px;margin:0 0 32px">
+          <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--lotus);margin-bottom:10px">Strategist Preface</div>
+          <p style="font-size:13px;margin:0 0 10px">Today is not a quiet day. Two things of genuine consequence are happening simultaneously and they point in opposite directions.</p>
+          <p style="font-size:13px;margin:0 0 10px">First, AVGO reports earnings after the close tonight. The result will either validate or puncture the entire custom AI ASIC thesis that has driven semiconductor valuations for eighteen months. MRVL already moved +32.5% today on what appears to be custom chip demand data — if AVGO confirms the same, the AI infrastructure trade gets a second leg. If AVGO misses or guides cautiously, names up +32% today are exposed.</p>
+          <p style="font-size:13px;margin:0 0 12px">Second, the macro environment is subtly deteriorating beneath the surface. The regime scores MILD RISK ON, but that headline masks a negative macro composite (−0.113), a Fed leadership transition that introduces genuine uncertainty (Warsh replacing Powell), and a geopolitical overlay that includes Iran nuclear enrichment risk, active OPEC+ production decisions, and US tariff escalation. The market is choosing to look through all of it today. That is a choice, not a fact.</p>
+          <div style="font-family:var(--mono);font-size:11px;color:var(--lotus);font-weight:700;letter-spacing:0.05em">→ My recommendation for the session: observe, don't chase. Let AVGO speak first.</div>
+        </div>
+
+        <!-- Layer 1 -->
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:0 0 14px">Layer 1 — Macro Environment</h3>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 20px">
+          <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:16px 20px">
+            <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Yield Curve</div>
+            <table style="width:100%;border-collapse:collapse;font-size:12px">
+              <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:5px 0;color:var(--muted)">3-Month</td><td style="padding:5px 0;font-family:var(--mono);text-align:right;font-weight:600">3.78%</td></tr>
+              <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:5px 0;color:var(--muted)">2-Year</td><td style="padding:5px 0;font-family:var(--mono);text-align:right;font-weight:600">4.05%</td></tr>
+              <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:5px 0;color:var(--muted)">10-Year</td><td style="padding:5px 0;font-family:var(--mono);text-align:right;font-weight:600">4.47%</td></tr>
+              <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:5px 0;color:var(--muted)">30-Year</td><td style="padding:5px 0;font-family:var(--mono);text-align:right;font-weight:600">4.99%</td></tr>
+              <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:5px 0;color:var(--muted)">FFR Target</td><td style="padding:5px 0;font-family:var(--mono);text-align:right;font-weight:600">3.625%</td></tr>
+              <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:5px 0;color:var(--muted)">10Y–2Y Spread</td><td style="padding:5px 0;font-family:var(--mono);text-align:right;font-weight:600;color:#16a34a">+0.42% NORMAL</td></tr>
+              <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:5px 0;color:var(--muted)">Curve Status</td><td style="padding:5px 0;font-family:var(--mono);text-align:right;font-weight:600;color:#16a34a">NON-INVERTED</td></tr>
+              <tr><td style="padding:5px 0;color:var(--muted)">NIM Proxy</td><td style="padding:5px 0;font-family:var(--mono);text-align:right;font-weight:600;color:#16a34a">0.845% — supportive</td></tr>
+            </table>
+          </div>
+          <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:16px 20px">
+            <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Central Bank Posture</div>
+            <table style="width:100%;border-collapse:collapse;font-size:11px">
+              <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:5px 0;color:var(--muted)">Fed Chair</td><td style="padding:5px 0;text-align:right;font-weight:600;color:#dc2626;font-size:10px">Warsh (HAWKISH)</td></tr>
+              <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:5px 0;color:var(--muted)">Key Speeches</td><td style="padding:5px 0;text-align:right;font-size:10px">Waller · Bowman</td></tr>
+              <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:5px 0;color:var(--muted)">ECB</td><td style="padding:5px 0;text-align:right;font-size:10px">Active — Elderson · Vujcic</td></tr>
+              <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:5px 0;color:var(--muted)">BOJ</td><td style="padding:5px 0;text-align:right;font-size:10px">19 signals · Ultra-accommodative</td></tr>
+              <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:5px 0;color:var(--muted)">PBOC</td><td style="padding:5px 0;text-align:right;font-size:10px">Unchanged · 6th consecutive month</td></tr>
+              <tr><td style="padding:5px 0;color:var(--muted)">MAS</td><td style="padding:5px 0;text-align:right;font-size:10px">13 signals active</td></tr>
+            </table>
+            <div style="margin-top:10px;font-size:11px;color:#dc2626;font-style:italic">⚠ Warsh transition is the largest unpriced macro risk. First FOMC press conference = MACRO OVERRIDE EVENT.</div>
+          </div>
+        </div>
+
+        <p style="font-size:13px;color:var(--muted);margin:0 0 28px">The 10Y at 4.47% is beginning to push on equity valuations for high-PE names. At this yield, a PE of 100x requires an extraordinary growth story. AVGO (PE 93.9), MRVL (PE 99.9), AMD (PE 171.0) are all exposed if rates do not meaningfully decline.</p>
+
+        <!-- Layer 2 -->
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:0 0 14px">Layer 2 — Market Structure &amp; Sentiment</h3>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:18px 22px;margin:0 0 16px;overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:12px">
+            <tr style="border-bottom:1px solid var(--border)">
+              <th style="padding:7px 10px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">INDICATOR</th>
+              <th style="padding:7px 10px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">READING</th>
+              <th style="padding:7px 10px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">INTERPRETATION</th>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:8px 10px;font-weight:600">VIX</td><td style="padding:8px 10px;font-family:var(--mono);font-weight:700">16.11</td><td style="padding:8px 10px;color:#ca8a04;font-size:11px">Low / complacency territory — market not pricing tail risk</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:8px 10px;font-weight:600">Fear &amp; Greed</td><td style="padding:8px 10px;font-family:var(--mono);font-weight:700;color:#16a34a">57 GREED</td><td style="padding:8px 10px;color:var(--muted);font-size:11px">Stale (516 min) — directional only</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:8px 10px;font-weight:600">Sector Differential</td><td style="padding:8px 10px;font-family:var(--mono);font-weight:700">0.82</td><td style="padding:8px 10px;font-size:11px;color:#16a34a">Growth outperforming defensives — mild risk-on</td></tr>
+            <tr><td style="padding:8px 10px;font-weight:600">Institutional Avg</td><td style="padding:8px 10px;font-family:var(--mono);font-weight:700">+0.069</td><td style="padding:8px 10px;font-size:11px;color:var(--muted)">Marginal positive — gold holding strength divergence signals partial hedging</td></tr>
+          </table>
+        </div>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:16px 20px;margin:0 0 28px;font-size:12px">
+          <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Sentiment by Sector — 19:08 SGT</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="display:grid;grid-template-columns:80px 1fr;gap:10px;align-items:baseline">
+              <span style="font-family:var(--mono);font-size:10px;color:#16a34a;font-weight:700">BULLISH</span>
+              <span style="font-family:var(--mono);font-size:10px">NVDA +0.205 · AMD +0.171 · TSM +0.192 · AMAT +0.294 · AVGO +0.256 · <strong>BAC +0.226 · WFC +0.377</strong> · DELL +0.195</span>
+            </div>
+            <div style="display:grid;grid-template-columns:80px 1fr;gap:10px;align-items:baseline">
+              <span style="font-family:var(--mono);font-size:10px;color:#ca8a04;font-weight:700">NEUTRAL</span>
+              <span style="font-family:var(--mono);font-size:10px">SMCI +0.052 · PLTR −0.101 · ORCL −0.103 · AMZN −0.072</span>
+            </div>
+          </div>
+          <p style="font-size:11px;color:var(--muted);margin:10px 0 0">WFC leads the entire dataset at +0.377 sentiment — while also showing institutional outflow. Bullish sentiment may be absorbing sell-side distribution. Watch carefully.</p>
+        </div>
+
+        <!-- Layer 3 -->
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:0 0 14px">Layer 3 — Sector Rotation &amp; Thematic Heat Map</h3>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:20px 22px;margin:0 0 28px;overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:12px">
+            <tr style="border-bottom:1px solid var(--border)">
+              <th style="padding:7px 8px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">#</th>
+              <th style="padding:7px 8px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">THEME</th>
+              <th style="padding:7px 8px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">DIRECTION</th>
+              <th style="padding:7px 8px;text-align:center;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">CONF</th>
+              <th style="padding:7px 8px;text-align:right;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">BASKET</th>
+              <th style="padding:7px 8px;text-align:center;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">SRC</th>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04);background:rgba(22,163,74,0.04)"><td style="padding:8px;font-family:var(--mono);font-weight:700;color:var(--lotus)">1</td><td style="padding:8px;font-weight:700">AI / Semis</td><td style="padding:8px;color:#16a34a;font-weight:600">RISK-ON</td><td style="padding:8px;text-align:center;font-family:var(--mono)">90%</td><td style="padding:8px;text-align:right;font-family:var(--mono);font-weight:700;color:#16a34a">+4.73%</td><td style="padding:8px;text-align:center;font-family:var(--mono)">59</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04);background:rgba(22,163,74,0.04)"><td style="padding:8px;font-family:var(--mono);font-weight:700;color:var(--lotus)">2</td><td style="padding:8px;font-weight:700">Clean Energy / Solar</td><td style="padding:8px;color:#16a34a;font-weight:600">RISK-ON</td><td style="padding:8px;text-align:center;font-family:var(--mono)">90%</td><td style="padding:8px;text-align:right;font-family:var(--mono);font-weight:700;color:#16a34a">+9.26%</td><td style="padding:8px;text-align:center;font-family:var(--mono)">23</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04);background:rgba(22,163,74,0.04)"><td style="padding:8px;font-family:var(--mono);font-weight:700;color:var(--lotus)">3</td><td style="padding:8px;font-weight:700">Energy / Uranium</td><td style="padding:8px;color:#16a34a;font-weight:600">RISK-ON</td><td style="padding:8px;text-align:center;font-family:var(--mono)">88%</td><td style="padding:8px;text-align:right;font-family:var(--mono);font-weight:700;color:#16a34a">+2.81%</td><td style="padding:8px;text-align:center;font-family:var(--mono)">14</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04);background:rgba(22,163,74,0.04)"><td style="padding:8px;font-family:var(--mono);font-weight:700;color:var(--lotus)">4</td><td style="padding:8px;font-weight:700">Rare Earth / Metals</td><td style="padding:8px;color:#16a34a;font-weight:600">RISK-ON</td><td style="padding:8px;text-align:center;font-family:var(--mono)">87%</td><td style="padding:8px;text-align:right;font-family:var(--mono);font-weight:700;color:#16a34a">+2.33%</td><td style="padding:8px;text-align:center;font-family:var(--mono)">3</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:8px;font-family:var(--mono);color:var(--muted)">5</td><td style="padding:8px">Gold / Safe Haven</td><td style="padding:8px;color:#ca8a04">WATCH</td><td style="padding:8px;text-align:center;font-family:var(--mono)">81%</td><td style="padding:8px;text-align:right;font-family:var(--mono)">+0.40%</td><td style="padding:8px;text-align:center;font-family:var(--mono)">21</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:8px;font-family:var(--mono);color:var(--muted)">6</td><td style="padding:8px">Geopolitical</td><td style="padding:8px;color:#ca8a04">WATCH</td><td style="padding:8px;text-align:center;font-family:var(--mono)">81%</td><td style="padding:8px;text-align:right;font-family:var(--mono)">+0.21%</td><td style="padding:8px;text-align:center;font-family:var(--mono)">19</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:8px;font-family:var(--mono);color:var(--muted)">7</td><td style="padding:8px">Earnings Catalyst</td><td style="padding:8px;color:#ca8a04">WATCH</td><td style="padding:8px;text-align:center;font-family:var(--mono)">90%</td><td style="padding:8px;text-align:right;font-family:var(--mono)">+0.44%</td><td style="padding:8px;text-align:center;font-family:var(--mono)">21</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:8px;font-family:var(--mono);color:var(--muted)">8</td><td style="padding:8px">Banks / Liquidity</td><td style="padding:8px;color:#ca8a04">WATCH</td><td style="padding:8px;text-align:center;font-family:var(--mono)">90%</td><td style="padding:8px;text-align:right;font-family:var(--mono);color:#dc2626">−0.93%</td><td style="padding:8px;text-align:center;font-family:var(--mono)">31</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:8px;font-family:var(--mono);color:var(--muted)">9</td><td style="padding:8px">Consumer Tech / Apple</td><td style="padding:8px;color:#ca8a04">WATCH</td><td style="padding:8px;text-align:center;font-family:var(--mono)">90%</td><td style="padding:8px;text-align:right;font-family:var(--mono);color:#dc2626">−0.81%</td><td style="padding:8px;text-align:center;font-family:var(--mono)">29</td></tr>
+            <tr><td style="padding:8px;font-family:var(--mono);color:var(--muted)">10</td><td style="padding:8px">Biotech / Pharma</td><td style="padding:8px;color:#ca8a04">WATCH</td><td style="padding:8px;text-align:center;font-family:var(--mono)">90%</td><td style="padding:8px;text-align:right;font-family:var(--mono);color:#dc2626">−0.43%</td><td style="padding:8px;text-align:center;font-family:var(--mono)">5</td></tr>
+          </table>
+          <p style="font-size:11px;color:var(--muted);margin:10px 0 0">AI/Semis dominates at 59 confirmed sources. Clean Energy at +9.26% is momentum only — analyst community does not endorse ENPH (target $43.98 vs current $72.33). CCJ uranium is the cleanest risk/reward in commodities — institutional inflow confirmed, geopolitically supported.</p>
+        </div>
+
+        <!-- Layer 4 -->
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:0 0 14px">Layer 4 — Catalyst Intelligence</h3>
+
+        <!-- AVGO highlight -->
+        <div style="background:rgba(106,79,158,0.06);border:2px solid var(--lotus);border-radius:8px;padding:20px 22px;margin:0 0 14px">
+          <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:12px;flex-wrap:wrap">
+            <span style="font-family:var(--mono);font-weight:700;color:var(--lotus);font-size:14px">AVGO</span>
+            <span style="font-weight:700;font-size:14px">Broadcom Inc.</span>
+            <span style="font-family:var(--mono);font-weight:700;color:#16a34a">$481.57 &nbsp;+4.70%</span>
+            <span style="margin-left:auto;background:var(--lotus);color:#fff;font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:4px 10px;border-radius:4px">EVENT OF THE SESSION</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:12px">
+            <div><span style="color:var(--muted)">EPS Estimate</span><br><strong style="font-family:var(--mono)">$2.4458</strong></div>
+            <div><span style="color:var(--muted)">Analyst Target</span><br><strong style="font-family:var(--mono)">$488.48 (↑1.4%)</strong></div>
+            <div><span style="color:var(--muted)">Morningstar</span><br><strong>4/5 Stars · FV $550 · Wide Moat</strong></div>
+            <div><span style="color:var(--muted)">Upside to FV</span><br><strong style="font-family:var(--mono);color:#16a34a">+14.2% — margin of safety exists</strong></div>
+            <div><span style="color:var(--muted)">Institutional Flow</span><br><strong style="color:#dc2626">DISTRIBUTE −$83.6M (pre-earnings risk off)</strong></div>
+            <div><span style="color:var(--muted)">Retail Flow</span><br><strong style="color:#16a34a">BUYING +$79.6M (retail into the print)</strong></div>
+          </div>
+          <p style="font-size:12px;color:var(--muted);margin:12px 0 0">A beat-and-raise validates the entire custom AI ASIC thesis. A miss creates sharp reversals — names up +32%, +7%, +2% today are exposed. Retail buying / institutional distributing is a caution flag.</p>
+        </div>
+
+        <!-- CRWD -->
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:14px 20px;margin:0 0 20px;font-size:12px">
+          <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:6px">
+            <span style="font-family:var(--mono);font-weight:700;color:var(--lotus)">CRWD</span>
+            <span style="font-weight:600">CrowdStrike &nbsp;·&nbsp; Post-Market Earnings</span>
+            <span style="font-family:var(--mono);font-size:11px;color:var(--muted)">EPS Est: $1.0886</span>
+          </div>
+          <p style="color:var(--muted);margin:0">PANW (−1.10%) and CRWD (−1.69%) both underperforming. A beat supports the cyber thesis — relevant for PANW positioning.</p>
+        </div>
+
+        <!-- Catalyst calendar -->
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:18px 22px;margin:0 0 28px;overflow-x:auto">
+          <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Upcoming Catalyst Calendar</div>
+          <table style="width:100%;border-collapse:collapse;font-size:12px">
+            <tr style="border-bottom:1px solid var(--border)">
+              <th style="padding:6px 8px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">DATE</th>
+              <th style="padding:6px 8px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">TICKER</th>
+              <th style="padding:6px 8px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">EVENT</th>
+              <th style="padding:6px 8px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">NOTES</th>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:7px 8px;font-family:var(--mono);font-weight:700;color:#dc2626">4 Jun</td><td style="padding:7px 8px;font-family:var(--mono);font-weight:700;color:var(--lotus)">FCEL</td><td style="padding:7px 8px">Earnings</td><td style="padding:7px 8px;color:var(--muted);font-size:11px">EPS Est: −$0.53 — up +15.6% today into negative EPS. Speculative.</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:7px 8px;font-family:var(--mono)">8–12 Jun</td><td style="padding:7px 8px;font-family:var(--mono);font-weight:700;color:var(--lotus)">AAPL</td><td style="padding:7px 8px">WWDC</td><td style="padding:7px 8px;color:var(--muted);font-size:11px">Tim Cook keynote 8 June — AI software focus.</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:7px 8px;font-family:var(--mono)">16 Jun</td><td style="padding:7px 8px;font-family:var(--mono);font-weight:700;color:var(--lotus)">ORCL</td><td style="padding:7px 8px">Earnings</td><td style="padding:7px 8px;color:var(--muted);font-size:11px">EPS Est: $1.9985</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:7px 8px;font-family:var(--mono)">24 Jun</td><td style="padding:7px 8px;font-family:var(--mono);font-weight:700;color:var(--lotus)">MU</td><td style="padding:7px 8px">Earnings</td><td style="padding:7px 8px;color:var(--muted);font-size:11px">EPS Est: $20.07 · WARNING: 134% above Morningstar FV</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:7px 8px;font-family:var(--mono)">14 Jul</td><td style="padding:7px 8px;font-family:var(--mono);font-weight:700;color:var(--lotus)">BAC · WFC</td><td style="padding:7px 8px">Earnings</td><td style="padding:7px 8px;color:var(--muted);font-size:11px">Portfolio positions. NIM expansion key metric.</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:7px 8px;font-family:var(--mono)">15 Jul</td><td style="padding:7px 8px;font-family:var(--mono);font-weight:700;color:var(--lotus)">TSM</td><td style="padding:7px 8px">Earnings</td><td style="padding:7px 8px;color:var(--muted);font-size:11px">EPS Est: $23.89</td></tr>
+            <tr><td style="padding:7px 8px;font-family:var(--mono);color:#dc2626;font-weight:700">TBC</td><td style="padding:7px 8px;font-family:var(--mono);color:var(--muted)">—</td><td style="padding:7px 8px;color:#dc2626;font-weight:600">First Warsh FOMC</td><td style="padding:7px 8px;color:#dc2626;font-size:11px;font-weight:600">MACRO OVERRIDE LEVEL EVENT — mark immediately when confirmed</td></tr>
+          </table>
+        </div>
+
+        <!-- Layer 5 -->
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:0 0 14px">Layer 5 — Ticker Deep Dives (8-Lens Analysis)</h3>
+
+        <div style="display:flex;flex-direction:column;gap:12px;margin:0 0 28px">
+
+          <!-- MRVL -->
+          <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:18px 22px">
+            <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:12px;flex-wrap:wrap">
+              <span style="font-family:var(--mono);font-weight:700;color:var(--lotus);font-size:14px">MRVL</span>
+              <span style="font-weight:600">Marvell Technology</span>
+              <span style="font-family:var(--mono);font-weight:700;color:#16a34a;font-size:14px">$290.79 &nbsp;+32.52%</span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px;margin-bottom:12px">
+              <div style="background:var(--paper);border:1px solid var(--border);border-radius:6px;padding:12px">
+                <div style="font-family:var(--mono);font-size:9px;color:var(--muted);margin-bottom:6px">PRICE &amp; MOMENTUM</div>
+                <div>52W High: <strong>$291.30</strong> (−0.2% away)</div>
+                <div>52W Low: <strong>$61.32</strong> (+374% from low)</div>
+                <div style="margin-top:6px;color:#dc2626;font-weight:600;font-size:11px">ALL-TIME-RANGE MOVE</div>
+              </div>
+              <div style="background:var(--paper);border:1px solid var(--border);border-radius:6px;padding:12px">
+                <div style="font-family:var(--mono);font-size:9px;color:var(--muted);margin-bottom:6px">FUNDAMENTALS</div>
+                <div>PE: 99.9x · PB: 14.0x · EPS: $3.07</div>
+                <div>Morningstar: <strong>2/5 Stars · FV $235 · Narrow Moat</strong></div>
+                <div style="margin-top:6px;color:#dc2626;font-weight:600;font-size:11px">24% ABOVE Morningstar FV</div>
+              </div>
+              <div style="background:var(--paper);border:1px solid var(--border);border-radius:6px;padding:12px">
+                <div style="font-family:var(--mono);font-size:9px;color:var(--muted);margin-bottom:6px">CAPITAL FLOW</div>
+                <div>Institutional Net: <strong style="color:#16a34a">+$159.3M (top decile)</strong></div>
+                <div>Super-Large: +$76.3M · Large: +$83.0M</div>
+                <div style="margin-top:6px;color:#16a34a;font-weight:600;font-size:11px">INFLOW — unanimous all tranches</div>
+              </div>
+              <div style="background:var(--paper);border:1px solid var(--border);border-radius:6px;padding:12px">
+                <div style="font-family:var(--mono);font-size:9px;color:var(--muted);margin-bottom:6px">ANALYST CONSENSUS</div>
+                <div>Buy 86% · Hold 13% · Sell 0% (30 analysts)</div>
+                <div>Avg Target: <strong>$224.41</strong> · High: $321</div>
+                <div style="margin-top:6px;color:#dc2626;font-weight:600;font-size:11px">STOCK ABOVE analyst avg target</div>
+              </div>
+            </div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--lotus);letter-spacing:0.05em;border-top:1px solid var(--border);padding-top:10px"><strong>Strategist Verdict:</strong> Legitimate fundamental story — entire 3-year return in one session. At $290.79 vs FV $235, paying 24% premium after 374% run. AVGO tonight determines whether this consolidates or reverses. <strong>Observe tonight, act tomorrow.</strong></div>
+          </div>
+
+          <!-- NVDA -->
+          <div style="background:var(--paper2);border:1px solid var(--border);border-left:3px solid var(--lotus);border-radius:0 8px 8px 0;padding:18px 22px">
+            <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:12px;flex-wrap:wrap">
+              <span style="font-family:var(--mono);font-weight:700;color:var(--lotus);font-size:14px">NVDA</span>
+              <span style="font-weight:600">NVIDIA Corporation</span>
+              <span style="font-family:var(--mono);font-weight:700;color:var(--muted);font-size:14px">$222.82 &nbsp;−0.69%</span>
+              <span style="margin-left:auto;background:rgba(22,163,74,0.12);color:#16a34a;font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:4px 10px;border-radius:4px">HIGHEST CONVICTION</span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px;margin-bottom:12px">
+              <div style="background:var(--paper);border:1px solid var(--border);border-radius:6px;padding:12px">
+                <div style="font-family:var(--mono);font-size:9px;color:var(--muted);margin-bottom:6px">FUNDAMENTALS</div>
+                <div>PE: 34.1x · PB: 27.6x · EPS: $4.90</div>
+                <div>Morningstar: <strong>4/5 Stars · FV $280 · Wide Moat</strong></div>
+                <div style="margin-top:6px;color:#16a34a;font-weight:600;font-size:11px">20.4% DISCOUNT to Morningstar FV</div>
+              </div>
+              <div style="background:var(--paper);border:1px solid var(--border);border-radius:6px;padding:12px">
+                <div style="font-family:var(--mono);font-size:9px;color:var(--muted);margin-bottom:6px">CONSENSUS &amp; FLOW</div>
+                <div>Buy <strong>95%</strong> · Hold 2% · Sell 2% (40 analysts)</div>
+                <div>Avg Target: <strong>$309.94</strong> · High: $500</div>
+                <div style="margin-top:6px;color:#16a34a;font-weight:600;font-size:11px">+39.1% upside to consensus · Whale accumulation</div>
+              </div>
+            </div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--lotus);letter-spacing:0.05em;border-top:1px solid var(--border);padding-top:10px"><strong>Strategist Verdict:</strong> 4/5 Morningstar stars, 20% discount to FV, 95% analyst buy, institutional whale accumulation — flat today while capital rotated into custom ASIC peers. Post-AVGO beat: <strong>initiate first tranche $220–$225.</strong></div>
+          </div>
+
+          <!-- BAC / WFC -->
+          <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:18px 22px">
+            <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Portfolio Positions — BAC &amp; WFC</div>
+            <div style="overflow-x:auto;margin-bottom:14px">
+              <table style="width:100%;border-collapse:collapse;font-size:12px">
+                <tr style="border-bottom:1px solid var(--border)">
+                  <th style="padding:6px 8px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">TICKER</th>
+                  <th style="padding:6px 8px;text-align:center;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">SHARES</th>
+                  <th style="padding:6px 8px;text-align:right;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">AVG COST</th>
+                  <th style="padding:6px 8px;text-align:right;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">CURRENT</th>
+                  <th style="padding:6px 8px;text-align:right;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">UNREAL. $</th>
+                  <th style="padding:6px 8px;text-align:right;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">UNREAL. %</th>
+                </tr>
+                <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+                  <td style="padding:7px 8px;font-family:var(--mono);font-weight:700;color:var(--lotus)">BAC</td>
+                  <td style="padding:7px 8px;text-align:center;font-family:var(--mono)">15</td>
+                  <td style="padding:7px 8px;text-align:right;font-family:var(--mono)">$32.56</td>
+                  <td style="padding:7px 8px;text-align:right;font-family:var(--mono);font-weight:700">$52.48</td>
+                  <td style="padding:7px 8px;text-align:right;font-family:var(--mono);color:#16a34a;font-weight:700">+$298.75</td>
+                  <td style="padding:7px 8px;text-align:right;font-family:var(--mono);color:#16a34a;font-weight:700">+61.2%</td>
+                </tr>
+                <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+                  <td style="padding:7px 8px;font-family:var(--mono);font-weight:700;color:var(--lotus)">WFC</td>
+                  <td style="padding:7px 8px;text-align:center;font-family:var(--mono)">10</td>
+                  <td style="padding:7px 8px;text-align:right;font-family:var(--mono)">$54.39</td>
+                  <td style="padding:7px 8px;text-align:right;font-family:var(--mono);font-weight:700">$79.44</td>
+                  <td style="padding:7px 8px;text-align:right;font-family:var(--mono);color:#16a34a;font-weight:700">+$250.51</td>
+                  <td style="padding:7px 8px;text-align:right;font-family:var(--mono);color:#16a34a;font-weight:700">+46.1%</td>
+                </tr>
+                <tr style="background:rgba(106,79,158,0.05)">
+                  <td style="padding:7px 8px;font-weight:700">TOTAL</td>
+                  <td style="padding:7px 8px"></td>
+                  <td style="padding:7px 8px;text-align:right;font-family:var(--mono)">$1,032.34</td>
+                  <td style="padding:7px 8px;text-align:right;font-family:var(--mono);font-weight:700">$1,581.60</td>
+                  <td style="padding:7px 8px;text-align:right;font-family:var(--mono);color:#16a34a;font-weight:700">+$549.26</td>
+                  <td style="padding:7px 8px;text-align:right;font-family:var(--mono);color:#16a34a;font-weight:700">+53.2%</td>
+                </tr>
+              </table>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:11px">
+              <div><span style="color:var(--muted)">BAC Morningstar:</span> <strong>4/5 Stars · FV $65 · +23.9% upside</strong><br><span style="color:#16a34a">Flow: ACCUMULATE +$30.1M · Super-large buying +$33M</span></div>
+              <div><span style="color:var(--muted)">WFC Morningstar:</span> <strong>4/5 Stars · FV $88 · +10.8% upside</strong><br><span style="color:#dc2626">Flow: OUTFLOW −$7.5M main · −$10.3M super-large · −17.9% from 52W high</span></div>
+            </div>
+            <div style="margin-top:10px;font-family:var(--mono);font-size:10px;color:var(--muted)">Cash Available: <strong>$56,076 gross</strong> · $40,616 clearing-adjusted</div>
+          </div>
+        </div>
+
+        <!-- Layer 6 -->
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:0 0 14px">Layer 6 — Commodity &amp; Geopolitical Overlay</h3>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 28px">
+          <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:14px 18px;font-size:12px">
+            <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px">Gold &amp; Safe Haven</div>
+            <div style="font-family:var(--mono)">GLD <strong>$411.95</strong> <span style="color:#16a34a">+0.17%</span> <span style="font-size:10px;color:#ca8a04"> — divergence: holding on equity up-day</span></div>
+            <div style="font-family:var(--mono)">SLV <strong>$67.99</strong> <span style="color:#16a34a">+0.47%</span></div>
+            <div style="font-family:var(--mono)">NEM <strong>$109.50</strong> <span style="color:#16a34a">+1.21%</span> · Target $145.85 · Buy 84%</div>
+          </div>
+          <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:14px 18px;font-size:12px">
+            <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px">Uranium &amp; Nuclear</div>
+            <div style="font-family:var(--mono)">CCJ <strong>$120.51</strong> <span style="color:#16a34a">+7.03%</span> · Inflow $23.3M · Buy 77%</div>
+            <div style="font-family:var(--mono)">CEG <strong>$272.65</strong> <span style="color:#16a34a">+2.62%</span></div>
+            <div style="font-family:var(--mono)">UUUU <strong>$19.54</strong> <span style="color:#16a34a">+10.9%</span></div>
+            <div style="font-size:10px;color:#dc2626;margin-top:6px">IAEA: Iran highly enriched uranium location uncertain. Nuclear risk premium persists.</div>
+          </div>
+          <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:14px 18px;font-size:12px">
+            <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px">Copper &amp; Base Metals</div>
+            <div style="font-family:var(--mono)">FCX <strong>$71.72</strong> <span style="color:#16a34a">+6.98%</span> · Inflow $18.7M · Buy 80%</div>
+            <div style="font-family:var(--mono)">SCCO <strong>$201.37</strong> <span style="color:#16a34a">+3.47%</span></div>
+            <div style="font-family:var(--mono)">BHP <strong>$93.15</strong> <span style="color:#16a34a">+2.12%</span></div>
+          </div>
+          <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:14px 18px;font-size:12px">
+            <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px">Energy &amp; Oil</div>
+            <div style="font-family:var(--mono)">XOM <strong>$149.56</strong> <span style="color:#16a34a">+0.12%</span></div>
+            <div style="font-family:var(--mono)">EOG <strong>$138.58</strong> <span style="color:#16a34a">+1.43%</span></div>
+            <div style="font-family:var(--mono)">OXY <strong>$59.09</strong> <span style="color:#16a34a">+0.29%</span></div>
+            <div style="font-size:10px;color:var(--muted);margin-top:6px">OPEC+ boosted output 206kb/d. Oil +1%+ on ME flare-up.</div>
+          </div>
+        </div>
+
+        <!-- Layer 7 -->
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:0 0 14px">Layer 7 — Institutional Flow: Top Movers</h3>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:20px 22px;margin:0 0 28px;overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:12px">
+            <tr style="border-bottom:1px solid var(--border)">
+              <th style="padding:7px 8px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">TICKER</th>
+              <th style="padding:7px 8px;text-align:right;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">CHG%</th>
+              <th style="padding:7px 8px;text-align:right;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">PRICE</th>
+              <th style="padding:7px 8px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">FLOW</th>
+              <th style="padding:7px 8px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">ASSESSMENT</th>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:7px 8px;font-family:var(--mono);font-weight:700;color:var(--lotus)">MRVL</td><td style="padding:7px 8px;text-align:right;font-family:var(--mono);color:#16a34a;font-weight:700">+32.52%</td><td style="padding:7px 8px;text-align:right;font-family:var(--mono)">$290.79</td><td style="padding:7px 8px;color:#16a34a;font-size:11px">INFLOW $159M</td><td style="padding:7px 8px;font-size:11px">CONFIRMED — institutional conviction move</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:7px 8px;font-family:var(--mono);font-weight:700;color:var(--muted)">FCEL</td><td style="padding:7px 8px;text-align:right;font-family:var(--mono);color:#16a34a">+15.63%</td><td style="padding:7px 8px;text-align:right;font-family:var(--mono)">$24.64</td><td style="padding:7px 8px;color:var(--muted);font-size:11px">No data</td><td style="padding:7px 8px;font-size:11px;color:#dc2626">SPECULATIVE — EPS est. −$0.53 tomorrow</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:7px 8px;font-family:var(--mono);font-weight:700;color:var(--muted)">ENPH</td><td style="padding:7px 8px;text-align:right;font-family:var(--mono);color:#16a34a">+13.48%</td><td style="padding:7px 8px;text-align:right;font-family:var(--mono)">$72.33</td><td style="padding:7px 8px;color:#16a34a;font-size:11px">ACCUM $1.9M</td><td style="padding:7px 8px;font-size:11px;color:#ca8a04">WEAK CONVICTION — analyst target $43.98 (−39%)</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:7px 8px;font-family:var(--mono);font-weight:700;color:var(--lotus)">UUUU</td><td style="padding:7px 8px;text-align:right;font-family:var(--mono);color:#16a34a">+10.90%</td><td style="padding:7px 8px;text-align:right;font-family:var(--mono)">$19.54</td><td style="padding:7px 8px;font-size:11px">Supported</td><td style="padding:7px 8px;font-size:11px;color:#16a34a">Uranium thesis — regime supported</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:7px 8px;font-family:var(--mono);font-weight:700;color:var(--lotus)">CCJ</td><td style="padding:7px 8px;text-align:right;font-family:var(--mono);color:#16a34a">+7.03%</td><td style="padding:7px 8px;text-align:right;font-family:var(--mono)">$120.51</td><td style="padding:7px 8px;color:#16a34a;font-size:11px">INFLOW $23.3M</td><td style="padding:7px 8px;font-size:11px;color:#16a34a">CONFIRMED — clean setup, clean flow</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:7px 8px;font-family:var(--mono);font-weight:700;color:var(--lotus)">FCX</td><td style="padding:7px 8px;text-align:right;font-family:var(--mono);color:#16a34a">+6.98%</td><td style="padding:7px 8px;text-align:right;font-family:var(--mono)">$71.72</td><td style="padding:7px 8px;color:#16a34a;font-size:11px">INFLOW $18.7M</td><td style="padding:7px 8px;font-size:11px;color:#16a34a">CONFIRMED — copper demand intact</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:7px 8px;font-family:var(--mono);font-weight:700;color:var(--muted)">DELL</td><td style="padding:7px 8px;text-align:right;font-family:var(--mono);color:#dc2626">−6.58%</td><td style="padding:7px 8px;text-align:right;font-family:var(--mono)">$435.31</td><td style="padding:7px 8px;font-size:11px;color:var(--muted)">No data</td><td style="padding:7px 8px;font-size:11px;color:#ca8a04">DIVERGENCE: Bullish sent. vs price down — $10B DoD deal</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:7px 8px;font-family:var(--mono);font-weight:700;color:var(--muted)">PLTR</td><td style="padding:7px 8px;text-align:right;font-family:var(--mono);color:#dc2626">−5.28%</td><td style="padding:7px 8px;text-align:right;font-family:var(--mono)">$152.17</td><td style="padding:7px 8px;font-size:11px;color:var(--muted)">No data</td><td style="padding:7px 8px;font-size:11px">Neutral-negative sentiment, no clear catalyst</td></tr>
+            <tr><td style="padding:7px 8px;font-family:var(--mono);font-weight:700;color:var(--muted)">MSFT</td><td style="padding:7px 8px;text-align:right;font-family:var(--mono);color:#dc2626">−4.17%</td><td style="padding:7px 8px;text-align:right;font-family:var(--mono)">$441.31</td><td style="padding:7px 8px;font-size:11px;color:var(--muted)">No data</td><td style="padding:7px 8px;font-size:11px">Mega-cap rotation out — monitor</td></tr>
+          </table>
+        </div>
+
+        <!-- Layer 8 -->
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:0 0 14px">Layer 8 — Strategic Intelligence Synthesis</h3>
+
+        <div style="background:var(--paper2);border:2px solid var(--lotus);border-radius:8px;padding:20px 22px;margin:0 0 16px">
+          <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--lotus);margin-bottom:12px">The Central Question Tonight</div>
+          <p style="font-size:14px;font-weight:600;color:var(--ink);margin:0 0 16px">Is the custom AI ASIC cycle additive to — or substitutive for — NVIDIA's dominance?</p>
+          <table style="width:100%;border-collapse:collapse;font-size:12px">
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:8px 10px;font-weight:700;color:#16a34a;width:140px">IF ADDITIVE</td><td style="padding:8px 10px">Full AI compute TAM expands. NVDA + MRVL + AVGO + AMD all benefit. NVDA most attractively priced (4/5 Morningstar, 20% below FV).</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:8px 10px;font-weight:700;color:#dc2626">IF SUBSTITUTIVE</td><td style="padding:8px 10px">Custom ASICs take share from NVDA. Reduce NVDA exposure on AVGO strength. Re-rate moat.</td></tr>
+            <tr><td style="padding:8px 10px;font-weight:700;color:var(--lotus)">MY BASE CASE</td><td style="padding:8px 10px;font-weight:600">ADDITIVE. Hyperscalers build custom ASICs for inference alongside NVDA GPUs for training. They solve different problems.</td></tr>
+          </table>
+        </div>
+
+        <!-- Morningstar Divergence -->
+        <div style="background:var(--paper2);border:1px solid var(--border);border-left:3px solid #dc2626;border-radius:0 8px 8px 0;padding:16px 22px;margin:0 0 28px">
+          <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#dc2626;margin-bottom:10px">Morningstar Divergence Watch</div>
+          <table style="width:100%;border-collapse:collapse;font-size:12px">
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:7px 8px;font-family:var(--mono);font-weight:700;color:var(--lotus);width:80px">MU</td><td style="padding:7px 8px;font-weight:600;color:#dc2626">SEVERE</td><td style="padding:7px 8px;color:var(--muted)">Buy 93% analysts vs Morningstar 1/5 Stars. Stock at $1,064 — above both targets. No position until post-earnings (24 Jun).</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:7px 8px;font-family:var(--mono);font-weight:700;color:var(--lotus)">ARM</td><td style="padding:7px 8px;font-weight:600;color:#dc2626">SEVERE</td><td style="padding:7px 8px;color:var(--muted)">Buy 81% analysts vs Morningstar 1/5 Stars. At $402.71 — 168% above Morningstar FV $150. Zero margin of safety.</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:7px 8px;font-family:var(--mono);font-weight:700;color:var(--lotus)">CDNS</td><td style="padding:7px 8px;font-weight:600;color:#ca8a04">WARN</td><td style="padding:7px 8px;color:var(--muted)">Buy 100% analysts vs Morningstar 2/5 Stars. Stock above analyst consensus $396.54. Flag.</td></tr>
+            <tr><td style="padding:7px 8px;font-family:var(--mono);font-weight:700;color:var(--lotus)">AAPL</td><td style="padding:7px 8px;font-weight:600;color:#ca8a04">WARN</td><td style="padding:7px 8px;color:var(--muted)">Morningstar 2/5 Stars, FV $270 vs current $315 (+17% premium). WWDC 8 June — no valuation cushion for a disappointment.</td></tr>
+          </table>
+        </div>
+
+        <!-- Portfolio Recommendations -->
+        <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:0 0 14px">Portfolio Recommendations</h3>
+
+        <div style="background:var(--paper2);border:2px solid var(--lotus);border-radius:8px;padding:16px 22px;margin:0 0 16px;text-align:center">
+          <div style="font-family:var(--mono);font-size:12px;font-weight:700;color:var(--lotus);letter-spacing:0.15em">TONIGHT — DO NOTHING. WATCH AVGO. LET THE DATA SPEAK FIRST.</div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 28px">
+          <div style="background:rgba(22,163,74,0.05);border:1px solid rgba(22,163,74,0.25);border-radius:8px;padding:16px 20px">
+            <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#16a34a;margin-bottom:10px;font-weight:700">Post-AVGO BEAT Scenario</div>
+            <div style="display:flex;flex-direction:column;gap:8px;font-size:12px">
+              <div style="display:grid;grid-template-columns:24px 50px 1fr;gap:8px"><span style="font-family:var(--mono);color:var(--lotus);font-weight:700">①</span><span style="font-family:var(--mono);font-weight:700;color:var(--lotus)">NVDA</span><span>ADD — tranche $220–$225. 4/5 stars, 20% below FV, whale accumulation.</span></div>
+              <div style="display:grid;grid-template-columns:24px 50px 1fr;gap:8px"><span style="font-family:var(--mono);color:var(--lotus);font-weight:700">②</span><span style="font-family:var(--mono);font-weight:700;color:var(--lotus)">CCJ</span><span>ADD — clean institutional flow, uranium geopolitically supported, 77% buy.</span></div>
+              <div style="display:grid;grid-template-columns:24px 50px 1fr;gap:8px"><span style="font-family:var(--mono);color:var(--lotus);font-weight:700">③</span><span style="font-family:var(--mono);font-weight:700;color:var(--lotus)">BAC</span><span>SCALE — 23.9% upside to Morningstar FV. Institutional accumulation. Add near $50.</span></div>
+              <div style="display:grid;grid-template-columns:24px 50px 1fr;gap:8px"><span style="font-family:var(--mono);color:var(--lotus);font-weight:700">④</span><span style="font-family:var(--mono);font-weight:700;color:var(--lotus)">DELL</span><span>WATCH — $10B DoD deal vs −6.58% decline creates gap opportunity if price recovers.</span></div>
+            </div>
+          </div>
+          <div style="background:rgba(220,38,38,0.04);border:1px solid rgba(220,38,38,0.2);border-radius:8px;padding:16px 20px">
+            <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#dc2626;margin-bottom:10px;font-weight:700">Post-AVGO MISS Scenario</div>
+            <p style="font-size:12px;color:var(--muted);margin:0 0 10px">Do not add MRVL, AMAT, AMD or any AI semi name. MRVL at $290 (priced for perfection) would return to $240–$260. Hold BAC and WFC — insulated from semiconductor earnings. Hold cash. Not a panic event, but recalibrate AI infrastructure thesis timeline.</p>
+            <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#dc2626;margin-bottom:6px">Names to Avoid (Regardless of AVGO)</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;font-size:10px;font-family:var(--mono)">
+              <span style="background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.2);padding:3px 8px;border-radius:3px">FCEL +15.6% → EPS −$0.53</span>
+              <span style="background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.2);padding:3px 8px;border-radius:3px">ENPH above target</span>
+              <span style="background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.2);padding:3px 8px;border-radius:3px">ARM 168% above FV</span>
+              <span style="background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.2);padding:3px 8px;border-radius:3px">MU 134% above FV</span>
+              <span style="background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.2);padding:3px 8px;border-radius:3px">PLTR −5.28% no catalyst</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="highlight">
+          BlueLotus V2 — Chief Strategist Report. 11,660 signals processed across 63 active sources. Ingest v2.6. This is what institutional intelligence looks like when the architecture works.
+        </div>
+
+        <div class="edition-sign">
+          <span class="sign-name-sm">Chief Strategist · BlueLotus Fund</span>
+          <span class="sign-title-sm">Published by BlueLotus V2 · Frontend &amp; Publishing Department · Singapore · 3 June 2026, 19:25 SGT · Internal Use Only</span>
+        </div>
+      </div>
+
+      <div class="edition-divider"></div>
+
 <!-- ══ EDITION 015 — MAY 31, 2026 ══ -->
       <div class="edition-block" id="edition-015">
         <div class="edition-tag">
