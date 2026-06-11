@@ -132,7 +132,7 @@ body{padding-top:52px !important;}
   function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
   function render(d){
     var srcs=d.sources||{},gen=(d.generated_at||""),rows="";
-    ["FT_World","Reuters_Commodities","WSJ_Technology","X_Signals"].forEach(function(sid){
+    ["FT_World","Reuters_Commodities","WSJ_Technology"].forEach(function(sid){
       var s=srcs[sid]||{label:sid.replace(/_/g," "),items:[]};
       var items=s.items||[],content="";
       if(!items.length){
@@ -255,6 +255,201 @@ body{padding-top:52px !important;}
   <div style="font-family:JetBrains Mono,monospace;font-size:11px;color:#4ade80;margin-bottom:10px;letter-spacing:.08em">0/23 baskets RISK-OFF</div>
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px"><div style="background:rgba(13,16,32,.86);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><b style="color:#fff;font-size:13px">CLEAN ENERGY / SOLAR</b><span style="color:#4ade80;font-family:JetBrains Mono,monospace;font-size:9px;letter-spacing:.08em">RISK-ON</span></div><p style="color:#bfc8d7;font-size:12px;margin:0 0 6px;line-height:1.5">How bond markets can learn to love public debt. There is ample room to be expansive within market-friendly fiscal rules</p><div style="color:#8b93a7;font-size:11px;font-family:JetBrains Mono,monospace">Conf 90% &nbsp;·&nbsp; Basket <strong style="color:#4ade80">+2.5%</strong></div></div><div style="background:rgba(13,16,32,.86);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><b style="color:#fff;font-size:13px">EARNINGS CATALYST</b><span style="color:#fbbf24;font-family:JetBrains Mono,monospace;font-size:9px;letter-spacing:.08em">WATCH</span></div><p style="color:#bfc8d7;font-size:12px;margin:0 0 6px;line-height:1.5">[OPTIONS FLOW] AVGO: Unusual Large Options Trades: 6.11 03:33, a sell put options trade was recorded. Volume was 1350 con</p><div style="color:#8b93a7;font-size:11px;font-family:JetBrains Mono,monospace">Conf 90% &nbsp;·&nbsp; Basket <strong style="color:#4ade80">+0.5%</strong></div></div><div style="background:rgba(13,16,32,.86);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><b style="color:#fff;font-size:13px">AI / SEMIS</b><span style="color:#4ade80;font-family:JetBrains Mono,monospace;font-size:9px;letter-spacing:.08em">RISK-ON</span></div><p style="color:#bfc8d7;font-size:12px;margin:0 0 6px;line-height:1.5">[OPTIONS FLOW] AMD: Unusual Large Options Trades: 6.11 03:21, a buy put options trade was recorded. Volume was 1500 cont</p><div style="color:#8b93a7;font-size:11px;font-family:JetBrains Mono,monospace">Conf 89% &nbsp;·&nbsp; Basket <strong style="color:#4ade80">+2.9%</strong></div></div><div style="background:rgba(13,16,32,.86);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><b style="color:#fff;font-size:13px">MACRO / FED</b><span style="color:#fbbf24;font-family:JetBrains Mono,monospace;font-size:9px;letter-spacing:.08em">WATCH</span></div><p style="color:#bfc8d7;font-size:12px;margin:0 0 6px;line-height:1.5">@zerohedge: Iran targets US Fifth Fleet in Bahrain</p><div style="color:#8b93a7;font-size:11px;font-family:JetBrains Mono,monospace">Conf 80% &nbsp;·&nbsp; Basket <strong style="color:#4ade80">+0.4%</strong></div></div></div>
 </div>
+<div id="thesis-live" style="margin-bottom:16px">
+  <div style="background:rgba(13,16,32,.60);border:1px solid rgba(192,132,252,.14);
+    border-radius:12px;padding:14px 24px;color:#444;font-family:JetBrains Mono,monospace;
+    font-size:10px;letter-spacing:.12em">S3 · THESIS EVIDENCE — loading…</div>
+</div>
+<script>
+(function(){
+  var BASE="https://sohweekian.github.io/bluelotus";
+  var STATUS_COLOR={
+    "CONFIRMING":"#4ade80","WATCH":"#fbbf24",
+    "WARNING":"#ff5566","FAILING":"#ef4444"
+  };
+  var DIR_COLOR={
+    "RISK ON":"#4ade80","RISK-ON":"#4ade80",
+    "RISK OFF":"#ff5566","RISK-OFF":"#ff5566",
+    "WATCH":"#fbbf24","NEUTRAL":"#94a3b8"
+  };
+  var CHECK_NAMES={
+    "gold_stabilizes_and_rises":"Gold Spot",
+    "silver_confirms_or_gsr_compresses":"Silver / GSR",
+    "miners_vs_gold":"Miners vs GLD",
+    "au_nem_vs_gdx":"AU/NEM vs GDX",
+    "real_yields_do_not_spike":"Real Yields",
+    "dxy_does_not_surge":"USD / DXY",
+    "oil_risk_premium_elevated":"Oil-Risk Premium",
+    "miners_not_liquidated_as_equity_beta":"Miner Liq Risk"
+  };
+  var CHECK_COLOR={"PASS":"#4ade80","WATCH":"#fbbf24","FAIL":"#ff5566","MISSING":"#444"};
+  function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+  function badge(txt,col){
+    return '<span style="background:'+col+'22;color:'+col+';border-radius:4px;'
+      +'padding:2px 7px;font-size:11px;font-weight:600">'+esc(txt)+'</span>';
+  }
+  function render(d){
+    var gt=d.gold_thesis||{}, checks=gt.checks||{};
+    var st=gt.status||"UNKNOWN", score=gt.score||0, conf=gt.confidence||"";
+    var sc=STATUS_COLOR[st]||"#94a3b8";
+    var n_p=gt.n_pass||0, n_w=gt.n_watch||0, n_f=gt.n_fail||0;
+    var n_m=gt.n_missing||0, action=gt.core_action||"";
+
+    // ── Gold Thesis status card ───────────────────────────────────────────
+    var km=gt.key_metrics||{};
+    var metrics="";
+    [["GLD",km.gld_chg_pct],["GDX",km.gdx_chg_pct],["SLV",km.slv_chg_pct],
+     ["UUP",km.uup_chg_pct],["TLT",km.tlt_chg_pct],["XLE",km.xle_chg_pct],
+     ["SPY",km.spy_chg_pct]].forEach(function(pair){
+      if(pair[1]===null||pair[1]===undefined) return;
+      var v=parseFloat(pair[1]), col=v>=0?"#4ade80":"#ff5566";
+      metrics+='<span style="margin-right:12px;white-space:nowrap">'
+        +'<span style="color:#555">'+pair[0]+'</span>&nbsp;'
+        +'<span style="color:'+col+'">'+(v>=0?"+":"")+v.toFixed(2)+'%</span></span>';
+    });
+
+    var checksHtml="";
+    Object.keys(CHECK_NAMES).forEach(function(k){
+      var c=checks[k]||{}, cst=c.status||"MISSING";
+      var col=CHECK_COLOR[cst]||"#444";
+      checksHtml+='<div style="display:flex;align-items:baseline;gap:8px;'
+        +'padding:3px 0;border-bottom:1px solid rgba(255,255,255,.03)">'
+        +'<span style="color:'+col+';font-size:10px;font-weight:700;width:14px;flex-shrink:0">'
+        +(cst==="PASS"?"✓":cst==="FAIL"?"✗":cst==="WATCH"?"~":"·")+'</span>'
+        +'<span style="color:#94a3b8;font-size:11px;flex:1">'+esc(CHECK_NAMES[k])+'</span>'
+        +'<span style="color:#555;font-size:10px;text-align:right;max-width:220px;'
+        +'overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(c.evidence||"")+'</span>'
+        +'</div>';
+    });
+
+    var statusCard=
+      '<div style="background:rgba(13,16,32,.97);border:1px solid '+sc+'44;'
+      +'border-radius:12px;padding:18px 22px;margin-bottom:10px">'
+      +'<div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap">'
+      +'<div style="font-family:JetBrains Mono,monospace;font-size:11px;letter-spacing:.18em;'
+      +'text-transform:uppercase;color:#c084fc;font-weight:700">S3 · GOLD THESIS</div>'
+      +'<span style="height:1px;background:rgba(192,132,252,.18);flex:1;display:block;min-width:20px"></span>'
+      +'<span style="font-size:9px;color:#555;font-family:JetBrains Mono,monospace">Live · '+esc(d.generated_at||"")+'</span>'
+      +'</div>'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">'
+      +'<div>'
+      +'<div style="margin-bottom:10px">'+badge(st,sc)
+      +'&nbsp;<span style="color:#94a3b8;font-size:12px">Score '+score.toFixed(2)+'/1.00'
+      +' · Confidence <span style="color:'+sc+'">'+esc(conf)+'</span></span></div>'
+      +'<div style="font-size:11px;color:#555;margin-bottom:6px">'
+      +'<span style="color:#4ade80">'+n_p+' PASS</span>'
+      +' · <span style="color:#fbbf24">'+n_w+' WATCH</span>'
+      +' · <span style="color:#ff5566">'+n_f+' FAIL</span>'
+      +(n_m?' · <span style="color:#444">'+n_m+' MISSING</span>':"")+'</div>'
+      +'<div style="font-size:11px;color:#94a3b8;margin-bottom:10px">'
+      +'CIO Action: <span style="color:#e2e8f0;font-weight:600">'+esc(action)+'</span>'
+      +'&nbsp;·&nbsp;Add Allowed: <span style="color:'+(gt.add_allowed?"#4ade80":"#ff5566")+'">'
+      +(gt.add_allowed?"YES":"BLOCKED")+'</span></div>'
+      +'<div style="font-size:11px;color:#555;font-family:JetBrains Mono,monospace;'
+      +'overflow-x:auto;white-space:nowrap">'+metrics+'</div>'
+      +'</div>'
+      +'<div>'+checksHtml+'</div>'
+      +'</div>'
+      +'</div>';
+
+    // ── Event Correlations table ─────────────────────────────────────────
+    var rows=d.event_correlations||[], corr_ts=d.correlations_as_of||"";
+    var corrHtml="";
+    if(rows.length){
+      var thead='<table style="width:100%;border-collapse:collapse;font-size:12px">'
+        +'<thead><tr style="color:#94a3b8;border-bottom:1px solid rgba(255,255,255,.08)">'
+        +'<th style="text-align:left;padding:4px 8px;font-weight:500">THEME</th>'
+        +'<th style="text-align:center;padding:4px 8px;font-weight:500">DIRECTION</th>'
+        +'<th style="text-align:center;padding:4px 8px;font-weight:500">BASKET MOVE</th>'
+        +'<th style="text-align:left;padding:4px 8px;font-weight:500">EVIDENCE</th>'
+        +'<th style="text-align:center;padding:4px 8px;font-weight:500">TIER</th>'
+        +'</tr></thead><tbody>';
+      var tbody="";
+      rows.slice(0,12).forEach(function(r){
+        var dir=(r.direction||"WATCH").toUpperCase().replace("-"," ");
+        var dc=DIR_COLOR[dir]||"#94a3b8";
+        var bm=r.basket_move!=null?((r.basket_move>=0?"+":"")+parseFloat(r.basket_move).toFixed(2)+"%"):"—";
+        var why=String(r.why||r.evidence||"").substring(0,80);
+        var tier=String(r.evidence_tier_label||r.confidence||"");
+        tbody+='<tr style="border-bottom:1px solid rgba(255,255,255,.04);color:#e2e8f0">'
+          +'<td style="padding:5px 8px">'+esc(r.theme||"")+'</td>'
+          +'<td style="padding:5px 8px;text-align:center">'+badge(dir,dc)+'</td>'
+          +'<td style="padding:5px 8px;text-align:center;color:#cbd5e1">'+esc(bm)+'</td>'
+          +'<td style="padding:5px 8px;color:#94a3b8;font-size:11px">'+esc(why)+'</td>'
+          +'<td style="padding:5px 8px;text-align:center;color:#555;font-size:10px;'
+          +'font-family:JetBrains Mono,monospace">'+esc(tier)+'</td>'
+          +'</tr>';
+      });
+      corrHtml='<div style="margin-top:10px">'
+        +'<div style="font-family:JetBrains Mono,monospace;font-size:10px;color:#555;'
+        +'letter-spacing:.10em;margin-bottom:6px">S3 · THESIS EVIDENCE'
+        +(corr_ts?' <span style="color:#333">· as-of '+esc(corr_ts)+'</span>':"")+'</div>'
+        +thead+tbody+'</tbody></table></div>';
+    }
+
+    // ── Methodology footnote ─────────────────────────────────────────────
+    var meth=
+      '<details style="margin-top:12px">'
+      +'<summary style="font-family:JetBrains Mono,monospace;font-size:9px;'
+      +'letter-spacing:.12em;color:#444;cursor:pointer;user-select:none;'
+      +'text-transform:uppercase">▸ Methodology</summary>'
+      +'<div style="margin-top:8px;font-size:11px;color:#555;line-height:1.7;'
+      +'border-top:1px solid rgba(255,255,255,.05);padding-top:10px">'
+      +'<div style="margin-bottom:8px">'
+      +'<span style="color:#94a3b8;font-weight:600">Gold Thesis Score</span>&nbsp;'
+      +'8 checks evaluated against live market prices (10-min yfinance refresh).<br>'
+      +'Each check: <span style="color:#4ade80">PASS=1.0</span>'
+      +' · <span style="color:#fbbf24">WATCH=0.5</span>'
+      +' · <span style="color:#ff5566">FAIL=0.0</span>'
+      +' · <span style="color:#444">MISSING=excluded</span><br>'
+      +'Score = average of available (non-MISSING) checks.<br>'
+      +'<span style="color:#4ade80">CONFIRMING ≥0.75</span>'
+      +' · <span style="color:#fbbf24">WATCH 0.50–0.74</span>'
+      +' · <span style="color:#ff5566">WARNING 0.30–0.49</span>'
+      +' · <span style="color:#ef4444">FAILING &lt;0.30</span>'
+      +'</div>'
+      +'<div style="margin-bottom:8px">'
+      +'<span style="color:#94a3b8;font-weight:600">5 Critical Checks</span>&nbsp;'
+      +'Gold spot · Miners vs GLD · AU/NEM vs GDX · Real yields · Miner liquidation risk.<br>'
+      +'Confidence degrades when critical checks fail: '
+      +'<span style="color:#4ade80">HIGH</span> (0 critical fails)'
+      +' → <span style="color:#fbbf24">MEDIUM</span>'
+      +' → <span style="color:#ff5566">MEDIUM_LOW</span>'
+      +' → <span style="color:#ef4444">LOW</span>'
+      +'</div>'
+      +'<div>'
+      +'<span style="color:#94a3b8;font-weight:600">Evidence Tier Qualification</span><br>'
+      +'<span style="color:#4ade80">T1 CONFIRMED</span>&nbsp;'
+      +'≥3 independent source layers corroborate the theme (earnings + RSS + macro catalyst).<br>'
+      +'<span style="color:#fbbf24">T2 PROVISIONAL</span>&nbsp;'
+      +'1–2 layers, model-corroborated, awaiting cross-asset confirmation.<br>'
+      +'<span style="color:#ff5566">T3 INFERRED</span>&nbsp;'
+      +'Model-derived from macro context; no direct price confirmation yet.'
+      +'</div>'
+      +'</div>'
+      +'</details>';
+
+    document.getElementById("thesis-live").innerHTML=
+      '<div style="background:rgba(13,16,32,.94);border:1px solid rgba(192,132,252,.18);'
+      +'border-radius:12px;padding:18px 22px;margin-bottom:16px">'
+      +statusCard+corrHtml+meth
+      +'</div>';
+  }
+  function load(){
+    fetch(BASE+"/data/thesis_evidence_live.json?t="+Date.now())
+      .then(function(r){return r.json();})
+      .then(render)
+      .catch(function(e){
+        document.getElementById("thesis-live").innerHTML=
+          '<div style="background:rgba(13,16,32,.60);border:1px solid rgba(192,132,252,.14);'
+          +'border-radius:12px;padding:14px 24px;color:#444;font-family:JetBrains Mono,monospace;'
+          +'font-size:10px">S3 · THESIS EVIDENCE — data pending (thesis_probe_daemon not running?)</div>';
+      });
+  }
+  load();
+  setInterval(load, 600000);
+})();
+</script>
 
 <div style="font-family:JetBrains Mono,monospace;font-size:10px;color:#555;padding:10px 0 4px;border-top:1px solid rgba(255,255,255,.05);letter-spacing:.06em">System Health&nbsp;·&nbsp;Sources 76/52&nbsp;·&nbsp;Signals 51455&nbsp;·&nbsp;Integrity <span style="color:#4ade80">PASS</span>&nbsp;·&nbsp;<a href="https://sohweekian.github.io/bluelotus/chief-strategist.html" style="color:#c084fc;text-decoration:none">Full Strategist Report &rarr;</a></div>
 </main>
