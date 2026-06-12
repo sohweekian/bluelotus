@@ -250,6 +250,53 @@ body{background:#060712;color:#e6edf3;font-family:Outfit,sans-serif;line-height:
 <div id="loading"><span class="pulse-dot"></span>Loading CIO intelligence...</div>
 <div id="dash" style="display:none">
 
+  <!-- 0. 10-SECOND CIO FIRST SCREEN (V2.1) -->
+  <div id="ten-sec-screen" class="card gap" style="border-color:rgba(192,132,252,.35);">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:#c084fc;margin-bottom:14px;display:flex;align-items:center;gap:10px;">10-SECOND CIO SCREEN — V2.1 LIVE SHOCK RADAR<span style="flex:1;height:1px;background:rgba(192,132,252,.2);display:block"></span><span id="ten-cycle" style="font-size:9px;color:#8b93a7"></span></div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px">
+      <div style="background:rgba(0,0,0,.3);border-radius:10px;padding:12px 14px">
+        <div style="font-family:'JetBrains Mono',monospace;color:#8b93a7;font-size:9px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px">Regime</div>
+        <div id="ten-regime" style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700">—</div>
+        <div id="ten-regime-action" style="font-size:11px;color:#8b93a7;margin-top:3px">—</div>
+      </div>
+      <div style="background:rgba(0,0,0,.3);border-radius:10px;padding:12px 14px">
+        <div style="font-family:'JetBrains Mono',monospace;color:#8b93a7;font-size:9px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px">Machine Reaction Score</div>
+        <div id="ten-mrs" style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700">—</div>
+        <div id="ten-mrs-dir" style="font-size:11px;color:#8b93a7;margin-top:3px">—</div>
+      </div>
+      <div style="background:rgba(0,0,0,.3);border-radius:10px;padding:12px 14px">
+        <div style="font-family:'JetBrains Mono',monospace;color:#8b93a7;font-size:9px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px">Inst. Flow Radar</div>
+        <div id="ten-flow" style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700">—</div>
+        <div id="ten-flow-type" style="font-size:11px;color:#8b93a7;margin-top:3px">—</div>
+      </div>
+      <div style="background:rgba(0,0,0,.3);border-radius:10px;padding:12px 14px">
+        <div style="font-family:'JetBrains Mono',monospace;color:#8b93a7;font-size:9px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px">Add Allowed</div>
+        <div id="ten-add" style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700">—</div>
+        <div id="ten-add-note" style="font-size:11px;color:#8b93a7;margin-top:3px">—</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+      <div style="background:rgba(0,0,0,.2);border-radius:8px;padding:10px 14px">
+        <div style="font-family:'JetBrains Mono',monospace;color:#8b93a7;font-size:9px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px">Gold / Miner Thesis</div>
+        <div id="ten-gold" style="font-size:12px;color:#e6edf3">—</div>
+        <div id="ten-miner" style="font-size:12px;color:#e6edf3;margin-top:3px">—</div>
+      </div>
+      <div style="background:rgba(0,0,0,.2);border-radius:8px;padding:10px 14px">
+        <div style="font-family:'JetBrains Mono',monospace;color:#8b93a7;font-size:9px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px">Regime Conflict</div>
+        <div id="ten-conflict" style="font-size:12px;color:#e6edf3">—</div>
+      </div>
+    </div>
+    <div style="background:rgba(192,132,252,.06);border:1px solid rgba(192,132,252,.15);border-radius:8px;padding:10px 14px">
+      <div style="font-family:'JetBrains Mono',monospace;color:#c084fc;font-size:9px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px">CIO Action Now</div>
+      <div id="ten-cio-action" style="font-size:12px;color:#e6edf3;line-height:1.6">—</div>
+    </div>
+    <div style="display:flex;gap:20px;margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;flex-wrap:wrap">
+      <span style="color:#8b93a7">Orders Generated: <span style="color:#4ade80;font-weight:700">0</span></span>
+      <span style="color:#8b93a7">Broker Routing: <span style="color:#ff5566;font-weight:700">DISABLED</span></span>
+      <span style="color:#8b93a7">Platform: <span style="color:#c084fc">Claude Code &amp; Codex macOS iOS</span></span>
+    </div>
+  </div>
+
   <!-- 1. REGIME BANNER -->
   <div id="regime-banner" class="gap">
     <div>
@@ -397,8 +444,52 @@ const RG_TXT={'on':'#16522e','mild_on':'#1c4012','neu':'#424758','mild_off':'#5a
 /* ── Main render ── */
 async function render(){
   try{
-    const r=await fetch(BASE+'dataset_summary.json?t='+Date.now());
-    const s=await r.json();
+    const [summaryRes, radarRes]=await Promise.all([
+      fetch(BASE+'dataset_summary.json?t='+Date.now()),
+      fetch(BASE+'shock_radar.json?t='+Date.now()).catch(()=>({json:()=>({})})),
+    ]);
+    const s=await summaryRes.json();
+    const radar=await radarRes.json().catch(()=>({}));
+    const v21=s.v21_shock_radar||radar||{};
+
+    // ── 10-second CIO screen ──────────────────────────────────────────────────
+    const rLabel=(s.regime||{}).label||'UNKNOWN';
+    const rScore=parseInt((s.regime||{}).score)||0;
+    const rAction=(s.regime||{}).action||'—';
+    const mrs=parseFloat(v21.machine_reaction_score||0);
+    const mrsClass=v21.mrs_classification||'—';
+    const mrsDir=v21.mrs_direction||'—';
+    const mrsCio=v21.mrs_cio_note||rAction;
+    const addOk=v21.add_allowed!==false;
+    const conflictLbl=v21.conflict_label||'No conflict detected';
+    const hasConflict=v21.has_conflict||false;
+    const flowUnison=v21.flow_unison||'—';
+    const flowType=(v21.primary_flow||'—').replace(/_/g,' ');
+    const goldLbl=v21.gold_thesis||'—';
+    const minerLbl=v21.miner_thesis||'—';
+    const concAlerts=v21.concentration_alerts||[];
+    const rCol=rScore>0?'#4ade80':rScore<0?'#ff5566':'#8b93a7';
+    const mrsCol=mrs>=71?'#4ade80':mrs>=51?'#fbbf24':mrs>=31?'#c084fc':'#8b93a7';
+
+    el('ten-regime').textContent=rLabel; el('ten-regime').style.color=rCol;
+    el('ten-regime-action').textContent=rAction;
+    el('ten-mrs').textContent=mrs.toFixed(1)+'/100 — '+mrsClass; el('ten-mrs').style.color=mrsCol;
+    el('ten-mrs-dir').textContent=mrsDir;
+    el('ten-flow').textContent=flowUnison+(v21.flow_score?' ('+v21.flow_score+')':'');
+    el('ten-flow').style.color=flowUnison==='EXTREME'?'#ff5566':flowUnison==='HIGH'?'#fbbf24':'#4ade80';
+    el('ten-flow-type').textContent=flowType;
+    el('ten-add').textContent=addOk?'✅ YES':'🚫 BLOCKED';
+    el('ten-add').style.color=addOk?'#4ade80':'#ff5566';
+    const concStr=concAlerts.filter(c=>c.breach>0).map(c=>c.ticker+' '+c.weight+'%').join(' | ');
+    el('ten-add-note').textContent=concStr||'Within concentration limits';
+    el('ten-gold').textContent='Gold: '+goldLbl;
+    el('ten-miner').textContent='Miners: '+minerLbl;
+    const conflictCol=hasConflict?'#fbbf24':'#4ade80';
+    el('ten-conflict').textContent=(hasConflict?'⚡ ':'')+conflictLbl;
+    el('ten-conflict').style.color=conflictCol;
+    el('ten-cio-action').textContent=mrsCio;
+    const shockCycle=(v21.shock_prices_cycle||'').toString().replace('T',' ').slice(0,16);
+    el('ten-cycle').textContent=shockCycle?'Shock: '+shockCycle+' SGT':'';
 
     const reg=s.regime||{};
     const port=s.portfolio||{};
