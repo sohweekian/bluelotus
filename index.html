@@ -171,29 +171,65 @@ body{padding-top:52px !important;}
   setInterval(load,600000);
 })();
 </script>
-
-<div style="background:rgba(255,85,102,0.10);border-left:4px solid #ff5566;
-  border-radius:10px;padding:14px 20px;margin-bottom:14px;
-  display:flex;align-items:center;gap:24px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;">
-  <span style="font-size:22px;font-weight:700;color:#ff5566;letter-spacing:.05em">
-    🔴&nbsp;MILD RISK OFF&nbsp;(-1)
-  </span>
-  <span style="font-size:13px;color:#e6edf3;font-weight:600">
-    CIO:&nbsp;<span style="color:#ff5566">WAIT / HOLD</span>
-  </span>
-  <span style="font-size:11px;color:#8b93a7;margin-left:auto">
-    Cycle&nbsp;2026-06-12T09:03:43&nbsp;&nbsp;·&nbsp;&nbsp;
-    Integrity&nbsp;<span style="color:#4ade80;font-weight:700">PASS</span>
-  </span>
+<div id="fund-live" style="margin-bottom:4px">
+  <div style="background:rgba(13,16,32,.60);border-left:4px solid #444;border-radius:10px;
+    padding:14px 20px;margin-bottom:14px;font-family:JetBrains Mono,monospace;
+    color:#444;font-size:11px">Loading Fund Status…</div>
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px;opacity:.3">
+    <div style="background:rgba(13,16,32,.94);border:1px solid rgba(192,132,252,.10);border-radius:14px;padding:14px 16px;height:72px"></div><div style="background:rgba(13,16,32,.94);border:1px solid rgba(192,132,252,.10);border-radius:14px;padding:14px 16px;height:72px"></div><div style="background:rgba(13,16,32,.94);border:1px solid rgba(192,132,252,.10);border-radius:14px;padding:14px 16px;height:72px"></div><div style="background:rgba(13,16,32,.94);border:1px solid rgba(192,132,252,.10);border-radius:14px;padding:14px 16px;height:72px"></div><div style="background:rgba(13,16,32,.94);border:1px solid rgba(192,132,252,.10);border-radius:14px;padding:14px 16px;height:72px"></div>
+  </div>
 </div>
-
-<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px">
-  <div style="background:rgba(13,16,32,.94);border:1px solid rgba(192,132,252,.18);border-radius:14px;padding:14px 16px;"><div style="font-family:JetBrains Mono,monospace;color:#8b93a7;font-size:10px;letter-spacing:.16em;text-transform:uppercase">VIX</div><div style="font-family:JetBrains Mono,monospace;font-size:22px;font-weight:700;margin-top:6px;color:#4ade80">19.45</div><div style="color:#8b93a7;font-size:11px;margin-top:3px">Volatility Index</div></div>
-  <div style="background:rgba(13,16,32,.94);border:1px solid rgba(192,132,252,.18);border-radius:14px;padding:14px 16px;"><div style="font-family:JetBrains Mono,monospace;color:#8b93a7;font-size:10px;letter-spacing:.16em;text-transform:uppercase">Fear &amp; Greed</div><div style="font-family:JetBrains Mono,monospace;font-size:22px;font-weight:700;margin-top:6px;color:#ff5566">29.7/100</div><div style="color:#8b93a7;font-size:11px;margin-top:3px">FEAR</div></div>
-  <div style="background:rgba(13,16,32,.94);border:1px solid rgba(192,132,252,.18);border-radius:14px;padding:14px 16px;"><div style="font-family:JetBrains Mono,monospace;color:#8b93a7;font-size:10px;letter-spacing:.16em;text-transform:uppercase">Regime Score</div><div style="font-family:JetBrains Mono,monospace;font-size:22px;font-weight:700;margin-top:6px;color:#ff5566">-1</div><div style="color:#8b93a7;font-size:11px;margin-top:3px">MILD RISK OFF</div></div>
-  <div style="background:rgba(13,16,32,.94);border:1px solid rgba(192,132,252,.18);border-radius:14px;padding:14px 16px;"><div style="font-family:JetBrains Mono,monospace;color:#8b93a7;font-size:10px;letter-spacing:.16em;text-transform:uppercase">Portfolio</div><div style="font-family:JetBrains Mono,monospace;font-size:22px;font-weight:700;margin-top:6px;color:#ff5566">$45,642.49</div><div style="color:#8b93a7;font-size:11px;margin-top:3px">P/L $-2,042.95 (-4.3%)</div></div>
-  <div style="background:rgba(13,16,32,.94);border:1px solid rgba(192,132,252,.18);border-radius:14px;padding:14px 16px;"><div style="font-family:JetBrains Mono,monospace;color:#8b93a7;font-size:10px;letter-spacing:.16em;text-transform:uppercase">Cash Reserve</div><div style="font-family:JetBrains Mono,monospace;font-size:22px;font-weight:700;margin-top:6px;color:#fbbf24">18.2%</div><div style="color:#8b93a7;font-size:11px;margin-top:3px">$10,136.46</div></div>
-</div>
+<script>
+(function(){
+  var BASE="https://sohweekian.github.io/bluelotus";
+  function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+  function rgb(h){
+    h=h.replace('#','');
+    return parseInt(h.slice(0,2),16)+','+parseInt(h.slice(2,4),16)+','+parseInt(h.slice(4,6),16);
+  }
+  function kpi(label,value,sub,vc){
+    return '<div style="background:rgba(13,16,32,.94);border:1px solid rgba(192,132,252,.18);'
+      +'border-radius:14px;padding:14px 16px">'
+      +'<div style="font-family:JetBrains Mono,monospace;color:#8b93a7;font-size:10px;'
+      +'letter-spacing:.16em;text-transform:uppercase">'+esc(label)+'</div>'
+      +'<div style="font-family:JetBrains Mono,monospace;font-size:22px;font-weight:700;'
+      +'margin-top:6px;color:'+vc+'">'+esc(value)+'</div>'
+      +'<div style="color:#8b93a7;font-size:11px;margin-top:3px">'+esc(sub)+'</div>'
+      +'</div>';
+  }
+  function render(d){
+    var rc=d.regime_color||"#fbbf24";
+    var ic=d.integrity_color||"#4ade80";
+    var bar='<div style="background:rgba('+rgb(rc)+',0.10);border-left:4px solid '+rc+';'
+      +'border-radius:10px;padding:14px 20px;margin-bottom:14px;'
+      +'display:flex;align-items:center;gap:24px;flex-wrap:wrap;font-family:JetBrains Mono,monospace">'
+      +'<span style="font-size:22px;font-weight:700;color:'+rc+';letter-spacing:.05em">'
+      +esc(d.regime_emoji||"")+'&nbsp;'+esc(d.regime_short||"")+'&nbsp;('+esc(d.regime_score||"")+')</span>'
+      +'<span style="font-size:13px;color:#e6edf3;font-weight:600">CIO:&nbsp;'
+      +'<span style="color:'+rc+'">'+esc(d.cio_action||"")+'</span></span>'
+      +'<span style="font-size:11px;color:#8b93a7;margin-left:auto">'
+      +'Live&nbsp;·&nbsp;'+esc(d.generated_at||"")+'&nbsp;&nbsp;·&nbsp;&nbsp;'
+      +'Integrity&nbsp;<span style="color:'+ic+';font-weight:700">'+esc(d.integrity||"")+'</span>'
+      +'</span></div>';
+    var strip='<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px">'
+      +kpi("VIX",esc(d.vix||"N/A"),"Volatility Index",d.vix_alert?"#ff5566":"#4ade80")
+      +kpi("Fear &amp; Greed",(d.fg_score||"N/A")+"/100",esc(d.fg_label||""),d.fg_color||"#fbbf24")
+      +kpi("Regime Score",esc(d.regime_score||"N/A"),esc(d.regime_short||""),rc)
+      +kpi("Portfolio",esc(d.market_val_fmt||""),"P/L "+esc(d.pnl_fmt||""),d.pnl_color||"#e6edf3")
+      +kpi("Cash Reserve",esc(d.cash_pct_fmt||""),esc(d.cash_fmt||""),d.cash_color||"#e6edf3")
+      +'</div>';
+    document.getElementById("fund-live").innerHTML=bar+strip;
+  }
+  function load(){
+    fetch(BASE+"/data/portfolio_live.json?t="+Date.now())
+      .then(function(r){return r.json();})
+      .then(render)
+      .catch(function(){});
+  }
+  load();
+  setInterval(load,60000);
+})();
+</script>
 
 <div style="display:grid;grid-template-columns:1fr 1.5fr 1fr;gap:14px;margin-bottom:16px">
   
@@ -244,16 +280,6 @@ body{padding-top:52px !important;}
   
   <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">SPCE</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#4ade80">+21.7%</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">SPIR</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#4ade80">+20.9%</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">VSAT</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#4ade80">+18.2%</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">LUNR</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#4ade80">+15.5%</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">RDW</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#4ade80">+14.9%</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">BKSY</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#4ade80">+13.2%</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">KLAC</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#4ade80">+12.9%</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">LRCX</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#4ade80">+12.7%</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">ASTS</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#4ade80">+11.7%</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">MU</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#4ade80">+11.7%</span></div>
 </div>
-</div>
-
-<div style="margin-bottom:16px">
-  <div style="font-family:JetBrains Mono,monospace;font-size:11px;letter-spacing:.18em;
-    text-transform:uppercase;color:#c084fc;margin-bottom:8px;display:flex;
-    align-items:center;gap:10px">Event Correlation Engine
-    <span style="height:1px;background:rgba(192,132,252,.18);flex:1;display:block"></span>
-  </div>
-  <div style="font-family:JetBrains Mono,monospace;font-size:11px;color:#4ade80;margin-bottom:10px;letter-spacing:.08em">3/23 baskets RISK-OFF</div>
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px"><div style="background:rgba(13,16,32,.86);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><b style="color:#fff;font-size:13px">MACRO / FED</b><span style="color:#4ade80;font-family:JetBrains Mono,monospace;font-size:9px;letter-spacing:.08em">RISK-ON</span></div><p style="color:#bfc8d7;font-size:12px;margin:0 0 6px;line-height:1.5">LivePrices 202 tickers | VIX 19.4 (-0.5%) | Top movers: SPCE $5.73 (+21.7%) | SPIR $19.79 (+20.9%) | VSAT $72.71 (+18.2%) | LUNR…</p><div style="color:#8b93a7;font-size:11px;font-family:JetBrains Mono,monospace">Conf 95% &nbsp;·&nbsp; Basket <strong style="color:#4ade80">+1.6%</strong></div></div><div style="background:rgba(13,16,32,.86);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><b style="color:#fff;font-size:13px">MAG7 / BIG TECH</b><span style="color:#4ade80;font-family:JetBrains Mono,monospace;font-size:9px;letter-spacing:.08em">RISK-ON</span></div><p style="color:#bfc8d7;font-size:12px;margin:0 0 6px;line-height:1.5">[OPTIONS FLOW] NVDA: Unusual Large Options Trades: 6.12 03:42, a buy call options trade was recorded. Volume was 4607 con</p><div style="color:#8b93a7;font-size:11px;font-family:JetBrains Mono,monospace">Conf 95% &nbsp;·&nbsp; Basket <strong style="color:#4ade80">+1.0%</strong></div></div><div style="background:rgba(13,16,32,.86);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><b style="color:#fff;font-size:13px">GOLD / SAFE HAVEN</b><span style="color:#4ade80;font-family:JetBrains Mono,monospace;font-size:9px;letter-spacing:.08em">RISK-ON</span></div><p style="color:#bfc8d7;font-size:12px;margin:0 0 6px;line-height:1.5">Silver prices today, Wednesday, June 10, 2026: Down significantly following airstrikes, ahead of CPI report.</p><div style="color:#8b93a7;font-size:11px;font-family:JetBrains Mono,monospace">Conf 95% &nbsp;·&nbsp; Basket <strong style="color:#4ade80">+5.8%</strong></div></div><div style="background:rgba(13,16,32,.86);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><b style="color:#fff;font-size:13px">CONSUMER TECH / APPLE</b><span style="color:#ff5566;font-family:JetBrains Mono,monospace;font-size:9px;letter-spacing:.08em">RISK-OFF</span></div><p style="color:#bfc8d7;font-size:12px;margin:0 0 6px;line-height:1.5">Falcon 9 rocket set for launch with 29 Starlink satellites - WFTV. &lt;a href=&quot;https://news.google.com/rss/articles/CBMitAFBVV95cUxQ…</p><div style="color:#8b93a7;font-size:11px;font-family:JetBrains Mono,monospace">Conf 95% &nbsp;·&nbsp; Basket <strong style="color:#4ade80">+0.7%</strong></div></div></div>
 </div>
 <div id="thesis-live" style="margin-bottom:16px">
   <div style="background:rgba(13,16,32,.60);border:1px solid rgba(192,132,252,.14);
