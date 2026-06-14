@@ -135,8 +135,10 @@ body{padding-top:52px !important;}
     ["FT_World","Reuters_Commodities","WSJ_Technology"].forEach(function(sid){
       var s=srcs[sid]||{label:sid.replace(/_/g," "),items:[]};
       var items=s.items||[],content="";
+      var winMin=s.window_min||d.window_min||60;
+      var winLabel=winMin>=60?(winMin/60|0)+"h":winMin+"min";
       if(!items.length){
-        content='<div style="color:#444;font-size:11px;padding:4px 0;font-style:italic">No fresh news in last 60 min</div>';
+        content='<div style="color:#444;font-size:11px;padding:4px 0;font-style:italic">No fresh news in last '+winLabel+'</div>';
       }else{
         items.forEach(function(it){
           content+='<div style="display:flex;gap:14px;align-items:baseline;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)">'
