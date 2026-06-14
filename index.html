@@ -121,58 +121,6 @@ body{padding-top:52px !important;}
 </head>
 <body>
 <main class="shell">
-<div id="hl-live" style="margin-bottom:16px">
-  <div style="background:rgba(13,16,32,.60);border:1px solid rgba(192,132,252,.14);
-    border-radius:12px;padding:14px 24px;color:#444;font-family:JetBrains Mono,monospace;
-    font-size:10px;letter-spacing:.12em">&#9650;&nbsp;HEADLINES — loading…</div>
-</div>
-<script>
-(function(){
-  var BASE="https://sohweekian.github.io/bluelotus";
-  function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
-  function render(d){
-    var srcs=d.sources||{},gen=(d.generated_at||""),rows="";
-    ["FT_World","Reuters_Commodities","WSJ_Technology"].forEach(function(sid){
-      var s=srcs[sid]||{label:sid.replace(/_/g," "),items:[]};
-      var items=s.items||[],content="";
-      var winMin=s.window_min||d.window_min||60;
-      var winLabel=winMin>=60?(winMin/60|0)+"h":winMin+"min";
-      if(!items.length){
-        content='<div style="color:#444;font-size:11px;padding:4px 0;font-style:italic">No fresh news in last '+winLabel+'</div>';
-      }else{
-        items.forEach(function(it){
-          content+='<div style="display:flex;gap:14px;align-items:baseline;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)">'
-            +'<span style="color:#555;font-size:10px;white-space:nowrap;font-family:JetBrains Mono,monospace;flex-shrink:0">'+esc(it.ts||"")+'</span>'
-            +(it.url?'<a href="'+it.url+'" target="_blank" rel="noopener" style="color:#c9d1d9;font-size:13px;line-height:1.55;text-decoration:none"><span style="border-bottom:1px solid rgba(201,209,217,.25)">'+esc(it.text||"")+'</span></a>':'<span style="color:#c9d1d9;font-size:13px;line-height:1.55">'+esc(it.text||"")+'</span>')
-            +'</div>';
-        });
-      }
-      rows+='<div style="margin-bottom:16px">'
-        +'<div style="font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.18em;'
-        +'text-transform:uppercase;color:#c084fc;margin-bottom:8px;padding-bottom:5px;'
-        +'border-bottom:1px solid rgba(192,132,252,.30);font-weight:600">'+esc(s.label||sid.replace(/_/g," "))+' :</div>'
-        +content+'</div>';
-    });
-    document.getElementById("hl-live").innerHTML=
-      '<div style="background:rgba(13,16,32,.97);border:1px solid rgba(192,132,252,.22);'
-      +'border-radius:12px;padding:18px 24px;margin-bottom:16px">'
-      +'<div style="font-family:JetBrains Mono,monospace;font-size:11px;letter-spacing:.22em;'
-      +'text-transform:uppercase;color:#c084fc;margin-bottom:16px;display:flex;'
-      +'align-items:center;gap:12px;font-weight:700">&#9650;&nbsp;HEADLINES'
-      +'<span style="height:1px;background:rgba(192,132,252,.22);flex:1;display:block"></span>'
-      +'<span style="font-size:9px;color:#555;font-weight:400;letter-spacing:.08em">Live · '+esc(gen)+'</span>'
-      +'</div>'+rows+'</div>';
-  }
-  function load(){
-    fetch(BASE+"/data/headlines_live.json?t="+Date.now())
-      .then(function(r){return r.json();})
-      .then(render)
-      .catch(function(){});
-  }
-  load();
-  setInterval(load,600000);
-})();
-</script>
 <div id="fund-live" style="margin-bottom:4px">
   <div style="background:rgba(13,16,32,.60);border-left:4px solid #444;border-radius:10px;
     padding:14px 20px;margin-bottom:14px;font-family:JetBrains Mono,monospace;
