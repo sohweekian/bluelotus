@@ -263,6 +263,16 @@ body{padding-top:52px !important;}
     if(isNaN(f)||f===0)return{s:"--",c:"#8b93a7"};
     return{s:(f>=0?"+":"")+f.toFixed(1)+"%",c:f>=0?"#4ade80":"#ff5566"};
   }
+  /* ── Top Movers — independent 10-min fetch from thesis_evidence_live.json ── */
+  function load_movers(){
+    fetch(BASE+"/data/thesis_evidence_live.json?t="+Date.now())
+      .then(function(r){return r.json();})
+      .then(render_movers)
+      .catch(function(){});
+  }
+  load_movers();
+  setInterval(load_movers,600000);
+
   function render_movers(d){
     var el=document.getElementById("movers-live");
     if(!el)return;
@@ -367,7 +377,6 @@ body{padding-top:52px !important;}
       +'</div>';
     document.getElementById("fund-live").innerHTML=bar+strip;
     render_portfolio(d);
-    render_movers(d);
     render_threat_signals(d);
   }
   function load(){
