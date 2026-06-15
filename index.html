@@ -869,6 +869,8 @@ body{padding-top:52px !important;}
     var price=usd.price?usd.price.toFixed(3):"–";
     var chg1h=usd.change_1h_pct!==null&&usd.change_1h_pct!==undefined?fp(usd.change_1h_pct):"–";
     var chg5m=usd.change_5m_pct!==null&&usd.change_5m_pct!==undefined?fp(usd.change_5m_pct):"–";
+    var usdNote=usd.note||"";
+    var chg1hLabel=(usdNote?"~":"")+"1h";
     var breakdown=usd.breakdown_flag?"⚠ BREAKDOWN":"";
 
     /* 8 gate rows */
@@ -924,7 +926,7 @@ body{padding-top:52px !important;}
       +'<div><div style="font-size:9px;color:#555;letter-spacing:.1em">USD/JPY</div>'
       +'<div style="font-size:16px;font-weight:700;color:#e2e8f0">'+esc(price)+'</div></div>'
       +'<div><div style="font-size:9px;color:#555">5m</div><div style="font-size:12px;color:#cbd5e1">'+esc(chg5m)+'</div></div>'
-      +'<div><div style="font-size:9px;color:#555">1h</div><div style="font-size:12px;color:#cbd5e1">'+esc(chg1h)+'</div></div>'
+      +'<div><div style="font-size:9px;color:#555;title:"'+esc(usdNote)+'">'+esc(chg1hLabel)+'</div><div style="font-size:12px;color:#cbd5e1">'+esc(chg1h)+(usdNote?'<span style="font-size:9px;color:#555"> ~</span>':'')+'</div></div>'
       +'<div><div style="font-size:9px;color:#555">BOJ TONE</div><div style="font-size:12px">'+badge(tone,tone)+'</div></div>'
       +(breakdown?'<div style="margin-left:auto;font-size:11px;font-weight:700;color:#ff5566">'+esc(breakdown)+'</div>':'')
       +'</div>'
