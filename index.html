@@ -130,41 +130,14 @@ body{padding-top:52px !important;}
 (function(){
   var BASE="https://sohweekian.github.io/bluelotus";
   function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
-  /* ── Source logo badges — sized to match FT reference (28×22px) ── */
+  /* ── Source logo badges — generated from news_probe_sources.json (never hardcoded) ── */
   var LOGOS={
-    'FT':
-      '<span style="display:inline-flex;align-items:center;justify-content:center;'
-      +'background:#CC6B4A;width:28px;height:22px;border-radius:3px;'
-      +'font-family:Georgia,serif;font-weight:700;color:#fff;'
-      +'font-size:12px;letter-spacing:0.02em;flex-shrink:0">FT</span>',
-    'WSJ':
-      '<span style="display:inline-flex;align-items:center;justify-content:center;'
-      +'background:#003D6B;height:22px;border-radius:3px;padding:0 7px;'
-      +'font-family:Arial,Helvetica,sans-serif;font-weight:700;color:#fff;'
-      +'font-size:11px;letter-spacing:0.08em;flex-shrink:0">WSJ</span>',
-    'Bloomberg':
-      '<span style="display:inline-flex;align-items:center;justify-content:center;'
-      +'background:#1B4F8A;width:22px;height:22px;border-radius:50%;'
-      +'font-family:Arial,sans-serif;font-weight:700;color:#fff;'
-      +'font-size:14px;flex-shrink:0">B</span>',
-    'NikkeiAsia':
-      '<span style="display:inline-flex;align-items:center;justify-content:center;'
-      +'background:#162040;height:22px;border-radius:3px;padding:0 7px;gap:4px;flex-shrink:0">'
-      +'<span style="font-family:Arial,Helvetica,sans-serif;font-weight:700;color:#fff;'
-      +'font-size:9px;letter-spacing:0.08em">NIKKEI</span>'
-      +'<span style="font-family:Arial,Helvetica,sans-serif;font-weight:400;color:#F0C840;'
-      +'font-size:9px;letter-spacing:0.04em">Asia</span>'
-      +'</span>',
-    'SCMP':
-      '<span style="display:inline-flex;align-items:center;gap:1px;flex-shrink:0">'
-      +'<span style="display:inline-flex;align-items:center;justify-content:center;'
-      +'background:#C9A832;width:22px;height:22px;border-radius:2px 0 0 2px;'
-      +'font-family:Arial,sans-serif;font-weight:700;color:#001533;font-size:9px">SC</span>'
-      +'<span style="display:inline-flex;align-items:center;justify-content:center;'
-      +'background:#001533;width:22px;height:22px;border-radius:0 2px 2px 0;'
-      +'font-family:Arial,sans-serif;font-weight:700;color:#C9A832;font-size:9px">MP</span>'
-      +'</span>'
-  };
+  'FT': '<span style="display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:#CC6B4A;color:#fff;font-family:Georgia,serif;font-size:12px;font-weight:700;letter-spacing:0.02em;width:28px;height:22px;border-radius:3px;">FT</span>',
+  'WSJ': '<span style="display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:#003D6B;color:#fff;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.08em;height:22px;padding:0 7px;border-radius:3px;">WSJ</span>',
+  'Bloomberg': '<span style="display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:#1B4F8A;color:#fff;font-family:Arial,sans-serif;font-size:14px;font-weight:700;width:22px;height:22px;border-radius:50%;">B</span>',
+  'SCMP': '<span style="display:inline-flex;align-items:center;gap:1px;flex-shrink:0;"><span style="display:inline-flex;align-items:center;justify-content:center;background:#C9A832;color:#001533;width:22px;height:22px;border-radius:2px 0 0 2px;font-family:Arial,sans-serif;font-weight:700;font-size:9px;flex-shrink:0;">SC</span><span style="display:inline-flex;align-items:center;justify-content:center;background:#001533;color:#C9A832;width:22px;height:22px;border-radius:0 2px 2px 0;font-family:Arial,sans-serif;font-weight:700;font-size:9px;flex-shrink:0;">MP</span></span>',
+  'NikkeiAsia': '<span style="display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:#162040;height:22px;border-radius:3px;padding:0 7px;gap:4px;"><span style="font-family:Arial,Helvetica,sans-serif;font-weight:700;color:#fff;font-size:9px;letter-spacing:0.08em;">NIKKEI</span><span style="font-family:Arial,Helvetica,sans-serif;font-weight:400;color:#F0C840;font-size:9px;">Asia</span></span>'
+};
   function render(d){
     var srcs=d.sources||{},gen=(d.generated_at||""),order=(d.source_order||Object.keys(srcs)),rows="";
     var freshMin=d.freshness_window_minutes||60;
