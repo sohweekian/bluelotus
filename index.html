@@ -429,8 +429,10 @@ body{padding-top:52px !important;}
     "WARNING":"#ff5566","FAILING":"#ef4444"
   };
   var DIR_COLOR={
-    "RISK ON":"#4ade80","RISK-ON":"#4ade80",
-    "RISK OFF":"#ff5566","RISK-OFF":"#ff5566",
+    "RISK ON":"#4ade80","RISK-ON":"#4ade80","RISK_ON":"#4ade80",
+    "RISK OFF":"#ff5566","RISK-OFF":"#ff5566","RISK_OFF":"#ff5566",
+    "SELECTIVE RISK ON":"#86efac","SELECTIVE_RISK_ON":"#86efac",
+    "SELECTIVE RISK OFF":"#fca5a5","SELECTIVE_RISK_OFF":"#fca5a5",
     "WATCH":"#fbbf24","NEUTRAL":"#94a3b8"
   };
   var CHECK_NAMES={
@@ -514,37 +516,62 @@ body{padding-top:52px !important;}
       +'</div>';
 
     // ── Event Correlations table ─────────────────────────────────────────
-    var rows=d.event_correlations||[], corr_ts=d.correlations_as_of||"";
+    var rows=d.event_correlations||[], corr_ts=d.generated_at||d.correlations_as_of||"";
     var corrHtml="";
     if(rows.length){
       var thead='<table style="width:100%;border-collapse:collapse;font-size:12px">'
         +'<thead><tr style="color:#94a3b8;border-bottom:1px solid rgba(255,255,255,.08)">'
-        +'<th style="text-align:left;padding:4px 8px;font-weight:500">THEME</th>'
-        +'<th style="text-align:center;padding:4px 8px;font-weight:500">DIRECTION</th>'
-        +'<th style="text-align:center;padding:4px 8px;font-weight:500">BASKET MOVE</th>'
-        +'<th style="text-align:left;padding:4px 8px;font-weight:500">EVIDENCE</th>'
-        +'<th style="text-align:center;padding:4px 8px;font-weight:500">TIER</th>'
+        +'<th style="text-align:left;padding:4px 8px;font-weight:500;white-space:nowrap">THEME</th>'
+        +'<th style="text-align:center;padding:4px 8px;font-weight:500;white-space:nowrap">DIRECTION</th>'
+        +'<th style="text-align:center;padding:4px 8px;font-weight:500;white-space:nowrap">AVG MOVE</th>'
+        +'<th style="text-align:left;padding:4px 8px;font-weight:500">BASKET TICKERS &amp; LOGIC</th>'
+        +'<th style="text-align:center;padding:4px 8px;font-weight:500;white-space:nowrap">TIER</th>'
         +'</tr></thead><tbody>';
       var tbody="";
       rows.slice(0,12).forEach(function(r){
-        var dir=(r.direction||"WATCH").toUpperCase().replace("-"," ");
-        var dc=DIR_COLOR[dir]||"#94a3b8";
+        // Normalise direction — handle RISK_ON, RISK-ON, SELECTIVE_RISK_OFF etc.
+        var dirRaw=(r.direction||"WATCH").toUpperCase();
+        var dc=DIR_COLOR[dirRaw]||"#94a3b8";
+        var dirLabel=dirRaw.replace(/_/g," ");
         var bm=r.basket_move!=null?((r.basket_move>=0?"+":"")+parseFloat(r.basket_move).toFixed(2)+"%"):"—";
-        var why=String(r.why||r.evidence||"").substring(0,80);
-        var tier=String(r.evidence_tier_label||r.confidence||"");
+        var bmCol=parseFloat(r.basket_move||0)>=0?"#4ade80":"#ff5566";
+        var tier=String(r.tier||r.evidence_tier_label||r.confidence||"");
+
+        // Build ticker chip evidence
+        var evHtml="";
+        if(r.tickers&&r.tickers.length){
+          var chips="";
+          r.tickers.slice(0,6).forEach(function(tk){
+            var chg=parseFloat(tk.chg||0);
+            var col=chg>0.05?"#4ade80":chg<-0.05?"#ff5566":"#8b93a7";
+            var sign=chg>=0?"+":"";
+            chips+='<span style="display:inline-block;margin:1px 5px 1px 0;'
+              +'white-space:nowrap;font-size:10px;font-family:JetBrains Mono,monospace;'
+              +'color:'+col+'">'
+              +esc(tk.t)+'&nbsp;<b>'+sign+chg.toFixed(2)+'%</b></span>';
+          });
+          var qual=r.qualifying_rule?
+            '<div style="font-size:9px;color:#555;margin-top:3px;letter-spacing:.05em">'+esc(r.qualifying_rule)+'</div>':"";
+          evHtml=chips+qual;
+        } else {
+          // Fallback: show old why/evidence text for pipeline-sourced rows
+          evHtml='<span style="font-size:11px;color:#555">'+esc(String(r.why||r.evidence||"").substring(0,70))+'</span>';
+        }
+
         tbody+='<tr style="border-bottom:1px solid rgba(255,255,255,.04);color:#e2e8f0">'
-          +'<td style="padding:5px 8px">'+esc(r.theme||"")+'</td>'
-          +'<td style="padding:5px 8px;text-align:center">'+badge(dir,dc)+'</td>'
-          +'<td style="padding:5px 8px;text-align:center;color:#cbd5e1">'+esc(bm)+'</td>'
-          +'<td style="padding:5px 8px;color:#94a3b8;font-size:11px">'+esc(why)+'</td>'
+          +'<td style="padding:5px 8px;white-space:nowrap;font-weight:500">'+esc(r.theme||"")+'</td>'
+          +'<td style="padding:5px 8px;text-align:center">'+badge(dirLabel,dc)+'</td>'
+          +'<td style="padding:5px 8px;text-align:center;color:'+bmCol+';font-weight:600;'
+          +'font-family:JetBrains Mono,monospace">'+esc(bm)+'</td>'
+          +'<td style="padding:5px 8px">'+evHtml+'</td>'
           +'<td style="padding:5px 8px;text-align:center;color:#555;font-size:10px;'
-          +'font-family:JetBrains Mono,monospace">'+esc(tier)+'</td>'
+          +'font-family:JetBrains Mono,monospace;white-space:nowrap">'+esc(tier)+'</td>'
           +'</tr>';
       });
       corrHtml='<div style="margin-top:10px">'
         +'<div style="font-family:JetBrains Mono,monospace;font-size:10px;color:#555;'
         +'letter-spacing:.10em;margin-bottom:6px">S3 · THESIS EVIDENCE'
-        +(corr_ts?' <span style="color:#333">· as-of '+esc(corr_ts)+'</span>':"")+'</div>'
+        +(corr_ts?' <span style="color:#444;font-size:9px">· '+esc(corr_ts)+'</span>':"")+'</div>'
         +thead+tbody+'</tbody></table></div>';
     }
 
@@ -579,13 +606,15 @@ body{padding-top:52px !important;}
       +' → <span style="color:#ef4444">LOW</span>'
       +'</div>'
       +'<div>'
-      +'<span style="color:#94a3b8;font-weight:600">Evidence Tier Qualification</span><br>'
-      +'<span style="color:#4ade80">T1 CONFIRMED</span>&nbsp;'
-      +'≥3 independent source layers corroborate the theme (earnings + RSS + macro catalyst).<br>'
-      +'<span style="color:#fbbf24">T2 PROVISIONAL</span>&nbsp;'
-      +'1–2 layers, model-corroborated, awaiting cross-asset confirmation.<br>'
-      +'<span style="color:#ff5566">T3 INFERRED</span>&nbsp;'
-      +'Model-derived from macro context; no direct price confirmation yet.'
+      +'<span style="color:#94a3b8;font-weight:600">ECE Basket Tickers</span>&nbsp;'
+      +'12 themes, each with a fixed ticker basket (4–7 names). '
+      +'Basket move = average % change across available tickers vs prior close (yfinance, 10-min refresh).<br>'
+      +'Direction rule: avg ≥+0.5% &amp; ≥60% pos → <span style="color:#4ade80">RISK ON</span> · '
+      +'avg ≥+0.1% → <span style="color:#86efac">SELECTIVE RISK ON</span> · '
+      +'avg &lt;-0.5% &amp; ≤40% pos → <span style="color:#ff5566">RISK OFF</span> · '
+      +'avg &lt;-0.1% → <span style="color:#fca5a5">SELECTIVE RISK OFF</span> · else NEUTRAL.<br>'
+      +'Qualifying logic (N/M pos · avg X%) shown below each ticker row. '
+      +'Tickers sorted by absolute move (largest first). Fully independent of V2 pipeline.'
       +'</div>'
       +'</div>'
       +'</details>';
