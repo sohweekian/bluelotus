@@ -611,6 +611,102 @@ body{padding-top:52px !important;}
   setInterval(load, 600000);
 })();
 </script>
+<div id="warsh-live" style="margin-bottom:16px">
+  <div style="background:rgba(13,16,32,.60);border:1px solid rgba(251,191,36,.12);
+    border-radius:12px;padding:14px 24px;color:#444;font-family:JetBrains Mono,monospace;
+    font-size:10px;letter-spacing:.12em">S4 · HAWKISH WARSH THESIS — loading…</div>
+</div>
+<script>
+(function(){
+  var BASE="https://sohweekian.github.io/bluelotus";
+  function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+  var STATUS_COLOR={
+    "CONFIRMING":"#4ade80","PARTIAL_CONFIRMATION":"#fbbf24","MIXED":"#fbbf24",
+    "WARNING":"#f97316","FAILING":"#ff5566","INSUFFICIENT_DATA":"#94a3b8"
+  };
+  var GATE_COLOR={"PASS":"#4ade80","WATCH":"#fbbf24","FAIL":"#ff5566","HAWKISH":"#4ade80","MIXED":"#fbbf24","DOVISH":"#ff5566","LOW":"#4ade80","ACTIVE":"#f97316","SEVERE":"#ff5566","CALM":"#4ade80","STRESS":"#ff5566","UNKNOWN":"#94a3b8"};
+  function gateChip(label,val){
+    val=String(val||"–"); var c=GATE_COLOR[val.toUpperCase()]||"#94a3b8";
+    return '<span style="display:inline-flex;flex-direction:column;align-items:center;gap:2px;'
+      +'background:rgba(13,16,32,.80);border:1px solid rgba(255,255,255,.10);'
+      +'border-radius:8px;padding:6px 12px;min-width:72px">'
+      +'<span style="font-size:9px;color:#8b93a7;letter-spacing:.10em;text-transform:uppercase">'+esc(label)+'</span>'
+      +'<span style="font-size:12px;font-weight:700;color:'+c+'">'+esc(val)+'</span>'
+      +'</span>';
+  }
+  function render(d){
+    var status=d.status||"INSUFFICIENT_DATA";
+    var score=(d.score!=null)?d.score:"–";
+    var sc=STATUS_COLOR[status]||"#94a3b8";
+    var gen=d.generated_at||"";
+    var fedTone=((d.fed_tone)||{}).status||"UNKNOWN";
+    var fedScore=(((d.fed_tone)||{}).score||0);
+    var fedEv=(((d.fed_tone)||{}).evidence||[]).slice(0,2).join(" · ")||"";
+    var banks=((d.bank_confirmation)||{}).status||"–";
+    var goldMiners=((d.gold_miner_confirmation)||{}).status||"–";
+    var highBeta=((d.high_beta_risk)||{}).status||"–";
+    var yenCarry=((d.yen_carry_risk)||{}).status||"–";
+    var credit=((d.credit_stress)||{}).status||"–";
+    var cio=d.cio_action||"–";
+    var notes=(d.notes||[]).slice(0,3);
+    var blockedHtml="";
+    if((d.blocked_actions||[]).length){
+      blockedHtml='<div style="margin-top:8px;font-size:10px;color:#ff5566;font-family:JetBrains Mono,monospace;letter-spacing:.08em">'
+        +'⚠ BLOCKED: '+(d.blocked_actions.join(" · "))+'</div>';
+    }
+    var notesHtml="";
+    if(notes.length){
+      notesHtml='<div style="margin-top:8px;font-size:10px;color:#8b93a7;line-height:1.6">'
+        +notes.map(function(n){return'· '+esc(n);}).join('<br>')+'</div>';
+    }
+    var statusLabel=status.replace(/_/g," ");
+    var html='<div style="background:rgba(13,16,32,.94);border:1px solid rgba(251,191,36,.22);'
+      +'border-radius:12px;padding:18px 22px;margin-bottom:16px">'
+      +'<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">'
+      +'<span style="font-family:JetBrains Mono,monospace;font-size:11px;letter-spacing:.18em;'
+      +'text-transform:uppercase;color:#fbbf24;font-weight:700">S4 · HAWKISH WARSH THESIS</span>'
+      +'<span style="height:1px;background:rgba(251,191,36,.20);flex:1;display:block"></span>'
+      +'<span style="font-size:9px;color:#555;font-family:JetBrains Mono,monospace;letter-spacing:.08em">'+esc(gen)+'</span>'
+      +'</div>'
+      +'<div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;flex-wrap:wrap">'
+      +'<div style="display:flex;flex-direction:column;gap:2px">'
+      +'<span style="font-size:22px;font-weight:700;color:'+sc+';line-height:1">'+esc(statusLabel)+'</span>'
+      +'<span style="font-size:11px;color:#8b93a7;font-family:JetBrains Mono,monospace">Score: <b style="color:'+sc+'">'+score+'</b> / 100</span>'
+      +'</div>'
+      +'<div style="margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:4px">'
+      +'<span style="font-size:10px;color:#8b93a7;font-family:JetBrains Mono,monospace;letter-spacing:.08em">CIO ACTION</span>'
+      +'<span style="font-size:14px;font-weight:700;color:#e2e8f0;letter-spacing:.04em">'+esc(cio)+'</span>'
+      +'</div></div>'
+      +'<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px">'
+      +gateChip("Fed Tone",fedTone)
+      +gateChip("Banks",banks)
+      +gateChip("Gold Miners",goldMiners)
+      +gateChip("High Beta",highBeta)
+      +gateChip("Yen Carry",yenCarry)
+      +gateChip("Credit",credit)
+      +'</div>';
+    if(fedEv){
+      html+='<div style="font-size:10px;color:#555;font-family:JetBrains Mono,monospace;'
+        +'letter-spacing:.06em;margin-top:4px">📡 '+esc(fedEv)+'</div>';
+    }
+    html+=blockedHtml+notesHtml+'</div>';
+    document.getElementById("warsh-live").innerHTML=html;
+  }
+  function load(){
+    fetch(BASE+"/data/warsh_thesis_live.json?t="+Date.now())
+      .then(function(r){return r.json();})
+      .then(render)
+      .catch(function(e){
+        document.getElementById("warsh-live").innerHTML=
+          '<div style="background:rgba(13,16,32,.60);border:1px solid rgba(251,191,36,.12);'
+          +'border-radius:12px;padding:14px 24px;color:#444;font-family:JetBrains Mono,monospace;'
+          +'font-size:10px">S4 · HAWKISH WARSH THESIS — data pending (warsh_thesis_probe_daemon not running?)</div>';
+      });
+  }
+  load();
+  setInterval(load, 600000);
+})();
+</script>
 
 <div style="font-family:JetBrains Mono,monospace;font-size:10px;color:#555;padding:10px 0 4px;border-top:1px solid rgba(255,255,255,.05);letter-spacing:.06em">System Health&nbsp;·&nbsp;Sources 76/52&nbsp;·&nbsp;Signals 69589&nbsp;·&nbsp;Integrity <span style="color:#4ade80">PASS</span>&nbsp;·&nbsp;<a href="https://sohweekian.github.io/bluelotus/chief-strategist.html" style="color:#c084fc;text-decoration:none">Full Strategist Report &rarr;</a></div>
 </main>
