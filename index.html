@@ -258,8 +258,9 @@ body{padding-top:52px !important;}
       +'</tr>'+rows+'</table>'+footer;
   }
   function fmt_chg(v){
-    if(v===null||v===undefined)return{s:"--",c:"#8b93a7"};
+    if(v===null||v===undefined||v===0||v==="0")return{s:"--",c:"#8b93a7"};
     var f=parseFloat(v);
+    if(isNaN(f)||f===0)return{s:"--",c:"#8b93a7"};
     return{s:(f>=0?"+":"")+f.toFixed(1)+"%",c:f>=0?"#4ade80":"#ff5566"};
   }
   function render_movers(d){
@@ -272,7 +273,7 @@ body{padding-top:52px !important;}
     var ref_parts="";
     for(var i=0;i<refs.length;i++){
       var fc=fmt_chg(refs[i][1]);
-      if(refs[i][1]===null||refs[i][1]===undefined)continue;
+      if(fc.s==="--")continue;  /* skip if no data (market closed or 0) */
       ref_parts+='<span style="color:'+fc.c+'">'+esc(refs[i][0])+'&nbsp;'+esc(fc.s)+'</span>';
     }
     var ref_bar=ref_parts?('<div style="font-size:10px;font-family:JetBrains Mono,monospace;'
@@ -359,7 +360,7 @@ body{padding-top:52px !important;}
       +'</span></div>';
     var strip='<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px">'
       +kpi("VIX",esc(d.vix||"N/A"),"Volatility Index",d.vix_alert?"#ff5566":"#4ade80")
-      +kpi("Fear &amp; Greed",(d.fg_score||"N/A")+"/100",esc(d.fg_label||""),d.fg_color||"#fbbf24")
+      +kpi("Fear & Greed",(d.fg_score||"N/A")+"/100",esc(d.fg_label||""),d.fg_color||"#fbbf24")
       +kpi("Regime Score",esc(d.regime_score||"N/A"),esc(d.regime_short||""),rc)
       +kpi("Portfolio",esc(d.market_val_fmt||""),"P/L "+esc(d.pnl_fmt||""),d.pnl_color||"#e6edf3")
       +kpi("Cash Reserve",esc(d.cash_pct_fmt||""),esc(d.cash_fmt||""),d.cash_color||"#e6edf3")
