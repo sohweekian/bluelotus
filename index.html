@@ -124,45 +124,33 @@ body{padding-top:52px !important;}
 <div id="hl-live" style="margin-bottom:16px">
   <div style="background:rgba(13,16,32,.60);border:1px solid rgba(192,132,252,.14);
     border-radius:12px;padding:14px 24px;color:#444;font-family:JetBrains Mono,monospace;
-    font-size:10px;letter-spacing:.12em">🪷&nbsp;HEADLINES — loading…</div>
+    font-size:10px;letter-spacing:.12em">&#9650;&nbsp;HEADLINES — loading…</div>
 </div>
 <script>
 (function(){
   var BASE="https://sohweekian.github.io/bluelotus";
   function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
-  /* ── Source logo badges — generated from news_probe_sources.json (never hardcoded) ── */
-  var LOGOS={
-  'FT': '<span style="display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:#CC6B4A;color:#fff;font-family:Georgia,serif;font-size:12px;font-weight:700;letter-spacing:0.02em;width:28px;height:22px;border-radius:3px;">FT</span>',
-  'WSJ': '<span style="display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:#003D6B;color:#fff;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.08em;height:22px;padding:0 7px;border-radius:3px;">WSJ</span>',
-  'Bloomberg': '<span style="display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:#1B4F8A;color:#fff;font-family:Arial,sans-serif;font-size:14px;font-weight:700;width:22px;height:22px;border-radius:50%;">B</span>',
-  'SCMP': '<span style="display:inline-flex;align-items:center;gap:1px;flex-shrink:0;"><span style="display:inline-flex;align-items:center;justify-content:center;background:#C9A832;color:#001533;width:22px;height:22px;border-radius:2px 0 0 2px;font-family:Arial,sans-serif;font-weight:700;font-size:9px;flex-shrink:0;">SC</span><span style="display:inline-flex;align-items:center;justify-content:center;background:#001533;color:#C9A832;width:22px;height:22px;border-radius:0 2px 2px 0;font-family:Arial,sans-serif;font-weight:700;font-size:9px;flex-shrink:0;">MP</span></span>',
-  'NikkeiAsia': '<span style="display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:#162040;height:22px;border-radius:3px;padding:0 7px;gap:4px;"><span style="font-family:Arial,Helvetica,sans-serif;font-weight:700;color:#fff;font-size:9px;letter-spacing:0.08em;">NIKKEI</span><span style="font-family:Arial,Helvetica,sans-serif;font-weight:400;color:#F0C840;font-size:9px;">Asia</span></span>'
-};
   function render(d){
-    var srcs=d.sources||{},gen=(d.generated_at||""),order=(d.source_order||Object.keys(srcs)),rows="";
-    var freshMin=d.freshness_window_minutes||60;
-    var freshLabel=freshMin>=60?(freshMin/60|0)+"h":freshMin+"min";
-    order.forEach(function(sid){
-      var s=srcs[sid]||{label:sid,items:[]};
+    var srcs=d.sources||{},gen=(d.generated_at||""),rows="";
+    ["FT_World","Reuters_Commodities","WSJ_Technology"].forEach(function(sid){
+      var s=srcs[sid]||{label:sid.replace(/_/g," "),items:[]};
       var items=s.items||[],content="";
+      var winMin=s.window_min||d.window_min||60;
+      var winLabel=winMin>=60?(winMin/60|0)+"h":winMin+"min";
       if(!items.length){
-        content='<div style="color:#444;font-size:11px;padding:4px 0;font-style:italic">No fresh news in last '+freshLabel+'</div>';
+        content='<div style="color:#444;font-size:11px;padding:4px 0;font-style:italic">No fresh news in last '+winLabel+'</div>';
       }else{
         items.forEach(function(it){
           content+='<div style="display:flex;gap:14px;align-items:baseline;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)">'
             +'<span style="color:#555;font-size:10px;white-space:nowrap;font-family:JetBrains Mono,monospace;flex-shrink:0">'+esc(it.ts||"")+'</span>'
-            +(it.url?'<a href="'+esc(it.url)+'" target="_blank" rel="noopener" style="color:#c9d1d9;font-size:13px;line-height:1.55;text-decoration:none"><span style="border-bottom:1px solid rgba(201,209,217,.25)">'+esc(it.text||"")+'</span></a>':'<span style="color:#c9d1d9;font-size:13px;line-height:1.55">'+esc(it.text||"")+'</span>')
+            +(it.url?'<a href="'+it.url+'" target="_blank" rel="noopener" style="color:#c9d1d9;font-size:13px;line-height:1.55;text-decoration:none"><span style="border-bottom:1px solid rgba(201,209,217,.25)">'+esc(it.text||"")+'</span></a>':'<span style="color:#c9d1d9;font-size:13px;line-height:1.55">'+esc(it.text||"")+'</span>')
             +'</div>';
         });
       }
-      var logoBadge=LOGOS[sid]||'';
-      var labelInner=logoBadge
-        +'<span style="font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.18em;'
-        +'text-transform:uppercase;color:#c084fc;font-weight:600;margin-left:'+(logoBadge?'9px':'0')+'">'+esc(s.label||sid)+'</span>';
       rows+='<div style="margin-bottom:16px">'
-        +'<div style="display:flex;align-items:center;margin-bottom:8px;padding-bottom:6px;'
-        +'border-bottom:1px solid rgba(192,132,252,.30)">'
-        +labelInner+'</div>'
+        +'<div style="font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.18em;'
+        +'text-transform:uppercase;color:#c084fc;margin-bottom:8px;padding-bottom:5px;'
+        +'border-bottom:1px solid rgba(192,132,252,.30);font-weight:600">'+esc(s.label||sid.replace(/_/g," "))+' :</div>'
         +content+'</div>';
     });
     document.getElementById("hl-live").innerHTML=
@@ -170,9 +158,9 @@ body{padding-top:52px !important;}
       +'border-radius:12px;padding:18px 24px;margin-bottom:16px">'
       +'<div style="font-family:JetBrains Mono,monospace;font-size:11px;letter-spacing:.22em;'
       +'text-transform:uppercase;color:#c084fc;margin-bottom:16px;display:flex;'
-      +'align-items:center;gap:12px;font-weight:700">🪷&nbsp;HEADLINES'
+      +'align-items:center;gap:12px;font-weight:700">&#9650;&nbsp;HEADLINES'
       +'<span style="height:1px;background:rgba(192,132,252,.22);flex:1;display:block"></span>'
-      +'<span style="font-size:9px;color:#555;font-weight:400;letter-spacing:.08em">'+freshLabel+' window · '+esc(gen)+'</span>'
+      +'<span style="font-size:9px;color:#555;font-weight:400;letter-spacing:.08em">Live · '+esc(gen)+'</span>'
       +'</div>'+rows+'</div>';
   }
   function load(){
@@ -211,155 +199,41 @@ body{padding-top:52px !important;}
       +'<div style="color:#8b93a7;font-size:11px;margin-top:3px">'+esc(sub)+'</div>'
       +'</div>';
   }
-  var TH_COLORS={"GOLD":"#c9a84c","AI":"#4a9eff","QUANTUM":"#c084fc","BANKS":"#4ade80","SILVER":"#aab4be","WATCH":"#8b93a7"};
-  function pcolor(v){return v>=0?"#4ade80":"#ff5566";}
-  function render_portfolio(d){
-    var el=document.getElementById("portfolio-table-live");
-    if(!el)return;
-    var positions=d.positions||[];
-    if(!positions.length){el.innerHTML='<div style="color:#8b93a7;font-size:12px;padding:8px 0">No positions.</div>';return;}
-    var ts=(d.portfolio_updated_at||"").slice(11,16);
-    var rows="";
-    for(var i=0;i<positions.length;i++){
-      var p=positions[i];
-      var th=p.thesis||"WATCH";
-      var thc=TH_COLORS[th]||"#8b93a7";
-      var chg=p.chg_pct;
-      var chgStr=(!chg&&chg!==0)?"--":((chg>=0?"+":"")+chg.toFixed(1)+"%");
-      var chgC=(!chg&&chg!==0)?"#8b93a7":pcolor(chg);
-      var unrl=p.unrealized||0;var unrlp=p.unrealized_p||0;var unrlC=pcolor(unrl);
-      rows+='<tr>'
-        +'<td style="color:#c084fc;font-weight:700;padding:5px 6px">'+esc(p.ticker)+'</td>'
-        +'<td style="color:#8b93a7;padding:5px 6px">'+(p.qty||0).toFixed(0)+'</td>'
-        +'<td style="padding:5px 6px">$'+(p.price||0).toFixed(2)+'</td>'
-        +'<td style="color:'+chgC+';font-family:JetBrains Mono,monospace;padding:5px 6px">'+chgStr+'</td>'
-        +'<td style="color:'+unrlC+';font-family:JetBrains Mono,monospace;padding:5px 6px">'
-        +(unrl>=0?"+$":"-$")+Math.abs(unrl).toFixed(2)+'</td>'
-        +'<td style="padding:5px 6px"><span style="background:rgba('+rgb(thc)+',.15);color:'+thc
-        +';font-size:9px;padding:2px 6px;border-radius:4px;font-family:JetBrains Mono,monospace;letter-spacing:.08em">'+esc(th)+'</span></td>'
-        +'</tr>';
-    }
-    var cpc=d.cash_color||"#e6edf3";var plc=d.pnl_color||"#e6edf3";
-    var footer='<div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.06);'
-      +'display:flex;gap:20px;font-family:JetBrains Mono,monospace;font-size:11px;flex-wrap:wrap">'
-      +'<span style="color:#8b93a7">MKT <span style="color:#e6edf3">'+esc(d.market_val_fmt||"")+'</span></span>'
-      +'<span style="color:#8b93a7">CASH <span style="color:'+cpc+'">'+esc(d.cash_fmt||"")+' ('+((d.cash_pct||0).toFixed(0))+'%)</span></span>'
-      +'<span style="color:#8b93a7">P/L <span style="color:'+plc+'">'+esc(d.pnl_fmt||"")+'</span></span>'
-      +(ts?'<span style="color:#555;margin-left:auto;font-size:9px;letter-spacing:.1em">LIVE · '+esc(ts)+' SGT</span>':"")
-      +'</div>';
-    el.innerHTML='<table style="width:100%;border-collapse:collapse;font-family:JetBrains Mono,monospace;font-size:12px">'
-      +'<tr style="border-bottom:1px solid rgba(192,132,252,.2)">'
-      +'<th style="color:#c084fc;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:4px 6px 8px;text-align:left">Ticker</th>'
-      +'<th style="color:#c084fc;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:4px 6px 8px;text-align:left">Qty</th>'
-      +'<th style="color:#c084fc;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:4px 6px 8px;text-align:left">Price</th>'
-      +'<th style="color:#c084fc;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:4px 6px 8px;text-align:left">Day</th>'
-      +'<th style="color:#c084fc;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:4px 6px 8px;text-align:left">P/L</th>'
-      +'<th style="color:#c084fc;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:4px 6px 8px;text-align:left">Thesis</th>'
-      +'</tr>'+rows+'</table>'+footer;
-  }
-  function fmt_chg(v){
-    if(v===null||v===undefined||v===0||v==="0")return{s:"--",c:"#8b93a7"};
-    var f=parseFloat(v);
-    if(isNaN(f)||f===0)return{s:"--",c:"#8b93a7"};
-    return{s:(f>=0?"+":"")+f.toFixed(1)+"%",c:f>=0?"#4ade80":"#ff5566"};
-  }
-  function render_threat_signals(d){
-    var el=document.getElementById("threat-signals-live");
-    if(!el)return;
-    var ms=d.market_signals||{};
-    var fg=d.fg_score;var fgl=d.fg_label||"";var fgc=d.fg_color||"#fbbf24";
-    var sc=ms.sentiment_color||"#94a3b8";var sg=ms.sentiment||"";
-    var da=ms.defensive_avg;var ga=ms.growth_avg;
-    var html="";
-    /* F&G row */
-    if(fg!==null&&fg!==undefined){
-      html+='<div style="display:flex;align-items:center;gap:8px;padding:7px 0;'
-        +'border-bottom:1px solid rgba(255,255,255,.05);">'
-        +'<span style="font-size:13px;flex-shrink:0">📊</span>'
-        +'<span style="font-size:12px;color:#ccd5e3;line-height:1.5">'
-        +'Fear &amp; Greed <span style="color:'+fgc+';font-weight:700">'+esc(fg)+'/100 '+esc(fgl)+'</span></span>'
-        +'</div>';
-    }
-    /* Sector sentiment row */
-    if(sg&&sg!=="INSUFFICIENT_DATA"){
-      var sgLabel=sg.replace(/_/g," ");
-      var dStr=(da!==null&&da!==undefined)?"DEF "+(da>=0?"+":"")+parseFloat(da).toFixed(1)+"%":"";
-      var gStr=(ga!==null&&ga!==undefined)?"GRW "+(ga>=0?"+":"")+parseFloat(ga).toFixed(1)+"%":"";
-      html+='<div style="display:flex;align-items:flex-start;gap:8px;padding:7px 0;'
-        +'border-bottom:1px solid rgba(255,255,255,.05);">'
-        +'<span style="font-size:13px;flex-shrink:0">📈</span>'
-        +'<span style="font-size:12px;color:#ccd5e3;line-height:1.5">'
-        +'Inst Sentiment <span style="color:'+sc+';font-weight:700">'+esc(sgLabel)+'</span>'
-        +(dStr||gStr?'<br><span style="font-size:10px;font-family:JetBrains Mono,monospace;color:#8b93a7">'
-          +(dStr?'<span style="color:#fbbf24">'+esc(dStr)+'</span> ':"")+' '
-          +(gStr?'<span style="color:#4ade80">'+esc(gStr)+'</span>':"")+'</span>':"")
-        +'</span></div>';
-    }
-    el.innerHTML=html;
-  }
   function render(d){
     var rc=d.regime_color||"#fbbf24";
     var ic=d.integrity_color||"#4ade80";
-    /* Live regime label: show (LIVE) indicator when overridden by thesis probe */
-    var regimeSrc=d._live_regime_active?"LIVE · ":"";
     var bar='<div style="background:rgba('+rgb(rc)+',0.10);border-left:4px solid '+rc+';'
       +'border-radius:10px;padding:14px 20px;margin-bottom:14px;'
       +'display:flex;align-items:center;gap:24px;flex-wrap:wrap;font-family:JetBrains Mono,monospace">'
       +'<span style="font-size:22px;font-weight:700;color:'+rc+';letter-spacing:.05em">'
-      +esc(d.regime_emoji||"")+'&nbsp;'+esc(d.regime_short||"")+'</span>'
+      +esc(d.regime_emoji||"")+'&nbsp;'+esc(d.regime_short||"")+'&nbsp;('+esc(d.regime_score||"")+')</span>'
       +'<span style="font-size:13px;color:#e6edf3;font-weight:600">CIO:&nbsp;'
       +'<span style="color:'+rc+'">'+esc(d.cio_action||"")+'</span></span>'
-      +(d._live_regime_basis?'<span style="font-size:10px;color:#555;font-family:JetBrains Mono,monospace">'+esc(d._live_regime_basis)+'</span>':"")
       +'<span style="font-size:11px;color:#8b93a7;margin-left:auto">'
-      +regimeSrc+'Portfolio&nbsp;·&nbsp;'+esc(d.generated_at||"")+'&nbsp;&nbsp;·&nbsp;&nbsp;'
+      +'Live&nbsp;·&nbsp;'+esc(d.generated_at||"")+'&nbsp;&nbsp;·&nbsp;&nbsp;'
       +'Integrity&nbsp;<span style="color:'+ic+';font-weight:700">'+esc(d.integrity||"")+'</span>'
       +'</span></div>';
-    var vixVal=d.vix||"N/A";
-    var vixColor=(parseFloat(vixVal)>25)?"#ff5566":((parseFloat(vixVal)>20)?"#fbbf24":"#4ade80");
     var strip='<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px">'
-      +kpi("VIX",esc(vixVal),"Volatility Index",vixColor)
-      +kpi("Fear & Greed",(d.fg_score||"N/A")+"/100",esc(d.fg_label||""),d.fg_color||"#fbbf24")
-      +kpi("Regime Score",esc(String(d.regime_score||"N/A")),esc(d.regime_short||""),rc)
+      +kpi("VIX",esc(d.vix||"N/A"),"Volatility Index",d.vix_alert?"#ff5566":"#4ade80")
+      +kpi("Fear &amp; Greed",(d.fg_score||"N/A")+"/100",esc(d.fg_label||""),d.fg_color||"#fbbf24")
+      +kpi("Regime Score",esc(d.regime_score||"N/A"),esc(d.regime_short||""),rc)
       +kpi("Portfolio",esc(d.market_val_fmt||""),"P/L "+esc(d.pnl_fmt||""),d.pnl_color||"#e6edf3")
       +kpi("Cash Reserve",esc(d.cash_pct_fmt||""),esc(d.cash_fmt||""),d.cash_color||"#e6edf3")
       +'</div>';
     document.getElementById("fund-live").innerHTML=bar+strip;
-    render_portfolio(d);
-    render_threat_signals(d);
   }
   function load(){
-    /* Parallel fetch: portfolio data (Moomoo, hourly) + thesis probe (10-min live regime) */
-    Promise.all([
-      fetch(BASE+"/data/portfolio_live.json?t="+Date.now()).then(function(r){return r.json();}).catch(function(){return {}}),
-      fetch(BASE+"/data/thesis_evidence_live.json?t="+Date.now()).then(function(r){return r.json();}).catch(function(){return {}})
-    ]).then(function(results){
-      var d=results[0]||{};
-      var td=results[1]||{};
-      var lr=td.live_regime;
-      /* Override stale pipeline regime with live 10-min probe data when available */
-      if(lr&&lr.regime&&lr.regime!=="UNKNOWN"&&lr.regime_score!==undefined){
-        d.regime_short  = lr.regime_short  || d.regime_short;
-        d.regime_score  = lr.regime_score;
-        d.regime_color  = lr.regime_color  || d.regime_color;
-        d.regime_emoji  = lr.regime_emoji  || d.regime_emoji;
-        /* CIO action follows live regime */
-        if(lr.regime.indexOf("OFF")>=0){d.cio_action="WAIT / HOLD";}
-        else if(lr.regime==="NEUTRAL"){d.cio_action="WATCH";}
-        else{d.cio_action="HOLD / REVIEW";}
-        /* VIX from live probe (actual index level) */
-        if(lr.vix_level&&lr.vix_level>0){d.vix=lr.vix_level.toFixed(1);d.vix_alert=lr.vix_level>20;}
-        d._live_regime_active=true;
-        d._live_regime_basis=lr.basis||"";
-      }
-      render(d);
-    }).catch(function(){});
+    fetch(BASE+"/data/portfolio_live.json?t="+Date.now())
+      .then(function(r){return r.json();})
+      .then(render)
+      .catch(function(){});
   }
   load();
   setInterval(load,60000);
 })();
 </script>
 
-<div style="display:grid;grid-template-columns:1fr 1.5fr;gap:14px;margin-bottom:16px">
+<div style="display:grid;grid-template-columns:1fr 1.5fr 1fr;gap:14px;margin-bottom:16px">
   
 <div style="background:rgba(13,16,32,.94);border:1px solid rgba(192,132,252,.18);
   border-radius:18px;padding:18px;">
@@ -368,8 +242,8 @@ body{padding-top:52px !important;}
     align-items:center;gap:8px">Threat Board
     <span style="height:1px;background:rgba(255,85,102,.25);flex:1;display:block"></span>
   </div>
-  <div style="background:rgba(255,85,102,.12);border:1px solid #ff5566;border-radius:8px;padding:10px 12px;margin-bottom:10px;font-family:JetBrains Mono,monospace;font-size:11px;color:#ff5566;line-height:1.5"><span style="font-weight:700">⚡ GEO ALERT</span><br>Pakistan says US-Iran deal to be signed within 24 hours. Strait of Hormuz will be reopened as part of ceasefi…</div>
-  <div id="threat-signals-live"></div>
+  <div style="background:rgba(255,85,102,.12);border:1px solid #ff5566;border-radius:8px;padding:10px 12px;margin-bottom:10px;font-family:JetBrains Mono,monospace;font-size:11px;color:#ff5566;line-height:1.5"><span style="font-weight:700">⚡ GEO ALERT</span><br>[SENTIMENT] MSFT: BULLISH (+0.222) -- Chip stocks surge, oil slides closer to $80 on US-Iran deal, Fox to acq…</div>
+  <div style="display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);"><span style="color:#ff5566;font-size:13px;flex-shrink:0">🔴</span><span style="font-size:12px;color:#ccd5e3;line-height:1.5">F/G 41 -- FEAR</span></div><div style="display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);"><span style="color:#ff5566;font-size:13px;flex-shrink:0">🔴</span><span style="font-size:12px;color:#ccd5e3;line-height:1.5">Inst sentiment -0.173 bearish</span></div>
 </div>
   
 <div style="background:rgba(13,16,32,.94);border:1px solid rgba(192,132,252,.18);
@@ -379,9 +253,34 @@ body{padding-top:52px !important;}
     align-items:center;gap:8px">Portfolio
     <span style="height:1px;background:rgba(192,132,252,.18);flex:1;display:block"></span>
   </div>
-  <div id="portfolio-table-live" style="color:#555;font-size:11px;font-family:JetBrains Mono,monospace;padding:4px 0">
-    Loading positions&hellip;
+  <table style="width:100%;border-collapse:collapse;font-family:JetBrains Mono,monospace;font-size:12px">
+    <tr style="border-bottom:1px solid rgba(192,132,252,.2)">
+      <th style="color:#c084fc;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:4px 6px 8px;text-align:left">Ticker</th>
+      <th style="color:#c084fc;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:4px 6px 8px;text-align:left">Qty</th>
+      <th style="color:#c084fc;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:4px 6px 8px;text-align:left">Price</th>
+      <th style="color:#c084fc;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:4px 6px 8px;text-align:left">Day</th>
+      <th style="color:#c084fc;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:4px 6px 8px;text-align:left">P/L</th>
+      <th style="color:#c084fc;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:4px 6px 8px;text-align:left">Thesis</th>
+    </tr>
+    <tr><td style='color:#c084fc;font-weight:700'>VIXY</td><td style='color:#8b93a7'>38</td><td>$21.78</td><td style='color:#4ade80;font-family:JetBrains Mono,monospace'>--</td><td style='color:#ff5566;font-family:JetBrains Mono,monospace'>$-2.98<br><span style='font-size:10px'>-0.4%</span></td><td><span style='background:rgba(139,147,167,.15);color:#8b93a7;font-size:9px;padding:2px 6px;border-radius:4px;font-family:JetBrains Mono,monospace;letter-spacing:.08em'>WATCH</span></td></tr><tr><td style='color:#c084fc;font-weight:700'>VXX</td><td style='color:#8b93a7'>36</td><td>$22.59</td><td style='color:#4ade80;font-family:JetBrains Mono,monospace'>--</td><td style='color:#ff5566;font-family:JetBrains Mono,monospace'>$-2.07<br><span style='font-size:10px'>-0.3%</span></td><td><span style='background:rgba(139,147,167,.15);color:#8b93a7;font-size:9px;padding:2px 6px;border-radius:4px;font-family:JetBrains Mono,monospace;letter-spacing:.08em'>WATCH</span></td></tr><tr><td style='color:#c084fc;font-weight:700'>QBTS</td><td style='color:#8b93a7'>10</td><td>$26.42</td><td style='color:#4ade80;font-family:JetBrains Mono,monospace'>--</td><td style='color:#4ade80;font-family:JetBrains Mono,monospace'>$79.75<br><span style='font-size:10px'>+43.2%</span></td><td><span style='background:rgba(192,132,252,.15);color:#c084fc;font-size:9px;padding:2px 6px;border-radius:4px;font-family:JetBrains Mono,monospace;letter-spacing:.08em'>QUANTUM</span></td></tr><tr><td style='color:#c084fc;font-weight:700'>QUBT</td><td style='color:#8b93a7'>10</td><td>$11.10</td><td style='color:#4ade80;font-family:JetBrains Mono,monospace'>--</td><td style='color:#ff5566;font-family:JetBrains Mono,monospace'>$-47.64<br><span style='font-size:10px'>-30.0%</span></td><td><span style='background:rgba(192,132,252,.15);color:#c084fc;font-size:9px;padding:2px 6px;border-radius:4px;font-family:JetBrains Mono,monospace;letter-spacing:.08em'>QUANTUM</span></td></tr><tr><td style='color:#c084fc;font-weight:700'>LUNR</td><td style='color:#8b93a7'>1</td><td>$25.67</td><td style='color:#4ade80;font-family:JetBrains Mono,monospace'>--</td><td style='color:#4ade80;font-family:JetBrains Mono,monospace'>$13.92<br><span style='font-size:10px'>+118.5%</span></td><td><span style='background:rgba(139,147,167,.15);color:#8b93a7;font-size:9px;padding:2px 6px;border-radius:4px;font-family:JetBrains Mono,monospace;letter-spacing:.08em'>WATCH</span></td></tr>
+  </table>
+  <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.06);
+    display:flex;gap:20px;font-family:JetBrains Mono,monospace;font-size:11px;flex-wrap:wrap">
+    <span style="color:#8b93a7">MKT <span style="color:#e6edf3">$2,041.78</span></span>
+    <span style="color:#8b93a7">CASH <span style="color:#4ade80">$56,058.03 (96%)</span></span>
+    <span style="color:#8b93a7">P/L <span style="color:#4ade80">$40.98 (+2.0%)</span></span>
   </div>
+</div>
+  
+<div style="background:rgba(13,16,32,.94);border:1px solid rgba(192,132,252,.18);
+  border-radius:18px;padding:18px;">
+  <div style="font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.18em;
+    text-transform:uppercase;color:#c084fc;margin-bottom:12px;display:flex;
+    align-items:center;gap:8px">Top Movers
+    <span style="height:1px;background:rgba(192,132,252,.18);flex:1;display:block"></span>
+  </div>
+  
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">INTC</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#ff5566">-1.7%</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">VLO</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#4ade80">+1.6%</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">ARRY</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#4ade80">+1.5%</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">MRVL</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#ff5566">-1.2%</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">EOG</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#4ade80">+1.1%</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">HBM</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#4ade80">+1.1%</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">ARM</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#ff5566">-1.1%</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">VSAT</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#4ade80">+1.0%</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">EPD</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#4ade80">+1.0%</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">ASTS</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#ff5566">-0.8%</span></div>
 </div>
 </div>
 <div id="thesis-live" style="margin-bottom:16px">
@@ -397,10 +296,8 @@ body{padding-top:52px !important;}
     "WARNING":"#ff5566","FAILING":"#ef4444"
   };
   var DIR_COLOR={
-    "RISK ON":"#4ade80","RISK-ON":"#4ade80","RISK_ON":"#4ade80",
-    "RISK OFF":"#ff5566","RISK-OFF":"#ff5566","RISK_OFF":"#ff5566",
-    "SELECTIVE RISK ON":"#86efac","SELECTIVE_RISK_ON":"#86efac",
-    "SELECTIVE RISK OFF":"#fca5a5","SELECTIVE_RISK_OFF":"#fca5a5",
+    "RISK ON":"#4ade80","RISK-ON":"#4ade80",
+    "RISK OFF":"#ff5566","RISK-OFF":"#ff5566",
     "WATCH":"#fbbf24","NEUTRAL":"#94a3b8"
   };
   var CHECK_NAMES={
@@ -484,62 +381,37 @@ body{padding-top:52px !important;}
       +'</div>';
 
     // ── Event Correlations table ─────────────────────────────────────────
-    var rows=d.event_correlations||[], corr_ts=d.generated_at||d.correlations_as_of||"";
+    var rows=d.event_correlations||[], corr_ts=d.correlations_as_of||"";
     var corrHtml="";
     if(rows.length){
       var thead='<table style="width:100%;border-collapse:collapse;font-size:12px">'
         +'<thead><tr style="color:#94a3b8;border-bottom:1px solid rgba(255,255,255,.08)">'
-        +'<th style="text-align:left;padding:4px 8px;font-weight:500;white-space:nowrap">THEME</th>'
-        +'<th style="text-align:center;padding:4px 8px;font-weight:500;white-space:nowrap">DIRECTION</th>'
-        +'<th style="text-align:center;padding:4px 8px;font-weight:500;white-space:nowrap">AVG MOVE</th>'
-        +'<th style="text-align:left;padding:4px 8px;font-weight:500">BASKET TICKERS &amp; LOGIC</th>'
-        +'<th style="text-align:center;padding:4px 8px;font-weight:500;white-space:nowrap">TIER</th>'
+        +'<th style="text-align:left;padding:4px 8px;font-weight:500">THEME</th>'
+        +'<th style="text-align:center;padding:4px 8px;font-weight:500">DIRECTION</th>'
+        +'<th style="text-align:center;padding:4px 8px;font-weight:500">BASKET MOVE</th>'
+        +'<th style="text-align:left;padding:4px 8px;font-weight:500">EVIDENCE</th>'
+        +'<th style="text-align:center;padding:4px 8px;font-weight:500">TIER</th>'
         +'</tr></thead><tbody>';
       var tbody="";
       rows.slice(0,12).forEach(function(r){
-        // Normalise direction — handle RISK_ON, RISK-ON, SELECTIVE_RISK_OFF etc.
-        var dirRaw=(r.direction||"WATCH").toUpperCase();
-        var dc=DIR_COLOR[dirRaw]||"#94a3b8";
-        var dirLabel=dirRaw.replace(/_/g," ");
+        var dir=(r.direction||"WATCH").toUpperCase().replace("-"," ");
+        var dc=DIR_COLOR[dir]||"#94a3b8";
         var bm=r.basket_move!=null?((r.basket_move>=0?"+":"")+parseFloat(r.basket_move).toFixed(2)+"%"):"—";
-        var bmCol=parseFloat(r.basket_move||0)>=0?"#4ade80":"#ff5566";
-        var tier=String(r.tier||r.evidence_tier_label||r.confidence||"");
-
-        // Build ticker chip evidence
-        var evHtml="";
-        if(r.tickers&&r.tickers.length){
-          var chips="";
-          r.tickers.slice(0,6).forEach(function(tk){
-            var chg=parseFloat(tk.chg||0);
-            var col=chg>0.05?"#4ade80":chg<-0.05?"#ff5566":"#8b93a7";
-            var sign=chg>=0?"+":"";
-            chips+='<span style="display:inline-block;margin:1px 5px 1px 0;'
-              +'white-space:nowrap;font-size:10px;font-family:JetBrains Mono,monospace;'
-              +'color:'+col+'">'
-              +esc(tk.t)+'&nbsp;<b>'+sign+chg.toFixed(2)+'%</b></span>';
-          });
-          var qual=r.qualifying_rule?
-            '<div style="font-size:9px;color:#555;margin-top:3px;letter-spacing:.05em">'+esc(r.qualifying_rule)+'</div>':"";
-          evHtml=chips+qual;
-        } else {
-          // Fallback: show old why/evidence text for pipeline-sourced rows
-          evHtml='<span style="font-size:11px;color:#555">'+esc(String(r.why||r.evidence||"").substring(0,70))+'</span>';
-        }
-
+        var why=String(r.why||r.evidence||"").substring(0,80);
+        var tier=String(r.evidence_tier_label||r.confidence||"");
         tbody+='<tr style="border-bottom:1px solid rgba(255,255,255,.04);color:#e2e8f0">'
-          +'<td style="padding:5px 8px;white-space:nowrap;font-weight:500">'+esc(r.theme||"")+'</td>'
-          +'<td style="padding:5px 8px;text-align:center">'+badge(dirLabel,dc)+'</td>'
-          +'<td style="padding:5px 8px;text-align:center;color:'+bmCol+';font-weight:600;'
-          +'font-family:JetBrains Mono,monospace">'+esc(bm)+'</td>'
-          +'<td style="padding:5px 8px">'+evHtml+'</td>'
+          +'<td style="padding:5px 8px">'+esc(r.theme||"")+'</td>'
+          +'<td style="padding:5px 8px;text-align:center">'+badge(dir,dc)+'</td>'
+          +'<td style="padding:5px 8px;text-align:center;color:#cbd5e1">'+esc(bm)+'</td>'
+          +'<td style="padding:5px 8px;color:#94a3b8;font-size:11px">'+esc(why)+'</td>'
           +'<td style="padding:5px 8px;text-align:center;color:#555;font-size:10px;'
-          +'font-family:JetBrains Mono,monospace;white-space:nowrap">'+esc(tier)+'</td>'
+          +'font-family:JetBrains Mono,monospace">'+esc(tier)+'</td>'
           +'</tr>';
       });
       corrHtml='<div style="margin-top:10px">'
         +'<div style="font-family:JetBrains Mono,monospace;font-size:10px;color:#555;'
         +'letter-spacing:.10em;margin-bottom:6px">S3 · THESIS EVIDENCE'
-        +(corr_ts?' <span style="color:#444;font-size:9px">· '+esc(corr_ts)+'</span>':"")+'</div>'
+        +(corr_ts?' <span style="color:#333">· as-of '+esc(corr_ts)+'</span>':"")+'</div>'
         +thead+tbody+'</tbody></table></div>';
     }
 
@@ -574,15 +446,13 @@ body{padding-top:52px !important;}
       +' → <span style="color:#ef4444">LOW</span>'
       +'</div>'
       +'<div>'
-      +'<span style="color:#94a3b8;font-weight:600">ECE Basket Tickers</span>&nbsp;'
-      +'12 themes, each with a fixed ticker basket (4–7 names). '
-      +'Basket move = average % change across available tickers vs prior close (yfinance, 10-min refresh).<br>'
-      +'Direction rule: avg ≥+0.5% &amp; ≥60% pos → <span style="color:#4ade80">RISK ON</span> · '
-      +'avg ≥+0.1% → <span style="color:#86efac">SELECTIVE RISK ON</span> · '
-      +'avg &lt;-0.5% &amp; ≤40% pos → <span style="color:#ff5566">RISK OFF</span> · '
-      +'avg &lt;-0.1% → <span style="color:#fca5a5">SELECTIVE RISK OFF</span> · else NEUTRAL.<br>'
-      +'Qualifying logic (N/M pos · avg X%) shown below each ticker row. '
-      +'Tickers sorted by absolute move (largest first). Fully independent of V2 pipeline.'
+      +'<span style="color:#94a3b8;font-weight:600">Evidence Tier Qualification</span><br>'
+      +'<span style="color:#4ade80">T1 CONFIRMED</span>&nbsp;'
+      +'≥3 independent source layers corroborate the theme (earnings + RSS + macro catalyst).<br>'
+      +'<span style="color:#fbbf24">T2 PROVISIONAL</span>&nbsp;'
+      +'1–2 layers, model-corroborated, awaiting cross-asset confirmation.<br>'
+      +'<span style="color:#ff5566">T3 INFERRED</span>&nbsp;'
+      +'Model-derived from macro context; no direct price confirmation yet.'
       +'</div>'
       +'</div>'
       +'</details>';
@@ -608,227 +478,7 @@ body{padding-top:52px !important;}
   setInterval(load, 600000);
 })();
 </script>
-<div id="warsh-live" style="margin-bottom:16px">
-  <div style="background:rgba(13,16,32,.60);border:1px solid rgba(251,191,36,.12);
-    border-radius:12px;padding:14px 24px;color:#444;font-family:JetBrains Mono,monospace;
-    font-size:10px;letter-spacing:.12em">S4 · HAWKISH WARSH THESIS — loading…</div>
-</div>
-<script>
-(function(){
-  var BASE="https://sohweekian.github.io/bluelotus";
-  function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
-  var STATUS_COLOR={
-    "CONFIRMING":"#4ade80","PARTIAL_CONFIRMATION":"#fbbf24","MIXED":"#fbbf24",
-    "WARNING":"#f97316","FAILING":"#ff5566","INSUFFICIENT_DATA":"#94a3b8"
-  };
-  var GATE_COLOR={
-    "PASS":"#4ade80","WATCH":"#fbbf24","FAIL":"#ff5566",
-    "HAWKISH":"#4ade80","MIXED":"#fbbf24","DOVISH":"#ff5566",
-    "LOW":"#4ade80","ACTIVE":"#f97316","SEVERE":"#ff5566",
-    "CALM":"#4ade80","STRESS":"#ff5566","UNKNOWN":"#94a3b8"
-  };
 
-  /* format a % value with sign */
-  function fp(v){
-    if(v===null||v===undefined)return"–";
-    var f=parseFloat(v);if(isNaN(f))return"–";
-    return(f>=0?"+":"")+f.toFixed(2)+"%";
-  }
-  /* color: green=up, red=down; inv=true flips (e.g. VXX down is good) */
-  function pc(v,inv){
-    if(v===null||v===undefined)return"#8b93a7";
-    var f=parseFloat(v);if(isNaN(f)||f===0)return"#8b93a7";
-    var good=f>0;if(inv)good=!good;
-    return good?"#4ade80":"#ff5566";
-  }
-  /* one metric row: label on left, value on right */
-  function mr(label,val,color){
-    return'<div style="display:flex;justify-content:space-between;align-items:baseline;'
-      +'padding:1.5px 0;border-bottom:1px solid rgba(255,255,255,.03)">'
-      +'<span style="color:#555;font-size:9px;font-family:JetBrains Mono,monospace;'
-      +'white-space:nowrap">'+esc(label)+'</span>'
-      +'<span style="color:'+(color||"#cbd5e1")+';font-size:10px;font-weight:600;'
-      +'font-family:JetBrains Mono,monospace;margin-left:8px">'+esc(String(val!==undefined&&val!==null?val:"–"))+'</span>'
-      +'</div>';
-  }
-  /* gate panel: title, status badge, score, metric rows */
-  function gp(title,status,weight,score,metricsHtml){
-    var sc=GATE_COLOR[String(status).toUpperCase()]||"#94a3b8";
-    var sc2=GATE_COLOR[String(status)]||"#94a3b8";
-    var finalSc=sc!="#94a3b8"?sc:sc2;
-    return'<div style="background:rgba(8,10,24,.92);border:1px solid rgba(255,255,255,.09);'
-      +'border-top:2px solid '+finalSc+';border-radius:8px;padding:10px 12px;'
-      +'flex:1;min-width:160px;box-sizing:border-box">'
-      +'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:7px">'
-      +'<div>'
-      +'<div style="font-size:8px;color:#555;letter-spacing:.14em;text-transform:uppercase;'
-      +'font-family:JetBrains Mono,monospace;margin-bottom:3px">'+esc(title)+'</div>'
-      +'<div style="font-size:13px;font-weight:700;color:'+finalSc+'">'+esc(String(status))+'</div>'
-      +'</div>'
-      +'<div style="text-align:right;flex-shrink:0;margin-left:6px">'
-      +'<div style="font-size:7px;color:#444;font-family:JetBrains Mono,monospace;letter-spacing:.10em">SCORE</div>'
-      +'<div style="font-size:14px;font-weight:700;color:'+finalSc+';line-height:1.1">'
-      +score+'<span style="color:#444;font-size:8px">/'+weight+'</span></div>'
-      +'</div></div>'
-      +'<div style="border-top:1px solid rgba(255,255,255,.06);padding-top:5px">'+metricsHtml+'</div>'
-      +'</div>';
-  }
-
-  function render(d){
-    var status=d.status||"INSUFFICIENT_DATA";
-    var score=(d.score!=null)?d.score:"–";
-    var sc=STATUS_COLOR[status]||"#94a3b8";
-    var gen=d.generated_at||"";
-    var cio=d.cio_action||"–";
-    var statusLabel=status.replace(/_/g," ");
-
-    var ft=d.fed_tone||{};
-    var rc=d.rates_confirmation||{};
-    var dc=d.dollar_confirmation||{};
-    var bc=d.bank_confirmation||{};
-    var gm=d.gold_miner_confirmation||{};
-    var hb=d.high_beta_risk||{};
-    var cs=d.credit_stress||{};
-    var yc=d.yen_carry_risk||{};
-
-    /* ── 8 gate panels with live metric values ── */
-
-    var pFed=gp("FED TONE · 20pt",ft.status||"UNKNOWN",20,(ft.score||0).toFixed(1),
-      mr("Hawkish signals",(ft.hawkish_count!==undefined?ft.hawkish_count:"–"),"#e2e8f0")
-      +mr("Dovish signals",(ft.dovish_count!==undefined?ft.dovish_count:"–"),"#e2e8f0")
-      +(ft.evidence&&ft.evidence[0]
-        ?'<div style="color:#555;font-size:9px;font-family:JetBrains Mono,monospace;'
-          +'margin-top:5px;line-height:1.45;border-top:1px solid rgba(255,255,255,.04);padding-top:4px">'
-          +esc((ft.evidence[0]||"").substring(0,72))+'</div>'
-        :"")
-    );
-
-    /* RATES color logic:
-       TLT/IEF/SHY are bond PRICES — falling = yields rising = hawkish confirm = GREEN → inv=true
-       10Y/30Y yield Δ — positive = yield rising = hawkish confirm = GREEN → no inv */
-    var pRates=gp("RATES · 15pt",rc.status||"–",15,(rc.score||0).toFixed(1),
-      mr("TLT (bond price)",fp(rc.tlt_change_pct),pc(rc.tlt_change_pct,true))
-      +mr("IEF (bond price)",fp(rc.ief_change_pct),pc(rc.ief_change_pct,true))
-      +mr("SHY (bond price)",fp(rc.shy_change_pct),pc(rc.shy_change_pct,true))
-      +mr("10Y yield Δ",fp(rc.us_10y_proxy),pc(rc.us_10y_proxy))
-      +mr("30Y yield Δ",fp(rc.us_30y_proxy),pc(rc.us_30y_proxy))
-    );
-
-    var pDollar=gp("DOLLAR · 10pt",dc.status||"–",10,(dc.score||0).toFixed(1),
-      mr("UUP",fp(dc.uup_change_pct),pc(dc.uup_change_pct))
-      +(dc.evidence&&dc.evidence[0]
-        ?'<div style="color:#555;font-size:9px;font-family:JetBrains Mono,monospace;'
-          +'margin-top:5px;border-top:1px solid rgba(255,255,255,.04);padding-top:4px">'
-          +esc((dc.evidence[0]||"").substring(0,55))+'</div>'
-        :"")
-    );
-
-    var pBanks=gp("BANKS · 15pt",bc.status||"–",15,(bc.score||0).toFixed(1),
-      mr("XLF",fp(bc.xlf_change_pct),pc(bc.xlf_change_pct))
-      +mr("JPM",fp(bc.jpm_change_pct),pc(bc.jpm_change_pct))
-      +mr("BAC",fp(bc.bac_change_pct),pc(bc.bac_change_pct))
-      +mr("GS",fp(bc.gs_change_pct),pc(bc.gs_change_pct))
-      +mr("MS",fp(bc.ms_change_pct),pc(bc.ms_change_pct))
-      +mr("HYG (credit)",fp(bc.hyg_change_pct),pc(bc.hyg_change_pct))
-    );
-
-    var pGold=gp("GOLD MINERS · 15pt",gm.status||"–",15,(gm.score||0).toFixed(1),
-      mr("GLD",fp(gm.gld_change_pct),pc(gm.gld_change_pct))
-      +mr("GDX",fp(gm.gdx_change_pct),pc(gm.gdx_change_pct))
-      +mr("GDXJ",fp(gm.gdxj_change_pct),pc(gm.gdxj_change_pct))
-      +mr("AU",fp(gm.au_change_pct),pc(gm.au_change_pct))
-      +mr("NEM",fp(gm.nem_change_pct),pc(gm.nem_change_pct))
-      +mr("GDX−GLD spread",fp(gm.gdx_vs_gld_spread),pc(gm.gdx_vs_gld_spread))
-    );
-
-    var pHiBeta=gp("HIGH BETA · 10pt",hb.status||"–",10,(hb.score||0).toFixed(1),
-      mr("QQQ",fp(hb.qqq_change_pct),pc(hb.qqq_change_pct))
-      +mr("IWM",fp(hb.iwm_change_pct),pc(hb.iwm_change_pct))
-      +mr("VXX",fp(hb.vxx_change_pct),pc(hb.vxx_change_pct,true))
-      +mr("UVXY",fp(hb.uvxy_change_pct),pc(hb.uvxy_change_pct,true))
-      +mr("NVDA",fp(hb.nvda_change_pct),pc(hb.nvda_change_pct))
-      +(hb.red_flag?'<div style="color:#f97316;font-size:9px;margin-top:4px;'
-        +'font-family:JetBrains Mono,monospace">⚠ RED FLAG ACTIVE</div>':"")
-    );
-
-    var pCredit=gp("CREDIT · 10pt",cs.status||"–",10,(cs.score||0).toFixed(1),
-      mr("HYG",fp(cs.hyg_change_pct),pc(cs.hyg_change_pct))
-      +mr("JNK",fp(cs.jnk_change_pct),pc(cs.jnk_change_pct))
-      +mr("LQD",fp(cs.lqd_change_pct),pc(cs.lqd_change_pct))
-    );
-
-    var pYen=gp("YEN CARRY · 5pt",yc.status||"–",5,(yc.score||0).toFixed(1),
-      mr("EWJ",fp(yc.ewj_change_pct),pc(yc.ewj_change_pct))
-      +mr("VXX",fp(yc.vxx_change_pct),pc(yc.vxx_change_pct,true))
-    );
-
-    /* ── blocked / notes ── */
-    var blockedHtml="";
-    if((d.blocked_actions||[]).length){
-      blockedHtml='<div style="margin-top:10px;padding:7px 12px;'
-        +'background:rgba(255,85,102,.08);border-left:3px solid #ff5566;'
-        +'font-size:10px;color:#ff5566;font-family:JetBrains Mono,monospace;letter-spacing:.06em">'
-        +'⚠ BLOCKED: '+esc(d.blocked_actions.join(" · "))+'</div>';
-    }
-    var notesHtml="";
-    if((d.notes||[]).length){
-      notesHtml='<div style="margin-top:8px;font-size:10px;color:#555;'
-        +'font-family:JetBrains Mono,monospace;line-height:1.7">'
-        +(d.notes.slice(0,4).map(function(n){return"· "+esc(n);}).join("<br>"))+'</div>';
-    }
-
-    var html=
-      '<div style="background:rgba(13,16,32,.94);border:1px solid rgba(251,191,36,.22);'
-      +'border-radius:12px;padding:18px 22px;margin-bottom:16px">'
-      /* header bar */
-      +'<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">'
-      +'<span style="font-family:JetBrains Mono,monospace;font-size:11px;letter-spacing:.18em;'
-      +'text-transform:uppercase;color:#fbbf24;font-weight:700">S4 · HAWKISH WARSH THESIS</span>'
-      +'<span style="height:1px;background:rgba(251,191,36,.18);flex:1;display:block"></span>'
-      +'<span style="font-size:9px;color:#444;font-family:JetBrains Mono,monospace">'+esc(gen)+'</span>'
-      +'</div>'
-      /* status + score + CIO action */
-      +'<div style="display:flex;align-items:center;gap:20px;margin-bottom:16px;flex-wrap:wrap">'
-      +'<div>'
-      +'<div style="font-size:22px;font-weight:700;color:'+sc+';line-height:1.1">'+esc(statusLabel)+'</div>'
-      +'<div style="font-size:11px;color:#8b93a7;font-family:JetBrains Mono,monospace;margin-top:3px">'
-      +'Score&nbsp;<b style="color:'+sc+'">'+score+'</b>&nbsp;/&nbsp;100</div>'
-      +'</div>'
-      +'<div style="margin-left:auto;text-align:right">'
-      +'<div style="font-size:9px;color:#555;font-family:JetBrains Mono,monospace;letter-spacing:.10em">CIO ACTION</div>'
-      +'<div style="font-size:15px;font-weight:700;color:#e2e8f0;letter-spacing:.04em;margin-top:2px">'+esc(cio)+'</div>'
-      +'</div>'
-      +'</div>'
-      /* row 1: FED TONE | RATES | DOLLAR | BANKS */
-      +'<div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap">'
-      +pFed+pRates+pDollar+pBanks
-      +'</div>'
-      /* row 2: GOLD MINERS | HIGH BETA | CREDIT | YEN CARRY */
-      +'<div style="display:flex;gap:8px;flex-wrap:wrap">'
-      +pGold+pHiBeta+pCredit+pYen
-      +'</div>'
-      +blockedHtml+notesHtml
-      +'</div>';
-
-    document.getElementById("warsh-live").innerHTML=html;
-  }
-
-  function load(){
-    fetch(BASE+"/data/warsh_thesis_live.json?t="+Date.now())
-      .then(function(r){return r.json();})
-      .then(render)
-      .catch(function(e){
-        document.getElementById("warsh-live").innerHTML=
-          '<div style="background:rgba(13,16,32,.60);border:1px solid rgba(251,191,36,.12);'
-          +'border-radius:12px;padding:14px 24px;color:#444;font-family:JetBrains Mono,monospace;'
-          +'font-size:10px">S4 · HAWKISH WARSH THESIS — data pending (warsh_thesis_probe_daemon not running?)</div>';
-      });
-  }
-  load();
-  setInterval(load, 600000);
-})();
-</script>
-
-<div style="font-family:JetBrains Mono,monospace;font-size:10px;color:#555;padding:10px 0 4px;border-top:1px solid rgba(255,255,255,.05);letter-spacing:.06em">System Health&nbsp;·&nbsp;Sources 76/52&nbsp;·&nbsp;Signals 69601&nbsp;·&nbsp;Integrity <span style="color:#4ade80">PASS</span>&nbsp;·&nbsp;<a href="https://sohweekian.github.io/bluelotus/chief-strategist.html" style="color:#c084fc;text-decoration:none">Full Strategist Report &rarr;</a></div>
+<div style="font-family:JetBrains Mono,monospace;font-size:10px;color:#555;padding:10px 0 4px;border-top:1px solid rgba(255,255,255,.05);letter-spacing:.06em">System Health&nbsp;·&nbsp;Sources 70/52&nbsp;·&nbsp;Signals 13721&nbsp;·&nbsp;Integrity <span style="color:#4ade80">PASS</span>&nbsp;·&nbsp;<a href="https://sohweekian.github.io/bluelotus/chief-strategist.html" style="color:#c084fc;text-decoration:none">Full Strategist Report &rarr;</a></div>
 </main>
 </body></html>
