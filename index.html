@@ -706,12 +706,15 @@ body{padding-top:52px !important;}
         :"")
     );
 
+    /* RATES color logic:
+       TLT/IEF/SHY are bond PRICES — falling = yields rising = hawkish confirm = GREEN → inv=true
+       10Y/30Y yield Δ — positive = yield rising = hawkish confirm = GREEN → no inv */
     var pRates=gp("RATES · 15pt",rc.status||"–",15,(rc.score||0).toFixed(1),
-      mr("TLT",fp(rc.tlt_change_pct),pc(rc.tlt_change_pct))
-      +mr("IEF",fp(rc.ief_change_pct),pc(rc.ief_change_pct))
-      +mr("SHY",fp(rc.shy_change_pct),pc(rc.shy_change_pct))
-      +mr("10Y (yield Δ)",fp(rc.us_10y_proxy),pc(rc.us_10y_proxy,true))
-      +mr("30Y (yield Δ)",fp(rc.us_30y_proxy),pc(rc.us_30y_proxy,true))
+      mr("TLT (bond price)",fp(rc.tlt_change_pct),pc(rc.tlt_change_pct,true))
+      +mr("IEF (bond price)",fp(rc.ief_change_pct),pc(rc.ief_change_pct,true))
+      +mr("SHY (bond price)",fp(rc.shy_change_pct),pc(rc.shy_change_pct,true))
+      +mr("10Y yield Δ",fp(rc.us_10y_proxy),pc(rc.us_10y_proxy))
+      +mr("30Y yield Δ",fp(rc.us_30y_proxy),pc(rc.us_30y_proxy))
     );
 
     var pDollar=gp("DOLLAR · 10pt",dc.status||"–",10,(dc.score||0).toFixed(1),
