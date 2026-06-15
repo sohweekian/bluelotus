@@ -830,129 +830,169 @@ body{padding-top:52px !important;}
 </script>
 <style>
 @keyframes boj-pulse{0%,100%{box-shadow:0 0 0 0 rgba(249,115,22,.5)}50%{box-shadow:0 0 0 8px rgba(249,115,22,0)}}
-@keyframes boj-pulse-severe{0%,100%{box-shadow:0 0 0 0 rgba(255,85,102,.6)}50%{box-shadow:0 0 0 12px rgba(255,85,102,0)}}
-@keyframes dot-blink{0%,100%{opacity:1}50%{opacity:.2}}
+@keyframes boj-pulse-severe{0%,100%{box-shadow:0 0 0 0 rgba(255,85,102,.6)}50%{box-shadow:0 0 0 14px rgba(255,85,102,0)}}
+@keyframes dot-blink{0%,100%{opacity:1}50%{opacity:.15}}
 </style>
 <div id="boj-live" style="margin-bottom:16px">
-  <div style="background:rgba(13,16,32,.60);border:1px solid rgba(34,211,238,.12);
-    border-radius:12px;padding:14px 24px;color:#444;font-family:JetBrains Mono,monospace;
-    font-size:10px;letter-spacing:.12em">S5 · BOJ / YEN CARRY — loading…</div>
+  <div style="background:rgba(13,16,32,.60);border:1px solid rgba(34,211,238,.12);border-radius:12px;
+    padding:14px 24px;color:#444;font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.12em">
+    S5 · BOJ / YEN CARRY — loading…</div>
 </div>
 <script>
 (function(){
   var BASE="https://sohweekian.github.io/bluelotus";
-  var PROBE_SEC=600;  /* daemon probe interval = 10 min */
-  var _lastData=null,_prevStatus=null,_lastFetch=0;
+  var PROBE_SEC=600;
+  var _lastData=null,_prevStatus=null;
 
   function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
-  var SC={  /* status → color */
-    "LOW":"#4ade80","WATCH":"#fbbf24","ACTIVE":"#f97316","SEVERE":"#ff5566"
-  };
-  var GC={  /* gate status → color */
-    "CALM":"#4ade80","WATCH":"#fbbf24","ACTIVE":"#f97316","SPIKE":"#ff5566",
+
+  /* ── colour maps ── */
+  var SC={"LOW":"#4ade80","WATCH":"#fbbf24","ACTIVE":"#f97316","SEVERE":"#ff5566"};
+  var GC={"CALM":"#4ade80","WATCH":"#fbbf24","ACTIVE":"#f97316","SPIKE":"#ff5566",
     "SHOCK":"#ff5566","SELL_OFF":"#ff5566","STRESS":"#ff5566","LIQUIDATING":"#ff5566",
     "BREAKDOWN":"#ff5566","DETECTED":"#fbbf24","NONE":"#4ade80",
-    "HAWKISH":"#ff5566","DOVISH":"#4ade80","NEUTRAL":"#94a3b8","UNKNOWN":"#94a3b8"
-  };
+    "HAWKISH":"#ff5566","DOVISH":"#4ade80","NEUTRAL":"#94a3b8","UNKNOWN":"#94a3b8"};
   function gc(v){return GC[String(v||"").toUpperCase()]||"#94a3b8";}
-  function fp(v){
-    if(v===null||v===undefined)return"–";
+  function fp(v,dec){
+    if(v===null||v===undefined||v==="")return"–";
     var f=parseFloat(v);if(isNaN(f))return"–";
-    return(f>=0?"+":"")+f.toFixed(3)+"%";
+    return(f>=0?"+":"")+f.toFixed(dec||3)+"%";
   }
   function badge(label,col){
-    return'<span style="background:'+col+'22;color:'+col+
-      ';border-radius:4px;padding:2px 7px;font-size:10px;font-weight:700">'+esc(label)+'</span>';
+    return'<span style="background:'+col+'22;color:'+col+';border-radius:4px;padding:2px 7px;font-size:10px;font-weight:700">'+esc(label)+'</span>';
   }
 
-  /* ── parse "2026-06-16 07:31 SGT" → JS Date (UTC) ── */
+  /* ── countdown ── */
   function parseGenAt(s){
     if(!s)return null;
     var m=s.match(/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})/);
     if(!m)return null;
-    /* SGT = UTC+8 */
     return new Date(Date.UTC(+m[1],+m[2]-1,+m[3],+m[4]-8,+m[5]));
   }
-
-  /* ── per-second countdown ticker ── */
   function tickCountdown(){
     if(!_lastData)return;
     var el=document.getElementById("boj-countdown");if(!el)return;
     var genAt=parseGenAt(_lastData.generated_at);
-    if(!genAt){el.textContent="";return;}
-    var nextProbe=new Date(genAt.getTime()+PROBE_SEC*1000);
-    var diffSec=Math.round((nextProbe-Date.now())/1000);
-    if(diffSec<=0){
-      el.textContent="probe due now…";el.style.color="#fbbf24";
-    }else{
-      var mm=Math.floor(diffSec/60),ss=diffSec%60;
-      el.textContent="next probe in "+(mm>0?mm+"m ":"")+ss+"s";
-      el.style.color=diffSec<60?"#f97316":"#555";
+    if(!genAt){el.innerHTML="";return;}
+    var next=new Date(genAt.getTime()+PROBE_SEC*1000);
+    var diff=Math.round((next-Date.now())/1000);
+    if(diff<=0){el.innerHTML='<span style="color:#fbbf24">⟳ probe due now…</span>';}
+    else{
+      var mm=Math.floor(diff/60),ss=diff%60;
+      el.innerHTML='<span style="color:'+(diff<60?"#f97316":"#555")+'">⟳ next probe '
+        +(mm>0?mm+"m ":"")+ss+"s</span>";
     }
   }
   setInterval(tickCountdown,1000);
 
+  /* ── status narrative ── */
+  var SITUATION={
+    "LOW":   {"bg":"rgba(74,222,128,.07)","border":"rgba(74,222,128,.2)","icon":"✅",
+               "headline":"Yen carry trade is STABLE — no unwind risk detected.",
+               "what":"USD/JPY is not moving significantly. No BOJ hawkish signals. All market gates calm. You can monitor without urgent action.",
+               "watch":"Watch for: BOJ governor speaking · USD/JPY drops below 158 · VXX/UVXY spike +5% · Nikkei drops >2%"},
+    "WATCH": {"bg":"rgba(251,191,36,.08)","border":"rgba(251,191,36,.3)","icon":"⚠️",
+               "headline":"CAUTION — Early carry unwind signals appearing.",
+               "what":"One or more gates are showing stress. The yen may be starting to strengthen. Second tranche adds are now BLOCKED. Stay alert.",
+               "watch":"Escalation triggers: USD/JPY breakdown flag · VXX +8% · Japan equity (EWJ) -2% · BOJ hawkish statement"},
+    "ACTIVE":{"bg":"rgba(249,115,22,.10)","border":"rgba(249,115,22,.4)","icon":"🚨",
+               "headline":"CARRY UNWIND ACTIVE — Multiple stress signals confirmed.",
+               "what":"Yen is strengthening and markets are under pressure. High-beta positions (ASTS, RKLB, QBTS, LUNR) at risk of liquidation selling. Do NOT add. Review exposure now.",
+               "watch":"Escalation to SEVERE: USD/JPY BREAKDOWN + VXX +15% + US equity selloff simultaneously"},
+    "SEVERE":{"bg":"rgba(255,85,102,.12)","border":"rgba(255,85,102,.5)","icon":"🔴",
+               "headline":"SEVERE CARRY UNWIND — Extreme stress across all gates.",
+               "what":"This is a crisis-level yen carry event. All adds blocked. High-beta liquidation likely in progress. CIO manual review REQUIRED before any portfolio action.",
+               "watch":"De-risk priority: ASTS → RKLB → QBTS → LUNR. Do not panic-sell without CIO review."}
+  };
+
+  /* ── gate explanations ── */
+  var GATE_EXPLAIN={
+    "BOJ Statement": "BOJ governor/MPC issued a statement or press conference. DETECTED = risk elevated.",
+    "BOJ Tone":      "Language of BOJ communications. HAWKISH = rate hike signals = yen strengthens = carry trades close.",
+    "USD/JPY":       "Yen strength gauge. Falling USD/JPY = yen getting MORE expensive = carry traders forced to buy yen back.",
+    "Japan Equity":  "EWJ/DXJ (Japanese stock ETFs). Carry unwind hits Japan equities first — watch for -2% drops.",
+    "Volatility":    "VXX/UVXY (fear index). Spike = liquidity drain = leveraged carry trades forced to close suddenly.",
+    "US Equity":     "SPY/QQQ/IWM. If US stocks fall WHILE yen strengthens, carry unwind is confirmed cross-market.",
+    "Credit":        "HYG/JNK credit spreads widening. Credit stress = deleveraging = carry positions closed to raise cash.",
+    "High Beta":     "NVDA/ASTS/QBTS/RKLB/LUNR/IONQ — OUR positions. Selling here = carry unwind hitting your book directly."
+  };
+
   function render(d){
     if(!d||!d.status)return;
     _lastData=d;
-    _lastFetch=Date.now();
-
     var st=d.status||"LOW",sc=parseFloat(d.score||0);
     var sc_col=SC[st]||"#94a3b8";
     var gen=d.generated_at||"";
     var act=d.cio_action||"WAIT";
     var tone=(d.boj_tone_gate||{}).tone||"UNKNOWN";
-    var usd=d.usd_jpy||{};
-    var price=usd.price?parseFloat(usd.price).toFixed(3):"–";
-    var chg5m=fp(usd.change_5m_pct);
-    var chg15m=fp(usd.change_15m_pct);
-    var chg1h=fp(usd.change_1h_pct);
-    var usdNote=usd.note||"";
-    var breakdown=usd.breakdown_flag;
+    var summ=SITUATION[st]||SITUATION["LOW"];
 
-    /* border animation: pulse for WATCH, pulse-severe for ACTIVE/SEVERE */
-    var borderCol=st==="LOW"?"rgba(34,211,238,.22)":st==="WATCH"?"rgba(251,191,36,.5)":"rgba(249,115,22,.6)";
-    var anim=st==="SEVERE"?"boj-pulse-severe 1.2s infinite":st==="ACTIVE"||st==="WATCH"?"boj-pulse 1.6s infinite":"none";
+    /* border / animation */
+    var borderCol=st==="LOW"?"rgba(34,211,238,.2)":summ.border;
+    var anim=st==="SEVERE"?"boj-pulse-severe 1.2s infinite":st==="ACTIVE"?"boj-pulse 1.6s infinite":
+             st==="WATCH"?"boj-pulse 2s infinite":"none";
 
-    /* score bar */
-    var barPct=Math.min(sc,100);
-    var scoreBar='<div style="flex:1;background:rgba(255,255,255,.06);border-radius:4px;height:8px;overflow:hidden">'
-      +'<div style="height:100%;width:'+barPct+'%;background:'+sc_col+';border-radius:4px;'
-      +'transition:width .6s ease"></div></div>';
+    /* ── score bar with threshold markers at 25/50/75 ── */
+    var scoreBarHtml=
+      '<div style="position:relative;flex:1;margin:0 4px">'
+      +'<div style="background:rgba(255,255,255,.06);border-radius:4px;height:10px;overflow:visible;position:relative">'
+      +'<div style="height:100%;width:'+Math.min(sc,100)+'%;background:'+sc_col+';border-radius:4px;transition:width .8s ease"></div>'
+      /* threshold ticks */
+      +'<div style="position:absolute;top:-3px;bottom:-3px;left:25%;width:1px;background:rgba(251,191,36,.4)"></div>'
+      +'<div style="position:absolute;top:-3px;bottom:-3px;left:50%;width:1px;background:rgba(249,115,22,.4)"></div>'
+      +'<div style="position:absolute;top:-3px;bottom:-3px;left:75%;width:1px;background:rgba(255,85,102,.4)"></div>'
+      +'</div>'
+      /* threshold labels */
+      +'<div style="display:flex;position:relative;font-size:8px;color:#555;margin-top:2px">'
+      +'<span style="position:absolute;left:25%;transform:translateX(-50%)">WATCH</span>'
+      +'<span style="position:absolute;left:50%;transform:translateX(-50%)">ACTIVE</span>'
+      +'<span style="position:absolute;left:75%;transform:translateX(-50%)">SEVERE</span>'
+      +'</div></div>';
 
     /* ── USD/JPY strip ── */
-    var chgColor=function(v){
-      if(v==="–")return"#94a3b8";
+    var usd=d.usd_jpy||{};
+    var price=usd.price?parseFloat(usd.price).toFixed(3):"–";
+    var chg5m=fp(usd.change_5m_pct,3),chg15m=fp(usd.change_15m_pct,3),chg1h=fp(usd.change_1h_pct,3);
+    var usdNote=usd.note||"",breakdown=usd.breakdown_flag;
+    function cc(v){
+      if(v==="–")return"#555";
       var f=parseFloat(v);
-      return f<-0.3?"#f97316":f<-0.1?"#fbbf24":f>0.1?"#4ade80":"#cbd5e1";
-    };
-    var bdBadge=breakdown?'<div style="margin-left:auto;background:rgba(255,85,102,.15);'
-      +'color:#ff5566;border:1px solid #ff556644;border-radius:4px;padding:3px 8px;'
-      +'font-size:10px;font-weight:700;animation:boj-pulse-severe 1s infinite">⚠ BREAKDOWN</div>':"";
+      return f<-0.3?"#f97316":f<-0.1?"#fbbf24":f>0.1?"#4ade80":"#94a3b8";
+    }
+    var bdBadge=breakdown
+      ?'<div style="margin-left:auto;background:#ff556622;color:#ff5566;border:1px solid #ff556644;'
+       +'border-radius:4px;padding:3px 8px;font-size:10px;font-weight:700;animation:boj-pulse-severe 1s infinite">⚠ YEN BREAKDOWN</div>':"";
 
-    var usdStrip='<div style="display:flex;gap:0;padding:10px 14px;background:rgba(34,211,238,.06);'
-      +'border:1px solid rgba(34,211,238,.16);border-radius:8px;margin-bottom:12px;align-items:center">'
-      +'<div style="flex:0 0 auto;padding-right:18px;border-right:1px solid rgba(255,255,255,.07)">'
-      +'<div style="font-size:9px;color:#555;letter-spacing:.12em;margin-bottom:2px">USD/JPY</div>'
-      +'<div style="font-size:18px;font-weight:700;color:#e2e8f0;font-family:JetBrains Mono,monospace">'+esc(price)+'</div>'
-      +(usdNote?'<div style="font-size:8px;color:#555;margin-top:1px">~approx</div>':'')
+    var usdStrip=
+      '<div style="display:flex;gap:0;padding:10px 14px;background:rgba(34,211,238,.05);'
+      +'border:1px solid rgba(34,211,238,.14);border-radius:8px;margin-bottom:10px;align-items:center;flex-wrap:wrap;gap:0">'
+      +'<div style="flex:0 0 auto;padding-right:16px;border-right:1px solid rgba(255,255,255,.07);margin-right:16px">'
+      +'<div style="font-size:9px;color:#555;letter-spacing:.12em">USD/JPY</div>'
+      +'<div style="font-size:20px;font-weight:700;color:#e2e8f0;font-family:JetBrains Mono,monospace;line-height:1.2">'+esc(price)+'</div>'
+      +(usdNote?'<div style="font-size:8px;color:#555">~approx</div>':'')
       +'</div>'
-      +'<div style="padding:0 18px;border-right:1px solid rgba(255,255,255,.07)">'
-      +'<div style="font-size:9px;color:#555;margin-bottom:3px">5m</div>'
-      +'<div style="font-size:13px;font-weight:600;color:'+chgColor(chg5m)+'">'+esc(chg5m)+'</div></div>'
-      +'<div style="padding:0 18px;border-right:1px solid rgba(255,255,255,.07)">'
-      +'<div style="font-size:9px;color:#555;margin-bottom:3px">15m</div>'
-      +'<div style="font-size:13px;font-weight:600;color:'+chgColor(chg15m)+'">'+esc(chg15m)+'</div></div>'
-      +'<div style="padding:0 18px;border-right:1px solid rgba(255,255,255,.07)">'
-      +'<div style="font-size:9px;color:#555;margin-bottom:3px">1h</div>'
-      +'<div style="font-size:13px;font-weight:600;color:'+chgColor(chg1h)+'">'+esc(chg1h)+'</div></div>'
-      +'<div style="padding:0 18px">'
-      +'<div style="font-size:9px;color:#555;margin-bottom:3px">BOJ TONE</div>'
-      +'<div>'+badge(tone,gc(tone))+'</div></div>'
+      +'<div style="padding-right:16px;border-right:1px solid rgba(255,255,255,.07);margin-right:16px">'
+      +'<div style="font-size:9px;color:#555">5 min</div>'
+      +'<div style="font-size:14px;font-weight:600;color:'+cc(chg5m)+'">'+esc(chg5m)+'</div>'
+      +'<div style="font-size:8px;color:#555">yen direction</div></div>'
+      +'<div style="padding-right:16px;border-right:1px solid rgba(255,255,255,.07);margin-right:16px">'
+      +'<div style="font-size:9px;color:#555">15 min</div>'
+      +'<div style="font-size:14px;font-weight:600;color:'+cc(chg15m)+'">'+esc(chg15m)+'</div>'
+      +'<div style="font-size:8px;color:#555">momentum</div></div>'
+      +'<div style="padding-right:16px;border-right:1px solid rgba(255,255,255,.07);margin-right:16px">'
+      +'<div style="font-size:9px;color:#555">1 hour</div>'
+      +'<div style="font-size:14px;font-weight:600;color:'+cc(chg1h)+'">'+esc(chg1h)+'</div>'
+      +'<div style="font-size:8px;color:#555">trend</div></div>'
+      +'<div>'
+      +'<div style="font-size:9px;color:#555">BOJ TONE</div>'
+      +'<div style="margin-top:2px">'+badge(tone,gc(tone))+'</div>'
+      +'<div style="font-size:8px;color:#555;margin-top:2px">'+
+        (tone==="HAWKISH"?"rate hike signal":tone==="DOVISH"?"easing stance":tone==="NEUTRAL"?"neutral":"no BOJ data")
+      +'</div></div>'
       +bdBadge
       +'</div>';
 
-    /* ── 8 gate rows ── */
+    /* ── 8 gate rows with explanations ── */
     var gates=[
       ["BOJ Statement",(d.boj_statement||{}).status,  (d.boj_statement||{}).score,  15],
       ["BOJ Tone",     tone,                             (d.boj_tone_gate||{}).score,  15],
@@ -965,88 +1005,111 @@ body{padding-top:52px !important;}
     ];
     var gateRows=gates.map(function(g){
       var nm=g[0],gst=String(g[1]||""),gsc=parseFloat(g[2])||0,wt=g[3];
-      var col=gc(gst);
-      var pct=Math.min(gsc,wt)/wt*100;
-      return'<div style="display:flex;align-items:center;gap:8px;padding:4px 0;'
-        +'border-bottom:1px solid rgba(255,255,255,.04)">'
-        +'<div style="width:96px;color:#94a3b8;font-size:10px;flex-shrink:0">'+esc(nm)+'</div>'
+      var col=gc(gst);var pct=Math.min(gsc,wt)/wt*100;
+      var explain=GATE_EXPLAIN[nm]||"";
+      var isAlert=gst!=="CALM"&&gst!=="NONE"&&gst!=="UNKNOWN"&&gst!=="DOVISH";
+      return'<div style="padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)">'
+        +'<div style="display:flex;align-items:center;gap:8px">'
+        +'<div style="width:100px;color:'+(isAlert?col:"#94a3b8")+';font-size:10px;font-weight:'+(isAlert?"700":"400")+';flex-shrink:0">'+esc(nm)+'</div>'
         +'<div style="flex:1;background:rgba(255,255,255,.05);border-radius:3px;height:6px;overflow:hidden">'
-        +'<div style="height:100%;width:'+pct+'%;background:'+col+';border-radius:3px;'
-        +'transition:width .8s ease"></div></div>'
-        +'<div style="width:26px;text-align:right;color:'+col+';font-size:10px;font-weight:700">'+gsc.toFixed(0)+'</div>'
-        +'<div style="width:74px;text-align:right">'+badge(gst,col)+'</div>'
+        +'<div style="height:100%;width:'+pct+'%;background:'+col+';border-radius:3px;transition:width .8s ease"></div></div>'
+        +'<div style="width:24px;text-align:right;color:'+col+';font-size:10px;font-weight:700">'+gsc.toFixed(0)+'<span style="font-size:8px;color:#444">/'+wt+'</span></div>'
+        +'<div style="width:82px;text-align:right">'+badge(gst,col)+'</div>'
+        +'</div>'
+        +'<div style="font-size:9px;color:#444;margin-top:1px;margin-left:108px;line-height:1.3">'+esc(explain)+'</div>'
         +'</div>';
     }).join("");
+
+    /* ── situation summary box ── */
+    var summBox=
+      '<div style="background:'+summ.bg+';border:1px solid '+summ.border+';border-radius:8px;'
+      +'padding:10px 14px;margin-bottom:10px">'
+      +'<div style="font-size:13px;font-weight:700;color:'+sc_col+';margin-bottom:4px">'
+      +summ.icon+' '+esc(summ.headline)+'</div>'
+      +'<div style="font-size:11px;color:#cbd5e1;line-height:1.5;margin-bottom:6px">'+esc(summ.what)+'</div>'
+      +'<div style="font-size:10px;color:#555;border-top:1px solid rgba(255,255,255,.06);padding-top:6px">'
+      +'<span style="color:#94a3b8;font-weight:600">WATCH FOR: </span>'+esc(summ.watch)+'</div>'
+      +'</div>';
 
     /* ── alerts ── */
     var alerts=d.alerts||[],alertHtml="";
     if(alerts.length){
-      alertHtml='<div style="margin-top:8px;padding:6px 10px;background:rgba(249,115,22,.10);'
+      alertHtml='<div style="margin-top:8px;padding:8px 12px;background:rgba(249,115,22,.10);'
         +'border:1px solid rgba(249,115,22,.3);border-radius:6px">'
-        +alerts.map(function(a){
-          return'<div style="font-size:10px;color:#fcd34d;padding:2px 0">⚠ '+esc(a)+'</div>';
+        +'<div style="font-size:9px;font-weight:700;color:#f97316;letter-spacing:.1em;margin-bottom:4px">ACTIVE ALERTS</div>'
+        +alerts.map(function(a){return'<div style="font-size:11px;color:#fcd34d;padding:2px 0">⚠ '+esc(a)+'</div>';
         }).join("")+'</div>';
     }
 
-    /* ── notes ── */
+    /* ── notes (human summary from engine) ── */
     var notes=d.notes||[],notesHtml="";
-    if(notes.length){
-      notesHtml='<div style="margin-top:6px;padding:4px 8px">'
-        +notes.map(function(n){
-          return'<div style="font-size:10px;color:#555;padding:1px 0">· '+esc(n)+'</div>';
-        }).join("")+'</div>';
+    var hs=d.human_summary||"";
+    if(hs){
+      notesHtml='<div style="margin-top:6px;padding:4px 2px;font-size:10px;color:#555;font-style:italic">'+esc(hs)+'</div>';
     }
 
-    /* ── live pulse dot ── */
-    var pulseDot='<span style="display:inline-block;width:6px;height:6px;border-radius:50%;'
-      +'background:'+sc_col+';margin-right:6px;animation:dot-blink 1.4s infinite;vertical-align:middle"></span>';
+    /* ── pulse dot ── */
+    var dot='<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:'+sc_col+
+      ';margin-right:7px;animation:dot-blink 1.4s infinite;vertical-align:middle"></span>';
 
-    var html='<div style="background:rgba(13,16,32,.96);border:1px solid '+borderCol+';'
-      +'border-radius:12px;padding:18px 22px;animation:'+anim+'">'
+    var html='<div style="background:rgba(13,16,32,.97);border:1px solid '+borderCol+';'
+      +'border-radius:12px;padding:20px 24px;animation:'+anim+'">'
 
-      /* header */
-      +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">'
+      /* ── header ── */
+      +'<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">'
+      +'<div>'
       +'<div style="font-family:JetBrains Mono,monospace;font-size:11px;letter-spacing:.18em;'
-      +'text-transform:uppercase;color:#22d3ee">'+pulseDot+'S5 · BOJ / YEN CARRY EVENT WATCHER</div>'
+      +'text-transform:uppercase;color:#22d3ee;margin-bottom:2px">'+dot+'S5 · BOJ / YEN CARRY EVENT WATCHER</div>'
+      +'<div style="font-size:10px;color:#555">Probing every 10 min · JS refreshes every 60s</div>'
+      +'</div>'
       +'<div style="text-align:right">'
       +'<div style="font-size:10px;color:#555">'+esc(gen)+'</div>'
-      +'<div id="boj-countdown" style="font-size:9px;color:#555;margin-top:1px"></div>'
+      +'<div id="boj-countdown" style="font-size:9px;margin-top:2px"></div>'
       +'</div></div>'
 
-      /* score row */
-      +'<div style="display:flex;align-items:center;gap:14px;margin-bottom:6px">'
-      +'<div style="font-size:32px;font-weight:800;font-family:JetBrains Mono,monospace;color:'+sc_col+';line-height:1">'
-      +sc.toFixed(1)+'<span style="font-size:14px;color:#555;font-weight:400">/100</span></div>'
-      +'<div>'+badge(st,sc_col)+'</div>'
-      +'<div style="flex:1">'+scoreBar+'</div>'
-      +'<div style="text-align:right">'
+      /* ── score row ── */
+      +'<div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">'
+      +'<div>'
+      +'<div style="font-size:36px;font-weight:800;font-family:JetBrains Mono,monospace;color:'+sc_col+';line-height:1">'
+      +sc.toFixed(1)+'</div>'
+      +'<div style="font-size:10px;color:#555">/ 100 pts</div>'
+      +'</div>'
+      +'<div>'+badge(st,sc_col)+'<div style="font-size:9px;color:#555;margin-top:3px;text-align:center">risk level</div></div>'
+      +scoreBarHtml
+      +'<div style="text-align:right;flex-shrink:0">'
       +'<div style="font-size:9px;color:#555;letter-spacing:.1em">CIO ACTION</div>'
-      +'<div style="font-size:14px;font-weight:700;color:#e2e8f0">'+esc(act)+'</div>'
-      +'</div></div>'
+      +'<div style="font-size:15px;font-weight:700;color:#e2e8f0">'+esc(act)+'</div>'
+      +'<div style="font-size:9px;color:#555">'
+      +(act==="WAIT"?"safe to monitor":act==="HOLD_HEDGE"?"hold, no adds":act==="TAKE_PARTIAL_HEDGE_PROFIT_REVIEW"?"review exposure":"all adds BLOCKED")
+      +'</div></div></div>'
 
-      /* USD/JPY strip */
+      /* ── situation summary ── */
+      +summBox
+
+      /* ── USD/JPY strip ── */
       +usdStrip
 
-      /* gates */
-      +'<div>'+gateRows+'</div>'
+      /* ── 8 gates ── */
+      +'<div style="margin-bottom:8px">'+gateRows+'</div>'
 
-      /* alerts + notes */
-      +alertHtml+notesHtml
+      /* ── alerts ── */
+      +alertHtml
 
-      /* governance footer */
-      +'<div style="margin-top:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,.04);'
+      /* ── engine narrative ── */
+      +notesHtml
+
+      /* ── governance ── */
+      +'<div style="margin-top:12px;padding-top:8px;border-top:1px solid rgba(255,255,255,.04);'
       +'font-size:9px;color:#444;letter-spacing:.07em">'
-      +'EXECUTION: CIO_ONLY_MANUAL &nbsp;·&nbsp; ORDER_ROUTING: DISABLED &nbsp;·&nbsp; '
-      +'GOVERNANCE: BOJ_YEN_CARRY v1.0 &nbsp;·&nbsp; '
-      +'<span style="color:#22d3ee22">PROBE INTERVAL: 10min</span>'
+      +'EXECUTION: CIO_ONLY_MANUAL &nbsp;·&nbsp; ORDER_ROUTING: DISABLED &nbsp;·&nbsp; GOVERNANCE: BOJ_YEN_CARRY v1.0'
       +'</div>'
       +'</div>';
 
-    /* status escalation flash */
+    /* flash on escalation */
     if(_prevStatus&&_prevStatus!==st&&st!=="LOW"){
-      var el=document.getElementById("boj-live");
-      if(el){el.style.transition="background .3s";el.style.background="rgba(249,115,22,.12)";
-        setTimeout(function(){el.style.background="";},2000);}
+      var el2=document.getElementById("boj-live");
+      if(el2){el2.style.transition="background .4s";el2.style.background="rgba(249,115,22,.15)";
+        setTimeout(function(){el2.style.background="";},3000);}
     }
     _prevStatus=st;
     document.getElementById("boj-live").innerHTML=html;
@@ -1062,15 +1125,13 @@ body{padding-top:52px !important;}
           document.getElementById("boj-live").innerHTML=
             '<div style="background:rgba(13,16,32,.60);border:1px solid rgba(34,211,238,.10);'
             +'border-radius:12px;padding:14px 24px;color:#555;font-family:JetBrains Mono,monospace;'
-            +'font-size:10px;letter-spacing:.1em">S5 · BOJ / YEN CARRY — daemon not yet running · '
-            +'<a href="javascript:location.reload()" style="color:#22d3ee;text-decoration:none">retry</a>'
-            +'</div>';
+            +'font-size:10px;letter-spacing:.1em">S5 · BOJ / YEN CARRY — daemon not yet running &nbsp;·&nbsp; '
+            +'<a href="javascript:location.reload()" style="color:#22d3ee;text-decoration:none">retry</a></div>';
         }
-        /* keep showing last data on transient fetch failure */
       });
   }
   load();
-  setInterval(load, 60000);   /* poll every 60 s — catches daemon push within 1 min */
+  setInterval(load, 60000);
 })();
 </script>
 
