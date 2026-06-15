@@ -300,21 +300,26 @@ body{padding-top:52px !important;}
   function render(d){
     var rc=d.regime_color||"#fbbf24";
     var ic=d.integrity_color||"#4ade80";
+    /* Live regime label: show (LIVE) indicator when overridden by thesis probe */
+    var regimeSrc=d._live_regime_active?"LIVE · ":"";
     var bar='<div style="background:rgba('+rgb(rc)+',0.10);border-left:4px solid '+rc+';'
       +'border-radius:10px;padding:14px 20px;margin-bottom:14px;'
       +'display:flex;align-items:center;gap:24px;flex-wrap:wrap;font-family:JetBrains Mono,monospace">'
       +'<span style="font-size:22px;font-weight:700;color:'+rc+';letter-spacing:.05em">'
-      +esc(d.regime_emoji||"")+'&nbsp;'+esc(d.regime_short||"")+'&nbsp;('+esc(d.regime_score||"")+')</span>'
+      +esc(d.regime_emoji||"")+'&nbsp;'+esc(d.regime_short||"")+'</span>'
       +'<span style="font-size:13px;color:#e6edf3;font-weight:600">CIO:&nbsp;'
       +'<span style="color:'+rc+'">'+esc(d.cio_action||"")+'</span></span>'
+      +(d._live_regime_basis?'<span style="font-size:10px;color:#555;font-family:JetBrains Mono,monospace">'+esc(d._live_regime_basis)+'</span>':"")
       +'<span style="font-size:11px;color:#8b93a7;margin-left:auto">'
-      +'Live&nbsp;·&nbsp;'+esc(d.generated_at||"")+'&nbsp;&nbsp;·&nbsp;&nbsp;'
+      +regimeSrc+'Portfolio&nbsp;·&nbsp;'+esc(d.generated_at||"")+'&nbsp;&nbsp;·&nbsp;&nbsp;'
       +'Integrity&nbsp;<span style="color:'+ic+';font-weight:700">'+esc(d.integrity||"")+'</span>'
       +'</span></div>';
+    var vixVal=d.vix||"N/A";
+    var vixColor=(parseFloat(vixVal)>25)?"#ff5566":((parseFloat(vixVal)>20)?"#fbbf24":"#4ade80");
     var strip='<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px">'
-      +kpi("VIX",esc(d.vix||"N/A"),"Volatility Index",d.vix_alert?"#ff5566":"#4ade80")
+      +kpi("VIX",esc(vixVal),"Volatility Index",vixColor)
       +kpi("Fear & Greed",(d.fg_score||"N/A")+"/100",esc(d.fg_label||""),d.fg_color||"#fbbf24")
-      +kpi("Regime Score",esc(d.regime_score||"N/A"),esc(d.regime_short||""),rc)
+      +kpi("Regime Score",esc(String(d.regime_score||"N/A")),esc(d.regime_short||""),rc)
       +kpi("Portfolio",esc(d.market_val_fmt||""),"P/L "+esc(d.pnl_fmt||""),d.pnl_color||"#e6edf3")
       +kpi("Cash Reserve",esc(d.cash_pct_fmt||""),esc(d.cash_fmt||""),d.cash_color||"#e6edf3")
       +'</div>';
@@ -323,10 +328,31 @@ body{padding-top:52px !important;}
     render_threat_signals(d);
   }
   function load(){
-    fetch(BASE+"/data/portfolio_live.json?t="+Date.now())
-      .then(function(r){return r.json();})
-      .then(render)
-      .catch(function(){});
+    /* Parallel fetch: portfolio data (Moomoo, hourly) + thesis probe (10-min live regime) */
+    Promise.all([
+      fetch(BASE+"/data/portfolio_live.json?t="+Date.now()).then(function(r){return r.json();}).catch(function(){return {}}),
+      fetch(BASE+"/data/thesis_evidence_live.json?t="+Date.now()).then(function(r){return r.json();}).catch(function(){return {}})
+    ]).then(function(results){
+      var d=results[0]||{};
+      var td=results[1]||{};
+      var lr=td.live_regime;
+      /* Override stale pipeline regime with live 10-min probe data when available */
+      if(lr&&lr.regime&&lr.regime!=="UNKNOWN"&&lr.regime_score!==undefined){
+        d.regime_short  = lr.regime_short  || d.regime_short;
+        d.regime_score  = lr.regime_score;
+        d.regime_color  = lr.regime_color  || d.regime_color;
+        d.regime_emoji  = lr.regime_emoji  || d.regime_emoji;
+        /* CIO action follows live regime */
+        if(lr.regime.indexOf("OFF")>=0){d.cio_action="WAIT / HOLD";}
+        else if(lr.regime==="NEUTRAL"){d.cio_action="WATCH";}
+        else{d.cio_action="HOLD / REVIEW";}
+        /* VIX from live probe (actual index level) */
+        if(lr.vix_level&&lr.vix_level>0){d.vix=lr.vix_level.toFixed(1);d.vix_alert=lr.vix_level>20;}
+        d._live_regime_active=true;
+        d._live_regime_basis=lr.basis||"";
+      }
+      render(d);
+    }).catch(function(){});
   }
   load();
   setInterval(load,60000);
