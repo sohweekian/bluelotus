@@ -245,6 +245,92 @@ body{padding-top:52px !important;}
       +'<th style="color:#c084fc;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:4px 6px 8px;text-align:left">Thesis</th>'
       +'</tr>'+rows+'</table>'+footer;
   }
+  function fmt_chg(v){
+    if(v===null||v===undefined)return{s:"--",c:"#8b93a7"};
+    var f=parseFloat(v);
+    return{s:(f>=0?"+":"")+f.toFixed(1)+"%",c:f>=0?"#4ade80":"#ff5566"};
+  }
+  function render_movers(d){
+    var el=document.getElementById("movers-live");
+    if(!el)return;
+    var ms=d.market_signals||{};
+    var movers=d.top_movers||[];
+    /* Reference bar: SPY / QQQ / GLD / TLT */
+    var refs=[["SPY",ms.spy_chg],["QQQ",ms.qqq_chg],["GLD",ms.gld_chg],["TLT",ms.tlt_chg]];
+    var ref_parts="";
+    for(var i=0;i<refs.length;i++){
+      var fc=fmt_chg(refs[i][1]);
+      if(refs[i][1]===null||refs[i][1]===undefined)continue;
+      ref_parts+='<span style="color:'+fc.c+'">'+esc(refs[i][0])+'&nbsp;'+esc(fc.s)+'</span>';
+    }
+    var ref_bar=ref_parts?('<div style="font-size:10px;font-family:JetBrains Mono,monospace;'
+      +'margin-bottom:10px;padding:6px 8px;background:rgba(255,255,255,.04);'
+      +'border-radius:6px;display:flex;gap:12px;flex-wrap:wrap">'+ref_parts+'</div>'):"";
+    /* Mover rows */
+    var rows="";
+    if(movers.length===0){rows='<div style="color:#8b93a7;font-size:12px">No movers — market closed or snapshot pending.</div>';}
+    for(var j=0;j<movers.length&&j<10;j++){
+      var m=movers[j];var fc2=fmt_chg(m.chg_pct);
+      rows+='<div style="display:flex;justify-content:space-between;align-items:center;'
+        +'padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);">'
+        +'<span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">'+esc(m.ticker||"?")+'</span>'
+        +'<span style="font-family:JetBrains Mono,monospace;font-size:12px;color:'+fc2.c+'">'+esc(fc2.s)+'</span>'
+        +'</div>';
+    }
+    /* Sentiment footer */
+    var sc=ms.sentiment_color||"#94a3b8";
+    var sg=ms.sentiment||"";
+    var da=ms.defensive_avg;var ga=ms.growth_avg;
+    var sent_line="";
+    if(sg&&sg!=="INSUFFICIENT_DATA"){
+      var dLabel=(da!==null&&da!==undefined)?"DEF "+(da>=0?"+":"")+parseFloat(da).toFixed(1)+"%":"";
+      var gLabel=(ga!==null&&ga!==undefined)?"GRW "+(ga>=0?"+":"")+parseFloat(ga).toFixed(1)+"%":"";
+      sent_line='<div style="margin-top:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,.06);'
+        +'font-family:JetBrains Mono,monospace;font-size:10px;color:#8b93a7;display:flex;gap:12px;align-items:center">'
+        +(dLabel?'<span style="color:#fbbf24">'+esc(dLabel)+'</span>':"")
+        +(gLabel?'<span style="color:#4ade80">'+esc(gLabel)+'</span>':"")
+        +'<span style="margin-left:auto;font-size:9px;letter-spacing:.08em;color:'+sc+'">'+esc(sg.replace(/_/g," "))+'</span>'
+        +'</div>';
+    }
+    el.innerHTML='<div style="font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.18em;'
+      +'text-transform:uppercase;color:#c084fc;margin-bottom:12px;display:flex;align-items:center;gap:8px">Top Movers'
+      +'<span style="height:1px;background:rgba(192,132,252,.18);flex:1;display:block"></span></div>'
+      +ref_bar+rows+sent_line;
+  }
+  function render_threat_signals(d){
+    var el=document.getElementById("threat-signals-live");
+    if(!el)return;
+    var ms=d.market_signals||{};
+    var fg=d.fg_score;var fgl=d.fg_label||"";var fgc=d.fg_color||"#fbbf24";
+    var sc=ms.sentiment_color||"#94a3b8";var sg=ms.sentiment||"";
+    var da=ms.defensive_avg;var ga=ms.growth_avg;
+    var html="";
+    /* F&G row */
+    if(fg!==null&&fg!==undefined){
+      html+='<div style="display:flex;align-items:center;gap:8px;padding:7px 0;'
+        +'border-bottom:1px solid rgba(255,255,255,.05);">'
+        +'<span style="font-size:13px;flex-shrink:0">📊</span>'
+        +'<span style="font-size:12px;color:#ccd5e3;line-height:1.5">'
+        +'Fear &amp; Greed <span style="color:'+fgc+';font-weight:700">'+esc(fg)+'/100 '+esc(fgl)+'</span></span>'
+        +'</div>';
+    }
+    /* Sector sentiment row */
+    if(sg&&sg!=="INSUFFICIENT_DATA"){
+      var sgLabel=sg.replace(/_/g," ");
+      var dStr=(da!==null&&da!==undefined)?"DEF "+(da>=0?"+":"")+parseFloat(da).toFixed(1)+"%":"";
+      var gStr=(ga!==null&&ga!==undefined)?"GRW "+(ga>=0?"+":"")+parseFloat(ga).toFixed(1)+"%":"";
+      html+='<div style="display:flex;align-items:flex-start;gap:8px;padding:7px 0;'
+        +'border-bottom:1px solid rgba(255,255,255,.05);">'
+        +'<span style="font-size:13px;flex-shrink:0">📈</span>'
+        +'<span style="font-size:12px;color:#ccd5e3;line-height:1.5">'
+        +'Inst Sentiment <span style="color:'+sc+';font-weight:700">'+esc(sgLabel)+'</span>'
+        +(dStr||gStr?'<br><span style="font-size:10px;font-family:JetBrains Mono,monospace;color:#8b93a7">'
+          +(dStr?'<span style="color:#fbbf24">'+esc(dStr)+'</span> ':"")+' '
+          +(gStr?'<span style="color:#4ade80">'+esc(gStr)+'</span>':"")+'</span>':"")
+        +'</span></div>';
+    }
+    el.innerHTML=html;
+  }
   function render(d){
     var rc=d.regime_color||"#fbbf24";
     var ic=d.integrity_color||"#4ade80";
@@ -268,6 +354,8 @@ body{padding-top:52px !important;}
       +'</div>';
     document.getElementById("fund-live").innerHTML=bar+strip;
     render_portfolio(d);
+    render_movers(d);
+    render_threat_signals(d);
   }
   function load(){
     fetch(BASE+"/data/portfolio_live.json?t="+Date.now())
@@ -291,6 +379,7 @@ body{padding-top:52px !important;}
   </div>
   <div style="background:rgba(255,85,102,.12);border:1px solid #ff5566;border-radius:8px;padding:10px 12px;margin-bottom:10px;font-family:JetBrains Mono,monospace;font-size:11px;color:#ff5566;line-height:1.5"><span style="font-weight:700">⚡ GEO ALERT</span><br>Pakistan says US-Iran deal to be signed within 24 hours. Strait of Hormuz will be reopened as part of ceasefi…</div>
   <div style="display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);"><span style="color:#ff5566;font-size:13px;flex-shrink:0">🔴</span><span style="font-size:12px;color:#ccd5e3;line-height:1.5">F/G 34 -- FEAR</span></div><div style="display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);"><span style="color:#ff5566;font-size:13px;flex-shrink:0">🔴</span><span style="font-size:12px;color:#ccd5e3;line-height:1.5">Inst sentiment -0.273 bearish</span></div><div style="display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);"><span style="color:#fbbf24;font-size:13px;flex-shrink:0">🟡</span><span style="font-size:12px;color:#ccd5e3;line-height:1.5">Defensives &gt;&gt; Growth -- RISK OFF</span></div>
+  <div id="threat-signals-live" style="margin-top:10px;border-top:1px solid rgba(255,255,255,.06);padding-top:8px"></div>
 </div>
   
 <div style="background:rgba(13,16,32,.94);border:1px solid rgba(192,132,252,.18);
@@ -305,15 +394,14 @@ body{padding-top:52px !important;}
   </div>
 </div>
   
-<div style="background:rgba(13,16,32,.94);border:1px solid rgba(192,132,252,.18);
+<div id="movers-live" style="background:rgba(13,16,32,.94);border:1px solid rgba(192,132,252,.18);
   border-radius:18px;padding:18px;">
   <div style="font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.18em;
     text-transform:uppercase;color:#c084fc;margin-bottom:12px;display:flex;
     align-items:center;gap:8px">Top Movers
     <span style="height:1px;background:rgba(192,132,252,.18);flex:1;display:block"></span>
   </div>
-  
-  <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">SPCE</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#ff5566">-31.8%</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">ASTS</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#ff5566">-15.5%</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">SIDU</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#ff5566">-14.1%</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">LUNR</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#ff5566">-13.1%</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">RDW</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#ff5566">-11.5%</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">ARM</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#4ade80">+11.3%</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">SATS</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#ff5566">-11.0%</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">RKLB</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#ff5566">-10.8%</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">BKSY</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#ff5566">-9.9%</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-family:JetBrains Mono,monospace;color:#c084fc;font-size:12px">PL</span><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:#ff5566">-8.8%</span></div>
+  <div style="color:#555;font-size:11px;font-family:JetBrains Mono,monospace">Loading market data&hellip;</div>
 </div>
 </div>
 <div id="thesis-live" style="margin-bottom:16px">
