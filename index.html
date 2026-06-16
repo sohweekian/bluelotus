@@ -221,7 +221,14 @@ body{padding-top:52px !important;}
   function render_portfolio(d){
     var el=document.getElementById("portfolio-table-live");
     if(!el)return;
-    var positions=d.positions||[];
+    var rawPositions=d.positions||[];
+    var positions=Array.isArray(rawPositions)
+      ? rawPositions
+      : Object.keys(rawPositions).map(function(t){
+          var p=rawPositions[t]||{};
+          p.ticker=p.ticker||t;
+          return p;
+        });
     if(!positions.length){el.innerHTML='<div style="color:#8b93a7;font-size:12px;padding:8px 0">No positions.</div>';return;}
     var ts=(d.portfolio_updated_at||"").slice(11,16);
     var rows="";
