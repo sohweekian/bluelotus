@@ -132,21 +132,26 @@ body{padding-top:52px !important;}
   function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
   /* ── Source logo badges — generated from news_probe_sources.json (never hardcoded) ── */
   var LOGOS={
-  'FT': '<span style="display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:#CC6B4A;color:#fff;font-family:Georgia,serif;font-size:12px;font-weight:700;letter-spacing:0.02em;width:28px;height:22px;border-radius:3px;">FT</span>',
+  'FT_World': '<span style="display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:#CC6B4A;color:#fff;font-family:Georgia,serif;font-size:12px;font-weight:700;letter-spacing:0.02em;width:28px;height:22px;border-radius:3px;">FT</span>',
   'WSJ': '<span style="display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:#003D6B;color:#fff;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.08em;height:22px;padding:0 7px;border-radius:3px;">WSJ</span>',
   'Bloomberg': '<span style="display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:#1B4F8A;color:#fff;font-family:Arial,sans-serif;font-size:14px;font-weight:700;width:22px;height:22px;border-radius:50%;">B</span>',
   'SCMP': '<span style="display:inline-flex;align-items:center;gap:1px;flex-shrink:0;"><span style="display:inline-flex;align-items:center;justify-content:center;background:#C9A832;color:#001533;width:22px;height:22px;border-radius:2px 0 0 2px;font-family:Arial,sans-serif;font-weight:700;font-size:9px;flex-shrink:0;">SC</span><span style="display:inline-flex;align-items:center;justify-content:center;background:#001533;color:#C9A832;width:22px;height:22px;border-radius:0 2px 2px 0;font-family:Arial,sans-serif;font-weight:700;font-size:9px;flex-shrink:0;">MP</span></span>',
-  'NikkeiAsia': '<span style="display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:#162040;height:22px;border-radius:3px;padding:0 7px;gap:4px;"><span style="font-family:Arial,Helvetica,sans-serif;font-weight:700;color:#fff;font-size:9px;letter-spacing:0.08em;">NIKKEI</span><span style="font-family:Arial,Helvetica,sans-serif;font-weight:400;color:#F0C840;font-size:9px;">Asia</span></span>'
+  'Nikkei_Asia': '<span style="display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:#162040;height:22px;border-radius:3px;padding:0 7px;gap:4px;"><span style="font-family:Arial,Helvetica,sans-serif;font-weight:700;color:#fff;font-size:9px;letter-spacing:0.08em;">NIKKEI</span><span style="font-family:Arial,Helvetica,sans-serif;font-weight:400;color:#F0C840;font-size:9px;">Asia</span></span>',
+  'NHK_Economy': '<span style="display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:#CC0000;height:22px;border-radius:3px;padding:0 7px;gap:4px;"><span style="font-family:Arial,Helvetica,sans-serif;font-weight:700;color:#fff;font-size:9px;letter-spacing:0.06em;">NHK</span><span style="font-family:Arial,Helvetica,sans-serif;font-weight:600;color:#FFD700;font-size:9px;">経済</span></span>',
+  'NHK_Politics': '<span style="display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:#CC0000;height:22px;border-radius:3px;padding:0 7px;gap:4px;"><span style="font-family:Arial,Helvetica,sans-serif;font-weight:700;color:#fff;font-size:9px;letter-spacing:0.06em;">NHK</span><span style="font-family:Arial,Helvetica,sans-serif;font-weight:600;color:#FFD700;font-size:9px;">政治</span></span>',
+  'Google_News_JP_BOJ': '<span style="display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:#1a2050;height:22px;border-radius:3px;padding:0 7px;gap:4px;"><span style="font-family:Arial,Helvetica,sans-serif;font-weight:700;color:#FF6666;font-size:10px;letter-spacing:0.02em;">日銀</span><span style="font-family:Arial,Helvetica,sans-serif;font-weight:600;color:#FFD700;font-size:10px;">速報</span></span>'
 };
   function render(d){
     var srcs=d.sources||{},gen=(d.generated_at||""),order=(d.source_order||Object.keys(srcs)),rows="";
-    var freshMin=d.freshness_window_minutes||60;
+    var freshMin=d.window_min||d.freshness_window_minutes||60;
     var freshLabel=freshMin>=60?(freshMin/60|0)+"h":freshMin+"min";
     order.forEach(function(sid){
       var s=srcs[sid]||{label:sid,items:[]};
       var items=s.items||[],content="";
       if(!items.length){
-        content='<div style="color:#444;font-size:11px;padding:4px 0;font-style:italic">No fresh news in last '+freshLabel+'</div>';
+        var srcWin=s.window_min||freshMin;
+        var srcLabel=srcWin>=60?(srcWin/60|0)+"h":srcWin+"min";
+        content='<div style="color:#444;font-size:11px;padding:4px 0;font-style:italic">No fresh news in last '+srcLabel+'</div>';
       }else{
         items.forEach(function(it){
           content+='<div style="display:flex;gap:14px;align-items:baseline;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)">'
