@@ -486,8 +486,10 @@ body{padding-top:52px !important;}
       +(n_m?' · <span style="color:#444">'+n_m+' MISSING</span>':"")+'</div>'
       +'<div style="font-size:11px;color:#94a3b8;margin-bottom:10px">'
       +'CIO Action: <span style="color:#e2e8f0;font-weight:600">'+esc(action)+'</span>'
-      +'&nbsp;·&nbsp;Add Allowed: <span style="color:'+(gt.add_allowed?"#4ade80":"#ff5566")+'">'
-      +(gt.add_allowed?"YES":"BLOCKED")+'</span></div>'
+      +'&nbsp;·&nbsp;Thesis Add Signal: <span style="color:#e2e8f0">'
+      +esc(gt.thesis_add_signal||gt.gold_thesis_add_signal||(gt.add_allowed?"THESIS_SUPPORTS_ADD":"THESIS_HOLD_ONLY"))+'</span>'
+      +'&nbsp;·&nbsp;Execution Permission: <span style="color:'+((String(gt.execution_permission||gt.gold_execution_permission||"").indexOf("BLOCKED")>=0)?"#ff5566":"#fbbf24")+'">'
+      +esc(gt.execution_permission||gt.gold_execution_permission||(gt.add_allowed?"EXECUTION_REQUIRES_CIO_REVIEW":"EXECUTION_BLOCKED_REQUIRES_CIO_REVIEW"))+'</span></div>'
       +'<div style="font-size:11px;color:#555;font-family:JetBrains Mono,monospace;'
       +'overflow-x:auto;white-space:nowrap">'+metrics+'</div>'
       +'</div>'
@@ -1643,6 +1645,6 @@ body{padding-top:52px !important;}
 </script>
 <!-- THESIS_WIDGETS_END -->
 
-<div style="font-family:JetBrains Mono,monospace;font-size:10px;color:#555;padding:10px 0 4px;border-top:1px solid rgba(255,255,255,.05);letter-spacing:.06em">System Health&nbsp;·&nbsp;Sources 70/52&nbsp;·&nbsp;Signals 37675&nbsp;·&nbsp;Integrity <span style="color:#4ade80">PASS</span>&nbsp;·&nbsp;<a href="https://sohweekian.github.io/bluelotus/chief-strategist.html" style="color:#c084fc;text-decoration:none">Full Strategist Report &rarr;</a></div>
+<div style="font-family:JetBrains Mono,monospace;font-size:10px;color:#555;padding:10px 0 4px;border-top:1px solid rgba(255,255,255,.05);letter-spacing:.06em">System Health&nbsp;·&nbsp;Sources active: 70 / baseline 52&nbsp;·&nbsp;Signals 37675&nbsp;·&nbsp;Integrity <span style="color:#4ade80">PASS</span>&nbsp;·&nbsp;<a href="https://sohweekian.github.io/bluelotus/chief-strategist.html" style="color:#c084fc;text-decoration:none">Full Strategist Report &rarr;</a></div>
 </main>
 </body></html>
