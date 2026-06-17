@@ -1242,6 +1242,24 @@ body{padding-top:52px !important;}
       d.headline_evidence.slice(0,3).forEach(function(h){html+='<div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#94a3b8;padding:2px 0">&#9642; '+esc(h.headline||h.title||"")+'</div>'; });
       html+='</div>';
     }
+    if(d.escalation_evidence&&d.escalation_evidence.length){
+      html+='<div style="margin-bottom:12px;padding:8px 12px;border:1px solid rgba(255,85,102,.24);border-radius:8px"><div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#ff5566;letter-spacing:.1em;margin-bottom:4px">ESCALATION EVIDENCE</div>';
+      d.escalation_evidence.slice(0,3).forEach(function(h){html+='<div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#fca5a5;padding:2px 0">&#9642; '+esc(h.headline||h.title||"")+'</div>'; });
+      html+='</div>';
+    }
+    if(d.false_positive_flags&&d.false_positive_flags.length){
+      html+='<div style="margin-bottom:12px;padding:8px 12px;border:1px solid rgba(251,191,36,.22);border-radius:8px"><div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#fbbf24;letter-spacing:.1em;margin-bottom:4px">FALSE-POSITIVE FLAGS</div>';
+      d.false_positive_flags.forEach(function(f){html+='<div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#fde68a;padding:2px 0">&#9642; '+esc(f.message||f.rule||"")+'</div>'; });
+      html+='</div>';
+    }
+    if(d.external_evidence&&d.external_evidence.length){
+      html+='<div style="margin-bottom:12px;padding:8px 12px;border:1px solid rgba(148,163,184,.18);border-radius:8px"><div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#94a3b8;letter-spacing:.1em;margin-bottom:4px">EXTERNAL EVIDENCE</div>';
+      d.external_evidence.forEach(function(e){
+        var ec=e.blocks_add?"#ff5566":(e.available===false?"#64748b":"#60a5fa");
+        html+='<div style="display:flex;gap:8px;align-items:center;font-family:JetBrains Mono,monospace;font-size:9px;color:#94a3b8;padding:2px 0"><span style="flex:1">'+esc(e.label||e.source||"")+'</span><span style="color:'+ec+';font-weight:700">'+esc(e.status||"UNKNOWN")+'</span></div>';
+      });
+      html+='</div>';
+    }
     html+='<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.04);font-size:9px;color:#333;letter-spacing:.07em;font-family:JetBrains Mono,monospace">'+esc(SAFETY_FOOTER)+'</div></div>';
     document.getElementById(MARKER_ID).innerHTML=html;
   }
@@ -1347,6 +1365,24 @@ body{padding-top:52px !important;}
       d.headline_evidence.slice(0,3).forEach(function(h){html+='<div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#94a3b8;padding:2px 0">&#9642; '+esc(h.headline||h.title||"")+'</div>'; });
       html+='</div>';
     }
+    if(d.escalation_evidence&&d.escalation_evidence.length){
+      html+='<div style="margin-bottom:12px;padding:8px 12px;border:1px solid rgba(255,85,102,.24);border-radius:8px"><div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#ff5566;letter-spacing:.1em;margin-bottom:4px">ESCALATION EVIDENCE</div>';
+      d.escalation_evidence.slice(0,3).forEach(function(h){html+='<div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#fca5a5;padding:2px 0">&#9642; '+esc(h.headline||h.title||"")+'</div>'; });
+      html+='</div>';
+    }
+    if(d.false_positive_flags&&d.false_positive_flags.length){
+      html+='<div style="margin-bottom:12px;padding:8px 12px;border:1px solid rgba(251,191,36,.22);border-radius:8px"><div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#fbbf24;letter-spacing:.1em;margin-bottom:4px">FALSE-POSITIVE FLAGS</div>';
+      d.false_positive_flags.forEach(function(f){html+='<div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#fde68a;padding:2px 0">&#9642; '+esc(f.message||f.rule||"")+'</div>'; });
+      html+='</div>';
+    }
+    if(d.external_evidence&&d.external_evidence.length){
+      html+='<div style="margin-bottom:12px;padding:8px 12px;border:1px solid rgba(148,163,184,.18);border-radius:8px"><div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#94a3b8;letter-spacing:.1em;margin-bottom:4px">EXTERNAL EVIDENCE</div>';
+      d.external_evidence.forEach(function(e){
+        var ec=e.blocks_add?"#ff5566":(e.available===false?"#64748b":"#60a5fa");
+        html+='<div style="display:flex;gap:8px;align-items:center;font-family:JetBrains Mono,monospace;font-size:9px;color:#94a3b8;padding:2px 0"><span style="flex:1">'+esc(e.label||e.source||"")+'</span><span style="color:'+ec+';font-weight:700">'+esc(e.status||"UNKNOWN")+'</span></div>';
+      });
+      html+='</div>';
+    }
     html+='<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.04);font-size:9px;color:#333;letter-spacing:.07em;font-family:JetBrains Mono,monospace">'+esc(SAFETY_FOOTER)+'</div></div>';
     document.getElementById(MARKER_ID).innerHTML=html;
   }
@@ -1450,6 +1486,147 @@ body{padding-top:52px !important;}
     if(d.headline_evidence&&d.headline_evidence.length){
       html+='<div style="margin-bottom:12px;padding:8px 12px;border:1px solid '+sc+'22;border-radius:8px"><div style="font-family:JetBrains Mono,monospace;font-size:9px;color:'+sc+';letter-spacing:.1em;margin-bottom:4px">HEADLINE EVIDENCE</div>';
       d.headline_evidence.slice(0,3).forEach(function(h){html+='<div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#94a3b8;padding:2px 0">&#9642; '+esc(h.headline||h.title||"")+'</div>'; });
+      html+='</div>';
+    }
+    if(d.escalation_evidence&&d.escalation_evidence.length){
+      html+='<div style="margin-bottom:12px;padding:8px 12px;border:1px solid rgba(255,85,102,.24);border-radius:8px"><div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#ff5566;letter-spacing:.1em;margin-bottom:4px">ESCALATION EVIDENCE</div>';
+      d.escalation_evidence.slice(0,3).forEach(function(h){html+='<div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#fca5a5;padding:2px 0">&#9642; '+esc(h.headline||h.title||"")+'</div>'; });
+      html+='</div>';
+    }
+    if(d.false_positive_flags&&d.false_positive_flags.length){
+      html+='<div style="margin-bottom:12px;padding:8px 12px;border:1px solid rgba(251,191,36,.22);border-radius:8px"><div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#fbbf24;letter-spacing:.1em;margin-bottom:4px">FALSE-POSITIVE FLAGS</div>';
+      d.false_positive_flags.forEach(function(f){html+='<div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#fde68a;padding:2px 0">&#9642; '+esc(f.message||f.rule||"")+'</div>'; });
+      html+='</div>';
+    }
+    if(d.external_evidence&&d.external_evidence.length){
+      html+='<div style="margin-bottom:12px;padding:8px 12px;border:1px solid rgba(148,163,184,.18);border-radius:8px"><div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#94a3b8;letter-spacing:.1em;margin-bottom:4px">EXTERNAL EVIDENCE</div>';
+      d.external_evidence.forEach(function(e){
+        var ec=e.blocks_add?"#ff5566":(e.available===false?"#64748b":"#60a5fa");
+        html+='<div style="display:flex;gap:8px;align-items:center;font-family:JetBrains Mono,monospace;font-size:9px;color:#94a3b8;padding:2px 0"><span style="flex:1">'+esc(e.label||e.source||"")+'</span><span style="color:'+ec+';font-weight:700">'+esc(e.status||"UNKNOWN")+'</span></div>';
+      });
+      html+='</div>';
+    }
+    html+='<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.04);font-size:9px;color:#333;letter-spacing:.07em;font-family:JetBrains Mono,monospace">'+esc(SAFETY_FOOTER)+'</div></div>';
+    document.getElementById(MARKER_ID).innerHTML=html;
+  }
+  function load(){
+    fetch(BASE+"/"+ENDPOINT+"?t="+Date.now()).then(function(r){return r.ok?r.json():Promise.reject(r.status);}).then(render).catch(function(){
+      if(!_lastData)document.getElementById(MARKER_ID).innerHTML='<div style="background:rgba(13,16,32,.60);border:1px solid '+FALLBACK_COLOR+'22;border-radius:12px;padding:14px 24px;color:#555;font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.1em">'+esc(TITLE)+' - widget not yet running</div>';
+    });
+  }
+  load();
+  setInterval(load,REFRESH_MS);
+})();
+</script>
+
+<div id="oil-peace-dividend-live" data-dashboard-widget="oil_deescalation_peace_dividend" style="margin-bottom:16px">
+  <div style="background:rgba(13,16,32,.60);border:1px solid #2dd4bf22;border-radius:12px;
+    padding:14px 24px;color:#555;font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.12em">
+    S9 - Oil De-escalation / Peace Dividend - loading...</div>
+</div>
+<script>
+(function(){
+  var BASE="https://sohweekian.github.io/bluelotus";
+  var ENDPOINT="data/thesis_widgets/oil_deescalation_peace_dividend_latest.json";
+  var REFRESH_MS=600000;
+  var MARKER_ID="oil-peace-dividend-live";
+  var TITLE="S9 - Oil De-escalation / Peace Dividend";
+  var SAFETY_FOOTER="EXECUTION: CIO_ONLY_MANUAL - ORDER_ROUTING: DISABLED - THESIS: OIL_DEESCALATION_PEACE_DIVIDEND_THESIS";
+  var STATUS_COLORS={"CONFIRMING": "#2dd4bf", "WATCH": "#60a5fa", "MIXED": "#fbbf24", "WEAKENING": "#fb923c", "CONTRADICTED": "#ff5566", "UNKNOWN": "#94a3b8"};
+  var SIGNAL_COLORS={"STRESS": "#ff5566", "WATCH": "#fbbf24", "CALM": "#4ade80", "PASS": "#4ade80", "FAIL": "#ff5566", "UNKNOWN": "#94a3b8"};
+  var FALLBACK_COLOR="#94a3b8";
+  var SCORE_LABEL="THESIS SCORE";
+  var _lastData=null;
+  function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+  function colorFor(map,key){return map[String(key||"").toUpperCase()]||FALLBACK_COLOR;}
+  function badge(label,col){
+    return '<span style="background:'+col+'22;color:'+col+';border-radius:4px;padding:2px 7px;font-size:10px;font-weight:700">'+esc(label)+'</span>';
+  }
+  function chgStr(v){
+    if(v===null||v===undefined)return '<span style="color:#444">--</span>';
+    var f=parseFloat(v);
+    var col=f>0?"#4ade80":f<0?"#ff5566":"#94a3b8";
+    return '<span style="color:'+col+'">'+(f>=0?"+":"")+f.toFixed(2)+"%</span>";
+  }
+  function scoreColor(score,status){return colorFor(STATUS_COLORS,status)||FALLBACK_COLOR;}
+  function render(d){
+    _lastData=d||{};
+    var status=(d.status||"UNKNOWN").toUpperCase();
+    var score=parseFloat(d.score)||0;
+    var scoreMax=d.score_max||100;
+    var scorePct=Math.min(100,Math.round((score/scoreMax)*100));
+    var sc=scoreColor(score,status);
+    var marketOpen=d.market_open===true;
+    var marketStatus=d.market_status||"";
+    var freshness=d.data_freshness_label||"";
+    var marketTime=d.market_time_et||"";
+    var lastSession=d.last_market_session||"";
+    var addAllowed=d.add_allowed===true;
+    var cioAction=d.cio_action||"CIO_REVIEW_REQUIRED";
+    var byBasket={};
+    (d.ticker_evidence||[]).forEach(function(t){var g=t.group||"OTHER"; if(!byBasket[g])byBasket[g]=[]; byBasket[g].push(t);});
+    var html='<div style="background:rgba(13,16,32,.94);border:1px solid '+sc+'33;border-radius:12px;padding:18px 22px">'
+      +(!marketOpen&&marketStatus?'<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;padding:7px 12px;background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.18);border-radius:6px">'
+        +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#fbbf24;font-weight:700;letter-spacing:.12em">&#9679; MARKET CLOSED</span>'
+        +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.08em">'+esc(freshness)+(lastSession?' &middot; last session '+esc(lastSession):'')+'</span>'
+        +(marketTime?'<span style="margin-left:auto;font-family:JetBrains Mono,monospace;font-size:9px;color:#444">'+esc(marketTime)+'</span>':'')+'</div>':'')
+      +'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px"><div>'
+      +'<div style="font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:'+sc+';margin-bottom:4px">'+esc(TITLE)+'</div>'
+      +'<div style="font-family:JetBrains Mono,monospace;font-size:11px;color:#555">'+esc(d.last_updated_sgt||d.last_updated_utc||"")+'</div></div>'+badge(status,sc)+'</div>'
+      +'<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">'
+      +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.1em">'+esc(SCORE_LABEL)+'</span>'
+      +'<span style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:700;color:'+sc+'">'+score.toFixed(0)+' / '+scoreMax+'</span></div>'
+      +'<div style="height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden"><div style="height:100%;width:'+scorePct+'%;background:'+sc+';border-radius:3px;transition:width .6s ease"></div></div></div>'
+      +'<div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;padding:8px 12px;background:rgba(255,255,255,.03);border-radius:8px">'
+      +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.1em">CIO ACTION</span>'
+      +'<span style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:700;color:#e2e8f0">'+esc(cioAction)+'</span>'
+      +'<span style="margin-left:auto;font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.1em">ADD</span>'
+      +'<span style="font-family:JetBrains Mono,monospace;font-size:12px;font-weight:700;color:'+(addAllowed?"#4ade80":"#ff5566")+'">'+(addAllowed?"ALLOWED":"BLOCKED")+'</span></div>'
+      +(d.summary?'<div style="font-family:JetBrains Mono,monospace;font-size:10px;color:#94a3b8;margin-bottom:12px">'+esc(d.summary)+'</div>':'');
+    (d.primary_signals||[]).forEach(function(b){
+      var bId=b.basket||"";
+      var sig=(b.signal||"UNKNOWN").toUpperCase();
+      var bc=colorFor(SIGNAL_COLORS,sig);
+      var rows=byBasket[bId]||[];
+      html+='<div style="margin-bottom:12px;border:1px solid rgba(255,255,255,.05);border-radius:8px;overflow:hidden">'
+        +'<div style="display:flex;align-items:center;gap:10px;padding:7px 12px;background:rgba(255,255,255,.03)">'
+        +'<span style="font-family:JetBrains Mono,monospace;font-size:10px;color:#e2e8f0;font-weight:600;flex:1">'+esc(b.label||bId)+'</span>'
+        +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#444">wt '+esc(b.scoring_weight||0)+'</span>'+badge(sig,bc)+'</div>'
+        +'<table style="width:100%;border-collapse:collapse">';
+      rows.forEach(function(t){
+        var ts=(t.signal||"UNKNOWN").toUpperCase();
+        var tc=colorFor(SIGNAL_COLORS,ts);
+        var price=t.price?'$'+parseFloat(t.price).toFixed(2):'--';
+        html+='<tr style="border-top:1px solid rgba(255,255,255,.04)">'
+          +'<td style="padding:5px 12px;font-family:JetBrains Mono,monospace;font-size:11px;font-weight:700;color:#e2e8f0;width:86px">'+esc(t.display_symbol||t.ticker||t.yf_symbol||"")+'</td>'
+          +'<td style="padding:5px 8px;font-family:JetBrains Mono,monospace;font-size:10px;color:#94a3b8;width:86px">'+price+'</td>'
+          +'<td style="padding:5px 8px;font-family:JetBrains Mono,monospace;font-size:11px;font-weight:600">'+chgStr(t.day_change_pct)+'</td>'
+          +'<td style="padding:5px 12px;text-align:right">'+badge(ts,tc)+'</td></tr>';
+      });
+      if(!rows.length)html+='<tr><td colspan="4" style="padding:6px 12px;font-family:JetBrains Mono,monospace;font-size:10px;color:#444">no price data</td></tr>';
+      html+='</table></div>';
+    });
+    if(d.headline_evidence&&d.headline_evidence.length){
+      html+='<div style="margin-bottom:12px;padding:8px 12px;border:1px solid '+sc+'22;border-radius:8px"><div style="font-family:JetBrains Mono,monospace;font-size:9px;color:'+sc+';letter-spacing:.1em;margin-bottom:4px">HEADLINE EVIDENCE</div>';
+      d.headline_evidence.slice(0,3).forEach(function(h){html+='<div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#94a3b8;padding:2px 0">&#9642; '+esc(h.headline||h.title||"")+'</div>'; });
+      html+='</div>';
+    }
+    if(d.escalation_evidence&&d.escalation_evidence.length){
+      html+='<div style="margin-bottom:12px;padding:8px 12px;border:1px solid rgba(255,85,102,.24);border-radius:8px"><div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#ff5566;letter-spacing:.1em;margin-bottom:4px">ESCALATION EVIDENCE</div>';
+      d.escalation_evidence.slice(0,3).forEach(function(h){html+='<div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#fca5a5;padding:2px 0">&#9642; '+esc(h.headline||h.title||"")+'</div>'; });
+      html+='</div>';
+    }
+    if(d.false_positive_flags&&d.false_positive_flags.length){
+      html+='<div style="margin-bottom:12px;padding:8px 12px;border:1px solid rgba(251,191,36,.22);border-radius:8px"><div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#fbbf24;letter-spacing:.1em;margin-bottom:4px">FALSE-POSITIVE FLAGS</div>';
+      d.false_positive_flags.forEach(function(f){html+='<div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#fde68a;padding:2px 0">&#9642; '+esc(f.message||f.rule||"")+'</div>'; });
+      html+='</div>';
+    }
+    if(d.external_evidence&&d.external_evidence.length){
+      html+='<div style="margin-bottom:12px;padding:8px 12px;border:1px solid rgba(148,163,184,.18);border-radius:8px"><div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#94a3b8;letter-spacing:.1em;margin-bottom:4px">EXTERNAL EVIDENCE</div>';
+      d.external_evidence.forEach(function(e){
+        var ec=e.blocks_add?"#ff5566":(e.available===false?"#64748b":"#60a5fa");
+        html+='<div style="display:flex;gap:8px;align-items:center;font-family:JetBrains Mono,monospace;font-size:9px;color:#94a3b8;padding:2px 0"><span style="flex:1">'+esc(e.label||e.source||"")+'</span><span style="color:'+ec+';font-weight:700">'+esc(e.status||"UNKNOWN")+'</span></div>';
+      });
       html+='</div>';
     }
     html+='<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.04);font-size:9px;color:#333;letter-spacing:.07em;font-family:JetBrains Mono,monospace">'+esc(SAFETY_FOOTER)+'</div></div>';
