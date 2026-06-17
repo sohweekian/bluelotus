@@ -1147,22 +1147,29 @@ body{padding-top:52px !important;}
 })();
 </script>
 
-<div id="global-leverage-live" style="margin-bottom:16px">
-  <div style="background:rgba(13,16,32,.60);border:1px solid rgba(251,146,60,.12);border-radius:12px;
+
+<!-- THESIS_WIDGETS_START -->
+
+<div id="ai-infra-live" data-dashboard-widget="ai_infra_power" style="margin-bottom:16px">
+  <div style="background:rgba(13,16,32,.60);border:1px solid #4ade8022;border-radius:12px;
     padding:14px 24px;color:#555;font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.12em">
-    S8 · Global Leverage Unwind Thesis - loading...</div>
+    S6 · AI Infrastructure / Power Bottleneck - loading...</div>
 </div>
 <script>
 (function(){
   var BASE="https://sohweekian.github.io/bluelotus";
+  var ENDPOINT="data/thesis_widgets/ai_infrastructure_power_latest.json";
   var REFRESH_MS=600000;
-  var JSON_PATH="data/thesis_widgets/global_leverage_unwind_latest.json";
-  var THESIS_ID="GLOBAL_LEVERAGE_UNWIND_THESIS";
-  var TITLE="S8 · Global Leverage Unwind Thesis";
+  var MARKER_ID="ai-infra-live";
+  var TITLE="S6 · AI Infrastructure / Power Bottleneck";
+  var SAFETY_FOOTER="EXECUTION: CIO_ONLY_MANUAL · ORDER_ROUTING: DISABLED · THESIS: AI_INFRASTRUCTURE_POWER_THESIS";
+  var STATUS_COLORS={"CONFIRMING": "#4ade80", "WATCH": "#fbbf24", "MIXED": "#fb923c", "WEAKENING": "#f97316", "CONTRADICTED": "#ff5566", "UNKNOWN": "#94a3b8"};
+  var SIGNAL_COLORS={"STRESS": "#ff5566", "WATCH": "#fbbf24", "CALM": "#4ade80", "PASS": "#4ade80", "FAIL": "#ff5566", "UNKNOWN": "#94a3b8"};
+  var FALLBACK_COLOR="#94a3b8";
+  var SCORE_LABEL="THESIS SCORE";
   var _lastData=null;
   function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
-  var SC={"SEVERE_UNWIND":"#ff5566","ACTIVE_UNWIND":"#fb923c","WATCH":"#fbbf24","LOW":"#60a5fa","CALM":"#4ade80","UNKNOWN":"#94a3b8"};
-  var SIG={"STRESS":"#ff5566","WATCH":"#fbbf24","CALM":"#4ade80","UNKNOWN":"#94a3b8"};
+  function colorFor(map,key){return map[String(key||"").toUpperCase()]||FALLBACK_COLOR;}
   function badge(label,col){
     return '<span style="background:'+col+'22;color:'+col+';border-radius:4px;padding:2px 7px;font-size:10px;font-weight:700">'+esc(label)+'</span>';
   }
@@ -1172,506 +1179,292 @@ body{padding-top:52px !important;}
     var col=f>0?"#4ade80":f<0?"#ff5566":"#94a3b8";
     return '<span style="color:'+col+'">'+(f>=0?"+":"")+f.toFixed(2)+"%</span>";
   }
-  function scoreColor(score){
-    if(score>=75)return "#ff5566";
-    if(score>=55)return "#fb923c";
-    if(score>=35)return "#fbbf24";
-    if(score>=15)return "#60a5fa";
-    return "#4ade80";
-  }
+  function scoreColor(score,status){return colorFor(STATUS_COLORS,status)||FALLBACK_COLOR;}
   function render(d){
-    _lastData=d;
+    _lastData=d||{};
     var status=(d.status||"UNKNOWN").toUpperCase();
     var score=parseFloat(d.score)||0;
     var scoreMax=d.score_max||100;
     var scorePct=Math.min(100,Math.round((score/scoreMax)*100));
-    var sc=SC[status]||"#94a3b8";
-    var barColor=scoreColor(score);
-    var cioAction=d.cio_action||"CIO_REVIEW_REQUIRED";
-    var addAllowed=d.add_allowed===true;
-    var ts=d.last_updated_sgt||d.last_updated_utc||"";
+    var sc=scoreColor(score,status);
     var marketOpen=d.market_open===true;
     var marketStatus=d.market_status||"";
     var freshness=d.data_freshness_label||"";
     var marketTime=d.market_time_et||"";
     var lastSession=d.last_market_session||"";
-    var stressCount=d.stress_count||0;
-    var calmCount=d.calm_count||0;
-    var calmOffset=d.calm_offset_applied||0;
-
+    var addAllowed=d.add_allowed===true;
+    var cioAction=d.cio_action||"CIO_REVIEW_REQUIRED";
     var byBasket={};
-    (d.ticker_evidence||[]).forEach(function(t){
-      var g=t.group||"OTHER";
-      if(!byBasket[g])byBasket[g]=[];
-      byBasket[g].push(t);
-    });
-
-    var html='<div style="background:rgba(13,16,32,.94);border:1px solid rgba(251,146,60,.18);border-radius:12px;padding:18px 22px">'
-      +(!marketOpen&&marketStatus?
-        '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;padding:7px 12px;background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.18);border-radius:6px">'
+    (d.ticker_evidence||[]).forEach(function(t){var g=t.group||"OTHER"; if(!byBasket[g])byBasket[g]=[]; byBasket[g].push(t);});
+    var html='<div style="background:rgba(13,16,32,.94);border:1px solid '+sc+'33;border-radius:12px;padding:18px 22px">'
+      +(!marketOpen&&marketStatus?'<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;padding:7px 12px;background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.18);border-radius:6px">'
         +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#fbbf24;font-weight:700;letter-spacing:.12em">&#9679; MARKET CLOSED</span>'
         +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.08em">'+esc(freshness)+(lastSession?' &middot; last session '+esc(lastSession):'')+'</span>'
-        +(marketTime?'<span style="margin-left:auto;font-family:JetBrains Mono,monospace;font-size:9px;color:#444">'+esc(marketTime)+'</span>':'')
-        +'</div>':'')
-      +'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">'
-      +'<div><div style="font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#fb923c;margin-bottom:4px">'+esc(TITLE)+'</div>'
-      +'<div style="font-family:JetBrains Mono,monospace;font-size:11px;color:#555">'+esc(ts)+'</div></div>'
-      +badge(status,sc)+'</div>'
-      +'<div style="margin-bottom:14px">'
-      +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">'
-      +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.1em">UNWIND SCORE (higher = more dangerous)</span>'
-      +'<span style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:700;color:'+barColor+'">'+score.toFixed(0)+' / '+scoreMax+'</span></div>'
-      +'<div style="height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden"><div style="height:100%;width:'+scorePct+'%;background:'+barColor+';border-radius:3px;transition:width .6s ease"></div></div>'
-      +'</div>'
+        +(marketTime?'<span style="margin-left:auto;font-family:JetBrains Mono,monospace;font-size:9px;color:#444">'+esc(marketTime)+'</span>':'')+'</div>':'')
+      +'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px"><div>'
+      +'<div style="font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:'+sc+';margin-bottom:4px">'+esc(TITLE)+'</div>'
+      +'<div style="font-family:JetBrains Mono,monospace;font-size:11px;color:#555">'+esc(d.last_updated_sgt||d.last_updated_utc||"")+'</div></div>'+badge(status,sc)+'</div>'
+      +'<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">'
+      +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.1em">'+esc(SCORE_LABEL)+'</span>'
+      +'<span style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:700;color:'+sc+'">'+score.toFixed(0)+' / '+scoreMax+'</span></div>'
+      +'<div style="height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden"><div style="height:100%;width:'+scorePct+'%;background:'+sc+';border-radius:3px;transition:width .6s ease"></div></div></div>'
       +'<div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;padding:8px 12px;background:rgba(255,255,255,.03);border-radius:8px">'
       +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.1em">CIO ACTION</span>'
       +'<span style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:700;color:#e2e8f0">'+esc(cioAction)+'</span>'
       +'<span style="margin-left:auto;font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.1em">ADD</span>'
       +'<span style="font-family:JetBrains Mono,monospace;font-size:12px;font-weight:700;color:'+(addAllowed?"#4ade80":"#ff5566")+'">'+(addAllowed?"ALLOWED":"BLOCKED")+'</span></div>'
-      +'<div style="display:flex;gap:16px;margin-bottom:14px;padding:6px 12px;background:rgba(255,255,255,.02);border-radius:6px">'
-      +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#ff5566">STRESS: '+stressCount+'</span>'
-      +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#4ade80">CALM: '+calmCount+'</span>'
-      +(calmOffset>0?'<span style="margin-left:auto;font-family:JetBrains Mono,monospace;font-size:9px;color:#60a5fa">CALM OFFSET: -'+parseFloat(calmOffset).toFixed(0)+' pts</span>':'')
-      +'</div>'
-      +'<div style="font-family:JetBrains Mono,monospace;font-size:10px;color:#94a3b8;margin-bottom:12px">'+esc(d.summary||"")+'</div>';
-
+      +(d.summary?'<div style="font-family:JetBrains Mono,monospace;font-size:10px;color:#94a3b8;margin-bottom:12px">'+esc(d.summary)+'</div>':'');
     (d.primary_signals||[]).forEach(function(b){
       var bId=b.basket||"";
       var sig=(b.signal||"UNKNOWN").toUpperCase();
-      var bc=SIG[sig]||"#94a3b8";
-      var tickers=byBasket[bId]||[];
+      var bc=colorFor(SIGNAL_COLORS,sig);
+      var rows=byBasket[bId]||[];
       html+='<div style="margin-bottom:12px;border:1px solid rgba(255,255,255,.05);border-radius:8px;overflow:hidden">'
         +'<div style="display:flex;align-items:center;gap:10px;padding:7px 12px;background:rgba(255,255,255,.03)">'
         +'<span style="font-family:JetBrains Mono,monospace;font-size:10px;color:#e2e8f0;font-weight:600;flex:1">'+esc(b.label||bId)+'</span>'
         +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#444">wt '+esc(b.scoring_weight||0)+'</span>'+badge(sig,bc)+'</div>'
         +'<table style="width:100%;border-collapse:collapse">';
-      tickers.forEach(function(t){
-        var ts2=(t.signal||"UNKNOWN").toUpperCase();
-        var tc=SIG[ts2]||"#94a3b8";
+      rows.forEach(function(t){
+        var ts=(t.signal||"UNKNOWN").toUpperCase();
+        var tc=colorFor(SIGNAL_COLORS,ts);
         var price=t.price?'$'+parseFloat(t.price).toFixed(2):'--';
-        var rspy=t.relative_to_spy;
-        var rqqq=t.relative_to_qqq;
-        var rspyStr=rspy!=null?(rspy>=0?"+":"")+parseFloat(rspy).toFixed(2)+'pp':"--";
-        var rqqqStr=rqqq!=null?(rqqq>=0?"+":"")+parseFloat(rqqq).toFixed(2)+'pp':"--";
         html+='<tr style="border-top:1px solid rgba(255,255,255,.04)">'
-          +'<td style="padding:5px 12px;font-family:JetBrains Mono,monospace;font-size:11px;font-weight:700;color:#e2e8f0;width:82px">'+esc(t.display_symbol||t.yf_symbol||"")+'</td>'
+          +'<td style="padding:5px 12px;font-family:JetBrains Mono,monospace;font-size:11px;font-weight:700;color:#e2e8f0;width:86px">'+esc(t.display_symbol||t.ticker||t.yf_symbol||"")+'</td>'
           +'<td style="padding:5px 8px;font-family:JetBrains Mono,monospace;font-size:10px;color:#94a3b8;width:86px">'+price+'</td>'
           +'<td style="padding:5px 8px;font-family:JetBrains Mono,monospace;font-size:11px;font-weight:600">'+chgStr(t.day_change_pct)+'</td>'
-          +'<td style="padding:5px 8px;font-family:JetBrains Mono,monospace;font-size:10px;color:#64748b">SPY '+rspyStr+' / QQQ '+rqqqStr+'</td>'
-          +'<td style="padding:5px 12px;text-align:right">'+badge(ts2,tc)+'</td></tr>';
+          +'<td style="padding:5px 12px;text-align:right">'+badge(ts,tc)+'</td></tr>';
       });
-      if(tickers.length===0)html+='<tr><td colspan="5" style="padding:6px 12px;font-family:JetBrains Mono,monospace;font-size:10px;color:#444">no price data</td></tr>';
+      if(!rows.length)html+='<tr><td colspan="4" style="padding:6px 12px;font-family:JetBrains Mono,monospace;font-size:10px;color:#444">no price data</td></tr>';
       html+='</table></div>';
     });
-
-    if(d.headline_score>0&&d.headline_evidence&&d.headline_evidence.length>0){
-      html+='<div style="margin-bottom:12px;padding:8px 12px;border:1px solid rgba(251,146,60,.12);border-radius:8px">'
-        +'<div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#fb923c;letter-spacing:.1em;margin-bottom:4px">HEADLINE CONFIRMATION +'+parseFloat(d.headline_score).toFixed(0)+' pts</div>';
-      d.headline_evidence.slice(0,3).forEach(function(h){html+='<div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#94a3b8;padding:2px 0">&#9642; '+esc(h.headline||h.text||"")+'</div>'; });
+    if(d.headline_evidence&&d.headline_evidence.length){
+      html+='<div style="margin-bottom:12px;padding:8px 12px;border:1px solid '+sc+'22;border-radius:8px"><div style="font-family:JetBrains Mono,monospace;font-size:9px;color:'+sc+';letter-spacing:.1em;margin-bottom:4px">HEADLINE EVIDENCE</div>';
+      d.headline_evidence.slice(0,3).forEach(function(h){html+='<div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#94a3b8;padding:2px 0">&#9642; '+esc(h.headline||h.title||"")+'</div>'; });
       html+='</div>';
     }
-
-    var ext=(d.external_evidence||[]).filter(function(e){return e.available===true;});
-    if(ext.length>0){
-      html+='<div style="margin-bottom:12px;padding:8px 12px;border:1px solid rgba(96,165,250,.10);border-radius:8px">'
-        +'<div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#60a5fa;letter-spacing:.1em;margin-bottom:4px">OPTIONAL EXTERNAL EVIDENCE</div>';
-      ext.forEach(function(e){html+='<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#94a3b8;margin-right:12px">'+esc(e.label||e.source)+': '+esc(e.status||"")+'</span>'; });
-      html+='</div>';
-    }
-
-    if((d.blind_spots||[]).length>0){
-      html+='<div style="margin-bottom:8px;font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.06em">BLIND SPOTS: '+(d.blind_spots||[]).length+' known limitations</div>';
-    }
-
-    html+='<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.04);font-size:9px;color:#333;letter-spacing:.07em;font-family:JetBrains Mono,monospace">'
-      +'EXECUTION: CIO_ONLY_MANUAL &nbsp;&middot;&nbsp; ORDER_ROUTING: DISABLED &nbsp;&middot;&nbsp; THESIS: '+esc(THESIS_ID)+'</div></div>';
-    document.getElementById("global-leverage-live").innerHTML=html;
+    html+='<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.04);font-size:9px;color:#333;letter-spacing:.07em;font-family:JetBrains Mono,monospace">'+esc(SAFETY_FOOTER)+'</div></div>';
+    document.getElementById(MARKER_ID).innerHTML=html;
   }
   function load(){
-    fetch(BASE+"/"+JSON_PATH+"?t="+Date.now())
-      .then(function(r){return r.ok?r.json():Promise.reject(r.status);})
-      .then(render)
-      .catch(function(){
-        if(!_lastData){
-          document.getElementById("global-leverage-live").innerHTML=
-            '<div style="background:rgba(13,16,32,.60);border:1px solid rgba(251,146,60,.10);border-radius:12px;padding:14px 24px;color:#555;font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.1em">'
-            +esc(TITLE)+' - widget not yet running &nbsp;&middot;&nbsp; <a href="javascript:location.reload()" style="color:#fb923c;text-decoration:none">retry</a></div>';
-        }
-      });
+    fetch(BASE+"/"+ENDPOINT+"?t="+Date.now()).then(function(r){return r.ok?r.json():Promise.reject(r.status);}).then(render).catch(function(){
+      if(!_lastData)document.getElementById(MARKER_ID).innerHTML='<div style="background:rgba(13,16,32,.60);border:1px solid '+FALLBACK_COLOR+'22;border-radius:12px;padding:14px 24px;color:#555;font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.1em">'+esc(TITLE)+' - widget not yet running</div>';
+    });
   }
   load();
   setInterval(load,REFRESH_MS);
 })();
 </script>
 
-<div id="ai-infra-live" style="margin-bottom:16px">
-  <div style="background:rgba(13,16,32,.60);border:1px solid rgba(52,211,153,.12);border-radius:12px;
-    padding:14px 24px;color:#444;font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.12em">
-    S6 · AI INFRASTRUCTURE / POWER — loading…</div>
+<div id="credit-refi-live" data-dashboard-widget="credit_refi_liquidity" style="margin-bottom:16px">
+  <div style="background:rgba(13,16,32,.60);border:1px solid #ff556622;border-radius:12px;
+    padding:14px 24px;color:#555;font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.12em">
+    S7 · Credit / Refinancing / Liquidity - loading...</div>
 </div>
 <script>
 (function(){
   var BASE="https://sohweekian.github.io/bluelotus";
+  var ENDPOINT="data/thesis_widgets/credit_refinancing_liquidity_latest.json";
   var REFRESH_MS=600000;
+  var MARKER_ID="credit-refi-live";
+  var TITLE="S7 · Credit / Refinancing / Liquidity";
+  var SAFETY_FOOTER="EXECUTION: CIO_ONLY_MANUAL · ORDER_ROUTING: DISABLED · THESIS: CREDIT_REFINANCING_LIQUIDITY_THESIS";
+  var STATUS_COLORS={"SEVERE_STRESS": "#ff5566", "ACTIVE_STRESS": "#fb923c", "WATCH": "#fbbf24", "LOW_STRESS": "#60a5fa", "CALM": "#4ade80", "UNKNOWN": "#94a3b8"};
+  var SIGNAL_COLORS={"STRESS": "#ff5566", "WATCH": "#fbbf24", "CALM": "#4ade80", "PASS": "#4ade80", "FAIL": "#ff5566", "UNKNOWN": "#94a3b8"};
+  var FALLBACK_COLOR="#94a3b8";
+  var SCORE_LABEL="RISK SCORE (higher = more dangerous)";
   var _lastData=null;
   function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
-  var SC={"CONFIRMING":"#4ade80","WATCH":"#fbbf24","MIXED":"#fb923c","WEAKENING":"#f97316",
-    "CONTRADICTED":"#ff5566","UNKNOWN":"#94a3b8"};
-  var SIG={"PASS":"#4ade80","WATCH":"#fbbf24","FAIL":"#ff5566","UNKNOWN":"#94a3b8"};
+  function colorFor(map,key){return map[String(key||"").toUpperCase()]||FALLBACK_COLOR;}
   function badge(label,col){
-    return'<span style="background:'+col+'22;color:'+col+';border-radius:4px;padding:2px 7px;'
-      +'font-size:10px;font-weight:700">'+esc(label)+'</span>';
+    return '<span style="background:'+col+'22;color:'+col+';border-radius:4px;padding:2px 7px;font-size:10px;font-weight:700">'+esc(label)+'</span>';
   }
   function chgStr(v){
-    if(v===null||v===undefined)return'<span style="color:#444">--</span>';
+    if(v===null||v===undefined)return '<span style="color:#444">--</span>';
     var f=parseFloat(v);
     var col=f>0?"#4ade80":f<0?"#ff5566":"#94a3b8";
-    return'<span style="color:'+col+'">'+(f>=0?"+":"")+f.toFixed(2)+"%</span>";
+    return '<span style="color:'+col+'">'+(f>=0?"+":"")+f.toFixed(2)+"%</span>";
   }
+  function scoreColor(score,status){return colorFor(STATUS_COLORS,status)||FALLBACK_COLOR;}
   function render(d){
-    _lastData=d;
+    _lastData=d||{};
     var status=(d.status||"UNKNOWN").toUpperCase();
     var score=parseFloat(d.score)||0;
     var scoreMax=d.score_max||100;
-    var cioAction=d.cio_action||"CIO_REVIEW_REQUIRED";
-    var addAllowed=d.add_allowed===true;
-    var ts=d.last_updated_sgt||d.last_updated_utc||"";
-    var sc=SC[status]||"#94a3b8";
     var scorePct=Math.min(100,Math.round((score/scoreMax)*100));
-    var barColor=score>=75?"#4ade80":score>=55?"#fbbf24":score>=40?"#fb923c":"#ff5566";
+    var sc=scoreColor(score,status);
     var marketOpen=d.market_open===true;
     var marketStatus=d.market_status||"";
-    var freshnessLabel=d.data_freshness_label||"";
-    var marketTimeEt=d.market_time_et||"";
+    var freshness=d.data_freshness_label||"";
+    var marketTime=d.market_time_et||"";
     var lastSession=d.last_market_session||"";
-
-    // Index ticker_evidence by basket group
+    var addAllowed=d.add_allowed===true;
+    var cioAction=d.cio_action||"CIO_REVIEW_REQUIRED";
     var byBasket={};
-    (d.ticker_evidence||[]).forEach(function(t){
-      var g=t.group||"OTHER";
-      if(!byBasket[g])byBasket[g]=[];
-      byBasket[g].push(t);
-    });
-
-    var html='<div style="background:rgba(13,16,32,.94);border:1px solid rgba(52,211,153,.18);border-radius:12px;padding:18px 22px">'
-
-      // ── Market-hours banner (shown only when market is closed) ──
-      +(!marketOpen&&marketStatus?
-        '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;padding:7px 12px;'
-        +'background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.18);border-radius:6px">'
-        +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#fbbf24;font-weight:700;letter-spacing:.12em">'
-        +'&#9679; MARKET CLOSED</span>'
-        +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.08em">'
-        +esc(freshnessLabel)+(lastSession?' &middot; last session '+esc(lastSession):'')+'</span>'
-        +(marketTimeEt?'<span style="margin-left:auto;font-family:JetBrains Mono,monospace;font-size:9px;color:#444">'+esc(marketTimeEt)+'</span>':'')
-        +'</div>'
-      :'')
-
-      // ── Header ──
-      +'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">'
-      +'<div><div style="font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.18em;'
-      +'text-transform:uppercase;color:#34d399;margin-bottom:4px">S6 · AI INFRASTRUCTURE / POWER BOTTLENECK</div>'
-      +'<div style="font-family:JetBrains Mono,monospace;font-size:11px;color:#555">'+esc(ts)+'</div></div>'
-      +badge(status,sc)+'</div>'
-
-      // ── Score bar ──
-      +'<div style="margin-bottom:14px">'
-      +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">'
-      +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.1em">THESIS SCORE</span>'
-      +'<span style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:700;color:'+barColor+'">'+score.toFixed(0)+' / '+scoreMax+'</span>'
-      +'</div>'
-      +'<div style="height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden">'
-      +'<div style="height:100%;width:'+scorePct+'%;background:'+barColor+';border-radius:3px;transition:width .6s ease"></div>'
-      +'</div></div>'
-
-      // ── CIO action row ──
-      +'<div style="display:flex;gap:8px;align-items:center;margin-bottom:16px;'
-      +'padding:8px 12px;background:rgba(255,255,255,.03);border-radius:8px">'
+    (d.ticker_evidence||[]).forEach(function(t){var g=t.group||"OTHER"; if(!byBasket[g])byBasket[g]=[]; byBasket[g].push(t);});
+    var html='<div style="background:rgba(13,16,32,.94);border:1px solid '+sc+'33;border-radius:12px;padding:18px 22px">'
+      +(!marketOpen&&marketStatus?'<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;padding:7px 12px;background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.18);border-radius:6px">'
+        +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#fbbf24;font-weight:700;letter-spacing:.12em">&#9679; MARKET CLOSED</span>'
+        +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.08em">'+esc(freshness)+(lastSession?' &middot; last session '+esc(lastSession):'')+'</span>'
+        +(marketTime?'<span style="margin-left:auto;font-family:JetBrains Mono,monospace;font-size:9px;color:#444">'+esc(marketTime)+'</span>':'')+'</div>':'')
+      +'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px"><div>'
+      +'<div style="font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:'+sc+';margin-bottom:4px">'+esc(TITLE)+'</div>'
+      +'<div style="font-family:JetBrains Mono,monospace;font-size:11px;color:#555">'+esc(d.last_updated_sgt||d.last_updated_utc||"")+'</div></div>'+badge(status,sc)+'</div>'
+      +'<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">'
+      +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.1em">'+esc(SCORE_LABEL)+'</span>'
+      +'<span style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:700;color:'+sc+'">'+score.toFixed(0)+' / '+scoreMax+'</span></div>'
+      +'<div style="height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden"><div style="height:100%;width:'+scorePct+'%;background:'+sc+';border-radius:3px;transition:width .6s ease"></div></div></div>'
+      +'<div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;padding:8px 12px;background:rgba(255,255,255,.03);border-radius:8px">'
       +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.1em">CIO ACTION</span>'
       +'<span style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:700;color:#e2e8f0">'+esc(cioAction)+'</span>'
       +'<span style="margin-left:auto;font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.1em">ADD</span>'
-      +'<span style="font-family:JetBrains Mono,monospace;font-size:12px;font-weight:700;color:'+(addAllowed?"#4ade80":"#ff5566")+'">'+(addAllowed?"ALLOWED":"BLOCKED")+'</span>'
-      +'</div>';
-
-    // ── Expanded baskets — each with tickers inline ──
+      +'<span style="font-family:JetBrains Mono,monospace;font-size:12px;font-weight:700;color:'+(addAllowed?"#4ade80":"#ff5566")+'">'+(addAllowed?"ALLOWED":"BLOCKED")+'</span></div>'
+      +(d.summary?'<div style="font-family:JetBrains Mono,monospace;font-size:10px;color:#94a3b8;margin-bottom:12px">'+esc(d.summary)+'</div>':'');
     (d.primary_signals||[]).forEach(function(b){
       var bId=b.basket||"";
       var sig=(b.signal||"UNKNOWN").toUpperCase();
-      var bc=SIG[sig]||"#94a3b8";
-      var tickers=byBasket[bId]||[];
-      var wt=b.scoring_weight||0;
-
+      var bc=colorFor(SIGNAL_COLORS,sig);
+      var rows=byBasket[bId]||[];
       html+='<div style="margin-bottom:12px;border:1px solid rgba(255,255,255,.05);border-radius:8px;overflow:hidden">'
-
-        // Basket header row
         +'<div style="display:flex;align-items:center;gap:10px;padding:7px 12px;background:rgba(255,255,255,.03)">'
         +'<span style="font-family:JetBrains Mono,monospace;font-size:10px;color:#e2e8f0;font-weight:600;flex:1">'+esc(b.label||bId)+'</span>'
-        +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#444">wt '+wt+'</span>'
-        +badge(sig,bc)
-        +'</div>'
-
-        // Ticker rows inside this basket
+        +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#444">wt '+esc(b.scoring_weight||0)+'</span>'+badge(sig,bc)+'</div>'
         +'<table style="width:100%;border-collapse:collapse">';
-
-      tickers.forEach(function(t){
-        var ts2=(t.signal||"UNKNOWN").toUpperCase();
-        var tc=SIG[ts2]||"#94a3b8";
+      rows.forEach(function(t){
+        var ts=(t.signal||"UNKNOWN").toUpperCase();
+        var tc=colorFor(SIGNAL_COLORS,ts);
         var price=t.price?'$'+parseFloat(t.price).toFixed(2):'--';
-        var rspy=t.relative_to_spy;
-        var rspyStr=rspy!=null?(rspy>=0?"+":"")+parseFloat(rspy).toFixed(2)+'pp':"--";
-        var rspyCol=rspy>0?"#4ade80":rspy<0?"#ff5566":"#94a3b8";
         html+='<tr style="border-top:1px solid rgba(255,255,255,.04)">'
-          +'<td style="padding:5px 12px;font-family:JetBrains Mono,monospace;font-size:11px;font-weight:700;color:#e2e8f0;width:70px">'+esc(t.ticker)+'</td>'
-          +'<td style="padding:5px 8px;font-family:JetBrains Mono,monospace;font-size:10px;color:#94a3b8;width:80px">'+price+'</td>'
+          +'<td style="padding:5px 12px;font-family:JetBrains Mono,monospace;font-size:11px;font-weight:700;color:#e2e8f0;width:86px">'+esc(t.display_symbol||t.ticker||t.yf_symbol||"")+'</td>'
+          +'<td style="padding:5px 8px;font-family:JetBrains Mono,monospace;font-size:10px;color:#94a3b8;width:86px">'+price+'</td>'
           +'<td style="padding:5px 8px;font-family:JetBrains Mono,monospace;font-size:11px;font-weight:600">'+chgStr(t.day_change_pct)+'</td>'
-          +'<td style="padding:5px 8px;font-family:JetBrains Mono,monospace;font-size:10px;color:'+rspyCol+'">vs SPY '+rspyStr+'</td>'
-          +'<td style="padding:5px 12px;text-align:right">'+badge(ts2,tc)+'</td>'
-          +'</tr>';
+          +'<td style="padding:5px 12px;text-align:right">'+badge(ts,tc)+'</td></tr>';
       });
-
-      if(tickers.length===0){
-        html+='<tr><td colspan="5" style="padding:6px 12px;font-family:JetBrains Mono,monospace;font-size:10px;color:#444">no price data</td></tr>';
-      }
-
+      if(!rows.length)html+='<tr><td colspan="4" style="padding:6px 12px;font-family:JetBrains Mono,monospace;font-size:10px;color:#444">no price data</td></tr>';
       html+='</table></div>';
     });
-
-    // ── Headline evidence (if any) ──
-    if(d.headline_score>0&&d.headline_evidence&&d.headline_evidence.length>0){
-      html+='<div style="margin-bottom:12px;padding:8px 12px;border:1px solid rgba(52,211,153,.1);border-radius:8px">'
-        +'<div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#34d399;letter-spacing:.1em;margin-bottom:4px">NEWS CATALYST &nbsp;+'+d.headline_score.toFixed(0)+' pts</div>';
-      d.headline_evidence.slice(0,3).forEach(function(h){
-        html+='<div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#94a3b8;padding:2px 0">▪ '+esc(h.headline||h.text||"")+'</div>';
-      });
+    if(d.headline_evidence&&d.headline_evidence.length){
+      html+='<div style="margin-bottom:12px;padding:8px 12px;border:1px solid '+sc+'22;border-radius:8px"><div style="font-family:JetBrains Mono,monospace;font-size:9px;color:'+sc+';letter-spacing:.1em;margin-bottom:4px">HEADLINE EVIDENCE</div>';
+      d.headline_evidence.slice(0,3).forEach(function(h){html+='<div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#94a3b8;padding:2px 0">&#9642; '+esc(h.headline||h.title||"")+'</div>'; });
       html+='</div>';
     }
-
-    // ── Safety footer ──
-    html+='<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.04);'
-      +'font-size:9px;color:#333;letter-spacing:.07em;font-family:JetBrains Mono,monospace">'
-      +'EXECUTION: CIO_ONLY_MANUAL &nbsp;·&nbsp; ORDER_ROUTING: DISABLED &nbsp;·&nbsp; '
-      +'THESIS: AI_INFRASTRUCTURE_POWER_THESIS v1.0</div>'
-      +'</div>';
-
-    document.getElementById("ai-infra-live").innerHTML=html;
+    html+='<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.04);font-size:9px;color:#333;letter-spacing:.07em;font-family:JetBrains Mono,monospace">'+esc(SAFETY_FOOTER)+'</div></div>';
+    document.getElementById(MARKER_ID).innerHTML=html;
   }
   function load(){
-    fetch(BASE+"/data/thesis_widgets/ai_infrastructure_power_latest.json?t="+Date.now())
-      .then(function(r){return r.ok?r.json():Promise.reject(r.status);})
-      .then(render)
-      .catch(function(){
-        if(!_lastData){
-          document.getElementById("ai-infra-live").innerHTML=
-            '<div style="background:rgba(13,16,32,.60);border:1px solid rgba(52,211,153,.10);'
-            +'border-radius:12px;padding:14px 24px;color:#555;font-family:JetBrains Mono,monospace;'
-            +'font-size:10px;letter-spacing:.1em">S6 · AI INFRASTRUCTURE / POWER — widget not yet running '
-            +'&nbsp;·&nbsp; <a href="javascript:location.reload()" style="color:#34d399;text-decoration:none">retry</a></div>';
-        }
-      });
+    fetch(BASE+"/"+ENDPOINT+"?t="+Date.now()).then(function(r){return r.ok?r.json():Promise.reject(r.status);}).then(render).catch(function(){
+      if(!_lastData)document.getElementById(MARKER_ID).innerHTML='<div style="background:rgba(13,16,32,.60);border:1px solid '+FALLBACK_COLOR+'22;border-radius:12px;padding:14px 24px;color:#555;font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.1em">'+esc(TITLE)+' - widget not yet running</div>';
+    });
   }
   load();
   setInterval(load,REFRESH_MS);
 })();
 </script>
 
-<div id="credit-refi-live" style="margin-bottom:16px">
-  <div style="background:rgba(13,16,32,.60);border:1px solid rgba(248,113,113,.12);border-radius:12px;
-    padding:14px 24px;color:#444;font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.12em">
-    S7 · CREDIT / REFINANCING / LIQUIDITY — loading…</div>
+<div id="global-leverage-live" data-dashboard-widget="global_leverage_unwind" style="margin-bottom:16px">
+  <div style="background:rgba(13,16,32,.60);border:1px solid #ff556622;border-radius:12px;
+    padding:14px 24px;color:#555;font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.12em">
+    S8 · Global Leverage Unwind - loading...</div>
 </div>
 <script>
 (function(){
   var BASE="https://sohweekian.github.io/bluelotus";
+  var ENDPOINT="data/thesis_widgets/global_leverage_unwind_latest.json";
   var REFRESH_MS=600000;
+  var MARKER_ID="global-leverage-live";
+  var TITLE="S8 · Global Leverage Unwind";
+  var SAFETY_FOOTER="EXECUTION: CIO_ONLY_MANUAL · ORDER_ROUTING: DISABLED · THESIS: GLOBAL_LEVERAGE_UNWIND_THESIS";
+  var STATUS_COLORS={"SEVERE_UNWIND": "#ff5566", "ACTIVE_UNWIND": "#fb923c", "WATCH": "#fbbf24", "LOW": "#60a5fa", "CALM": "#4ade80", "UNKNOWN": "#94a3b8"};
+  var SIGNAL_COLORS={"STRESS": "#ff5566", "WATCH": "#fbbf24", "CALM": "#4ade80", "PASS": "#4ade80", "FAIL": "#ff5566", "UNKNOWN": "#94a3b8"};
+  var FALLBACK_COLOR="#94a3b8";
+  var SCORE_LABEL="RISK SCORE (higher = more dangerous)";
   var _lastData=null;
   function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
-  // Status → color: higher score = more stress (opposite of S6)
-  var SC={
-    "SEVERE_STRESS":"#ff5566","ACTIVE_STRESS":"#fb923c",
-    "WATCH":"#fbbf24","LOW_STRESS":"#60a5fa","CALM":"#4ade80","UNKNOWN":"#94a3b8"
-  };
-  // Signal badge colors for STRESS/WATCH/CALM/UNKNOWN
-  var SIG={"STRESS":"#ff5566","WATCH":"#fbbf24","CALM":"#4ade80","UNKNOWN":"#94a3b8"};
+  function colorFor(map,key){return map[String(key||"").toUpperCase()]||FALLBACK_COLOR;}
   function badge(label,col){
-    return'<span style="background:'+col+'22;color:'+col+';border-radius:4px;padding:2px 7px;'
-      +'font-size:10px;font-weight:700">'+esc(label)+'</span>';
+    return '<span style="background:'+col+'22;color:'+col+';border-radius:4px;padding:2px 7px;font-size:10px;font-weight:700">'+esc(label)+'</span>';
   }
   function chgStr(v){
-    if(v===null||v===undefined)return'<span style="color:#444">--</span>';
+    if(v===null||v===undefined)return '<span style="color:#444">--</span>';
     var f=parseFloat(v);
     var col=f>0?"#4ade80":f<0?"#ff5566":"#94a3b8";
-    return'<span style="color:'+col+'">'+(f>=0?"+":"")+f.toFixed(2)+"%</span>";
+    return '<span style="color:'+col+'">'+(f>=0?"+":"")+f.toFixed(2)+"%</span>";
   }
-  // Score bar color: high score = red (stressed), low score = green (calm)
-  function scoreColor(score){
-    if(score>=75)return"#ff5566";
-    if(score>=55)return"#fb923c";
-    if(score>=40)return"#fbbf24";
-    if(score>=20)return"#60a5fa";
-    return"#4ade80";
-  }
+  function scoreColor(score,status){return colorFor(STATUS_COLORS,status)||FALLBACK_COLOR;}
   function render(d){
-    _lastData=d;
+    _lastData=d||{};
     var status=(d.status||"UNKNOWN").toUpperCase();
     var score=parseFloat(d.score)||0;
     var scoreMax=d.score_max||100;
-    var cioAction=d.cio_action||"CIO_REVIEW_REQUIRED";
-    var addAllowed=d.add_allowed===true;
-    var ts=d.last_updated_sgt||d.last_updated_utc||"";
-    var sc=SC[status]||"#94a3b8";
     var scorePct=Math.min(100,Math.round((score/scoreMax)*100));
-    var barColor=scoreColor(score);
+    var sc=scoreColor(score,status);
     var marketOpen=d.market_open===true;
     var marketStatus=d.market_status||"";
-    var freshnessLabel=d.data_freshness_label||"";
-    var marketTimeEt=d.market_time_et||"";
+    var freshness=d.data_freshness_label||"";
+    var marketTime=d.market_time_et||"";
     var lastSession=d.last_market_session||"";
-    var calmOffset=d.calm_offset_applied||0;
-    var stressCount=d.stress_count||0;
-    var calmCount=d.calm_count||0;
-    var blindSpots=(d.blind_spots||[]).length;
-
-    // Index ticker_evidence by basket group
+    var addAllowed=d.add_allowed===true;
+    var cioAction=d.cio_action||"CIO_REVIEW_REQUIRED";
     var byBasket={};
-    (d.ticker_evidence||[]).forEach(function(t){
-      var g=t.group||"OTHER";
-      if(!byBasket[g])byBasket[g]=[];
-      byBasket[g].push(t);
-    });
-
-    var html='<div style="background:rgba(13,16,32,.94);border:1px solid rgba(248,113,113,.18);border-radius:12px;padding:18px 22px">'
-
-      // ── Market-hours banner (shown only when market is closed) ──
-      +(!marketOpen&&marketStatus?
-        '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;padding:7px 12px;'
-        +'background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.18);border-radius:6px">'
-        +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#fbbf24;font-weight:700;letter-spacing:.12em">'
-        +'&#9679; MARKET CLOSED</span>'
-        +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.08em">'
-        +esc(freshnessLabel)+(lastSession?' &middot; last session '+esc(lastSession):'')+'</span>'
-        +(marketTimeEt?'<span style="margin-left:auto;font-family:JetBrains Mono,monospace;font-size:9px;color:#444">'+esc(marketTimeEt)+'</span>':'')
-        +'</div>'
-      :'')
-
-      // ── Header ──
-      +'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">'
-      +'<div><div style="font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.18em;'
-      +'text-transform:uppercase;color:#f87171;margin-bottom:4px">S7 · CREDIT / REFINANCING / LIQUIDITY</div>'
-      +'<div style="font-family:JetBrains Mono,monospace;font-size:11px;color:#555">'+esc(ts)+'</div></div>'
-      +badge(status,sc)+'</div>'
-
-      // ── Score bar ──
-      +'<div style="margin-bottom:14px">'
-      +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">'
-      +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.1em">STRESS SCORE (higher = more stressed)</span>'
-      +'<span style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:700;color:'+barColor+'">'+score.toFixed(0)+' / '+scoreMax+'</span>'
-      +'</div>'
-      +'<div style="height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden">'
-      +'<div style="height:100%;width:'+scorePct+'%;background:'+barColor+';border-radius:3px;transition:width .6s ease"></div>'
-      +'</div></div>'
-
-      // ── CIO action row ──
-      +'<div style="display:flex;gap:8px;align-items:center;margin-bottom:16px;'
-      +'padding:8px 12px;background:rgba(255,255,255,.03);border-radius:8px">'
+    (d.ticker_evidence||[]).forEach(function(t){var g=t.group||"OTHER"; if(!byBasket[g])byBasket[g]=[]; byBasket[g].push(t);});
+    var html='<div style="background:rgba(13,16,32,.94);border:1px solid '+sc+'33;border-radius:12px;padding:18px 22px">'
+      +(!marketOpen&&marketStatus?'<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;padding:7px 12px;background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.18);border-radius:6px">'
+        +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#fbbf24;font-weight:700;letter-spacing:.12em">&#9679; MARKET CLOSED</span>'
+        +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.08em">'+esc(freshness)+(lastSession?' &middot; last session '+esc(lastSession):'')+'</span>'
+        +(marketTime?'<span style="margin-left:auto;font-family:JetBrains Mono,monospace;font-size:9px;color:#444">'+esc(marketTime)+'</span>':'')+'</div>':'')
+      +'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px"><div>'
+      +'<div style="font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:'+sc+';margin-bottom:4px">'+esc(TITLE)+'</div>'
+      +'<div style="font-family:JetBrains Mono,monospace;font-size:11px;color:#555">'+esc(d.last_updated_sgt||d.last_updated_utc||"")+'</div></div>'+badge(status,sc)+'</div>'
+      +'<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">'
+      +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.1em">'+esc(SCORE_LABEL)+'</span>'
+      +'<span style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:700;color:'+sc+'">'+score.toFixed(0)+' / '+scoreMax+'</span></div>'
+      +'<div style="height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden"><div style="height:100%;width:'+scorePct+'%;background:'+sc+';border-radius:3px;transition:width .6s ease"></div></div></div>'
+      +'<div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;padding:8px 12px;background:rgba(255,255,255,.03);border-radius:8px">'
       +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.1em">CIO ACTION</span>'
       +'<span style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:700;color:#e2e8f0">'+esc(cioAction)+'</span>'
       +'<span style="margin-left:auto;font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.1em">ADD</span>'
-      +'<span style="font-family:JetBrains Mono,monospace;font-size:12px;font-weight:700;color:'+(addAllowed?"#4ade80":"#ff5566")+'">'+(addAllowed?"ALLOWED":"BLOCKED")+'</span>'
-      +'</div>'
-
-      // ── Stats row: stress/calm counts + calm offset ──
-      +'<div style="display:flex;gap:16px;margin-bottom:14px;padding:6px 12px;background:rgba(255,255,255,.02);border-radius:6px">'
-      +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#ff5566">&#9651; STRESS: '+stressCount+' baskets</span>'
-      +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#4ade80">&#9660; CALM: '+calmCount+' baskets</span>'
-      +(calmOffset>0?'<span style="margin-left:auto;font-family:JetBrains Mono,monospace;font-size:9px;color:#60a5fa">CALM OFFSET: -'+calmOffset.toFixed(0)+' pts</span>':'')
-      +'</div>';
-
-    // ── Expanded baskets — each with tickers inline ──
+      +'<span style="font-family:JetBrains Mono,monospace;font-size:12px;font-weight:700;color:'+(addAllowed?"#4ade80":"#ff5566")+'">'+(addAllowed?"ALLOWED":"BLOCKED")+'</span></div>'
+      +(d.summary?'<div style="font-family:JetBrains Mono,monospace;font-size:10px;color:#94a3b8;margin-bottom:12px">'+esc(d.summary)+'</div>':'');
     (d.primary_signals||[]).forEach(function(b){
       var bId=b.basket||"";
       var sig=(b.signal||"UNKNOWN").toUpperCase();
-      var bc=SIG[sig]||"#94a3b8";
-      var tickers=byBasket[bId]||[];
-      var wt=b.scoring_weight||0;
-
+      var bc=colorFor(SIGNAL_COLORS,sig);
+      var rows=byBasket[bId]||[];
       html+='<div style="margin-bottom:12px;border:1px solid rgba(255,255,255,.05);border-radius:8px;overflow:hidden">'
-
-        // Basket header row
         +'<div style="display:flex;align-items:center;gap:10px;padding:7px 12px;background:rgba(255,255,255,.03)">'
         +'<span style="font-family:JetBrains Mono,monospace;font-size:10px;color:#e2e8f0;font-weight:600;flex:1">'+esc(b.label||bId)+'</span>'
-        +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#444">wt '+wt+'</span>'
-        +badge(sig,bc)
-        +'</div>'
-
-        // Ticker rows inside this basket
+        +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#444">wt '+esc(b.scoring_weight||0)+'</span>'+badge(sig,bc)+'</div>'
         +'<table style="width:100%;border-collapse:collapse">';
-
-      tickers.forEach(function(t){
-        var ts2=(t.signal||"UNKNOWN").toUpperCase();
-        var tc=SIG[ts2]||"#94a3b8";
+      rows.forEach(function(t){
+        var ts=(t.signal||"UNKNOWN").toUpperCase();
+        var tc=colorFor(SIGNAL_COLORS,ts);
         var price=t.price?'$'+parseFloat(t.price).toFixed(2):'--';
-        var rspy=t.relative_to_spy;
-        var rspyStr=rspy!=null?(rspy>=0?"+":"")+parseFloat(rspy).toFixed(2)+'pp':"--";
-        var rspyCol=rspy>0?"#4ade80":rspy<0?"#ff5566":"#94a3b8";
         html+='<tr style="border-top:1px solid rgba(255,255,255,.04)">'
-          +'<td style="padding:5px 12px;font-family:JetBrains Mono,monospace;font-size:11px;font-weight:700;color:#e2e8f0;width:70px">'+esc(t.ticker)+'</td>'
-          +'<td style="padding:5px 8px;font-family:JetBrains Mono,monospace;font-size:10px;color:#94a3b8;width:80px">'+price+'</td>'
+          +'<td style="padding:5px 12px;font-family:JetBrains Mono,monospace;font-size:11px;font-weight:700;color:#e2e8f0;width:86px">'+esc(t.display_symbol||t.ticker||t.yf_symbol||"")+'</td>'
+          +'<td style="padding:5px 8px;font-family:JetBrains Mono,monospace;font-size:10px;color:#94a3b8;width:86px">'+price+'</td>'
           +'<td style="padding:5px 8px;font-family:JetBrains Mono,monospace;font-size:11px;font-weight:600">'+chgStr(t.day_change_pct)+'</td>'
-          +'<td style="padding:5px 8px;font-family:JetBrains Mono,monospace;font-size:10px;color:'+rspyCol+'">vs SPY '+rspyStr+'</td>'
-          +'<td style="padding:5px 12px;text-align:right">'+badge(ts2,tc)+'</td>'
-          +'</tr>';
+          +'<td style="padding:5px 12px;text-align:right">'+badge(ts,tc)+'</td></tr>';
       });
-
-      if(tickers.length===0){
-        html+='<tr><td colspan="5" style="padding:6px 12px;font-family:JetBrains Mono,monospace;font-size:10px;color:#444">no price data</td></tr>';
-      }
-
+      if(!rows.length)html+='<tr><td colspan="4" style="padding:6px 12px;font-family:JetBrains Mono,monospace;font-size:10px;color:#444">no price data</td></tr>';
       html+='</table></div>';
     });
-
-    // ── Headline evidence (if any) ──
-    if(d.headline_score>0&&d.headline_evidence&&d.headline_evidence.length>0){
-      html+='<div style="margin-bottom:12px;padding:8px 12px;border:1px solid rgba(248,113,113,.12);border-radius:8px">'
-        +'<div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#f87171;letter-spacing:.1em;margin-bottom:4px">CREDIT HEADLINE CATALYST &nbsp;+'+d.headline_score.toFixed(0)+' pts</div>';
-      d.headline_evidence.slice(0,3).forEach(function(h){
-        html+='<div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#94a3b8;padding:2px 0">&#9642; '+esc(h.headline||h.text||"")+'</div>';
-      });
+    if(d.headline_evidence&&d.headline_evidence.length){
+      html+='<div style="margin-bottom:12px;padding:8px 12px;border:1px solid '+sc+'22;border-radius:8px"><div style="font-family:JetBrains Mono,monospace;font-size:9px;color:'+sc+';letter-spacing:.1em;margin-bottom:4px">HEADLINE EVIDENCE</div>';
+      d.headline_evidence.slice(0,3).forEach(function(h){html+='<div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#94a3b8;padding:2px 0">&#9642; '+esc(h.headline||h.title||"")+'</div>'; });
       html+='</div>';
     }
-
-    // ── Blind spots (collapsed, count only) ──
-    if(blindSpots>0){
-      html+='<div style="margin-bottom:8px;font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.06em">'
-        +'BLIND SPOTS: '+blindSpots+' known limitations (ETF proxies, no direct CDS/OAS, no repo/SOFR data)</div>';
-    }
-
-    // ── Safety footer ──
-    html+='<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.04);'
-      +'font-size:9px;color:#333;letter-spacing:.07em;font-family:JetBrains Mono,monospace">'
-      +'EXECUTION: CIO_ONLY_MANUAL &nbsp;·&nbsp; ORDER_ROUTING: DISABLED &nbsp;·&nbsp; '
-      +'THESIS: CREDIT_REFINANCING_LIQUIDITY_THESIS v1.0</div>'
-      +'</div>';
-
-    document.getElementById("credit-refi-live").innerHTML=html;
+    html+='<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.04);font-size:9px;color:#333;letter-spacing:.07em;font-family:JetBrains Mono,monospace">'+esc(SAFETY_FOOTER)+'</div></div>';
+    document.getElementById(MARKER_ID).innerHTML=html;
   }
   function load(){
-    fetch(BASE+"/data/thesis_widgets/credit_refinancing_liquidity_latest.json?t="+Date.now())
-      .then(function(r){return r.ok?r.json():Promise.reject(r.status);})
-      .then(render)
-      .catch(function(){
-        if(!_lastData){
-          document.getElementById("credit-refi-live").innerHTML=
-            '<div style="background:rgba(13,16,32,.60);border:1px solid rgba(248,113,113,.10);'
-            +'border-radius:12px;padding:14px 24px;color:#555;font-family:JetBrains Mono,monospace;'
-            +'font-size:10px;letter-spacing:.1em">S7 · CREDIT / REFINANCING / LIQUIDITY — widget not yet running '
-            +'&nbsp;·&nbsp; <a href="javascript:location.reload()" style="color:#f87171;text-decoration:none">retry</a></div>';
-        }
-      });
+    fetch(BASE+"/"+ENDPOINT+"?t="+Date.now()).then(function(r){return r.ok?r.json():Promise.reject(r.status);}).then(render).catch(function(){
+      if(!_lastData)document.getElementById(MARKER_ID).innerHTML='<div style="background:rgba(13,16,32,.60);border:1px solid '+FALLBACK_COLOR+'22;border-radius:12px;padding:14px 24px;color:#555;font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.1em">'+esc(TITLE)+' - widget not yet running</div>';
+    });
   }
   load();
   setInterval(load,REFRESH_MS);
 })();
 </script>
+<!-- THESIS_WIDGETS_END -->
 
 <div style="font-family:JetBrains Mono,monospace;font-size:10px;color:#555;padding:10px 0 4px;border-top:1px solid rgba(255,255,255,.05);letter-spacing:.06em">System Health&nbsp;·&nbsp;Sources 70/52&nbsp;·&nbsp;Signals 28941&nbsp;·&nbsp;Integrity <span style="color:#4ade80">PASS</span>&nbsp;·&nbsp;<a href="https://sohweekian.github.io/bluelotus/chief-strategist.html" style="color:#c084fc;text-decoration:none">Full Strategist Report &rarr;</a></div>
 </main>
