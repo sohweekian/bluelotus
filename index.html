@@ -828,9 +828,17 @@ body{padding-top:52px !important;}
   }
 
   function load(){
-    fetch(BASE+"/data/warsh_thesis_live.json?t="+Date.now())
-      .then(function(r){return r.json();})
-      .then(render)
+    var nonce=Date.now();
+    var urls=[
+      "https://raw.githubusercontent.com/sohweekian/bluelotus/main/data/warsh_thesis_live.json?t="+nonce,
+      BASE+"/data/warsh_thesis_live.json?t="+nonce
+    ];
+    function tryFetch(i){
+      return fetch(urls[i],{cache:"no-store"})
+        .then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.json();})
+        .catch(function(e){if(i+1<urls.length)return tryFetch(i+1);throw e;});
+    }
+    tryFetch(0).then(render)
       .catch(function(e){
         document.getElementById("warsh-live").innerHTML=
           '<div style="background:rgba(13,16,32,.60);border:1px solid rgba(251,191,36,.12);'
