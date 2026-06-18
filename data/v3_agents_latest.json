@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-18 11:27 SGT",
-  "cycle_id": "v3_cycle_20260618_101944",
+  "generated_at": "2026-06-18 12:35 SGT",
+  "cycle_id": "v3_cycle_20260618_112747",
   "recommended_posture": "REVIEW",
   "agent_consensus": [
     "Data Integrity Agent: MANUAL_REVIEW_REQUIRED",
@@ -35,45 +35,44 @@
     "Data Integrity Agent",
     "Macro Strategist Agent",
     "Portfolio Structure Agent",
-    "Catalyst Intelligence Agent",
     "Thesis Lifecycle Agent",
     "Risk Challenger Agent",
     "Sector Specialist Agent",
     "Sentiment Narrative Agent"
   ],
   "manual_execution_required": true,
-  "created_at_sgt": "2026-06-18T10:21:00+08:00",
+  "created_at_sgt": "2026-06-18T11:28:59+08:00",
   "agents": [
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260618_101944",
+      "cycle_id": "v3_cycle_20260618_112747",
       "agent_id": "data_integrity",
       "agent_name": "Data Integrity Agent",
       "agent_role": "Check freshness, archive mismatch, source reliability, stale sections, and dataset usability.",
       "model_used": "qwen3:4b",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260618T101925",
-        "operator_pack_id": "deterministic_operators_latest:20260618T101923",
+        "dataset_snapshot_id": "dataset_raw:20260618T112730",
+        "operator_pack_id": "deterministic_operators_latest:20260618T112728",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.0",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
-      "summary": "Institutional risk monitoring completed for market session: WEEKEND SNAPSHOT / LAST REGULAR CLOSE",
+      "summary": "Institutional risk monitoring report for the current market session",
       "key_findings": [
-        "Market session closed (ET 22.27) with 201 tickers and VIX at 18.43",
-        "Portfolio snapshot shows 7 holdings, cash $54,956.12, power $51,795.53",
-        "VIXY (VIX index) is stale with avg cost $21.88 used for calculation"
+        "Market exposure levels are below threshold (cash 94.6% vs floor $6000)",
+        "VIXY is marked as stale with avg_cost $21.88",
+        "Stale sections detected: fear_greed and cio_decisions"
       ],
       "risk_flags": [
-        "STALE: VIXY -- using avg_cost $21.88",
-        "INFO_LOW_MARKET_EXPOSURE_INTENTIONAL: Portfolio $3114 < floor $6000 but cash-fortress mode detected (cash 94.6%)"
+        "INFO_LOW_MARKET_EXPOSURE_INTENTIONAL",
+        "STALE_VIXY"
       ],
       "blocked_actions_observed": [
         "VIXY stale data",
-        "Cash-fortress mode detected"
+        "cio_decisions stale data"
       ],
       "allowed_actions_observed": [
-        "Market session closed (ET 22.27) with 201 tickers",
-        "VIX at 18.43 (+0.00%)"
+        "Market exposure adjustment",
+        "VIXY data refresh"
       ],
       "affected_theses": [
         "risk_model",
@@ -81,44 +80,44 @@
       ],
       "affected_assets": [
         "VIXY",
-        "cash"
+        "cio_decisions"
       ],
       "causal_completeness": "partial",
       "blind_spots": [
-        "fear_greed",
-        "cio_decisions"
+        "No real-time data for fear_greed and cio_decisions",
+        "Market closed session impact"
       ],
       "confidence": 0.85,
       "recommendation_to_chief_strategist": "MANUAL_REVIEW_REQUIRED",
       "requires_cio_attention": true,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-18T10:19:57+08:00",
+      "created_at_sgt": "2026-06-18T11:27:59+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 0
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260618_101944",
+      "cycle_id": "v3_cycle_20260618_112747",
       "agent_id": "macro_strategist",
       "agent_name": "Macro Strategist Agent",
       "agent_role": "Interpret macro regime, cross-market stress, sector breadth, and high-beta permission.",
       "model_used": "qwen3:4b",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260618T101925",
-        "operator_pack_id": "deterministic_operators_latest:20260618T101923",
+        "dataset_snapshot_id": "dataset_raw:20260618T112730",
+        "operator_pack_id": "deterministic_operators_latest:20260618T112728",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.0",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
-      "summary": "Macro regime desk lens: translating cross-asset stress and liquidity dynamics into risk-regime clarity",
+      "summary": "Macro regime desk lens: cross-asset risk transmission and liquidity dynamics",
       "key_findings": [
         "[DATASET] Market CLOSED -- VIX direction factor suspended (stale chg_pct)",
-        "[OPERATOR] Regime: MILD RISK OFF, score: -1, action: Reduce growth. Add defensives.",
-        "[NEWS] BOJ June 16 event risk, FOMC June 16-17 risk, Fed press conference"
+        "[OPERATOR] Regime: MILD RISK OFF (score: -1)",
+        "[NEWS] BOJ June 16 event risk (impact: MACRO_RATE_FX)"
       ],
       "risk_flags": [
-        "P1: Market CLOSED -- VIX direction factor suspended (stale chg_pct)",
+        "P1: Market CLOSED -- VIX direction factor suspended",
         "P2: F/G 33 -- FEAR",
         "P3: Inst sentiment -0.273 bearish"
       ],
@@ -132,41 +131,40 @@
       "affected_assets": [],
       "causal_completeness": "partial",
       "blind_spots": [
-        "Insufficient live news to update macro transmission channels"
+        "No live news in evidence_priority for macro transmission"
       ],
       "confidence": 0.85,
       "recommendation_to_chief_strategist": "WAIT",
       "requires_cio_attention": true,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-18T10:20:04+08:00",
+      "created_at_sgt": "2026-06-18T11:28:06+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 0
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260618_101944",
+      "cycle_id": "v3_cycle_20260618_112747",
       "agent_id": "portfolio_structure",
       "agent_name": "Portfolio Structure Agent",
       "agent_role": "Interpret concentration, cash, cluster exposure, HHI, largest position, and top exposures.",
       "model_used": "qwen3:4b",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260618T101925",
-        "operator_pack_id": "deterministic_operators_latest:20260618T101923",
+        "dataset_snapshot_id": "dataset_raw:20260618T112730",
+        "operator_pack_id": "deterministic_operators_latest:20260618T112728",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.0",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
-      "summary": "Portfolio risk assessment report for the current trading session",
+      "summary": "Portfolio risk assessment for the current trading session with focus on concentration metrics and PnL integrity",
       "key_findings": [
-        "Concentration risk: Portfolio is highly concentrated in VXX (36.9% of equity capital)",
-        "PnL integrity issues: 4 positions have significant unrealized PnL discrepancies",
-        "Cash position: 94.63% of total assets in cash, below minimum risk threshold of 5%"
+        "High cash concentration (94.63%)",
+        "Concentrated equity exposure (36.9% of equity capital in VXX)",
+        "Multiple PnL integrity conflicts in satellite positions"
       ],
       "risk_flags": [
-        "CONCENTRATED",
-        "PnL_INTEGRITY_BREACH",
-        "CASH_WEIGHT_LOW"
+        "CONCENTRATION_RISK",
+        "PNL_INTEGRITY_VIOLATION"
       ],
       "blocked_actions_observed": [
         "No action blocks observed"
@@ -175,8 +173,8 @@
         "CIO_ONLY execution authority for all positions"
       ],
       "affected_theses": [
-        "bluelotus_v3_thesis_001: Portfolio concentration must be below 20% equity capital",
-        "bluelotus_v3_thesis_002: PnL integrity must be maintained within $5 threshold"
+        "bluelotus_v3_thesis_001: Portfolio should maintain minimum cash buffer",
+        "bluelotus_v3_thesis_002: Concentration risk must be below 25% equity threshold"
       ],
       "affected_assets": [
         "VXX",
@@ -185,99 +183,98 @@
       ],
       "causal_completeness": "partial",
       "blind_spots": [
-        "No historical volatility data available for risk modeling",
-        "No sector-specific liquidity metrics"
+        "No historical volatility data available for VaR calculation",
+        "Unclear cost basis verification process for satellite positions"
       ],
       "confidence": 0.85,
       "recommendation_to_chief_strategist": "MANUAL_REVIEW_REQUIRED",
       "requires_cio_attention": true,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-18T10:20:13+08:00",
+      "created_at_sgt": "2026-06-18T11:28:14+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 0
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260618_101944",
+      "cycle_id": "v3_cycle_20260618_112747",
       "agent_id": "catalyst_intelligence",
       "agent_name": "Catalyst Intelligence Agent",
       "agent_role": "Interpret catalyst calendar, live news brief, ECE themes, portfolio catalysts, and urgent events.",
       "model_used": "qwen3:4b",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260618T101925",
-        "operator_pack_id": "deterministic_operators_latest:20260618T101923",
+        "dataset_snapshot_id": "dataset_raw:20260618T112730",
+        "operator_pack_id": "deterministic_operators_latest:20260618T112728",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.0",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
       "summary": "Catalyst Intelligence Report for the current cycle",
       "key_findings": [
-        "Identified 3 upcoming earnings events with high priority (P1) for immediate attention",
-        "Detected 2 major conferences with significant market impact potential",
-        "Noted 1 high-impact executive appearance with potential for market volatility"
+        "Identified 3 immediate P1 catalysts from earnings calendar",
+        "Detected 2 high-impact future events (AWS re:Invent, Qualcomm Summit)",
+        "Noted Elon Musk's media appearance with potential AI/robotics focus"
       ],
       "risk_flags": [
-        "Macro catalysts: BOJ June 16 event risk",
-        "Macro catalysts: FOMC June 16-17 risk",
-        "Geopolitical catalysts: Yen carry-trade unwind risk"
+        "Yen carry-trade unwind risk (P1)",
+        "Fed press conference (P1)",
+        "BOJ June 16 event risk (P1)"
       ],
       "blocked_actions_observed": [
         "No blocked actions observed in current cycle"
       ],
       "allowed_actions_observed": [
         "Earnings analysis for FDX, MU, NKE",
-        "Conference monitoring for AWS re:Invent",
-        "Executive appearance tracking for Elon Musk"
+        "Event monitoring for AWS re:Invent",
+        "Operator analysis for Elon Musk appearance"
       ],
       "affected_theses": [
-        "Earnings catalysts",
-        "Conference-related themes",
-        "Executive communications"
+        "AI/robotics thesis (TSLA, NVDA, COIN)",
+        "Semiconductor thesis (QCOM, AAPL, AMD, INTC)"
       ],
       "affected_assets": [
-        "FDX",
-        "MU",
-        "NKE"
+        "TSLA",
+        "NVDA",
+        "COIN"
       ],
       "causal_completeness": "partial",
       "blind_spots": [
-        "Limited historical data for conference impacts",
-        "No real-time sentiment data for macro events"
+        "No historical data for AWS re:Invent impact",
+        "Limited sentiment bias for Elon Musk appearance"
       ],
       "confidence": 0.85,
       "recommendation_to_chief_strategist": "THESIS_REVIEW_REQUIRED",
-      "requires_cio_attention": true,
+      "requires_cio_attention": false,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-18T10:20:22+08:00",
+      "created_at_sgt": "2026-06-18T11:28:23+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 0
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260618_101944",
+      "cycle_id": "v3_cycle_20260618_112747",
       "agent_id": "thesis_lifecycle",
       "agent_name": "Thesis Lifecycle Agent",
       "agent_role": "Evaluate active thesis lifecycle states from the configured thesis registry.",
       "model_used": "qwen3:4b",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260618T101925",
-        "operator_pack_id": "deterministic_operators_latest:20260618T101923",
+        "dataset_snapshot_id": "dataset_raw:20260618T112730",
+        "operator_pack_id": "deterministic_operators_latest:20260618T112728",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.0",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
-      "summary": "Thesis lifecycle desk evaluates active theses for confirmation, weakening, contradiction, watch status, or archive readiness using evidence from registry and operator blocks.",
+      "summary": "Thesis lifecycle state evaluation lens",
       "key_findings": [
         "[THESIS] AI Semis Fragility Under Risk-Off and Valuation Compression: status ACTIVE with P1 priority, current probability 0.54, confidence 0.57",
         "[OPERATOR] Deterministic operator blocks require CIO manual review for all active theses",
-        "[NEWS] Upcoming earnings catalysts for FDX, MU, NKE, DAL with 45-day window"
+        "[NEWS] Earnings catalysts for FDX, MU, NKE, DAL identified but no immediate impact on thesis states"
       ],
       "risk_flags": [
-        "P1: Earnings calendar catalysts for FDX, MU, NKE, DAL",
-        "P2: Thesis registry shows 5 active theses with 1 confirmed",
-        "P3: Gold thesis confirmation risk separate from concentration risk"
+        "P1: Earnings catalysts for FDX, MU, NKE, DAL may trigger regime shifts",
+        "P2: Gold thesis confirmation risk if market moves against sticky inflation thesis",
+        "P3: Archive mismatch potential if thesis registry states conflict with operator blocks"
       ],
       "blocked_actions_observed": [],
       "allowed_actions_observed": [
@@ -297,41 +294,41 @@
       ],
       "causal_completeness": "partial",
       "blind_spots": [
-        "Insufficient evidence for gold thesis confirmation vs concentration risk separation"
+        "Insufficient evidence to confirm gold thesis confirmation separate from concentration risk"
       ],
       "confidence": 0.57,
       "recommendation_to_chief_strategist": "CIO_VERIFICATION_REQUIRED",
       "requires_cio_attention": true,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-18T10:20:29+08:00",
+      "created_at_sgt": "2026-06-18T11:28:30+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 0
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260618_101944",
+      "cycle_id": "v3_cycle_20260618_112747",
       "agent_id": "risk_challenger",
       "agent_name": "Risk Challenger Agent",
       "agent_role": "Adversarial review of hidden assumptions, fragile causal chains, liquidity risk, and correlation risk.",
       "model_used": "qwen3:4b",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260618T101925",
-        "operator_pack_id": "deterministic_operators_latest:20260618T101923",
+        "dataset_snapshot_id": "dataset_raw:20260618T112730",
+        "operator_pack_id": "deterministic_operators_latest:20260618T112728",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.0",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
       "summary": "Adversarial lens: exposing hidden assumptions in liquidity concentration and P/L integrity conflicts",
       "key_findings": [
-        "[BRIER] P/L integrity conflicts in QBTS, LUNR, QUBT, ASTS with broker_unrealized vs computed_unrealized discrepancies exceeding $5",
-        "[OPERATOR] VXX position concentration (36.9% of equity capital) with 4.3% daily price move and 1.58% unrealized PnL from cost",
-        "[NEWS] GOOGL headlines show bullish sentiment but include dirty headlines about Sonos and SpaceX, conflicting with Apple's neutral sentiment"
+        "[DATASET] Broker-unrealized vs computed P/L conflicts for 4 tickers indicate dirty evidence in cost basis",
+        "[OPERATOR] VXX position concentration (36.9% equity capital) is fragile without liquidity validation",
+        "[NEWS] GOOGL headlines show bullish sentiment but dirty headlines include non-relevant tech news"
       ],
       "risk_flags": [
-        "P1: VXX concentration risk (36.9% equity capital) with 4.3% daily price move",
-        "P2: P/L integrity conflicts in 4 tickers with broker_unrealized vs computed_unrealized discrepancies",
-        "P3: Dirty headlines in GOOGL sentiment analysis (4 dirty headlines vs 2 clean) contradicting bullish narrative"
+        "P1: P/L integrity conflicts with $94.24+ discrepancies in broker_unrealized vs computed_unrealized",
+        "P2: VXX concentration (36.9% equity capital) risks liquidity collapse under stress",
+        "P3: GOOGL sentiment conflicts with AAPL's neutral sentiment in AI-related headlines"
       ],
       "blocked_actions_observed": [],
       "allowed_actions_observed": [
@@ -343,41 +340,41 @@
       "affected_assets": [],
       "causal_completeness": "incomplete",
       "blind_spots": [
-        "Insufficient evidence on liquidity risk for VXX position given its concentration"
+        "Insufficient evidence on liquidity stress testing for VXX concentration"
       ],
       "confidence": 0.85,
       "recommendation_to_chief_strategist": "CIO_VERIFICATION_REQUIRED",
       "requires_cio_attention": true,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-18T10:20:37+08:00",
+      "created_at_sgt": "2026-06-18T11:28:37+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 0
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260618_101944",
+      "cycle_id": "v3_cycle_20260618_112747",
       "agent_id": "forecasting_brier",
       "agent_name": "Forecasting Brier Agent",
       "agent_role": "Observe forecast quality and Brier-related records without altering V2 calibration.",
       "model_used": "qwen3:4b",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260618T101925",
-        "operator_pack_id": "deterministic_operators_latest:20260618T101923",
+        "dataset_snapshot_id": "dataset_raw:20260618T112730",
+        "operator_pack_id": "deterministic_operators_latest:20260618T112728",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.0",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
       "summary": "This desk observes forecast quality and Brier continuity without recalibration.",
       "key_findings": [
         "[BRIER] Brier status is collecting with no due forecasts",
-        "[BRIER] Brier summary shows 0 resolved forecasts and 0 due forecasts",
-        "[BRIER] Brier continuity preserved with no active resolutions"
+        "[BRIER] No resolved forecasts in brier_summary",
+        "[BRIER] Brier continuity preserved as no forecasts are due"
       ],
       "risk_flags": [
-        "P3: No resolved forecasts in Brier system",
-        "P2: Forecast resolution tracker shows no active resolutions",
-        "P1: Brier status is collecting without due forecasts"
+        "P3: No resolved forecasts in brier_summary",
+        "P2: Brier status is collecting with no due forecasts",
+        "P1: No forecast resolution criteria defined for current claims"
       ],
       "blocked_actions_observed": [],
       "allowed_actions_observed": [
@@ -389,93 +386,95 @@
       "affected_assets": [],
       "causal_completeness": "incomplete",
       "blind_spots": [
-        "Insufficient evidence on forecast resolution criteria"
+        "No evidence of forecast resolution criteria in desk_context"
       ],
       "confidence": 0.625,
       "recommendation_to_chief_strategist": "WAIT",
       "requires_cio_attention": false,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-18T10:20:43+08:00",
+      "created_at_sgt": "2026-06-18T11:28:43+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 0
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260618_101944",
+      "cycle_id": "v3_cycle_20260618_112747",
       "agent_id": "sector_specialist",
       "agent_name": "Sector Specialist Agent",
       "agent_role": "Evaluate configured sector posture and identify sector-level risk or opportunity.",
       "model_used": "qwen3:4b",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260618T101925",
-        "operator_pack_id": "deterministic_operators_latest:20260618T101923",
+        "dataset_snapshot_id": "dataset_raw:20260618T112730",
+        "operator_pack_id": "deterministic_operators_latest:20260618T112728",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.0",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
       "summary": "Sector rotation desk lens: identifying sector-level contamination, leadership shifts, and crowding signals",
       "key_findings": [
-        "[DATASET] LivePrices 202 tickers show selective risk-on in biotech/pharma with mRNA up 11.6% and HOOD up 8.8% amid mild risk-off regime",
-        "[OPERATOR] AMD options flow indicates partial causal support for AI semiconductors with 1300 con volume",
-        "[NEWS] MSFT moves Copilot to usage-based pricing as AI costs rise, neutral sentiment"
+        "[DATASET] LivePrices 202 tickers | VIX 18.4 (+0.0%) | Top movers: MRNA $61.80 (+11.6%) | HOOD $105.20 (+8.8%) | USAR $23.55 (+8.3%) | SATS $111.70 (-7.7%)",
+        "[DATASET] [OPTIONS] NVDA shows 8500 units of buy activity with RISK_OFF signal",
+        "[DATASET] [OPTIONS] MSFT moves Copilot to usage-based pricing with NEUTRAL sentiment"
       ],
       "risk_flags": [
-        "AI semiconductors showing risk-off sentiment with NVDA options flow",
-        "Biotech/pharma showing selective risk-on with high institutional outflow"
+        "AI sector crowding: NVDA buy activity (8500 units) with RISK_OFF signal",
+        "Capital outflow from AAPL and ADBE",
+        "MSFT's Copilot pricing shift may trigger AI cost concerns"
       ],
       "blocked_actions_observed": [
-        "No actionable blocking events observed in current cycle"
+        "No deterministic operators active for AI sector",
+        "No sector-specific leadership shifts detected"
       ],
       "allowed_actions_observed": [
-        "Monitor AI semiconductor options flow for potential reversal signals",
-        "Track biotech/pharma institutional outflow for early warning signs"
+        "Monitor AI sector capital flow for NVDA",
+        "Track MSFT's Copilot pricing impact on AI costs"
       ],
       "affected_theses": [
-        "AI cost structure shifts impacting semiconductor adoption",
-        "Institutional positioning in biotech/pharma"
+        "AI cost model: Copilot pricing shift may increase AI infrastructure costs"
       ],
       "affected_assets": [
-        "AMD, NVDA, MSFT, ABBV, ADM"
+        "NVDA",
+        "MSFT"
       ],
       "causal_completeness": "partial",
       "blind_spots": [
-        "Limited data on small-cap institutional flows in biotech/pharma",
-        "No real-time sentiment data for AI semiconductor applications"
+        "No data on AI sector capital flow for ABBV",
+        "Limited visibility into AI sector leadership shifts"
       ],
       "confidence": 0.75,
       "recommendation_to_chief_strategist": "CIO_VERIFICATION_REQUIRED",
       "requires_cio_attention": true,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-18T10:20:53+08:00",
+      "created_at_sgt": "2026-06-18T11:28:52+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 0
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260618_101944",
+      "cycle_id": "v3_cycle_20260618_112747",
       "agent_id": "sentiment_narrative",
       "agent_name": "Sentiment Narrative Agent",
       "agent_role": "Interpret market narrative, risk appetite, panic or euphoria tone, and narrative rotation.",
       "model_used": "qwen3:4b",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260618T101925",
-        "operator_pack_id": "deterministic_operators_latest:20260618T101923",
+        "dataset_snapshot_id": "dataset_raw:20260618T112730",
+        "operator_pack_id": "deterministic_operators_latest:20260618T112728",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.0",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
-      "summary": "This desk interprets market narrative posture, crowding warnings, and sentiment contradictions to identify clean vs. dirty headlines influencing tape.",
+      "summary": "This desk interprets market narrative posture, crowding, euphoria/panic tone, and clean narrative rotation to determine headline trustworthiness.",
       "key_findings": [
-        "[DATASET] GOOGL: Bullish sentiment with 2 clean headlines on AI patent disputes and market challenges, but 4 dirty headlines unrelated to Google",
-        "[NEWS] AAPL: Neutral sentiment with 5 headlines on AI impact, price hikes, and product strategy but no clean narrative rotation",
-        "[THESIS] Clean narrative rotation requires resolution of AI patent disputes and price hike narratives before clean tape influence"
+        "[DATASET] GOOGL has bullish sentiment with 2 clean headlines but 4 dirty headlines (Sonos, Adobe, IPOs, Fed rates) in its feed",
+        "[NEWS] Clean narrative rotation in live news shows 12 Fed speeches and 35 BOJ press releases as active macro signals",
+        "[THESIS] Apple's price hike narrative contradicts neutral sentiment label with 5 conflicting headlines"
       ],
       "risk_flags": [
-        "P1: GOOGL clean headlines contaminated by unrelated Sonos, Adobe, and SpaceX headlines",
-        "P2: AAPL narrative contradiction between AI product strategy and price hike concerns",
-        "P3: Live news on political events not relevant to market sentiment"
+        "P1: GOOGL has 4 dirty headlines conflicting with bullish sentiment",
+        "P2: Apple's price hike narrative contradicts neutral sentiment label",
+        "P3: Fed speeches and BOJ press releases dominate macro signals"
       ],
       "blocked_actions_observed": [],
       "allowed_actions_observed": [
@@ -487,14 +486,14 @@
       "affected_assets": [],
       "causal_completeness": "partial",
       "blind_spots": [
-        "Insufficient live news data to assess political events impact on market sentiment"
+        "Insufficient evidence on clean narrative rotation for GOOGL"
       ],
-      "confidence": 0.75,
+      "confidence": 0.65,
       "recommendation_to_chief_strategist": "REVIEW",
       "requires_cio_attention": true,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-18T10:21:00+08:00",
+      "created_at_sgt": "2026-06-18T11:28:59+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 0
