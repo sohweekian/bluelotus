@@ -201,7 +201,7 @@ Tactical score modifies timing; it does not invalidate structural thesis unless 
 
 ══════════════════════════════════════════════════════════════
   BLUELOTUS CHIEF STRATEGIST BRIEF v1.7
-  2026-06-20 01:27 SGT  |  Cycle: 2026-06-20T01:09:45
+  2026-06-20 02:08 SGT  |  Cycle: 2026-06-20T01:09:45
 ══════════════════════════════════════════════════════════════
 
 LENS 1 — REGIME
@@ -432,7 +432,7 @@ STR - SIGNAL, ENTROPY, AND EDGE
 ==================================
 Status: OPERATIONAL | Version: str_v0.1
 Governance Pack: GOVPACK_83ec235639784ed2
-Report Binding: BIND_REPORT_MEMORY_20260619_172638_e06d307c1b
+Report Binding: BIND_REPORT_MEMORY_20260619_180731_e06d307c1b
 Execution: CIO_ONLY_MANUAL | Order Routing: FALSE | System Orders Generated: 0
 
 STR-1 Signal Entropy Table
@@ -483,6 +483,7 @@ STR-4 Kelly Advisory Sizing
 
 STR-5 Hedge Ratio Review
 - hedge_value=$2235.0 | fractional_target=$4444.97 | gap=$2209.97 | UNDER_HEDGED
+- Hedge ratio review is advisory only. It does not create a hedge order. It does not recommend automatic VXX/VIXY sizing. CIO_ONLY_MANUAL remains supreme.
 
 STR-6 STR Governance Footer
 STR is research-only.
@@ -492,6 +493,48 @@ STR does not override CIO_ONLY_MANUAL.
 STR adds numbers beside existing labels.
 STR adds advisory formula sizing beside CIO sizing.
 STR adds a third-witness reconciliation pathway for cost-basis conflicts.
+
+V3 / STR BUG-CLEARANCE RECONCILIATION
+======================================
+Execution: CIO_ONLY_MANUAL | Order Routing: FALSE | System Orders Generated: 0
+
+Buying Power Reconciliation
+- broker=27877.18 computed=27884.03 delta=-6.85 flag=False | RECONCILED
+- explanation: Broker buying power reconciles after open-order reserve and margin adjustment.
+
+Beta Source Reconciliation
+- risk_model_beta=None (RISK_MODEL_BETA_UNAVAILABLE) | str_proxy_beta=2.83283 (STR_PROXY_BETA_ESTIMATE) | conflict=False | expected_due_to_history_insufficient
+
+Snapshot Age Banner
+- formal=2026-06-20T01:09:45+00:00 | live=2026-06-20T00:57:28+00:00 | broker=2026-06-20T00:57:28+00:00 | age_delta_min=-12 | CURRENT
+
+Canonical Session State
+- WEEKEND_SNAPSHOT | source=WEEKEND SNAPSHOT / LAST REGULAR CLOSE | weekend=True
+
+Report Status Taxonomy
+- Governance failed gates: pnl_integrity
+- Consistency audit failed checks: none
+- Data integrity unresolved items: cost-basis conflicts
+
+CIO Decisions Freshness
+- CIO_DECISIONS_STALE_REVIEW_REQUIRED | age_min=5783 | market_data_failure=True
+
+Sentiment Hygiene Entropy Link
+- dirty=87 clean=0 ratio=1.0 entropy=0.0 | excluded_from_cio_tape=True
+
+Open Order State Reconciliation
+- BKSY BUY 50.0 @ 28.75 | WAITING_SUBMIT | LIVE_BLOCKED_PENDING_CIO_REVIEW | CIO review=True
+- NVDA BUY 10.0 @ 199.25 | WAITING_SUBMIT | LIVE_BLOCKED_PENDING_CIO_REVIEW | CIO review=True
+- AU BUY 13.0 @ 76.9 | WAITING_SUBMIT | LIVE_BLOCKED_PENDING_CIO_REVIEW | CIO review=True
+- NEM BUY 11.0 @ 92.4 | WAITING_SUBMIT | LIVE_BLOCKED_PENDING_CIO_REVIEW | CIO review=True
+- AEM BUY 7.0 @ 151.5 | WAITING_SUBMIT | LIVE_BLOCKED_PENDING_CIO_REVIEW | CIO review=True
+- B BUY 28.0 @ 37.0 | WAITING_SUBMIT | LIVE_BLOCKED_PENDING_CIO_REVIEW | CIO review=True
+
+Security Master Exceptions
+- count=2
+
+Hedge Advisory Disclaimer
+- Hedge ratio review is advisory only. It does not create a hedge order. It does not recommend automatic VXX/VIXY sizing. CIO_ONLY_MANUAL remains supreme.
 
 ================================================================================
 CHIEF STRATEGIST GOVERNANCE LAYER
