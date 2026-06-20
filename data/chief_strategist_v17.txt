@@ -201,7 +201,7 @@ Tactical score modifies timing; it does not invalidate structural thesis unless 
 
 ══════════════════════════════════════════════════════════════
   BLUELOTUS CHIEF STRATEGIST BRIEF v1.7
-  2026-06-21 03:23 SGT  |  Cycle: 2026-06-21T02:47:05
+  2026-06-21 03:39 SGT  |  Cycle: 2026-06-21T02:47:05
 ══════════════════════════════════════════════════════════════
 
 LENS 1 — REGIME
@@ -651,7 +651,7 @@ V3.4 BENCHMARK DASHBOARD
 ============================
 Canonical: v3.1-canonical-contract validation=PASS
 Replay: strategies=12 scenarios=9 point_in_time=PASS
-Benchmark: BENCH_20260621_032302 status=PASS
+Benchmark: BENCH_20260621_033910 status=PASS
 Observation lock: OBSERVATION_ACTIVE upgrade_allowed=False
 Execution safety: CIO_ONLY_MANUAL | order_routing_enabled=False | orders_generated=0
 - #1 BUY_AND_HOLD_PORTFOLIO sharpe=0.807518 drawdown=-0.083978
@@ -665,15 +665,15 @@ Execution safety: CIO_ONLY_MANUAL | order_routing_enabled=False | orders_generat
 NITE-PEI THESIS ENGINE — CIO ADVISORY
 News Impact & Thesis Engine for Prospective Event Intelligence
 ==============================================================================
-Generated : 2026-06-21T03:17:34+08:00
+Generated : 2026-06-21T03:38:15+08:00
 Schema    : bluelotus_v3_nite_pei_v1.0
 Execution : MANUAL_EXECUTION_REQUIRED | LLM_ORDER_GENERATION=FALSE
 
 COMPOSITE KILL RISK INDEX (CKRI)
 ----------------------------------------
-  CKRI Score : 0.2900
+  CKRI Score : 0.3369
   Zone       : WATCH
-  Weighted sum       : 0.2500
+  Weighted sum       : 0.4846
   Correlation penalty: 1.2000
   Total weight       : 5.0000
 
@@ -684,7 +684,7 @@ COMPOSITE KILL RISK INDEX (CKRI)
   ----------------------------------------------------------------------------------------
   TRUMP_UNCERTAINTY_THESIS             TRUMP_KC_01            0.600   0.0500 INACTIVE....
   TRUMP_UNCERTAINTY_THESIS             TRUMP_KC_02            0.400   0.0500 INACTIVE....
-  PETRO_RECYCLED_DOLLAR_THESIS         PETRO_KC_01            0.500   0.0500 INACTIVE....
+  PETRO_RECYCLED_DOLLAR_THESIS         PETRO_KC_01            0.500   0.5192 TRIGGERED...
   PETRO_RECYCLED_DOLLAR_THESIS         PETRO_KC_02            0.500   0.0500 INACTIVE....
   STICKY_INFLATION_THESIS              STICKY_KC_01           0.550   0.0500 INACTIVE....
   STICKY_INFLATION_THESIS              STICKY_KC_02           0.450   0.0500 INACTIVE....
@@ -693,32 +693,191 @@ COMPOSITE KILL RISK INDEX (CKRI)
   HAWKISH_BOJ_THESIS                   BOJ_KC_01              0.650   0.0500 INACTIVE....
   HAWKISH_BOJ_THESIS                   BOJ_KC_02              0.350   0.0500 INACTIVE....
 
-THESIS PROBABILITY SNAPSHOTS
+BAYESIAN UPDATE FORMULA (applied per event per thesis)
 ----------------------------------------
-  TRUMP_UNCERTAINTY_THESIS
-    P_posterior : 0.500  (— 0.000)
-    Posture     : THESIS_UNCHANGED — MONITOR
-    Advisory    : [NITE-PEI] TRUMP_UNCERTAINTY_THESIS: no events. P: 0.500 → 0.500 (▲0.000). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED.
+  Step 1 : prior_odds    = P_prior / (1 - P_prior)
+  Step 2 : LR_adjusted   = LR_table[event_class][thesis_type] × (1 - noise_discount)
+           noise_discount : T1=0.00  T2=0.10  T3=0.25  T4=0.50
+  Step 3 : post_odds     = prior_odds × LR_adjusted
+  Step 4 : P_posterior   = post_odds / (1 + post_odds)
+  Step 5 : clamp to [0.05, 0.95]  (prevents probability from reaching 0 or 1)
+  Multi-event: posterior_N becomes prior_(N+1)  (sequential compounding)
 
-  PETRO_RECYCLED_DOLLAR_THESIS
-    P_posterior : 0.500  (— 0.000)
-    Posture     : THESIS_UNCHANGED — MONITOR
-    Advisory    : [NITE-PEI] PETRO_RECYCLED_DOLLAR_THESIS: no events. P: 0.500 → 0.500 (▲0.000). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED.
+  LR > 1.0 = event is evidence FOR the thesis (raises P)
+  LR < 1.0 = event is evidence AGAINST the thesis (lowers P)
+  LR = 1.0 = event carries no information (no update)
 
-  STICKY_INFLATION_THESIS
-    P_posterior : 0.500  (— 0.000)
-    Posture     : THESIS_UNCHANGED — MONITOR
-    Advisory    : [NITE-PEI] STICKY_INFLATION_THESIS: no events. P: 0.500 → 0.500 (▲0.000). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED.
+THESIS PROBABILITY SNAPSHOTS — WITH EVIDENCE
+----------------------------------------
+  ┌─ TRUMP_UNCERTAINTY_THESIS
+  │  P: 0.5000 → 0.4209  (▼ 0.0791)   Posture: THESIS_UNCHANGED — MONITOR
+  │  Advisory: [NITE-PEI] TRUMP_UNCERTAINTY_THESIS: GEOPOLITICAL_ESCALATION, CENTRAL_BANK_HAWKISH, YEN_CARRY_RISK, CENTRAL_BANK_HAWKISH (LR 1.080 via GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS, confidence: LOW). P: 0.500 → 0.421 (▼0.079). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED.
+  │  Evidence (4 event(s) processed):
+  │   [1] GEOPOLITICAL_ESCALATION  keyword: 'hormuz'  tier: T2
+  │       Source  : MU ticker sentiment (Moomoo Intel) — signal_type: sentiment
+  │       Headline: Iran Closes Strait Of Hormuz — oil supply route threat
+  │       prior_odds = P/1-P = 0.5000 / 0.5000 = 1.0000
+  │       LR_adjusted = LR_raw(1.2000) x (1 - noise_discount(0.10)) = 1.0800
+  │       posterior_odds = prior_odds(1.0000) x LR_adjusted(1.0800) = 1.0800
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 1.0800 / 2.0800 = 0.5192
+  │       clamp([0.05, 0.95]) => 0.5192 (unchanged)
+  │       Δ P this step: +0.0192
+  │   [2] CENTRAL_BANK_HAWKISH  keyword: 'bowman'  tier: T2
+  │       Source  : BAC ticker sentiment (Moomoo Intel) — signal_type: sentiment
+  │       Headline: Fed Governor Bowman Spoke at Private Dinner After Policy Meeting
+  │       prior_odds = P/1-P = 0.5192 / 0.4808 = 1.0800
+  │       LR_adjusted = LR_raw(0.8500) x (1 - noise_discount(0.10)) = 0.7650
+  │       posterior_odds = prior_odds(1.0800) x LR_adjusted(0.7650) = 0.8262
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 0.8262 / 1.8262 = 0.4524
+  │       clamp([0.05, 0.95]) => 0.4524 (unchanged)
+  │       Δ P this step: -0.0668
+  │   [3] YEN_CARRY_RISK  keyword: 'yen carry'  tier: T2
+  │       Source  : macro_event_risks: FX_LIQUIDITY BOJ event risk (dataset key: macro_event_risks)
+  │       Headline: Yen carry-trade unwind risk escalating — USD/JPY pressure
+  │       prior_odds = P/1-P = 0.4524 / 0.5476 = 0.8262
+  │       LR_adjusted = LR_raw(1.1500) x (1 - noise_discount(0.10)) = 1.0350
+  │       posterior_odds = prior_odds(0.8262) x LR_adjusted(1.0350) = 0.8551
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 0.8551 / 1.8551 = 0.4610
+  │       clamp([0.05, 0.95]) => 0.4610 (unchanged)
+  │       Δ P this step: +0.0085
+  │   [4] CENTRAL_BANK_HAWKISH  keyword: 'hawkish'  tier: T1
+  │       Source  : macro_event_risks: MACRO_RATE FOMC (dataset key: macro_event_risks)
+  │       Headline: FOMC June 16-17 rate decision risk hawkish — hold expected
+  │       prior_odds = P/1-P = 0.4610 / 0.5390 = 0.8551
+  │       LR_adjusted = LR_raw(0.8500) x (1 - noise_discount(0.00)) = 0.8500
+  │       posterior_odds = prior_odds(0.8551) x LR_adjusted(0.8500) = 0.7269
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 0.7269 / 1.7269 = 0.4209
+  │       clamp([0.05, 0.95]) => 0.4209 (unchanged)
+  │       Δ P this step: -0.0400
+  │  Kill States: TRUMP_KC_01: INACTIVE (P=0.050)  TRUMP_KC_02: INACTIVE (P=0.050)
+  └──────────────────────────────────────────────────────────────────────
 
-  HAWKISH_WARSH_THESIS
-    P_posterior : 0.500  (— 0.000)
-    Posture     : THESIS_UNCHANGED — MONITOR
-    Advisory    : [NITE-PEI] HAWKISH_WARSH_THESIS: no events. P: 0.500 → 0.500 (▲0.000). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED.
+  ┌─ PETRO_RECYCLED_DOLLAR_THESIS
+  │  P: 0.5000 → 0.4801  (▼ 0.0199)   Posture: THESIS_UNCHANGED — MONITOR
+  │  Advisory: [NITE-PEI] PETRO_RECYCLED_DOLLAR_THESIS: GEOPOLITICAL_ESCALATION, YEN_CARRY_RISK (LR 1.080 via GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS, confidence: LOW). P: 0.500 → 0.480 (▼0.020). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED.
+  │  Evidence (2 event(s) processed):
+  │   [1] GEOPOLITICAL_ESCALATION  keyword: 'hormuz'  tier: T2
+  │       Source  : MU ticker sentiment (Moomoo Intel) — signal_type: sentiment
+  │       Headline: Iran Closes Strait Of Hormuz — oil supply route threat
+  │       prior_odds = P/1-P = 0.5000 / 0.5000 = 1.0000
+  │       LR_adjusted = LR_raw(1.2000) x (1 - noise_discount(0.10)) = 1.0800
+  │       posterior_odds = prior_odds(1.0000) x LR_adjusted(1.0800) = 1.0800
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 1.0800 / 2.0800 = 0.5192
+  │       clamp([0.05, 0.95]) => 0.5192 (unchanged)
+  │       Δ P this step: +0.0192
+  │   [2] YEN_CARRY_RISK  keyword: 'yen carry'  tier: T2
+  │       Source  : macro_event_risks: FX_LIQUIDITY BOJ event risk (dataset key: macro_event_risks)
+  │       Headline: Yen carry-trade unwind risk escalating — USD/JPY pressure
+  │       prior_odds = P/1-P = 0.5192 / 0.4808 = 1.0800
+  │       LR_adjusted = LR_raw(0.9500) x (1 - noise_discount(0.10)) = 0.8550
+  │       posterior_odds = prior_odds(1.0800) x LR_adjusted(0.8550) = 0.9234
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 0.9234 / 1.9234 = 0.4801
+  │       clamp([0.05, 0.95]) => 0.4801 (unchanged)
+  │       Δ P this step: -0.0391
+  │  Kill States: PETRO_KC_01: TRIGGERED (P=0.519)  PETRO_KC_02: INACTIVE (P=0.050)
+  └──────────────────────────────────────────────────────────────────────
 
-  HAWKISH_BOJ_THESIS
-    P_posterior : 0.500  (— 0.000)
-    Posture     : THESIS_UNCHANGED — MONITOR
-    Advisory    : [NITE-PEI] HAWKISH_BOJ_THESIS: no events. P: 0.500 → 0.500 (▲0.000). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED.
+  ┌─ STICKY_INFLATION_THESIS
+  │  P: 0.5000 → 0.5121  (▲ 0.0121)   Posture: THESIS_UNCHANGED — MONITOR
+  │  Advisory: [NITE-PEI] STICKY_INFLATION_THESIS: CENTRAL_BANK_HAWKISH, YEN_CARRY_RISK, CENTRAL_BANK_HAWKISH (LR 1.080 via CENTRAL_BANK_HAWKISH/STICKY_INFLATION_THESIS, confidence: LOW). P: 0.500 → 0.512 (▲0.012). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED.
+  │  Evidence (3 event(s) processed):
+  │   [1] CENTRAL_BANK_HAWKISH  keyword: 'bowman'  tier: T2
+  │       Source  : BAC ticker sentiment (Moomoo Intel) — signal_type: sentiment
+  │       Headline: Fed Governor Bowman Spoke at Private Dinner After Policy Meeting
+  │       prior_odds = P/1-P = 0.5000 / 0.5000 = 1.0000
+  │       LR_adjusted = LR_raw(1.2000) x (1 - noise_discount(0.10)) = 1.0800
+  │       posterior_odds = prior_odds(1.0000) x LR_adjusted(1.0800) = 1.0800
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 1.0800 / 2.0800 = 0.5192
+  │       clamp([0.05, 0.95]) => 0.5192 (unchanged)
+  │       Δ P this step: +0.0192
+  │   [2] YEN_CARRY_RISK  keyword: 'yen carry'  tier: T2
+  │       Source  : macro_event_risks: FX_LIQUIDITY BOJ event risk (dataset key: macro_event_risks)
+  │       Headline: Yen carry-trade unwind risk escalating — USD/JPY pressure
+  │       prior_odds = P/1-P = 0.5192 / 0.4808 = 1.0800
+  │       LR_adjusted = LR_raw(0.9000) x (1 - noise_discount(0.10)) = 0.8100
+  │       posterior_odds = prior_odds(1.0800) x LR_adjusted(0.8100) = 0.8748
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 0.8748 / 1.8748 = 0.4666
+  │       clamp([0.05, 0.95]) => 0.4666 (unchanged)
+  │       Δ P this step: -0.0526
+  │   [3] CENTRAL_BANK_HAWKISH  keyword: 'hawkish'  tier: T1
+  │       Source  : macro_event_risks: MACRO_RATE FOMC (dataset key: macro_event_risks)
+  │       Headline: FOMC June 16-17 rate decision risk hawkish — hold expected
+  │       prior_odds = P/1-P = 0.4666 / 0.5334 = 0.8748
+  │       LR_adjusted = LR_raw(1.2000) x (1 - noise_discount(0.00)) = 1.2000
+  │       posterior_odds = prior_odds(0.8748) x LR_adjusted(1.2000) = 1.0498
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 1.0498 / 2.0498 = 0.5121
+  │       clamp([0.05, 0.95]) => 0.5121 (unchanged)
+  │       Δ P this step: +0.0455
+  │  Kill States: STICKY_KC_01: INACTIVE (P=0.050)  STICKY_KC_02: INACTIVE (P=0.050)
+  └──────────────────────────────────────────────────────────────────────
+
+  ┌─ HAWKISH_WARSH_THESIS
+  │  P: 0.5000 → 0.6189  (▲ 0.1189)   Posture: THESIS_UNCHANGED — MONITOR
+  │  Advisory: [NITE-PEI] HAWKISH_WARSH_THESIS: CENTRAL_BANK_HAWKISH, YEN_CARRY_RISK, CENTRAL_BANK_HAWKISH (LR 1.215 via CENTRAL_BANK_HAWKISH/HAWKISH_WARSH_THESIS, confidence: LOW). P: 0.500 → 0.619 (▲0.119). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED.
+  │  Evidence (3 event(s) processed):
+  │   [1] CENTRAL_BANK_HAWKISH  keyword: 'bowman'  tier: T2
+  │       Source  : BAC ticker sentiment (Moomoo Intel) — signal_type: sentiment
+  │       Headline: Fed Governor Bowman Spoke at Private Dinner After Policy Meeting
+  │       prior_odds = P/1-P = 0.5000 / 0.5000 = 1.0000
+  │       LR_adjusted = LR_raw(1.3500) x (1 - noise_discount(0.10)) = 1.2150
+  │       posterior_odds = prior_odds(1.0000) x LR_adjusted(1.2150) = 1.2150
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 1.2150 / 2.2150 = 0.5485
+  │       clamp([0.05, 0.95]) => 0.5485 (unchanged)
+  │       Δ P this step: +0.0485
+  │   [2] YEN_CARRY_RISK  keyword: 'yen carry'  tier: T2
+  │       Source  : macro_event_risks: FX_LIQUIDITY BOJ event risk (dataset key: macro_event_risks)
+  │       Headline: Yen carry-trade unwind risk escalating — USD/JPY pressure
+  │       prior_odds = P/1-P = 0.5485 / 0.4515 = 1.2150
+  │       LR_adjusted = LR_raw(1.1000) x (1 - noise_discount(0.10)) = 0.9900
+  │       posterior_odds = prior_odds(1.2150) x LR_adjusted(0.9900) = 1.2029
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 1.2029 / 2.2029 = 0.5460
+  │       clamp([0.05, 0.95]) => 0.5460 (unchanged)
+  │       Δ P this step: -0.0025
+  │   [3] CENTRAL_BANK_HAWKISH  keyword: 'hawkish'  tier: T1
+  │       Source  : macro_event_risks: MACRO_RATE FOMC (dataset key: macro_event_risks)
+  │       Headline: FOMC June 16-17 rate decision risk hawkish — hold expected
+  │       prior_odds = P/1-P = 0.5460 / 0.4540 = 1.2029
+  │       LR_adjusted = LR_raw(1.3500) x (1 - noise_discount(0.00)) = 1.3500
+  │       posterior_odds = prior_odds(1.2029) x LR_adjusted(1.3500) = 1.6239
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 1.6239 / 2.6239 = 0.6189
+  │       clamp([0.05, 0.95]) => 0.6189 (unchanged)
+  │       Δ P this step: +0.0728
+  │  Kill States: WARSH_KC_01: INACTIVE (P=0.050)  WARSH_KC_02: INACTIVE (P=0.050)
+  └──────────────────────────────────────────────────────────────────────
+
+  ┌─ HAWKISH_BOJ_THESIS
+  │  P: 0.5000 → 0.6650  (▲ 0.1650)   Posture: THESIS_STRENGTHENED — CIO_REVIEW_FOR_ADD
+  │  Advisory: [NITE-PEI] HAWKISH_BOJ_THESIS: CENTRAL_BANK_HAWKISH, YEN_CARRY_RISK, CENTRAL_BANK_HAWKISH (LR 1.170 via CENTRAL_BANK_HAWKISH/HAWKISH_BOJ_THESIS, confidence: LOW). P: 0.500 → 0.665 (▲0.165). Posture: THESIS_STRENGTHENED — CIO_REVIEW_FOR_ADD. MANUAL_EXECUTION_REQUIRED.
+  │  Evidence (3 event(s) processed):
+  │   [1] CENTRAL_BANK_HAWKISH  keyword: 'bowman'  tier: T2
+  │       Source  : BAC ticker sentiment (Moomoo Intel) — signal_type: sentiment
+  │       Headline: Fed Governor Bowman Spoke at Private Dinner After Policy Meeting
+  │       prior_odds = P/1-P = 0.5000 / 0.5000 = 1.0000
+  │       LR_adjusted = LR_raw(1.3000) x (1 - noise_discount(0.10)) = 1.1700
+  │       posterior_odds = prior_odds(1.0000) x LR_adjusted(1.1700) = 1.1700
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 1.1700 / 2.1700 = 0.5392
+  │       clamp([0.05, 0.95]) => 0.5392 (unchanged)
+  │       Δ P this step: +0.0392
+  │   [2] YEN_CARRY_RISK  keyword: 'yen carry'  tier: T2
+  │       Source  : macro_event_risks: FX_LIQUIDITY BOJ event risk (dataset key: macro_event_risks)
+  │       Headline: Yen carry-trade unwind risk escalating — USD/JPY pressure
+  │       prior_odds = P/1-P = 0.5392 / 0.4608 = 1.1700
+  │       LR_adjusted = LR_raw(1.4500) x (1 - noise_discount(0.10)) = 1.3050
+  │       posterior_odds = prior_odds(1.1700) x LR_adjusted(1.3050) = 1.5269
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 1.5269 / 2.5269 = 0.6043
+  │       clamp([0.05, 0.95]) => 0.6043 (unchanged)
+  │       Δ P this step: +0.0651
+  │   [3] CENTRAL_BANK_HAWKISH  keyword: 'hawkish'  tier: T1
+  │       Source  : macro_event_risks: MACRO_RATE FOMC (dataset key: macro_event_risks)
+  │       Headline: FOMC June 16-17 rate decision risk hawkish — hold expected
+  │       prior_odds = P/1-P = 0.6043 / 0.3957 = 1.5269
+  │       LR_adjusted = LR_raw(1.3000) x (1 - noise_discount(0.00)) = 1.3000
+  │       posterior_odds = prior_odds(1.5269) x LR_adjusted(1.3000) = 1.9849
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 1.9849 / 2.9849 = 0.6650
+  │       clamp([0.05, 0.95]) => 0.6650 (unchanged)
+  │       Δ P this step: +0.0607
+  │  Kill States: BOJ_KC_01: INACTIVE (P=0.050)  BOJ_KC_02: INACTIVE (P=0.050)
+  └──────────────────────────────────────────────────────────────────────
 
 KELLY-NITE POSITION SIZING ADVISORIES
 ----------------------------------------
