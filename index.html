@@ -236,15 +236,15 @@ body{padding-top:52px !important;}
       var p=positions[i];
       var th=p.thesis||"WATCH";
       var thc=TH_COLORS[th]||"#8b93a7";
-      var chg=p.chg_pct;
-      var chgStr=(!chg&&chg!==0)?"--":((chg>=0?"+":"")+chg.toFixed(1)+"%");
-      var chgC=(!chg&&chg!==0)?"#8b93a7":pcolor(chg);
+      var avg=(p.avg_price!==null&&p.avg_price!==undefined)?p.avg_price:p.avg_cost;
+      if((avg===null||avg===undefined)&&p.cost_basis&&p.qty)avg=p.cost_basis/p.qty;
+      var avgStr=(avg===null||avg===undefined||isNaN(parseFloat(avg)))?"--":"$"+parseFloat(avg).toFixed(3);
       var unrl=p.unrealized||0;var unrlp=p.unrealized_p||0;var unrlC=pcolor(unrl);
       rows+='<tr>'
         +'<td style="color:#c084fc;font-weight:700;padding:5px 6px">'+esc(p.ticker)+'</td>'
         +'<td style="color:#8b93a7;padding:5px 6px">'+(p.qty||0).toFixed(0)+'</td>'
         +'<td style="padding:5px 6px">$'+(p.price||0).toFixed(2)+'</td>'
-        +'<td style="color:'+chgC+';font-family:JetBrains Mono,monospace;padding:5px 6px">'+chgStr+'</td>'
+        +'<td style="color:#8b93a7;font-family:JetBrains Mono,monospace;padding:5px 6px">'+avgStr+'</td>'
         +'<td style="color:'+unrlC+';font-family:JetBrains Mono,monospace;padding:5px 6px">'
         +(unrl>=0?"+$":"-$")+Math.abs(unrl).toFixed(2)+'</td>'
         +'<td style="padding:5px 6px"><span style="background:rgba('+rgb(thc)+',.15);color:'+thc
@@ -264,7 +264,7 @@ body{padding-top:52px !important;}
       +'<th style="color:#c084fc;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:4px 6px 8px;text-align:left">Ticker</th>'
       +'<th style="color:#c084fc;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:4px 6px 8px;text-align:left">Qty</th>'
       +'<th style="color:#c084fc;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:4px 6px 8px;text-align:left">Price</th>'
-      +'<th style="color:#c084fc;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:4px 6px 8px;text-align:left">Day</th>'
+      +'<th style="color:#c084fc;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:4px 6px 8px;text-align:left">Ave Price</th>'
       +'<th style="color:#c084fc;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:4px 6px 8px;text-align:left">P/L</th>'
       +'<th style="color:#c084fc;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:4px 6px 8px;text-align:left">Thesis</th>'
       +'</tr>'+rows+'</table>'+footer;
