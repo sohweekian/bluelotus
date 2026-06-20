@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-21 03:23 SGT",
+  "generated_at": "2026-06-21 03:39 SGT",
   "cycle_id": "v3_cycle_20260621_024733",
   "latest_cycle_id": "v3_cycle_20260621_024733",
   "fallback_from_cycle_id": "",
@@ -113,14 +113,134 @@
   },
   "nite_pei": {
     "schema_version": "bluelotus_v3_nite_pei_v1.0",
-    "generated_at_sgt": "2026-06-21T03:17:34+08:00",
+    "generated_at_sgt": "2026-06-21T03:38:15+08:00",
     "thesis_probability_snapshots": [
       {
         "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
         "thesis_type": "TRUMP_UNCERTAINTY_THESIS",
-        "P_posterior": 0.5,
         "P_prior": 0.5,
-        "delta_p": 0.0,
+        "P_posterior": 0.420911,
+        "delta_p": -0.079089,
+        "events_applied": [
+          {
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "raw_headline": "Iran Closes Strait Of Hormuz — oil supply route threat",
+            "source": "MU ticker sentiment (Moomoo Intel) — signal_type: sentiment",
+            "source_tier": 2,
+            "matched_keyword": "hormuz",
+            "noise_discount_factor": 0.1,
+            "lr_raw": 1.2,
+            "lr_adjusted": 1.08,
+            "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/1-P = 0.5000 / 0.5000 = 1.0000",
+              "step_2_lr_adjustment": "LR_adjusted = LR_raw(1.2000) x (1 - noise_discount(0.10)) = 1.0800",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(1.0000) x LR_adjusted(1.0800) = 1.0800",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 1.0800 / 2.0800 = 0.5192",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.5192 (unchanged)",
+              "delta_p": "+0.0192"
+            },
+            "p_prior_step": 0.5,
+            "p_posterior_step": 0.519231,
+            "delta_p_step": 0.019231
+          },
+          {
+            "event_class": "CENTRAL_BANK_HAWKISH",
+            "raw_headline": "Fed Governor Bowman Spoke at Private Dinner After Policy Meeting",
+            "source": "BAC ticker sentiment (Moomoo Intel) — signal_type: sentiment",
+            "source_tier": 2,
+            "matched_keyword": "bowman",
+            "noise_discount_factor": 0.1,
+            "lr_raw": 0.85,
+            "lr_adjusted": 0.765,
+            "lr_source": "CENTRAL_BANK_HAWKISH/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/1-P = 0.5192 / 0.4808 = 1.0800",
+              "step_2_lr_adjustment": "LR_adjusted = LR_raw(0.8500) x (1 - noise_discount(0.10)) = 0.7650",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(1.0800) x LR_adjusted(0.7650) = 0.8262",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.8262 / 1.8262 = 0.4524",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.4524 (unchanged)",
+              "delta_p": "-0.0668"
+            },
+            "p_prior_step": 0.519231,
+            "p_posterior_step": 0.452415,
+            "delta_p_step": -0.066816
+          },
+          {
+            "event_class": "YEN_CARRY_RISK",
+            "raw_headline": "Yen carry-trade unwind risk escalating — USD/JPY pressure",
+            "source": "macro_event_risks: FX_LIQUIDITY BOJ event risk (dataset key: macro_event_risks)",
+            "source_tier": 2,
+            "matched_keyword": "yen carry",
+            "noise_discount_factor": 0.1,
+            "lr_raw": 1.15,
+            "lr_adjusted": 1.035,
+            "lr_source": "YEN_CARRY_RISK/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/1-P = 0.4524 / 0.5476 = 0.8262",
+              "step_2_lr_adjustment": "LR_adjusted = LR_raw(1.1500) x (1 - noise_discount(0.10)) = 1.0350",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(0.8262) x LR_adjusted(1.0350) = 0.8551",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.8551 / 1.8551 = 0.4610",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.4610 (unchanged)",
+              "delta_p": "+0.0085"
+            },
+            "p_prior_step": 0.452415,
+            "p_posterior_step": 0.460951,
+            "delta_p_step": 0.008536
+          },
+          {
+            "event_class": "CENTRAL_BANK_HAWKISH",
+            "raw_headline": "FOMC June 16-17 rate decision risk hawkish — hold expected",
+            "source": "macro_event_risks: MACRO_RATE FOMC (dataset key: macro_event_risks)",
+            "source_tier": 1,
+            "matched_keyword": "hawkish",
+            "noise_discount_factor": 0.0,
+            "lr_raw": 0.85,
+            "lr_adjusted": 0.85,
+            "lr_source": "CENTRAL_BANK_HAWKISH/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/1-P = 0.4610 / 0.5390 = 0.8551",
+              "step_2_lr_adjustment": "LR_adjusted = LR_raw(0.8500) x (1 - noise_discount(0.00)) = 0.8500",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(0.8551) x LR_adjusted(0.8500) = 0.7269",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.7269 / 1.7269 = 0.4209",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.4209 (unchanged)",
+              "delta_p": "-0.0400"
+            },
+            "p_prior_step": 0.460951,
+            "p_posterior_step": 0.420911,
+            "delta_p_step": -0.04004
+          }
+        ],
+        "lr_lookups": [
+          {
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "lr_adjusted": 1.08,
+            "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW"
+          },
+          {
+            "event_class": "CENTRAL_BANK_HAWKISH",
+            "lr_adjusted": 0.765,
+            "lr_source": "CENTRAL_BANK_HAWKISH/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW"
+          },
+          {
+            "event_class": "YEN_CARRY_RISK",
+            "lr_adjusted": 1.035,
+            "lr_source": "YEN_CARRY_RISK/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW"
+          },
+          {
+            "event_class": "CENTRAL_BANK_HAWKISH",
+            "lr_adjusted": 0.85,
+            "lr_source": "CENTRAL_BANK_HAWKISH/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW"
+          }
+        ],
         "kill_state_snapshot": {
           "TRUMP_KC_01": {
             "state": "INACTIVE",
@@ -131,34 +251,189 @@
             "P_kill": 0.05
           }
         },
+        "worst_kill_state": "INACTIVE",
         "posture": "THESIS_UNCHANGED — MONITOR",
-        "advisory_text": "[NITE-PEI] TRUMP_UNCERTAINTY_THESIS: no events. P: 0.500 → 0.500 (▲0.000). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] TRUMP_UNCERTAINTY_THESIS: GEOPOLITICAL_ESCALATION, CENTRAL_BANK_HAWKISH, YEN_CARRY_RISK, CENTRAL_BANK_HAWKISH (LR 1.080 via GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS, confidence: LOW). P: 0.500 → 0.421 (▼0.079). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
         "thesis_type": "PETRO_RECYCLED_DOLLAR_THESIS",
-        "P_posterior": 0.5,
         "P_prior": 0.5,
-        "delta_p": 0.0,
+        "P_posterior": 0.480088,
+        "delta_p": -0.019912,
+        "events_applied": [
+          {
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "raw_headline": "Iran Closes Strait Of Hormuz — oil supply route threat",
+            "source": "MU ticker sentiment (Moomoo Intel) — signal_type: sentiment",
+            "source_tier": 2,
+            "matched_keyword": "hormuz",
+            "noise_discount_factor": 0.1,
+            "lr_raw": 1.2,
+            "lr_adjusted": 1.08,
+            "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/1-P = 0.5000 / 0.5000 = 1.0000",
+              "step_2_lr_adjustment": "LR_adjusted = LR_raw(1.2000) x (1 - noise_discount(0.10)) = 1.0800",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(1.0000) x LR_adjusted(1.0800) = 1.0800",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 1.0800 / 2.0800 = 0.5192",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.5192 (unchanged)",
+              "delta_p": "+0.0192"
+            },
+            "p_prior_step": 0.5,
+            "p_posterior_step": 0.519231,
+            "delta_p_step": 0.019231
+          },
+          {
+            "event_class": "YEN_CARRY_RISK",
+            "raw_headline": "Yen carry-trade unwind risk escalating — USD/JPY pressure",
+            "source": "macro_event_risks: FX_LIQUIDITY BOJ event risk (dataset key: macro_event_risks)",
+            "source_tier": 2,
+            "matched_keyword": "yen carry",
+            "noise_discount_factor": 0.1,
+            "lr_raw": 0.95,
+            "lr_adjusted": 0.855,
+            "lr_source": "YEN_CARRY_RISK/PETRO_RECYCLED_DOLLAR_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/1-P = 0.5192 / 0.4808 = 1.0800",
+              "step_2_lr_adjustment": "LR_adjusted = LR_raw(0.9500) x (1 - noise_discount(0.10)) = 0.8550",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(1.0800) x LR_adjusted(0.8550) = 0.9234",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.9234 / 1.9234 = 0.4801",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.4801 (unchanged)",
+              "delta_p": "-0.0391"
+            },
+            "p_prior_step": 0.519231,
+            "p_posterior_step": 0.480088,
+            "delta_p_step": -0.039143
+          }
+        ],
+        "lr_lookups": [
+          {
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "lr_adjusted": 1.08,
+            "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
+            "confidence": "LOW"
+          },
+          {
+            "event_class": "YEN_CARRY_RISK",
+            "lr_adjusted": 0.855,
+            "lr_source": "YEN_CARRY_RISK/PETRO_RECYCLED_DOLLAR_THESIS",
+            "confidence": "LOW"
+          }
+        ],
         "kill_state_snapshot": {
           "PETRO_KC_01": {
-            "state": "INACTIVE",
-            "P_kill": 0.05
+            "state": "TRIGGERED",
+            "P_kill": 0.519231
           },
           "PETRO_KC_02": {
             "state": "INACTIVE",
             "P_kill": 0.05
           }
         },
+        "worst_kill_state": "TRIGGERED",
         "posture": "THESIS_UNCHANGED — MONITOR",
-        "advisory_text": "[NITE-PEI] PETRO_RECYCLED_DOLLAR_THESIS: no events. P: 0.500 → 0.500 (▲0.000). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] PETRO_RECYCLED_DOLLAR_THESIS: GEOPOLITICAL_ESCALATION, YEN_CARRY_RISK (LR 1.080 via GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS, confidence: LOW). P: 0.500 → 0.480 (▼0.020). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "STICKY_INFLATION_THESIS",
         "thesis_type": "STICKY_INFLATION_THESIS",
-        "P_posterior": 0.5,
         "P_prior": 0.5,
-        "delta_p": 0.0,
+        "P_posterior": 0.512138,
+        "delta_p": 0.012138,
+        "events_applied": [
+          {
+            "event_class": "CENTRAL_BANK_HAWKISH",
+            "raw_headline": "Fed Governor Bowman Spoke at Private Dinner After Policy Meeting",
+            "source": "BAC ticker sentiment (Moomoo Intel) — signal_type: sentiment",
+            "source_tier": 2,
+            "matched_keyword": "bowman",
+            "noise_discount_factor": 0.1,
+            "lr_raw": 1.2,
+            "lr_adjusted": 1.08,
+            "lr_source": "CENTRAL_BANK_HAWKISH/STICKY_INFLATION_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/1-P = 0.5000 / 0.5000 = 1.0000",
+              "step_2_lr_adjustment": "LR_adjusted = LR_raw(1.2000) x (1 - noise_discount(0.10)) = 1.0800",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(1.0000) x LR_adjusted(1.0800) = 1.0800",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 1.0800 / 2.0800 = 0.5192",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.5192 (unchanged)",
+              "delta_p": "+0.0192"
+            },
+            "p_prior_step": 0.5,
+            "p_posterior_step": 0.519231,
+            "delta_p_step": 0.019231
+          },
+          {
+            "event_class": "YEN_CARRY_RISK",
+            "raw_headline": "Yen carry-trade unwind risk escalating — USD/JPY pressure",
+            "source": "macro_event_risks: FX_LIQUIDITY BOJ event risk (dataset key: macro_event_risks)",
+            "source_tier": 2,
+            "matched_keyword": "yen carry",
+            "noise_discount_factor": 0.1,
+            "lr_raw": 0.9,
+            "lr_adjusted": 0.81,
+            "lr_source": "YEN_CARRY_RISK/STICKY_INFLATION_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/1-P = 0.5192 / 0.4808 = 1.0800",
+              "step_2_lr_adjustment": "LR_adjusted = LR_raw(0.9000) x (1 - noise_discount(0.10)) = 0.8100",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(1.0800) x LR_adjusted(0.8100) = 0.8748",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.8748 / 1.8748 = 0.4666",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.4666 (unchanged)",
+              "delta_p": "-0.0526"
+            },
+            "p_prior_step": 0.519231,
+            "p_posterior_step": 0.46661,
+            "delta_p_step": -0.052621
+          },
+          {
+            "event_class": "CENTRAL_BANK_HAWKISH",
+            "raw_headline": "FOMC June 16-17 rate decision risk hawkish — hold expected",
+            "source": "macro_event_risks: MACRO_RATE FOMC (dataset key: macro_event_risks)",
+            "source_tier": 1,
+            "matched_keyword": "hawkish",
+            "noise_discount_factor": 0.0,
+            "lr_raw": 1.2,
+            "lr_adjusted": 1.2,
+            "lr_source": "CENTRAL_BANK_HAWKISH/STICKY_INFLATION_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/1-P = 0.4666 / 0.5334 = 0.8748",
+              "step_2_lr_adjustment": "LR_adjusted = LR_raw(1.2000) x (1 - noise_discount(0.00)) = 1.2000",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(0.8748) x LR_adjusted(1.2000) = 1.0498",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 1.0498 / 2.0498 = 0.5121",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.5121 (unchanged)",
+              "delta_p": "+0.0455"
+            },
+            "p_prior_step": 0.46661,
+            "p_posterior_step": 0.512138,
+            "delta_p_step": 0.045528
+          }
+        ],
+        "lr_lookups": [
+          {
+            "event_class": "CENTRAL_BANK_HAWKISH",
+            "lr_adjusted": 1.08,
+            "lr_source": "CENTRAL_BANK_HAWKISH/STICKY_INFLATION_THESIS",
+            "confidence": "LOW"
+          },
+          {
+            "event_class": "YEN_CARRY_RISK",
+            "lr_adjusted": 0.81,
+            "lr_source": "YEN_CARRY_RISK/STICKY_INFLATION_THESIS",
+            "confidence": "LOW"
+          },
+          {
+            "event_class": "CENTRAL_BANK_HAWKISH",
+            "lr_adjusted": 1.2,
+            "lr_source": "CENTRAL_BANK_HAWKISH/STICKY_INFLATION_THESIS",
+            "confidence": "LOW"
+          }
+        ],
         "kill_state_snapshot": {
           "STICKY_KC_01": {
             "state": "INACTIVE",
@@ -169,15 +444,107 @@
             "P_kill": 0.05
           }
         },
+        "worst_kill_state": "INACTIVE",
         "posture": "THESIS_UNCHANGED — MONITOR",
-        "advisory_text": "[NITE-PEI] STICKY_INFLATION_THESIS: no events. P: 0.500 → 0.500 (▲0.000). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] STICKY_INFLATION_THESIS: CENTRAL_BANK_HAWKISH, YEN_CARRY_RISK, CENTRAL_BANK_HAWKISH (LR 1.080 via CENTRAL_BANK_HAWKISH/STICKY_INFLATION_THESIS, confidence: LOW). P: 0.500 → 0.512 (▲0.012). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "HAWKISH_WARSH_THESIS",
         "thesis_type": "HAWKISH_WARSH_THESIS",
-        "P_posterior": 0.5,
         "P_prior": 0.5,
-        "delta_p": 0.0,
+        "P_posterior": 0.618881,
+        "delta_p": 0.118881,
+        "events_applied": [
+          {
+            "event_class": "CENTRAL_BANK_HAWKISH",
+            "raw_headline": "Fed Governor Bowman Spoke at Private Dinner After Policy Meeting",
+            "source": "BAC ticker sentiment (Moomoo Intel) — signal_type: sentiment",
+            "source_tier": 2,
+            "matched_keyword": "bowman",
+            "noise_discount_factor": 0.1,
+            "lr_raw": 1.35,
+            "lr_adjusted": 1.215,
+            "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_WARSH_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/1-P = 0.5000 / 0.5000 = 1.0000",
+              "step_2_lr_adjustment": "LR_adjusted = LR_raw(1.3500) x (1 - noise_discount(0.10)) = 1.2150",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(1.0000) x LR_adjusted(1.2150) = 1.2150",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 1.2150 / 2.2150 = 0.5485",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.5485 (unchanged)",
+              "delta_p": "+0.0485"
+            },
+            "p_prior_step": 0.5,
+            "p_posterior_step": 0.548533,
+            "delta_p_step": 0.048533
+          },
+          {
+            "event_class": "YEN_CARRY_RISK",
+            "raw_headline": "Yen carry-trade unwind risk escalating — USD/JPY pressure",
+            "source": "macro_event_risks: FX_LIQUIDITY BOJ event risk (dataset key: macro_event_risks)",
+            "source_tier": 2,
+            "matched_keyword": "yen carry",
+            "noise_discount_factor": 0.1,
+            "lr_raw": 1.1,
+            "lr_adjusted": 0.99,
+            "lr_source": "YEN_CARRY_RISK/HAWKISH_WARSH_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/1-P = 0.5485 / 0.4515 = 1.2150",
+              "step_2_lr_adjustment": "LR_adjusted = LR_raw(1.1000) x (1 - noise_discount(0.10)) = 0.9900",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(1.2150) x LR_adjusted(0.9900) = 1.2029",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 1.2029 / 2.2029 = 0.5460",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.5460 (unchanged)",
+              "delta_p": "-0.0025"
+            },
+            "p_prior_step": 0.548533,
+            "p_posterior_step": 0.546043,
+            "delta_p_step": -0.00249
+          },
+          {
+            "event_class": "CENTRAL_BANK_HAWKISH",
+            "raw_headline": "FOMC June 16-17 rate decision risk hawkish — hold expected",
+            "source": "macro_event_risks: MACRO_RATE FOMC (dataset key: macro_event_risks)",
+            "source_tier": 1,
+            "matched_keyword": "hawkish",
+            "noise_discount_factor": 0.0,
+            "lr_raw": 1.35,
+            "lr_adjusted": 1.35,
+            "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_WARSH_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/1-P = 0.5460 / 0.4540 = 1.2029",
+              "step_2_lr_adjustment": "LR_adjusted = LR_raw(1.3500) x (1 - noise_discount(0.00)) = 1.3500",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(1.2029) x LR_adjusted(1.3500) = 1.6239",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 1.6239 / 2.6239 = 0.6189",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.6189 (unchanged)",
+              "delta_p": "+0.0728"
+            },
+            "p_prior_step": 0.546043,
+            "p_posterior_step": 0.618881,
+            "delta_p_step": 0.072838
+          }
+        ],
+        "lr_lookups": [
+          {
+            "event_class": "CENTRAL_BANK_HAWKISH",
+            "lr_adjusted": 1.215,
+            "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_WARSH_THESIS",
+            "confidence": "LOW"
+          },
+          {
+            "event_class": "YEN_CARRY_RISK",
+            "lr_adjusted": 0.99,
+            "lr_source": "YEN_CARRY_RISK/HAWKISH_WARSH_THESIS",
+            "confidence": "LOW"
+          },
+          {
+            "event_class": "CENTRAL_BANK_HAWKISH",
+            "lr_adjusted": 1.35,
+            "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_WARSH_THESIS",
+            "confidence": "LOW"
+          }
+        ],
         "kill_state_snapshot": {
           "WARSH_KC_01": {
             "state": "INACTIVE",
@@ -188,15 +555,107 @@
             "P_kill": 0.05
           }
         },
+        "worst_kill_state": "INACTIVE",
         "posture": "THESIS_UNCHANGED — MONITOR",
-        "advisory_text": "[NITE-PEI] HAWKISH_WARSH_THESIS: no events. P: 0.500 → 0.500 (▲0.000). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] HAWKISH_WARSH_THESIS: CENTRAL_BANK_HAWKISH, YEN_CARRY_RISK, CENTRAL_BANK_HAWKISH (LR 1.215 via CENTRAL_BANK_HAWKISH/HAWKISH_WARSH_THESIS, confidence: LOW). P: 0.500 → 0.619 (▲0.119). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "HAWKISH_BOJ_THESIS",
         "thesis_type": "HAWKISH_BOJ_THESIS",
-        "P_posterior": 0.5,
         "P_prior": 0.5,
-        "delta_p": 0.0,
+        "P_posterior": 0.664982,
+        "delta_p": 0.164982,
+        "events_applied": [
+          {
+            "event_class": "CENTRAL_BANK_HAWKISH",
+            "raw_headline": "Fed Governor Bowman Spoke at Private Dinner After Policy Meeting",
+            "source": "BAC ticker sentiment (Moomoo Intel) — signal_type: sentiment",
+            "source_tier": 2,
+            "matched_keyword": "bowman",
+            "noise_discount_factor": 0.1,
+            "lr_raw": 1.3,
+            "lr_adjusted": 1.17,
+            "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_BOJ_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/1-P = 0.5000 / 0.5000 = 1.0000",
+              "step_2_lr_adjustment": "LR_adjusted = LR_raw(1.3000) x (1 - noise_discount(0.10)) = 1.1700",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(1.0000) x LR_adjusted(1.1700) = 1.1700",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 1.1700 / 2.1700 = 0.5392",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.5392 (unchanged)",
+              "delta_p": "+0.0392"
+            },
+            "p_prior_step": 0.5,
+            "p_posterior_step": 0.539171,
+            "delta_p_step": 0.039171
+          },
+          {
+            "event_class": "YEN_CARRY_RISK",
+            "raw_headline": "Yen carry-trade unwind risk escalating — USD/JPY pressure",
+            "source": "macro_event_risks: FX_LIQUIDITY BOJ event risk (dataset key: macro_event_risks)",
+            "source_tier": 2,
+            "matched_keyword": "yen carry",
+            "noise_discount_factor": 0.1,
+            "lr_raw": 1.45,
+            "lr_adjusted": 1.305,
+            "lr_source": "YEN_CARRY_RISK/HAWKISH_BOJ_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/1-P = 0.5392 / 0.4608 = 1.1700",
+              "step_2_lr_adjustment": "LR_adjusted = LR_raw(1.4500) x (1 - noise_discount(0.10)) = 1.3050",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(1.1700) x LR_adjusted(1.3050) = 1.5269",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 1.5269 / 2.5269 = 0.6043",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.6043 (unchanged)",
+              "delta_p": "+0.0651"
+            },
+            "p_prior_step": 0.539171,
+            "p_posterior_step": 0.604251,
+            "delta_p_step": 0.06508
+          },
+          {
+            "event_class": "CENTRAL_BANK_HAWKISH",
+            "raw_headline": "FOMC June 16-17 rate decision risk hawkish — hold expected",
+            "source": "macro_event_risks: MACRO_RATE FOMC (dataset key: macro_event_risks)",
+            "source_tier": 1,
+            "matched_keyword": "hawkish",
+            "noise_discount_factor": 0.0,
+            "lr_raw": 1.3,
+            "lr_adjusted": 1.3,
+            "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_BOJ_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/1-P = 0.6043 / 0.3957 = 1.5269",
+              "step_2_lr_adjustment": "LR_adjusted = LR_raw(1.3000) x (1 - noise_discount(0.00)) = 1.3000",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(1.5269) x LR_adjusted(1.3000) = 1.9849",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 1.9849 / 2.9849 = 0.6650",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.6650 (unchanged)",
+              "delta_p": "+0.0607"
+            },
+            "p_prior_step": 0.604251,
+            "p_posterior_step": 0.664982,
+            "delta_p_step": 0.060731
+          }
+        ],
+        "lr_lookups": [
+          {
+            "event_class": "CENTRAL_BANK_HAWKISH",
+            "lr_adjusted": 1.17,
+            "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_BOJ_THESIS",
+            "confidence": "LOW"
+          },
+          {
+            "event_class": "YEN_CARRY_RISK",
+            "lr_adjusted": 1.305,
+            "lr_source": "YEN_CARRY_RISK/HAWKISH_BOJ_THESIS",
+            "confidence": "LOW"
+          },
+          {
+            "event_class": "CENTRAL_BANK_HAWKISH",
+            "lr_adjusted": 1.3,
+            "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_BOJ_THESIS",
+            "confidence": "LOW"
+          }
+        ],
         "kill_state_snapshot": {
           "BOJ_KC_01": {
             "state": "INACTIVE",
@@ -207,14 +666,15 @@
             "P_kill": 0.05
           }
         },
-        "posture": "THESIS_UNCHANGED — MONITOR",
-        "advisory_text": "[NITE-PEI] HAWKISH_BOJ_THESIS: no events. P: 0.500 → 0.500 (▲0.000). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+        "worst_kill_state": "INACTIVE",
+        "posture": "THESIS_STRENGTHENED — CIO_REVIEW_FOR_ADD",
+        "advisory_text": "[NITE-PEI] HAWKISH_BOJ_THESIS: CENTRAL_BANK_HAWKISH, YEN_CARRY_RISK, CENTRAL_BANK_HAWKISH (LR 1.170 via CENTRAL_BANK_HAWKISH/HAWKISH_BOJ_THESIS, confidence: LOW). P: 0.500 → 0.665 (▲0.165). Posture: THESIS_STRENGTHENED — CIO_REVIEW_FOR_ADD. MANUAL_EXECUTION_REQUIRED."
       }
     ],
-    "ckri": 0.29,
+    "ckri": 0.336923,
     "ckri_zone": "WATCH",
     "ckri_detail": {
-      "weighted_sum": 0.25,
+      "weighted_sum": 0.484616,
       "correlation_penalty_applied": 1.2,
       "total_weight": 5.0,
       "kill_breakdown": [
@@ -238,9 +698,9 @@
           "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
           "kill_id": "PETRO_KC_01",
           "kill_weight": 0.5,
-          "P_kill": 0.05,
-          "current_state": "INACTIVE",
-          "contribution": 0.025
+          "P_kill": 0.519231,
+          "current_state": "TRIGGERED",
+          "contribution": 0.259615
         },
         {
           "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
@@ -304,9 +764,9 @@
       {
         "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
         "thesis_type": "TRUMP_UNCERTAINTY_THESIS",
-        "p_posterior_used": 0.5,
+        "p_posterior_used": 0.420911,
         "analyst_upside_pct": 0.15,
-        "f_star_full": -2.833333,
+        "f_star_full": -3.439682,
         "fractional_multiplier": 0.275,
         "f_star_kelly": 0.0,
         "coherence_score": 0.75,
@@ -323,9 +783,9 @@
       {
         "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
         "thesis_type": "PETRO_RECYCLED_DOLLAR_THESIS",
-        "p_posterior_used": 0.5,
+        "p_posterior_used": 0.480088,
         "analyst_upside_pct": 0.15,
-        "f_star_full": -2.833333,
+        "f_star_full": -2.985992,
         "fractional_multiplier": 0.275,
         "f_star_kelly": 0.0,
         "coherence_score": 0.75,
@@ -342,9 +802,9 @@
       {
         "thesis_id": "STICKY_INFLATION_THESIS",
         "thesis_type": "STICKY_INFLATION_THESIS",
-        "p_posterior_used": 0.5,
+        "p_posterior_used": 0.512138,
         "analyst_upside_pct": 0.15,
-        "f_star_full": -2.833333,
+        "f_star_full": -2.740275,
         "fractional_multiplier": 0.275,
         "f_star_kelly": 0.0,
         "coherence_score": 0.75,
@@ -361,9 +821,9 @@
       {
         "thesis_id": "HAWKISH_WARSH_THESIS",
         "thesis_type": "HAWKISH_WARSH_THESIS",
-        "p_posterior_used": 0.5,
+        "p_posterior_used": 0.618881,
         "analyst_upside_pct": 0.15,
-        "f_star_full": -2.833333,
+        "f_star_full": -1.921912,
         "fractional_multiplier": 0.275,
         "f_star_kelly": 0.0,
         "coherence_score": 0.75,
@@ -380,9 +840,9 @@
       {
         "thesis_id": "HAWKISH_BOJ_THESIS",
         "thesis_type": "HAWKISH_BOJ_THESIS",
-        "p_posterior_used": 0.5,
+        "p_posterior_used": 0.664982,
         "analyst_upside_pct": 0.15,
-        "f_star_full": -2.833333,
+        "f_star_full": -1.568471,
         "fractional_multiplier": 0.275,
         "f_star_kelly": 0.0,
         "coherence_score": 0.75,
