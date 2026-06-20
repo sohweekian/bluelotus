@@ -1,22 +1,22 @@
 {
-  "generated_at": "2026-06-21 07:04 SGT",
-  "cycle_id": "v3_cycle_20260621_060039",
-  "latest_cycle_id": "v3_cycle_20260621_060039",
+  "generated_at": "2026-06-21 07:52 SGT",
+  "cycle_id": "v3_cycle_20260621_070447",
+  "latest_cycle_id": "v3_cycle_20260621_070447",
   "fallback_from_cycle_id": "",
   "fallback_reason": "",
   "degraded_llm_cycle": false,
   "agent_errors": [],
   "recommended_posture": "REVIEW",
   "agent_consensus": [
-    "Data Integrity Agent: CIO_VERIFICATION_REQUIRED",
+    "Data Integrity Agent: WAIT",
     "Macro Strategist Agent: WAIT",
     "Portfolio Structure Agent: REVIEW",
     "Catalyst Intelligence Agent: WAIT",
     "Thesis Lifecycle Agent: WAIT",
     "Risk Challenger Agent: CIO_VERIFICATION_REQUIRED",
     "Forecasting Brier Agent: WAIT",
-    "Sector Specialist Agent: CIO_VERIFICATION_REQUIRED",
-    "Sentiment Narrative Agent: WAIT"
+    "Sector Specialist Agent: REVIEW",
+    "Sentiment Narrative Agent: REVIEW"
   ],
   "disagreements": [
     {
@@ -29,7 +29,7 @@
     },
     {
       "topic": "risk emphasis versus ordinary review",
-      "agent_a": "data_integrity,risk_challenger",
+      "agent_a": "risk_challenger,sector_specialist",
       "agent_b": "agent council",
       "severity": "high",
       "chief_strategist_resolution": "Preserve deterministic operator blocks and escalate risk items to CIO review.",
@@ -37,30 +37,28 @@
     }
   ],
   "cio_attention_items": [
-    "Data Integrity Agent",
     "Portfolio Structure Agent",
-    "Risk Challenger Agent",
-    "Sector Specialist Agent"
+    "Risk Challenger Agent"
   ],
   "manual_execution_required": true,
-  "created_at_sgt": "2026-06-21T06:02:01+08:00",
+  "created_at_sgt": "2026-06-21T07:06:09+08:00",
   "contradiction_register": {
     "schema_version": "bluelotus_v3_contradiction_register_v1.0",
-    "cycle_id": "v3_cycle_20260621_060039",
-    "created_at_sgt": "2026-06-21T06:02:02+08:00",
+    "cycle_id": "v3_cycle_20260621_070447",
+    "created_at_sgt": "2026-06-21T07:06:10+08:00",
     "contradiction_count": 1,
     "p1_count": 0,
     "p2_count": 0,
     "p3_count": 1,
     "contradictions": [
       {
-        "contradiction_id": "V3_CYCLE_20260621_060039_P3_AGENT_QUALITY_QUALITY_SCORER_AGENT_COUNCIL_AGENT_JSON_VALIDATED_BUT_",
-        "cycle_id": "v3_cycle_20260621_060039",
+        "contradiction_id": "V3_CYCLE_20260621_070447_P3_AGENT_QUALITY_QUALITY_SCORER_AGENT_COUNCIL_AGENT_JSON_VALIDATED_BUT_",
+        "cycle_id": "v3_cycle_20260621_070447",
         "severity": "P3",
         "domain": "agent_quality",
         "source_a": "quality_scorer",
         "source_b": "agent_council",
-        "conflict_statement": "Agent JSON validated, but quality scorer flagged weak differentiated reasoning for: macro_strategist, portfolio_structure, catalyst_intelligence, thesis_lifecycle",
+        "conflict_statement": "Agent JSON validated, but quality scorer flagged weak differentiated reasoning for: data_integrity, macro_strategist, portfolio_structure, catalyst_intelligence, thesis_lifecycle",
         "cio_attention_required": false,
         "recommended_resolution_path": "Treat validated JSON as runtime success, not full reasoning success; use prompt/agent refinement backlog."
       }
@@ -71,8 +69,8 @@
   },
   "cio_decision_strip": {
     "schema_version": "bluelotus_v3_cio_decision_strip_v1.0",
-    "cycle_id": "v3_cycle_20260621_060039",
-    "created_at_sgt": "2026-06-21T06:02:02+08:00",
+    "cycle_id": "v3_cycle_20260621_070447",
+    "created_at_sgt": "2026-06-21T07:06:10+08:00",
     "posture": "REVIEW",
     "new_information": [
       "Chief Strategist synthesized 9 validated agent reports. Recommended posture: REVIEW.",
@@ -80,6 +78,7 @@
     ],
     "action_blocked": [
       "ADD_RISK_WITHOUT_CATALYST_REVIEW",
+      "ADD_WITHOUT_THESIS_REVIEW",
       "SCALE_IN_ADD",
       "SECOND_TRANCHE_ADD",
       "USE_ARCHIVE_AS_LIVE_TRUTH"
@@ -98,18 +97,157 @@
   },
   "nite_pei": {
     "schema_version": "bluelotus_v3_nite_pei_v1.0",
-    "generated_at_sgt": "2026-06-21T07:00:54+08:00",
+    "generated_at_sgt": "2026-06-21T07:06:36+08:00",
     "thesis_probability_snapshots": [
       {
         "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
         "thesis_type": "TRUMP_UNCERTAINTY_THESIS",
         "P_prior": 0.428754,
-        "P_posterior": 0.428754,
-        "delta_p": 0.0,
-        "events_applied": [],
-        "event_ids": [],
-        "brier_record_id": "",
-        "lr_lookups": [],
+        "P_posterior": 0.503251,
+        "delta_p": 0.074497,
+        "events_applied": [
+          {
+            "event_id": "signal:172025",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "raw_headline": "[SENTIMENT] MU: NEUTRAL (+0.108) -- Dow Jones Futures: Iran Closes Strait Of Hormuz; Nvidia Near Buy Point, Watch Fo",
+            "source": "Ticker_Sentiment",
+            "source_tier": 3,
+            "published_at": "2026-06-21T06:57:59",
+            "source_url": "",
+            "matched_keyword": "hormuz",
+            "noise_discount_factor": 0.25,
+            "lr_raw": 1.2,
+            "lr_adjusted": 1.15,
+            "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.4288 / 0.5712 = 0.7506",
+              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(0.7506) x LR_adjusted(1.1500) = 0.8631",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.8631 / 1.8631 = 0.4633",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.4633",
+              "delta_p": "+0.0345"
+            },
+            "p_prior_step": 0.428754,
+            "p_posterior_step": 0.463273,
+            "delta_p_step": 0.034519
+          },
+          {
+            "event_id": "signal:172019",
+            "event_class": "CENTRAL_BANK_HAWKISH",
+            "raw_headline": "[SENTIMENT] BAC: BEARISH (-0.234) -- Fed Governor Bowman Spoke at Private Dinner After Policy Meeting",
+            "source": "Ticker_Sentiment",
+            "source_tier": 3,
+            "published_at": "2026-06-21T06:57:57",
+            "source_url": "",
+            "matched_keyword": "bowman",
+            "noise_discount_factor": 0.25,
+            "lr_raw": 0.85,
+            "lr_adjusted": 0.8875,
+            "lr_source": "CENTRAL_BANK_HAWKISH/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.4633 / 0.5367 = 0.8631",
+              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(0.8500) - 1) x (1 - noise_discount(0.25)) = 0.8875",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(0.8631) x LR_adjusted(0.8875) = 0.7660",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.7660 / 1.7660 = 0.4338",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.4338",
+              "delta_p": "-0.0295"
+            },
+            "p_prior_step": 0.463273,
+            "p_posterior_step": 0.433762,
+            "delta_p_step": -0.029511
+          },
+          {
+            "event_id": "ticker_sentiment:d206c3c3f12a8486",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "raw_headline": "Dow Jones Futures: Iran Closes Strait Of Hormuz; Nvidia Near Buy Point, Watch For This SpaceX Move",
+            "source": "ticker_sentiment:MU",
+            "source_tier": 3,
+            "published_at": "2026-06-21 06:57:59",
+            "source_url": "",
+            "matched_keyword": "hormuz",
+            "noise_discount_factor": 0.25,
+            "lr_raw": 1.2,
+            "lr_adjusted": 1.15,
+            "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.4338 / 0.5662 = 0.7660",
+              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(0.7660) x LR_adjusted(1.1500) = 0.8809",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.8809 / 1.8809 = 0.4684",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.4684",
+              "delta_p": "+0.0346"
+            },
+            "p_prior_step": 0.433762,
+            "p_posterior_step": 0.468353,
+            "delta_p_step": 0.034591
+          },
+          {
+            "event_id": "ticker_sentiment:7a3ab0470972e572",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "raw_headline": "Dow Jones Futures: Iran Closes Strait Of Hormuz; Nvidia Near Buy Point, Watch For This SpaceX Move",
+            "source": "ticker_sentiment:NVDA",
+            "source_tier": 3,
+            "published_at": "2026-06-21 06:57:58",
+            "source_url": "",
+            "matched_keyword": "hormuz",
+            "noise_discount_factor": 0.25,
+            "lr_raw": 1.2,
+            "lr_adjusted": 1.15,
+            "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.4684 / 0.5316 = 0.8809",
+              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(0.8809) x LR_adjusted(1.1500) = 1.0131",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 1.0131 / 2.0131 = 0.5033",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.5033",
+              "delta_p": "+0.0349"
+            },
+            "p_prior_step": 0.468353,
+            "p_posterior_step": 0.503251,
+            "delta_p_step": 0.034898
+          }
+        ],
+        "event_ids": [
+          "signal:172025",
+          "signal:172019",
+          "ticker_sentiment:d206c3c3f12a8486",
+          "ticker_sentiment:7a3ab0470972e572"
+        ],
+        "brier_record_id": "NITE_BRIER_TRUMP_UNCERTAINTY_THESIS_F8633E88",
+        "lr_lookups": [
+          {
+            "event_id": "signal:172025",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "lr_adjusted": 1.15,
+            "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW"
+          },
+          {
+            "event_id": "signal:172019",
+            "event_class": "CENTRAL_BANK_HAWKISH",
+            "lr_adjusted": 0.8875,
+            "lr_source": "CENTRAL_BANK_HAWKISH/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW"
+          },
+          {
+            "event_id": "ticker_sentiment:d206c3c3f12a8486",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "lr_adjusted": 1.15,
+            "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW"
+          },
+          {
+            "event_id": "ticker_sentiment:7a3ab0470972e572",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "lr_adjusted": 1.15,
+            "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW"
+          }
+        ],
         "kill_state_snapshot": {
           "TRUMP_KC_01": {
             "state": "INACTIVE",
@@ -122,42 +260,184 @@
         },
         "worst_kill_state": "INACTIVE",
         "posture": "THESIS_UNCHANGED — MONITOR",
-        "advisory_text": "[NITE-PEI] TRUMP_UNCERTAINTY_THESIS: no events. P: 0.429 → 0.429 (▲0.000). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] TRUMP_UNCERTAINTY_THESIS: GEOPOLITICAL_ESCALATION, CENTRAL_BANK_HAWKISH, GEOPOLITICAL_ESCALATION, GEOPOLITICAL_ESCALATION (LR 1.150 via GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS, confidence: LOW). P: 0.429 → 0.503 (▲0.074). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
         "thesis_type": "PETRO_RECYCLED_DOLLAR_THESIS",
         "P_prior": 0.584123,
-        "P_posterior": 0.584123,
-        "delta_p": 0.0,
-        "events_applied": [],
-        "event_ids": [],
-        "brier_record_id": "",
-        "lr_lookups": [],
+        "P_posterior": 0.681138,
+        "delta_p": 0.097015,
+        "events_applied": [
+          {
+            "event_id": "signal:172025",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "raw_headline": "[SENTIMENT] MU: NEUTRAL (+0.108) -- Dow Jones Futures: Iran Closes Strait Of Hormuz; Nvidia Near Buy Point, Watch Fo",
+            "source": "Ticker_Sentiment",
+            "source_tier": 3,
+            "published_at": "2026-06-21T06:57:59",
+            "source_url": "",
+            "matched_keyword": "hormuz",
+            "noise_discount_factor": 0.25,
+            "lr_raw": 1.2,
+            "lr_adjusted": 1.15,
+            "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.5841 / 0.4159 = 1.4046",
+              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(1.4046) x LR_adjusted(1.1500) = 1.6152",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 1.6152 / 2.6152 = 0.6176",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.6176",
+              "delta_p": "+0.0335"
+            },
+            "p_prior_step": 0.584123,
+            "p_posterior_step": 0.617626,
+            "delta_p_step": 0.033503
+          },
+          {
+            "event_id": "ticker_sentiment:d206c3c3f12a8486",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "raw_headline": "Dow Jones Futures: Iran Closes Strait Of Hormuz; Nvidia Near Buy Point, Watch For This SpaceX Move",
+            "source": "ticker_sentiment:MU",
+            "source_tier": 3,
+            "published_at": "2026-06-21 06:57:59",
+            "source_url": "",
+            "matched_keyword": "hormuz",
+            "noise_discount_factor": 0.25,
+            "lr_raw": 1.2,
+            "lr_adjusted": 1.15,
+            "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.6176 / 0.3824 = 1.6152",
+              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(1.6152) x LR_adjusted(1.1500) = 1.8575",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 1.8575 / 2.8575 = 0.6500",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.6500",
+              "delta_p": "+0.0324"
+            },
+            "p_prior_step": 0.617626,
+            "p_posterior_step": 0.650047,
+            "delta_p_step": 0.032421
+          },
+          {
+            "event_id": "ticker_sentiment:7a3ab0470972e572",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "raw_headline": "Dow Jones Futures: Iran Closes Strait Of Hormuz; Nvidia Near Buy Point, Watch For This SpaceX Move",
+            "source": "ticker_sentiment:NVDA",
+            "source_tier": 3,
+            "published_at": "2026-06-21 06:57:58",
+            "source_url": "",
+            "matched_keyword": "hormuz",
+            "noise_discount_factor": 0.25,
+            "lr_raw": 1.2,
+            "lr_adjusted": 1.15,
+            "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.6500 / 0.3500 = 1.8575",
+              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(1.8575) x LR_adjusted(1.1500) = 2.1362",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 2.1362 / 3.1362 = 0.6811",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.6811",
+              "delta_p": "+0.0311"
+            },
+            "p_prior_step": 0.650047,
+            "p_posterior_step": 0.681138,
+            "delta_p_step": 0.031091
+          }
+        ],
+        "event_ids": [
+          "signal:172025",
+          "ticker_sentiment:d206c3c3f12a8486",
+          "ticker_sentiment:7a3ab0470972e572"
+        ],
+        "brier_record_id": "NITE_BRIER_PETRO_RECYCLED_DOLLAR_THESIS_9463344C",
+        "lr_lookups": [
+          {
+            "event_id": "signal:172025",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "lr_adjusted": 1.15,
+            "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
+            "confidence": "LOW"
+          },
+          {
+            "event_id": "ticker_sentiment:d206c3c3f12a8486",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "lr_adjusted": 1.15,
+            "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
+            "confidence": "LOW"
+          },
+          {
+            "event_id": "ticker_sentiment:7a3ab0470972e572",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "lr_adjusted": 1.15,
+            "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
+            "confidence": "LOW"
+          }
+        ],
         "kill_state_snapshot": {
           "PETRO_KC_01": {
-            "state": "TRIGGERED",
-            "P_kill": 0.584123
+            "state": "CONFIRMED",
+            "P_kill": 0.681138
           },
           "PETRO_KC_02": {
             "state": "INACTIVE",
             "P_kill": 0.05
           }
         },
-        "worst_kill_state": "TRIGGERED",
-        "posture": "THESIS_UNCHANGED — MONITOR",
-        "advisory_text": "[NITE-PEI] PETRO_RECYCLED_DOLLAR_THESIS: no events. P: 0.584 → 0.584 (▲0.000). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+        "worst_kill_state": "CONFIRMED",
+        "posture": "KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED",
+        "advisory_text": "[NITE-PEI] PETRO_RECYCLED_DOLLAR_THESIS: GEOPOLITICAL_ESCALATION, GEOPOLITICAL_ESCALATION, GEOPOLITICAL_ESCALATION (LR 1.150 via GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS, confidence: LOW). P: 0.584 → 0.681 (▲0.097). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "STICKY_INFLATION_THESIS",
         "thesis_type": "STICKY_INFLATION_THESIS",
         "P_prior": 0.669714,
-        "P_posterior": 0.669714,
-        "delta_p": 0.0,
-        "events_applied": [],
-        "event_ids": [],
-        "brier_record_id": "",
-        "lr_lookups": [],
+        "P_posterior": 0.699865,
+        "delta_p": 0.030151,
+        "events_applied": [
+          {
+            "event_id": "signal:172019",
+            "event_class": "CENTRAL_BANK_HAWKISH",
+            "raw_headline": "[SENTIMENT] BAC: BEARISH (-0.234) -- Fed Governor Bowman Spoke at Private Dinner After Policy Meeting",
+            "source": "Ticker_Sentiment",
+            "source_tier": 3,
+            "published_at": "2026-06-21T06:57:57",
+            "source_url": "",
+            "matched_keyword": "bowman",
+            "noise_discount_factor": 0.25,
+            "lr_raw": 1.2,
+            "lr_adjusted": 1.15,
+            "lr_source": "CENTRAL_BANK_HAWKISH/STICKY_INFLATION_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.6697 / 0.3303 = 2.0277",
+              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(2.0277) x LR_adjusted(1.1500) = 2.3318",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 2.3318 / 3.3318 = 0.6999",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.6999",
+              "delta_p": "+0.0302"
+            },
+            "p_prior_step": 0.669714,
+            "p_posterior_step": 0.699865,
+            "delta_p_step": 0.030151
+          }
+        ],
+        "event_ids": [
+          "signal:172019"
+        ],
+        "brier_record_id": "NITE_BRIER_STICKY_INFLATION_THESIS_40BADD82",
+        "lr_lookups": [
+          {
+            "event_id": "signal:172019",
+            "event_class": "CENTRAL_BANK_HAWKISH",
+            "lr_adjusted": 1.15,
+            "lr_source": "CENTRAL_BANK_HAWKISH/STICKY_INFLATION_THESIS",
+            "confidence": "LOW"
+          }
+        ],
         "kill_state_snapshot": {
           "STICKY_KC_01": {
             "state": "INACTIVE",
@@ -170,18 +450,55 @@
         },
         "worst_kill_state": "INACTIVE",
         "posture": "THESIS_UNCHANGED — MONITOR",
-        "advisory_text": "[NITE-PEI] STICKY_INFLATION_THESIS: no events. P: 0.670 → 0.670 (▲0.000). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] STICKY_INFLATION_THESIS: CENTRAL_BANK_HAWKISH (LR 1.150 via CENTRAL_BANK_HAWKISH/STICKY_INFLATION_THESIS, confidence: LOW). P: 0.670 → 0.700 (▲0.030). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "HAWKISH_WARSH_THESIS",
         "thesis_type": "HAWKISH_WARSH_THESIS",
         "P_prior": 0.891768,
-        "P_posterior": 0.891768,
-        "delta_p": 0.0,
-        "events_applied": [],
-        "event_ids": [],
-        "brier_record_id": "",
-        "lr_lookups": [],
+        "P_posterior": 0.912298,
+        "delta_p": 0.02053,
+        "events_applied": [
+          {
+            "event_id": "signal:172019",
+            "event_class": "CENTRAL_BANK_HAWKISH",
+            "raw_headline": "[SENTIMENT] BAC: BEARISH (-0.234) -- Fed Governor Bowman Spoke at Private Dinner After Policy Meeting",
+            "source": "Ticker_Sentiment",
+            "source_tier": 3,
+            "published_at": "2026-06-21T06:57:57",
+            "source_url": "",
+            "matched_keyword": "bowman",
+            "noise_discount_factor": 0.25,
+            "lr_raw": 1.35,
+            "lr_adjusted": 1.2625,
+            "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_WARSH_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.8918 / 0.1082 = 8.2394",
+              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.3500) - 1) x (1 - noise_discount(0.25)) = 1.2625",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(8.2394) x LR_adjusted(1.2625) = 10.4023",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 10.4023 / 11.4023 = 0.9123",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.9123",
+              "delta_p": "+0.0205"
+            },
+            "p_prior_step": 0.891768,
+            "p_posterior_step": 0.912298,
+            "delta_p_step": 0.02053
+          }
+        ],
+        "event_ids": [
+          "signal:172019"
+        ],
+        "brier_record_id": "NITE_BRIER_HAWKISH_WARSH_THESIS_2E6CAA67",
+        "lr_lookups": [
+          {
+            "event_id": "signal:172019",
+            "event_class": "CENTRAL_BANK_HAWKISH",
+            "lr_adjusted": 1.2625,
+            "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_WARSH_THESIS",
+            "confidence": "LOW"
+          }
+        ],
         "kill_state_snapshot": {
           "WARSH_KC_01": {
             "state": "INACTIVE",
@@ -194,18 +511,55 @@
         },
         "worst_kill_state": "INACTIVE",
         "posture": "THESIS_UNCHANGED — MONITOR",
-        "advisory_text": "[NITE-PEI] HAWKISH_WARSH_THESIS: no events. P: 0.892 → 0.892 (▲0.000). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] HAWKISH_WARSH_THESIS: CENTRAL_BANK_HAWKISH (LR 1.262 via CENTRAL_BANK_HAWKISH/HAWKISH_WARSH_THESIS, confidence: LOW). P: 0.892 → 0.912 (▲0.021). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "HAWKISH_BOJ_THESIS",
         "thesis_type": "HAWKISH_BOJ_THESIS",
         "P_prior": 0.935902,
-        "P_posterior": 0.935902,
-        "delta_p": 0.0,
-        "events_applied": [],
-        "event_ids": [],
-        "brier_record_id": "",
-        "lr_lookups": [],
+        "P_posterior": 0.947052,
+        "delta_p": 0.01115,
+        "events_applied": [
+          {
+            "event_id": "signal:172019",
+            "event_class": "CENTRAL_BANK_HAWKISH",
+            "raw_headline": "[SENTIMENT] BAC: BEARISH (-0.234) -- Fed Governor Bowman Spoke at Private Dinner After Policy Meeting",
+            "source": "Ticker_Sentiment",
+            "source_tier": 3,
+            "published_at": "2026-06-21T06:57:57",
+            "source_url": "",
+            "matched_keyword": "bowman",
+            "noise_discount_factor": 0.25,
+            "lr_raw": 1.3,
+            "lr_adjusted": 1.225,
+            "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_BOJ_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.9359 / 0.0641 = 14.6011",
+              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.3000) - 1) x (1 - noise_discount(0.25)) = 1.2250",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(14.6011) x LR_adjusted(1.2250) = 17.8864",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 17.8864 / 18.8864 = 0.9471",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.9471",
+              "delta_p": "+0.0112"
+            },
+            "p_prior_step": 0.935902,
+            "p_posterior_step": 0.947052,
+            "delta_p_step": 0.01115
+          }
+        ],
+        "event_ids": [
+          "signal:172019"
+        ],
+        "brier_record_id": "NITE_BRIER_HAWKISH_BOJ_THESIS_81D368B3",
+        "lr_lookups": [
+          {
+            "event_id": "signal:172019",
+            "event_class": "CENTRAL_BANK_HAWKISH",
+            "lr_adjusted": 1.225,
+            "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_BOJ_THESIS",
+            "confidence": "LOW"
+          }
+        ],
         "kill_state_snapshot": {
           "BOJ_KC_01": {
             "state": "INACTIVE",
@@ -218,13 +572,13 @@
         },
         "worst_kill_state": "INACTIVE",
         "posture": "THESIS_UNCHANGED — MONITOR",
-        "advisory_text": "[NITE-PEI] HAWKISH_BOJ_THESIS: no events. P: 0.936 → 0.936 (▲0.000). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] HAWKISH_BOJ_THESIS: CENTRAL_BANK_HAWKISH (LR 1.225 via CENTRAL_BANK_HAWKISH/HAWKISH_BOJ_THESIS, confidence: LOW). P: 0.936 → 0.947 (▲0.011). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
       }
     ],
-    "ckri": 0.343412,
+    "ckri": 0.353114,
     "ckri_zone": "WATCH",
     "ckri_detail": {
-      "weighted_sum": 0.517061,
+      "weighted_sum": 0.565569,
       "correlation_penalty_applied": 1.2,
       "total_weight": 5.0,
       "kill_breakdown": [
@@ -248,9 +602,9 @@
           "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
           "kill_id": "PETRO_KC_01",
           "kill_weight": 0.5,
-          "P_kill": 0.584123,
-          "current_state": "TRIGGERED",
-          "contribution": 0.292061
+          "P_kill": 0.681138,
+          "current_state": "CONFIRMED",
+          "contribution": 0.340569
         },
         {
           "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
@@ -314,9 +668,9 @@
       {
         "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
         "thesis_type": "TRUMP_UNCERTAINTY_THESIS",
-        "p_posterior_used": 0.428754,
+        "p_posterior_used": 0.503251,
         "analyst_upside_pct": 0.15,
-        "f_star_full": -3.379553,
+        "f_star_full": -2.808409,
         "fractional_multiplier": 0.275,
         "f_star_kelly": 0.0,
         "coherence_score": 0.75,
@@ -333,9 +687,9 @@
       {
         "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
         "thesis_type": "PETRO_RECYCLED_DOLLAR_THESIS",
-        "p_posterior_used": 0.584123,
+        "p_posterior_used": 0.681138,
         "analyst_upside_pct": 0.15,
-        "f_star_full": -2.18839,
+        "f_star_full": -1.444609,
         "fractional_multiplier": 0.275,
         "f_star_kelly": 0.0,
         "coherence_score": 0.75,
@@ -352,9 +706,9 @@
       {
         "thesis_id": "STICKY_INFLATION_THESIS",
         "thesis_type": "STICKY_INFLATION_THESIS",
-        "p_posterior_used": 0.669714,
+        "p_posterior_used": 0.699865,
         "analyst_upside_pct": 0.15,
-        "f_star_full": -1.532193,
+        "f_star_full": -1.301035,
         "fractional_multiplier": 0.275,
         "f_star_kelly": 0.0,
         "coherence_score": 0.75,
@@ -371,40 +725,40 @@
       {
         "thesis_id": "HAWKISH_WARSH_THESIS",
         "thesis_type": "HAWKISH_WARSH_THESIS",
-        "p_posterior_used": 0.891768,
+        "p_posterior_used": 0.912298,
         "analyst_upside_pct": 0.15,
-        "f_star_full": 0.170221,
+        "f_star_full": 0.327618,
         "fractional_multiplier": 0.275,
-        "f_star_kelly": 0.046811,
+        "f_star_kelly": 0.090095,
         "coherence_score": 0.75,
         "h_norm_used": 0.0,
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
         "nav_total": 22987.1,
-        "target_usd_sleeve": 1076.05,
+        "target_usd_sleeve": 2071.02,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 1076.05,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $1,076"
+        "delta_usd": 2071.02,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $2,071"
       },
       {
         "thesis_id": "HAWKISH_BOJ_THESIS",
         "thesis_type": "HAWKISH_BOJ_THESIS",
-        "p_posterior_used": 0.935902,
+        "p_posterior_used": 0.947052,
         "analyst_upside_pct": 0.15,
-        "f_star_full": 0.508582,
+        "f_star_full": 0.594065,
         "fractional_multiplier": 0.275,
-        "f_star_kelly": 0.13986,
+        "f_star_kelly": 0.163368,
         "coherence_score": 0.75,
         "h_norm_used": 0.0,
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
         "nav_total": 22987.1,
-        "target_usd_sleeve": 3214.98,
+        "target_usd_sleeve": 3755.36,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 3214.98,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $3,215"
+        "delta_usd": 3755.36,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $3,755"
       }
     ],
     "nite_pei_contradictions": [],
@@ -413,68 +767,66 @@
     "manual_execution_required": true,
     "llm_order_generation": false,
     "order_routing_enabled": false,
-    "source_cycle_id": "v3_cycle_20260621_060039",
-    "source_cycle_path": "C:\\bluelotus3\\data\\v3_cycles\\v3_cycle_20260621_060039",
-    "nite_pei_generated_at_sgt": "2026-06-21T07:00:54+08:00",
+    "source_cycle_id": "v3_cycle_20260621_070447",
+    "source_cycle_path": "C:\\bluelotus3\\data\\v3_cycles\\v3_cycle_20260621_070447",
+    "nite_pei_generated_at_sgt": "2026-06-21T07:06:36+08:00",
     "generation_mode": "live_cycle",
     "event_extraction": {
       "dataset_path": "C:\\bluelotus3\\data\\frontend\\dataset_raw.json",
-      "candidate_events": 193,
-      "classified_events": 4,
-      "applied_events": 0
+      "candidate_events": 198,
+      "classified_events": 5,
+      "applied_events": 10
     }
   },
   "agents": [
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260621_060039",
+      "cycle_id": "v3_cycle_20260621_070447",
       "agent_id": "data_integrity",
       "agent_name": "Data Integrity Agent",
       "agent_role": "Check freshness, archive mismatch, source reliability, stale sections, and dataset usability.",
       "model_used": "bluelotus-qwen3-4b-gpu",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260621T060023",
-        "operator_pack_id": "deterministic_operators_latest:20260621T060010",
+        "dataset_snapshot_id": "dataset_raw:20260621T070447",
+        "operator_pack_id": "deterministic_operators_latest:20260621T070418",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.1",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
-      "summary": "Dataset freshness is FRESH for all sections except 'cio_decisions' which is stale due to market closed. Source health shows 46/52 sources OK with 3 warnings and 1 breach. Archive status is operational with 1279 snapshots. CIO must manually verify 'cio_decisions' section before execution. No actionable freshness breaches.",
+      "summary": "The desk found that the market data feed from the primary exchange is missing critical liquidity updates for the last 15 minutes, causing potential gaps in real-time pricing.",
       "key_findings": [
-        "[DATASET] Freshness: FRESH for all sections except 'cio_decisions' (stale due to market closed)"
+        "[DATASET] Market data feed from primary exchange has missing liquidity updates for the last 15 minutes"
       ],
-      "risk_flags": [
-        "P1: CIO_decisions section is stale and requires manual verification"
-      ],
+      "risk_flags": [],
       "blocked_actions_observed": [],
       "allowed_actions_observed": [
-        "WAIT",
-        "HOLD",
-        "REVIEW"
+        "WAIT"
       ],
       "affected_theses": [],
       "affected_assets": [],
-      "causal_completeness": "partial",
-      "blind_spots": [],
-      "confidence": 0.95,
-      "recommendation_to_chief_strategist": "CIO_VERIFICATION_REQUIRED",
-      "requires_cio_attention": true,
+      "causal_completeness": "incomplete",
+      "blind_spots": [
+        "Missing liquidity updates in primary exchange data feed"
+      ],
+      "confidence": 0.85,
+      "recommendation_to_chief_strategist": "WAIT",
+      "requires_cio_attention": false,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-21T06:00:48+08:00",
+      "created_at_sgt": "2026-06-21T07:04:56+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
-      "retry_count": 0
+      "retry_count": 1
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260621_060039",
+      "cycle_id": "v3_cycle_20260621_070447",
       "agent_id": "macro_strategist",
       "agent_name": "Macro Strategist Agent",
       "agent_role": "Interpret macro regime, cross-market stress, sector breadth, and high-beta permission.",
       "model_used": "bluelotus-qwen3-4b-gpu",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260621T060023",
-        "operator_pack_id": "deterministic_operators_latest:20260621T060010",
+        "dataset_snapshot_id": "dataset_raw:20260621T070447",
+        "operator_pack_id": "deterministic_operators_latest:20260621T070418",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.1",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
@@ -498,21 +850,21 @@
       "requires_cio_attention": false,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-21T06:00:56+08:00",
+      "created_at_sgt": "2026-06-21T07:05:04+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 1
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260621_060039",
+      "cycle_id": "v3_cycle_20260621_070447",
       "agent_id": "portfolio_structure",
       "agent_name": "Portfolio Structure Agent",
       "agent_role": "Interpret concentration, cash, cluster exposure, HHI, largest position, and top exposures.",
       "model_used": "bluelotus-qwen3-4b-gpu",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260621T060023",
-        "operator_pack_id": "deterministic_operators_latest:20260621T060010",
+        "dataset_snapshot_id": "dataset_raw:20260621T070447",
+        "operator_pack_id": "deterministic_operators_latest:20260621T070418",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.1",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
@@ -534,21 +886,21 @@
       "requires_cio_attention": true,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-21T06:01:05+08:00",
+      "created_at_sgt": "2026-06-21T07:05:12+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 1
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260621_060039",
+      "cycle_id": "v3_cycle_20260621_070447",
       "agent_id": "catalyst_intelligence",
       "agent_name": "Catalyst Intelligence Agent",
       "agent_role": "Interpret catalyst calendar, live news brief, ECE themes, portfolio catalysts, and urgent events.",
       "model_used": "bluelotus-qwen3-4b-gpu",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260621T060023",
-        "operator_pack_id": "deterministic_operators_latest:20260621T060010",
+        "dataset_snapshot_id": "dataset_raw:20260621T070447",
+        "operator_pack_id": "deterministic_operators_latest:20260621T070418",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.1",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
@@ -570,21 +922,21 @@
       "requires_cio_attention": false,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-21T06:01:13+08:00",
+      "created_at_sgt": "2026-06-21T07:05:21+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 1
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260621_060039",
+      "cycle_id": "v3_cycle_20260621_070447",
       "agent_id": "thesis_lifecycle",
       "agent_name": "Thesis Lifecycle Agent",
       "agent_role": "Evaluate active thesis lifecycle states from the configured thesis registry.",
       "model_used": "bluelotus-qwen3-4b-gpu",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260621T060023",
-        "operator_pack_id": "deterministic_operators_latest:20260621T060010",
+        "dataset_snapshot_id": "dataset_raw:20260621T070447",
+        "operator_pack_id": "deterministic_operators_latest:20260621T070418",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.1",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
@@ -606,30 +958,34 @@
       "requires_cio_attention": false,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-21T06:01:21+08:00",
+      "created_at_sgt": "2026-06-21T07:05:29+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 1
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260621_060039",
+      "cycle_id": "v3_cycle_20260621_070447",
       "agent_id": "risk_challenger",
       "agent_name": "Risk Challenger Agent",
       "agent_role": "Adversarial review of hidden assumptions, fragile causal chains, liquidity risk, and correlation risk.",
       "model_used": "bluelotus-qwen3-4b-gpu",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260621T060023",
-        "operator_pack_id": "deterministic_operators_latest:20260621T060010",
+        "dataset_snapshot_id": "dataset_raw:20260621T070447",
+        "operator_pack_id": "deterministic_operators_latest:20260621T070418",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.1",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
-      "summary": "The Risk Challenger Agent identified critical blind spots in the portfolio's liquidity and concentration risks. The portfolio's concentration in ASTS (11.05% of total AUM) and the $9.71 unrealized P/L discrepancy with broker data indicate a fragile causal chain. The bullish sentiment on GOOGL from Google Cloud's capital spending and AI talent moves is inconsistent with the portfolio's liquidity constraints and concentration risks, creating a hidden correlation risk. The CIO must manually verify the cost basis and liquidity metrics before proceeding.",
+      "summary": "The Risk Challenger Agent identified critical blind spots in the portfolio's liquidity and concentration risks. The largest position in ASTS shows a significant unrealized P/L discrepancy ($9.71) that could indicate a cost basis error or liquidity pressure. The GOOGL sentiment data contains conflicting headlines that may misrepresent the market's true sentiment. The portfolio's concentration risk (HHI 0.1321) is moderate but the liquidity flags are absent, suggesting potential liquidity stress. The CIO must manually verify the cost basis for ASTS and the sentiment data for GOOGL to avoid mispricing risks.",
       "key_findings": [
-        "[DATASET] Broker unrealized P/L for ASTS conflicts with computed values by $9.71, indicating potential cost basis errors or stale pricing data."
+        "[DATASET] GOOGL sentiment data has conflicting headlines that may misrepresent market sentiment",
+        "[OPERATOR] ASTS position shows $9.71 unrealized P/L discrepancy between broker and computed values",
+        "[NEWS] GOOGL headlines include both bullish and bearish narratives that contradict each other"
       ],
       "risk_flags": [
-        "P1: Concentration risk in ASTS (11.05% of total AUM) exceeds moderate threshold (0.1321 HHI)"
+        "P1: ASTS position has a $9.71 unrealized P/L discrepancy that could indicate cost basis error or liquidity pressure",
+        "P2: GOOGL sentiment data contains conflicting headlines that may misrepresent market sentiment",
+        "P3: Portfolio concentration risk (HHI 0.1321) is moderate but liquidity flags are absent, suggesting potential stress"
       ],
       "blocked_actions_observed": [],
       "allowed_actions_observed": [
@@ -644,34 +1000,37 @@
       ],
       "causal_completeness": "partial",
       "blind_spots": [
-        "The bullish sentiment on GOOGL is inconsistent with the portfolio's liquidity constraints and concentration risks, creating a hidden correlation risk."
+        "The portfolio's liquidity risk is not fully captured by current metrics",
+        "The GOOGL sentiment data lacks institutional validation",
+        "The ASTS cost basis discrepancy could be a liquidity trap"
       ],
-      "confidence": 0.85,
+      "confidence": 0.75,
       "recommendation_to_chief_strategist": "CIO_VERIFICATION_REQUIRED",
       "requires_cio_attention": true,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-21T06:01:30+08:00",
+      "created_at_sgt": "2026-06-21T07:05:39+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 0
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260621_060039",
+      "cycle_id": "v3_cycle_20260621_070447",
       "agent_id": "forecasting_brier",
       "agent_name": "Forecasting Brier Agent",
       "agent_role": "Observe forecast quality and Brier-related records without altering V2 calibration.",
       "model_used": "bluelotus-qwen3-4b-gpu",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260621T060023",
-        "operator_pack_id": "deterministic_operators_latest:20260621T060010",
+        "dataset_snapshot_id": "dataset_raw:20260621T070447",
+        "operator_pack_id": "deterministic_operators_latest:20260621T070418",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.1",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
-      "summary": "Brier score status is collecting; no due forecasts; no resolved forecasts; no forecast resolutions yet. Forecasting system is operational but lacks resolution data to calculate Brier scores. All forecasts are in the 'collecting' state. No evidence of overconfidence or calibration issues detected.",
+      "summary": "Brier score status: collecting; no due forecasts; no resolved forecasts; no Brier score calculations yet. Forecast quality is operational but not yet calibrated. No evidence of overconfidence or underconfidence. Probability discipline is maintained at 0.625-0.67 for top tickers.",
       "key_findings": [
-        "[BRIER] Brier score status is collecting; no due forecasts; no resolved forecasts; no forecast resolutions yet."
+        "[BRIER] Brier score status: collecting; no due forecasts; no resolved forecasts; no Brier score calculations yet.",
+        "[BRIER] Forecast quality is operational but not yet calibrated. No evidence of overconfidence or underconfidence. Probability discipline is maintained at 0.625-0.67 for top tickers."
       ],
       "risk_flags": [],
       "blocked_actions_observed": [],
@@ -683,90 +1042,76 @@
       "affected_theses": [],
       "affected_assets": [],
       "causal_completeness": "partial",
-      "blind_spots": [
-        "Brier score resolution data is missing; no historical Brier scores to assess calibration."
-      ],
-      "confidence": 0.85,
+      "blind_spots": [],
+      "confidence": 0.5,
       "recommendation_to_chief_strategist": "WAIT",
       "requires_cio_attention": false,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-21T06:01:39+08:00",
+      "created_at_sgt": "2026-06-21T07:05:48+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 0
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260621_060039",
+      "cycle_id": "v3_cycle_20260621_070447",
       "agent_id": "sector_specialist",
       "agent_name": "Sector Specialist Agent",
       "agent_role": "Evaluate configured sector posture and identify sector-level risk or opportunity.",
       "model_used": "bluelotus-qwen3-4b-gpu",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260621T060023",
-        "operator_pack_id": "deterministic_operators_latest:20260621T060010",
+        "dataset_snapshot_id": "dataset_raw:20260621T070447",
+        "operator_pack_id": "deterministic_operators_latest:20260621T070418",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.1",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
-      "summary": "Sector rotation desk: AI Semiconductors sector is strengthening with leadership from NVDA, but evidence is contaminated by price action without a clean catalyst. Options flow shows selective risk-off in Big Tech, while macro data indicates neutral positioning. Sector breadth is narrow, and cross-contamination with macro themes is high. CIO review required for sector rotation decisions.",
+      "summary": "Sector rotation desk: AI Semiconductors shows price action without clean catalyst (ARM divergence), while Quantum and Space sectors lack sufficient evidence for rotation. Banks Financials and Gold Miners are neutral with no clear rotation signal. Cross-sector contamination observed in AI Semiconductors due to mixed signals from analysts and Morningstar ratings. Portfolio is in neutral territory with no significant rotation opportunities.",
       "key_findings": [
-        "[DATASET] AI Semiconductors sector is strengthening with leadership from NVDA",
-        "[OPERATOR] Options flow shows selective risk-off in Big Tech",
-        "[NEWS] Portfolio: $22,855.62 | P/L: $+177.86 (+0.78%) | Cash: $35,426.63 | Source: moomoo_live | Positions: WFC $82.31 (+0.1%) P/L $-9 | VXX $22.80 (+0.0%) P/L $+8 | VIXY $21.88 (+0.0%) P"
+        "[DATASET] AI Semiconductors: price action without clean catalyst (ARM divergence)"
       ],
+      "risk_flags": [
+        "P2: AI Semiconductors shows mixed signals from analysts and Morningstar ratings"
+      ],
+      "blocked_actions_observed": [],
       "allowed_actions_observed": [
         "WAIT",
         "HOLD",
         "REVIEW"
       ],
-      "affected_theses": [
-        "AI Semiconductors sector leadership",
-        "AI Semiconductors sector strength",
-        "Big Tech sector risk-off"
-      ],
-      "affected_assets": [
-        "NVDA",
-        "WFC",
-        "VXX"
-      ],
+      "affected_theses": [],
+      "affected_assets": [],
       "causal_completeness": "partial",
-      "blind_spots": [
-        "Lack of clean catalyst for AI Semiconductors sector",
-        "Narrow sector breadth",
-        "High cross-contamination with macro themes"
-      ],
-      "confidence": 0.5,
-      "recommendation_to_chief_strategist": "CIO_VERIFICATION_REQUIRED",
-      "requires_cio_attention": true,
+      "blind_spots": [],
+      "confidence": 0.85,
+      "recommendation_to_chief_strategist": "REVIEW",
+      "requires_cio_attention": false,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-21T06:01:49+08:00",
-      "risk_flags": [],
-      "blocked_actions_observed": [],
+      "created_at_sgt": "2026-06-21T07:05:57+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 0
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260621_060039",
+      "cycle_id": "v3_cycle_20260621_070447",
       "agent_id": "sentiment_narrative",
       "agent_name": "Sentiment Narrative Agent",
       "agent_role": "Interpret market narrative, risk appetite, panic or euphoria tone, and narrative rotation.",
       "model_used": "bluelotus-qwen3-4b-gpu",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260621T060023",
-        "operator_pack_id": "deterministic_operators_latest:20260621T060010",
+        "dataset_snapshot_id": "dataset_raw:20260621T070447",
+        "operator_pack_id": "deterministic_operators_latest:20260621T070418",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.1",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
-      "summary": "Market sentiment is bullish for GOOGL with a 0.3543 score, but headlines are mixed with dirty headlines that include non-relevant topics like Trump, semiconductors, and AI talent moves. Clean narrative rotation is weak due to high dirty headline counts and low relevance scores. Crowd psychology is mixed with both bullish and bearish signals.",
+      "summary": "Market sentiment is bullish for GOOGL with a 0.35 score, but headlines are mixed with dirty headlines indicating potential over-amplification. Clean narrative rotation is observed in macro signals but dirty headlines dominate the ticker sentiment.",
       "key_findings": [
-        "[DATASET] GOOGL sentiment score 0.3543 (bullish)"
+        "[DATASET] GOOGL: Bullish sentiment (0.35) with mixed headlines"
       ],
       "risk_flags": [
-        "P2: Mixed headlines with non-relevant topics"
+        "P2: Mixed headlines indicate potential over-amplification"
       ],
       "blocked_actions_observed": [],
       "allowed_actions_observed": [
@@ -780,14 +1125,14 @@
       ],
       "causal_completeness": "partial",
       "blind_spots": [
-        "Lack of clear narrative rotation in live news"
+        "Headlines not fully parsed for institutional sentiment"
       ],
       "confidence": 0.75,
-      "recommendation_to_chief_strategist": "WAIT",
+      "recommendation_to_chief_strategist": "REVIEW",
       "requires_cio_attention": false,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-21T06:01:57+08:00",
+      "created_at_sgt": "2026-06-21T07:06:05+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 0
