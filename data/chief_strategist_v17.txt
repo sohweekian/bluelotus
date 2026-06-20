@@ -201,7 +201,7 @@ Tactical score modifies timing; it does not invalidate structural thesis unless 
 
 ══════════════════════════════════════════════════════════════
   BLUELOTUS CHIEF STRATEGIST BRIEF v1.7
-  2026-06-21 06:00 SGT  |  Cycle: 2026-06-21T06:00:12
+  2026-06-21 06:15 SGT  |  Cycle: 2026-06-21T06:00:12
 ══════════════════════════════════════════════════════════════
 
 LENS 1 — REGIME
@@ -650,7 +650,7 @@ V3.4 BENCHMARK DASHBOARD
 ============================
 Canonical: v3.1-canonical-contract validation=PASS
 Replay: strategies=12 scenarios=9 point_in_time=PASS
-Benchmark: BENCH_20260621_060023 status=PASS
+Benchmark: BENCH_20260621_061521 status=PASS
 Observation lock: OBSERVATION_ACTIVE upgrade_allowed=False
 Execution safety: CIO_ONLY_MANUAL | order_routing_enabled=False | orders_generated=0
 - #1 BUY_AND_HOLD_PORTFOLIO sharpe=0.807518 drawdown=-0.083978
@@ -658,3 +658,305 @@ Execution safety: CIO_ONLY_MANUAL | order_routing_enabled=False | orders_generat
 - #3 HIGH_BETA_SLEEVE sharpe=0.45895 drawdown=-0.054233
 - #4 SPY_BENCHMARK sharpe=0.425062 drawdown=-0.103933
 - #5 EQUAL_WEIGHT_HELD sharpe=0.38968 drawdown=-0.125611
+
+
+==============================================================================
+NITE-PEI THESIS ENGINE — CIO ADVISORY
+News Impact & Thesis Engine for Prospective Event Intelligence
+==============================================================================
+Generated : 2026-06-21T06:15:14+08:00
+Schema    : bluelotus_v3_nite_pei_v1.0
+Execution : MANUAL_EXECUTION_REQUIRED | LLM_ORDER_GENERATION=FALSE
+
+COMPOSITE KILL RISK INDEX (CKRI)
+----------------------------------------
+  CKRI Score : 0.3349
+  Zone       : WATCH
+  Weighted sum       : 0.4747
+  Correlation penalty: 1.2000
+  Total weight       : 5.0000
+
+  Zone Guidance: Reduce new adds. Monitor kill conditions.
+
+  Kill Condition Breakdown:
+  Thesis                               Kill ID               Weight   P_kill State       
+  ----------------------------------------------------------------------------------------
+  TRUMP_UNCERTAINTY_THESIS             TRUMP_KC_01            0.600   0.0500 INACTIVE....
+  TRUMP_UNCERTAINTY_THESIS             TRUMP_KC_02            0.400   0.0500 INACTIVE....
+  PETRO_RECYCLED_DOLLAR_THESIS         PETRO_KC_01            0.500   0.4993 TRIGGERED...
+  PETRO_RECYCLED_DOLLAR_THESIS         PETRO_KC_02            0.500   0.0500 INACTIVE....
+  STICKY_INFLATION_THESIS              STICKY_KC_01           0.550   0.0500 INACTIVE....
+  STICKY_INFLATION_THESIS              STICKY_KC_02           0.450   0.0500 INACTIVE....
+  HAWKISH_WARSH_THESIS                 WARSH_KC_01            0.700   0.0500 INACTIVE....
+  HAWKISH_WARSH_THESIS                 WARSH_KC_02            0.300   0.0500 INACTIVE....
+  HAWKISH_BOJ_THESIS                   BOJ_KC_01              0.650   0.0500 INACTIVE....
+  HAWKISH_BOJ_THESIS                   BOJ_KC_02              0.350   0.0500 INACTIVE....
+
+BAYESIAN UPDATE FORMULA (applied per event per thesis)
+----------------------------------------
+  Step 1 : prior_odds    = P_prior / (1 - P_prior)
+  Step 2 : LR_adjusted   = LR_table[event_class][thesis_type] × (1 - noise_discount)
+           noise_discount : T1=0.00  T2=0.10  T3=0.25  T4=0.50
+  Step 3 : post_odds     = prior_odds × LR_adjusted
+  Step 4 : P_posterior   = post_odds / (1 + post_odds)
+  Step 5 : clamp to [0.05, 0.95]  (prevents probability from reaching 0 or 1)
+  Multi-event: posterior_N becomes prior_(N+1)  (sequential compounding)
+
+  LR > 1.0 = event is evidence FOR the thesis (raises P)
+  LR < 1.0 = event is evidence AGAINST the thesis (lowers P)
+  LR = 1.0 = event carries no information (no update)
+
+THESIS PROBABILITY SNAPSHOTS — WITH EVIDENCE
+----------------------------------------
+  ┌─ TRUMP_UNCERTAINTY_THESIS
+  │  P: 0.4209 → 0.3948  (▼ 0.0262)   Posture: THESIS_UNCHANGED — MONITOR
+  │  Advisory: [NITE-PEI] TRUMP_UNCERTAINTY_THESIS: GEOPOLITICAL_ESCALATION, CENTRAL_BANK_HAWKISH, YEN_CARRY_RISK, CENTRAL_BANK_HAWKISH (LR 1.080 via GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS, confidence: LOW). P: 0.421 → 0.395 (▼0.026). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED.
+  │  Evidence (4 event(s) processed):
+  │   [1] GEOPOLITICAL_ESCALATION  keyword: 'hormuz'  tier: T2
+  │       Headline    : Hormuz Closure Extends Well Beyond Oil to Threaten Chinese EVs — strait of hormuz supply route threat
+  │       Source      : ArabNews_Business via Google News / EnergyNow.com
+  │       Published   : 2026-06-20T07:16:33
+  │       Dataset Key : signals.ArabNews_Business[0]
+  │       Source URL  : https://news.google.com/rss/articles/CBMiowFBVV95cUxOMVk1OHZNb2o2dEUxTnQ0S2sxbUpRSklhSV9QMm1qT1otUFV6QTFadmdzQWFTX3dGQkpQVGpWZmd3UEFXOXNtQmxGNDFYOE9Fc3NwbnNuVV9kVGN0YzRjN0FWcWtjOExFT2pPc1IzMjA5Sl9URGV2aUkwYzZ0S2g0bDlMdGZLYUctLUxRUlJLLTFBeXBqNjdsUkJObng1MWhtYzVj?oc=5
+  │       ── Bayesian Equation ─────────────────────────────────────
+  │       prior_odds = P/1-P = 0.4209 / 0.5791 = 0.7268
+  │       LR_adjusted = LR_raw(1.2000) x (1 - noise_discount(0.10)) = 1.0800
+  │       posterior_odds = prior_odds(0.7268) x LR_adjusted(1.0800) = 0.7850
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 0.7850 / 1.7850 = 0.4398
+  │       clamp([0.05, 0.95]) => 0.4398 (unchanged)
+  │       Δ P this step: +0.0189
+  │   [2] CENTRAL_BANK_HAWKISH  keyword: 'hawkish'  tier: T1
+  │       Headline    : Fed Governor Bowman: Hawkish Regulatory Stance at Hoover Institution Annual Monetary Policy Conference — rates higher for longer
+  │       Source      : Federal Reserve — Official Speech Archive (federalreserve.gov)
+  │       Published   : 2026-05-08T23:30:00
+  │       Dataset Key : signals.Fed_Speeches[0]
+  │       Source URL  : https://www.federalreserve.gov/newsevents/speech/bowman20260508a.htm
+  │       ── Bayesian Equation ─────────────────────────────────────
+  │       prior_odds = P/1-P = 0.4398 / 0.5602 = 0.7850
+  │       LR_adjusted = LR_raw(0.8500) x (1 - noise_discount(0.00)) = 0.8500
+  │       posterior_odds = prior_odds(0.7850) x LR_adjusted(0.8500) = 0.6672
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 0.6672 / 1.6672 = 0.4002
+  │       clamp([0.05, 0.95]) => 0.4002 (unchanged)
+  │       Δ P this step: -0.0396
+  │   [3] YEN_CARRY_RISK  keyword: 'usd/jpy'  tier: T1
+  │       Headline    : BOJ Deputy Governor Himino Semiannual Report: Currency and Monetary Control — USD/JPY carry trade and yen pressure
+  │       Source      : Bank of Japan — Official Press Release (boj.or.jp)
+  │       Published   : 2026-06-19T00:15:00
+  │       Dataset Key : signals.BOJ_Press[0]
+  │       Source URL  : http://www.boj.or.jp/en/mopo/diet/d_state/dst260619a.htm
+  │       ── Bayesian Equation ─────────────────────────────────────
+  │       prior_odds = P/1-P = 0.4002 / 0.5998 = 0.6672
+  │       LR_adjusted = LR_raw(1.1500) x (1 - noise_discount(0.00)) = 1.1500
+  │       posterior_odds = prior_odds(0.6672) x LR_adjusted(1.1500) = 0.7673
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 0.7673 / 1.7673 = 0.4342
+  │       clamp([0.05, 0.95]) => 0.4342 (unchanged)
+  │       Δ P this step: +0.0340
+  │   [4] CENTRAL_BANK_HAWKISH  keyword: 'hawkish'  tier: T1
+  │       Headline    : FOMC June 16-17: Fed releases hawkish economic projections — hold rates higher for longer, fomc speaker reaffirms stance
+  │       Source      : Federal Reserve — FOMC Press Release (federalreserve.gov)
+  │       Published   : 2026-06-17T18:00:00
+  │       Dataset Key : signals.Fed_FOMC_Minutes[0]
+  │       Source URL  : https://www.federalreserve.gov/newsevents/pressreleases/monetary20260617b.htm
+  │       ── Bayesian Equation ─────────────────────────────────────
+  │       prior_odds = P/1-P = 0.4342 / 0.5658 = 0.7673
+  │       LR_adjusted = LR_raw(0.8500) x (1 - noise_discount(0.00)) = 0.8500
+  │       posterior_odds = prior_odds(0.7673) x LR_adjusted(0.8500) = 0.6522
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 0.6522 / 1.6522 = 0.3948
+  │       clamp([0.05, 0.95]) => 0.3948 (unchanged)
+  │       Δ P this step: -0.0394
+  │  Kill States: TRUMP_KC_01: INACTIVE (P=0.050)  TRUMP_KC_02: INACTIVE (P=0.050)
+  └──────────────────────────────────────────────────────────────────────
+
+  ┌─ PETRO_RECYCLED_DOLLAR_THESIS
+  │  P: 0.4801 → 0.4865  (▲ 0.0064)   Posture: THESIS_UNCHANGED — MONITOR
+  │  Advisory: [NITE-PEI] PETRO_RECYCLED_DOLLAR_THESIS: GEOPOLITICAL_ESCALATION, YEN_CARRY_RISK (LR 1.080 via GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS, confidence: LOW). P: 0.480 → 0.486 (▲0.006). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED.
+  │  Evidence (2 event(s) processed):
+  │   [1] GEOPOLITICAL_ESCALATION  keyword: 'hormuz'  tier: T2
+  │       Headline    : Hormuz Closure Extends Well Beyond Oil to Threaten Chinese EVs — strait of hormuz supply route threat
+  │       Source      : ArabNews_Business via Google News / EnergyNow.com
+  │       Published   : 2026-06-20T07:16:33
+  │       Dataset Key : signals.ArabNews_Business[0]
+  │       Source URL  : https://news.google.com/rss/articles/CBMiowFBVV95cUxOMVk1OHZNb2o2dEUxTnQ0S2sxbUpRSklhSV9QMm1qT1otUFV6QTFadmdzQWFTX3dGQkpQVGpWZmd3UEFXOXNtQmxGNDFYOE9Fc3NwbnNuVV9kVGN0YzRjN0FWcWtjOExFT2pPc1IzMjA5Sl9URGV2aUkwYzZ0S2g0bDlMdGZLYUctLUxRUlJLLTFBeXBqNjdsUkJObng1MWhtYzVj?oc=5
+  │       ── Bayesian Equation ─────────────────────────────────────
+  │       prior_odds = P/1-P = 0.4801 / 0.5199 = 0.9234
+  │       LR_adjusted = LR_raw(1.2000) x (1 - noise_discount(0.10)) = 1.0800
+  │       posterior_odds = prior_odds(0.9234) x LR_adjusted(1.0800) = 0.9973
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 0.9973 / 1.9973 = 0.4993
+  │       clamp([0.05, 0.95]) => 0.4993 (unchanged)
+  │       Δ P this step: +0.0192
+  │   [2] YEN_CARRY_RISK  keyword: 'usd/jpy'  tier: T1
+  │       Headline    : BOJ Deputy Governor Himino Semiannual Report: Currency and Monetary Control — USD/JPY carry trade and yen pressure
+  │       Source      : Bank of Japan — Official Press Release (boj.or.jp)
+  │       Published   : 2026-06-19T00:15:00
+  │       Dataset Key : signals.BOJ_Press[0]
+  │       Source URL  : http://www.boj.or.jp/en/mopo/diet/d_state/dst260619a.htm
+  │       ── Bayesian Equation ─────────────────────────────────────
+  │       prior_odds = P/1-P = 0.4993 / 0.5007 = 0.9973
+  │       LR_adjusted = LR_raw(0.9500) x (1 - noise_discount(0.00)) = 0.9500
+  │       posterior_odds = prior_odds(0.9973) x LR_adjusted(0.9500) = 0.9474
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 0.9474 / 1.9474 = 0.4865
+  │       clamp([0.05, 0.95]) => 0.4865 (unchanged)
+  │       Δ P this step: -0.0128
+  │  Kill States: PETRO_KC_01: TRIGGERED (P=0.499)  PETRO_KC_02: INACTIVE (P=0.050)
+  └──────────────────────────────────────────────────────────────────────
+
+  ┌─ STICKY_INFLATION_THESIS
+  │  P: 0.5121 → 0.5764  (▲ 0.0642)   Posture: THESIS_UNCHANGED — MONITOR
+  │  Advisory: [NITE-PEI] STICKY_INFLATION_THESIS: CENTRAL_BANK_HAWKISH, YEN_CARRY_RISK, CENTRAL_BANK_HAWKISH (LR 1.200 via CENTRAL_BANK_HAWKISH/STICKY_INFLATION_THESIS, confidence: LOW). P: 0.512 → 0.576 (▲0.064). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED.
+  │  Evidence (3 event(s) processed):
+  │   [1] CENTRAL_BANK_HAWKISH  keyword: 'hawkish'  tier: T1
+  │       Headline    : Fed Governor Bowman: Hawkish Regulatory Stance at Hoover Institution Annual Monetary Policy Conference — rates higher for longer
+  │       Source      : Federal Reserve — Official Speech Archive (federalreserve.gov)
+  │       Published   : 2026-05-08T23:30:00
+  │       Dataset Key : signals.Fed_Speeches[0]
+  │       Source URL  : https://www.federalreserve.gov/newsevents/speech/bowman20260508a.htm
+  │       ── Bayesian Equation ─────────────────────────────────────
+  │       prior_odds = P/1-P = 0.5121 / 0.4879 = 1.0498
+  │       LR_adjusted = LR_raw(1.2000) x (1 - noise_discount(0.00)) = 1.2000
+  │       posterior_odds = prior_odds(1.0498) x LR_adjusted(1.2000) = 1.2597
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 1.2597 / 2.2597 = 0.5575
+  │       clamp([0.05, 0.95]) => 0.5575 (unchanged)
+  │       Δ P this step: +0.0453
+  │   [2] YEN_CARRY_RISK  keyword: 'usd/jpy'  tier: T1
+  │       Headline    : BOJ Deputy Governor Himino Semiannual Report: Currency and Monetary Control — USD/JPY carry trade and yen pressure
+  │       Source      : Bank of Japan — Official Press Release (boj.or.jp)
+  │       Published   : 2026-06-19T00:15:00
+  │       Dataset Key : signals.BOJ_Press[0]
+  │       Source URL  : http://www.boj.or.jp/en/mopo/diet/d_state/dst260619a.htm
+  │       ── Bayesian Equation ─────────────────────────────────────
+  │       prior_odds = P/1-P = 0.5575 / 0.4425 = 1.2597
+  │       LR_adjusted = LR_raw(0.9000) x (1 - noise_discount(0.00)) = 0.9000
+  │       posterior_odds = prior_odds(1.2597) x LR_adjusted(0.9000) = 1.1337
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 1.1337 / 2.1337 = 0.5313
+  │       clamp([0.05, 0.95]) => 0.5313 (unchanged)
+  │       Δ P this step: -0.0261
+  │   [3] CENTRAL_BANK_HAWKISH  keyword: 'hawkish'  tier: T1
+  │       Headline    : FOMC June 16-17: Fed releases hawkish economic projections — hold rates higher for longer, fomc speaker reaffirms stance
+  │       Source      : Federal Reserve — FOMC Press Release (federalreserve.gov)
+  │       Published   : 2026-06-17T18:00:00
+  │       Dataset Key : signals.Fed_FOMC_Minutes[0]
+  │       Source URL  : https://www.federalreserve.gov/newsevents/pressreleases/monetary20260617b.htm
+  │       ── Bayesian Equation ─────────────────────────────────────
+  │       prior_odds = P/1-P = 0.5313 / 0.4687 = 1.1337
+  │       LR_adjusted = LR_raw(1.2000) x (1 - noise_discount(0.00)) = 1.2000
+  │       posterior_odds = prior_odds(1.1337) x LR_adjusted(1.2000) = 1.3605
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 1.3605 / 2.3605 = 0.5764
+  │       clamp([0.05, 0.95]) => 0.5764 (unchanged)
+  │       Δ P this step: +0.0450
+  │  Kill States: STICKY_KC_01: INACTIVE (P=0.050)  STICKY_KC_02: INACTIVE (P=0.050)
+  └──────────────────────────────────────────────────────────────────────
+
+  ┌─ HAWKISH_WARSH_THESIS
+  │  P: 0.6189 → 0.7650  (▲ 0.1461)   Posture: THESIS_UNCHANGED — MONITOR
+  │  Advisory: [NITE-PEI] HAWKISH_WARSH_THESIS: CENTRAL_BANK_HAWKISH, YEN_CARRY_RISK, CENTRAL_BANK_HAWKISH (LR 1.350 via CENTRAL_BANK_HAWKISH/HAWKISH_WARSH_THESIS, confidence: LOW). P: 0.619 → 0.765 (▲0.146). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED.
+  │  Evidence (3 event(s) processed):
+  │   [1] CENTRAL_BANK_HAWKISH  keyword: 'hawkish'  tier: T1
+  │       Headline    : Fed Governor Bowman: Hawkish Regulatory Stance at Hoover Institution Annual Monetary Policy Conference — rates higher for longer
+  │       Source      : Federal Reserve — Official Speech Archive (federalreserve.gov)
+  │       Published   : 2026-05-08T23:30:00
+  │       Dataset Key : signals.Fed_Speeches[0]
+  │       Source URL  : https://www.federalreserve.gov/newsevents/speech/bowman20260508a.htm
+  │       ── Bayesian Equation ─────────────────────────────────────
+  │       prior_odds = P/1-P = 0.6189 / 0.3811 = 1.6239
+  │       LR_adjusted = LR_raw(1.3500) x (1 - noise_discount(0.00)) = 1.3500
+  │       posterior_odds = prior_odds(1.6239) x LR_adjusted(1.3500) = 2.1922
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 2.1922 / 3.1922 = 0.6867
+  │       clamp([0.05, 0.95]) => 0.6867 (unchanged)
+  │       Δ P this step: +0.0679
+  │   [2] YEN_CARRY_RISK  keyword: 'usd/jpy'  tier: T1
+  │       Headline    : BOJ Deputy Governor Himino Semiannual Report: Currency and Monetary Control — USD/JPY carry trade and yen pressure
+  │       Source      : Bank of Japan — Official Press Release (boj.or.jp)
+  │       Published   : 2026-06-19T00:15:00
+  │       Dataset Key : signals.BOJ_Press[0]
+  │       Source URL  : http://www.boj.or.jp/en/mopo/diet/d_state/dst260619a.htm
+  │       ── Bayesian Equation ─────────────────────────────────────
+  │       prior_odds = P/1-P = 0.6867 / 0.3133 = 2.1922
+  │       LR_adjusted = LR_raw(1.1000) x (1 - noise_discount(0.00)) = 1.1000
+  │       posterior_odds = prior_odds(2.1922) x LR_adjusted(1.1000) = 2.4114
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 2.4114 / 3.4114 = 0.7069
+  │       clamp([0.05, 0.95]) => 0.7069 (unchanged)
+  │       Δ P this step: +0.0201
+  │   [3] CENTRAL_BANK_HAWKISH  keyword: 'hawkish'  tier: T1
+  │       Headline    : FOMC June 16-17: Fed releases hawkish economic projections — hold rates higher for longer, fomc speaker reaffirms stance
+  │       Source      : Federal Reserve — FOMC Press Release (federalreserve.gov)
+  │       Published   : 2026-06-17T18:00:00
+  │       Dataset Key : signals.Fed_FOMC_Minutes[0]
+  │       Source URL  : https://www.federalreserve.gov/newsevents/pressreleases/monetary20260617b.htm
+  │       ── Bayesian Equation ─────────────────────────────────────
+  │       prior_odds = P/1-P = 0.7069 / 0.2931 = 2.4114
+  │       LR_adjusted = LR_raw(1.3500) x (1 - noise_discount(0.00)) = 1.3500
+  │       posterior_odds = prior_odds(2.4114) x LR_adjusted(1.3500) = 3.2554
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 3.2554 / 4.2554 = 0.7650
+  │       clamp([0.05, 0.95]) => 0.7650 (unchanged)
+  │       Δ P this step: +0.0581
+  │  Kill States: WARSH_KC_01: INACTIVE (P=0.050)  WARSH_KC_02: INACTIVE (P=0.050)
+  └──────────────────────────────────────────────────────────────────────
+
+  ┌─ HAWKISH_BOJ_THESIS
+  │  P: 0.6650 → 0.8295  (▲ 0.1645)   Posture: THESIS_STRENGTHENED — CIO_REVIEW_FOR_ADD
+  │  Advisory: [NITE-PEI] HAWKISH_BOJ_THESIS: CENTRAL_BANK_HAWKISH, YEN_CARRY_RISK, CENTRAL_BANK_HAWKISH (LR 1.300 via CENTRAL_BANK_HAWKISH/HAWKISH_BOJ_THESIS, confidence: LOW). P: 0.665 → 0.829 (▲0.164). Posture: THESIS_STRENGTHENED — CIO_REVIEW_FOR_ADD. MANUAL_EXECUTION_REQUIRED.
+  │  Evidence (3 event(s) processed):
+  │   [1] CENTRAL_BANK_HAWKISH  keyword: 'hawkish'  tier: T1
+  │       Headline    : Fed Governor Bowman: Hawkish Regulatory Stance at Hoover Institution Annual Monetary Policy Conference — rates higher for longer
+  │       Source      : Federal Reserve — Official Speech Archive (federalreserve.gov)
+  │       Published   : 2026-05-08T23:30:00
+  │       Dataset Key : signals.Fed_Speeches[0]
+  │       Source URL  : https://www.federalreserve.gov/newsevents/speech/bowman20260508a.htm
+  │       ── Bayesian Equation ─────────────────────────────────────
+  │       prior_odds = P/1-P = 0.6650 / 0.3350 = 1.9849
+  │       LR_adjusted = LR_raw(1.3000) x (1 - noise_discount(0.00)) = 1.3000
+  │       posterior_odds = prior_odds(1.9849) x LR_adjusted(1.3000) = 2.5804
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 2.5804 / 3.5804 = 0.7207
+  │       clamp([0.05, 0.95]) => 0.7207 (unchanged)
+  │       Δ P this step: +0.0557
+  │   [2] YEN_CARRY_RISK  keyword: 'usd/jpy'  tier: T1
+  │       Headline    : BOJ Deputy Governor Himino Semiannual Report: Currency and Monetary Control — USD/JPY carry trade and yen pressure
+  │       Source      : Bank of Japan — Official Press Release (boj.or.jp)
+  │       Published   : 2026-06-19T00:15:00
+  │       Dataset Key : signals.BOJ_Press[0]
+  │       Source URL  : http://www.boj.or.jp/en/mopo/diet/d_state/dst260619a.htm
+  │       ── Bayesian Equation ─────────────────────────────────────
+  │       prior_odds = P/1-P = 0.7207 / 0.2793 = 2.5804
+  │       LR_adjusted = LR_raw(1.4500) x (1 - noise_discount(0.00)) = 1.4500
+  │       posterior_odds = prior_odds(2.5804) x LR_adjusted(1.4500) = 3.7416
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 3.7416 / 4.7416 = 0.7891
+  │       clamp([0.05, 0.95]) => 0.7891 (unchanged)
+  │       Δ P this step: +0.0684
+  │   [3] CENTRAL_BANK_HAWKISH  keyword: 'hawkish'  tier: T1
+  │       Headline    : FOMC June 16-17: Fed releases hawkish economic projections — hold rates higher for longer, fomc speaker reaffirms stance
+  │       Source      : Federal Reserve — FOMC Press Release (federalreserve.gov)
+  │       Published   : 2026-06-17T18:00:00
+  │       Dataset Key : signals.Fed_FOMC_Minutes[0]
+  │       Source URL  : https://www.federalreserve.gov/newsevents/pressreleases/monetary20260617b.htm
+  │       ── Bayesian Equation ─────────────────────────────────────
+  │       prior_odds = P/1-P = 0.7891 / 0.2109 = 3.7416
+  │       LR_adjusted = LR_raw(1.3000) x (1 - noise_discount(0.00)) = 1.3000
+  │       posterior_odds = prior_odds(3.7416) x LR_adjusted(1.3000) = 4.8640
+  │       P_posterior = posterior_odds / (1 + posterior_odds) = 4.8640 / 5.8640 = 0.8295
+  │       clamp([0.05, 0.95]) => 0.8295 (unchanged)
+  │       Δ P this step: +0.0404
+  │  Kill States: BOJ_KC_01: INACTIVE (P=0.050)  BOJ_KC_02: INACTIVE (P=0.050)
+  └──────────────────────────────────────────────────────────────────────
+
+KELLY-NITE POSITION SIZING ADVISORIES
+----------------------------------------
+  Thesis                                f*_kelly  Coherence   Target USD    Delta USD Action
+  ----------------------------------------------------------------------------------------------------
+  TRUMP_UNCERTAINTY_THESIS                0.0000      0.750 $          0 $         +0 POSITION NEAR KELLY TARGET — HOLD
+  PETRO_RECYCLED_DOLLAR_THESIS            0.0000      0.750 $          0 $         +0 POSITION NEAR KELLY TARGET — HOLD
+  STICKY_INFLATION_THESIS                 0.0000      0.750 $          0 $         +0 POSITION NEAR KELLY TARGET — HOLD
+  HAWKISH_WARSH_THESIS                    0.0000      0.750 $          0 $         +0 POSITION NEAR KELLY TARGET — HOLD
+  HAWKISH_BOJ_THESIS                      0.0000      0.750 $          0 $         +0 POSITION NEAR KELLY TARGET — HOLD
+
+  All Kelly outputs are advisory only. MANUAL_EXECUTION_REQUIRED.
+
+NITE-PEI CONTRADICTION REGISTER
+----------------------------------------
+  Total contradictions : 0
+  P1 (critical)        : 0
+
+  No contradictions detected this cycle.
+
+==============================================================================
+END NITE-PEI CIO ADVISORY — MANUAL_EXECUTION_REQUIRED
+==============================================================================
