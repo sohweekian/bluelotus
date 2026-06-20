@@ -1,42 +1,26 @@
 {
-  "generated_at": "2026-06-20 20:16 SGT",
-  "cycle_id": "v3_cycle_20260620_191321",
-  "latest_cycle_id": "v3_cycle_20260620_191321",
+  "generated_at": "2026-06-20 20:26 SGT",
+  "cycle_id": "v3_cycle_20260620_202001",
+  "latest_cycle_id": "v3_cycle_20260620_202001",
   "fallback_from_cycle_id": "",
-  "fallback_reason": "latest_cycle_agent_errors_rendered",
+  "fallback_reason": "latest_cycle_partial_agent_errors_rendered",
   "degraded_llm_cycle": true,
   "agent_errors": [
     {
-      "agent_id": "data_integrity",
-      "error": "Ollama HTTP 500 Internal Server Error: {\"error\":\"error reading llama-server response: unexpected EOF\"}"
-    },
-    {
-      "agent_id": "macro_strategist",
-      "error": "Ollama HTTP 500 Internal Server Error: {\"error\":\"error reading llama-server response: unexpected EOF\"}"
-    },
-    {
       "agent_id": "portfolio_structure",
-      "error": "Key key_findings[0] must be string."
-    },
-    {
-      "agent_id": "catalyst_intelligence",
-      "error": "Missing required key: confidence; Key causal_completeness must be one of the configured enum values.; Key recommendation_to_chief_strategist must be one of the configured enum values."
+      "error": "Ollama HTTP 500 Internal Server Error: {\"error\":\"error reading llama-server response: unexpected EOF\"}"
     },
     {
       "agent_id": "thesis_lifecycle",
-      "error": "Missing required key: confidence; Key causal_completeness must be one of the configured enum values.; Key recommendation_to_chief_strategist must be one of the configured enum values."
-    },
-    {
-      "agent_id": "risk_challenger",
       "error": "Ollama HTTP 500 Internal Server Error: {\"error\":\"error reading llama-server response: unexpected EOF\"}"
     },
     {
-      "agent_id": "forecasting_brier",
-      "error": "Missing required key: confidence; Key key_findings must contain no more than 3 items.; Key key_findings[0] must be string.; Key key_findings[1] must be string.; Key key_findings[2] must be string.; Key key_findings[3] must be string.; Key key_findings[4] must be string."
+      "agent_id": "risk_challenger",
+      "error": "Ollama HTTP 500 Internal Server Error: {\"error\":\"error reading llama-server response: read tcp 127.0.0.1:54969-\\u003e127.0.0.1:58515: wsarecv: Overlapped I/O event is not in a signaled state.\"}"
     },
     {
-      "agent_id": "sector_specialist",
-      "error": "Key causal_completeness must be one of the configured enum values.; Key recommendation_to_chief_strategist must be one of the configured enum values."
+      "agent_id": "forecasting_brier",
+      "error": "timed out"
     },
     {
       "agent_id": "sentiment_narrative",
@@ -45,90 +29,201 @@
   ],
   "recommended_posture": "CIO_VERIFICATION_REQUIRED",
   "agent_consensus": [],
-  "disagreements": [],
+  "disagreements": [
+    {
+      "topic": "agent recommendation dispersion",
+      "agent_a": "data_integrity",
+      "agent_b": "data_integrity,macro_strategist,catalyst_intelligence,sector_specialist",
+      "severity": "medium",
+      "chief_strategist_resolution": "Use most conservative CIO manual review posture when agents disagree.",
+      "requires_cio_attention": true
+    },
+    {
+      "topic": "risk emphasis versus ordinary review",
+      "agent_a": "data_integrity,macro_strategist",
+      "agent_b": "agent council",
+      "severity": "high",
+      "chief_strategist_resolution": "Preserve deterministic operator blocks and escalate risk items to CIO review.",
+      "requires_cio_attention": true
+    }
+  ],
   "cio_attention_items": [
     "V3 agent council degraded: Qwen/Ollama did not produce validated reports for the latest cycle."
   ],
   "manual_execution_required": true,
-  "created_at_sgt": "2026-06-20T19:13:53+08:00",
+  "created_at_sgt": "2026-06-20T20:25:45+08:00",
   "agents": [
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260620_191321",
+      "cycle_id": "v3_cycle_20260620_202001",
       "agent_id": "data_integrity",
       "agent_name": "Data Integrity Agent",
-      "agent_role": "Current-cycle degraded LLM status",
+      "agent_role": "Check freshness, archive mismatch, source reliability, stale sections, and dataset usability.",
       "model_used": "bluelotus-qwen3-4b-gpu",
-      "input_refs": {},
-      "summary": "Current cycle agent output unavailable; Qwen/Ollama call failed before a validated report was produced.",
+      "input_refs": {
+        "dataset_snapshot_id": "dataset_raw:20260620T201629",
+        "operator_pack_id": "deterministic_operators_latest:20260620T201617",
+        "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.0",
+        "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
+      },
+      "summary": "Dataset raw is truncated and incomplete; source health shows 3 active sources but expected 52 sources. Critical path: BEA_GDP_PCE source is active but has low trust (0.97) and last seen 2026-06-15T08:28:06. Missing 2 sources from expected 52, indicating incomplete dataset.",
       "key_findings": [
-        "[OPERATOR] Current V3 cycle executed, but this agent did not produce a validated report.",
-        "[DATASET] Failure reason captured: Ollama HTTP 500 Internal Server Error: {\"error\":\"error reading llama-server response: unexpected EOF\"}"
+        "[DATASET] Dataset raw is truncated and incomplete"
       ],
       "risk_flags": [
-        "P1 Agent council degraded: CIO should not treat stale council analysis as current."
+        "P3: Incomplete dataset with missing sources"
       ],
-      "blocked_actions_observed": [
-        "AUTO_EXECUTION_BLOCKED"
-      ],
+      "blocked_actions_observed": [],
       "allowed_actions_observed": [
         "WAIT",
+        "HOLD",
         "REVIEW"
       ],
       "affected_theses": [],
       "affected_assets": [],
-      "causal_completeness": "incomplete",
+      "causal_completeness": "partial",
       "blind_spots": [
-        "Validated Qwen desk analysis unavailable for this cycle."
+        "Source health data is truncated and incomplete"
       ],
-      "confidence": 0.0,
-      "recommendation_to_chief_strategist": "CIO_VERIFICATION_REQUIRED",
-      "requires_cio_attention": true,
+      "confidence": 0.85,
+      "recommendation_to_chief_strategist": "WAIT",
+      "requires_cio_attention": false,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-20 19:13 SGT",
-      "degraded_llm_status": true
+      "created_at_sgt": "2026-06-20T20:20:09+08:00",
+      "prompt_architecture_enabled": false,
+      "prompt_architecture_version": "legacy",
+      "retry_count": 0
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260620_191321",
+      "cycle_id": "v3_cycle_20260620_202001",
       "agent_id": "macro_strategist",
       "agent_name": "Macro Strategist Agent",
-      "agent_role": "Current-cycle degraded LLM status",
+      "agent_role": "Interpret macro regime, cross-market stress, sector breadth, and high-beta permission.",
       "model_used": "bluelotus-qwen3-4b-gpu",
-      "input_refs": {},
-      "summary": "Current cycle agent output unavailable; Qwen/Ollama call failed before a validated report was produced.",
+      "input_refs": {
+        "dataset_snapshot_id": "dataset_raw:20260620T201629",
+        "operator_pack_id": "deterministic_operators_latest:20260620T201617",
+        "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.0",
+        "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
+      },
+      "summary": "Macro regime is MILD RISK OFF with score -1. Fear index at 37.3 (FEAR). Treasury yields: 10Y 4.49%, 2Y 4.2%, 30Y 4.93%. Cross-market confirmation active with 57 tickers. Risk appetite contracting. High-beta risk not permitted. Current posture invalid if risk appetite expands or macro conditions shift to growth positive.",
       "key_findings": [
-        "[OPERATOR] Current V3 cycle executed, but this agent did not produce a validated report.",
-        "[DATASET] Failure reason captured: Ollama HTTP 500 Internal Server Error: {\"error\":\"error reading llama-server response: unexpected EOF\"}"
+        "[DATASET] Treasury yields: 10Y 4.49%, 2Y 4.2%, 30Y 4.93%",
+        "[OPERATOR] Reduce growth. Add defensives.",
+        "[NEWS] Fear index at 37.3 (FEAR)"
       ],
       "risk_flags": [
-        "P1 Agent council degraded: CIO should not treat stale council analysis as current."
+        "P1: Risk appetite contracting",
+        "P2: High-beta risk not permitted",
+        "P3: Current posture invalid if risk appetite expands or macro conditions shift to growth positive"
       ],
-      "blocked_actions_observed": [
-        "AUTO_EXECUTION_BLOCKED"
-      ],
+      "blocked_actions_observed": [],
       "allowed_actions_observed": [
         "WAIT",
+        "HOLD",
         "REVIEW"
       ],
       "affected_theses": [],
       "affected_assets": [],
-      "causal_completeness": "incomplete",
-      "blind_spots": [
-        "Validated Qwen desk analysis unavailable for this cycle."
+      "causal_completeness": "partial",
+      "blind_spots": [],
+      "confidence": 0.95,
+      "recommendation_to_chief_strategist": "WAIT",
+      "requires_cio_attention": false,
+      "manual_execution_required": true,
+      "llm_order_generation": false,
+      "created_at_sgt": "2026-06-20T20:20:14+08:00",
+      "prompt_architecture_enabled": false,
+      "prompt_architecture_version": "legacy",
+      "retry_count": 0
+    },
+    {
+      "schema_version": "bluelotus_v3_agent_report_v1.0",
+      "cycle_id": "v3_cycle_20260620_202001",
+      "agent_id": "catalyst_intelligence",
+      "agent_name": "Catalyst Intelligence Agent",
+      "agent_role": "Interpret catalyst calendar, live news brief, ECE themes, portfolio catalysts, and urgent events.",
+      "model_used": "bluelotus-qwen3-4b-gpu",
+      "input_refs": {
+        "dataset_snapshot_id": "dataset_raw:20260620T201629",
+        "operator_pack_id": "deterministic_operators_latest:20260620T201617",
+        "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.0",
+        "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
+      },
+      "summary": "Catalyst Intelligence Agent identified FDX Earnings Release as the most urgent catalyst for CIO attention. The catalyst is confirmed (is_confirmed:1) and has 3 days until event. It is not in portfolio (in_portfolio:0) but has a working order (has_working_order:0).",
+      "key_findings": [
+        "[DATASET] FDX Earnings Release on 2026-06-23 (3 days until)"
       ],
-      "confidence": 0.0,
+      "risk_flags": [
+        "P1: FDX Earnings Release imminent catalyst"
+      ],
+      "blocked_actions_observed": [],
+      "allowed_actions_observed": [
+        "WAIT",
+        "HOLD",
+        "REVIEW"
+      ],
+      "affected_theses": [],
+      "affected_assets": [
+        "FDX"
+      ],
+      "causal_completeness": "partial",
+      "blind_spots": [],
+      "confidence": 0.95,
       "recommendation_to_chief_strategist": "CIO_VERIFICATION_REQUIRED",
       "requires_cio_attention": true,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-20 19:13 SGT",
-      "degraded_llm_status": true
+      "created_at_sgt": "2026-06-20T20:20:25+08:00",
+      "prompt_architecture_enabled": false,
+      "prompt_architecture_version": "legacy",
+      "retry_count": 0
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260620_191321",
+      "cycle_id": "v3_cycle_20260620_202001",
+      "agent_id": "sector_specialist",
+      "agent_name": "Sector Specialist Agent",
+      "agent_role": "Evaluate configured sector posture and identify sector-level risk or opportunity.",
+      "model_used": "bluelotus-qwen3-4b-gpu",
+      "input_refs": {
+        "dataset_snapshot_id": "dataset_raw:20260620T201629",
+        "operator_pack_id": "deterministic_operators_latest:20260620T201617",
+        "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.0",
+        "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
+      },
+      "summary": "Sector posture analysis shows NVDA options flow indicates risk-on sentiment in MAG7/BIG TECH sector with 95% confidence. No clean catalyst identified for sector rotation. Sector requires CIO verification due to operator blocks.",
+      "key_findings": [
+        "[DATASET] NVDA options flow shows 95% confidence risk-on sentiment in MAG7/BIG TECH sector"
+      ],
+      "risk_flags": [
+        "P1: Unusual large options trades on NVDA indicate potential market stress"
+      ],
+      "blocked_actions_observed": [],
+      "allowed_actions_observed": [
+        "WAIT",
+        "HOLD",
+        "REVIEW"
+      ],
+      "affected_theses": [],
+      "affected_assets": [],
+      "causal_completeness": "partial",
+      "blind_spots": [],
+      "confidence": 0.85,
+      "recommendation_to_chief_strategist": "CIO_VERIFICATION_REQUIRED",
+      "requires_cio_attention": true,
+      "manual_execution_required": true,
+      "llm_order_generation": false,
+      "created_at_sgt": "2026-06-20T20:25:40+08:00",
+      "prompt_architecture_enabled": false,
+      "prompt_architecture_version": "legacy",
+      "retry_count": 0
+    },
+    {
+      "schema_version": "bluelotus_v3_agent_report_v1.0",
+      "cycle_id": "v3_cycle_20260620_202001",
       "agent_id": "portfolio_structure",
       "agent_name": "Portfolio Structure Agent",
       "agent_role": "Current-cycle degraded LLM status",
@@ -137,7 +232,7 @@
       "summary": "Current cycle agent output unavailable; Qwen/Ollama call failed before a validated report was produced.",
       "key_findings": [
         "[OPERATOR] Current V3 cycle executed, but this agent did not produce a validated report.",
-        "[DATASET] Failure reason captured: Key key_findings[0] must be string."
+        "[DATASET] Failure reason captured: Ollama HTTP 500 Internal Server Error: {\"error\":\"error reading llama-server response: unexpected EOF\"}"
       ],
       "risk_flags": [
         "P1 Agent council degraded: CIO should not treat stale council analysis as current."
@@ -160,88 +255,14 @@
       "requires_cio_attention": true,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-20 19:13 SGT",
+      "created_at_sgt": "2026-06-20 20:20 SGT",
       "degraded_llm_status": true
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260620_191321",
-      "agent_id": "catalyst_intelligence",
-      "agent_name": "Catalyst Intelligence Agent",
-      "agent_role": "Current-cycle degraded LLM status",
-      "model_used": "bluelotus-qwen3-4b-gpu",
-      "input_refs": {},
-      "summary": "Current cycle agent output unavailable; Qwen/Ollama call failed before a validated report was produced.",
-      "key_findings": [
-        "[OPERATOR] Current V3 cycle executed, but this agent did not produce a validated report.",
-        "[DATASET] Failure reason captured: Missing required key: confidence; Key causal_completeness must be one of the configured enum values.; Key recommendation_to_chief_strategist must be one of the configured enum valu"
-      ],
-      "risk_flags": [
-        "P1 Agent council degraded: CIO should not treat stale council analysis as current."
-      ],
-      "blocked_actions_observed": [
-        "AUTO_EXECUTION_BLOCKED"
-      ],
-      "allowed_actions_observed": [
-        "WAIT",
-        "REVIEW"
-      ],
-      "affected_theses": [],
-      "affected_assets": [],
-      "causal_completeness": "incomplete",
-      "blind_spots": [
-        "Validated Qwen desk analysis unavailable for this cycle."
-      ],
-      "confidence": 0.0,
-      "recommendation_to_chief_strategist": "CIO_VERIFICATION_REQUIRED",
-      "requires_cio_attention": true,
-      "manual_execution_required": true,
-      "llm_order_generation": false,
-      "created_at_sgt": "2026-06-20 19:13 SGT",
-      "degraded_llm_status": true
-    },
-    {
-      "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260620_191321",
+      "cycle_id": "v3_cycle_20260620_202001",
       "agent_id": "thesis_lifecycle",
       "agent_name": "Thesis Lifecycle Agent",
-      "agent_role": "Current-cycle degraded LLM status",
-      "model_used": "bluelotus-qwen3-4b-gpu",
-      "input_refs": {},
-      "summary": "Current cycle agent output unavailable; Qwen/Ollama call failed before a validated report was produced.",
-      "key_findings": [
-        "[OPERATOR] Current V3 cycle executed, but this agent did not produce a validated report.",
-        "[DATASET] Failure reason captured: Missing required key: confidence; Key causal_completeness must be one of the configured enum values.; Key recommendation_to_chief_strategist must be one of the configured enum valu"
-      ],
-      "risk_flags": [
-        "P1 Agent council degraded: CIO should not treat stale council analysis as current."
-      ],
-      "blocked_actions_observed": [
-        "AUTO_EXECUTION_BLOCKED"
-      ],
-      "allowed_actions_observed": [
-        "WAIT",
-        "REVIEW"
-      ],
-      "affected_theses": [],
-      "affected_assets": [],
-      "causal_completeness": "incomplete",
-      "blind_spots": [
-        "Validated Qwen desk analysis unavailable for this cycle."
-      ],
-      "confidence": 0.0,
-      "recommendation_to_chief_strategist": "CIO_VERIFICATION_REQUIRED",
-      "requires_cio_attention": true,
-      "manual_execution_required": true,
-      "llm_order_generation": false,
-      "created_at_sgt": "2026-06-20 19:13 SGT",
-      "degraded_llm_status": true
-    },
-    {
-      "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260620_191321",
-      "agent_id": "risk_challenger",
-      "agent_name": "Risk Challenger Agent",
       "agent_role": "Current-cycle degraded LLM status",
       "model_used": "bluelotus-qwen3-4b-gpu",
       "input_refs": {},
@@ -271,12 +292,49 @@
       "requires_cio_attention": true,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-20 19:13 SGT",
+      "created_at_sgt": "2026-06-20 20:20 SGT",
       "degraded_llm_status": true
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260620_191321",
+      "cycle_id": "v3_cycle_20260620_202001",
+      "agent_id": "risk_challenger",
+      "agent_name": "Risk Challenger Agent",
+      "agent_role": "Current-cycle degraded LLM status",
+      "model_used": "bluelotus-qwen3-4b-gpu",
+      "input_refs": {},
+      "summary": "Current cycle agent output unavailable; Qwen/Ollama call failed before a validated report was produced.",
+      "key_findings": [
+        "[OPERATOR] Current V3 cycle executed, but this agent did not produce a validated report.",
+        "[DATASET] Failure reason captured: Ollama HTTP 500 Internal Server Error: {\"error\":\"error reading llama-server response: read tcp 127.0.0.1:54969-\\u003e127.0.0.1:58515: wsarecv: Overlapped I/O event is not in a sign"
+      ],
+      "risk_flags": [
+        "P1 Agent council degraded: CIO should not treat stale council analysis as current."
+      ],
+      "blocked_actions_observed": [
+        "AUTO_EXECUTION_BLOCKED"
+      ],
+      "allowed_actions_observed": [
+        "WAIT",
+        "REVIEW"
+      ],
+      "affected_theses": [],
+      "affected_assets": [],
+      "causal_completeness": "incomplete",
+      "blind_spots": [
+        "Validated Qwen desk analysis unavailable for this cycle."
+      ],
+      "confidence": 0.0,
+      "recommendation_to_chief_strategist": "CIO_VERIFICATION_REQUIRED",
+      "requires_cio_attention": true,
+      "manual_execution_required": true,
+      "llm_order_generation": false,
+      "created_at_sgt": "2026-06-20 20:20 SGT",
+      "degraded_llm_status": true
+    },
+    {
+      "schema_version": "bluelotus_v3_agent_report_v1.0",
+      "cycle_id": "v3_cycle_20260620_202001",
       "agent_id": "forecasting_brier",
       "agent_name": "Forecasting Brier Agent",
       "agent_role": "Current-cycle degraded LLM status",
@@ -285,7 +343,7 @@
       "summary": "Current cycle agent output unavailable; Qwen/Ollama call failed before a validated report was produced.",
       "key_findings": [
         "[OPERATOR] Current V3 cycle executed, but this agent did not produce a validated report.",
-        "[DATASET] Failure reason captured: Missing required key: confidence; Key key_findings must contain no more than 3 items.; Key key_findings[0] must be string.; Key key_findings[1] must be string.; Key key_findings[2]"
+        "[DATASET] Failure reason captured: timed out"
       ],
       "risk_flags": [
         "P1 Agent council degraded: CIO should not treat stale council analysis as current."
@@ -308,49 +366,12 @@
       "requires_cio_attention": true,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-20 19:13 SGT",
+      "created_at_sgt": "2026-06-20 20:20 SGT",
       "degraded_llm_status": true
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260620_191321",
-      "agent_id": "sector_specialist",
-      "agent_name": "Sector Specialist Agent",
-      "agent_role": "Current-cycle degraded LLM status",
-      "model_used": "bluelotus-qwen3-4b-gpu",
-      "input_refs": {},
-      "summary": "Current cycle agent output unavailable; Qwen/Ollama call failed before a validated report was produced.",
-      "key_findings": [
-        "[OPERATOR] Current V3 cycle executed, but this agent did not produce a validated report.",
-        "[DATASET] Failure reason captured: Key causal_completeness must be one of the configured enum values.; Key recommendation_to_chief_strategist must be one of the configured enum values."
-      ],
-      "risk_flags": [
-        "P1 Agent council degraded: CIO should not treat stale council analysis as current."
-      ],
-      "blocked_actions_observed": [
-        "AUTO_EXECUTION_BLOCKED"
-      ],
-      "allowed_actions_observed": [
-        "WAIT",
-        "REVIEW"
-      ],
-      "affected_theses": [],
-      "affected_assets": [],
-      "causal_completeness": "incomplete",
-      "blind_spots": [
-        "Validated Qwen desk analysis unavailable for this cycle."
-      ],
-      "confidence": 0.0,
-      "recommendation_to_chief_strategist": "CIO_VERIFICATION_REQUIRED",
-      "requires_cio_attention": true,
-      "manual_execution_required": true,
-      "llm_order_generation": false,
-      "created_at_sgt": "2026-06-20 19:13 SGT",
-      "degraded_llm_status": true
-    },
-    {
-      "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260620_191321",
+      "cycle_id": "v3_cycle_20260620_202001",
       "agent_id": "sentiment_narrative",
       "agent_name": "Sentiment Narrative Agent",
       "agent_role": "Current-cycle degraded LLM status",
@@ -382,7 +403,7 @@
       "requires_cio_attention": true,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-20 19:13 SGT",
+      "created_at_sgt": "2026-06-20 20:20 SGT",
       "degraded_llm_status": true
     }
   ]
