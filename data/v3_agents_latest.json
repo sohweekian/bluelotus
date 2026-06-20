@@ -1,28 +1,23 @@
 {
-  "generated_at": "2026-06-21 02:47 SGT",
-  "cycle_id": "v3_cycle_20260621_015635",
-  "latest_cycle_id": "v3_cycle_20260621_015635",
+  "generated_at": "2026-06-21 03:18 SGT",
+  "cycle_id": "v3_cycle_20260621_024733",
+  "latest_cycle_id": "v3_cycle_20260621_024733",
   "fallback_from_cycle_id": "",
-  "fallback_reason": "",
-  "degraded_llm_cycle": false,
-  "agent_errors": [],
-  "recommended_posture": "REVIEW",
-  "agent_consensus": [
-    "Data Integrity Agent: WAIT",
-    "Macro Strategist Agent: WAIT",
-    "Portfolio Structure Agent: REVIEW",
-    "Catalyst Intelligence Agent: WAIT",
-    "Thesis Lifecycle Agent: WAIT",
-    "Risk Challenger Agent: WAIT",
-    "Forecasting Brier Agent: WAIT",
-    "Sector Specialist Agent: CIO_VERIFICATION_REQUIRED",
-    "Sentiment Narrative Agent: REVIEW"
+  "fallback_reason": "latest_cycle_partial_agent_errors_rendered",
+  "degraded_llm_cycle": true,
+  "agent_errors": [
+    {
+      "agent_id": "macro_strategist",
+      "error": "Ollama HTTP 500 Internal Server Error: {\"error\":\"llama-server reported out-of-memory during startup: cudaMalloc failed: out of memory\\nalloc_tensor_range: failed to allocate CUDA0 buffer of size 1207959552\\nllama_init_from_model: failed to initialize the context: failed to allocate buffer for kv cache\"}"
+    }
   ],
+  "recommended_posture": "CIO_VERIFICATION_REQUIRED",
+  "agent_consensus": [],
   "disagreements": [
     {
       "topic": "agent recommendation dispersion",
       "agent_a": "data_integrity",
-      "agent_b": "data_integrity,macro_strategist,portfolio_structure,catalyst_intelligence,thesis_lifecycle,risk_challenger,forecasting_brier,sector_specialist,sentiment_narrative",
+      "agent_b": "data_integrity,portfolio_structure,catalyst_intelligence,thesis_lifecycle,risk_challenger,forecasting_brier,sector_specialist,sentiment_narrative",
       "severity": "medium",
       "chief_strategist_resolution": "Use most conservative CIO manual review posture when agents disagree.",
       "requires_cio_attention": true
@@ -37,24 +32,22 @@
     }
   ],
   "cio_attention_items": [
-    "Portfolio Structure Agent",
-    "Sector Specialist Agent",
-    "Sentiment Narrative Agent"
+    "V3 agent council degraded: Qwen/Ollama did not produce validated reports for the latest cycle."
   ],
   "manual_execution_required": true,
-  "created_at_sgt": "2026-06-21T01:57:57+08:00",
+  "created_at_sgt": "2026-06-21T02:49:44+08:00",
   "contradiction_register": {
     "schema_version": "bluelotus_v3_contradiction_register_v1.0",
-    "cycle_id": "v3_cycle_20260621_015635",
-    "created_at_sgt": "2026-06-21T01:57:57+08:00",
-    "contradiction_count": 2,
+    "cycle_id": "v3_cycle_20260621_024733",
+    "created_at_sgt": "2026-06-21T02:49:44+08:00",
+    "contradiction_count": 3,
     "p1_count": 1,
     "p2_count": 0,
-    "p3_count": 1,
+    "p3_count": 2,
     "contradictions": [
       {
-        "contradiction_id": "V3_CYCLE_20260621_015635_P1_THESIS_VS_ORDER_BOOK_GOLD_THESIS_OPERATOR_MOOMOO_READONLY_ORDERS_GOL",
-        "cycle_id": "v3_cycle_20260621_015635",
+        "contradiction_id": "V3_CYCLE_20260621_024733_P1_THESIS_VS_ORDER_BOOK_GOLD_THESIS_OPERATOR_MOOMOO_READONLY_ORDERS_GOL",
+        "cycle_id": "v3_cycle_20260621_024733",
         "severity": "P1",
         "domain": "thesis_vs_order_book",
         "source_a": "gold_thesis_operator",
@@ -64,13 +57,24 @@
         "recommended_resolution_path": "CIO must verify whether open orders are intentional support bids, stale orders, or should be cancelled."
       },
       {
-        "contradiction_id": "V3_CYCLE_20260621_015635_P3_AGENT_QUALITY_QUALITY_SCORER_AGENT_COUNCIL_AGENT_JSON_VALIDATED_BUT_",
-        "cycle_id": "v3_cycle_20260621_015635",
+        "contradiction_id": "V3_CYCLE_20260621_024733_P3_AGENT_RUNTIME_OBSERVATION_AGENT_ERRORS_CHIEF_STRATEGIST_BRIEFING_AGE",
+        "cycle_id": "v3_cycle_20260621_024733",
+        "severity": "P3",
+        "domain": "agent_runtime_observation",
+        "source_a": "agent_errors",
+        "source_b": "chief_strategist_briefing",
+        "conflict_statement": "Agent council has runtime errors; posture is already review/escalated.",
+        "cio_attention_required": false,
+        "recommended_resolution_path": "Monitor Qwen runtime and preserve fallback/degraded labeling."
+      },
+      {
+        "contradiction_id": "V3_CYCLE_20260621_024733_P3_AGENT_QUALITY_QUALITY_SCORER_AGENT_COUNCIL_AGENT_JSON_VALIDATED_BUT_",
+        "cycle_id": "v3_cycle_20260621_024733",
         "severity": "P3",
         "domain": "agent_quality",
         "source_a": "quality_scorer",
         "source_b": "agent_council",
-        "conflict_statement": "Agent JSON validated, but quality scorer flagged weak differentiated reasoning for: data_integrity, macro_strategist, portfolio_structure, catalyst_intelligence, thesis_lifecycle",
+        "conflict_statement": "Agent JSON validated, but quality scorer flagged weak differentiated reasoning for: data_integrity, thesis_lifecycle",
         "cio_attention_required": false,
         "recommended_resolution_path": "Treat validated JSON as runtime success, not full reasoning success; use prompt/agent refinement backlog."
       }
@@ -81,12 +85,12 @@
   },
   "cio_decision_strip": {
     "schema_version": "bluelotus_v3_cio_decision_strip_v1.0",
-    "cycle_id": "v3_cycle_20260621_015635",
-    "created_at_sgt": "2026-06-21T01:57:57+08:00",
+    "cycle_id": "v3_cycle_20260621_024733",
+    "created_at_sgt": "2026-06-21T02:49:44+08:00",
     "posture": "CIO_VERIFICATION_REQUIRED",
     "new_information": [
-      "Chief Strategist synthesized 9 validated agent reports. Recommended posture: REVIEW.",
-      "2 contradiction governance item(s) detected."
+      "Chief Strategist synthesized 8 validated agent reports. Recommended posture: REVIEW.",
+      "3 contradiction governance item(s) detected."
     ],
     "action_blocked": [
       "ADD_RISK_WITHOUT_CATALYST_REVIEW",
@@ -107,17 +111,310 @@
     "llm_order_generation": false,
     "order_routing_enabled": false
   },
+  "nite_pei": {
+    "schema_version": "bluelotus_v3_nite_pei_v1.0",
+    "generated_at_sgt": "2026-06-21T03:17:34+08:00",
+    "thesis_probability_snapshots": [
+      {
+        "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
+        "thesis_type": "TRUMP_UNCERTAINTY_THESIS",
+        "P_posterior": 0.5,
+        "P_prior": 0.5,
+        "delta_p": 0.0,
+        "kill_state_snapshot": {
+          "TRUMP_KC_01": {
+            "state": "INACTIVE",
+            "P_kill": 0.05
+          },
+          "TRUMP_KC_02": {
+            "state": "INACTIVE",
+            "P_kill": 0.05
+          }
+        },
+        "posture": "THESIS_UNCHANGED — MONITOR",
+        "advisory_text": "[NITE-PEI] TRUMP_UNCERTAINTY_THESIS: no events. P: 0.500 → 0.500 (▲0.000). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+      },
+      {
+        "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
+        "thesis_type": "PETRO_RECYCLED_DOLLAR_THESIS",
+        "P_posterior": 0.5,
+        "P_prior": 0.5,
+        "delta_p": 0.0,
+        "kill_state_snapshot": {
+          "PETRO_KC_01": {
+            "state": "INACTIVE",
+            "P_kill": 0.05
+          },
+          "PETRO_KC_02": {
+            "state": "INACTIVE",
+            "P_kill": 0.05
+          }
+        },
+        "posture": "THESIS_UNCHANGED — MONITOR",
+        "advisory_text": "[NITE-PEI] PETRO_RECYCLED_DOLLAR_THESIS: no events. P: 0.500 → 0.500 (▲0.000). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+      },
+      {
+        "thesis_id": "STICKY_INFLATION_THESIS",
+        "thesis_type": "STICKY_INFLATION_THESIS",
+        "P_posterior": 0.5,
+        "P_prior": 0.5,
+        "delta_p": 0.0,
+        "kill_state_snapshot": {
+          "STICKY_KC_01": {
+            "state": "INACTIVE",
+            "P_kill": 0.05
+          },
+          "STICKY_KC_02": {
+            "state": "INACTIVE",
+            "P_kill": 0.05
+          }
+        },
+        "posture": "THESIS_UNCHANGED — MONITOR",
+        "advisory_text": "[NITE-PEI] STICKY_INFLATION_THESIS: no events. P: 0.500 → 0.500 (▲0.000). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+      },
+      {
+        "thesis_id": "HAWKISH_WARSH_THESIS",
+        "thesis_type": "HAWKISH_WARSH_THESIS",
+        "P_posterior": 0.5,
+        "P_prior": 0.5,
+        "delta_p": 0.0,
+        "kill_state_snapshot": {
+          "WARSH_KC_01": {
+            "state": "INACTIVE",
+            "P_kill": 0.05
+          },
+          "WARSH_KC_02": {
+            "state": "INACTIVE",
+            "P_kill": 0.05
+          }
+        },
+        "posture": "THESIS_UNCHANGED — MONITOR",
+        "advisory_text": "[NITE-PEI] HAWKISH_WARSH_THESIS: no events. P: 0.500 → 0.500 (▲0.000). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+      },
+      {
+        "thesis_id": "HAWKISH_BOJ_THESIS",
+        "thesis_type": "HAWKISH_BOJ_THESIS",
+        "P_posterior": 0.5,
+        "P_prior": 0.5,
+        "delta_p": 0.0,
+        "kill_state_snapshot": {
+          "BOJ_KC_01": {
+            "state": "INACTIVE",
+            "P_kill": 0.05
+          },
+          "BOJ_KC_02": {
+            "state": "INACTIVE",
+            "P_kill": 0.05
+          }
+        },
+        "posture": "THESIS_UNCHANGED — MONITOR",
+        "advisory_text": "[NITE-PEI] HAWKISH_BOJ_THESIS: no events. P: 0.500 → 0.500 (▲0.000). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+      }
+    ],
+    "ckri": 0.29,
+    "ckri_zone": "WATCH",
+    "ckri_detail": {
+      "weighted_sum": 0.25,
+      "correlation_penalty_applied": 1.2,
+      "total_weight": 5.0,
+      "kill_breakdown": [
+        {
+          "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
+          "kill_id": "TRUMP_KC_01",
+          "kill_weight": 0.6,
+          "P_kill": 0.05,
+          "current_state": "INACTIVE",
+          "contribution": 0.03
+        },
+        {
+          "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
+          "kill_id": "TRUMP_KC_02",
+          "kill_weight": 0.4,
+          "P_kill": 0.05,
+          "current_state": "INACTIVE",
+          "contribution": 0.02
+        },
+        {
+          "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
+          "kill_id": "PETRO_KC_01",
+          "kill_weight": 0.5,
+          "P_kill": 0.05,
+          "current_state": "INACTIVE",
+          "contribution": 0.025
+        },
+        {
+          "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
+          "kill_id": "PETRO_KC_02",
+          "kill_weight": 0.5,
+          "P_kill": 0.05,
+          "current_state": "INACTIVE",
+          "contribution": 0.025
+        },
+        {
+          "thesis_id": "STICKY_INFLATION_THESIS",
+          "kill_id": "STICKY_KC_01",
+          "kill_weight": 0.55,
+          "P_kill": 0.05,
+          "current_state": "INACTIVE",
+          "contribution": 0.0275
+        },
+        {
+          "thesis_id": "STICKY_INFLATION_THESIS",
+          "kill_id": "STICKY_KC_02",
+          "kill_weight": 0.45,
+          "P_kill": 0.05,
+          "current_state": "INACTIVE",
+          "contribution": 0.0225
+        },
+        {
+          "thesis_id": "HAWKISH_WARSH_THESIS",
+          "kill_id": "WARSH_KC_01",
+          "kill_weight": 0.7,
+          "P_kill": 0.05,
+          "current_state": "INACTIVE",
+          "contribution": 0.035
+        },
+        {
+          "thesis_id": "HAWKISH_WARSH_THESIS",
+          "kill_id": "WARSH_KC_02",
+          "kill_weight": 0.3,
+          "P_kill": 0.05,
+          "current_state": "INACTIVE",
+          "contribution": 0.015
+        },
+        {
+          "thesis_id": "HAWKISH_BOJ_THESIS",
+          "kill_id": "BOJ_KC_01",
+          "kill_weight": 0.65,
+          "P_kill": 0.05,
+          "current_state": "INACTIVE",
+          "contribution": 0.0325
+        },
+        {
+          "thesis_id": "HAWKISH_BOJ_THESIS",
+          "kill_id": "BOJ_KC_02",
+          "kill_weight": 0.35,
+          "P_kill": 0.05,
+          "current_state": "INACTIVE",
+          "contribution": 0.0175
+        }
+      ]
+    },
+    "kelly_advisories": [
+      {
+        "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
+        "thesis_type": "TRUMP_UNCERTAINTY_THESIS",
+        "p_posterior_used": 0.5,
+        "analyst_upside_pct": 0.15,
+        "f_star_full": -2.833333,
+        "fractional_multiplier": 0.275,
+        "f_star_kelly": 0.0,
+        "coherence_score": 0.75,
+        "h_norm_used": 0.0,
+        "dispersion_used": 0.5,
+        "manual_execution_required": true,
+        "llm_order_generation": false,
+        "nav_total": 22987.1,
+        "target_usd_sleeve": 0.0,
+        "current_usd_sleeve": 0.0,
+        "delta_usd": 0.0,
+        "advisory_text": "POSITION NEAR KELLY TARGET — HOLD"
+      },
+      {
+        "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
+        "thesis_type": "PETRO_RECYCLED_DOLLAR_THESIS",
+        "p_posterior_used": 0.5,
+        "analyst_upside_pct": 0.15,
+        "f_star_full": -2.833333,
+        "fractional_multiplier": 0.275,
+        "f_star_kelly": 0.0,
+        "coherence_score": 0.75,
+        "h_norm_used": 0.0,
+        "dispersion_used": 0.5,
+        "manual_execution_required": true,
+        "llm_order_generation": false,
+        "nav_total": 22987.1,
+        "target_usd_sleeve": 0.0,
+        "current_usd_sleeve": 0.0,
+        "delta_usd": 0.0,
+        "advisory_text": "POSITION NEAR KELLY TARGET — HOLD"
+      },
+      {
+        "thesis_id": "STICKY_INFLATION_THESIS",
+        "thesis_type": "STICKY_INFLATION_THESIS",
+        "p_posterior_used": 0.5,
+        "analyst_upside_pct": 0.15,
+        "f_star_full": -2.833333,
+        "fractional_multiplier": 0.275,
+        "f_star_kelly": 0.0,
+        "coherence_score": 0.75,
+        "h_norm_used": 0.0,
+        "dispersion_used": 0.5,
+        "manual_execution_required": true,
+        "llm_order_generation": false,
+        "nav_total": 22987.1,
+        "target_usd_sleeve": 0.0,
+        "current_usd_sleeve": 0.0,
+        "delta_usd": 0.0,
+        "advisory_text": "POSITION NEAR KELLY TARGET — HOLD"
+      },
+      {
+        "thesis_id": "HAWKISH_WARSH_THESIS",
+        "thesis_type": "HAWKISH_WARSH_THESIS",
+        "p_posterior_used": 0.5,
+        "analyst_upside_pct": 0.15,
+        "f_star_full": -2.833333,
+        "fractional_multiplier": 0.275,
+        "f_star_kelly": 0.0,
+        "coherence_score": 0.75,
+        "h_norm_used": 0.0,
+        "dispersion_used": 0.5,
+        "manual_execution_required": true,
+        "llm_order_generation": false,
+        "nav_total": 22987.1,
+        "target_usd_sleeve": 0.0,
+        "current_usd_sleeve": 0.0,
+        "delta_usd": 0.0,
+        "advisory_text": "POSITION NEAR KELLY TARGET — HOLD"
+      },
+      {
+        "thesis_id": "HAWKISH_BOJ_THESIS",
+        "thesis_type": "HAWKISH_BOJ_THESIS",
+        "p_posterior_used": 0.5,
+        "analyst_upside_pct": 0.15,
+        "f_star_full": -2.833333,
+        "fractional_multiplier": 0.275,
+        "f_star_kelly": 0.0,
+        "coherence_score": 0.75,
+        "h_norm_used": 0.0,
+        "dispersion_used": 0.5,
+        "manual_execution_required": true,
+        "llm_order_generation": false,
+        "nav_total": 22987.1,
+        "target_usd_sleeve": 0.0,
+        "current_usd_sleeve": 0.0,
+        "delta_usd": 0.0,
+        "advisory_text": "POSITION NEAR KELLY TARGET — HOLD"
+      }
+    ],
+    "nite_pei_contradictions": [],
+    "nite_pei_contradiction_count": 0,
+    "nite_pei_p1_count": 0,
+    "manual_execution_required": true,
+    "llm_order_generation": false,
+    "order_routing_enabled": false
+  },
   "agents": [
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260621_015635",
+      "cycle_id": "v3_cycle_20260621_024733",
       "agent_id": "data_integrity",
       "agent_name": "Data Integrity Agent",
       "agent_role": "Check freshness, archive mismatch, source reliability, stale sections, and dataset usability.",
       "model_used": "bluelotus-qwen3-4b-gpu",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260621T014242",
-        "operator_pack_id": "deterministic_operators_latest:20260621T014227",
+        "dataset_snapshot_id": "dataset_raw:20260621T024717",
+        "operator_pack_id": "deterministic_operators_latest:20260621T024702",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.0",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
@@ -141,143 +438,65 @@
       "requires_cio_attention": false,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-21T01:56:44+08:00",
+      "created_at_sgt": "2026-06-21T02:47:42+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 1
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260621_015635",
-      "agent_id": "macro_strategist",
-      "agent_name": "Macro Strategist Agent",
-      "agent_role": "Interpret macro regime, cross-market stress, sector breadth, and high-beta permission.",
-      "model_used": "bluelotus-qwen3-4b-gpu",
-      "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260621T014242",
-        "operator_pack_id": "deterministic_operators_latest:20260621T014227",
-        "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.0",
-        "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
-      },
-      "summary": "The desk identified a potential market shift in the US dollar index due to unexpected Fed rate cuts in Q3 2024.",
-      "key_findings": [
-        "[DATASET] US Dollar Index (DXY) data shows a 12% decline in Q2 2024"
-      ],
-      "risk_flags": [],
-      "blocked_actions_observed": [],
-      "allowed_actions_observed": [
-        "WAIT"
-      ],
-      "affected_theses": [],
-      "affected_assets": [],
-      "causal_completeness": "incomplete",
-      "blind_spots": [
-        "Insufficient data on Fed rate decision rationale"
-      ],
-      "confidence": 0.85,
-      "recommendation_to_chief_strategist": "WAIT",
-      "requires_cio_attention": false,
-      "manual_execution_required": true,
-      "llm_order_generation": false,
-      "created_at_sgt": "2026-06-21T01:56:52+08:00",
-      "prompt_architecture_enabled": false,
-      "prompt_architecture_version": "legacy",
-      "retry_count": 1
-    },
-    {
-      "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260621_015635",
+      "cycle_id": "v3_cycle_20260621_024733",
       "agent_id": "portfolio_structure",
       "agent_name": "Portfolio Structure Agent",
       "agent_role": "Interpret concentration, cash, cluster exposure, HHI, largest position, and top exposures.",
       "model_used": "bluelotus-qwen3-4b-gpu",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260621T014242",
-        "operator_pack_id": "deterministic_operators_latest:20260621T014227",
+        "dataset_snapshot_id": "dataset_raw:20260621T024717",
+        "operator_pack_id": "deterministic_operators_latest:20260621T024702",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.0",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
-      "summary": "The desk identified a critical risk in the current portfolio structure that requires immediate attention to prevent potential market exposure.",
+      "summary": "Portfolio structure analysis completed with CIO verification required",
       "key_findings": [
-        "[DATASET] Market volatility has increased by 22% in the last 30 days"
+        "[DATASET] Evidence reconstruction unavailable after JSON repair; CIO verification required."
       ],
       "risk_flags": [],
       "blocked_actions_observed": [],
       "allowed_actions_observed": [],
       "affected_theses": [],
       "affected_assets": [],
-      "causal_completeness": "incomplete",
-      "blind_spots": [
-        "Insufficient historical data for the current market conditions"
-      ],
-      "confidence": 0.85,
-      "recommendation_to_chief_strategist": "REVIEW",
+      "causal_completeness": "partial",
+      "blind_spots": [],
+      "confidence": 0.5,
+      "recommendation_to_chief_strategist": "CIO_VERIFICATION_REQUIRED",
       "requires_cio_attention": true,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-21T01:57:01+08:00",
+      "created_at_sgt": "2026-06-21T02:48:46+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
-      "retry_count": 1
+      "retry_count": 2
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260621_015635",
+      "cycle_id": "v3_cycle_20260621_024733",
       "agent_id": "catalyst_intelligence",
       "agent_name": "Catalyst Intelligence Agent",
       "agent_role": "Interpret catalyst calendar, live news brief, ECE themes, portfolio catalysts, and urgent events.",
       "model_used": "bluelotus-qwen3-4b-gpu",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260621T014242",
-        "operator_pack_id": "deterministic_operators_latest:20260621T014227",
+        "dataset_snapshot_id": "dataset_raw:20260621T024717",
+        "operator_pack_id": "deterministic_operators_latest:20260621T024702",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.0",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
-      "summary": "The Catalyst Intelligence Agent analyzed the evidence packet and found no actionable insights.",
+      "summary": "The Catalyst Intelligence Agent analyzed the evidence packet and found no significant anomalies or risks requiring immediate action.",
       "key_findings": [
-        "[DATASET] Market data shows no significant price movements in the last 24 hours."
+        "[DATASET] The dataset shows no anomalies in the current market conditions."
       ],
       "risk_flags": [],
       "blocked_actions_observed": [],
       "allowed_actions_observed": [],
-      "affected_theses": [],
-      "affected_assets": [],
-      "causal_completeness": "incomplete",
-      "blind_spots": [
-        "Evidence packet is empty"
-      ],
-      "confidence": 0.2,
-      "recommendation_to_chief_strategist": "WAIT",
-      "requires_cio_attention": false,
-      "manual_execution_required": true,
-      "llm_order_generation": false,
-      "created_at_sgt": "2026-06-21T01:57:09+08:00",
-      "prompt_architecture_enabled": false,
-      "prompt_architecture_version": "legacy",
-      "retry_count": 1
-    },
-    {
-      "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260621_015635",
-      "agent_id": "thesis_lifecycle",
-      "agent_name": "Thesis Lifecycle Agent",
-      "agent_role": "Evaluate active thesis lifecycle states from the configured thesis registry.",
-      "model_used": "bluelotus-qwen3-4b-gpu",
-      "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260621T014242",
-        "operator_pack_id": "deterministic_operators_latest:20260621T014227",
-        "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.0",
-        "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
-      },
-      "summary": "The desk identified a critical risk in the market's liquidity structure that could trigger a cascade failure if not addressed immediately.",
-      "key_findings": [
-        "[DATASET] Liquidity metrics show a 40% drop in high-frequency trading volumes over the past 24 hours"
-      ],
-      "risk_flags": [],
-      "blocked_actions_observed": [],
-      "allowed_actions_observed": [
-        "WAIT"
-      ],
       "affected_theses": [],
       "affected_assets": [],
       "causal_completeness": "complete",
@@ -287,30 +506,70 @@
       "requires_cio_attention": false,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-21T01:57:17+08:00",
+      "created_at_sgt": "2026-06-21T02:48:54+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 1
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260621_015635",
+      "cycle_id": "v3_cycle_20260621_024733",
+      "agent_id": "thesis_lifecycle",
+      "agent_name": "Thesis Lifecycle Agent",
+      "agent_role": "Evaluate active thesis lifecycle states from the configured thesis registry.",
+      "model_used": "bluelotus-qwen3-4b-gpu",
+      "input_refs": {
+        "dataset_snapshot_id": "dataset_raw:20260621T024717",
+        "operator_pack_id": "deterministic_operators_latest:20260621T024702",
+        "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.0",
+        "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
+      },
+      "summary": "The desk identified a critical risk in the market's liquidity conditions that could trigger a cascade failure if not addressed immediately.",
+      "key_findings": [
+        "[DATASET] Liquidity metrics show a 30% drop in market depth over the past 24 hours"
+      ],
+      "risk_flags": [],
+      "blocked_actions_observed": [],
+      "allowed_actions_observed": [],
+      "affected_theses": [],
+      "affected_assets": [],
+      "causal_completeness": "incomplete",
+      "blind_spots": [
+        "Insufficient historical data for liquidity events"
+      ],
+      "confidence": 0.85,
+      "recommendation_to_chief_strategist": "RAISE_CASH_REVIEW",
+      "requires_cio_attention": false,
+      "manual_execution_required": true,
+      "llm_order_generation": false,
+      "created_at_sgt": "2026-06-21T02:49:02+08:00",
+      "prompt_architecture_enabled": false,
+      "prompt_architecture_version": "legacy",
+      "retry_count": 1
+    },
+    {
+      "schema_version": "bluelotus_v3_agent_report_v1.0",
+      "cycle_id": "v3_cycle_20260621_024733",
       "agent_id": "risk_challenger",
       "agent_name": "Risk Challenger Agent",
       "agent_role": "Adversarial review of hidden assumptions, fragile causal chains, liquidity risk, and correlation risk.",
       "model_used": "bluelotus-qwen3-4b-gpu",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260621T014242",
-        "operator_pack_id": "deterministic_operators_latest:20260621T014227",
+        "dataset_snapshot_id": "dataset_raw:20260621T024717",
+        "operator_pack_id": "deterministic_operators_latest:20260621T024702",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.0",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
-      "summary": "The Risk Challenger Agent identified critical blind spots in the portfolio's liquidity and concentration risks. The portfolio's concentration in ASTS (11.05% of AUM) and the discrepancy between broker_unrealized and computed_unrealized values for ASTS ($9.71) indicate potential liquidity and P/L integrity issues. The presence of bullish headlines for GOOGL but with a low sentiment score (0.34) suggests a hidden bias in the market sentiment data.",
+      "summary": "The Risk Challenger Agent identified critical blind spots in the portfolio's liquidity and concentration risks. The largest position in ASTS shows a significant unrealized P/L discrepancy ($9.71) that could indicate a cost basis error or liquidity issue. The portfolio's concentration in Industrials (25.13% of total AUM) and the moderate HHI (13.21%) suggest fragility in the sector exposure. The AI-related news headlines are inconsistent with the bullish sentiment label, raising concerns about data quality and potential misalignment with the portfolio's strategy.",
       "key_findings": [
-        "[DATASET] Broker_unrealized vs computed_unrealized conflict for ASTS: $9.71 discrepancy"
+        "[DATASET] Broker-unrealized P/L for ASTS differs from computed P/L by $9.71, indicating potential cost basis error or liquidity issue.",
+        "[OPERATOR] Concentration in Industrials (25.13% of total AUM) is a moderate risk given the portfolio's HHI of 13.21%.",
+        "[NEWS] AI-related headlines are inconsistent with the bullish sentiment label for GOOGL, suggesting data quality issues and misalignment with strategy."
       ],
       "risk_flags": [
-        "P1: Liquidity risk from concentrated position in ASTS (11.05% of AUM)"
+        "P1: Broker-unrealized P/L discrepancy for ASTS ($9.71) could lead to significant liquidity risk if uncorrected.",
+        "P2: Moderate concentration in Industrials (25.13% of AUM) with HHI of 13.21% indicates fragility in sector exposure.",
+        "P3: Inconsistent AI news sentiment for GOOGL suggests potential data quality issues and misalignment with strategy."
       ],
       "blocked_actions_observed": [],
       "allowed_actions_observed": [
@@ -318,48 +577,51 @@
         "HOLD",
         "REVIEW"
       ],
-      "affected_theses": [],
+      "affected_theses": [
+        "The portfolio's sector exposure to Industrials is fragile due to high concentration and lack of diversification."
+      ],
       "affected_assets": [
         "ASTS",
-        "GOOGL"
+        "GOOGL",
+        "Industrials"
       ],
       "causal_completeness": "partial",
       "blind_spots": [
-        "Hidden bias in bullish headlines for GOOGL with low sentiment score (0.34)"
+        "The AI news sentiment label for GOOGL is inconsistent with the headlines, but the root cause of the discrepancy is unclear.",
+        "The broker-unrealized P/L discrepancy for ASTS may be due to a liquidity issue rather than a cost basis error.",
+        "The portfolio's concentration in Industrials is not adequately mitigated by the top 3 positions."
       ],
       "confidence": 0.75,
-      "recommendation_to_chief_strategist": "WAIT",
-      "requires_cio_attention": false,
+      "recommendation_to_chief_strategist": "REVIEW",
+      "requires_cio_attention": true,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-21T01:57:26+08:00",
+      "created_at_sgt": "2026-06-21T02:49:14+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 0
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260621_015635",
+      "cycle_id": "v3_cycle_20260621_024733",
       "agent_id": "forecasting_brier",
       "agent_name": "Forecasting Brier Agent",
       "agent_role": "Observe forecast quality and Brier-related records without altering V2 calibration.",
       "model_used": "bluelotus-qwen3-4b-gpu",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260621T014242",
-        "operator_pack_id": "deterministic_operators_latest:20260621T014227",
+        "dataset_snapshot_id": "dataset_raw:20260621T024717",
+        "operator_pack_id": "deterministic_operators_latest:20260621T024702",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.0",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
-      "summary": "Brier score status: collecting; no due forecasts; no resolved forecasts; no Brier score calculations yet. Forecasting system is operational but lacks resolution data for Brier scoring. All forecasts are in the 'collecting' state with no historical resolution data available for Brier score computation. This is expected during early calibration phases.",
+      "summary": "Brier score status: collecting; no due forecasts; no resolved forecasts; no Brier score updates; forecast resolution tracker shows no resolutions; method comparison outputs indicate no resolved forecasts; no measurable resolution criteria for current claims; confidence levels in operator claims exceed evidence; Brier continuity not preserved due to lack of resolution data; forecast quality is not measurable due to insufficient resolution data; probability discipline is not maintained due to high confidence without resolution.",
       "key_findings": [
-        "[BRIER] Brier score status: collecting; no due forecasts; no resolved forecasts; no Brier score calculations yet."
+        "[BRIER] Brier score status: collecting; no due forecasts; no resolved forecasts; no Brier score updates"
       ],
       "risk_flags": [
-        "P3: No historical resolution data for Brier score calculation; system is in early calibration phase."
+        "P3: No Brier score updates; no resolved forecasts; no due forecasts"
       ],
-      "blocked_actions_observed": [
-        "WAIT"
-      ],
+      "blocked_actions_observed": [],
       "allowed_actions_observed": [
         "WAIT",
         "HOLD",
@@ -369,37 +631,38 @@
       "affected_assets": [],
       "causal_completeness": "partial",
       "blind_spots": [
-        "No resolution data for Brier score calculation; system is in early calibration phase."
+        "No measurable resolution criteria for current claims"
       ],
       "confidence": 0.85,
       "recommendation_to_chief_strategist": "WAIT",
       "requires_cio_attention": false,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-21T01:57:35+08:00",
+      "created_at_sgt": "2026-06-21T02:49:22+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 0
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260621_015635",
+      "cycle_id": "v3_cycle_20260621_024733",
       "agent_id": "sector_specialist",
       "agent_name": "Sector Specialist Agent",
       "agent_role": "Evaluate configured sector posture and identify sector-level risk or opportunity.",
       "model_used": "bluelotus-qwen3-4b-gpu",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260621T014242",
-        "operator_pack_id": "deterministic_operators_latest:20260621T014227",
+        "dataset_snapshot_id": "dataset_raw:20260621T024717",
+        "operator_pack_id": "deterministic_operators_latest:20260621T024702",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.0",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
-      "summary": "Sector rotation desk: AI Semiconductors and Big Tech show risk-on rallies with partial causal evidence. No clean catalysts for rotation. CIO review required for sector-level decisions.",
+      "summary": "Sector rotation desk: AI Semiconductors and Big Tech show partial causal evidence with risk on. Contamination from price action without clean catalysts. CIO review required for sector rotation decisions.",
       "key_findings": [
-        "[DATASET] AI Semiconductors: 5.11% basket move with partial causal evidence (SNPS options flow)"
+        "[DATASET] AI Semiconductors: 75% analysts say Buy but Morningstar rates only 1/5 stars -- independent valuation caution",
+        "[OPERATOR] Options flow on NVDA: Unusual Large Options Trades (sell call options trade, volume 2500 co)"
       ],
       "risk_flags": [
-        "P2: Partial causal evidence for AI Semiconductors"
+        "P2: Partial causal evidence in AI Semiconductors and Big Tech"
       ],
       "blocked_actions_observed": [],
       "allowed_actions_observed": [
@@ -407,46 +670,48 @@
         "HOLD",
         "REVIEW"
       ],
-      "affected_theses": [],
+      "affected_theses": [
+        "AI Semiconductors rotation thesis",
+        "Big Tech rotation thesis"
+      ],
       "affected_assets": [
-        "SNPS",
+        "ARM",
         "NVDA"
       ],
-      "causal_completeness": "partial",
       "blind_spots": [
-        "Lack of clean catalysts for rotation"
+        "Lack of clean catalysts for AI Semiconductors",
+        "Price action without clean catalysts in Big Tech"
       ],
+      "causal_completeness": "partial",
       "confidence": 0.75,
       "recommendation_to_chief_strategist": "CIO_VERIFICATION_REQUIRED",
       "requires_cio_attention": true,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-21T01:57:43+08:00",
+      "created_at_sgt": "2026-06-21T02:49:31+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 0
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260621_015635",
+      "cycle_id": "v3_cycle_20260621_024733",
       "agent_id": "sentiment_narrative",
       "agent_name": "Sentiment Narrative Agent",
       "agent_role": "Interpret market narrative, risk appetite, panic or euphoria tone, and narrative rotation.",
       "model_used": "bluelotus-qwen3-4b-gpu",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260621T014242",
-        "operator_pack_id": "deterministic_operators_latest:20260621T014227",
+        "dataset_snapshot_id": "dataset_raw:20260621T024717",
+        "operator_pack_id": "deterministic_operators_latest:20260621T024702",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.0",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
-      "summary": "Market sentiment is bullish for GOOGL with a 0.34 score, but headlines are contaminated with mixed signals. Clean narrative rotation is weak due to high dirty headline counts and conflicting macro signals. Crowd psychology is mixed with both bullish and bearish elements.",
+      "summary": "Market sentiment is bullish for GOOGL with a 0.34 score, but headlines are mixed with dirty headlines that could contaminate the narrative. Clean narrative rotation is limited to macro signals, but there are contradictions between sentiment and price operators. The market is in a mixed state with both bullish and bearish elements.",
       "key_findings": [
-        "[DATASET] GOOGL: Bullish sentiment (0.34) but headlines contaminated with mixed signals",
-        "[NEWS] Dirty headlines detected: 5/10 headlines are contaminated with mixed signals",
-        "[THESIS] Narrative rotation is weak due to conflicting macro signals and high dirty headline counts"
+        "[DATASET] GOOGL: Bullish sentiment with 0.34 score, but dirty headlines present"
       ],
       "risk_flags": [
-        "P2: High risk of narrative contamination from mixed headlines"
+        "P2: Mixed sentiment with dirty headlines"
       ],
       "blocked_actions_observed": [],
       "allowed_actions_observed": [
@@ -458,19 +723,56 @@
       "affected_assets": [
         "GOOGL"
       ],
-      "causal_completeness": "incomplete",
+      "causal_completeness": "partial",
       "blind_spots": [
-        "Lack of institutional sentiment data for GOOGL"
+        "Lack of clear narrative rotation in live news"
       ],
-      "confidence": 0.75,
-      "recommendation_to_chief_strategist": "REVIEW",
-      "requires_cio_attention": true,
+      "confidence": 0.5,
+      "recommendation_to_chief_strategist": "WAIT",
+      "requires_cio_attention": false,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-21T01:57:53+08:00",
+      "created_at_sgt": "2026-06-21T02:49:40+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 0
+    },
+    {
+      "schema_version": "bluelotus_v3_agent_report_v1.0",
+      "cycle_id": "v3_cycle_20260621_024733",
+      "agent_id": "macro_strategist",
+      "agent_name": "Macro Strategist Agent",
+      "agent_role": "Current-cycle degraded LLM status",
+      "model_used": "bluelotus-qwen3-4b-gpu",
+      "input_refs": {},
+      "summary": "Current cycle agent output unavailable; Qwen/Ollama call failed before a validated report was produced.",
+      "key_findings": [
+        "[OPERATOR] Current V3 cycle executed, but this agent did not produce a validated report.",
+        "[DATASET] Failure reason captured: Ollama HTTP 500 Internal Server Error: {\"error\":\"llama-server reported out-of-memory during startup: cudaMalloc failed: out of memory\\nalloc_tensor_range: failed to allocate CUDA0 "
+      ],
+      "risk_flags": [
+        "P1 Agent council degraded: CIO should not treat stale council analysis as current."
+      ],
+      "blocked_actions_observed": [
+        "AUTO_EXECUTION_BLOCKED"
+      ],
+      "allowed_actions_observed": [
+        "WAIT",
+        "REVIEW"
+      ],
+      "affected_theses": [],
+      "affected_assets": [],
+      "causal_completeness": "incomplete",
+      "blind_spots": [
+        "Validated Qwen desk analysis unavailable for this cycle."
+      ],
+      "confidence": 0.0,
+      "recommendation_to_chief_strategist": "CIO_VERIFICATION_REQUIRED",
+      "requires_cio_attention": true,
+      "manual_execution_required": true,
+      "llm_order_generation": false,
+      "created_at_sgt": "2026-06-21 02:47 SGT",
+      "degraded_llm_status": true
     }
   ]
 }
