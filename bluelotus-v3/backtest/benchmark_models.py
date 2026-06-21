@@ -1,0 +1,4 @@
+from __future__ import annotations
+
+BASELINE_STRATEGIES = ["SPY_BENCHMARK", "QQQ_BENCHMARK", "CASH_FORTRESS_ONLY", "CIO_CURRENT_POLICY"]
+

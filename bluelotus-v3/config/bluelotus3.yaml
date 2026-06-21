@@ -1,0 +1,77 @@
+project:
+  name: BlueLotus V3 Experimental Architecture
+  root_env: BLUELOTUS_PROJECT_ROOT
+  environment_file_env: BLUELOTUS_ENV_FILE
+
+runtime:
+  broker_execution_forbidden: true
+  database_writes_required: false
+  manual_execution_only: true
+  news_reporter_independent: true
+
+paths:
+  model_registry_env: MODEL_REGISTRY_PATH
+  safety_policy_env: LLM_SAFETY_POLICY_PATH
+  prompt_registry_env: PROMPT_REGISTRY_PATH
+  schema_dir_env: LLM_SCHEMA_DIR
+  llm_response_schema_env: LLM_RESPONSE_SCHEMA_PATH
+  specialist_agent_output_schema_env: SPECIALIST_AGENT_OUTPUT_SCHEMA_PATH
+  agent_report_schema_env: AGENT_REPORT_SCHEMA_PATH
+  chief_strategist_briefing_schema_env: CHIEF_STRATEGIST_BRIEFING_SCHEMA_PATH
+  cio_action_menu_schema_env: CIO_ACTION_MENU_SCHEMA_PATH
+  operator_verdict_pack_schema_env: OPERATOR_VERDICT_PACK_SCHEMA_PATH
+  agent_registry_env: AGENT_REGISTRY_PATH
+  execution_queue_env: EXECUTION_QUEUE_PATH
+  operator_registry_env: OPERATOR_REGISTRY_PATH
+  thesis_registry_env: THESIS_REGISTRY_PATH
+  output_dir_env: LLM_OUTPUT_DIR
+  v3_cycle_output_dir_env: V3_CYCLE_OUTPUT_DIR
+  log_dir_env: LLM_LOG_DIR
+
+ollama:
+  base_url_env: OLLAMA_BASE_URL
+  cli_path_env: OLLAMA_CLI_PATH
+  default_model_env: OLLAMA_DEFAULT_MODEL
+  model_role_env: OLLAMA_MODEL_ROLE
+  timeout_seconds_env: OLLAMA_TIMEOUT_SECONDS
+  thinking_enabled_env: OLLAMA_THINKING_ENABLED
+  alias_name_env: OLLAMA_ALIAS_NAME
+  json_format_mode_env: OLLAMA_JSON_FORMAT_MODE
+  request_mode_env: OLLAMA_REQUEST_MODE
+  generate_raw_env: OLLAMA_GENERATE_RAW
+  chat_endpoint_path: /api/chat
+  generate_endpoint_path: /api/generate
+  tags_endpoint_path: /api/tags
+
+safety:
+  allow_order_language_env: LLM_ALLOW_ORDER_LANGUAGE
+  require_json_output_env: LLM_REQUIRE_JSON_OUTPUT
+  max_response_chars_env: LLM_MAX_RESPONSE_CHARS
+  protected_root_env: BLUELOTUS_PROTECTED_ROOT
+
+audit:
+  business_logic_paths:
+    - llm_clients
+  script_paths:
+    - scripts
+  ignored_paths:
+    - config
+    - prompts
+    - schemas
+    - tests
+    - documentation
+    - data
+    - logs
+
+grand_cycle:
+  dataset_snapshot_path: data\frontend\dataset_raw.json
+  live_news_brief_path: data\live_news\latest_live_news_brief.json
+  deterministic_operator_path: data\audit\deterministic_operators_latest.json
+  brier_observation_path: data\brier\forecast_resolution_results_latest.json
+  default_cycle_prefix: v3_cycle
+
+database_persistence:
+  enabled: false
+  fail_cycle_on_db_error: false
+  db_config_env: V3_DB_CONFIG_PATH
+  schema_path_env: V3_DB_SCHEMA_PATH

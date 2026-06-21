@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BlueLotus Chief Strategist Master Prompt",
+  "type": "object",
+  "required": [
+    "version",
+    "status",
+    "generated_at",
+    "mandatory_for_chief_strategist",
+    "prompt_hash",
+    "read_first",
+    "priority",
+    "core_instruction",
+    "master_prompt_text",
+    "required_response_sequence",
+    "active_strategy_defaults",
+    "forbidden_behaviors",
+    "validation"
+  ],
+  "properties": {
+    "version": { "const": "v1.0-chief-strategist-master-prompt" },
+    "status": { "const": "ACTIVE" },
+    "mandatory_for_chief_strategist": { "const": true },
+    "prompt_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "read_first": { "const": true },
+    "priority": { "const": 0 },
+    "core_instruction": { "type": "string", "minLength": 20 },
+    "master_prompt_text": { "type": "string", "minLength": 200 },
+    "required_response_sequence": { "type": "array", "minItems": 7, "items": { "type": "string" } },
+    "active_strategy_defaults": { "type": "object" },
+    "forbidden_behaviors": { "type": "array", "minItems": 5, "items": { "type": "string" } },
+    "validation": {
+      "type": "object",
+      "required": ["required_in_json", "required_in_txt", "required_in_docx", "required_in_xlsx", "required_on_front_page", "missing_prompt_is_failure"]
+    }
+  }
+}

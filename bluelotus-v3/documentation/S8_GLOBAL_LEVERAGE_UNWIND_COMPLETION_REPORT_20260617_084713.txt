@@ -1,0 +1,97 @@
+BLUELOTUS V3 - S8 GLOBAL LEVERAGE UNWIND THESIS WIDGET
+COMPLETION REPORT
+FROM  : Dr. Codex, Windows Platform Team
+TO    : CIO, Dr. Claude Code, Chief Architecture ChatGPT 5.5
+DATE  : 2026-06-17 SGT
+STATUS: COMPLETE - LIVE JSON, DASHBOARD CARD PUSHED, DAEMON RUNNING
+
+1. EXECUTIVE SUMMARY
+Continued and completed the interrupted S8 work order for GLOBAL_LEVERAGE_UNWIND_THESIS. Claude Code had created the initial YAML, engine, and test suite but stopped before validation, dashboard integration, deployment verification, and live daemon start.
+S8 now runs as an independent V3 thesis widget. It is config-driven, uses no LLM, has no broker dependency, writes only V3 thesis-widget JSON, and remains CIO_ONLY_MANUAL.
+
+2. FILES CREATED
+C:\bluelotus3\scripts\update_s8_card.py
+C:\bluelotus3\.nojekyll
+
+3. FILES MODIFIED
+C:\bluelotus3\thesis_widgets\global_leverage_unwind.py
+  - Removed YAML output-path fallback literals from save/push functions.
+  - Baskets with zero available ticker data now return UNKNOWN instead of WATCH.
+  - Added UTF-8 stdout/stderr reconfiguration to prevent Windows cp1252 logging crashes.
+C:\bluelotus3\thesis_widgets\run_all_thesis_widgets.py
+  - Registered GLOBAL_LEVERAGE_UNWIND_THESIS as an enabled independent widget.
+
+4. CONFIG STRUCTURE
+Config file: C:\bluelotus3\config\thesis_widgets\global_leverage_unwind.yaml
+Contains thesis ID, schema version, title, output paths, refresh interval, market hours, benchmarks, yfinance symbol map, six baskets, signal thresholds, contribution weights, status thresholds, confidence thresholds, CIO action map, calm offset, headline keywords, optional external evidence, blind spots, and safety constants.
+
+5. TICKER UNIVERSE
+Six baskets are implemented:
+  YEN_CARRY_STRESS
+  VOLATILITY
+  HIGH_BETA_SPECULATIVE
+  CREDIT_FUNDING
+  JAPAN_EQUITY
+  CRYPTO_LIQUIDATION
+The latest one-shot run fetched 31/31 symbols successfully.
+
+6. SCORING LOGIC
+Higher score means higher leverage-unwind risk. Direction-aware ticker signals classify STRESS/WATCH/CALM/UNKNOWN using each ticker dictionary stress_on_rise flag. Basket scores roll up into a 0-100 score, with optional headline confirmation and calm offset.
+
+7. LATEST LIVE JSON
+Endpoint: https://sohweekian.github.io/bluelotus/data/thesis_widgets/global_leverage_unwind_latest.json
+Status     : WATCH
+Score      : 50.6 / 100
+Confidence : MEDIUM
+CIO Action : NO_ADD
+Add Allowed: False
+Market     : CLOSED_POST | 20:46 ET | last session 2026-06-16
+Data quality: FULL
+Primary basket signals:
+  YEN_CARRY_STRESS: WATCH | score=10.0 / weight=25
+  VOLATILITY: WATCH | score=8.0 / weight=20
+  HIGH_BETA_SPECULATIVE: STRESS | score=19.08 / weight=20
+  CREDIT_FUNDING: WATCH | score=7.5 / weight=15
+  JAPAN_EQUITY: WATCH | score=4.0 / weight=10
+  CRYPTO_LIQUIDATION: WATCH | score=2.0 / weight=5
+
+8. DASHBOARD DEPLOYMENT
+Created update_s8_card.py with INSERT-first / REPLACE-subsequent behavior.
+Pushed S8 dashboard card to GitHub Pages index.html.
+Added .nojekyll after GitHub Pages legacy build began failing. Post-fix Pages status: built.
+Public homepage verification passed for markers: global-leverage-live, GLOBAL_LEVERAGE_UNWIND_THESIS, global_leverage_unwind_latest.json, UNWIND SCORE.
+
+9. MARKET HOURS
+S8 uses the same YAML-driven market-hours pattern as S6/S7. Latest reading shows CLOSED_POST with LAST SESSION CLOSE. All market-hour values are configured in YAML, not Python.
+
+10. OPTIONAL EXTERNAL EVIDENCE
+S8 reads optional S7 Credit/Refinancing/Liquidity evidence when present and degrades gracefully when S5/S7 files are missing. Latest run read S7 credit_liquidity as LOW_STRESS. Missing BOJ watcher did not crash the widget.
+
+11. TEST RESULTS
+S8 test suite: 106 passed.
+All thesis widget tests: 283 passed, 2 external-library warnings from protobuf.
+py_compile passed for global_leverage_unwind.py and update_s8_card.py.
+
+12. SAFETY VERIFICATION
+execution_authority = CIO_ONLY_MANUAL
+order_routing_enabled = false
+llm_order_generation = false
+orders_generated = 0
+add_allowed = false
+No LLM imports, no broker imports, no bluelotus2 path references in S8 engine. Verified by tests.
+
+13. LIVE RUNTIME
+Started S8 daemon as an independent background Python process.
+Observed process command: python C:\bluelotus3\thesis_widgets\global_leverage_unwind.py
+Refresh cadence is YAML-driven at 600 seconds / 10 minutes.
+
+14. WATCH ITEMS
+The V3 full publisher can overwrite index.html because it regenerates the dashboard homepage. If that happens, S8 remains live as JSON but the card may need either reinjection or publisher integration. This is not an S8 engine failure; it is dashboard publisher coordination.
+Current public verification after .nojekyll shows S8 present. Existing S6/S7 cards were not present in the current public HTML at verification time, which suggests the publisher/card injection boundary should be cleaned under a separate dashboard-shell work order.
+
+15. FINAL VERDICT
+GLOBAL_LEVERAGE_UNWIND_THESIS is ready for live dashboard monitoring as S8. It is modular, YAML-first, test-covered, safety-compliant, and currently running.
+
+SIGNED
+Dr. Codex
+Windows Platform Team

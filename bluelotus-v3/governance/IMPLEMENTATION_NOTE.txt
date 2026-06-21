@@ -1,0 +1,112 @@
+BLUELOTUS V2 — GOVERNANCE GATE IMPLEMENTATION NOTE
+===================================================
+Date        : 2026-06-13
+Author      : BlueLotus Governance Layer (P0 Work Order)
+Status      : COMPLETE
+Release     : APPROVED_WITH_WARNINGS
+Tests       : 11/11 PASS
+
+───────────────────────────────────────────────────────────────
+1. WHAT WAS BUILT
+───────────────────────────────────────────────────────────────
+Seven new/modified files implement a governance layer that sits
+between dataset_raw.json and all report renderers (TXT, Word,
+Excel). The architecture enforces a single source of truth:
+
+  Live Batch --> dataset_raw.json
+             --> governance_gate.py
+             --> approved_operating_truth.json   <- canonical truth
+             --> research_report_generator_r6.py (TXT)
+             --> research_report_generator.py    (Word / Excel)
+             --> CIO Review
+
+New governance files:
+  governance/governance_config.json   -- institutional hard rules
+  governance/report_contract.json     -- 25 fields all formats must match
+  governance/governance_gate.py       -- validation / enrichment engine
+  governance/regression_tests.py      -- 11 automated regression tests
+
+Runtime outputs (generated per cycle):
+  data/governance/approved_operating_truth.json
+  data/governance/governance_audit.json
+  data/governance/release_status.txt
+
+───────────────────────────────────────────────────────────────
+2. ROOT CAUSE FOUND -- TXT vs EXCEL/WORD DIVERGENCE
+───────────────────────────────────────────────────────────────
+The Word/Excel generator's build_concentration_risk() function
+was missing the cluster escalation rule added in the R6 patch.
+
+  TXT (R6):      cluster GOLD_MINERS=66% --> CRITICAL  CORRECT
+  Word/Excel:    HHI=0.242 > 0.20 only   --> HIGH      WRONG
+
+Fix: Added identical cluster escalation to build_concentration_risk()
+in research_report_generator.py:
+
+  cluster_sev = 'CRITICAL' if cluster_max_val >= 0.65
+             or 'HIGH'     if cluster_max_val >= 0.45
+  if _SEV_ORDER[cluster_sev] > _SEV_ORDER[status_base]:
+      status = cluster_sev
+
+All three formats now report: concentration = CRITICAL
+
+───────────────────────────────────────────────────────────────
+3. GOVERNANCE GATE -- CURRENT APPROVED TRUTH VALUES
+───────────────────────────────────────────────────────────────
+  market_status                 : WEEKEND SNAPSHOT / LAST REGULAR CLOSE
+  regime                        : RISK OFF  (score -3)
+  cio_action                    : WAIT / HOLD
+  concentration_status          : CRITICAL
+  cluster_status                : GOLD_MINERS CRITICAL 66% | QUANTUM NORMAL 4%
+  gold_thesis_tracker_status    : CONFIRMING (score 0.88/1.00)
+  gold_cross_market_binary_flag : False
+  gold_reconciliation           : "These are independent checks, not a contradiction."
+  execution_authority           : CIO_ONLY_MANUAL
+  orders_generated              : 0
+  order_routing_enabled         : False
+  cio_plan_vs_broker_status     : NOT GUARANTEED
+  manual_cio_action_required    : YES
+
+───────────────────────────────────────────────────────────────
+4. REGRESSION TESTS -- 11/11 PASS
+───────────────────────────────────────────────────────────────
+  [PASS] test_regime_consistency
+  [PASS] test_market_status_weekend_label
+  [PASS] test_concentration_severity_threshold
+  [PASS] test_gold_thesis_reconciliation
+  [PASS] test_sentiment_relevance_filter
+  [PASS] test_word_txt_excel_consistency
+  [PASS] test_cio_only_manual_doctrine
+  [PASS] test_no_generated_orders
+  [PASS] test_order_routing_disabled
+  [PASS] test_cio_plan_vs_open_orders
+  [PASS] test_no_renderer_recalculation
+
+───────────────────────────────────────────────────────────────
+5. RELEASE STATUS -- APPROVED_WITH_WARNINGS
+───────────────────────────────────────────────────────────────
+  Blocking conditions  : 0  (CLEAR -- no auto-blocking issues)
+  Warnings             : 2  (expected, non-blocking)
+    W1: blind_spot_status=WARNING -- cross-market data lag on weekend
+    W2: CIO plan vs broker NOT GUARANTEED -- sell limits above current
+        price for AU/NEM. Manual CIO action required before execution.
+
+  RELEASE VERDICT: Report may be released to CIO.
+                   CIO must manually verify AU/NEM order book
+                   before any execution.
+
+───────────────────────────────────────────────────────────────
+6. HARD CONSTRAINTS -- ALL RESPECTED
+───────────────────────────────────────────────────────────────
+  [OK] Live batch NOT interrupted
+  [OK] Broker extraction NOT touched
+  [OK] Moomoo connection NOT touched
+  [OK] Order / fill / execution safety layer NOT touched
+  [OK] CIO_ONLY_MANUAL doctrine INTACT
+  [OK] Order routing DISABLED
+  [OK] Orders generated = 0
+  [OK] Changes confined to governance layer and report rendering only
+
+───────────────────────────────────────────────────────────────
+END OF IMPLEMENTATION NOTE
+───────────────────────────────────────────────────────────────

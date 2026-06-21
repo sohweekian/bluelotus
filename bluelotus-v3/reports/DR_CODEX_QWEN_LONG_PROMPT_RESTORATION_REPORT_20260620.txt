@@ -1,0 +1,145 @@
+===============================================================================
+DR. CODEX TECHNICAL REPORT
+BlueLotus V3 — Qwen Long-Prompt Restoration and Linear Runtime Hardening
+Date: 2026-06-20 SGT
+Audience: CIO, Dr. Claude Code, Chief Architect ChatGPT
+===============================================================================
+
+1. CIO DIRECTIVE
+-------------------------------------------------------------------------------
+The CIO identified that Qwen3:4B has no persistent memory between calls. Therefore
+each of the 9 V3 desk agents must receive enough role memory, mandate, evidence,
+constraints, and output rules inside the prompt itself. The instruction was to
+use the longest practical prompt possible within Qwen/Ollama's local runtime
+limits, while preserving the linear one-agent-at-a-time council process.
+
+2. LOG-BASED TRIAGE
+-------------------------------------------------------------------------------
+Recent V3 council failures showed:
+
+  - Ollama HTTP 500 / unexpected EOF
+  - Windows socket reset / connection forcibly closed
+  - malformed JSON / unterminated string
+  - all-agent failure after over-expanding the context window
+
+The earlier compact prompt mode was too small: about 4,300 to 4,900 characters
+per agent. That helped stability but weakened desk intelligence quality.
+
+3. IMPLEMENTED CHANGES
+-------------------------------------------------------------------------------
+A. Environment-governed Qwen prompt budgets
+
+  Added configurable runtime controls in .env:
+
+    QWEN_AGENT_MAX_PROMPT_CHARS
+    QWEN_AGENT_ROLE_MEMORY_CHARS
+    QWEN_AGENT_FOCUS_AREAS_CHARS
+    QWEN_AGENT_EVIDENCE_PRIORITY_CHARS
+    QWEN_AGENT_MUST_ANSWER_CHARS
+    QWEN_AGENT_DISTINCTIVE_BEHAVIOR_CHARS
+    QWEN_AGENT_CONTEXT_FIELD_CHARS
+    QWEN_AGENT_SUMMARY_EXCERPT_CHARS
+    QWEN_AGENT_TEXT_EXCERPT_CHARS
+    QWEN_AGENT_DESK_CONTEXT_CHARS
+    QWEN_AGENT_INPUT_REFS_CHARS
+
+B. Agent prompt expansion
+
+  File changed:
+
+    C:\bluelotus3\agents\base_agent.py
+
+  The compact Qwen prompt now includes:
+
+    - role_memory
+    - focus_areas
+    - evidence_priority
+    - must_answer
+    - distinctive_behavior
+    - expanded desk_context
+    - input_refs
+
+  This restores agent role-play depth without hardcoding the budgets.
+
+C. Practical context-window testing
+
+  Tested 32,768 context / about 26.7k max observed prompt:
+    Result: FAILED — all agents hit Ollama EOF.
+
+  Tested 16,384 context / about 15.8k max observed prompt:
+    Result: PARTIAL — 1 validated agent, 8 failures.
+
+  Reset Ollama runtime after duplicate/unstable processes appeared.
+
+  Final accepted production setting:
+    num_ctx: 8192
+    num_predict: 800
+    max observed prompt: about 11.7k characters
+    minimum observed prompt: about 6.3k characters
+
+D. Linear runtime hardening
+
+  File changed:
+
+    C:\bluelotus3\config\execution_queue.yaml
+
+  Increased:
+
+    llm_settle_seconds: 4
+    retry_delay_seconds: 4
+
+  This gives the local Ollama runner more recovery time between sequential
+  agent calls and repair retries.
+
+E. Legacy JSON retry repair
+
+  File changed:
+
+    C:\bluelotus3\agents\base_agent.py
+
+  The legacy prompt path now uses the same JSON repair/retry mechanism as the
+  newer prompt architecture path. This fixed the Macro Strategist failure mode
+  where one unterminated JSON string previously killed the agent immediately.
+
+4. ACCEPTANCE TEST
+-------------------------------------------------------------------------------
+Final cycle executed:
+
+  cycle_id: v3_cycle_20260620_210626
+  validated_agent_reports: 9
+  agent_errors: 0
+
+Publisher executed after successful cycle:
+
+  GitHub index.html: PASS 200
+  GitHub chief-strategist.html: PASS 200
+  GitHub data/portfolio_live.json: PASS 200
+  GitHub data/chief_strategist_v17.txt: PASS 200
+  GitHub data/v3_agents_latest.json: PASS 200
+  GitHub data/dataset_public.json: PASS 200
+
+5. CURRENT OPERATING VERDICT
+-------------------------------------------------------------------------------
+The theoretical longest prompt was not the operationally best prompt. On this
+local Windows + Ollama + RTX 5060 Ti runtime, the practical production band is:
+
+  - 8,192-token context
+  - up to about 11,700 prompt characters observed
+  - 800-token response allowance
+  - 4-second physical settle between agents
+  - governed JSON repair retry for legacy and prompt-architecture paths
+
+This is now the longest prompt configuration proven to complete the full 9-agent
+linear council today.
+
+6. SAFETY INVARIANTS
+-------------------------------------------------------------------------------
+  - CIO_ONLY_MANUAL preserved.
+  - order routing remains disabled.
+  - llm_order_generation remains false.
+  - Agents remain linear, one Qwen call at a time.
+  - Website publisher now reflects the latest successful 9-agent council cycle.
+
+===============================================================================
+END_OF_REPORT
+===============================================================================

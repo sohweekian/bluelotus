@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "cycle_id",
+    "agent_id",
+    "agent_name",
+    "agent_role",
+    "model_used",
+    "input_refs",
+    "summary",
+    "key_findings",
+    "risk_flags",
+    "blocked_actions_observed",
+    "allowed_actions_observed",
+    "affected_theses",
+    "affected_assets",
+    "causal_completeness",
+    "blind_spots",
+    "confidence",
+    "recommendation_to_chief_strategist",
+    "requires_cio_attention",
+    "manual_execution_required",
+    "llm_order_generation",
+    "created_at_sgt"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "bluelotus_v3_agent_report_v1.0"
+    },
+    "cycle_id": {
+      "type": "string"
+    },
+    "agent_id": {
+      "type": "string"
+    },
+    "agent_name": {
+      "type": "string"
+    },
+    "agent_role": {
+      "type": "string"
+    },
+    "model_used": {
+      "type": "string"
+    },
+    "input_refs": {
+      "type": "object"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "key_findings": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "string"
+      }
+    },
+    "risk_flags": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "string"
+      }
+    },
+    "blocked_actions_observed": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "string"
+      }
+    },
+    "allowed_actions_observed": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "string"
+      }
+    },
+    "affected_theses": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "string"
+      }
+    },
+    "affected_assets": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "string"
+      }
+    },
+    "causal_completeness": {
+      "type": "string",
+      "enum": [
+        "complete",
+        "partial",
+        "incomplete"
+      ]
+    },
+    "blind_spots": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "string"
+      }
+    },
+    "confidence": {
+      "type": "number"
+    },
+    "recommendation_to_chief_strategist": {
+      "type": "string",
+      "enum": [
+        "WAIT",
+        "HOLD",
+        "REVIEW",
+        "MANUAL_REVIEW_REQUIRED",
+        "CIO_VERIFICATION_REQUIRED",
+        "RISK_REVIEW_REQUIRED",
+        "THESIS_REVIEW_REQUIRED",
+        "REDUCE_RISK_REVIEW",
+        "RAISE_CASH_REVIEW",
+        "HEDGE_REVIEW"
+      ]
+    },
+    "requires_cio_attention": {
+      "type": "boolean"
+    },
+    "manual_execution_required": {
+      "type": "boolean",
+      "const": true
+    },
+    "llm_order_generation": {
+      "type": "boolean",
+      "const": false
+    },
+    "created_at_sgt": {
+      "type": "string"
+    }
+  }
+}

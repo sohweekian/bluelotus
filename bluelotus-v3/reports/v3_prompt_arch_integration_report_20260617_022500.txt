@@ -1,0 +1,334 @@
+BLUELOTUS V3 PROMPT ARCHITECTURE INTEGRATION REPORT
+Generated: 2026-06-17 02:25 SGT
+Prepared by: Dr. Codex Windows Platform Team
+
+1. Executive Verdict
+--------------------
+Status: COMPLETE
+Integration mode: feature-flagged rollout
+Default production behavior: legacy prompt path remains active
+New architecture flag: USE_NEW_PROMPT_ARCH=true
+
+The V3 Prompt Architecture package is now integrated behind a feature flag.
+The old BaseAgent prompt path remains available and is still the default.
+The new path successfully ran a full 9-agent pilot cycle.
+
+2. Files Modified
+-----------------
+  C:\bluelotus3\agents\base_agent.py
+  C:\bluelotus3\orchestration\linear_agent_orchestrator.py
+  C:\bluelotus3\llm_clients\ollama_client.py
+  C:\bluelotus3\prompting\retry_prompt_builder.py
+  C:\bluelotus3\prompting\prompt_compiler.py
+  C:\bluelotus3\prompts\universal\safety_doctrine.md
+  C:\bluelotus3\.env.template
+
+3. Files Created
+----------------
+  C:\bluelotus3\tests\test_prompt_architecture_runtime.py
+  C:\bluelotus3\tests\test_prompt_architecture_safety.py
+  C:\bluelotus3\reports\v3_prompt_arch_preflight_report_20260617_021500.txt
+  C:\bluelotus3\reports\v3_prompt_arch_integration_report_20260617_022500.txt
+
+4. Feature Flags Added
+----------------------
+Added to .env.template only. Private .env was not overwritten.
+
+  USE_NEW_PROMPT_ARCH=false
+  RUN_PROMPT_ARCH_COMPARISON=false
+  PROMPT_ARCH_COMPARISON_AGENT=
+  PROMPT_ARCH_TEST_AGENT=
+  SAVE_COMPILED_PROMPTS_FOR_AUDIT=false
+  AGENT_CONTEXT_MAP_PATH=
+  MEMORY_RETRIEVAL_POLICY_PATH=
+  LLM_MAX_RETRIES=2
+
+Existing:
+  V3_CYCLE_OUTPUT_DIR=data\v3_cycles
+  LLM_MAX_RESPONSE_CHARS=12000
+
+5. Integration Path Used
+------------------------
+Option B was implemented.
+
+When USE_NEW_PROMPT_ARCH=false:
+  BaseAgent runs the legacy prompt path.
+
+When USE_NEW_PROMPT_ARCH=true:
+  Context Builder
+  -> Memory Retriever
+  -> Prompt Compiler
+  -> llm_clients.ollama_client.chat_with_model
+  -> JSON Validator
+  -> Retry Builder if needed
+  -> deterministic format normalizer
+  -> Quality Scorer
+  -> Archive / prompt audit
+
+PROMPT_ARCH_TEST_AGENT can restrict the new path to one agent for pilot runs.
+
+6. Runtime Hardening Implemented
+--------------------------------
+  - Ollama client now returns failed raw model text on validation failure,
+    allowing retry prompts to use the broken response.
+  - Retry classifier now recognizes actual validator messages:
+      not valid JSON
+      missing required key
+      must be number/string/boolean/array/object
+      no more than N items
+      enum errors
+  - Prompt audit manifests are written for new-path agents:
+      prompt_audit_<agent_id>.json
+  - Raw compiled prompts are not saved by default.
+  - New deterministic format normalizer applies only to new path outputs:
+      missing key_finding evidence tags are prefixed
+      missing risk priorities are prefixed
+    This does not alter analytical content.
+
+7. Quality Scoring
+------------------
+Quality scoring is advisory only.
+It does not block cycles.
+
+For every accepted report, orchestrator writes:
+  quality_<agent_id>.json
+
+For every cycle, orchestrator writes:
+  cycle_quality_summary.json
+
+Chief Strategist synthesis was not converted to a new LLM prompt path.
+
+8. Tests Added
+--------------
+  test_prompt_architecture_runtime.py
+    - config loading
+    - context whitelist behavior
+    - memory retriever safety
+    - prompt compiler construction
+    - retry classifier behavior
+    - quality scorer behavior
+    - feature flag selection
+    - mocked old/new runtime path
+    - mocked retry artifact writing
+
+  test_prompt_architecture_safety.py
+    - no direct Ollama bypass
+    - no broker execution terms in prompt architecture path
+    - no V2 write target in prompt architecture path
+    - compiled prompt audit default off
+    - execution queue remains linear
+
+9. Test Results
+---------------
+Full local test suite: PASS
+
+Tests executed:
+  test_agent_registry_loader.py
+  test_agent_report_schema.py
+  test_chief_strategist_synthesis.py
+  test_disagreement_resolver.py
+  test_execution_queue.py
+  test_json_response_validator.py
+  test_linear_agent_orchestrator.py
+  test_model_registry.py
+  test_no_bluelotus2_write.py
+  test_no_hardcoded_db_config.py
+  test_no_hardcoding.py
+  test_no_order_language.py
+  test_no_parallel_llm_calls.py
+  test_no_v2_database_write.py
+  test_ollama_connection.py
+  test_prompt_architecture_runtime.py
+  test_prompt_architecture_safety.py
+  test_prompt_guard.py
+  test_v3_db_connection.py
+  test_v3_db_schema.py
+  test_v3_db_writers.py
+
+10. Pilot Cycle IDs
+-------------------
+Preflight baseline completed before integration:
+  v3_cycle_20260617_012614
+
+Single-agent legacy comparison:
+  pilot_legacy_portfolio_20260617_021724
+
+Single-agent new path:
+  pilot_prompt_arch_portfolio_20260617_021831
+
+Full 9-agent new path:
+  pilot_prompt_arch_full_20260617_021900
+
+Three-agent comparison:
+  pilot_prompt_arch_comparison_20260617_022117
+
+11. Full New-Path Pilot Result
+------------------------------
+Cycle:
+  pilot_prompt_arch_full_20260617_021900
+
+Result:
+  validated_agent_reports: 9
+  agent_errors: 0
+  prompt_audit files: 9
+  quality files: 9
+  retry records: 0
+  raw failed attempts: 0
+
+Quality summary:
+  cycle_pass_rate: 1.0
+  average_score: 77.4
+  worst_agent: risk_challenger
+  best_agent: thesis_lifecycle
+  failed_agents: []
+  critical_governance_failures: []
+
+Agent scores:
+  data_integrity: 76.0 C
+  macro_strategist: 75.6 C
+  portfolio_structure: 77.6 C
+  catalyst_intelligence: 77.9 C
+  thesis_lifecycle: 85.5 B
+  risk_challenger: 71.8 C
+  forecasting_brier: 78.7 C
+  sector_specialist: 72.1 C
+  sentiment_narrative: 81.7 B
+
+12. Retry Behavior
+------------------
+Mocked retry test:
+  PASS
+  agent_portfolio_structure_raw_failed_attempt_1.txt written
+  agent_portfolio_structure_retry_record.json written
+  repaired report accepted
+
+Real full new-path pilot:
+  No retry required.
+  All 9 agents returned JSON-valid reports on first attempt.
+
+13. Prompt Audit Example
+------------------------
+Example file:
+  C:\bluelotus3\data\v3_cycles\pilot_prompt_arch_full_20260617_021900\prompt_audit_portfolio_structure.json
+
+Contains:
+  cycle_id
+  agent_id
+  prompt_architecture_version
+  prompt_registry_version
+  context_map_version
+  memory_policy_version
+  system_prompt_hash
+  user_prompt_hash
+  prompt char counts
+  desk_context chars
+  memory_context chars
+  memory snippets used
+  feature flag status
+  model role
+  schema path
+
+Raw prompts were not saved.
+
+14. Comparison Results
+----------------------
+Cycle:
+  pilot_prompt_arch_comparison_20260617_022117
+
+Agents compared:
+  portfolio_structure
+  risk_challenger
+  catalyst_intelligence
+
+Results:
+  portfolio_structure:
+    old 55.0 F FAIL
+    new 75.6 C PASS
+    improvement_detected: true
+
+  risk_challenger:
+    old 68.8 D FAIL
+    new 71.8 C PASS
+    improvement_detected: true
+
+  catalyst_intelligence:
+    old 63.8 D FAIL
+    new 77.9 C PASS
+    improvement_detected: true
+
+Generic output flags:
+  No generic patterns detected in old or new outputs.
+
+Governance flags:
+  Governance compliance PASS in old and new outputs.
+
+15. Anti-Hardcoding Audit
+-------------------------
+Result:
+  PASS no hardcoding
+
+The existing audit script was run after integration.
+No new hardcoded production constants were detected in audited business logic.
+
+16. No-V2-Write Verification
+----------------------------
+Result:
+  PASS no protected production write target
+  PASS no v2 database write
+
+No files were written to:
+  C:\bluelotus2
+
+17. No-Broker-Execution Verification
+------------------------------------
+Result:
+  PASS no order language
+  PASS prompt architecture safety tests
+
+No broker execution path was added.
+No unlock_trade, place_order, modify_order, cancel_order, or trade password
+path was introduced in the prompt architecture runtime path.
+
+18. Direct Ollama Bypass Verification
+-------------------------------------
+Result:
+  PASS prompt architecture safety tests
+
+All LLM calls still flow through:
+  llm_clients\ollama_client.py
+
+No alternate direct Ollama caller was added.
+No parallel Qwen path was introduced.
+
+19. Known Limitations
+---------------------
+  - USE_NEW_PROMPT_ARCH remains default false until CIO explicitly activates it.
+  - Chief Strategist prompt-pack conversion was not performed in this work order.
+  - Quality scoring is advisory only and does not yet block cycles.
+  - Format normalizer is intentionally narrow: it only adds missing evidence
+    tags and risk priority prefixes for new-path reports.
+  - The live 24/7 pipeline was not stopped. It remains under existing loop
+    control and will use legacy path until the feature flag is enabled in its
+    runtime environment.
+
+20. Recommended Next Phase
+--------------------------
+  1. Keep USE_NEW_PROMPT_ARCH=false for the live 24/7 loop until CIO approves.
+  2. Run one supervised live cycle with:
+       USE_NEW_PROMPT_ARCH=true
+  3. Observe:
+       quality summary
+       prompt audit manifests
+       JSON validity
+       dashboard publisher behavior
+       no V2 writes
+       no broker execution
+  4. If stable across 3-5 cycles, consider enabling by default.
+  5. Later work order: Chief Strategist prompt-pack integration.
+
+Final Status
+------------
+The V3 Prompt Architecture is integrated, reversible, auditable, test-covered,
+and safe behind feature flag.
+
+END OF REPORT

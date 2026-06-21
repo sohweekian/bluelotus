@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BlueLotus V3 CIO Context Capsule",
+  "type": "object",
+  "required": [
+    "version",
+    "status",
+    "generated_at",
+    "mandatory_for_all_chief_strategist_replies",
+    "capsule_hash",
+    "source_hierarchy",
+    "core_doctrine",
+    "latest_cio_layer_decision",
+    "cio_three_step_record",
+    "active_sleeve_rules",
+    "kill_conditions",
+    "required_chief_strategist_behavior",
+    "conversation_bootstrap_prompt"
+  ],
+  "properties": {
+    "version": { "const": "v3.5-cio-context-001" },
+    "status": { "const": "ACTIVE" },
+    "mandatory_for_all_chief_strategist_replies": { "const": true },
+    "capsule_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "source_hierarchy": { "type": "array", "minItems": 5, "items": { "type": "string" } },
+    "core_doctrine": {
+      "type": "object",
+      "required": ["execution_authority", "order_routing_enabled", "system_generated_orders", "tactical_score_rule", "scout_rule", "cash_fortress_rule", "dca_rule", "partial_file_rule"],
+      "properties": {
+        "execution_authority": { "const": "CIO_ONLY_MANUAL" },
+        "order_routing_enabled": { "const": false },
+        "system_generated_orders": { "const": 0 }
+      }
+    },
+    "cio_three_step_record": {
+      "type": "object",
+      "required": ["strategic_thinking", "strategic_planning", "strategic_execution"]
+    },
+    "active_sleeve_rules": {
+      "type": "object",
+      "required": ["gold_miners", "banks_bac_wfc", "high_beta_satellites", "foundational_tactical_cash_engine", "volatility_hedge", "cash_fortress"]
+    },
+    "kill_conditions": { "type": "array", "minItems": 8, "items": { "type": "string" } },
+    "required_chief_strategist_behavior": { "type": "array", "minItems": 5, "items": { "type": "string" } },
+    "conversation_bootstrap_prompt": {
+      "type": "object",
+      "required": ["purpose", "text"]
+    }
+  }
+}

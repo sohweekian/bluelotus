@@ -1,0 +1,82 @@
+===============================================================================
+DR. CODEX THESIS OBSERVATIONS
+NITE-PEI Durability, Bayesian Correctness, and Pipeline Integration
+Date: 2026-06-21 SGT
+Prepared by: Dr. Codex, Windows Platform Team
+===============================================================================
+
+OBSERVATION
+-----------
+Dr. Claude Code successfully built a substantial NITE-PEI foundation:
+
+  - deterministic event classifier
+  - likelihood-ratio table
+  - Bayesian updater
+  - kill-condition state machine
+  - CKRI calculator
+  - Kelly-NITE coupler
+  - CIO advisory renderer
+  - equity/hedge gate separation
+  - standalone NITE-PEI report builder
+
+However, audit found four operating defects that prevent NITE-PEI from being a
+durable production layer:
+
+  1. LR noise discount moves LR values by multiplication against zero instead of
+     toward neutral LR=1.0.
+
+  2. The standalone runner uses a static REAL_EVENTS list, so repeated runs can
+     reapply stale events.
+
+  3. The regular V3 pipeline does not invoke the NITE-PEI runner, so later live
+     cycles publish nite_pei: {}.
+
+  4. Brier forecast pre-registration exists as a module but is not active in the
+     runner, leaving the NITE-PEI Brier ledger empty.
+
+THESIS
+------
+NITE-PEI is not complete when its modules compile. It is complete only when:
+
+  - Bayesian evidence discounting is mathematically neutral-preserving.
+  - Live event extraction replaces static event lists.
+  - Event IDs prevent duplicate thesis probability updates.
+  - Brier records are pre-registered for every probability update.
+  - Each regular V3 cycle produces a NITE-PEI block before publisher execution.
+  - Public v3_agents_latest.json contains a non-empty nite_pei{} block or an
+    explicit degraded/no-event status.
+
+HYPOTHESIS
+----------
+If the LR discount formula is changed to pull LR toward 1.0, source tiers are
+parsed robustly, the runner extracts real events from dataset_raw.json with
+stable event IDs, and the recurring V3 pipeline calls the runner before the
+publisher, then NITE-PEI will become a durable production-adjacent layer without
+violating CIO_ONLY_MANUAL governance.
+
+TESTABLE CLAIMS
+---------------
+Acceptance criteria:
+
+  AT1: LR 1.0 remains 1.0 under all discounts.
+  AT2: LR > 1.0 discounts downward toward 1.0.
+  AT3: LR < 1.0 discounts upward toward 1.0.
+  AT4: source tiers "1", "T1", "4", "T4" parse correctly.
+  AT5: runner no longer contains static REAL_EVENTS as the operating event feed.
+  AT6: runner writes brier_record_id into thesis snapshots.
+  AT7: duplicate event_id cannot update the same thesis twice.
+  AT8: pipeline config includes the NITE-PEI step before publisher.
+  AT9: latest cycle folder receives nite_pei_block.json after the repair run.
+  AT10: public v3_agents_latest.json contains non-empty nite_pei{} after publish.
+
+SAFETY INVARIANTS
+-----------------
+No broker execution.
+No LLM-generated orders.
+No automatic portfolio action.
+All outputs remain CIO advisory only.
+VXX/VIXY remain governed only by hedge_action_gate.
+
+===============================================================================
+END
+===============================================================================

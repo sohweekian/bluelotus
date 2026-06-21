@@ -1,0 +1,122 @@
+{
+  "_version": "1.0",
+  "_description": "BlueLotus Governance Gate — Institutional Hard Rules. Do not modify without Chief Strategist sign-off.",
+
+  "concentration_severity_thresholds": {
+    "CRITICAL": {"cluster_gte": 0.65},
+    "HIGH":     {"cluster_gte": 0.50, "cluster_lt": 0.65},
+    "ELEVATED": {"cluster_gte": 0.35, "cluster_lt": 0.50},
+    "NORMAL":   {"cluster_lt": 0.35},
+    "hhi_critical": 0.35,
+    "hhi_high":     0.20,
+    "hhi_elevated": 0.12,
+    "single_name_critical": 0.40,
+    "single_name_high":     0.30,
+    "single_name_elevated": 0.20
+  },
+
+  "cluster_definitions": {
+    "GOLD_MINERS": ["AU", "NEM", "GLD", "GDX", "GDXJ"],
+    "QUANTUM":     ["QBTS", "QUBT", "IONQ", "RGTI"],
+    "AI_SEMIS":    ["NVDA", "AMD", "MU", "SMCI", "AMAT", "ARM", "AVGO"],
+    "TECH_MAG7":   ["AAPL", "MSFT", "GOOGL", "AMZN", "META", "TSLA", "NVDA"]
+  },
+
+  "execution_safety_rules": {
+    "orders_generated_must_equal": 0,
+    "order_routing_enabled_must_equal": false,
+    "execution_authority_must_equal": "CIO_ONLY_MANUAL"
+  },
+
+  "market_status_labels": {
+    "weekend_or_closed": "WEEKEND SNAPSHOT / LAST REGULAR CLOSE",
+    "regular":           "REGULAR SESSION",
+    "pre_market":        "PRE-MARKET",
+    "post_market":       "POST-MARKET"
+  },
+
+  "sentiment_relevance_rules": {
+    "require_one_of": ["exact_ticker_mention", "exact_company_name_mention", "approved_alias_match", "recognized_subsidiary_match"],
+    "discard_label":  "LOW_RELEVANCE / DISCARD",
+    "pass_label":     "PASS",
+    "ticker_aliases": {
+      "WFC":   ["WFC", "WELLS FARGO", "WELLSFARGO"],
+      "BAC":   ["BAC", "BANK OF AMERICA", "BANKOFAMERICA", "BOFA", "BANK OF AMER"],
+      "GOOGL": ["GOOGL", "GOOG", "ALPHABET", "GOOGLE"],
+      "MSFT":  ["MSFT", "MICROSOFT"],
+      "AAPL":  ["AAPL", "APPLE INC", "APPLE"],
+      "NVDA":  ["NVDA", "NVIDIA"],
+      "META":  ["META", "META PLATFORMS", "FACEBOOK"],
+      "AMZN":  ["AMZN", "AMAZON"],
+      "TSLA":  ["TSLA", "TESLA"],
+      "JPM":   ["JPM", "JPMORGAN", "JP MORGAN", "CHASE"],
+      "GS":    ["GS", "GOLDMAN SACHS", "GOLDMAN"],
+      "MS":    ["MS", "MORGAN STANLEY"],
+      "C":     ["C", "CITIGROUP", "CITI"],
+      "AU":    ["AU", "ANGLOGOLD", "ANGLOGOLD ASHANTI"],
+      "NEM":   ["NEM", "NEWMONT"],
+      "GDX":   ["GDX", "VANECK GOLD MINERS"],
+      "GDXJ":  ["GDXJ", "VANECK JUNIOR GOLD MINERS"]
+    }
+  },
+
+  "gold_thesis_reconciliation_rules": {
+    "reconciliation_required_when": "tracker_confirming_and_binary_flag_false",
+    "required_reconciliation_text": "Tracker confirms multi-factor thesis strength. Binary flag may remain false if the strict simultaneous gate is not met. These are independent checks, not a contradiction.",
+    "tracker_confirming_states": ["CONFIRMING", "STRENGTHENING"],
+    "binary_flag_field": "gold_thesis_confirmed",
+    "tracker_field": "gold_thesis_tracker_status"
+  },
+
+  "cio_plan_vs_broker_rules": {
+    "feasibility_not_guaranteed_when": "sell_limit_above_current_price",
+    "miner_tickers": ["AU", "NEM"],
+    "standard_feasibility_warning": "Current open orders do not guarantee pre-BOJ miner de-risking. Manual CIO action required.",
+    "not_guaranteed_label": "NOT GUARANTEED",
+    "manual_action_label": "YES"
+  },
+
+  "blocking_conditions": {
+    "order_routing_enabled_true":                       "BLOCK",
+    "orders_generated_gt_zero":                         "BLOCK",
+    "execution_authority_not_cio_only_manual":          "BLOCK",
+    "gold_confirming_binary_false_no_reconciliation":   "BLOCK",
+    "concentration_threshold_mismatch":                 "BLOCK",
+    "dirty_ticker_sentiment_in_cio_tape":               "BLOCK"
+  },
+
+  "warning_conditions": {
+    "regime_mismatch_between_layers":   "WARN",
+    "stale_critical_data_source":       "WARN",
+    "blind_spot_failures_exist":        "WARN",
+    "cio_plan_vs_broker_not_guaranteed":"WARN",
+    "cluster_at_elevated":              "WARN"
+  },
+
+  "release_status_values": ["APPROVED", "APPROVED_WITH_WARNINGS", "BLOCKED"],
+
+  "sentiment_hygiene_gate_rules": {
+    "dirty_count_0_triggers":               "PASS",
+    "dirty_count_gt0_excluded_triggers":    "WARNING",
+    "dirty_count_gt0_in_tape_triggers":     "FAIL",
+    "fail_triggers_release_blocked":        true,
+    "consistency_score_deduction_fail":     -15,
+    "consistency_score_deduction_warning":  -5,
+    "known_regression_cases": {
+      "WFC":   "barbecue headline must not appear in CIO tape",
+      "BAC":   "DraftKings headline must not appear unless BofA directly mentioned",
+      "GOOGL": "Meta-only headlines must not be assigned to GOOGL",
+      "MSFT":  "Meta-only headlines must not be assigned to MSFT",
+      "NVDA":  "retirement/Social Security headlines must not appear in NVDA tape"
+    }
+  },
+
+  "governance_gate_score_rules": {
+    "base_score":                      100,
+    "sentiment_hygiene_fail_deduction": -15,
+    "sentiment_hygiene_warn_deduction": -5,
+    "renderer_mismatch_deduction":     -10,
+    "concentration_mismatch_deduction": -10,
+    "minimum_score":                    0
+  }
+}

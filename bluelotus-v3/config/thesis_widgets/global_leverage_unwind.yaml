@@ -1,0 +1,395 @@
+# ============================================================================
+# BlueLotus V3 — Thesis Widget Config
+# Thesis: Global Leverage Unwind
+# ID:     GLOBAL_LEVERAGE_UNWIND_THESIS
+# ============================================================================
+#
+# NO HARDCODING DOCTRINE: All configurable values live here.
+# Python reads this file. Python never owns these values.
+# To change any setting: edit this file → restart the widget.
+# Never modify global_leverage_unwind.py for configuration changes.
+#
+# THESIS DIRECTION: Higher score = more leverage-unwind risk (0–100).
+# 0 = leveraged positions calm, 100 = severe forced deleveraging.
+#
+# ============================================================================
+
+thesis_id:          "GLOBAL_LEVERAGE_UNWIND_THESIS"
+schema_version:     "thesis_widget_v1.1"
+title:              "Global Leverage Unwind Thesis"
+display_title:      "S8 · Global Leverage Unwind Thesis"
+dashboard_section:  "S8"
+
+output:
+  local_dir:   "data/thesis_widgets"
+  local_file:  "global_leverage_unwind_latest.json"
+  github_path: "data/thesis_widgets/global_leverage_unwind_latest.json"
+
+refresh_interval_seconds: 600
+
+# --------------------------------------------------------------------------
+# MARKET HOURS DETECTION
+# Controls market_open, market_status, last_market_session, data_freshness_label.
+# All values config-driven — no hardcoding in Python.
+# --------------------------------------------------------------------------
+
+market_hours:
+  timezone:      "America/New_York"
+  open_time:     "09:30"
+  close_time:    "16:00"
+  trading_days:  [0, 1, 2, 3, 4]
+  data_freshness_labels:
+    OPEN:           "LIVE INTRADAY"
+    CLOSED_PRE:     "LAST SESSION CLOSE"
+    CLOSED_POST:    "LAST SESSION CLOSE"
+    CLOSED_WEEKEND: "LAST SESSION CLOSE"
+
+# --------------------------------------------------------------------------
+# BENCHMARKS
+# Plain yfinance symbols — no display mapping needed.
+# Used for relative_to_spy / relative_to_qqq calculations.
+# --------------------------------------------------------------------------
+
+benchmarks:
+  - SPY
+  - QQQ
+  - IWM
+
+# --------------------------------------------------------------------------
+# YFINANCE SYMBOL MAP (documentation reference)
+# The actual mapping is embedded per-ticker in each basket below.
+# Non-standard symbols:
+#   USDJPY → JPY=X    (USDJPY; falling = yen strengthening = stress)
+#   VIX    → ^VIX     (CBOE Volatility Index)
+#   BTC    → BTC-USD  (Bitcoin USD)
+#   ETH    → ETH-USD  (Ethereum USD)
+# --------------------------------------------------------------------------
+
+yfinance_symbol_map:
+  USDJPY: "JPY=X"
+  VIX:    "^VIX"
+  BTC:    "BTC-USD"
+  ETH:    "ETH-USD"
+
+# --------------------------------------------------------------------------
+# TICKER UNIVERSE — BASKETS
+#
+# Each ticker is a dict with:
+#   display:        human-readable symbol shown on dashboard
+#   yf_symbol:      yfinance fetch symbol (may differ from display)
+#   stress_on_rise: true  → rising price = STRESS (VIX, FXY, UUP, TLT, SHY)
+#                   false → falling price = STRESS (USDJPY, equities, credit ETFs)
+#
+# Per-basket signal_thresholds override global if present.
+# optional: true → basket failure does not fail the whole widget.
+# --------------------------------------------------------------------------
+
+baskets:
+
+  YEN_CARRY_STRESS:
+    label:          "Yen / Japan Carry Stress"
+    scoring_weight: 25
+    enabled:        true
+    tickers:
+      - display: "USDJPY"
+        yf_symbol: "JPY=X"
+        stress_on_rise: false   # falling USDJPY = yen strengthening = carry unwind
+      - display: "FXY"
+        yf_symbol: "FXY"
+        stress_on_rise: true    # rising FXY = yen ETF rising = carry pressure
+    interpretations:
+      STRESS: "Yen strengthening materially — carry trade unwind pressure confirmed"
+      WATCH:  "Yen movement notable — monitoring for carry unwind confirmation"
+      CALM:   "Yen stable — carry trade stress not detected"
+
+  VOLATILITY:
+    label:          "Volatility Expansion"
+    scoring_weight: 20
+    enabled:        true
+    signal_thresholds:
+      stress_pct: 1.5           # vol assets need larger move to signal
+      calm_pct:   1.5
+    tickers:
+      - display: "VIX"
+        yf_symbol: "^VIX"
+        stress_on_rise: true
+      - display: "VXX"
+        yf_symbol: "VXX"
+        stress_on_rise: true
+      - display: "UVXY"
+        yf_symbol: "UVXY"
+        stress_on_rise: true
+    interpretations:
+      STRESS: "Volatility expanding sharply — fear-driven deleveraging signal confirmed"
+      WATCH:  "Volatility elevated — monitoring for expansion"
+      CALM:   "Volatility subdued — forced-deleveraging fear signal absent"
+
+  HIGH_BETA_SPECULATIVE:
+    label:          "High-Beta / Speculative Liquidation"
+    scoring_weight: 20
+    enabled:        true
+    tickers:
+      - display: "NVDA"
+        yf_symbol: "NVDA"
+        stress_on_rise: false
+      - display: "TSLA"
+        yf_symbol: "TSLA"
+        stress_on_rise: false
+      - display: "MSTR"
+        yf_symbol: "MSTR"
+        stress_on_rise: false
+      - display: "COIN"
+        yf_symbol: "COIN"
+        stress_on_rise: false
+      - display: "QBTS"
+        yf_symbol: "QBTS"
+        stress_on_rise: false
+      - display: "QUBT"
+        yf_symbol: "QUBT"
+        stress_on_rise: false
+      - display: "IONQ"
+        yf_symbol: "IONQ"
+        stress_on_rise: false
+      - display: "RGTI"
+        yf_symbol: "RGTI"
+        stress_on_rise: false
+      - display: "ASTS"
+        yf_symbol: "ASTS"
+        stress_on_rise: false
+      - display: "RKLB"
+        yf_symbol: "RKLB"
+        stress_on_rise: false
+      - display: "LUNR"
+        yf_symbol: "LUNR"
+        stress_on_rise: false
+      - display: "PL"
+        yf_symbol: "PL"
+        stress_on_rise: false
+      - display: "ARKK"
+        yf_symbol: "ARKK"
+        stress_on_rise: false
+    interpretations:
+      STRESS: "Speculative names under forced liquidation — crowded positions unwinding"
+      WATCH:  "Speculative names under pressure — monitoring for forced-selling confirmation"
+      CALM:   "Speculative names stable — involuntary liquidation not confirmed"
+
+  CREDIT_FUNDING:
+    label:          "Credit / Dollar Funding Stress"
+    scoring_weight: 15
+    enabled:        true
+    tickers:
+      - display: "HYG"
+        yf_symbol: "HYG"
+        stress_on_rise: false   # credit ETF falling = spread widening = stress
+      - display: "JNK"
+        yf_symbol: "JNK"
+        stress_on_rise: false
+      - display: "LQD"
+        yf_symbol: "LQD"
+        stress_on_rise: false
+      - display: "UUP"
+        yf_symbol: "UUP"
+        stress_on_rise: true    # dollar rising = funding pressure
+      - display: "SHY"
+        yf_symbol: "SHY"
+        stress_on_rise: true    # short-term Treasury rally = flight to safety
+      - display: "TLT"
+        yf_symbol: "TLT"
+        stress_on_rise: true    # long-term Treasury rally = flight to quality
+    interpretations:
+      STRESS: "Credit spreads widening and dollar funding under pressure — systemic stress"
+      WATCH:  "Credit/funding signals mixed — monitoring for contagion"
+      CALM:   "Credit stable and dollar funding not stressed"
+
+  JAPAN_EQUITY:
+    label:          "Japan Equity Stress"
+    scoring_weight: 10
+    enabled:        true
+    tickers:
+      - display: "EWJ"
+        yf_symbol: "EWJ"
+        stress_on_rise: false   # Japan equity ETF falling = stress
+      - display: "DXJ"
+        yf_symbol: "DXJ"
+        stress_on_rise: false   # Japan equity (USD hedged) falling = stress
+    interpretations:
+      STRESS: "Japan equity under pressure — yen carry unwind transmitting to equity"
+      WATCH:  "Japan equity under mild pressure — monitoring for carry transmission"
+      CALM:   "Japan equity stable — carry unwind not transmitting to equity channel"
+
+  CRYPTO_LIQUIDATION:
+    label:          "Crypto Liquidation"
+    scoring_weight: 5
+    enabled:        true
+    optional:       true        # basket failure does not fail whole widget
+    signal_thresholds:
+      stress_pct: 2.0           # crypto needs larger % move to signal
+      calm_pct:   2.0
+    tickers:
+      - display: "BTC"
+        yf_symbol: "BTC-USD"
+        stress_on_rise: false
+      - display: "ETH"
+        yf_symbol: "ETH-USD"
+        stress_on_rise: false
+    interpretations:
+      STRESS: "Crypto liquidation confirmed — speculative leverage stress crossing asset classes"
+      WATCH:  "Crypto weak — monitoring for speculative-unwind confirmation"
+      CALM:   "Crypto stable — speculative liquidation not confirmed in digital assets"
+
+# --------------------------------------------------------------------------
+# SIGNAL THRESHOLDS (individual ticker classification)
+# Can be overridden per-basket via basket.signal_thresholds block above.
+# --------------------------------------------------------------------------
+
+signal_thresholds:
+  stress_pct:          0.5
+  calm_pct:            0.5
+  basket_stress_ratio: 0.55
+  basket_calm_ratio:   0.55
+
+# Ticker contribution weights for basket score
+ticker_contribution_weights:
+  STRESS:  1.0
+  WATCH:   0.4
+  CALM:    0.0
+  UNKNOWN: 0.0
+
+# --------------------------------------------------------------------------
+# STATUS THRESHOLDS (total score → status string)
+# --------------------------------------------------------------------------
+
+status_thresholds:
+  SEVERE_UNWIND: 75
+  ACTIVE_UNWIND: 55
+  WATCH:         35
+  LOW:           15
+  # below LOW → CALM
+
+# --------------------------------------------------------------------------
+# CONFIDENCE THRESHOLDS
+# --------------------------------------------------------------------------
+
+confidence_thresholds:
+  HIGH:   65
+  MEDIUM: 40
+  LOW:    20
+  # below LOW → UNKNOWN
+
+# --------------------------------------------------------------------------
+# CIO ACTION MAPPING
+# --------------------------------------------------------------------------
+
+cio_action_map:
+  SEVERE_UNWIND_HIGH:    "RISK_REVIEW"
+  SEVERE_UNWIND_MEDIUM:  "RISK_REVIEW"
+  SEVERE_UNWIND_LOW:     "RISK_REVIEW"
+  ACTIVE_UNWIND_HIGH:    "HEDGE_REVIEW"
+  ACTIVE_UNWIND_MEDIUM:  "HEDGE_REVIEW"
+  ACTIVE_UNWIND_LOW:     "HEDGE_REVIEW"
+  WATCH_HIGH:            "NO_ADD"
+  WATCH_MEDIUM:          "NO_ADD"
+  WATCH_LOW:             "NO_ADD"
+  LOW_HIGH:              "HOLD"
+  LOW_MEDIUM:            "HOLD"
+  LOW_LOW:               "HOLD"
+  CALM_HIGH:             "WAIT"
+  CALM_MEDIUM:           "WAIT"
+  CALM_LOW:              "WAIT"
+  UNKNOWN:               "CIO_REVIEW_REQUIRED"
+
+# This widget is a risk monitor — adds are never permitted via widget signal.
+add_allowed_statuses: []
+
+# --------------------------------------------------------------------------
+# CALM OFFSET
+# Negative score adjustment when yen, vol, credit, AND high-beta all CALM.
+# Requires all four major stress channels to be simultaneously calm.
+# --------------------------------------------------------------------------
+
+calm_offset:
+  enabled:              true
+  max_deduction:        10
+  requires_calm_baskets:
+    - YEN_CARRY_STRESS
+    - VOLATILITY
+    - CREDIT_FUNDING
+    - HIGH_BETA_SPECULATIVE
+
+# --------------------------------------------------------------------------
+# HEADLINE SCORING
+# --------------------------------------------------------------------------
+
+headline_scoring_weight: 15
+headline_max_score:       15
+headline_pts_per_hit:     1.5
+
+headline_keywords:
+  - "carry trade"
+  - "yen carry"
+  - "yen strengthens"
+  - "yen surge"
+  - "BOJ hawkish"
+  - "margin call"
+  - "deleveraging"
+  - "hedge fund unwind"
+  - "forced selling"
+  - "liquidation"
+  - "funding stress"
+  - "dollar funding"
+  - "volatility spike"
+  - "VIX spike"
+  - "risk parity"
+  - "leverage unwind"
+  - "crowded trade"
+  - "basis trade"
+  - "carry unwind"
+  - "Japan rate hike"
+  - "BOJ rate hike"
+  - "yen intervention"
+
+headline_sources:
+  - "data/headlines_live.json"
+
+# --------------------------------------------------------------------------
+# OPTIONAL EXTERNAL EVIDENCE
+# Read S5 BOJ/Yen and S7 Credit widgets if available.
+# Missing files are handled gracefully — no crash, no dependency.
+# --------------------------------------------------------------------------
+
+external_evidence:
+  enabled: true
+  sources:
+    boj_yen_watcher:
+      path:         "data/thesis_widgets/boj_yen_watcher_latest.json"
+      label:        "S5 BOJ/Yen Carry Watcher"
+      status_field: "status"
+      optional:     true
+    credit_liquidity:
+      path:         "data/thesis_widgets/credit_refinancing_liquidity_latest.json"
+      label:        "S7 Credit/Refinancing/Liquidity"
+      status_field: "status"
+      optional:     true
+
+# --------------------------------------------------------------------------
+# BLIND SPOTS
+# --------------------------------------------------------------------------
+
+blind_spots:
+  - "JPY/USD via JPY=X reflects last equity-session close when markets are closed"
+  - "No direct BOJ repo/overnight rate or TONAR monitoring"
+  - "Crypto data available 24/7 but equity/ETF data is last-session when closed"
+  - "No direct hedge fund positioning or prime broker data"
+  - "No basis trade spread or repo rate monitoring"
+  - "Risk parity fund rebalancing not directly observable"
+  - "Correlation breakdown scenarios may mask stress signals in individual baskets"
+  - "No intraday Japan open monitoring (EWJ/DXJ reflect prior US session close)"
+
+# --------------------------------------------------------------------------
+# SAFETY CONSTANTS
+# --------------------------------------------------------------------------
+
+safety:
+  execution_authority:   "CIO_ONLY_MANUAL"
+  order_routing_enabled: false
+  llm_order_generation:  false

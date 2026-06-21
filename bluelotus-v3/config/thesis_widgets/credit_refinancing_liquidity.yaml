@@ -1,0 +1,306 @@
+# ============================================================================
+# BlueLotus V3 — Thesis Widget Config
+# Thesis: Credit / Refinancing / Liquidity
+# ID:     CREDIT_REFINANCING_LIQUIDITY_THESIS
+# ============================================================================
+#
+# NO HARDCODING DOCTRINE: All configurable values live here.
+# Python reads this file. Python never owns these values.
+# To change any setting: edit this file → restart the widget.
+# Never modify credit_refinancing_liquidity.py for configuration changes.
+#
+# THESIS DIRECTION: Higher score = more credit/liquidity stress (0–100).
+# 0 = credit calm, 100 = severe systemic stress.
+#
+# ============================================================================
+
+thesis_id:          "CREDIT_REFINANCING_LIQUIDITY_THESIS"
+schema_version:     "thesis_widget_v1.1"
+title:              "Credit / Refinancing / Liquidity Thesis"
+display_title:      "S7 · Credit / Refinancing / Liquidity Thesis"
+dashboard_section:  "S7"
+
+output:
+  local_dir:   "data/thesis_widgets"
+  local_file:  "credit_refinancing_liquidity_latest.json"
+  github_path: "data/thesis_widgets/credit_refinancing_liquidity_latest.json"
+
+refresh_interval_seconds: 600
+
+# --------------------------------------------------------------------------
+# MARKET HOURS DETECTION
+# Controls market_open, market_status, last_market_session, data_freshness_label
+# in the widget output. All values config-driven — no hardcoding in Python.
+# --------------------------------------------------------------------------
+
+market_hours:
+  timezone:      "America/New_York"    # IANA timezone name
+  open_time:     "09:30"               # NYSE open (HH:MM local)
+  close_time:    "16:00"               # NYSE close (HH:MM local)
+  trading_days:  [0, 1, 2, 3, 4]      # Mon=0 … Fri=4 (Python weekday indices)
+  data_freshness_labels:
+    OPEN:           "LIVE INTRADAY"
+    CLOSED_PRE:     "LAST SESSION CLOSE"
+    CLOSED_POST:    "LAST SESSION CLOSE"
+    CLOSED_WEEKEND: "LAST SESSION CLOSE"
+
+# --------------------------------------------------------------------------
+# TICKER UNIVERSE
+# To add/remove tickers: edit here only. No Python changes required.
+# To disable a basket without removing it: set enabled: false.
+#
+# SIGNAL DIRECTION:
+#   stress_on_rise: false → falling prices = stress (credit, banks, refinancing)
+#   stress_on_rise: true  → rising prices  = stress (volatility, dollar)
+# --------------------------------------------------------------------------
+
+benchmarks:
+  - SPY
+  - QQQ
+  - IWM
+
+baskets:
+
+  HIGH_YIELD_CREDIT:
+    label:          "High-Yield Credit"
+    scoring_weight: 25
+    enabled:        true
+    stress_on_rise: false
+    tickers:
+      - HYG
+      - JNK
+      - ANGL
+      - SJNK
+    interpretations:
+      STRESS: "High-yield credit under pressure — refinancing/liquidity stress confirming"
+      WATCH:  "High-yield credit neutral — monitoring for deterioration"
+      CALM:   "High-yield credit stable — stress not confirming in lower-quality credit"
+
+  INVESTMENT_GRADE_CREDIT:
+    label:          "Investment-Grade Credit / Duration"
+    scoring_weight: 15
+    enabled:        true
+    stress_on_rise: false
+    tickers:
+      - LQD
+      - VCIT
+      - IEF
+      - TLT
+      - SHY
+    interpretations:
+      STRESS: "Investment-grade credit weakening — broader credit stress spreading"
+      WATCH:  "Investment-grade credit neutral"
+      CALM:   "Investment-grade credit stable — stress contained to lower-quality"
+
+  LEVERAGED_LOANS:
+    label:          "Leveraged Loans / Floating Rate"
+    scoring_weight: 10
+    enabled:        true
+    stress_on_rise: false
+    tickers:
+      - BKLN
+      - FLOT
+      - SRLN
+    interpretations:
+      STRESS: "Leveraged loan market under pressure — floating-rate credit deteriorating"
+      WATCH:  "Leveraged loan market neutral"
+      CALM:   "Leveraged loans stable — floating-rate credit not stressed"
+
+  BANKS_FINANCIALS:
+    label:          "Banks / Financial System"
+    scoring_weight: 20
+    enabled:        true
+    stress_on_rise: false
+    tickers:
+      - XLF
+      - KRE
+      - JPM
+      - BAC
+      - WFC
+      - GS
+      - MS
+      - C
+    interpretations:
+      STRESS: "Banking sector under pressure — financial system confirming liquidity stress"
+      WATCH:  "Banks neutral — monitoring for confirmation of credit stress"
+      CALM:   "Banks stable — financial system not confirming equity stress as systemic"
+
+  REFINANCING_SENSITIVE:
+    label:          "Rate-Sensitive / Refinancing Stress"
+    scoring_weight: 15
+    enabled:        true
+    stress_on_rise: false
+    tickers:
+      - IWM
+      - VNQ
+      - XLRE
+      - XHB
+    interpretations:
+      STRESS: "Small caps/REITs/housing under pressure — refinancing stress confirming"
+      WATCH:  "Rate-sensitive sectors neutral"
+      CALM:   "Rate-sensitive sectors stable — refinancing stress not confirmed"
+
+  VOL_DOLLAR_LIQUIDITY:
+    label:          "Volatility / Dollar Liquidity"
+    scoring_weight: 10
+    enabled:        true
+    stress_on_rise: true    # RISING prices = stress (VIX, VXX, UVXY, UUP)
+    signal_thresholds:      # Override global thresholds — vol moves are larger
+      stress_pct: 1.5
+      calm_pct:   1.5
+    tickers:
+      - "^VIX"
+      - VXX
+      - UVXY
+      - UUP
+    interpretations:
+      STRESS: "Volatility and dollar funding pressure rising — liquidity stress expanding"
+      WATCH:  "Volatility / dollar pressure neutral"
+      CALM:   "Volatility subdued and dollar stable — liquidity not under pressure"
+
+# --------------------------------------------------------------------------
+# SIGNAL THRESHOLDS (individual ticker classification)
+# stress_on_rise: false → day_change_pct <= -stress_pct → STRESS
+#                       → day_change_pct >=  calm_pct   → CALM
+# stress_on_rise: true  → day_change_pct >=  stress_pct → STRESS
+#                       → day_change_pct <= -calm_pct   → CALM
+# --------------------------------------------------------------------------
+
+signal_thresholds:
+  stress_pct:          0.5    # Default: 0.5% move triggers signal
+  calm_pct:            0.5    # Default: 0.5% move triggers calm
+  basket_stress_ratio: 0.55   # >= 55% tickers STRESS → basket STRESS
+  basket_calm_ratio:   0.55   # >= 55% tickers CALM → basket CALM
+  # between → basket WATCH
+
+# Ticker contribution weights for basket score calculation
+ticker_contribution_weights:
+  STRESS:  1.0
+  WATCH:   0.4
+  CALM:    0.0
+  UNKNOWN: 0.0
+
+# --------------------------------------------------------------------------
+# STATUS THRESHOLDS (total score → status string)
+# Higher score = more stress
+# --------------------------------------------------------------------------
+
+status_thresholds:
+  SEVERE_STRESS: 75
+  ACTIVE_STRESS: 55
+  WATCH:         40
+  LOW_STRESS:    20
+  # below LOW_STRESS → CALM
+
+# --------------------------------------------------------------------------
+# CONFIDENCE THRESHOLDS (score → confidence string)
+# --------------------------------------------------------------------------
+
+confidence_thresholds:
+  HIGH:   65   # score >= this → HIGH
+  MEDIUM: 40   # score >= this → MEDIUM
+  LOW:    20   # score >= this → LOW
+  # below LOW → UNKNOWN confidence
+
+# --------------------------------------------------------------------------
+# CIO ACTION MAPPING
+# status + confidence → recommended CIO action
+# Allowed values only — no buy/sell/execute language.
+# --------------------------------------------------------------------------
+
+cio_action_map:
+  SEVERE_STRESS_HIGH:    "RISK_REVIEW"
+  SEVERE_STRESS_MEDIUM:  "RISK_REVIEW"
+  SEVERE_STRESS_LOW:     "RISK_REVIEW"
+  ACTIVE_STRESS_HIGH:    "HEDGE_REVIEW"
+  ACTIVE_STRESS_MEDIUM:  "HEDGE_REVIEW"
+  ACTIVE_STRESS_LOW:     "HEDGE_REVIEW"
+  WATCH_HIGH:            "HOLD_REVIEW"
+  WATCH_MEDIUM:          "HOLD_REVIEW"
+  WATCH_LOW:             "HOLD_REVIEW"
+  LOW_STRESS_HIGH:       "HOLD"
+  LOW_STRESS_MEDIUM:     "HOLD"
+  LOW_STRESS_LOW:        "HOLD"
+  CALM_HIGH:             "WAIT"
+  CALM_MEDIUM:           "WAIT"
+  CALM_LOW:              "WAIT"
+  UNKNOWN:               "CIO_REVIEW_REQUIRED"
+
+# This widget is a risk monitor — adds are never permitted via widget signal.
+add_allowed_statuses: []
+
+# --------------------------------------------------------------------------
+# CALM OFFSET
+# Negative score adjustment when both credit and banks are simultaneously CALM.
+# Prevents false-positive stress readings when core system is healthy.
+# --------------------------------------------------------------------------
+
+calm_offset:
+  enabled:              true
+  max_deduction:        10
+  requires_calm_baskets:
+    - HIGH_YIELD_CREDIT
+    - BANKS_FINANCIALS
+
+# --------------------------------------------------------------------------
+# HEADLINE SCORING
+# Keywords for deterministic category matching (no LLM required).
+# Add/remove keywords here only.
+# --------------------------------------------------------------------------
+
+headline_scoring_weight: 15
+headline_max_score:       15
+headline_pts_per_hit:     1.5
+
+headline_keywords:
+  - "credit stress"
+  - "refinancing"
+  - "debt maturity"
+  - "private credit"
+  - "default"
+  - "distressed debt"
+  - "bankruptcy"
+  - "bond market"
+  - "liquidity"
+  - "funding stress"
+  - "credit spreads"
+  - "leveraged loans"
+  - "CLO"
+  - "regional bank"
+  - "deposit outflow"
+  - "commercial real estate"
+  - "CRE"
+  - "downgrade"
+  - "covenant"
+  - "debt rollover"
+  - "maturity wall"
+  - "junk bonds"
+  - "high yield"
+  - "investment grade"
+  - "financial conditions"
+
+headline_sources:
+  - "data/headlines_live.json"
+
+# --------------------------------------------------------------------------
+# BLIND SPOTS
+# Static known limitations passed through to JSON output.
+# Python appends runtime-detected issues; these are the structural limits.
+# --------------------------------------------------------------------------
+
+blind_spots:
+  - "ETF prices used as credit spread proxies — no direct CDS/OAS spread data"
+  - "No CLO/ABS direct monitoring"
+  - "VIX via ^VIX (last-session value if market closed)"
+  - "Dollar stress via UUP proxy only — no live DXY feed"
+  - "Headline matching is deterministic keyword-only — no semantic analysis"
+  - "No intraday repo/SOFR rate monitoring"
+
+# --------------------------------------------------------------------------
+# SAFETY CONSTANTS (must match on every output — never change these)
+# --------------------------------------------------------------------------
+
+safety:
+  execution_authority:   "CIO_ONLY_MANUAL"
+  order_routing_enabled: false
+  llm_order_generation:  false

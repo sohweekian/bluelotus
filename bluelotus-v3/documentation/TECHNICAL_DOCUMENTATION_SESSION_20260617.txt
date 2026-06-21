@@ -1,0 +1,824 @@
+================================================================================
+  BLUELOTUS V3 — TECHNICAL DOCUMENTATION
+  Session: 2026-06-17
+  Prepared by: Dr. Claude Code (Anthropic Agent)
+  For: CIO Kian / Codex Implementation Team
+================================================================================
+
+TABLE OF CONTENTS
+-----------------
+  PART A  Portfolio Calculation Audit & Fixes
+  PART B  Dashboard Live Update
+  PART C  Agent Card Truncation Fix
+  PART D  V3 Prompt Architecture Work Order — Full Delivery
+
+================================================================================
+PART A — PORTFOLIO CALCULATION AUDIT & FIXES
+================================================================================
+
+PROBLEM STATEMENT
+-----------------
+The Portfolio Structure Agent card displayed HHI = 0.0006 and labelled it
+"extremely low concentration risk." This was factually wrong. The portfolio
+had VIXY as the largest equity position at ~40% of invested capital, which is
+CONCENTRATED by any institutional standard.
+
+ROOT CAUSE ANALYSIS — THREE BUGS FOUND
+---------------------------------------
+
+BUG 1: HHI computed against wrong denominator
+  File: C:\bluelotus3\mid\export_dataset_raw.py
+  Location: _build_risk_metrics() function
+
+  The HHI was summing (position_value / total_AUM)^2 for equity positions,
+  where total_AUM includes cash (95%+ of the portfolio). This produces:
+    - VIXY weight vs AUM = $1,080 / $58,017 = 1.86%
+    - HHI = sum of (1.86%)^2 + ... = 0.0006 (artificially tiny)
+
+  The correct denominator for concentration analysis is equity-invested-capital
+  only (total of all non-cash positions). When computed correctly:
+    - VIXY weight vs equity capital = $1,080 / $2,721 = 39.7%
+    - HHI_equity_only = 0.2706 = CONCENTRATED (threshold > 0.25)
+
+BUG 2: unrealized_p field mislabelled
+  The field named "unrealized_p" stores cumulative % gain/loss from average
+  cost basis since purchase. The LLM was interpreting it as "daily PNL
+  volatility" — a semantically opposite meaning. Renamed to
+  "unrealized_pnl_pct_from_cost" with explicit inline comment.
+
+BUG 3: PNL integrity conflicts not surfaced
+  Three positions had broker-reported unrealized P&L differing from
+  (price - avg_cost) × qty by more than $5:
+    - QBTS: broker $61.62 vs computed -$32.62, delta $94.24
+    - QUBT: broker -$54.89 vs computed -$97.61, delta $42.72
+    - LUNR: broker -$5.36 vs computed -$19.86, delta $14.50
+
+  These conflicts were computed but never surfaced to the LLM or dashboard.
+
+FIX IMPLEMENTED
+---------------
+  File modified: C:\bluelotus3\mid\export_dataset_raw.py
+  Function rewritten: _build_risk_metrics()
+  Version bumped: "v0.1" → "v0.2"
+
+  Architecture: Two-pass computation
+    Pass 1: Collect equity position values, compute equity_invested_capital,
+            detect PNL integrity conflicts
+    Pass 2: Compute per-position weights vs both total_AUM and equity_capital,
+            compute HHI on both denominators
+
+  New output fields added to risk_metrics section:
+    - equity_invested_capital      Total $ deployed in non-cash positions
+    - concentration_hhi_vs_total_aum  Old (diluted) HHI — preserved for reference
+    - concentration_hhi_equity_only   New (correct) HHI — primary metric
+    - hhi_interpretation           DIVERSIFIED / MODERATE / CONCENTRATED label
+    - pnl_integrity_conflicts      List of {ticker, broker_unrealized,
+                                   computed_unrealized, conflict_delta, note}
+    - weight_vs_total_aum          Per-position weight vs full AUM
+    - weight_vs_equity_capital     Per-position weight vs invested capital only
+    - unrealized_pnl_pct_from_cost Renamed from unrealized_p with clear label
+
+  HHI Thresholds (equity-only):
+    < 0.10 = DIVERSIFIED
+    0.10 – 0.25 = MODERATE
+    > 0.25 = CONCENTRATED
+
+  PNL Conflict Threshold: delta > $5.00 triggers BROKER_PNL_SOURCE_CONFLICT
+
+Research Report Generator update:
+  File: C:\bluelotus3\research\research_report_generator.py
+  Line ~2751: Added fallback for backward compatibility with old datasets
+    concentration_hhi_equity = float(
+        risk.get("concentration_hhi_equity_only")
+        or risk.get("concentration_hhi") or 0
+    )
+  Line ~5449: Updated portfolio table to show both weight metrics with labels
+
+RESULT
+------
+  Cycle v3_cycle_20260616_210445 correctly showed:
+    - HHI 0.2706 CONCENTRATED
+    - VIXY as largest position at 39.7% of equity capital
+    - 3 PNL integrity conflicts flagged for CIO review
+    - LLM key_findings correctly referenced equity-only metrics
+
+================================================================================
+PART B — DASHBOARD LIVE UPDATE
+================================================================================
+
+ACTION
+------
+  After fixing the calculation bugs, ran the full pipeline to push updated
+  information to the live dashboard:
+
+  Step 1: python mid\export_dataset_raw.py
+          → Generated fresh dataset_raw.json with corrected risk_metrics
+
+  Step 2: python orchestration\run_v3_grand_cycle.py
+          → Ran all 9 agents with corrected data
+          → Produced cycle v3_cycle_20260616_210445
+
+  Step 3: python mid\bluelotus_publisher.py
+          → Published updated agent cards to GitHub Pages
+
+  New cycle visible on dashboard: Portfolio Structure Agent card now shows
+  HHI 0.27 CONCENTRATED and all three PNL conflicts.
+
+================================================================================
+PART C — AGENT CARD TRUNCATION FIX
+================================================================================
+
+PROBLEM STATEMENT
+-----------------
+  Agent card text in the V3 Chief Strategist Synthesis section was being
+  cut off mid-sentence. CIO could not read the full content of each
+  agent's final report.
+
+ROOT CAUSE
+----------
+  File: C:\bluelotus3\mid\bluelotus_publisher.py
+  Function: (agent card rendering section ~lines 3163–3381)
+
+  The clean_text() utility function accepts an optional limit parameter.
+  It was being called with hard character limits at every display point,
+  and list slicing ([:2], [:3]) was truncating how many items were shown.
+
+  Limits found and removed:
+    Line 3163: clean_text(findings[0], 120) → clean_text(findings[0])
+    Line 3308: clean_text(f, 100)           → clean_text(f)
+    Line 3309: findings[:3]                 → findings  (all items)
+    Line 3314: clean_text(fl, 90)           → clean_text(fl)
+    Line 3315: flags[:2]                    → flags     (all items)
+    Line 3320: clean_text(b, 80)            → clean_text(b)
+    Line 3321: blind[:2]                    → blind     (all items)
+    Line 3335: clean_text(arole, 60)        → clean_text(arole, 120)
+    Lines 3378, 3381: disagreement limits   → removed
+
+  Note: The LLM schema already enforces maximum 3 items per array in the
+  agent report. Removing count limits at the display layer does not create
+  unbounded output — it simply shows everything the LLM produced.
+
+RESULT
+------
+  All agent card text now renders in full without truncation.
+  Disagreement resolver topics and resolutions display completely.
+
+================================================================================
+PART D — V3 PROMPT ARCHITECTURE WORK ORDER — FULL DELIVERY
+================================================================================
+
+WORK ORDER SUMMARY
+------------------
+  CIO issued a formal Work Order to design the full V3 prompt architecture:
+    - Agent context maps (config-driven field whitelists)
+    - Memory injection framework (historical cycle memory)
+    - Universal prompt files (4 doctrine layers)
+    - Agent prompt packs (11 agents × role + template)
+    - Python prompting modules (5 modules)
+    - Quality scoring rubric (10-dimension, 100-point)
+    - Claude-to-Codex handoff package
+
+DELIVERY SUMMARY: 38 FILES CREATED
+------------------------------------
+
+  All imports verified. Smoke tests passed.
+  Quality scorer: 86% (B grade) on test report.
+  Prompt compiler: all 9 active agent role.md + template.md load correctly.
+  Error classifier: 5/5 error types classified correctly.
+
+PHASE 1 — CONFIG ANCHOR DOCUMENTS
+-----------------------------------
+
+FILE: config/agent_context_map.yaml
+  Schema version: bluelotus_v3_context_map_v1.0
+  Purpose: Canonical whitelist of what each agent may see. Replaces the
+           hardcoded if/elif desk_context() chains in base_agent.py.
+
+  Structure per agent:
+    allowed_dataset_keys: list of {key, budget_chars, purpose}
+    allowed_operators: list of operator names (or "all" for Risk Challenger)
+    live_news_access: true/false
+    brier_access: true/false
+    thesis_registry_access: true/false
+    max_total_context_chars: hard ceiling for entire desk_context
+    forbidden_keys: fields this agent must NEVER see
+
+  Key design decisions:
+    - Risk Challenger receives allowed_operators: all (full operator pack)
+      because its mandate is to attack FAILURES across all operators
+    - Catalyst Intelligence and Sentiment Narrative are the only two agents
+      with live_news_access: true
+    - Only Thesis Lifecycle and Gold Safehaven get thesis_registry_access: true
+    - Portfolio Structure is explicitly forbidden from seeing regime, sentiment,
+      and news — it must judge structure, not market timing
+    - Chief Strategist entry defines synthesis inputs (reads agent reports,
+      NOT raw dataset) — it is not an LLM agent
+
+  Agent context budget summary:
+    data_integrity:        6,000 chars max (provenance/quality signals only)
+    macro_strategist:      6,000 chars max (systemic signals only)
+    portfolio_structure:   6,400 chars max (structural facts only)
+    catalyst_intelligence: 7,000 chars max (events + live news)
+    thesis_lifecycle:      6,000 chars max (thesis state + evidence)
+    risk_challenger:       7,000 chars max (governance risk + full operators)
+    forecasting_brier:     5,500 chars max (calibration data only)
+    sector_specialist:     6,000 chars max (ECE + sector signals)
+    sentiment_narrative:   5,500 chars max (sentiment + live news)
+    gold_safehaven:        5,500 chars max (gold-specific signals)
+
+
+FILE: config/memory_retrieval_policy.yaml
+  Schema version: bluelotus_v3_memory_policy_v1.0
+  Purpose: Defines how historical cycle archives are injected into agent prompts.
+
+  Global settings:
+    memory_archive_dir_env: V3_CYCLE_OUTPUT_DIR
+    cycle_dir_pattern: "v3_cycle_*"
+    max_lookback_cycles: 5
+    staleness_hard_skip_hours: 72
+    file_first: true (always read file archive before database)
+
+  Injection modes:
+    always              — inject on every cycle (macro, portfolio, thesis,
+                          brier, risk_challenger)
+    if_changes_detected — inject only when monitored field differs from
+                          previous cycle (catalyst, sector, sentiment)
+    never               — not currently used by any agent
+
+  Cross-agent memory (Risk Challenger only):
+    cross_agent_memory: true
+    cross_agent_source_agents: [macro_strategist, portfolio_structure, thesis_lifecycle]
+    → Risk Challenger reads OTHER agents' past cycle findings to detect
+      persistent warnings that have been ignored across multiple cycles
+
+  Agent-specific lookback and budget:
+    data_integrity:       3 cycles, 800 chars   — detect recurring source failures
+    macro_strategist:     5 cycles, 1,200 chars  — regime trajectory context
+    portfolio_structure:  3 cycles, 800 chars   — detect concentration drift
+    catalyst_intelligence: 2 cycles, 600 chars  — only if catalyst changed
+    thesis_lifecycle:     5 cycles, 1,000 chars  — thesis trajectory history
+    risk_challenger:      5 cycles, 1,200 chars  — cross-desk warning history
+    forecasting_brier:    5 cycles, 800 chars   — Brier continuity
+    sector_specialist:    3 cycles, 700 chars   — sector leadership changes
+    sentiment_narrative:  2 cycles, 500 chars   — narrative tone comparison
+    gold_safehaven:       5 cycles, 800 chars   — gold thesis trajectory
+    chief_strategist:     3 cycles, 1,000 chars  — reads prior briefing JSONs
+
+
+FILE: config/prompt_registry.yaml
+  Version: 2.0 (expanded from 2 entries in v1.0 to 28 entries)
+  Purpose: All prompt files registered here. PromptCompiler uses this registry
+           to locate files by key — never hardcodes paths.
+
+  Entry types:
+    system_legacy   — specialist_desk_system_prompt.md (preserved for compat)
+    test            — qwen_smoke_test_prompt.md
+    universal       — 4 universal doctrine files
+    agent_role      — role.md per agent
+    agent_template  — template.md per agent
+
+  Path format: forward-slash relative paths from project root
+               (Windows backslash also accepted in resolver)
+
+  required: false entries:
+    gold_safehaven_role, gold_safehaven_template
+    → Not required until agent activated in execution_queue.yaml
+
+
+FILE: config/execution_queue.yaml
+  Added retry_policy block:
+    max_retries: 2
+    retry_on_schema_failure: true
+    retry_on_empty_response: false  (model unavailability — not retryable)
+    retry_on_json_parse_error: true
+    retry_prompt_style: targeted    (repair prompt, not full re-injection)
+    retry_delay_seconds: 2          (reduce Ollama CPU pressure)
+    retry_quality_gate: false       (enable when quality scorer integrated)
+    quality_gate_min_pct: 60        (minimum score to accept retry response)
+
+  Agent sequence unchanged (9 agents in correct order).
+  Added notes about gold_safehaven activation path (execution_order: 55)
+  and chief_strategist role (synthesis engine, not in sequence).
+
+
+PHASE 2 — UNIVERSAL PROMPT FILES
+----------------------------------
+
+All 4 files in: prompts/universal/
+
+FILE: bluelotus_constitution.md (2,798 chars)
+  Injected as: system prompt preamble (all agents)
+  Content sections:
+    IDENTITY — no persistent memory, prompt is complete operating knowledge
+    DESK PERSONA DOCTRINE — 5 rules: one desk, deep role-play, no imitation,
+                            evidence-bound, disagree when evidence demands
+    INTER-DESK ISOLATION RULES — cannot see other desks' current reports,
+                                  may use memory_context from prior cycles only
+    CAUSAL CHAIN DISCIPLINE — requires: cause, mechanism, affected asset/thesis
+    WHAT THIS FRAMEWORK IS NOT — advisory only, CIO manual judgment is absolute
+
+FILE: safety_doctrine.md (2,630 chars)
+  Injected as: system prompt (after constitution, all agents)
+  Content sections:
+    ABSOLUTE PROHIBITIONS — 5 hard rules: no orders, no routing, no execution,
+                            no credentials, no operator override
+    CIO MANUAL EXECUTION DOCTRINE — approved recommendation vocabulary
+    PERMITTED ADVISORY LANGUAGE — yes/no examples
+    GOVERNANCE HIERARCHY — operators > CIO judgment > council > individual agent
+
+FILE: no_generic_output_rule.md (2,595 chars)
+  Injected as: user prompt preamble (all agents)
+  Content sections:
+    THE RULE — every finding must reference specific input from desk_context
+    EVIDENCE TAGS TABLE — [DATASET] [OPERATOR] [NEWS] [THESIS] [BRIER] [MEMORY]
+    ANTI-PATTERNS — 7 forbidden sentence patterns with examples
+    BLIND SPOT DISCIPLINE — how to handle insufficient evidence correctly
+    DESK VOCABULARY ENFORCEMENT — use only your desk's approved vocabulary
+
+FILE: json_only_rule.md (3,521 chars)
+  Injected as: user prompt (all agents)
+  Content sections:
+    OUTPUT FORMAT — one JSON object only, no prose, parseable by json.loads()
+    FULL SCHEMA — complete bluelotus_v3_agent_report_v1.0 with all fields
+    FIELD RULES TABLE — type, format, and content rules per field
+    ARRAY LENGTH LIMITS — max 3 per key_findings/risk_flags/blind_spots
+    COMMON JSON ERRORS — trailing comma, single quotes, comments, null vs []
+
+
+PHASE 3 — AGENT PROMPT PACKS (11 AGENTS × 2 FILES)
+-----------------------------------------------------
+
+Location: prompts/agents/{agent_id}/role.md + template.md
+
+Agents covered:
+  1.  data_integrity       execution_order: 10  (active)
+  2.  macro_strategist     execution_order: 20  (active)
+  3.  portfolio_structure  execution_order: 30  (active)
+  4.  catalyst_intelligence execution_order: 40  (active)
+  5.  thesis_lifecycle     execution_order: 50  (active)
+  6.  risk_challenger      execution_order: 60  (active)
+  7.  forecasting_brier    execution_order: 70  (active)
+  8.  sector_specialist    execution_order: 80  (active)
+  9.  sentiment_narrative  execution_order: 90  (active)
+  10. gold_safehaven       execution_order: 55  (planned — prompt pack ready,
+                                                  agent not yet in queue)
+  11. chief_strategist     (synthesis engine — role.md defines synthesis rules,
+                             template.md defines CIO briefing JSON schema)
+
+role.md structure (per agent, approx 3,000–3,800 chars each):
+  DESK IDENTITY — who you are, what your mandate is
+  WHAT YOU SEE  — exact dataset fields available in desk_context
+  HOW TO REASON — step-by-step analytical process for this desk
+  APPROVED VOCABULARY — desk-specific terms; forbidden terms listed
+  MUST ANSWER — 3 questions to address every cycle
+  OUT OF SCOPE — explicit list of what this desk must not do
+
+template.md structure (per agent, approx 2,500–3,200 chars each):
+  Annotated JSON output example with placeholder values
+  Guidance Notes — specific scoring/recommendation rules for this agent
+
+Key doctrines embedded in prompt packs:
+
+  portfolio_structure/role.md — CRITICAL HHI DOCTRINE:
+    "Always use concentration_hhi_equity_only for concentration assessment.
+     A cash-heavy portfolio (95% cash) will show concentration_hhi_vs_total_aum
+     ≈ 0.0006 (misleadingly low) while concentration_hhi_equity_only may be
+     0.27 (CONCENTRATED). Never report the AUM-diluted HHI as the primary
+     concentration metric."
+
+  portfolio_structure/template.md — PNL INTEGRITY:
+    "If pnl_integrity_conflicts list is non-empty, it must appear in both
+     key_findings and risk_flags."
+
+  risk_challenger/role.md — FIVE ATTACK VECTORS:
+    1. Operator failure scan (any non-PASS operators)
+    2. Concentration and P/L integrity
+    3. Evidence quality attack (dirty T3/T4 sources)
+    4. Causal chain fragility (single-signal dependency)
+    5. Memory-based pattern detection (persistent ignored warnings)
+
+  gold_safehaven/role.md — THESIS ≠ ADD PERMISSION DOCTRINE:
+    "The gold thesis may be CONFIRMING while add_allowed is FALSE due to
+     concentration constraints. These are separate verdicts and must NEVER
+     be conflated."
+
+  gold_safehaven/role.md — FIVE GOLD THESIS CHECKS:
+    1. GLD price stabilises and rises
+    2. GDX/GDXJ vs GLD (miners vs bullion performance)
+    3. AU/NEM vs GDX (quality miners vs index)
+    4. Real yields trend (falling = bullish gold)
+    5. Dollar pressure (UUP falling = supportive)
+    Scoring: 3+ bullish = CONFIRMING, 2 = WATCH, 1 = WARNING, 0 = FAILING
+
+  chief_strategist/role.md — CONSERVATIVE RECOMMENDATION RULE:
+    Priority order (most to least conservative):
+    CIO_VERIFICATION_REQUIRED > REDUCE_RISK_REVIEW > RAISE_CASH_REVIEW >
+    RISK_REVIEW_REQUIRED > MANUAL_REVIEW_REQUIRED > THESIS_REVIEW_REQUIRED >
+    HEDGE_REVIEW > REVIEW > HOLD > WAIT
+
+  chief_strategist/template.md — GOVERNANCE INVARIANTS:
+    These fields are hardcoded in every briefing (contract fields):
+      manual_execution_required: true
+      llm_order_generation: false
+      orders_generated_by_pipeline: 0
+      order_routing_enabled: false
+      execution_authority: "CIO_ONLY_MANUAL"
+
+
+PHASE 4 — PROMPTING PACKAGE (5 MODULES)
+-----------------------------------------
+
+Location: C:\bluelotus3\prompting\
+
+FILE: context_builder.py
+  Public interface: build_desk_context(agent_id, cycle_context) → dict
+
+  Replaces the hardcoded if/elif desk_context() method in base_agent.py.
+  All field selection comes from agent_context_map.yaml whitelist.
+
+  Internal flow:
+    1. Load agent_context_map.yaml (cached after first load)
+    2. Build common context (operator_summary, blocked_actions, allowed_actions)
+    3. Load dataset JSON from path in cycle_context
+    4. Extract only whitelisted dataset keys with per-field budget enforcement
+    5. Build operator fields (full pack for Risk Challenger, selective for others)
+    6. Build live_news (only if agent live_news_access: true)
+    7. Build brier_summary (only if agent brier_access: true)
+    8. Build thesis_registry (only if agent thesis_registry_access: true)
+    9. Return merged desk_context dict
+
+  compact() function: serialises to JSON, returns original value if within
+  budget, returns {truncated: true, excerpt: ..., original_chars: N} if over.
+
+  Config discovery: checks AGENT_CONTEXT_MAP_PATH env var first, then
+  falls back to {BLUELOTUS_PROJECT_ROOT}/config/agent_context_map.yaml.
+
+
+FILE: memory_retriever.py
+  Public interface: retrieve_memory(agent_id, current_cycle_id) → dict | None
+
+  Returns None if: injection_mode=never, staleness threshold exceeded,
+  no past cycles found, no extractable entries.
+
+  Internal flow:
+    1. Load memory_retrieval_policy.yaml (cached after first load)
+    2. Determine injection_mode, lookback, budget, staleness threshold
+    3. Discover past cycle directories (sorted newest-first, excluding current)
+    4. Check staleness of newest available cycle
+    5. Read agent reports or briefing JSON from past cycles
+    6. Extract only the configured fields per cycle
+    7. For if_changes_detected mode: compare first two entries' change_field
+    8. Enforce max_injection_chars budget (trim oldest entries)
+    9. Return memory_block dict with entries list
+
+  Change detection: returns True if monitored field differs between the
+  two most recent cycle entries (triggers injection for "if_changes_detected"
+  mode). If only one entry exists, always inject (no comparison basis).
+
+  Cycle timestamp parsing: extracts datetime from dir name pattern
+  "v3_cycle_YYYYMMDD_HHMMSS" for staleness calculation.
+
+  Archive dir: V3_CYCLE_OUTPUT_DIR env var → data/v3_cycles/ fallback.
+
+
+FILE: prompt_budgeter.py
+  Public interface: PromptBudgeter class
+
+  Budget allocation constants (% of LLM_MAX_RESPONSE_CHARS env var):
+    BUDGET_DOCTRINE_PCT = 0.10      (constitution + safety + no-generic + json)
+    BUDGET_AGENT_CHARTER_PCT = 0.15  (role.md + template.md)
+    BUDGET_DESK_CONTEXT_PCT = 0.50  (desk_context — primary compression target)
+    BUDGET_MEMORY_PCT = 0.15        (memory_context from MemoryRetriever)
+    BUDGET_OUTPUT_SCHEMA_PCT = 0.10  (JSON schema hint)
+    DESK_CONTEXT_MIN_CHARS = 2,000   (hard floor — never compress below this)
+    DEFAULT_TOTAL_BUDGET_CHARS = 12,000  (if env var not set)
+
+  Methods:
+    allocate() → PromptBudget dataclass with per-layer char allocations
+    validate_layers(...) → PromptBudget with warnings list populated
+    measure_text(text) → char count
+    measure_json(value) → JSON-serialised char count
+
+  Truncation policy: Doctrine (Layers 1+2) and Agent Charter (Layer 3) are
+  SACRED — overruns generate warnings but content is NEVER truncated.
+  Desk context (Layer 4) is the primary compression target.
+
+
+FILE: prompt_compiler.py
+  Public interface: compile_prompts(agent_id, agent_config, desk_context,
+                                    memory_context, cycle_context) → (str, str)
+
+  Returns (system_prompt, user_prompt) tuple for direct use with
+  chat_with_model(model_role, system_prompt, user_prompt, ...).
+
+  System prompt assembly order:
+    Layer 1: universal_constitution (from prompt_registry.yaml)
+    Layer 2: universal_safety_doctrine
+    Layer 3: {agent_id}_role
+    Separator: "\n\n---\n\n" between layers
+
+  User prompt assembly order:
+    Layer 4: universal_no_generic_output_rule
+    Layer 5: universal_json_only_rule
+    Layer 6: {agent_id}_template (first 1,500 chars as schema hint)
+    Layer 7: Payload JSON (desk_context + memory_context + cycle metadata)
+
+  Payload contents:
+    cycle_id, agent_id, agent_name, agent_role, focus_areas,
+    evidence_priority, must_answer, distinctive_behavior,
+    desk_context, input_refs, memory_context (if any)
+
+  Legacy fallbacks: if universal/ files not yet present, falls back to
+  inline text from agent_config fields (same content as old base_agent.py).
+  This allows gradual migration without breaking existing cycles.
+
+  Registry caching: prompt files cached in _PROMPT_CACHE dict after first
+  read. Config registry cached in _REGISTRY. One file I/O per file per process.
+
+
+FILE: retry_prompt_builder.py
+  Public interfaces:
+    classify_error(validation_error: str) → str (error type)
+    build_retry_system_prompt(agent_id, agent_name) → str
+    build_retry_user_prompt(validation_error, original_response,
+                            agent_id, retry_attempt) → str
+    should_retry(validation_error, retry_count, agent_id) → bool
+    build_retry_record(attempt, error_type, error, succeeded) → dict
+
+  Error types classified:
+    JSON_PARSE_ERROR      — invalid JSON, trailing commas, prose before JSON
+    MISSING_FIELD         — required schema field absent
+    WRONG_TYPE            — field has wrong data type
+    ARRAY_TOO_LONG        — more than 3 items in bounded arrays
+    ENUM_VIOLATION        — invalid recommendation or causal_completeness value
+    GENERIC_SCHEMA_ERROR  — catch-all for other validation failures
+
+  Retry strategy:
+    - System prompt is SHORTER than original (focuses on schema fix only)
+    - User prompt includes: error type, specific error message,
+      agent's broken response (truncated to 3,000 chars), repair instruction
+    - Does NOT re-inject full desk_context (agent already has it)
+    - should_retry() returns False for empty/timeout responses
+    - Default max_retries: 2 (overridden by LLM_MAX_RETRIES env var)
+
+
+PHASE 5 — QUALITY SCORER
+--------------------------
+
+Location: C:\bluelotus3\quality\agent_quality_scorer.py
+
+Public interfaces:
+  score_agent_report(agent_id, report, agent_config) → QualityReport
+  score_multiple_reports(reports, agent_configs) → dict[agent_id, QualityReport]
+  summarise_cycle_quality(quality_reports) → dict
+
+QualityReport fields:
+  total_score:       float (0–100)
+  pct_score:         float (0–100%)
+  grade:             A/B/C/D/F
+  pass_fail:         PASS (≥70%) / FAIL (<70%)
+  dimension_scores:  dict of DimensionScore objects
+  summary():         full dict for JSON serialisation
+
+10-DIMENSION SCORING RUBRIC (10 points each, 100 total):
+
+  D1 — Evidence Tagging (10 pts)
+    Rule: Each key_finding must start with [DATASET], [OPERATOR], [NEWS],
+          [THESIS], [BRIER], or [MEMORY]
+    Scoring: (tagged items / total items) × 10
+    Zero tolerance for untagged findings
+
+  D2 — No Generic Output (10 pts)
+    Rule: 8 anti-pattern regexes scanned across all text fields
+    Patterns include: "markets are experiencing", "investors should consider",
+                      "the current environment suggests", etc.
+    Scoring: 10 - (2.5 × generic_hit_count), min 0
+
+  D3 — Desk Identity (10 pts)
+    Rule: Vocabulary from agent's distinctive_behavior field appears in report
+    Scoring: 5.0 base + (vocabulary_coverage × 5.0)
+    Penalty: -2.0 if summary doesn't reference desk's specific lens
+    Note: requires agent_config — returns 7.0 (partial) without config
+
+  D4 — Must-Answer Coverage (10 pts)
+    Rule: All 3 must_answer questions addressed in findings or blind_spots
+    Method: Extracts key terms from each question, checks if 2+ terms appear
+            in report text
+    Scoring: (answered_count / total_count) × 10
+
+  D5 — Causal Completeness (10 pts)
+    Rule: causal_completeness field is valid AND causal language present
+    Base scores: complete=7.0, partial=5.0, incomplete=3.0
+    Bonus: +3.0 if complete + 2+ causal words (because, due to, signals, etc.)
+    Penalty: -2.0 if complete declared but no causal language found
+
+  D6 — Blind Spot Honesty (10 pts)
+    Rule: Blind spots cite specific missing fields, not vague gaps
+    Specific patterns: "field missing", "cannot assess", "null", etc.
+    Vague patterns: "more data", "would be helpful", "is needed", etc.
+    Scoring: 5.0 + (specificity_ratio × 5.0) - (vague_count × 1.0)
+
+  D7 — Risk Flag Priority (10 pts)
+    Rule: Each risk_flag must start with P1, P2, or P3
+    Scoring: (prioritised_count / total_count) × 10
+    Returns 5.0 if no risk flags (acceptable if no risks identified)
+
+  D8 — Schema Compliance (10 pts)
+    Checks: all 19 required fields present, correct types for boolean/float/list
+    Array limits: key_findings/risk_flags/blind_spots max 3 each,
+                  affected_assets max 5
+    Recommendation enum: must be one of 10 approved values
+    Penalty: -2.0 per missing field, -1.5 per type error, -2.0 per array overrun
+
+  D9 — Confidence Calibration (10 pts)
+    Rule: confidence level appropriate to evidence quality and completeness
+    Overconfidence penalties:
+      causal=incomplete AND confidence > 0.8 → -3.0
+      causal=partial AND confidence > 0.85   → -2.0
+      2+ blind spots AND confidence > 0.85   → -1.5
+    Calibration rewards:
+      causal=complete AND 0.70 ≤ confidence ≤ 0.90 → +2.0
+      causal=incomplete AND confidence ≤ 0.50       → +1.5
+
+  D10 — Governance Compliance (10 pts)
+    Hard checks:
+      manual_execution_required must be true  (-5.0 if not)
+      llm_order_generation must be false      (-5.0 if not)
+    Order language scan: 9 regex patterns across all text fields
+      Patterns include: \bbuy\b, \bsell\b, \bexecute\b, route to, etc.
+    Penalty: -2.0 per order language hit, max -5.0
+
+Grade thresholds:
+  A: ≥90%  (90–100 pts)
+  B: ≥80%  (80–89 pts)
+  C: ≥70%  (70–79 pts) — minimum PASS
+  D: ≥60%  (60–69 pts) — FAIL, but still usable
+  F: <60%  (<60 pts)   — FAIL, quality gate would reject retry
+
+
+CODEX INTEGRATION PATH
+------------------------
+
+The new architecture is backward-compatible. base_agent.py does not need
+to change immediately. Migration path:
+
+  Option A (Immediate): Replace desk_context() in base_agent.py:
+  ---------------------------------------------------------------
+    # BEFORE (hardcoded if/elif chains):
+    def desk_context(self, cycle_context):
+        if agent_id == "macro_strategist": ...
+        if agent_id == "portfolio_structure": ...
+        ...
+
+    # AFTER (config-driven):
+    from prompting.context_builder import build_desk_context
+    from prompting.memory_retriever import retrieve_memory
+    from prompting.prompt_compiler import compile_prompts
+
+    def run(self, cycle_context):
+        desk_ctx = build_desk_context(self.agent_id, cycle_context)
+        memory_ctx = retrieve_memory(self.agent_id, str(cycle_context["cycle_id"]))
+        sys_prompt, user_prompt = compile_prompts(
+            self.agent_id, self.config, desk_ctx, memory_ctx, cycle_context
+        )
+        result = chat_with_model(
+            model_role=str(self.config["model_role"]),
+            system_prompt=sys_prompt,
+            user_prompt=user_prompt,
+            require_json=True,
+            schema_env="AGENT_REPORT_SCHEMA_PATH",
+        )
+        ...
+
+  Option B (Phased): Keep base_agent.py unchanged. Add new path as
+  ---------------------------------------------------------------
+  opt-in feature flag (USE_NEW_PROMPT_ARCH=true in .env). Run both
+  paths in parallel for one week, compare output quality via scorer.
+
+  Retry integration in LinearAgentOrchestrator:
+  ---------------------------------------------------------------
+    from prompting.retry_prompt_builder import (
+        build_retry_system_prompt, build_retry_user_prompt, should_retry, classify_error
+    )
+    from quality.agent_quality_scorer import score_agent_report
+
+    # In run_one_agent(), after schema validation failure:
+    retry_count = 0
+    while not valid and should_retry(error, retry_count, agent_id):
+        retry_count += 1
+        sys_prompt = build_retry_system_prompt(agent_id, display_name)
+        user_prompt = build_retry_user_prompt(error, broken_response, agent_id, retry_count)
+        result = chat_with_model(model_role, sys_prompt, user_prompt, ...)
+        # validate again ...
+
+  Quality gate integration:
+  ---------------------------------------------------------------
+    quality = score_agent_report(agent_id, report, agent_config)
+    write_json(cycle_dir, f"quality_{agent_id}.json", quality.summary())
+    if quality.pass_fail == "FAIL":
+        # Log warning but do not block cycle — quality is advisory
+        ...
+
+
+ENVIRONMENT VARIABLES REQUIRED (NEW)
+--------------------------------------
+  These env vars are used by the new modules. Add to .env if not present:
+
+  AGENT_CONTEXT_MAP_PATH       Optional override for agent_context_map.yaml path
+  MEMORY_RETRIEVAL_POLICY_PATH Optional override for memory_retrieval_policy.yaml
+  V3_CYCLE_OUTPUT_DIR          Required for memory_retriever.py (file-first memory)
+                               Default: {BLUELOTUS_PROJECT_ROOT}/data/v3_cycles
+  LLM_MAX_RETRIES              Maximum retry attempts per agent (default: 2)
+  LLM_MAX_RESPONSE_CHARS       Total prompt budget ceiling (default: 12,000)
+
+  All existing env vars from .env remain unchanged.
+
+
+FILE INVENTORY — ALL 38 FILES CREATED
+---------------------------------------
+
+  Config:
+    config/agent_context_map.yaml          (NEW — anchor document)
+    config/memory_retrieval_policy.yaml    (NEW)
+    config/prompt_registry.yaml            (UPDATED — v1.0 → v2.0, 2 → 28 entries)
+    config/execution_queue.yaml            (UPDATED — added retry_policy block)
+
+  Universal Prompts (NEW):
+    prompts/universal/bluelotus_constitution.md
+    prompts/universal/safety_doctrine.md
+    prompts/universal/no_generic_output_rule.md
+    prompts/universal/json_only_rule.md
+
+  Agent Prompt Packs (NEW — 22 files):
+    prompts/agents/data_integrity/role.md
+    prompts/agents/data_integrity/template.md
+    prompts/agents/macro_strategist/role.md
+    prompts/agents/macro_strategist/template.md
+    prompts/agents/portfolio_structure/role.md
+    prompts/agents/portfolio_structure/template.md
+    prompts/agents/catalyst_intelligence/role.md
+    prompts/agents/catalyst_intelligence/template.md
+    prompts/agents/thesis_lifecycle/role.md
+    prompts/agents/thesis_lifecycle/template.md
+    prompts/agents/risk_challenger/role.md
+    prompts/agents/risk_challenger/template.md
+    prompts/agents/forecasting_brier/role.md
+    prompts/agents/forecasting_brier/template.md
+    prompts/agents/sector_specialist/role.md
+    prompts/agents/sector_specialist/template.md
+    prompts/agents/sentiment_narrative/role.md
+    prompts/agents/sentiment_narrative/template.md
+    prompts/agents/gold_safehaven/role.md       (planned — not yet active)
+    prompts/agents/gold_safehaven/template.md   (planned — not yet active)
+    prompts/agents/chief_strategist/role.md     (synthesis engine rules)
+    prompts/agents/chief_strategist/template.md (CIO briefing JSON schema)
+
+  Prompting Package (NEW — 6 files):
+    prompting/__init__.py
+    prompting/context_builder.py
+    prompting/memory_retriever.py
+    prompting/prompt_budgeter.py
+    prompting/prompt_compiler.py
+    prompting/retry_prompt_builder.py
+
+  Quality Package (NEW — 2 files):
+    quality/__init__.py
+    quality/agent_quality_scorer.py
+
+  Previously modified (from earlier in this session):
+    mid/export_dataset_raw.py          (HHI two-denominator fix + PNL integrity)
+    research/research_report_generator.py  (fallback for new HHI field names)
+    mid/bluelotus_publisher.py         (removed agent card truncation limits)
+
+
+================================================================================
+VALIDATION STATUS
+================================================================================
+
+  Test                                          Result
+  -----------------------------------------------------------------------
+  PyYAML import                                 PASS
+  prompting.context_builder import              PASS
+  All 5 prompting module imports                PASS
+  quality.agent_quality_scorer import           PASS
+  agent_context_map.yaml load (11 agents)       PASS
+  portfolio_structure allowed fields verified   PASS
+  All 9 active agent role.md files load         PASS
+  All 9 active agent template.md files load     PASS
+  Quality scorer smoke test (portfolio report)  PASS — 86% (B grade)
+  Error classifier (5 error types)              5/5 PASS
+  Retry prompt generation                       PASS
+  should_retry at limit (retry_count=2)         False — CORRECT
+  should_retry before limit (retry_count=0)     True  — CORRECT
+
+  Deliverable count: 38 files — 4/4 config, 4/4 universal, 22/22 agent packs,
+                     6/6 prompting modules, 2/2 quality modules — ALL PRESENT
+
+================================================================================
+END OF TECHNICAL DOCUMENTATION
+================================================================================
+  Prepared: 2026-06-17
+  Author: Dr. Claude Code (Anthropic Claude Agent)
+  Project: BlueLotus V3 Experimental Architecture
+  Classification: Internal Technical Reference
+================================================================================

@@ -1,0 +1,329 @@
+===============================================================================
+DR. CODEX TECHNICAL REPORT
+NITE-PEI Durability Patch: Bayesian Correctness + Pipeline Integration
+Date: 2026-06-21 SGT
+Prepared for: CIO, Dr. Claude Code, Chief Architect ChatGPT 5.5
+===============================================================================
+
+1. EXECUTIVE SUMMARY
+--------------------
+Dr. Codex audited the NITE-PEI implementation and found that Dr. Claude Code had
+built a meaningful foundation, but the layer was not yet production-durable.
+
+This patch converts NITE-PEI from partially wired experimental machinery into a
+durable V3 pipeline step:
+
+  - LR discount math corrected.
+  - Source-tier parsing hardened.
+  - Static runner event list replaced with live dataset extraction.
+  - Duplicate event guard added.
+  - Brier preregistration activated.
+  - Pipeline order corrected: grand cycle -> NITE-PEI -> publisher.
+  - Public v3_agents_latest.json now carries non-empty nite_pei{}.
+
+Safety remains intact:
+
+  - no broker routing
+  - no LLM order generation
+  - manual execution required
+  - CIO_ONLY_MANUAL preserved
+
+===============================================================================
+2. SOP RECORD
+-------------
+The full Service Engineering SOP was followed:
+
+  Observation -> Thesis -> Work Order -> Execution -> Testing -> Correction
+  -> Technical Report
+
+Created:
+
+  C:\bluelotus3\research\DR_CODEX_THESIS_OBSERVATIONS_NITEPEI_DURABILITY_20260621.txt
+  C:\bluelotus3\research\DR_CODEX_WORKORDER_NITEPEI_DURABILITY_PATCH_20260621.txt
+
+Audit source:
+
+  C:\bluelotus3\research\DR_CODEX_AUDIT_NITEPEI_Claude_Work_20260621.txt
+
+===============================================================================
+3. FILES MODIFIED
+-----------------
+Modified:
+
+  C:\bluelotus3\nite_pei\bayesian_updater.py
+  C:\bluelotus3\nite_pei\event_classifier.py
+  C:\bluelotus3\scripts\run_nite_pei_cycle.py
+  C:\bluelotus3\config\v3_pipeline.yaml
+  C:\bluelotus3\config\thesis_registry.yaml
+  C:\bluelotus3\data\nite_pei_brier_ledger.json
+  C:\bluelotus3\tests\test_nite_pei_engine.py
+
+Added:
+
+  C:\bluelotus3\tests\test_nite_pei_integration.py
+
+Generated/updated:
+
+  C:\bluelotus3\data\v3_cycles\v3_cycle_20260621_060039\nite_pei_block.json
+  C:\bluelotus3\nite_pei\portfolio_risk_state.json
+  C:\bluelotus3\reports\chief_strategist_v17.txt
+
+===============================================================================
+4. DEFECTS FIXED
+----------------
+
+[FIX-1] LR noise discount corrected
+
+Old formula:
+
+  lr_adjusted = lr_raw * (1 - noise_discount)
+
+Problem:
+
+  LR 1.0 with 50% discount became 0.5.
+  LR 0.6 with 50% discount became 0.3.
+
+This turned neutral evidence bearish and made adverse evidence stronger.
+
+New formula:
+
+  lr_adjusted = 1 + (lr_raw - 1) * (1 - noise_discount)
+
+Result:
+
+  LR 1.4, 50% discount -> 1.2
+  LR 1.0, 50% discount -> 1.0
+  LR 0.6, 50% discount -> 0.8
+
+[FIX-2] Source-tier parsing hardened
+
+Now accepts:
+
+  1, "1", "T1"
+  2, "2", "T2"
+  3, "3", "T3"
+  4, "4", "T4"
+
+Unknown tier defaults to T3, not silently promoted to T2.
+
+[FIX-3] Static event list removed
+
+The runner no longer uses a fixed REAL_EVENTS operating feed.
+
+It now extracts candidate events from:
+
+  - dataset_raw.json -> signals_latest
+  - dataset_raw.json -> macro_event_risks
+  - dataset_raw.json -> ticker_sentiment headlines
+
+Each event receives a stable event_id.
+
+[FIX-4] Duplicate event guard added
+
+The runner reads thesis probability_history and skips event_id values already
+applied to that thesis. Repeated pipeline cycles no longer keep reapplying the
+same news event.
+
+[FIX-5] Brier preregistration activated
+
+Each thesis probability update with applied events now writes a NITE-PEI Brier
+forecast record. The brier_record_id is stored in probability history and the
+NITE-PEI thesis snapshot.
+
+[FIX-6] Pipeline durability fixed
+
+Pipeline tail is now:
+
+  Step 63: orchestration.run_v3_grand_cycle --persist-db
+  Step 64: scripts.run_nite_pei_cycle
+  Step 65: bluelotus_publisher.py
+
+This ensures NITE-PEI writes into the fresh cycle before publisher runs.
+
+===============================================================================
+5. LIVE DEFECT DISCOVERED DURING TESTING
+----------------------------------------
+During the first live verification run, NITE-PEI classified:
+
+  "Monitoring governance: alerts 4 | critical 0 | warnings 3"
+
+as:
+
+  GEOPOLITICAL_ESCALATION
+
+Root cause:
+
+  The old classifier used substring matching. The keyword "war" matched inside
+  "warnings" and "warns".
+
+Fix:
+
+  Added boundary-safe keyword matching in event_classifier.py.
+
+Result:
+
+  "warnings" no longer matches "war".
+  "warns" no longer matches "war".
+
+Regression test added:
+
+  test_keyword_matching_does_not_read_warnings_as_war
+
+===============================================================================
+6. STATE CORRECTION AFTER FALSE-POSITIVE RUN
+--------------------------------------------
+The false-positive test run wrote probability updates and Brier records before
+the defect was discovered.
+
+No history was deleted.
+
+Correction action:
+
+  - Appended correction records to thesis probability_history.
+  - Recomputed latest thesis probabilities using the fixed classifier.
+  - Restored PETRO kill condition from false CONFIRMED to corrected TRIGGERED.
+  - Marked five bad Brier records as invalidated_by_correction.
+  - Created five corrected Brier records.
+
+Corrected current probabilities:
+
+  TRUMP_UNCERTAINTY_THESIS      0.428754
+  PETRO_RECYCLED_DOLLAR_THESIS  0.584123
+  STICKY_INFLATION_THESIS       0.669714
+  HAWKISH_WARSH_THESIS          0.891768
+  HAWKISH_BOJ_THESIS            0.935902
+
+Corrected CKRI:
+
+  CKRI      0.343412
+  CKRI zone WATCH
+
+===============================================================================
+7. TEST RESULTS
+---------------
+Compile:
+
+  python -m py_compile nite_pei/*.py scripts/run_nite_pei_cycle.py
+
+Result:
+
+  PASS
+
+Targeted NITE-PEI tests:
+
+  python -m pytest tests/test_nite_pei_engine.py tests/test_nite_pei_integration.py -q
+
+Result:
+
+  81 passed
+
+Full V3 suite:
+
+  python -m pytest tests -q
+
+Result:
+
+  315 passed, 1 warning
+
+Warning:
+
+  tests/test_v3_db_connection.py returns True instead of using assert.
+  This is pre-existing and unrelated.
+
+Pipeline dry-run:
+
+  python -m orchestration.run_v3_intelligence_pipeline --once --dry-run
+
+Result:
+
+  ok: true
+  steps: 65
+  order confirmed:
+    grand cycle -> NITE-PEI -> publisher
+
+===============================================================================
+8. LIVE VERIFICATION
+--------------------
+NITE-PEI runner:
+
+  Candidate events extracted: 193
+  Classified events retained: 4
+  Duplicate reapplications: 0
+  Block written:
+    C:\bluelotus3\data\v3_cycles\v3_cycle_20260621_060039\nite_pei_block.json
+
+Public GitHub Pages JSON:
+
+  URL:
+    https://sohweekian.github.io/bluelotus/data/v3_agents_latest.json
+
+  cycle_id:
+    v3_cycle_20260621_060039
+
+  nite_pei:
+    non-empty
+
+  schema:
+    bluelotus_v3_nite_pei_v1.0
+
+  source_cycle_id:
+    v3_cycle_20260621_060039
+
+  generation_mode:
+    live_cycle
+
+  event_extraction:
+    candidate_events: 193
+    classified_events: 4
+    applied_events: 0
+
+  ckri:
+    0.343412
+
+  ckri_zone:
+    WATCH
+
+Publisher:
+
+  GitHub index.html: PASS 200
+  GitHub chief-strategist.html: PASS 200
+  GitHub data/portfolio_live.json: PASS 200
+  GitHub data/chief_strategist_v17.txt: PASS 200
+  GitHub data/v3_agents_latest.json: PASS 200
+  GitHub data/dataset_public.json: PASS 200
+
+===============================================================================
+9. REMAINING WATCH ITEMS
+------------------------
+1. Publisher still emits a pre-existing SyntaxWarning around an invalid escape
+   sequence in the catalyst calendar script block. It does not block publish.
+
+2. Standalone NITE-PEI TXT/Word/Excel reports are intentionally not regenerated
+   by publisher now. Publisher comment says content is embedded into the main
+   V3 report per BLV3-ACCOUNTABILITY-001.
+
+3. NITE-PEI remains advisory. It should be observed over multiple live cycles
+   before using its probability numbers as a high-confidence CIO decision aid.
+
+===============================================================================
+10. FINAL VERDICT
+-----------------
+Before this patch:
+
+  NITE-PEI was a strong foundation but not durable in the live pipeline.
+
+After this patch:
+
+  NITE-PEI is wired into the V3 pipeline, publishes a non-empty canonical block,
+  extracts live events, avoids duplicate event drift, preserves Bayesian LR
+  neutrality, and writes Brier-gradeable records.
+
+Operational status:
+
+  NITE-PEI: LIVE / WATCH
+  Production authority: ADVISORY ONLY
+  Execution authority: CIO_ONLY_MANUAL
+
+===============================================================================
+END_OF_REPORT
+===============================================================================

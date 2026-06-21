@@ -1,0 +1,993 @@
+BLUELOTUS FUND — WORK ORDER TO DR. CODEX
+Chief Strategist Governance Layer Implementation
+Version: WO-CSG-v3.5-001
+Date: 2026-06-19
+Owner: CIO / BlueLotus Fund Digital Organization
+Implementer: Dr. Codex
+Priority: HIGH
+Classification: V3 Architecture Upgrade / Chief Strategist Consistency Control
+
+==============================================================================
+0. EXECUTIVE SUMMARY
+==============================================================================
+
+Build and integrate a new V3 pipeline layer:
+
+    CHIEF STRATEGIST GOVERNANCE LAYER (CSG)
+
+Purpose:
+
+    Prevent inconsistent Chief Strategist communication by forcing every
+    strategist briefing to reconcile:
+
+        1. CIO Letter / institutional memory
+        2. Master Operating Prompt / execution doctrine
+        3. active thesis registry
+        4. current event-to-thesis mapping
+        5. tactical dataset / market tape
+        6. portfolio and open orders
+        7. kill conditions
+        8. strategic-vs-tactical reconciliation
+        9. allowed / forbidden interpretations
+
+before any Chief Strategist narrative is generated.
+
+The failure mode to solve:
+
+    The Chief Strategist treated a tactical score such as
+    "Gold Thesis WATCH 0.50" as if it could override or diminish the
+    structural inflation thesis recorded in the CIO Letter and institutional
+    archive.
+
+Correct doctrine:
+
+    Tactical score modifies timing.
+    Tactical score does not invalidate structural thesis unless the
+    defined kill condition is triggered.
+
+This work order adds a mandatory machine-readable context object into
+`dataset_raw.json`, surfaces the same governance logic in TXT / Word / Excel
+reports, and creates a post-generation audit gate so future Chief Strategist
+replies remain fluid, memory-aware, and source-grounded across new
+conversations, even when only partial intelligence packages are uploaded.
+
+==============================================================================
+1. CURRENT ARCHITECTURE CONTEXT
+==============================================================================
+
+Existing V3 architecture is understood as:
+
+    Market Intelligence observes.
+    Dataset export consolidates.
+    Research / Risk / ACMS-COP classify.
+    Deterministic operators calculate.
+    Chief Strategist interprets.
+    CIO decides.
+    CIO executes manually.
+    System records.
+    Institution learns.
+
+Current known outputs:
+
+    dataset_raw.json
+    Bluelotus_V3_Report.txt
+    Bluelotus_V3_Report.docx
+    Bluelotus_V3_Report.xlsx
+
+Current working strengths:
+
+    - multi-source ingestion
+    - source freshness governor
+    - deterministic operator layer
+    - regime detection
+    - capital flow extraction
+    - thesis lifecycle
+    - execution safety
+    - read-only broker extraction
+    - CIO-only manual execution doctrine
+    - report publication layer
+    - archive / cognition / decision logging
+
+Current weakness:
+
+    - the Chief Strategist synthesis layer is not forced to load and obey
+      institutional memory / thesis doctrine before interpreting tactical data.
+    - this allows tactical signal overreach.
+    - this allows inconsistent replies across new conversations.
+    - this allows an LLM to forget the strategic CIO doctrine when only partial
+      files are uploaded.
+
+Required fix:
+
+    Add CSG between deterministic operators and Chief Strategist generation,
+    plus a post-generation audit gate before report publication.
+
+==============================================================================
+2. TARGET ARCHITECTURE PLACEMENT
+==============================================================================
+
+Insert the new layer here:
+
+    01_ingest_sources.py
+        ↓
+    02_build_dataset_raw.py
+        ↓
+    03_run_research_risk_acms.py
+        ↓
+    04_run_deterministic_operators.py
+        ↓
+    05_build_chief_strategist_governance_pack.py      ← NEW
+        ↓
+    06_generate_chief_strategist_briefing.py
+        ↓
+    07_run_chief_strategist_reply_audit.py            ← NEW
+        ↓
+    08_publish_report_word_excel_txt_html.py
+        ↓
+    09_archive_decision_and_outcome.py
+
+Final V3 architecture should become:
+
+    V3 Intelligence Package Engine
+    │
+    ├── Market Intelligence Layer
+    │   └── signals_latest
+    │
+    ├── Dataset Export Layer
+    │   └── dataset_raw.json
+    │
+    ├── Research / Risk / ACMS-COP Layer
+    │   ├── regime
+    │   ├── capital_flow
+    │   ├── thesis_lifecycle
+    │   ├── cross_market_confirmation
+    │   └── risk_model
+    │
+    ├── Deterministic Operator Layer
+    │   └── blocks unsafe actions
+    │
+    ├── Chief Strategist Governance Layer             ← NEW
+    │   ├── doctrine_loader
+    │   ├── active_thesis_registry
+    │   ├── event_thesis_mapper
+    │   ├── strategic_tactical_reconciler
+    │   ├── required_briefing_points
+    │   └── forbidden_interpretations
+    │
+    ├── Chief Strategist Generator
+    │   └── writes CIO briefing
+    │
+    ├── Chief Strategist Reply Audit                  ← NEW
+    │   └── pass / fail / revise
+    │
+    ├── Publication Layer
+    │   ├── txt
+    │   ├── docx
+    │   ├── xlsx
+    │   └── website
+    │
+    └── Archive / Memory / Brier / TCA
+        └── outcome learning
+
+==============================================================================
+3. DESIGN PRINCIPLES
+==============================================================================
+
+3.1 Hard Source Priority
+
+Every Chief Strategist reply must observe this hierarchy:
+
+    1. CIO Letter / Website Archive
+    2. Master Operating Prompt
+    3. Thesis Registry
+    4. Current Event Map
+    5. Tactical Dataset / Report
+    6. Portfolio / Orders / Execution Intelligence
+    7. Chief Strategist Inference
+
+No tactical score may override a higher-order structural thesis unless the
+registered kill condition is triggered.
+
+3.2 Strategic vs Tactical Separation
+
+Every active thesis must have two independent fields:
+
+    strategic_status
+    tactical_status
+
+Examples:
+
+    strategic_status = ACTIVE_BULLISH
+    tactical_status  = WATCH_MIXED
+
+Correct reconciled label:
+
+    ACTIVE_BUT_TACTICAL_CONFIRMATION_MIXED
+
+Incorrect label:
+
+    WEAK / INVALID / NO BUY
+
+3.3 Chief Strategist Cannot Answer From Raw Tape Alone
+
+The strategist generator must be blocked unless CSG pack is present.
+
+3.4 Partial Package Robustness
+
+Future conversations may receive only:
+
+    - dataset_raw.json
+    - or Bluelotus_V3_Report.txt
+    - or Word report
+    - or Excel report
+    - or screenshots
+    - or partial package
+
+The system must still provide doctrine-aware replies by embedding the CSG
+context inside every major output artifact.
+
+3.5 CIO Execution Safety Remains Unchanged
+
+The CSG layer must not generate orders.
+
+Hard constants:
+
+    CIO_ONLY_MANUAL = TRUE
+    ORDER_ROUTING_ENABLED = FALSE
+    LLM_ORDER_GENERATION_ENABLED = FALSE
+    SYSTEM_GENERATED_ORDERS = 0
+
+CSG is interpretation governance only.
+
+==============================================================================
+4. NEW FILES TO CREATE
+==============================================================================
+
+Create directory:
+
+    /data/chief_strategist/
+
+Create these files:
+
+    /data/chief_strategist/thesis_registry.json
+    /data/chief_strategist/event_thesis_map_latest.json
+    /data/chief_strategist/reconciliation_matrix_latest.json
+    /data/chief_strategist/chief_strategist_context_latest.json
+    /data/chief_strategist/chief_strategist_reply_audit_latest.json
+    /data/chief_strategist/required_briefing_points_latest.json
+    /data/chief_strategist/forbidden_interpretations_latest.json
+
+Create scripts:
+
+    build_chief_strategist_governance_pack.py
+    run_chief_strategist_reply_audit.py
+
+Optional but recommended:
+
+    extract_cio_letter_doctrine.py
+    build_event_thesis_map.py
+    build_reconciliation_matrix.py
+    validate_chief_strategist_report.py
+
+==============================================================================
+5. DATASET_RAW.JSON SCHEMA ADDITIONS
+==============================================================================
+
+Add top-level object:
+
+    dataset_raw["chief_strategist_governance"]
+
+Required schema:
+
+{
+  "version": "v3.5-csg-001",
+  "status": "ACTIVE",
+  "mandatory_for_chief_strategist": true,
+  "generated_at": "<ISO_TIMESTAMP>",
+  "source_priority": [
+    "CIO_LETTER_ARCHIVE",
+    "MASTER_OPERATING_PROMPT",
+    "THESIS_REGISTRY",
+    "CURRENT_EVENT_MAP",
+    "TACTICAL_DATASET",
+    "PORTFOLIO_AND_ORDERS",
+    "CHIEF_STRATEGIST_INFERENCE"
+  ],
+  "hard_rules": [
+    "Do not answer from tactical score alone.",
+    "Tactical weakness modifies timing; it does not invalidate a strategic thesis unless kill condition is triggered.",
+    "Gold Thesis WATCH does not equal structural gold thesis failure.",
+    "Iran de-escalation does not invalidate structural inflation thesis.",
+    "Banks thesis must be evaluated through NIM, credit stress, curve, and BAC/WFC/XLF behavior.",
+    "Satellites must not be treated as core holdings.",
+    "Scout is not second tranche.",
+    "CIO_ONLY_MANUAL remains mandatory."
+  ],
+  "required_briefing_sections": [
+    "Strategic thesis anchor",
+    "Current event linkage",
+    "Tactical tape interpretation",
+    "Strategic-vs-tactical reconciliation",
+    "Portfolio implication",
+    "Trim / reload rule",
+    "Kill condition",
+    "Probability / confidence band",
+    "Core vs satellite distinction",
+    "CIO action constraints"
+  ],
+  "forbidden_interpretations": [
+    "Gold WATCH equals gold thesis failed.",
+    "Iran peace kills the structural inflation thesis.",
+    "Warsh hawkish Fed is automatically bearish for all gold exposure without policy-error discussion.",
+    "Banks are defensive only and not a NIM/higher-for-longer sleeve.",
+    "Satellites can become core without thesis upgrade.",
+    "Tactical data can override CIO Letter doctrine without kill condition.",
+    "Chief Strategist can imply broker execution or create orders."
+  ],
+  "partial_package_fallback": {
+    "if_dataset_missing": "Use report section CHIEF STRATEGIST GOVERNANCE LAYER if available.",
+    "if_report_missing": "Use dataset_raw.chief_strategist_governance if available.",
+    "if_current_tape_missing": "Provide doctrine-aware strategic interpretation and mark tactical state as unavailable.",
+    "if_cio_letter_missing": "Use embedded doctrine snapshot stored in governance layer."
+  }
+}
+
+Add top-level object:
+
+    dataset_raw["active_thesis_reconciliation"]
+
+Required schema example:
+
+{
+  "gold_miners": {
+    "strategic_thesis": "Structural inflation / fiscal dominance / dollar-confidence / geopolitical-risk sleeve.",
+    "strategic_status": "ACTIVE_BULLISH",
+    "tactical_status": "WATCH_MIXED",
+    "reconciled_status": "ACTIVE_BUT_TACTICAL_CONFIRMATION_MIXED",
+    "role": "CORE_TRADING_ENGINE",
+    "target_capital_usd": 16000,
+    "current_event_mapping": {
+      "iran_deescalation": "Short-term safe-haven premium reduced, but structural inflation thesis not invalidated.",
+      "warsh_hawkish_fed": "Short-term real-yield pressure risk; long-term policy-error / fiscal-dominance support.",
+      "big_beautiful_bill": "Structural inflation positive.",
+      "stargate_ai_spending": "Infrastructure-demand inflation positive.",
+      "golden_dome_defense_spending": "Fiscal/defense inflation positive.",
+      "petrodollar_recycling": "Supports energy/inflation persistence.",
+      "tariff_uncertainty": "Supports sticky inflation / supply-side pressure."
+    },
+    "tactical_confirmation_signals": [
+      "GLD stable or rising",
+      "GDX stops underperforming GLD",
+      "AU/NEM/AEM/B show relative strength",
+      "UUP not surging",
+      "real yields not spiking",
+      "VXX not exploding unless safe-haven gold bid dominates"
+    ],
+    "trim_rule": "Trim half after +5% to +8% sleeve gain.",
+    "reload_rule": "Reload half after -5% to -8% only if GLD remains intact or macro inflation thesis strengthens.",
+    "kill_condition": "Gold and miners both underperform SPY while real-rate and dollar pressure remain high for multiple cycles."
+  },
+  "banks_bac_wfc": {
+    "strategic_thesis": "Higher-for-longer / NIM expansion sleeve if credit remains contained.",
+    "strategic_status": "ACTIVE_CONDITIONAL",
+    "tactical_status": "ACTIVE_IF_CREDIT_CALM",
+    "reconciled_status": "ACTIVE_IF_CREDIT_STRESS_CONTAINED",
+    "role": "CORE_TRADING_ENGINE",
+    "target_capital_usd": 10000,
+    "current_event_mapping": {
+      "warsh_hawkish_fed": "Positive for NIM if credit does not break.",
+      "iran_deescalation": "Positive if panic falls and risk appetite stabilizes.",
+      "big_spending_inflation": "Supports higher-for-longer rate backdrop.",
+      "credit_stress": "Primary kill switch.",
+      "yield_curve": "Supports bank thesis if NIM proxy remains positive."
+    },
+    "tactical_confirmation_signals": [
+      "credit stress contained",
+      "XLF not underperforming SPY sharply",
+      "BAC/WFC hold or reclaim support",
+      "NIM proxy positive",
+      "yield curve not deteriorating",
+      "VXX not spiking violently"
+    ],
+    "trim_rule": "Trim half after +5% to +8% sleeve gain.",
+    "reload_rule": "Reload half after -5% to -8% only if credit stress remains contained and XLF/BAC/WFC do not structurally break.",
+    "kill_condition": "Credit stress rises while XLF underperforms SPY and NIM proxy deteriorates."
+  },
+  "satellites": {
+    "strategic_thesis": "Tactical convexity only; quantum, space, and AI infrastructure are not core unless separately upgraded.",
+    "strategic_status": "TACTICAL_ONLY",
+    "tactical_status": "REQUIRES_RECLAIM_AND_FLOW_CONFIRMATION",
+    "reconciled_status": "TACTICAL_SATELLITE_ONLY",
+    "role": "SATELLITE_TRADING_ENGINE",
+    "holding_period_rule": "Intraday to less than one week unless new catalyst upgrades thesis.",
+    "trim_rule": "Harvest fast gains; do not let tactical trades become hope positions.",
+    "reload_rule": "Reload only on reclaim, not weakness alone.",
+    "kill_condition": "Gap-up fade, negative flow, VXX rising, no VWAP/support reclaim."
+  },
+  "cash": {
+    "strategic_thesis": "Cash is optionality and reload ammunition.",
+    "role": "CASH_FORTRESS",
+    "hard_rule": "Cash is not laziness; cash prevents forced selling and enables dislocation capture."
+  },
+  "volatility_hedge": {
+    "strategic_thesis": "VXX/VIXY are event insurance, not permanent capital.",
+    "role": "EVENT_HEDGE",
+    "review_rule": "Review hedge only after volatility spike has paid, market stabilizes, credit remains calm, and high-beta rebound is confirmed."
+  }
+}
+
+Add top-level object:
+
+    dataset_raw["strategic_tactical_reconciliation_matrix"]
+
+Each row:
+
+{
+  "thesis_id": "THESIS_GOLD_STRUCTURAL_INFLATION",
+  "sleeve": "gold_miners",
+  "strategic_status": "ACTIVE_BULLISH",
+  "tactical_status": "WATCH_MIXED",
+  "reconciled_status": "ACTIVE_BUT_TACTICAL_CONFIRMATION_MIXED",
+  "stronger_layer": "STRATEGIC",
+  "why": "Tactical miner confirmation is mixed, but structural inflation thesis remains intact because kill condition has not triggered.",
+  "allowed_action_language": [
+    "Stage core position",
+    "Trim strength",
+    "Reload only if GLD/macro thesis intact"
+  ],
+  "blocked_action_language": [
+    "Gold thesis failed",
+    "No gold exposure because tactical WATCH",
+    "Iran peace invalidates inflation thesis"
+  ]
+}
+
+==============================================================================
+6. THESIS_REGISTRY.JSON
+==============================================================================
+
+Create:
+
+    /data/chief_strategist/thesis_registry.json
+
+Minimum active theses:
+
+    THESIS_GOLD_STRUCTURAL_INFLATION
+    THESIS_BANKS_NIM_ENGINE
+    THESIS_CASH_FORTRESS
+    THESIS_SATELLITE_CONVEXITY
+    THESIS_VOLATILITY_HEDGE
+    THESIS_RISK_OFF_DISLOCATION_SCOUTING
+
+Important:
+
+    This registry must be portable and embedded into every dataset package.
+    New conversations must not depend on prior chat memory.
+
+Example object:
+
+{
+  "THESIS_GOLD_STRUCTURAL_INFLATION": {
+    "sleeve": "gold_miners",
+    "role": "CORE_TRADING_ENGINE",
+    "target_capital_usd": 16000,
+    "strategic_horizon": "3M-24M",
+    "core_claim": "Gold miners benefit from structural inflation, fiscal dominance, geopolitical uncertainty, dollar-confidence risk, and policy-error risk.",
+    "positive_drivers": [
+      "large fiscal deficits",
+      "Big Beautiful Bill spending",
+      "AI Stargate infrastructure spending",
+      "Golden Dome / defense spending",
+      "tariff uncertainty",
+      "petrodollar recycling",
+      "sticky inflation",
+      "Fed policy error"
+    ],
+    "negative_drivers": [
+      "real yields surge",
+      "USD surges",
+      "GLD breaks down",
+      "miners underperform GLD persistently",
+      "inflation collapses sustainably"
+    ],
+    "kill_conditions": [
+      "Gold and miners both underperform SPY while real-rate and dollar pressure remain high for multiple cycles."
+    ]
+  }
+}
+
+==============================================================================
+7. EVENT-THESIS MAPPER
+==============================================================================
+
+Create:
+
+    /data/chief_strategist/event_thesis_map_latest.json
+
+Purpose:
+
+    Map every current macro/geopolitical event into every active thesis.
+
+Required event keys:
+
+    iran_deescalation
+    warsh_hawkish_fed
+    big_beautiful_bill
+    stargate_ai_spending
+    golden_dome_defense_spending
+    petrodollar_recycling
+    tariff_uncertainty
+    boj_yen_carry_risk
+    credit_stress
+    vix_volatility_regime
+
+Example:
+
+{
+  "iran_deescalation": {
+    "gold_miners": {
+      "horizon_1_5_days": "negative_to_mixed",
+      "horizon_1_6_months": "neutral",
+      "reason": "Reduces immediate oil-war safe-haven premium but does not remove fiscal inflation thesis."
+    },
+    "banks_bac_wfc": {
+      "horizon_1_5_days": "positive",
+      "horizon_1_6_months": "positive_if_credit_calm",
+      "reason": "Lower panic plus higher-for-longer rates supports NIM."
+    },
+    "satellites": {
+      "horizon_1_5_days": "positive_relief_bounce",
+      "reason": "Risk-on relief may lift high beta temporarily."
+    }
+  }
+}
+
+==============================================================================
+8. REPORT OUTPUT REQUIREMENTS
+==============================================================================
+
+8.1 TXT Report
+
+Add mandatory section:
+
+==============================================================================
+  CHIEF STRATEGIST GOVERNANCE LAYER
+==============================================================================
+  Governance Version : v3.5-csg-001
+  Mandatory          : YES
+  Source Priority    : CIO Letter → Master Prompt → Thesis Registry → Current Events → Tactical Dataset → Portfolio
+  Hard Rule          : Tactical score cannot override structural thesis unless kill condition is triggered.
+
+  Strategic-Tactical Reconciliation:
+  1. Gold Miners:
+     Strategic thesis active: structural inflation / fiscal dominance / dollar-confidence / geopolitical risk.
+     Tactical tape: WATCH / mixed confirmation.
+     Reconciled status: ACTIVE_BUT_TACTICAL_CONFIRMATION_MIXED.
+     Current-event read: Iran peace reduces short-term war premium but does not invalidate structural inflation thesis.
+     Kill condition: gold and miners both underperform SPY while real-rate and dollar pressure remain high for multiple cycles.
+
+  2. Banks BAC/WFC:
+     Strategic thesis active: higher-for-longer / NIM expansion if credit calm.
+     Tactical tape: active if credit contained.
+     Reconciled status: ACTIVE_IF_CREDIT_STRESS_CONTAINED.
+     Kill condition: credit stress rises while XLF underperforms SPY and NIM proxy deteriorates.
+
+  3. Satellites:
+     Quantum / space / AI infrastructure are tactical only.
+     Holding period: intraday to less than one week unless new catalyst upgrades thesis.
+
+  Forbidden Interpretations:
+     - Gold WATCH = gold thesis failed.
+     - Iran peace kills structural inflation thesis.
+     - Satellites are core holdings.
+     - Tactical score overrides CIO Letter doctrine.
+==============================================================================
+
+8.2 Word Report
+
+Add section immediately after Executive Summary:
+
+    "Chief Strategist Governance Layer"
+
+Include:
+
+    - source priority
+    - hard rules
+    - active thesis reconciliation
+    - event-thesis map
+    - forbidden interpretations
+    - required briefing checklist
+
+8.3 Excel Report
+
+Add worksheet:
+
+    CS_Governance
+
+Required columns:
+
+    field
+    value
+    certainty
+    source_layer
+
+Add worksheet:
+
+    Thesis_Reconciliation
+
+Required columns:
+
+    thesis_id
+    sleeve
+    strategic_status
+    tactical_status
+    reconciled_status
+    stronger_layer
+    why
+    action_language
+    blocked_language
+    kill_condition
+
+Add worksheet:
+
+    Event_Thesis_Map
+
+Required columns:
+
+    event
+    gold_miners
+    banks_bac_wfc
+    satellites
+    hedge
+    cash
+    time_horizon
+    reason
+
+==============================================================================
+9. CHIEF STRATEGIST GENERATOR RULES
+==============================================================================
+
+Modify Chief Strategist generator prompt/script.
+
+Before generating any briefing, it must read:
+
+    dataset_raw.chief_strategist_governance
+    dataset_raw.active_thesis_reconciliation
+    dataset_raw.strategic_tactical_reconciliation_matrix
+    dataset_raw.thesis_lifecycle
+    dataset_raw.regime
+    dataset_raw.cross_market_confirmation
+    dataset_raw.capital_flow
+    dataset_raw.portfolio
+    dataset_raw.orders
+    dataset_raw.execution
+
+Blocking rule:
+
+    If chief_strategist_governance.mandatory_for_chief_strategist == true
+    and the object is missing, block briefing generation.
+
+Pseudo-code:
+
+    if dataset_raw.get("chief_strategist_governance", {}).get("mandatory_for_chief_strategist") is True:
+        csg = dataset_raw["chief_strategist_governance"]
+    else:
+        raise RuntimeError("Chief Strategist briefing blocked: governance layer missing or inactive")
+
+Mandatory output points:
+
+    1. strategic thesis anchor
+    2. current event linkage
+    3. tactical tape interpretation
+    4. strategic-vs-tactical reconciliation
+    5. portfolio implication
+    6. trim/reload rule
+    7. kill condition
+    8. probability / confidence band
+    9. core vs satellite distinction
+    10. CIO-only manual execution reminder
+
+==============================================================================
+10. POST-GENERATION REPLY AUDIT
+==============================================================================
+
+Create:
+
+    run_chief_strategist_reply_audit.py
+
+Purpose:
+
+    Validate final Chief Strategist draft before publication.
+
+Audit must fail if the draft:
+
+    1. Mentions gold tactical WATCH/FAIL without explaining structural gold thesis.
+    2. Mentions Iran de-escalation as gold-bearish without saying structural inflation thesis remains.
+    3. Mentions banks without linking to NIM, credit stress, curve, and BAC/WFC/XLF behavior.
+    4. Confuses scout with second tranche.
+    5. Treats satellites as core holdings.
+    6. Omits kill conditions.
+    7. Omits probability/confidence bands when making forecasts.
+    8. Omits current event linkage.
+    9. Contradicts deterministic blocked actions.
+    10. Violates CIO_ONLY_MANUAL doctrine.
+
+Audit output:
+
+{
+  "reply_audit_version": "v3.5-csg-audit-001",
+  "status": "PASS | FAIL | WARNING",
+  "failed_checks": [],
+  "warning_checks": [],
+  "required_revision": [],
+  "unsupported_claims": [],
+  "thesis_coverage": {
+    "gold_miners": true,
+    "banks_bac_wfc": true,
+    "satellites": true,
+    "cash": true,
+    "hedge": true
+  }
+}
+
+If FAIL:
+
+    Do not publish.
+    Regenerate with required revision.
+
+==============================================================================
+11. PARTIAL PACKAGE FALLBACK REQUIREMENTS
+==============================================================================
+
+The CSG must work even when future conversations receive incomplete files.
+
+Case A: dataset_raw.json present
+
+    Use dataset_raw.chief_strategist_governance as source of truth.
+
+Case B: TXT report present but dataset missing
+
+    Parse section:
+        CHIEF STRATEGIST GOVERNANCE LAYER
+
+    Use it as minimum governance context.
+
+Case C: Word report present but dataset missing
+
+    Parse:
+        Chief Strategist Governance Layer
+
+Case D: Excel report present but dataset missing
+
+    Use sheets:
+        CS_Governance
+        Thesis_Reconciliation
+        Event_Thesis_Map
+
+Case E: only screenshots or partial report present
+
+    Required assistant behavior:
+        - identify missing tactical data
+        - still preserve embedded doctrine if available
+        - do not invent unsupported tactical state
+        - provide conditional analysis only
+
+Case F: no governance context found
+
+    Assistant must say:
+        "Chief Strategist Governance Layer not found in package. I can provide provisional analysis only, and cannot claim full V3 governance compliance."
+
+==============================================================================
+12. CLAIM TAGGING REQUIREMENT
+==============================================================================
+
+Internally tag important claims using:
+
+    DOCTRINE_CONFIRMED
+    DATA_CONFIRMED
+    NEWS_CONFIRMED
+    CIO_THESIS
+    TACTICAL_SIGNAL
+    MODEL_INFERRED
+    KILL_CONDITION
+
+Example:
+
+    Gold miners remain structurally valid [CIO_THESIS + DOCTRINE_CONFIRMED],
+    but near-term entry timing is mixed [TACTICAL_SIGNAL].
+
+Do not necessarily show tags in final CIO-facing prose unless report mode requires it,
+but store tags in audit metadata.
+
+==============================================================================
+13. ACCEPTANCE CRITERIA
+==============================================================================
+
+Implementation is accepted when:
+
+    1. dataset_raw.json contains chief_strategist_governance.
+    2. dataset_raw.json contains active_thesis_reconciliation.
+    3. dataset_raw.json contains strategic_tactical_reconciliation_matrix.
+    4. TXT report includes CHIEF STRATEGIST GOVERNANCE LAYER.
+    5. Word report includes Chief Strategist Governance Layer section.
+    6. Excel report includes CS_Governance, Thesis_Reconciliation, Event_Thesis_Map sheets.
+    7. Chief Strategist generator blocks if governance layer missing.
+    8. Reply audit fails drafts that ignore gold structural inflation thesis.
+    9. Reply audit fails drafts that call Iran peace a gold-thesis invalidation without structural inflation reconciliation.
+    10. Reply audit fails drafts that mention banks without NIM/credit/curve context.
+    11. Partial packages still provide at least provisional governance context.
+    12. No execution routing is introduced.
+    13. CIO_ONLY_MANUAL remains true.
+    14. All new outputs archive with snapshot timestamp and version.
+
+==============================================================================
+14. TEST CASES
+==============================================================================
+
+Test 1: Gold WATCH tactical conflict
+
+Input:
+
+    Gold thesis tracker = WATCH / 0.50
+    CIO Letter thesis = structural inflation active
+    GLD stable
+    miners mixed
+    Iran de-escalation headline present
+
+Expected output:
+
+    Reconciled status:
+        ACTIVE_BUT_TACTICAL_CONFIRMATION_MIXED
+
+Forbidden output:
+
+    Gold thesis failed.
+    No gold exposure.
+    Iran peace kills gold thesis.
+
+Test 2: Bank thesis
+
+Input:
+
+    Warsh hawkish Fed
+    credit stress contained
+    NIM proxy positive
+    BAC/WFC stable
+
+Expected output:
+
+    Banks active if credit calm.
+    BAC/WFC are NIM / higher-for-longer sleeve.
+    Reload permitted only if credit remains contained.
+
+Forbidden output:
+
+    Banks are only defensive.
+    Reload all bank weakness regardless of credit stress.
+
+Test 3: Satellites
+
+Input:
+
+    ASTS / PL / QBTS rebound
+    VXX down
+    flow still mixed
+
+Expected output:
+
+    Tactical satellite only.
+    No second tranche.
+    Hold period intraday to less than one week unless catalyst upgrade.
+
+Forbidden output:
+
+    Treat satellites as core.
+    Scale automatically.
+
+Test 4: Partial package
+
+Input:
+
+    Only Bluelotus_V3_Report.txt uploaded.
+
+Expected output:
+
+    Parse CHIEF STRATEGIST GOVERNANCE LAYER from TXT.
+    Provide governance-aware briefing.
+    Mark missing dataset fields explicitly.
+
+Test 5: Missing governance
+
+Input:
+
+    Old dataset without chief_strategist_governance.
+
+Expected output:
+
+    Block full compliant briefing.
+    Produce warning:
+        "Governance layer missing; provisional analysis only."
+
+==============================================================================
+15. IMPLEMENTATION PHASES
+==============================================================================
+
+Phase 1 — Schema and static registry
+
+    - Create /data/chief_strategist/thesis_registry.json.
+    - Define default active theses.
+    - Add CSG schema to dataset builder.
+    - Add hard rules and forbidden interpretations.
+
+Phase 2 — Event-thesis mapper
+
+    - Extract current events from news/catalyst layer.
+    - Map events to active theses.
+    - Output event_thesis_map_latest.json.
+
+Phase 3 — Strategic-tactical reconciler
+
+    - Combine thesis registry, tactical tracker, cross-market data, and event map.
+    - Output reconciliation_matrix_latest.json.
+
+Phase 4 — Report integration
+
+    - Add CSG section to TXT.
+    - Add CSG section to Word.
+    - Add CS_Governance worksheets to Excel.
+
+Phase 5 — Generator enforcement
+
+    - Modify Chief Strategist generator to read CSG pack first.
+    - Add block if missing.
+    - Add required briefing points.
+
+Phase 6 — Reply audit
+
+    - Implement post-generation validator.
+    - Fail bad drafts.
+    - Archive audit output.
+
+Phase 7 — Partial package resilience
+
+    - Add parsing fallback logic for TXT / Word / Excel.
+    - Ensure future conversations can operate with partial packages.
+
+==============================================================================
+16. FINAL DOCTRINE TO ENCODE
+==============================================================================
+
+Chief Strategist must not answer from tactical data alone.
+
+Every Chief Strategist answer must reconcile:
+
+    institutional doctrine,
+    active thesis,
+    current events,
+    tactical tape,
+    portfolio exposure,
+    trim/reload rules,
+    and kill conditions
+
+before giving CIO action guidance.
+
+Central rule:
+
+    Tactical weakness modifies timing.
+    It does not invalidate structural thesis unless kill condition is triggered.
+
+Specific BlueLotus rule:
+
+    Gold miners are the uncontrolled-inflation / fiscal-dominance / dollar-confidence sleeve.
+    Banks are the controlled-inflation / higher-for-longer / NIM sleeve.
+    Cash is the optionality fortress.
+    Satellites are tactical convexity, not core.
+
+Execution rule:
+
+    CIO decides.
+    CIO executes manually.
+    System records.
+    Institution learns.
+
+END OF WORK ORDER

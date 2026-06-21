@@ -1,0 +1,714 @@
+BLUELOTUS FUND — CODEX WORK ORDER
+CIO CONTEXT CAPSULE v3.5
+Portable CIO-Layer Memory for V3 Intelligence Packages
+
+Document Version: v3.5-cio-context-workorder-001
+Prepared For: Dr. Codex / BlueLotus Platform Engineering
+Prepared By: Chief Strategist Channel
+Date: 2026-06-19 SGT
+Priority: P1 — Institutional Memory / Chief Strategist Consistency
+Execution Authority: CIO_ONLY_MANUAL
+Order Routing: DISABLED
+System-Generated Orders: 0
+
+==============================================================================
+1. EXECUTIVE PURPOSE
+==============================================================================
+
+Implement a portable CIO Context Capsule inside the BlueLotus V3 pipeline so that
+every future Chief Strategist conversation can recover the current CIO doctrine,
+latest strategic thinking, strategic planning, strategic execution, active sleeve
+rules, kill conditions, and execution-safety doctrine even when only one artifact
+is uploaded.
+
+Target behavior:
+
+1. If the CIO uploads dataset_raw.json only, the Chief Strategist can recover
+   the current CIO state.
+2. If the CIO uploads Bluelotus_V3_Report.txt only, the Chief Strategist can
+   recover the current CIO state.
+3. If the CIO uploads Bluelotus_V3_Report.docx only, the Chief Strategist can
+   recover the current CIO state.
+4. If the CIO uploads Bluelotus_V3_Report.xlsx only, the Chief Strategist can
+   recover the current CIO state.
+5. If only partial package data is available, the Chief Strategist must still
+   operate from the CIO Context Capsule and explicitly mark missing layers.
+6. No Chief Strategist answer may be produced from tactical report data alone.
+
+Core doctrine to preserve:
+
+- CIO_ONLY_MANUAL remains mandatory.
+- Order routing remains disabled.
+- System-generated orders remain zero.
+- Scout order is not second-tranche authorization.
+- Tactical score modifies timing; it does not invalidate structural thesis unless
+  a formal kill condition is triggered.
+- Cash fortress is intentional optionality, not paralysis.
+- DCA is conditional, not automatic.
+- Gold structural thesis and tactical gold timing must be separated.
+- Banks must be evaluated through NIM, curve, credit stress, XLF, BAC, and WFC.
+- Satellites are tactical convexity instruments unless CIO explicitly upgrades
+  them.
+
+==============================================================================
+2. PROBLEM STATEMENT
+==============================================================================
+
+Current V3 reports contain strong data, deterministic operator outputs, thesis
+lifecycle records, execution-safety doctrine, and Chief Strategist Governance
+Layer v3.5.
+
+However, new AI conversations can still lose institutional continuity if the
+assistant reads only tactical sections, partial reports, screenshots, or a single
+file without the full archive. This creates inconsistent Chief Strategist
+responses.
+
+Observed failure mode:
+
+- Tactical gold score / warning was interpreted too strongly.
+- Structural inflation / fiscal dominance gold thesis was underweighted.
+- Current CIO manual event-scout execution state had to be re-explained by CIO.
+- Chief Strategist synthesis did not automatically recover the latest CIO
+  thinking / planning / execution record.
+
+Solution:
+
+Create and inject a canonical CIO Context Capsule into every V3 artifact.
+
+==============================================================================
+3. TARGET ARCHITECTURE
+==============================================================================
+
+Add the following pipeline layer:
+
+V3 DATASET
+│
+├── chief_strategist_governance
+│
+├── cio_context_capsule                  ← NEW PORTABLE MEMORY LAYER
+│   ├── source hierarchy
+│   ├── hard doctrine
+│   ├── latest CIO three-step record
+│   ├── active sleeve rules
+│   ├── exposure rules
+│   ├── DCA rules
+│   ├── kill conditions
+│   └── conversation bootstrap prompt
+│
+├── active_thesis_reconciliation
+│
+├── deterministic_operators
+│
+├── portfolio / orders / fills
+│
+└── reports
+    ├── TXT with CIO Context Capsule
+    ├── Word with CIO Context Capsule
+    ├── Excel tab 00_CIO_CONTEXT_CAPSULE
+    └── optional website / CIO Letter update
+
+Recommended pipeline order:
+
+01_ingest_sources.py
+02_build_dataset_raw.py
+03_run_research_risk_acms.py
+04_run_deterministic_operators.py
+05_build_chief_strategist_governance_pack.py
+06_build_cio_context_capsule.py          ← NEW
+07_inject_cio_context_into_reports.py    ← NEW
+08_generate_chief_strategist_report.py
+09_validate_report_context_capsule.py    ← NEW
+10_publish_txt_word_excel_html.py
+11_archive_decision_and_outcome.py
+
+==============================================================================
+4. REQUIRED NEW FILES / MODULES
+==============================================================================
+
+Create:
+
+1. schemas/cio_context_capsule.schema.json
+2. build_cio_context_capsule.py
+3. inject_cio_context_into_reports.py
+4. validate_cio_context_capsule.py
+5. tests/test_cio_context_capsule.py
+6. tests/test_cio_context_injection.py
+7. tests/test_partial_artifact_bootstrap.py
+
+Optional:
+
+8. data/cio_context/cio_context_capsule_latest.json
+9. data/cio_context/cio_context_capsule_history.jsonl
+10. docs/CIO_CONTEXT_CAPSULE_README.md
+
+==============================================================================
+5. DATASET_RAW.JSON SCHEMA REQUIREMENT
+==============================================================================
+
+Add a top-level object:
+
+"cio_context_capsule": {
+  "version": "v3.5-cio-context-001",
+  "status": "ACTIVE",
+  "generated_at": "<ISO8601>",
+  "mandatory_for_all_chief_strategist_replies": true,
+  "capsule_hash": "<sha256>",
+  "source_hierarchy": [
+    "cio_context_capsule",
+    "chief_strategist_governance",
+    "cio_cognition_ledger",
+    "active_thesis_reconciliation",
+    "deterministic_operators",
+    "portfolio_and_orders",
+    "market_data",
+    "news_and_external_evidence",
+    "llm_agent_commentary"
+  ],
+  "core_doctrine": {
+    "execution_authority": "CIO_ONLY_MANUAL",
+    "order_routing_enabled": false,
+    "system_generated_orders": 0,
+    "tactical_score_rule": "Tactical score modifies timing; it does not invalidate structural thesis unless kill condition triggers.",
+    "scout_rule": "Scout order is not second tranche authorization.",
+    "cash_fortress_rule": "Cash is intentional optionality, not paralysis.",
+    "dca_rule": "DCA is conditional, not automatic.",
+    "partial_file_rule": "If only partial data is uploaded, operate from the capsule and explicitly mark missing layers."
+  },
+  "latest_cio_layer_decision": {
+    "decision_type": "MANUAL_CIO_EVENT_SCOUT_OVERRIDE",
+    "primary_catalyst": "Peace deal / Strait of Hormuz de-escalation",
+    "decision_timestamp_sgt": "<ISO8601 or SGT string>",
+    "classification": "EVENT_SCOUT_POSITIONING",
+    "not_full_risk_on": true,
+    "not_second_tranche": true,
+    "not_system_generated": true
+  },
+  "cio_three_step_record": {
+    "strategic_thinking": {},
+    "strategic_planning": {},
+    "strategic_execution": {}
+  },
+  "active_sleeve_rules": {},
+  "kill_conditions": [],
+  "required_chief_strategist_behavior": [],
+  "conversation_bootstrap_prompt": {}
+}
+
+==============================================================================
+6. CIO THREE-STEP RECORD REQUIREMENT
+==============================================================================
+
+Populate cio_three_step_record with the latest CIO Layer record.
+
+Required object:
+
+"cio_three_step_record": {
+  "strategic_thinking": {
+    "summary": "CIO identified high-probability peace-deal relief catalyst and judged that event probability justifies scout deployment even without perfect 5D support pricing.",
+    "key_probabilities": {
+      "peace_deal_success": 0.75,
+      "monday_relief_rally_if_deal_confirms": 0.70,
+      "sustained_rally_probability": 0.60
+    },
+    "core_interpretation": "This is event-probability scout positioning, not full risk-on deployment.",
+    "market_read": "VXX/VIXY compression and broad index strength suggest pre-confirmation relief anticipation."
+  },
+  "strategic_planning": {
+    "max_capital_per_ticker_usd": 4000,
+    "initial_scout_per_ticker_usd": 1000,
+    "gold_miners": "Keep AU/NEM/AEM/B at 5D support bids only. Structural thesis intact but no chase.",
+    "banks": "BAC/WFC first USD 1,000 scouts allowed. BAC preferred; WFC secondary pending flow stabilization.",
+    "high_beta": "QBTS, QUBT, PL, ASTS, RKLB, LUNR may be built toward approximately USD 1,000 scout exposure.",
+    "foundational_tactical_cash_engine": "PL and ASTS may scale up to USD 4,000 maximum each, staged and under CIO review.",
+    "dca_rule": "DCA conditional only if peace thesis remains intact, VXX controlled, credit calm, and high beta stabilizes.",
+    "new_ticker_rule": "No unnecessary new tickers after the scout basket; manage existing planned scouts."
+  },
+  "strategic_execution": {
+    "execution_mode": "CIO_ONLY_MANUAL",
+    "system_orders_generated": 0,
+    "routing_enabled": false,
+    "positioning_status": "Portfolio positioned for Monday relief-rally thesis while preserving cash fortress.",
+    "not_second_tranche": true,
+    "manual_broker_execution": true,
+    "system_role": "Record, analyze, validate, and archive only."
+  }
+}
+
+==============================================================================
+7. ACTIVE SLEEVE RULES REQUIREMENT
+==============================================================================
+
+Add:
+
+"active_sleeve_rules": {
+  "gold_miners": {
+    "role": "STRUCTURAL_INFLATION_FISCAL_DOMINANCE_HEDGE",
+    "tickers": ["AU", "NEM", "AEM", "B"],
+    "current_policy": "5D_SUPPORT_BIDS_ONLY",
+    "allowed": "Maintain support bids; no chase.",
+    "forbidden": "Do not interpret one weak tactical tracker as structural thesis invalidation.",
+    "add_rule": "Add only if GLD stabilizes and GDX/GDXJ stop persistent underperformance, or if CIO manually confirms support-bid execution.",
+    "kill_conditions": [
+      "real_yields_rising_confirmed",
+      "gold_support_break_confirmed",
+      "miners_underperform_gold_persistently"
+    ]
+  },
+  "banks_bac_wfc": {
+    "role": "CONTROLLED_INFLATION_NIM_ENGINE",
+    "tickers": ["BAC", "WFC"],
+    "current_policy": "FIRST_USD_1000_SCOUT_ALLOWED",
+    "allowed": "BAC/WFC may receive initial USD 1,000 scout exposure under CIO manual execution.",
+    "forbidden": "Do not judge banks without NIM, curve, credit stress, XLF, BAC, and WFC context.",
+    "add_rule": "Add/reload only if credit remains calm and curve/NIM support remains intact.",
+    "kill_conditions": [
+      "credit_spread_breakout",
+      "curve_benefit_absent",
+      "bank_relative_breakdown"
+    ]
+  },
+  "high_beta_satellites": {
+    "role": "TACTICAL_RELIEF_RALLY_CONVEXITY",
+    "tickers": ["QBTS", "QUBT", "PL", "ASTS", "RKLB", "LUNR"],
+    "current_policy": "USD_1000_SCOUT_TARGET",
+    "allowed": "Build toward USD 1,000 scout exposure if relief conditions remain valid.",
+    "forbidden": "Do not treat satellites as core holdings unless CIO explicitly upgrades them.",
+    "dca_rule": "DCA only if peace thesis intact, VXX controlled, credit calm, and price stabilizes/reclaims.",
+    "kill_conditions": [
+      "catalyst_failure",
+      "liquidity_breakdown",
+      "position_exceeds_scout_limits",
+      "vxx_reversal_green",
+      "high_beta_gap_up_fade"
+    ]
+  },
+  "foundational_tactical_cash_engine": {
+    "role": "TACTICAL_CASH_GENERATION_ENGINE",
+    "tickers": ["PL", "ASTS"],
+    "max_capital_per_ticker_usd": 4000,
+    "current_policy": "MAY_SCALE_STAGED_TO_4000_MAX",
+    "allowed": "PL/ASTS may scale toward USD 4,000 maximum each under staged CIO manual review.",
+    "forbidden": "Do not convert to unlimited conviction holdings.",
+    "trim_rule": "Review trims into strength after relief rally or 5-8% sleeve gain.",
+    "kill_conditions": [
+      "large_outflow_persists_after_relief",
+      "support_break_without_reclaim",
+      "catalyst_failure",
+      "risk_regime_reverts_to_systemic_risk_off"
+    ]
+  },
+  "volatility_hedge": {
+    "role": "EVENT_HEDGE",
+    "tickers": ["VXX", "VIXY"],
+    "current_policy": "KEEP_UNTIL_RELIEF_CONFIRMED",
+    "allowed": "Review partial harvest only if relief is confirmed across VXX, credit, breadth, and high beta.",
+    "forbidden": "Do not close hedge blindly before peace implementation quality is verified.",
+    "kill_conditions": [
+      "vol_spike_fades",
+      "beta_stabilizes",
+      "cio_profit_take"
+    ]
+  },
+  "cash_fortress": {
+    "role": "OPTIONALITY_AND_DCA_RESERVE",
+    "current_policy": "PRESERVE",
+    "allowed": "Use cash selectively only under CIO manual decision.",
+    "forbidden": "Do not treat high cash as a defect.",
+    "dca_rule": "DCA is conditional, not automatic."
+  }
+}
+
+==============================================================================
+8. KILL CONDITIONS REQUIREMENT
+==============================================================================
+
+Add a unified kill-condition list:
+
+"kill_conditions": [
+  "peace_deal_fails_or_is_delayed",
+  "us_or_iran_walks_back_deal",
+  "weekend_military_incident_occurs",
+  "oil_risk_premium_returns_sharply",
+  "vxx_or_uvxy_reverses_green",
+  "spy_qqq_fade_with_vxx_rising",
+  "hyg_jnk_credit_stress_appears",
+  "usd_jpy_breaks_down_sharply_or_yen_carry_unwinds",
+  "high_beta_gap_up_fades_intraday",
+  "institutional_outflows_worsen_after_price_bounce",
+  "gold_breaks_while_real_yields_and_usd_rise",
+  "xlf_underperforms_spy_while_bac_wfc_weaken",
+  "blind_spot_warning_escalates_to_fail",
+  "pnl_integrity_conflict_blocks_decision"
+]
+
+==============================================================================
+9. REQUIRED CHIEF STRATEGIST BEHAVIOR
+==============================================================================
+
+Add:
+
+"required_chief_strategist_behavior": [
+  "Read CIO Context Capsule first.",
+  "State current CIO decision record before new analysis.",
+  "Separate strategic thesis from tactical tape.",
+  "Do not invalidate structural gold thesis from one tactical gold warning.",
+  "Do not treat scout orders as second tranche.",
+  "Do not treat satellites as core holdings unless CIO explicitly upgrades them.",
+  "Always preserve CIO_ONLY_MANUAL execution doctrine.",
+  "Always state kill conditions before DCA logic.",
+  "If only partial data is uploaded, operate from capsule and mark missing layers explicitly.",
+  "If current broker screenshot conflicts with report data, treat screenshot as later live state but preserve report doctrine.",
+  "Use source hierarchy before inference.",
+  "Do not give generic caution; give operational interpretation."
+]
+
+==============================================================================
+10. CONVERSATION BOOTSTRAP PROMPT
+==============================================================================
+
+Add to JSON:
+
+"conversation_bootstrap_prompt": {
+  "purpose": "Instruction for any Chief Strategist agent opening this package.",
+  "text": "Before answering the CIO, read cio_context_capsule first. Treat it as the portable institutional memory layer. Do not answer from tactical data alone. Reconcile CIO doctrine, latest CIO three-step decision record, active thesis, current events, portfolio exposure, open orders, kill conditions, and deterministic operator blocks. Preserve CIO_ONLY_MANUAL execution doctrine. Tactical score modifies timing; it does not invalidate structural thesis unless kill condition triggers. Scout orders are not second-tranche authorization. DCA is conditional, not automatic."
+}
+
+This text must also be printed visibly in TXT and Word reports.
+
+==============================================================================
+11. REPORT INJECTION REQUIREMENTS
+==============================================================================
+
+A. TXT Report
+
+Insert near the very top, before Executive Summary:
+
+==============================================================================
+  CIO CONTEXT CAPSULE — READ FIRST
+==============================================================================
+Version: v3.5-cio-context-001
+Mandatory for Chief Strategist: TRUE
+
+Latest CIO Decision:
+CIO Manual Event-Scout Override ahead of probable peace-deal relief rally.
+
+Strategic Thinking:
+CIO identified high-probability peace-deal catalyst and judged event probability
+sufficient for scout positioning even without perfect 5D support pricing.
+
+Strategic Planning:
+Gold miners remain at 5D support bids. BAC/WFC receive first USD 1,000 scouts.
+QBTS/QUBT/PL/ASTS/RKLB/LUNR may be built toward USD 1,000 scouts. PL/ASTS may
+scale up to USD 4,000 each. DCA is conditional only.
+
+Strategic Execution:
+CIO manually positioned the book. CIO_ONLY_MANUAL. No system orders. No routing.
+Scout positioning only, not second tranche.
+
+Hard Rule:
+Tactical score modifies timing. It does not invalidate structural thesis unless
+kill condition triggers.
+==============================================================================
+
+B. Word Report
+
+Insert as first visible section on page 1:
+
+"CIO CONTEXT CAPSULE — READ FIRST"
+
+Must include:
+- version
+- mandatory flag
+- latest CIO decision
+- strategic thinking
+- strategic planning
+- strategic execution
+- active sleeve rules
+- kill conditions
+- bootstrap instruction
+
+Do not hide this in metadata.
+
+C. Excel Report
+
+Create or update first worksheet:
+
+00_CIO_CONTEXT_CAPSULE
+
+Required columns:
+- Field
+- Value
+- Certainty
+- Source Layer
+
+Required rows:
+- version
+- mandatory_for_chief_strategist
+- latest_cio_decision
+- strategic_thinking
+- strategic_planning
+- strategic_execution
+- execution_authority
+- order_routing_enabled
+- system_orders_generated
+- second_tranche_authorized
+- dca_rule
+- cash_fortress
+- gold_miners_policy
+- banks_policy
+- high_beta_policy
+- pl_asts_policy
+- kill_conditions
+- bootstrap_prompt
+- capsule_hash
+
+D. DOCX/TXT/XLSX Consistency
+
+All reports must carry the same capsule_hash.
+
+==============================================================================
+12. HASHING AND CONSISTENCY
+==============================================================================
+
+Implement deterministic hash generation.
+
+Recommended method:
+1. Normalize capsule JSON with sorted keys.
+2. Remove volatile fields if needed, or place volatile fields in a known section.
+3. Compute SHA256.
+4. Store as "capsule_hash".
+5. Print same hash in JSON, TXT, Word, and Excel.
+
+Pseudo-code:
+
+import json, hashlib
+
+def compute_capsule_hash(capsule: dict) -> str:
+    stable = dict(capsule)
+    stable.pop("capsule_hash", None)
+    payload = json.dumps(stable, sort_keys=True, ensure_ascii=False, separators=(",", ":"))
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+Validation:
+- TXT capsule hash must match JSON capsule hash.
+- Word capsule hash must match JSON capsule hash.
+- Excel capsule hash must match JSON capsule hash.
+- If mismatch occurs, report generation should fail or mark INSTITUTIONAL_REVIEW_REQUIRED.
+
+==============================================================================
+13. VALIDATOR REQUIREMENTS
+==============================================================================
+
+Create validate_cio_context_capsule.py.
+
+Required checks:
+
+1. dataset_raw.json contains top-level cio_context_capsule.
+2. cio_context_capsule.status == "ACTIVE".
+3. mandatory_for_all_chief_strategist_replies == true.
+4. execution_authority == "CIO_ONLY_MANUAL".
+5. order_routing_enabled == false.
+6. system_generated_orders == 0.
+7. tactical_score_rule exists.
+8. cio_three_step_record exists.
+9. strategic_thinking exists and is non-empty.
+10. strategic_planning exists and is non-empty.
+11. strategic_execution exists and is non-empty.
+12. active_sleeve_rules contains gold_miners, banks_bac_wfc, high_beta_satellites,
+    foundational_tactical_cash_engine, volatility_hedge, cash_fortress.
+13. kill_conditions contains at least 8 items.
+14. conversation_bootstrap_prompt.text exists and is non-empty.
+15. TXT report contains "CIO CONTEXT CAPSULE — READ FIRST".
+16. Word report contains "CIO CONTEXT CAPSULE — READ FIRST".
+17. Excel contains sheet "00_CIO_CONTEXT_CAPSULE".
+18. Hashes match across artifacts.
+19. If any critical field is missing, block publication or mark report as:
+    INSTITUTIONAL_REVIEW_REQUIRED.
+
+Validator output:
+
+{
+  "status": "PASS" | "WARNING" | "FAIL",
+  "score": 0-100,
+  "failed_checks": [],
+  "warnings": [],
+  "capsule_hash": "...",
+  "artifacts_checked": {
+    "dataset_raw_json": true,
+    "txt_report": true,
+    "word_report": true,
+    "excel_report": true
+  }
+}
+
+==============================================================================
+14. PARTIAL ARTIFACT BOOTSTRAP RULES
+==============================================================================
+
+The system must support partial uploads.
+
+If only dataset_raw.json exists:
+- read cio_context_capsule first.
+- proceed with available data.
+- mark missing reports as non-critical.
+
+If only TXT exists:
+- parse CIO CONTEXT CAPSULE — READ FIRST.
+- use capsule as doctrine and latest CIO memory.
+- mark JSON fields unavailable.
+
+If only Word exists:
+- parse first visible CIO CONTEXT CAPSULE section.
+- use capsule as doctrine and latest CIO memory.
+
+If only Excel exists:
+- read sheet 00_CIO_CONTEXT_CAPSULE first.
+- use capsule as doctrine and latest CIO memory.
+
+If only screenshot exists:
+- use screenshot for latest broker state.
+- preserve remembered capsule if available.
+- explicitly state missing dataset/report layers.
+- do not invent missing doctrine.
+
+==============================================================================
+15. TEST CASES
+==============================================================================
+
+Test 1: Full package
+Input:
+- dataset_raw.json
+- TXT
+- Word
+- Excel
+
+Expected:
+- capsule present in all.
+- hashes match.
+- validator PASS.
+
+Test 2: JSON only
+Input:
+- dataset_raw.json
+
+Expected:
+- assistant can recover CIO decision and sleeve rules.
+- validator partial PASS / artifact warnings only.
+
+Test 3: TXT only
+Input:
+- Bluelotus_V3_Report.txt
+
+Expected:
+- assistant can recover CIO decision, strategic thinking, planning, execution.
+- no need for JSON to understand current CIO state.
+
+Test 4: Excel only
+Input:
+- Bluelotus_V3_Report.xlsx
+
+Expected:
+- sheet 00_CIO_CONTEXT_CAPSULE appears first.
+- rows contain core memory.
+
+Test 5: Word only
+Input:
+- Bluelotus_V3_Report.docx
+
+Expected:
+- first visible section contains CIO capsule.
+- assistant can recover context.
+
+Test 6: Tactical gold score weak
+Input:
+- gold_thesis operator FAIL/WARNING
+- CIO capsule says structural gold thesis intact unless kill condition
+
+Expected:
+- Chief Strategist says structural thesis intact but tactical add blocked.
+- Must not say gold thesis invalidated.
+
+Test 7: Scout order present
+Input:
+- open order / scout order
+
+Expected:
+- Chief Strategist says scout is not second tranche.
+- no automatic add authorization.
+
+Test 8: High beta positions
+Input:
+- PL/ASTS/QBTS/QUBT/RKLB/LUNR exposure
+
+Expected:
+- Chief Strategist classifies satellites as tactical unless CIO upgraded.
+- PL/ASTS may be foundational tactical cash-engine names up to USD 4,000 each.
+
+Test 9: DCA request
+Input:
+- CIO asks whether to DCA
+
+Expected:
+- output says DCA conditional only.
+- must list kill conditions before DCA logic.
+
+==============================================================================
+16. ACCEPTANCE CRITERIA
+==============================================================================
+
+Work order is complete only when:
+
+1. dataset_raw.json contains valid cio_context_capsule.
+2. Bluelotus_V3_Report.txt includes visible "CIO CONTEXT CAPSULE — READ FIRST".
+3. Bluelotus_V3_Report.docx includes visible "CIO CONTEXT CAPSULE — READ FIRST".
+4. Bluelotus_V3_Report.xlsx includes first tab "00_CIO_CONTEXT_CAPSULE".
+5. All artifacts share matching capsule_hash.
+6. Validator runs successfully.
+7. Partial upload tests pass.
+8. Chief Strategist can produce a coherent briefing from any one artifact.
+9. Execution doctrine remains CIO_ONLY_MANUAL.
+10. No report or script generates broker orders.
+11. No Chief Strategist output can ignore the latest CIO three-step record.
+12. Tactical scores cannot override structural thesis without kill condition.
+
+==============================================================================
+17. NON-GOALS / SAFETY BOUNDARIES
+==============================================================================
+
+This work order must not:
+
+- enable broker order routing.
+- generate executable order tickets.
+- automate trade execution.
+- override CIO.
+- remove deterministic operator blocks.
+- treat LLM commentary as source of truth above broker/order data.
+- treat stale archive as live truth.
+- claim forecast skill before Brier data matures.
+- convert scout orders into second-tranche authorization.
+
+==============================================================================
+18. FINAL CODEX INSTRUCTION
+==============================================================================
+
+Implement the CIO Context Capsule as a mandatory portable memory layer.
+
+The goal is not simply to add another report section. The goal is to ensure that
+every future Chief Strategist conversation begins with the correct BlueLotus
+institutional memory:
+
+- what the CIO is thinking,
+- what the CIO has planned,
+- what the CIO manually executed,
+- which sleeve rules are active,
+- which kill conditions govern DCA,
+- and why tactical data must be reconciled with structural doctrine.
+
+Final governing sentence:
+
+"No Chief Strategist answer may be produced from tactical data alone. Every answer
+must first reconcile CIO Context Capsule, Chief Strategist Governance, active
+thesis, deterministic operators, portfolio exposure, open orders, current events,
+and kill conditions."
+
+END OF WORK ORDER

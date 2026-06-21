@@ -1,0 +1,73 @@
+execution_mode: linear
+max_concurrent_llm_calls: 1
+clear_between_agents: true
+llm_settle_seconds: 4
+kill_llama_server_on_agent_error: true
+require_json_validation: true
+stop_on_execution_safety_fail: true
+
+# ---------------------------------------------------------------------------
+# Retry Configuration
+# ---------------------------------------------------------------------------
+# retry_policy applies when an agent's response fails JSON schema validation.
+# The orchestrator calls retry_prompt_builder to generate a repair prompt.
+# ---------------------------------------------------------------------------
+retry_policy:
+  max_retries: 2
+  # Maximum number of repair attempts per agent per cycle.
+  # After max_retries failures, the agent is logged as ERROR and
+  # the cycle continues with remaining agents.
+
+  retry_on_schema_failure: true
+  # Retry when JSON schema validation fails (most common failure mode).
+
+  retry_on_empty_response: false
+  # Do NOT retry on empty response — this indicates model unavailability,
+  # not a schema compliance issue. Log error and continue.
+
+  retry_on_json_parse_error: true
+  # Retry when response is not valid JSON (common with small models).
+
+  retry_prompt_style: targeted
+  # "targeted" = send repair prompt with specific error + broken response
+  # "full"     = resend the complete original prompt (more expensive, less effective)
+
+  retry_delay_seconds: 4
+  # Wait N seconds between retries to reduce Ollama CPU pressure.
+
+  retry_quality_gate: false
+  # If true: after a successful retry, run quality scorer on the repaired
+  # response. If quality score < quality_gate_min_pct, log warning but accept.
+  # Keep false until quality scorer is integrated into orchestrator.
+
+  quality_gate_min_pct: 60
+  # Minimum quality score (%) to accept a retry response without warning.
+  # Only active when retry_quality_gate: true.
+
+# ---------------------------------------------------------------------------
+# Agent Sequence
+# ---------------------------------------------------------------------------
+agent_sequence:
+  - data_integrity
+  - macro_strategist
+  - portfolio_structure
+  - catalyst_intelligence
+  - thesis_lifecycle
+  - risk_challenger
+  - forecasting_brier
+  - sector_specialist
+  - sentiment_narrative
+
+# ---------------------------------------------------------------------------
+# Agent Execution Notes
+# ---------------------------------------------------------------------------
+# risk_challenger must run AFTER all other specialist agents (execution_order: 60)
+# because its mandate is to attack the base case produced by the other desks.
+# It must not see other desks' current-cycle reports, but it runs last to
+# ensure all base-case signals are in the dataset before it attacks.
+#
+# gold_safehaven: NOT in sequence — add between thesis_lifecycle and risk_challenger
+# (execution_order: 55) when activated in agent_registry.yaml.
+#
+# chief_strategist: NOT in sequence — runs as deterministic synthesis engine
+# AFTER all agents complete, inside linear_agent_orchestrator.run_cycle().

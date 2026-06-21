@@ -1,0 +1,141 @@
+BLUELOTUS V3 - SUPERVISED PROMPT ARCHITECTURE OBSERVATION REPORT
+FROM  : Dr. Codex, Windows Platform Team
+TO    : CIO, Dr. Claude Code, Chief Architecture ChatGPT 5.5
+DATE  : 2026-06-17 SGT
+SCOPE : Observe V3 Prompt Architecture under supervised feature-flag activation
+
+EXECUTIVE VERDICT
+Verdict: GREEN / WATCH
+The new V3 Prompt Architecture is operational under supervised activation. Five controlled V3 Grand Cycles completed with 45/45 agent executions, 45/45 schema-valid agent reports, zero execution errors, zero retry artifacts, zero failed raw-output artifacts, and zero critical governance failures.
+Do not permanently promote the new path yet. The evidence supports continued supervised use, but two follow-up items should be resolved before default activation: Risk Challenger must-answer consistency and runtime/process hygiene around duplicate daemons using the old V2 venv interpreter while targeting V3 scripts.
+
+FEATURE FLAG STATE
+Durable production default: USE_NEW_PROMPT_ARCH=false
+Observation activation method: process environment only; private .env was not overwritten.
+Private .env inspected: no persistent USE_NEW_PROMPT_ARCH / comparison / audit / retry override lines found.
+Temporary observation flags used:
+  USE_NEW_PROMPT_ARCH=true
+  RUN_PROMPT_ARCH_COMPARISON=false
+  SAVE_COMPILED_PROMPTS_FOR_AUDIT=false
+  LLM_MAX_RETRIES=2
+Revert instruction: no file rollback required; close the observation shell or run with USE_NEW_PROMPT_ARCH unset/false.
+
+OBSERVATION WINDOW
+Cycles observed: 5
+Window start: 2026-06-17 02:40:09 SGT
+Window end  : 2026-06-17 02:48:47 SGT
+Average quality across cycles: 76.2/100
+Cycle pass-rate sequence: [0.89, 1.0, 1.0, 1.0, 1.0]
+
+CYCLE SUMMARY
+- obs_prompt_arch_20260617_024009_1
+  Start/end/runtime: 2026-06-17 02:40:09 SGT -> 2026-06-17 02:41:27 SGT (78 sec)
+  Agents/reports/quality/audits: 9/9 reports, 9/9 quality, 9/9 prompt audits
+  Errors/retries/failed artifacts: 0 execution errors, 0 retries, 0 failed raw artifacts
+  Quality: pass_rate=0.89, average=75.3, best=thesis_lifecycle, worst=risk_challenger, failed=['risk_challenger']
+  Critical governance failures: []
+  Memory snippets used: 9 total; compiled prompts saved: False
+- obs_prompt_arch_20260617_024009_2
+  Start/end/runtime: 2026-06-17 02:41:28 SGT -> 2026-06-17 02:42:46 SGT (79 sec)
+  Agents/reports/quality/audits: 9/9 reports, 9/9 quality, 9/9 prompt audits
+  Errors/retries/failed artifacts: 0 execution errors, 0 retries, 0 failed raw artifacts
+  Quality: pass_rate=1.0, average=76.1, best=thesis_lifecycle, worst=sector_specialist, failed=[]
+  Critical governance failures: []
+  Memory snippets used: 9 total; compiled prompts saved: False
+- obs_prompt_arch_20260617_024009_3
+  Start/end/runtime: 2026-06-17 02:42:47 SGT -> 2026-06-17 02:44:04 SGT (78 sec)
+  Agents/reports/quality/audits: 9/9 reports, 9/9 quality, 9/9 prompt audits
+  Errors/retries/failed artifacts: 0 execution errors, 0 retries, 0 failed raw artifacts
+  Quality: pass_rate=1.0, average=76.4, best=thesis_lifecycle, worst=sector_specialist, failed=[]
+  Critical governance failures: []
+  Memory snippets used: 9 total; compiled prompts saved: False
+- obs_prompt_arch_20260617_024009_4
+  Start/end/runtime: 2026-06-17 02:46:04 SGT -> 2026-06-17 02:47:24 SGT (80 sec)
+  Agents/reports/quality/audits: 9/9 reports, 9/9 quality, 9/9 prompt audits
+  Errors/retries/failed artifacts: 0 execution errors, 0 retries, 0 failed raw artifacts
+  Quality: pass_rate=1.0, average=77.3, best=sentiment_narrative, worst=sector_specialist, failed=[]
+  Critical governance failures: []
+  Memory snippets used: 9 total; compiled prompts saved: False
+- obs_prompt_arch_20260617_024009_5
+  Start/end/runtime: 2026-06-17 02:47:25 SGT -> 2026-06-17 02:48:47 SGT (82 sec)
+  Agents/reports/quality/audits: 9/9 reports, 9/9 quality, 9/9 prompt audits
+  Errors/retries/failed artifacts: 0 execution errors, 0 retries, 0 failed raw artifacts
+  Quality: pass_rate=1.0, average=75.9, best=thesis_lifecycle, worst=sector_specialist, failed=[]
+  Critical governance failures: []
+  Memory snippets used: 9 total; compiled prompts saved: False
+
+AGENT QUALITY TREND
+Agent                            C1        C2        C3        C4        C5
+---------------------------------------------------------------------------
+data_integrity                74.0C     74.0C     76.0C     76.0C     74.0C
+macro_strategist              77.8C     77.8C     77.8C     77.8C     73.8C
+portfolio_structure           73.6C     75.6C     75.6C     75.6C     75.6C
+catalyst_intelligence         77.6C     77.6C     77.6C     77.6C     77.6C
+thesis_lifecycle              84.5B     84.5B     85.0B     84.5B     84.5B
+risk_challenger               66.8D     71.8C     71.8C     73.8C     73.8C
+forecasting_brier             74.3C     74.3C     74.3C     74.3C     74.3C
+sector_specialist             71.1C     71.1C     71.1C     71.1C     71.1C
+sentiment_narrative           78.3C     78.3C     78.3C     85.0B     78.3C
+
+QUALITY OBSERVATION
+Cycle 1 had one quality failure: risk_challenger scored 66.8 / D. Root cause from quality_risk_challenger.json: weak must-answer coverage, incomplete causal chain, and overconfidence when causal completeness was incomplete. Cycles 2 through 5 recovered to PASS for risk_challenger, with scores 71.8, 71.8, 73.8, 73.8.
+
+JSON AND SCHEMA STATUS
+All observed cycles produced 9 agent report JSON files. Dedicated schema test passed after observation: tests/test_agent_report_schema.py. Prompt architecture runtime tests also passed.
+
+RETRY AND FAILED ARTIFACT STATUS
+No retry artifacts were generated in any observed cycle. No failed raw-output artifacts were generated. LLM_MAX_RETRIES remained capped at 2 for the observation.
+
+PROMPT AUDIT STATUS
+Each cycle produced 9 prompt_audit_*.json records. Audit records contain hashes, prompt/context character counts, config references, schema path, memory policy version, and memory snippet counts. Full compiled prompts were not saved because SAVE_COMPILED_PROMPTS_FOR_AUDIT=false.
+
+MEMORY AND CONTEXT STATUS
+Each agent used 1 retrieved memory snippet per observed cycle. Total memory snippets used across five cycles: 45. Memory retrieval was active and auditable without exposing compiled prompt text.
+
+SAFETY VERIFICATION
+Post-observation tests passed:
+  PASS tests/test_prompt_architecture_runtime.py
+  PASS tests/test_prompt_architecture_safety.py
+  PASS tests/test_agent_report_schema.py
+  PASS tests/test_no_bluelotus2_write.py
+  PASS tests/test_no_v2_database_write.py
+  PASS tests/test_no_order_language.py
+  PASS tests/test_no_parallel_llm_calls.py
+  PASS tests/test_no_hardcoding.py
+  PASS tests/test_ollama_connection.py
+Safety conclusion: no V2 write target, no V2 database write, no order-language breach, no hardcoding regression, no prompt-architecture direct-Ollama bypass, and no parallel LLM calls detected by tests.
+
+OLLAMA / QWEN RUNTIME STATUS
+ollama ps after observation: qwen3:4b loaded, 3.2 GB, 100% GPU, context 4096. llama-server command line shows -np 1. No OOM, no model reload storm, and no observed runtime crash during the five cycles.
+
+DASHBOARD AND PUBLISHER STATUS
+The supervised observation cycles did not invoke bluelotus_publisher.py and did not intentionally publish observation cycles to GitHub Pages. This avoids turning supervised test cycles into public dashboard state.
+Independent live pipeline log note: the previous full pipeline publisher step at 2026-06-17 02:34 SGT reported GitHub PASS 200 for index, chief-strategist, portfolio_live.json, chief_strategist_v17.txt, and v3_agents_latest.json. The same live loop had a separate report regression failure: Required portfolio classifications rendered. That issue is not caused by this prompt observation, but remains open.
+
+PROCESS / ENVIRONMENT HYGIENE OBSERVATION
+Process table shows V3 scripts running through C:\bluelotus2\.venv\Scripts\python.exe, including news_probe_daemon, boj_yen_carry_probe_daemon, thesis_probe_daemon, warsh_thesis_probe_daemon, portfolio_live_updater, and fetch_capital_flow. Several daemon classes appear duplicated. Tests confirm no V2 writes, but the interpreter path and duplicate processes are operational hygiene risks and should be cleaned under a separate CIO-approved work order.
+
+ISSUE CLASSIFICATION
+P1: None found in supervised prompt architecture observation.
+P2: Risk Challenger prompt quality variance. One of five cycles failed quality due to must-answer and confidence discipline. Recommend tightening role-specific prompt instructions before default promotion.
+P2: Runtime hygiene. Duplicate V3 daemons and V2 venv interpreter path can confuse operations and should be normalized, but no V2 write was detected.
+P2: Live pipeline report regression remains open: Required portfolio classifications rendered.
+P3: Publisher emits SyntaxWarning invalid escape sequence in embedded JavaScript string; cosmetic/runtime-noise cleanup.
+P3: Publisher banner still says BlueLotus Publisher v1.7 [V2 Integrated]; presentation label should be updated later.
+
+RECOMMENDED FIXES BEFORE PERMANENT DEFAULT ACTIVATION
+1. Strengthen risk_challenger role prompt to explicitly answer every must-answer question and cap confidence when causal completeness is partial/incomplete.
+2. Add a quality-floor policy for permanent activation: require 5/5 cycles with no failed_agents and average quality >= 76 before promoting USE_NEW_PROMPT_ARCH=true by default.
+3. Clean daemon launch scripts so V3 daemons use a V3-owned interpreter and only one instance of each daemon class runs.
+4. Fix live pipeline report regression for portfolio classifications before using full pipeline report audit as a promotion gate.
+5. Clean publisher warning and legacy V2 presentation label when presentation-layer polish resumes.
+
+CLAUDE / ARCHITECTURE RE-ENGAGEMENT
+Re-engage Dr. Claude Code for prompt-quality tuning of Risk Challenger and for daemon process hygiene. Re-engage Chief Architecture ChatGPT 5.5 only if CIO wants to decide whether quality-floor policy should become a formal governance gate.
+
+FINAL RECOMMENDATION
+Keep production default at USE_NEW_PROMPT_ARCH=false for now. The new prompt architecture is ready for supervised continuation and targeted tuning, not yet permanent default promotion.
+
+SIGNED
+Dr. Codex
+Windows Platform Team

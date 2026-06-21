@@ -1,0 +1,86 @@
+===============================================================================
+BLUELOTUS V3 SERVICE ENGINEERING SOP RECORD
+Subject: Residual Empty-Findings Defect After Claude Empty-Agent-Findings Fix
+Date: 2026-06-21 SGT
+Owner: Dr. Codex, Windows Platform Team
+===============================================================================
+
+1. OBSERVATION
+-------------------------------------------------------------------------------
+Dr. Claude Code's fix successfully repaired the originally published Chief
+Strategist page cycle:
+
+  public cycle: v3_cycle_20260621_013308
+  public agent count: 9
+  public page contains no "No findings" text
+
+However, the later local publish-ready cycle:
+
+  v3_cycle_20260621_014257
+
+contains a Risk Challenger report with:
+
+  summary: non-empty
+  key_findings: []
+  confidence: 0.5
+  retry_count: 2
+
+This means the exact scaffold-empty defect was fixed, but a related semantic
+inadequacy class remains.
+
+2. THESIS
+-------------------------------------------------------------------------------
+Schema-valid output is not sufficient for institutional agent reporting.
+
+For a BlueLotus V3 agent report to be publishable as a normal agent report, it
+must contain at least:
+
+  - a non-empty summary, and
+  - at least one non-empty key_findings item.
+
+If an agent cannot produce a key finding after retries, it should not be silently
+published as a normal agent. It should either:
+
+  A. retry with a semantic adequacy repair prompt, or
+  B. fail the agent and allow the existing degraded/agent-error flow to expose
+     the weakness.
+
+3. HYPOTHESIS
+-------------------------------------------------------------------------------
+The current gate is too narrow because it triggers only when:
+
+  summary is empty AND key_findings is empty AND confidence == 0.5
+
+This misses cases where Qwen fills a generic summary but leaves key_findings
+empty.
+
+If the semantic gate is changed to reject:
+
+  - blank summary, OR
+  - empty/non-string key_findings, OR
+  - only blank key_findings items,
+
+then no normal accepted agent report should reach the publisher with
+"No findings" or equivalent empty findings.
+
+4. TEST PLAN
+-------------------------------------------------------------------------------
+AT1: semantic_content_error detects full scaffold-empty response.
+AT2: semantic_content_error detects non-empty summary with empty key_findings.
+AT3: semantic_content_error accepts non-empty summary with at least one finding.
+AT4: retry prompt for EMPTY_CONTENT_RESPONSE requires at least one key finding.
+AT5: full pytest suite remains green.
+AT6: real V3 cycle produces 9 agents or degraded cards, but no normal agent with
+     empty key_findings.
+
+5. SAFETY INVARIANTS
+-------------------------------------------------------------------------------
+  CIO_ONLY_MANUAL preserved.
+  order_routing_enabled remains false.
+  llm_order_generation remains false.
+  no broker execution path introduced.
+  no V2 contamination.
+
+===============================================================================
+END_OF_SOP_RECORD
+===============================================================================

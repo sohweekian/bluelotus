@@ -1,0 +1,191 @@
+===============================================================================
+BLUELOTUS V3 - PEI UPGRADE TECHNICAL REPORT
+FROM  : Dr. Codex, Windows Platform Team
+TO    : Chief Architect ChatGPT 5.5 / Dr. Claude Code
+DATE  : 2026-06-19 SGT
+STATUS: COMPLETE
+===============================================================================
+
+1. EXECUTIVE SUMMARY
+
+The Prospective Event Intelligence (PEI) subsystem is now operational inside
+BlueLotus V3.
+
+This upgrade moves V3 beyond explaining the current market state. The system can
+now register major event catalysts, construct probability-weighted future
+branches, map branches to portfolio sleeves, render CIO playbooks, and enter
+measurable forecasts into a Brier/CRS accountability path.
+
+PEI remains strictly research-only:
+
+Execution authority : CIO_ONLY_MANUAL
+Order routing       : FALSE
+Orders generated    : 0
+Broker role         : READ_ONLY_EXTRACTION
+
+2. FILES IMPLEMENTED
+
+New PEI package:
+
+C:\bluelotus3\pei\__init__.py
+C:\bluelotus3\pei\common.py
+C:\bluelotus3\pei\db_schema.py
+C:\bluelotus3\pei\event_schema.py
+C:\bluelotus3\pei\event_branch_schema.py
+C:\bluelotus3\pei\event_resolution_rules.py
+C:\bluelotus3\pei\event_registry.py
+C:\bluelotus3\pei\event_tree_builder.py
+C:\bluelotus3\pei\sleeve_transmission_rules.py
+C:\bluelotus3\pei\event_to_sleeve_mapper.py
+C:\bluelotus3\pei\scenario_action_classifier.py
+C:\bluelotus3\pei\portfolio_playbook_renderer.py
+C:\bluelotus3\pei\forecast_registry.py
+C:\bluelotus3\pei\forecast_resolver.py
+C:\bluelotus3\pei\brier_crs_engine.py
+C:\bluelotus3\pei\forecast_scorecards.py
+C:\bluelotus3\pei\private_liquidity_proxy.py
+C:\bluelotus3\pei\reflexive_suppression_detector.py
+C:\bluelotus3\pei\tactical_cash_engine_rules.py
+C:\bluelotus3\pei\oscillation_engine_calibrator.py
+C:\bluelotus3\pei\hawkes_branching_estimator.py
+C:\bluelotus3\pei\event_cascade_model.py
+C:\bluelotus3\pei\builder.py
+C:\bluelotus3\pei\report_renderers.py
+
+Modified production report generator:
+
+C:\bluelotus3\research\research_report_generator.py
+
+3. DATABASE LAYER
+
+Created all 15 requested PEI tables:
+
+pei_event_registry
+pei_event_branches
+pei_event_branch_probabilities
+pei_event_evidence
+pei_event_to_sleeve_map
+pei_portfolio_playbooks
+pei_kill_condition_checks
+pei_forecast_registry
+pei_forecast_resolutions
+pei_brier_scores
+pei_crs_decomposition
+pei_postmortems
+pei_reflexive_suppression_checks
+pei_oscillation_engine_calibrations
+pei_backtest_runs
+
+Current populated PEI ledger after report generation:
+
+Events                 : 3
+Branches               : 9
+Branch probabilities   : 9
+Sleeve mappings        : 36
+Portfolio playbooks    : 9
+Forecast registry      : 9
+Reflexive checks       : 1
+Oscillation calibrations: 6
+
+4. REPORT INTEGRATION
+
+dataset_raw now includes:
+
+dataset_raw["prospective_event_intelligence"]
+
+The production generator now builds PEI immediately after the Law & Order
+Governance Binding, so PEI is bound to the active governance pack and report
+memory binding before report text, Word, Excel, and delivery JSON are produced.
+
+Confirmed outputs:
+
+C:\bluelotus3\research\Bluelotus_V3_Report.txt
+C:\bluelotus3\research\Bluelotus_V3_Report.docx
+C:\bluelotus3\research\Bluelotus_V3_Report.xlsx
+C:\bluelotus3\research\research_report_delivery_latest.json
+C:\bluelotus3\data\frontend\dataset_raw.json
+
+Excel includes all required PEI sheets:
+
+PEI_Events
+PEI_Scenario_Trees
+PEI_Sleeve_Map
+PEI_Playbook
+PEI_Forecast_Registry
+PEI_Brier_CRS
+PEI_Reflexive_Suppression
+PEI_Oscillation_Engine
+
+5. FIRST OPERATIONAL EVENT SET
+
+Initial active PEI events:
+
+1. Warsh hawkish Fed repricing
+2. BOJ yen carry unwind watch
+3. SpaceX capital absorption / ASTS proxy suppression
+
+Each event has three branches, probability weights, confirmations,
+contradictions, kill conditions, sleeve mappings, allowed actions, blocked
+actions, and forecast resolution criteria.
+
+6. SAFETY AND GOVERNANCE
+
+PEI is fail-closed:
+
+If governance binding is missing, PEI returns GOVERNANCE_BINDING_MISSING and
+sets CIO action cap to ADD_BLOCKED.
+
+If forecast criteria are missing, the forecast is treated as
+UNRESOLVABLE_FORECAST and does not enter the accountable forecast ledger.
+
+Every PEI output preserves:
+
+CIO_ONLY_MANUAL
+order_routing_enabled = false
+orders_generated = 0
+
+7. TESTING
+
+New PEI tests added:
+
+C:\bluelotus3\tests\test_pei_event_registry.py
+C:\bluelotus3\tests\test_pei_event_tree_builder.py
+C:\bluelotus3\tests\test_pei_sleeve_mapper.py
+C:\bluelotus3\tests\test_pei_playbook_renderer.py
+C:\bluelotus3\tests\test_pei_forecast_resolver.py
+C:\bluelotus3\tests\test_pei_brier_crs.py
+C:\bluelotus3\tests\test_pei_reflexive_suppression.py
+C:\bluelotus3\tests\test_pei_oscillation_engine.py
+C:\bluelotus3\tests\test_pei_governance_safety.py
+
+Verification results:
+
+PEI tests                  : 15 passed
+Full V3 pytest suite        : 145 passed, 1 pre-existing warning
+Report regression audit     : PASS, 10/10
+Report generator validation : PASS, 10/10 acceptance
+
+8. FINAL VERDICT
+
+PEI is now live inside the V3 production report path.
+
+BlueLotus V3 can now answer:
+
+What events are active?
+What branches may open?
+What probability does each branch carry?
+What confirms or kills each branch?
+Which sleeves are affected?
+What is allowed?
+What is blocked?
+When will the forecast resolve?
+How will it be scored?
+Which governance law pack controlled the interpretation?
+Did execution remain CIO_ONLY_MANUAL?
+
+Final classification:
+
+PEI_UPGRADE_COMPLETE
+SYSTEM_STATE: OPERATIONAL
+EXECUTION_STATE: CIO_ONLY_MANUAL / NO_ROUTING / NO_ORDERS
+===============================================================================

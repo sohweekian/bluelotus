@@ -1,0 +1,193 @@
+{
+  "_version": "1.0",
+  "_description": "BlueLotus Report Contract — fields every report format (TXT / Word / Excel) must display identically from approved_operating_truth.json. No renderer may recalculate these values.",
+
+  "contract_fields": {
+    "market_status": {
+      "source": "meta.market_session",
+      "description": "Weekend/regular/pre/post market label",
+      "all_formats_must_match": true
+    },
+    "regime": {
+      "source": "regime.regime",
+      "description": "Current market regime string",
+      "all_formats_must_match": true
+    },
+    "regime_score": {
+      "source": "regime.score",
+      "description": "Numeric regime score",
+      "all_formats_must_match": true
+    },
+    "regime_action": {
+      "source": "regime.action",
+      "description": "Recommended regime action",
+      "all_formats_must_match": true
+    },
+    "cio_action": {
+      "source": "governance_gate.cio_action",
+      "description": "Final CIO action compression output",
+      "all_formats_must_match": true
+    },
+    "confidence": {
+      "source": "governance_gate.confidence",
+      "description": "Numeric confidence 0.0–1.0",
+      "all_formats_must_match": true
+    },
+    "confidence_label": {
+      "source": "governance_gate.confidence_label",
+      "description": "LOW / LOW-MEDIUM / MEDIUM / HIGH",
+      "all_formats_must_match": true
+    },
+    "causal_status": {
+      "source": "governance_gate.causal_status",
+      "description": "COMPLETE / PARTIAL / INCOMPLETE",
+      "all_formats_must_match": true
+    },
+    "blind_spot_status": {
+      "source": "governance_gate.blind_spot_status",
+      "description": "CLEAR / WARNING / CRITICAL",
+      "all_formats_must_match": true
+    },
+    "concentration_status": {
+      "source": "governance_gate.concentration_status",
+      "description": "NORMAL / ELEVATED / HIGH / CRITICAL",
+      "all_formats_must_match": true
+    },
+    "cluster_status": {
+      "source": "governance_gate.cluster_status",
+      "description": "Dict of cluster name to severity/value",
+      "all_formats_must_match": true
+    },
+    "hhi": {
+      "source": "governance_gate.hhi",
+      "description": "Herfindahl-Hirschman Index",
+      "all_formats_must_match": true
+    },
+    "largest_position_ticker": {
+      "source": "governance_gate.largest_position_ticker",
+      "all_formats_must_match": true
+    },
+    "largest_position_weight": {
+      "source": "governance_gate.largest_position_weight",
+      "all_formats_must_match": true
+    },
+    "top3_weight": {
+      "source": "governance_gate.top3_weight",
+      "all_formats_must_match": true
+    },
+    "gold_thesis_tracker_status": {
+      "source": "governance_gate.gold_thesis_tracker_status",
+      "description": "CONFIRMING / STRENGTHENING / WEAKENING / NEUTRAL",
+      "all_formats_must_match": true
+    },
+    "gold_thesis_tracker_score": {
+      "source": "governance_gate.gold_thesis_tracker_score",
+      "all_formats_must_match": true
+    },
+    "gold_cross_market_binary_flag": {
+      "source": "cross_market_confirmation.interpretation_flags.gold_thesis_confirmed",
+      "description": "Strict boolean gate: GLD>0 AND miners>0 AND SPY<0",
+      "all_formats_must_match": true
+    },
+    "gold_thesis_add_signal": {
+      "source": "governance_gate.gold_thesis_add_signal",
+      "description": "Thesis-only add posture, independent of execution permission",
+      "all_formats_must_match": true,
+      "forbidden_values": ["YES", "NO"]
+    },
+    "gold_execution_permission": {
+      "source": "governance_gate.gold_execution_permission",
+      "description": "Execution permission after portfolio and governance gates; must preserve CIO review",
+      "all_formats_must_match": true,
+      "forbidden_values": ["BUY", "AUTO_BUY", "EXECUTION_ALLOWED_AUTOMATIC"]
+    },
+    "gold_reconciliation_explanation": {
+      "source": "governance_gate.gold_reconciliation_explanation",
+      "description": "Mandatory explanation when tracker confirms but binary flag is False",
+      "all_formats_must_match": true
+    },
+    "execution_authority": {
+      "source": "execution.execution_authority",
+      "description": "Must always be CIO_ONLY_MANUAL",
+      "all_formats_must_match": true
+    },
+    "orders_generated": {
+      "source": "deterministic_operators.orders_generated",
+      "description": "Must always be 0",
+      "all_formats_must_match": true
+    },
+    "order_routing_enabled": {
+      "source": "execution.order_routing_enabled",
+      "description": "Must always be false",
+      "all_formats_must_match": true
+    },
+    "cio_plan_vs_broker_order_book_status": {
+      "source": "governance_gate.cio_plan_vs_broker_status",
+      "description": "Feasibility status of open orders vs CIO plan",
+      "all_formats_must_match": true
+    },
+    "manual_cio_action_required": {
+      "source": "governance_gate.manual_cio_action_required",
+      "description": "YES if open sell orders cannot execute at current price",
+      "all_formats_must_match": true
+    },
+    "sentiment_hygiene_gate_status": {
+      "source": "governance_gate.sentiment_hygiene_gate.status",
+      "description": "PASS / WARNING / FAIL — whether dirty headlines contaminate CIO tape",
+      "all_formats_must_match": true
+    },
+    "governance_gate_score": {
+      "source": "governance_gate.governance_gate_score",
+      "description": "0–100 governance quality score",
+      "all_formats_must_match": true
+    },
+    "governance_release_status": {
+      "source": "governance_gate._release_status",
+      "description": "APPROVED / APPROVED_WITH_WARNINGS / BLOCKED",
+      "all_formats_must_match": true
+    },
+    "scenario_overlay_type": {
+      "source": "approved_cio_briefing.scenario_overlay.overlay_type",
+      "description": "RELIEF_RALLY_POSSIBLE / MONETARY_EASING_WATCH / YEN_SHOCK_RISK / null",
+      "required": false,
+      "allow_unknown": false
+    },
+    "monday_open_scenario": {
+      "source": "approved_cio_briefing.monday_open_scenario",
+      "description": "Three-scenario block when breaking catalyst active (scenario_a/b/c)",
+      "required": false,
+      "allow_unknown": false
+    },
+    "gold_miner_relief_rally_action": {
+      "source": "approved_cio_briefing.scenario_overlay.gold_miner_relief_rally_action",
+      "description": "DECONCENTRATION_WINDOW or MONITOR — never BUY",
+      "required": false,
+      "forbidden_values": ["BUY"]
+    },
+    "pnl_integrity_status": {
+      "source": "portfolio.positions[*].pnl_integrity_status",
+      "description": "OK / BROKER_PNL_SOURCE_CONFLICT / INSUFFICIENT_DATA per position",
+      "required": true,
+      "forbidden_values": ["UNKNOWN"]
+    },
+    "portfolio_position_mandate": {
+      "source": "governance_gate.portfolio_position_mandates[*]",
+      "description": "Position mandate labels must render identically in TXT / Word / Excel",
+      "required": true,
+      "forbidden_values": ["UNCLASSIFIED"]
+    }
+  },
+
+  "renderer_rules": {
+    "must_not_recalculate": [
+      "regime", "concentration_status", "cluster_status", "gold_thesis_tracker_status",
+      "gold_cross_market_binary_flag", "execution_authority", "orders_generated",
+      "order_routing_enabled", "cio_action"
+    ],
+    "must_consume": "approved_operating_truth.json",
+    "must_also_consume": "approved_cio_briefing.json",
+    "all_formats_must_match_core_fields": true,
+    "approved_truth_path": "data/governance/approved_operating_truth.json",
+    "cio_briefing_path": "data/governance/approved_cio_briefing.json"
+  }
+}

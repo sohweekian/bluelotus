@@ -1,0 +1,51 @@
+{
+  "type": "object",
+  "required": [
+    "schema_version",
+    "model_role",
+    "summary",
+    "key_findings",
+    "risk_flags",
+    "recommended_cio_action",
+    "manual_execution_required",
+    "llm_order_generation"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "bluelotus_llm_response_v1.0"
+    },
+    "model_role": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "key_findings": {
+      "type": "array"
+    },
+    "risk_flags": {
+      "type": "array"
+    },
+    "recommended_cio_action": {
+      "type": "string",
+      "enum": [
+        "WAIT",
+        "HOLD",
+        "REVIEW",
+        "MANUAL_REVIEW_REQUIRED",
+        "CIO_VERIFICATION_REQUIRED",
+        "RISK_REVIEW_REQUIRED",
+        "THESIS_REVIEW_REQUIRED"
+      ]
+    },
+    "manual_execution_required": {
+      "type": "boolean",
+      "const": true
+    },
+    "llm_order_generation": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

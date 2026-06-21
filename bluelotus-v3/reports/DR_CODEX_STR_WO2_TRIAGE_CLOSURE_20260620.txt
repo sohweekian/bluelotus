@@ -1,0 +1,110 @@
+﻿BLUELOTUS V3 - STR FIRST-CYCLE DEFECT TRIAGE CLOSURE
+Prepared by: Dr. Codex, Windows Platform Team
+Date: 2026-06-20 SGT
+Authority: CIO_ONLY_MANUAL
+Order Routing: DISABLED
+System Generated Orders: 0
+
+1. Summary
+----------
+WO-2 Shannon-Thorp Refinement first-cycle triage is closed for the two P1 defects.
+The P2 cost-basis third-source item is confirmed as a known scope gap, not a code defect.
+
+2. Defect 1 - STR-5 Hedge Ratio Review
+--------------------------------------
+Status: RESOLVED
+
+Root cause:
+hedge_ratio_reviewer.py read VXX/VIXY only through a narrow market_value alias path.
+The live portfolio stores the field as mkt_val, so VXX and VIXY were matched by ticker but their
+market value resolved to 0.0.
+
+Fix:
+- Added portfolio position normalization for dict and list shapes.
+- Added market value alias resolution: mkt_val, market_val, market_value, value, position_value.
+- Added qty x price fallback.
+- Added explicit output audit fields:
+  hedge_value_source
+  hedge_tickers_expected
+  hedge_tickers_matched
+
+Live-cycle confirmation:
+VXX = 1140.00
+VIXY = 1095.00
+current_hedge_value = 2235.00
+fractional_hedge_value = 4444.97
+hedge_gap_usd = 2209.97
+hedge_status = UNDER_HEDGED
+source = dataset.portfolio.positions[*].mkt_val
+matched = VIXY, VXX
+
+3. Defect 2 - STR-4 Kelly Advisory Exact Zeroes
+-----------------------------------------------
+Status: RESOLVED
+
+Root cause:
+kelly_edge_calculator.py treated analyst upside <= 0 as a non-computable Kelly condition and
+silently returned full_kelly_fraction = 0.0000 under KELLY_NO_SIZE. This made negative available
+inputs visually indistinguishable from a missing-input default.
+
+Fix:
+- Added explicit Kelly input extraction and audit fields:
+  kelly_b, kelly_p, kelly_q, kelly_input_status, kelly_missing_inputs.
+- Added KELLY_INSUFFICIENT_DATA / CIO_REVIEW_REQUIRED for missing/null/zero required inputs.
+- Negative analyst upside now becomes NEGATIVE_EXPECTED_RETURN and a non-zero negative-edge value,
+  not a silent 0.0000 default.
+
+Live-cycle AMD confirmation:
+b = -0.0508
+p = 0.6182
+q = 0.3818
+input_status = NEGATIVE_EXPECTED_RETURN
+full_kelly_fraction = -0.413205
+status = KELLY_NO_SIZE / SCOUT_ONLY_IF_CIO_APPROVES
+
+AMAT and AMKR also now show NEGATIVE_EXPECTED_RETURN with non-zero negative full fractions.
+
+4. Defect 3 - Cost-Basis Third Source
+-------------------------------------
+Status: CONFIRMED BACKLOG / PARTIALLY WIRED
+
+cost_basis_reconciler.py currently has no live third-source connection. It is correctly labeled as
+UNRESOLVED_AWAITING_THIRD_SOURCE and should not be treated as a closed cost-basis reconciliation
+solution yet.
+
+Recommended third-source path:
+Phase 1: manual statement/screenshot import from Moomoo, parsed into a small third_witness file.
+Phase 2: OCR parser for screenshots/statements with CIO verification.
+Phase 3: optional second broker/API witness if available.
+
+Priority target after third source exists: QBTS, where broker P/L and computed P/L diverge most.
+
+5. Verification
+---------------
+Targeted tests:
+python -m pytest -q tests/test_str_hedge_ratio_reviewer.py tests/test_str_kelly_edge_calculator.py
+Result: 9 passed
+
+STR regression suite:
+python -m pytest -q tests/test_str_signal_entropy.py tests/test_str_source_capacity.py tests/test_str_cost_basis_reconciler.py tests/test_str_kelly_edge_calculator.py tests/test_str_hedge_ratio_reviewer.py tests/test_str_report_integration.py tests/test_str_governance_fail_closed.py tests/test_acms_schema.py tests/test_acms_report_rendering.py tests/test_report_renderer_minor_hygiene.py
+Result: 28 passed
+
+Report generation:
+python research\research_report_generator.py
+Result: PASS, acceptance validation 10/10
+
+Published website data:
+python mid\bluelotus_publisher.py
+Result: PASS, five GitHub pushes returned 200
+
+Public raw report verification:
+- hedge_value=$2235.0 present
+- input=NEGATIVE_EXPECTED_RETURN present
+- AMD: b=-0.0508 present
+
+6. Governance
+-------------
+CIO_ONLY_MANUAL remains unchanged.
+Order routing remains disabled.
+System generated orders remain 0.
+STR remains research-only and advisory-only.

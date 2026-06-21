@@ -1,0 +1,69 @@
+===============================================================================
+BLUELOTUS V3 — QWEN LONG-PROMPT RESTORATION WORK ORDER
+Addressed To : Dr. Codex / Windows Platform Team
+Date         : 2026-06-20 SGT
+Objective    : Restore fuller role/evidence prompts for all 9 Qwen desk agents
+===============================================================================
+
+1. CIO OBSERVATION
+-------------------------------------------------------------------------------
+Qwen3:4B has no persistent conversational memory between calls. Each desk agent
+therefore needs enough role mandate, evidence, constraints, and output rules
+inside the single prompt call to role-play the desk with institutional quality.
+
+The prior compact prompt budget was too small for high-quality council output.
+It was introduced to stabilize Qwen JSON generation, but it also starved the
+agents of context.
+
+2. LOG-BASED FINDINGS
+-------------------------------------------------------------------------------
+Recent V3 cycle and LLM logs showed three failure classes:
+
+  A. Ollama transport/runtime instability
+     - unexpected EOF
+     - connection reset
+     - no model loaded after failure
+
+  B. Structured-output instability
+     - unterminated JSON strings
+     - invalid enum fields
+     - arrays exceeding schema limits
+
+  C. Prompt starvation risk
+     - compact_user_prompt capped desk_context at about 1,300 characters
+     - resulting desk prompts were only about 4,300 to 4,900 characters
+     - this is below the CIO's desired rich role/evidence prompt envelope
+
+3. ENGINEERING HYPOTHESIS
+-------------------------------------------------------------------------------
+The correct fix is not a blind hardcoded prompt increase.
+
+The correct fix is:
+
+  1. Make Qwen prompt budgets environment-governed.
+  2. Increase Ollama context window for the V3 agent role.
+  3. Increase output budget enough to avoid JSON truncation.
+  4. Preserve linear agent execution.
+  5. Preserve physical settle between failed agent calls.
+  6. Measure prompt size and cycle validation after the change.
+
+4. ACCEPTANCE CRITERIA
+-------------------------------------------------------------------------------
+  - All 9 agents use the same configurable long-prompt policy.
+  - No prompt budget is buried inside code as an unchangeable operator.
+  - Model context increases beyond the prior 8,192-token window.
+  - Qwen alias is rebuilt after model context changes.
+  - A controlled V3 council cycle is executed.
+  - Results are recorded for Dr. Claude Code and Chief Architect ChatGPT.
+
+5. SAFETY INVARIANTS
+-------------------------------------------------------------------------------
+  - CIO_ONLY_MANUAL remains enforced.
+  - order_routing_enabled remains false.
+  - llm_order_generation remains false.
+  - Agents must still return governed JSON.
+  - The council remains linear: one agent completes before the next begins.
+
+===============================================================================
+END_OF_WORK_ORDER
+===============================================================================

@@ -1,0 +1,510 @@
+===============================================================================
+BLUELOTUS V3 — S9 OIL DE-ESCALATION / PEACE DIVIDEND THESIS WIDGET
+FROM       : Dr. Codex, Windows Platform Team
+TO         : Chief Architecture Expert / BlueLotus Architecture Department
+CC         : Dr. Claude Code, Chief Architect ChatGPT 5.5
+DATE       : 2026-06-17 09:40 SGT
+SYSTEM     : C:\bluelotus3
+THESIS ID  : OIL_DEESCALATION_PEACE_DIVIDEND_THESIS
+STATUS     : COMPLETED
+===============================================================================
+
+EXECUTIVE SUMMARY
+-------------------------------------------------------------------------------
+S9 Oil De-escalation / Peace Dividend Thesis Widget has been built, tested,
+published, and started as an independent daemon.
+
+The widget is:
+  - YAML-driven
+  - deterministic
+  - JSON-backed
+  - registry-rendered
+  - independent of V3 Grand Pipeline
+  - independent of Qwen/Ollama/LLM calls
+  - broker-free
+  - CIO_ONLY_MANUAL
+  - protected by the dashboard widget registry zone
+
+Current live S9 output:
+  status        = WEAKENING
+  score         = 26.3 / 100
+  confidence    = LOW
+  CIO action    = NO_ADD
+  add_allowed   = false
+  risk_level    = ELEVATED
+
+Interpretation:
+  Oil and transport channels are showing relief, but safe-haven/volatility and
+  broad-risk channels are not confirming. S8 external evidence is WATCH and
+  therefore blocks add permission. This is correct behavior.
+
+
+-------------------------------------------------------------------------------
+1. FILES CREATED
+-------------------------------------------------------------------------------
+Config:
+  C:\bluelotus3\config\thesis_widgets\oil_deescalation_peace_dividend.yaml
+
+Runtime engine:
+  C:\bluelotus3\thesis_widgets\oil_deescalation_peace_dividend.py
+
+Tests:
+  C:\bluelotus3\thesis_widgets\tests\test_oil_deescalation_peace_dividend.py
+
+JSON output:
+  C:\bluelotus3\data\thesis_widgets\oil_deescalation_peace_dividend_latest.json
+
+Report:
+  C:\bluelotus3\reports\s9_oil_deescalation_peace_dividend_20260617_094042.txt
+
+
+-------------------------------------------------------------------------------
+2. FILES MODIFIED
+-------------------------------------------------------------------------------
+Dashboard registry:
+  C:\bluelotus3\config\dashboard_widgets.yaml
+
+Dashboard renderer:
+  C:\bluelotus3\scripts\dashboard_widget_manager.py
+
+Dashboard persistence tests:
+  C:\bluelotus3\tests\test_dashboard_widget_persistence.py
+
+
+-------------------------------------------------------------------------------
+3. CONFIG STRUCTURE
+-------------------------------------------------------------------------------
+S9 config owns all operational values:
+  - thesis_id
+  - schema_version
+  - title/display_title/dashboard_section
+  - local and GitHub output paths
+  - refresh interval
+  - market-hours block
+  - benchmarks
+  - yfinance symbol map
+  - baskets and ticker universe
+  - signal thresholds
+  - contribution weights
+  - status thresholds
+  - confidence rules
+  - CIO action map
+  - add_allowed rules
+  - headline sources
+  - de-escalation keywords
+  - escalation keywords
+  - escalation penalty
+  - false-positive rules
+  - optional external evidence paths
+  - blind spots
+  - safety constants
+
+Python contains logic only. Ticker lists, thresholds, endpoint names, marker IDs,
+market-hours values, and safety constants are config/registry-owned.
+
+
+-------------------------------------------------------------------------------
+4. TICKER UNIVERSE
+-------------------------------------------------------------------------------
+All symbols live in:
+  C:\bluelotus3\config\thesis_widgets\oil_deescalation_peace_dividend.yaml
+
+OIL_RISK_PREMIUM:
+  USO, BNO, XLE, XOM, CVX, OXY, COP
+
+TRANSPORT_AIRLINES:
+  JETS, DAL, UAL, AAL, FDX, UPS
+
+CONSUMER_RELIEF:
+  XLY, WMT, COST, TGT
+
+SAFE_HAVEN_UNWIND:
+  GLD, GDX, GDXJ, VIX, VXX
+
+BROAD_RISK_ON:
+  SPY, QQQ, IWM, ARKK
+
+DEFENSE_CROSSCHECK:
+  ITA, XAR, LMT, RTX
+
+
+-------------------------------------------------------------------------------
+5. SYMBOL MAPPING
+-------------------------------------------------------------------------------
+Standard ETF/equity symbols map directly to yfinance.
+
+Non-standard mapping:
+  VIX -> ^VIX
+
+Each ticker row in YAML owns:
+  display
+  yf_symbol
+  benefit_on_rise
+
+This lets one generic scorer handle:
+  - oil down = positive
+  - transports up = positive
+  - consumer up = positive
+  - GLD/VIX down = positive
+  - SPY/QQQ/IWM/ARKK up = positive
+  - defense-risk premium down = positive
+
+
+-------------------------------------------------------------------------------
+6. SCORING LOGIC
+-------------------------------------------------------------------------------
+Total score range:
+  0 to 100
+
+Higher score:
+  stronger peace-dividend confirmation
+
+Basket weights:
+  Oil relief                     25
+  Transport / airline benefit    20
+  Consumer / inflation relief    15
+  Safe-haven unwind              15
+  Broad risk-on confirmation     15
+  Defense cross-check             5
+
+Headline confirmation:
+  max +15
+
+Escalation penalty:
+  max -25
+
+False-positive penalty:
+  rule-driven, currently up to -20 for demand destruction and -12 for safe-haven
+  conflict.
+
+Status mapping:
+  CONFIRMING    >= 75
+  WATCH         >= 55
+  MIXED         >= 40
+  WEAKENING     >= 20
+  CONTRADICTED  < 20
+  UNKNOWN       insufficient data/null status path
+
+Confidence logic:
+  HIGH requires configured core basket confirmation:
+    OIL_RISK_PREMIUM
+    TRANSPORT_AIRLINES
+    SAFE_HAVEN_UNWIND
+    BROAD_RISK_ON
+
+  MEDIUM requires configured minimum pass count.
+  LOW requires partial confirmation.
+
+
+-------------------------------------------------------------------------------
+7. FALSE-POSITIVE LOGIC
+-------------------------------------------------------------------------------
+False-positive rules are YAML-driven.
+
+Demand destruction:
+  If oil relief is PASS while broad risk, transports, and consumer baskets FAIL,
+  S9 flags oil down due to demand weakness, not peace dividend.
+
+Safe-haven conflict:
+  If oil relief is PASS while safe-haven/volatility unwind FAILS, S9 flags mixed
+  unresolved peace-dividend evidence.
+
+Add permission is blocked when:
+  - status is not CONFIRMING
+  - confidence is not HIGH/MEDIUM
+  - core required baskets do not pass
+  - escalation penalty exceeds configured limit
+  - false-positive penalty exceeds configured limit
+  - S7/S8 external evidence blocks add
+
+add_allowed=true means CIO review permission only, never trading permission.
+
+
+-------------------------------------------------------------------------------
+8. EXTERNAL EVIDENCE BEHAVIOR
+-------------------------------------------------------------------------------
+S9 reads optional local JSON, read-only:
+  S7:
+    data/thesis_widgets/credit_refinancing_liquidity_latest.json
+
+  S8:
+    data/thesis_widgets/global_leverage_unwind_latest.json
+
+Missing external files:
+  - do not crash S9
+  - produce UNAVAILABLE external_evidence rows
+  - add blind spot notes
+  - allow direct ticker/headline scoring to continue
+
+Current external evidence:
+  S7 Credit / Refinancing / Liquidity:
+    status = LOW_STRESS
+    blocks_add = false
+
+  S8 Global Leverage Unwind:
+    status = WATCH
+    blocks_add = true
+
+
+-------------------------------------------------------------------------------
+9. JSON OUTPUT EXAMPLE
+-------------------------------------------------------------------------------
+Latest output:
+  C:\bluelotus3\data\thesis_widgets\oil_deescalation_peace_dividend_latest.json
+
+Selected fields:
+  thesis_id                  OIL_DEESCALATION_PEACE_DIVIDEND_THESIS
+  status                     WEAKENING
+  score                      26.3
+  confidence                 LOW
+  cio_action                 NO_ADD
+  add_allowed                false
+  risk_level                 ELEVATED
+  market_status              CLOSED_POST
+  data_freshness_label       EQUITY / ETF DATA LAST SESSION CLOSE
+  summary                    Peace-dividend thesis weakening; insufficient
+                             confirmation from risk assets.
+
+Current primary signals:
+  OIL_RISK_PREMIUM       PASS   17.14 / 25
+  TRANSPORT_AIRLINES     PASS   10.00 / 20
+  CONSUMER_RELIEF        WATCH   8.25 / 15
+  SAFE_HAVEN_UNWIND      FAIL    2.40 / 15
+  BROAD_RISK_ON          FAIL    0.00 / 15
+  DEFENSE_CROSSCHECK     FAIL    0.50 / 5
+
+Current false-positive flag:
+  Oil relief conflicts with rising safe-haven or volatility assets
+
+Required safety fields:
+  execution_authority      CIO_ONLY_MANUAL
+  order_routing_enabled    false
+  llm_order_generation     false
+  orders_generated         0
+
+
+-------------------------------------------------------------------------------
+10. DASHBOARD REGISTRY INTEGRATION
+-------------------------------------------------------------------------------
+Registry file:
+  C:\bluelotus3\config\dashboard_widgets.yaml
+
+S9 entry:
+  widget_id       oil_deescalation_peace_dividend
+  section_id      S9
+  thesis_id       OIL_DEESCALATION_PEACE_DIVIDEND_THESIS
+  marker_id       oil-peace-dividend-live
+  endpoint        data/thesis_widgets/oil_deescalation_peace_dividend_latest.json
+  display_order   90
+  enabled         true
+  placement_zone  THESIS_WIDGETS
+
+Protected order confirmed:
+  S6 -> S7 -> S8 -> S9
+
+
+-------------------------------------------------------------------------------
+11. DASHBOARD RENDERING SUMMARY
+-------------------------------------------------------------------------------
+Renderer:
+  C:\bluelotus3\scripts\dashboard_widget_manager.py
+
+Added generic support for:
+  - escalation_evidence
+  - false_positive_flags
+  - external_evidence
+
+S9 renders inside:
+  <!-- THESIS_WIDGETS_START -->
+  ...
+  <!-- THESIS_WIDGETS_END -->
+
+No one-off HTML injection was used.
+
+
+-------------------------------------------------------------------------------
+12. PUBLISHER REGENERATION RESULT
+-------------------------------------------------------------------------------
+Command:
+  python C:\bluelotus3\mid\bluelotus_publisher.py
+
+Result:
+  GitHub index.html                         PASS 200
+  GitHub chief-strategist.html              PASS 200
+  GitHub data/portfolio_live.json           PASS 200
+  GitHub data/chief_strategist_v17.txt      PASS 200
+  GitHub data/v3_agents_latest.json         PASS 200
+  Completed
+
+GitHub index verification:
+  THESIS_WIDGETS_START          count 1
+  THESIS_WIDGETS_END            count 1
+  ai-infra-live                 count 2
+  credit-refi-live              count 2
+  global-leverage-live          count 2
+  oil-peace-dividend-live       count 2
+  System Health                 count 1
+  ORDER_OK                      true
+
+Note:
+  Existing publisher SyntaxWarning messages for invalid escape sequence '\d'
+  remain non-blocking and unrelated to S9.
+
+
+-------------------------------------------------------------------------------
+13. LOCAL VERIFICATION RESULT
+-------------------------------------------------------------------------------
+Command:
+  python C:\bluelotus3\scripts\verify_dashboard_widgets_local.py --html C:\bluelotus3\data\debug_index_from_github.html
+
+Result:
+  PASS local dashboard widget verification
+    ai-infra-live: 2
+    credit-refi-live: 2
+    global-leverage-live: 2
+    oil-peace-dividend-live: 2
+
+
+-------------------------------------------------------------------------------
+14. PUBLIC VERIFICATION RESULT
+-------------------------------------------------------------------------------
+Command:
+  python C:\bluelotus3\scripts\verify_dashboard_widgets_public.py
+
+Result:
+  PASS public dashboard widget verification
+    S6 ai-infra-live OK
+    S7 credit-refi-live OK
+    S8 global-leverage-live OK
+    S9 oil-peace-dividend-live OK
+
+Public URL:
+  https://sohweekian.github.io/bluelotus/
+
+
+-------------------------------------------------------------------------------
+15. TEST RESULTS AND PASS COUNT
+-------------------------------------------------------------------------------
+Command:
+  python -m pytest
+    C:\bluelotus3\thesis_widgets\tests
+    C:\bluelotus3\tests\test_dashboard_widget_persistence.py
+    C:\bluelotus3\tests\test_no_hardcoding.py
+    C:\bluelotus3\tests\test_no_hardcoded_db_config.py
+    C:\bluelotus3\tests\test_no_bluelotus2_write.py
+    C:\bluelotus3\tests\test_no_v2_database_write.py
+    C:\bluelotus3\tests\test_no_order_language.py
+    C:\bluelotus3\tests\test_prompt_architecture_safety.py
+    -q
+
+Result:
+  339 passed, 2 warnings
+
+S9-specific tests:
+  35 passed, 2 warnings
+
+Warnings:
+  google._upb deprecation warnings from imported dependencies; not S9 failures.
+
+
+-------------------------------------------------------------------------------
+16. SAFETY VERIFICATION
+-------------------------------------------------------------------------------
+Confirmed:
+  - execution_authority = CIO_ONLY_MANUAL
+  - order_routing_enabled = false
+  - llm_order_generation = false
+  - orders_generated = 0
+  - no broker API imports
+  - no place_order / submit_order / execute_order path
+  - no LLM imports
+  - no Qwen/Ollama imports
+  - no V2 write path
+  - add_allowed means CIO review permission only
+
+
+-------------------------------------------------------------------------------
+17. NO-HARDCODING VERIFICATION
+-------------------------------------------------------------------------------
+S9 tests verify:
+  - tickers are not hardcoded in Python
+  - marker ID is not hardcoded in Python
+  - JSON endpoint is not hardcoded in Python
+  - thesis ID is not hardcoded in Python
+  - market-hours values are not hardcoded in Python
+  - safety constants come from YAML output
+
+Registry owns:
+  marker_id
+  endpoint
+  display_order
+  section_id
+  title
+  safety footer
+
+
+-------------------------------------------------------------------------------
+18. NO-V2-WRITE VERIFICATION
+-------------------------------------------------------------------------------
+Confirmed:
+  - No C:\bluelotus2 file was modified.
+  - S9 runtime writes only under C:\bluelotus3.
+  - S9 runtime source contains no bluelotus2 path reference.
+  - No-V2-write tests passed in the 339-test suite.
+
+
+-------------------------------------------------------------------------------
+19. NO-BROKER-EXECUTION VERIFICATION
+-------------------------------------------------------------------------------
+Confirmed:
+  - No broker import.
+  - No order submission function.
+  - No generated orders.
+  - No order routing.
+  - CIO manual only.
+
+
+-------------------------------------------------------------------------------
+20. LIVE MONITORING
+-------------------------------------------------------------------------------
+S9 daemon started:
+  PID 29616
+
+Command:
+  C:\Users\sohwe\AppData\Local\Microsoft\WindowsApps\python.exe
+  C:\bluelotus3\thesis_widgets\oil_deescalation_peace_dividend.py
+
+Latest daemon log:
+  2026-06-17 09:39:47 Status=WEAKENING confidence=LOW score=26.3 add_allowed=False
+  2026-06-17 09:39:48 GitHub push data/thesis_widgets/oil_deescalation_peace_dividend_latest.json: HTTP 200
+  2026-06-17 09:39:48 Sleeping 600 seconds
+
+
+-------------------------------------------------------------------------------
+21. KNOWN LIMITATIONS
+-------------------------------------------------------------------------------
+  - Uses ETF/equity proxies, not direct WTI/Brent futures term structure.
+  - Uses deterministic headline keyword matching, not semantic NLP.
+  - No direct tanker tracking, shipping rate, or maritime route feed.
+  - Equity/ETF data is last-session close outside US market hours.
+  - Add permission is intentionally conservative while S8 remains WATCH.
+  - Existing broad governance regression failures reported before S9 remain
+    separate from this widget build.
+
+
+-------------------------------------------------------------------------------
+22. READINESS RECOMMENDATION
+-------------------------------------------------------------------------------
+Recommendation:
+  READY FOR LIVE MONITORING
+
+Reason:
+  S9 runs independently, publishes valid JSON, renders through the protected
+  dashboard registry, preserves S6/S7/S8, passes public verification, and passes
+  the targeted widget/dashboard/safety/no-hardcoding regression suite.
+
+Do not build S10 until a separate Architecture Department work order is issued.
+
+===============================================================================
+END_OF_REPORT
+===============================================================================

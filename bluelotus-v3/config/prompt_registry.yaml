@@ -1,0 +1,260 @@
+# ============================================================
+# BlueLotus V3 — Prompt Registry
+# ============================================================
+# All prompt files used by the system must be registered here.
+# The PromptCompiler reads this registry to locate files.
+#
+# STRUCTURE:
+#   prompts:
+#     <prompt_id>:
+#       path: relative path from project root
+#       role: which model role or agent uses this prompt
+#       type: universal | agent_role | agent_template | test
+#       required: true/false — if true, missing file = hard fail
+#       agent_id: (optional) links to agent_registry.yaml entry
+#
+# PATH RESOLUTION:
+#   All paths are relative to BLUELOTUS_PROJECT_ROOT env var.
+#   Windows backslash and Unix forward-slash both accepted.
+#
+# version: 2.0  (v1.0 had 2 entries; v2.0 adds all agents)
+# maintained_by: CIO Architecture Review
+# ============================================================
+
+schema_version: "bluelotus_v3_prompt_registry_v2.0"
+
+prompts:
+
+  # -----------------------------------------------------------
+  # SYSTEM / LEGACY PROMPTS (preserved from v1.0)
+  # -----------------------------------------------------------
+  specialist_desk_system:
+    path: prompts/system/specialist_desk_system_prompt.md
+    role: specialist_desk_agent
+    type: system_legacy
+    required: true
+    notes: >
+      Minimal safety prompt. Superseded by universal/ prompts
+      in V3 architecture but preserved for backward compat
+      with any agent that has not been migrated.
+
+  qwen_smoke_test:
+    path: prompts/tests/qwen_smoke_test_prompt.md
+    role: smoke_test
+    type: test
+    required: true
+
+  # -----------------------------------------------------------
+  # UNIVERSAL PROMPTS — injected into ALL agents
+  # -----------------------------------------------------------
+  universal_constitution:
+    path: prompts/universal/bluelotus_constitution.md
+    role: all_agents
+    type: universal
+    required: true
+    notes: >
+      Core identity, desk persona rules, evidence-bound doctrine,
+      inter-desk isolation. Injected as system prompt preamble.
+
+  universal_safety_doctrine:
+    path: prompts/universal/safety_doctrine.md
+    role: all_agents
+    type: universal
+    required: true
+    notes: >
+      No orders, no broker routing, CIO manual execution only.
+      Injected after constitution in system prompt.
+
+  universal_no_generic_output_rule:
+    path: prompts/universal/no_generic_output_rule.md
+    role: all_agents
+    type: universal
+    required: true
+    notes: >
+      Evidence tag requirement, no invented facts, no generic
+      market commentary. Injected in user prompt preamble.
+
+  universal_json_only_rule:
+    path: prompts/universal/json_only_rule.md
+    role: all_agents
+    type: universal
+    required: true
+    notes: >
+      JSON structure constraints, schema compliance, array
+      length limits, field format rules. Injected in user prompt.
+
+  # -----------------------------------------------------------
+  # AGENT PROMPT PACKS — role.md + template.md per agent
+  # -----------------------------------------------------------
+
+  # DATA INTEGRITY
+  data_integrity_role:
+    path: prompts/agents/data_integrity/role.md
+    role: default_specialist
+    type: agent_role
+    required: true
+    agent_id: data_integrity
+
+  data_integrity_template:
+    path: prompts/agents/data_integrity/template.md
+    role: default_specialist
+    type: agent_template
+    required: true
+    agent_id: data_integrity
+
+  # MACRO STRATEGIST
+  macro_strategist_role:
+    path: prompts/agents/macro_strategist/role.md
+    role: default_specialist
+    type: agent_role
+    required: true
+    agent_id: macro_strategist
+
+  macro_strategist_template:
+    path: prompts/agents/macro_strategist/template.md
+    role: default_specialist
+    type: agent_template
+    required: true
+    agent_id: macro_strategist
+
+  # PORTFOLIO STRUCTURE
+  portfolio_structure_role:
+    path: prompts/agents/portfolio_structure/role.md
+    role: default_specialist
+    type: agent_role
+    required: true
+    agent_id: portfolio_structure
+
+  portfolio_structure_template:
+    path: prompts/agents/portfolio_structure/template.md
+    role: default_specialist
+    type: agent_template
+    required: true
+    agent_id: portfolio_structure
+
+  # CATALYST INTELLIGENCE
+  catalyst_intelligence_role:
+    path: prompts/agents/catalyst_intelligence/role.md
+    role: default_specialist
+    type: agent_role
+    required: true
+    agent_id: catalyst_intelligence
+
+  catalyst_intelligence_template:
+    path: prompts/agents/catalyst_intelligence/template.md
+    role: default_specialist
+    type: agent_template
+    required: true
+    agent_id: catalyst_intelligence
+
+  # THESIS LIFECYCLE
+  thesis_lifecycle_role:
+    path: prompts/agents/thesis_lifecycle/role.md
+    role: default_specialist
+    type: agent_role
+    required: true
+    agent_id: thesis_lifecycle
+
+  thesis_lifecycle_template:
+    path: prompts/agents/thesis_lifecycle/template.md
+    role: default_specialist
+    type: agent_template
+    required: true
+    agent_id: thesis_lifecycle
+
+  # RISK CHALLENGER
+  risk_challenger_role:
+    path: prompts/agents/risk_challenger/role.md
+    role: default_specialist
+    type: agent_role
+    required: true
+    agent_id: risk_challenger
+
+  risk_challenger_template:
+    path: prompts/agents/risk_challenger/template.md
+    role: default_specialist
+    type: agent_template
+    required: true
+    agent_id: risk_challenger
+
+  # FORECASTING BRIER
+  forecasting_brier_role:
+    path: prompts/agents/forecasting_brier/role.md
+    role: default_specialist
+    type: agent_role
+    required: true
+    agent_id: forecasting_brier
+
+  forecasting_brier_template:
+    path: prompts/agents/forecasting_brier/template.md
+    role: default_specialist
+    type: agent_template
+    required: true
+    agent_id: forecasting_brier
+
+  # SECTOR SPECIALIST
+  sector_specialist_role:
+    path: prompts/agents/sector_specialist/role.md
+    role: default_specialist
+    type: agent_role
+    required: true
+    agent_id: sector_specialist
+
+  sector_specialist_template:
+    path: prompts/agents/sector_specialist/template.md
+    role: default_specialist
+    type: agent_template
+    required: true
+    agent_id: sector_specialist
+
+  # SENTIMENT NARRATIVE
+  sentiment_narrative_role:
+    path: prompts/agents/sentiment_narrative/role.md
+    role: default_specialist
+    type: agent_role
+    required: true
+    agent_id: sentiment_narrative
+
+  sentiment_narrative_template:
+    path: prompts/agents/sentiment_narrative/template.md
+    role: default_specialist
+    type: agent_template
+    required: true
+    agent_id: sentiment_narrative
+
+  # GOLD SAFEHAVEN (future agent)
+  gold_safehaven_role:
+    path: prompts/agents/gold_safehaven/role.md
+    role: default_specialist
+    type: agent_role
+    required: false
+    agent_id: gold_safehaven
+    notes: >
+      Not yet in execution_queue.yaml. required: false until
+      agent is activated in agent_registry and execution_queue.
+
+  gold_safehaven_template:
+    path: prompts/agents/gold_safehaven/template.md
+    role: default_specialist
+    type: agent_template
+    required: false
+    agent_id: gold_safehaven
+
+  # CHIEF STRATEGIST (synthesis engine)
+  chief_strategist_role:
+    path: prompts/agents/chief_strategist/role.md
+    role: synthesis_engine
+    type: agent_role
+    required: true
+    agent_id: chief_strategist
+    notes: >
+      Chief Strategist is deterministic, not LLM-driven.
+      role.md defines synthesis rules and output format.
+      template.md defines the CIO briefing JSON schema hint.
+
+  chief_strategist_template:
+    path: prompts/agents/chief_strategist/template.md
+    role: synthesis_engine
+    type: agent_template
+    required: true
+    agent_id: chief_strategist

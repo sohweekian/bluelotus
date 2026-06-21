@@ -1,0 +1,259 @@
+# ============================================================================
+# BlueLotus V3 — Thesis Widget Config
+# Thesis: AI Infrastructure / Power Bottleneck
+# ID:     AI_INFRASTRUCTURE_POWER_THESIS
+# ============================================================================
+#
+# NO HARDCODING DOCTRINE: All configurable values live here.
+# Python reads this file. Python never owns these values.
+# To change any setting: edit this file → restart the widget.
+# Never modify ai_infrastructure_power.py for configuration changes.
+#
+# ============================================================================
+
+thesis_id:     "AI_INFRASTRUCTURE_POWER_THESIS"
+schema_version: "thesis_widget_v1.1"
+title:          "AI Infrastructure / Power Bottleneck Thesis"
+display_title:  "S6 · AI Infrastructure / Power Bottleneck Thesis"
+dashboard_section: "S6"
+
+output:
+  local_dir:   "data/thesis_widgets"
+  local_file:  "ai_infrastructure_power_latest.json"
+  github_path: "data/thesis_widgets/ai_infrastructure_power_latest.json"
+
+refresh_interval_seconds: 600
+
+# --------------------------------------------------------------------------
+# MARKET HOURS DETECTION
+# Controls market_open, market_status, last_market_session, data_freshness_label
+# in the widget output. All values config-driven — no hardcoding in Python.
+# --------------------------------------------------------------------------
+
+market_hours:
+  timezone:      "America/New_York"    # IANA timezone name
+  open_time:     "09:30"               # NYSE open (HH:MM local)
+  close_time:    "16:00"               # NYSE close (HH:MM local)
+  trading_days:  [0, 1, 2, 3, 4]      # Mon=0 … Fri=4 (Python weekday indices)
+  data_freshness_labels:
+    OPEN:           "LIVE INTRADAY"
+    CLOSED_PRE:     "LAST SESSION CLOSE"
+    CLOSED_POST:    "LAST SESSION CLOSE"
+    CLOSED_WEEKEND: "LAST SESSION CLOSE"
+
+# --------------------------------------------------------------------------
+# TICKER UNIVERSE
+# To add/remove tickers: edit here only. No Python changes required.
+# To disable a basket without removing it: set enabled: false.
+# --------------------------------------------------------------------------
+
+benchmarks:
+  - SPY
+  - QQQ
+
+baskets:
+
+  AI_COMPUTE:
+    label:          "AI Compute"
+    scoring_weight: 20
+    enabled:        true
+    tickers:
+      - NVDA
+      - AVGO
+      - AMD
+      - SMCI
+      - ARM
+      - MU
+    interpretations:
+      PASS: "AI compute outperforming — core thesis engine active"
+      WATCH: "AI compute neutral — monitoring for direction"
+      FAIL: "AI compute weakness — thesis headwind"
+
+  HYPERSCALER:
+    label:          "Hyperscalers / AI Capex"
+    scoring_weight: 15
+    enabled:        true
+    tickers:
+      - MSFT
+      - GOOGL
+      - AMZN
+      - META
+      - ORCL
+    interpretations:
+      PASS: "Hyperscalers bid — market rewards AI capex commitment"
+      WATCH: "Hyperscaler capex story neutral"
+      FAIL: "Hyperscalers under pressure — capex burden concern"
+
+  POWER_GRID:
+    label:          "Power / Grid / Electrification"
+    scoring_weight: 25
+    enabled:        true
+    tickers:
+      - VRT
+      - ETN
+      - PWR
+      - GEV
+      - CEG
+      - NEE
+      - SO
+      - DUK
+    interpretations:
+      PASS: "Power & grid names bid — AI data center demand confirming"
+      WATCH: "Power/grid neutral — bottleneck thesis unconfirmed"
+      FAIL: "Infrastructure names weak — thesis not confirming in physical layer"
+
+  COPPER_INFRASTRUCTURE:
+    label:          "Copper / Infrastructure"
+    scoring_weight: 10
+    enabled:        true
+    tickers:
+      - COPX
+      - FCX
+    interpretations:
+      PASS: "Copper proxies bid — physical infrastructure demand confirmed"
+      WATCH: "Copper neutral"
+      FAIL: "Copper weak — infrastructure demand signal absent"
+
+  NUCLEAR_POWER:
+    label:          "Nuclear / Uranium"
+    scoring_weight: 10
+    enabled:        true
+    tickers:
+      - URA
+      - CCJ
+      - SMR
+    interpretations:
+      PASS: "Nuclear/uranium names bid — long-duration power capacity thesis active"
+      WATCH: "Nuclear/uranium neutral"
+      FAIL: "Nuclear/uranium weak — clean power capacity thesis not confirming"
+
+# --------------------------------------------------------------------------
+# HEADLINE SCORING
+# Keywords for deterministic category matching (no LLM required).
+# Add/remove keywords here only.
+# --------------------------------------------------------------------------
+
+headline_scoring_weight: 15
+
+headline_keywords:
+  - "AI data center"
+  - "data center power"
+  - "data center demand"
+  - "grid bottleneck"
+  - "electricity demand"
+  - "AI capex"
+  - "GPU cluster"
+  - "nuclear power"
+  - "transformer shortage"
+  - "cooling"
+  - "hyperscaler spending"
+  - "power shortage"
+  - "energy infrastructure"
+  - "cloud capex"
+  - "data center"
+  - "power grid"
+  - "electrification"
+  - "copper demand"
+  - "uranium"
+  - "SMR"
+  - "nuclear reactor"
+  - "AI infrastructure"
+  - "power bottleneck"
+  - "clean energy"
+  - "grid capacity"
+  - "capex cycle"
+
+headline_max_score:   15    # cap on headline contribution
+headline_pts_per_hit: 1.5  # points per unique keyword match found in headlines
+
+headline_sources:
+  - "data/headlines_live.json"
+
+# --------------------------------------------------------------------------
+# RISK PENALTY
+# Applied when broad market liquidation detected (high-beta rout).
+# --------------------------------------------------------------------------
+
+risk_penalty:
+  max_deduction:          10
+  spy_threshold_pct:     -2.0   # SPY day_change below this triggers assessment
+  qqq_threshold_pct:     -2.0   # QQQ day_change below this triggers assessment
+  both_required:          true   # both must breach threshold to trigger penalty
+
+# --------------------------------------------------------------------------
+# SIGNAL THRESHOLDS (individual ticker classification)
+# --------------------------------------------------------------------------
+
+signal_thresholds:
+  pass_pct:       0.5    # day_change_pct >= this → PASS
+  fail_pct:      -0.5    # day_change_pct <  this → FAIL
+  # between fail_pct and pass_pct → WATCH
+
+  # Basket-level pass ratio to determine basket signal
+  basket_pass_ratio:  0.55   # >= 55% tickers PASS → basket PASS
+  basket_watch_ratio: 0.35   # >= 35% tickers PASS → basket WATCH; < 35% → basket FAIL
+
+  # Outperformance vs SPY/QQQ (percentage points above benchmark)
+  outperform_threshold: 0.30
+
+# Ticker contribution weights for basket score calculation
+# Determines how much each signal level contributes to the basket score (0.0–1.0)
+ticker_contribution_weights:
+  PASS:    1.0
+  WATCH:   0.4
+  FAIL:    0.0
+  UNKNOWN: 0.0
+
+# --------------------------------------------------------------------------
+# STATUS THRESHOLDS (total score → status string)
+# --------------------------------------------------------------------------
+
+status_thresholds:
+  CONFIRMING: 75
+  WATCH:       55
+  MIXED:       40
+  WEAKENING:   20
+  # below WEAKENING → CONTRADICTED
+
+# --------------------------------------------------------------------------
+# CONFIDENCE THRESHOLDS (score → confidence string)
+# --------------------------------------------------------------------------
+
+confidence_thresholds:
+  HIGH:   70   # score >= this → HIGH
+  MEDIUM: 45   # score >= this → MEDIUM
+  LOW:    20   # score >= this → LOW
+  # below LOW → UNKNOWN confidence
+
+# --------------------------------------------------------------------------
+# CIO ACTION MAPPING
+# status + confidence → recommended CIO action
+# Allowed values only — no buy/sell/execute language.
+# --------------------------------------------------------------------------
+
+cio_action_map:
+  CONFIRMING_HIGH:   "HOLD_REVIEW"
+  CONFIRMING_MEDIUM: "HOLD_REVIEW"
+  CONFIRMING_LOW:    "HOLD"
+  WATCH_HIGH:        "HOLD"
+  WATCH_MEDIUM:      "HOLD"
+  WATCH_LOW:         "HOLD"
+  MIXED_HIGH:        "WAIT"
+  MIXED_MEDIUM:      "WAIT"
+  MIXED_LOW:         "WAIT"
+  WEAKENING:         "NO_ADD"
+  CONTRADICTED:      "NO_ADD"
+  UNKNOWN:           "CIO_REVIEW_REQUIRED"
+
+# Statuses for which add_allowed is true (CIO manual judgment still required)
+add_allowed_statuses:
+  - "CONFIRMING"
+
+# --------------------------------------------------------------------------
+# SAFETY CONSTANTS (must match on every output — never change these)
+# --------------------------------------------------------------------------
+
+safety:
+  execution_authority:  "CIO_ONLY_MANUAL"
+  order_routing_enabled: false
+  llm_order_generation:  false
