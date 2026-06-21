@@ -5,7 +5,7 @@
 **Research & Analysis:** Dr. Claude Code · Windows Platform Team
 **Competitive Reference:** AI4Finance-Foundation (43 repositories, Columbia University)
 **Date:** 2026-06-22 SGT
-**Version:** V1.0 — Next-Week Upgrade Specification
+**Version:** V2.0 — Amended: LLM Integration Path Rejected by CIO
 **Classification:** INTERNAL ACADEMIC — UPGRADE PLANNING DOCUMENT
 
 ---
@@ -26,11 +26,12 @@ MANUAL_EXECUTION_REQUIRED: TRUE
 > AI4Finance-Foundation open-source ecosystem — 43 repositories, led by Columbia
 > University researchers, with flagship systems carrying 21,000 GitHub stars.
 >
-> The purpose is not to imitate. The purpose is to identify the four concrete
-> architectural gaps that, if closed, would make BlueLotus V3 the most complete
-> single-CIO intelligence system ever built — while preserving every doctrine that
-> makes it uniquely disciplined.
+> Version 2.0 incorporates a critical CIO amendment issued 2026-06-22:
+> **LLM integration into the analytical and decision pipeline is rejected on
+> first-principles grounds.** The reasoning and its architectural implications
+> are codified in §10A — the most important section of this document.
 >
+> The upgrade path is revised to two validated work orders only.
 > Nothing in this thesis executes a trade. Nothing overrides the CIO.
 > The thesis plans. The CIO decides. The CIO executes.
 
@@ -42,9 +43,10 @@ MANUAL_EXECUTION_REQUIRED: TRUE
 |------|-------|----------|
 | I | Competitive Intelligence — AI4Finance Foundation | §1–§3 |
 | II | Head-to-Head Architectural Comparison | §4–§5 |
-| III | The Four Upgrade Prescriptions | §6–§9 |
-| IV | Philosophical Boundary | §10 |
-| V | Implementation Roadmap | §11–§14 |
+| III | ~~Four~~ **Two** Upgrade Prescriptions | §6–§9 |
+| IV | **CIO Amendment — Why LLM Integration Is the Wrong Path** | §10A |
+| IV | The Philosophical Boundary | §10B |
+| V | Revised Implementation Roadmap | §11–§14 |
 
 ---
 
@@ -68,7 +70,6 @@ Their flagship systems by market adoption (GitHub stars):
 | **FinRL-X** | 3,300 | Modular 5-layer production infrastructure | AI-native trading with Alpaca live execution |
 | **FinNLP** | 1,500 | Internet-scale financial data pipeline | Data democratisation (Bloomberg-equivalent) |
 | **FinRAG** | 51 | FAISS/Chroma + LLM grounding | Retrieval-Augmented Generation over financial docs |
-| **FinRL-DeepSeek** | 137 | LLM-infused risk-sensitive RL | Risk-aware trading agents with LLM context |
 
 ---
 
@@ -78,14 +79,7 @@ The AI4Finance ecosystem is built on a single governing premise:
 
 > *"Automate the decision and the execution."*
 
-Every flagship system moves toward removing the human from the decision loop:
-
-- **FinRL** trains DRL agents that decide position weights without human input
-- **FinRL-X** executes live through Alpaca with pre-trade risk controls but no human gate
-- **FinGPT** generates trading signals from fine-tuned LLMs
-- **FinRobot** orchestrates multi-agent pipelines that produce equity research reports autonomously
-
-Their five-layer production stack (FinRL-X) follows:
+Their five-layer production stack (FinRL-X):
 
 ```
 DATA LAYER
@@ -110,21 +104,16 @@ MONITORING LAYER
   └── Portfolio risk · Drawdown · Regime alerts
 ```
 
-Their LLM integration (FinGPT / FinRobot) follows a five-layer intelligence stack:
+Their LLM integration (FinGPT / FinRobot / FinRAG) follows:
 
 ```
 Data Source  →  Data Engineering  →  LLMs  →  Task Layer  →  Application Layer
 ```
 
-Key technical innovations:
-- **LoRA fine-tuning**: adapts general-purpose LLMs to financial language for under $300
-  (versus BloombergGPT's $3 million training cost)
-- **Weight-centric portfolio interface**: every module outputs a portfolio weight vector —
-  swap any module without touching the rest
-- **Walk-forward backtesting**: strict temporal validation prevents the #1 quant sin
-  (using future data to explain past results)
-- **Retrieval-Augmented Generation (RAG)**: grounds LLM answers in sourced documents —
-  SEC filings, earnings calls, annual reports — eliminating hallucination risk
+Key technical claims:
+- LoRA fine-tuning adapts general-purpose LLMs to financial language for under $300
+- RAG grounds LLM answers in retrieved SEC filings, earnings calls, annual reports
+- DRL agents discover optimal portfolio weight allocations via reward maximisation
 
 ---
 
@@ -146,121 +135,92 @@ ecosystem lacks the following capabilities that BlueLotus V3 possesses:
 | CIO action compression | ❌ No CIO layer | ✅ BUY/SELL/HOLD/WAIT pipeline |
 | CKRI composite kill risk index | ❌ Not attempted | ✅ Weighted multi-thesis kill scoring |
 
-This is not a marginal difference. These are **architectural choices** that reflect
-two entirely different philosophies about what an investment intelligence system
-is supposed to be.
-
 ---
 
 # PART II — HEAD-TO-HEAD ARCHITECTURAL COMPARISON
 
-## §4 · Where AI4Finance Is Ahead of Us
+## §4 · Where AI4Finance Has Capabilities We Lack
 
-### 4.1 Walk-Forward Backtesting
+### 4.1 Walk-Forward Backtesting ✅ *Validated — to be built*
 
 **Their capability:** FinRL-X implements strict walk-forward validation. Historical
-data is divided into training windows and out-of-sample test windows. No signal
-from the test period leaks into the training period. Every strategy is stress-tested
-across multiple market regimes before being trusted in live operation.
+data is divided into training and out-of-sample windows. No signal from the test
+period leaks into training. Every strategy is stress-tested across multiple market
+regimes before being trusted live.
 
-Reported results on FinRL-X Adaptive Multi-Asset Rotation strategy:
+Reported results:
 - Sharpe Ratio: **1.10**
 - Calmar Ratio: **1.04**
-- Maximum Drawdown: controlled and quantified
 
 **Our gap:** BlueLotus V3 has **zero backtesting capability**. Every thesis
 probability update, every CKRI reading, every Kelly sizing recommendation is
-live-only. We have never verified:
+live-only. We have never verified whether our expert-prior LR table is
+directionally correct, or what our historical Sharpe ratio would have been.
 
-- Whether our LR table expert priors are directionally correct across historical events
-- Whether NITE-PEI Bayesian updating would have produced profitable signals on past data
-- Whether our Kelly fractional multiplier (0.05–0.35) is correctly calibrated
-- What our historical Sharpe ratio would have been under the current architecture
-
-This is the most critical gap. A system that has never been backtested is a
-system that is still on trial.
+**Decision: Build this. See WO-20260629-001.**
 
 ---
 
-### 4.2 LoRA Fine-Tuning of the Language Model
+### 4.2 LoRA Fine-Tuning of the Language Model ~~✅~~ **❌ REJECTED — See §10A**
 
-**Their capability:** FinGPT fine-tunes general-purpose LLMs on curated financial
-datasets using LoRA (Low-Rank Adaptation). The result is a model that understands
-financial jargon, SEC filings, earnings call language, and market sentiment at a
-level impossible for a frozen general model.
+**Their claim:** FinGPT fine-tunes LLMs on financial data using LoRA for under $300,
+producing a model that understands financial jargon and market events.
 
-Cost: under $300 per fine-tuning run on a consumer GPU.
+**CIO Amendment (2026-06-22):** This approach is rejected on first-principles grounds.
+See §10A for the full reasoning. LLMs are not time-aware. Fine-tuning on financial
+text teaches co-occurrence patterns, not causal temporal mechanics. The result is a
+model that confabulates coherent-sounding narratives that fit its text distribution —
+not the actual causal chain that unfolded in the market.
 
-**Our gap:** Our Qwen3:4B is **completely frozen**. It has never seen:
-- A single BlueLotus research report
-- A single CIO letter (Editions 001–045)
-- A single NITE-PEI thesis update
-- Our institutional vocabulary: CKRI, NITE-PEI, kill conditions, the Computex
-  Failure, the Socratic Doctrine, BLV3-DOCTRINE-007
-
-Every 39-minute cycle, Qwen3:4B processes our prompts with no institutional memory
-of what BlueLotus is, how we reason, or what our doctrines mean.
+**Decision: Do not build. Permanently struck from the roadmap.**
 
 ---
 
-### 4.3 Retrieval-Augmented Generation (RAG)
+### 4.3 Retrieval-Augmented Generation (RAG) ~~✅~~ **⚠️ REJECTED in analytical role — See §10A**
 
-**Their capability:** FinRAG grounds LLM answers in retrieved source documents.
-Instead of hallucinating, the model retrieves the top-k most relevant chunks from
-a vector database (FAISS / Chroma) and synthesises a factual, cited answer.
+**Their claim:** FinRAG grounds LLM answers in retrieved source documents,
+eliminating hallucination by anchoring the model to cited text.
 
-Applied to: SEC filings, earnings call transcripts, annual reports, financial news.
+**CIO Amendment (2026-06-22):** The RAG architecture as AI4Finance deploys it
+uses an LLM as the synthesis engine. The LLM reads retrieved chunks and generates
+an answer. This still passes financial inference through an entity with no temporal
+awareness. The retrieval is accurate; the synthesis is not trustworthy for
+time-series financial reasoning.
 
-**Our gap:** Our 52 research documents — theses, CIO letters, arch reports,
-doctrine files — are **not queryable**. The CIO cannot ask:
+A pure **deterministic document lookup** (return the matching chunk verbatim,
+no LLM synthesis) is a different and valid use case. But that is a search engine,
+not RAG. It requires no work order — the archive is already structured and indexed
+in `bluelotus-research`.
 
-> *"What was our NITE-PEI P(HAWKISH_BOJ) on 10 June 2026 and what triggered the update?"*
-
-and receive a sourced, accurate answer from the archive. Every historical query
-requires manual file reading.
+**Decision: Do not build RAG with LLM synthesis. Deterministic archive search
+is already possible via the published GitHub research repo.**
 
 ---
 
-### 4.4 Reinforcement Learning Portfolio Sizing
+### 4.4 Reinforcement Learning Portfolio Sizing ✅ *Validated — to be built*
 
 **Their capability:** FinRL-X trains PPO/SAC agents to optimise portfolio weight
-allocation. The agent learns market regime patterns that closed-form Kelly
-mathematics cannot derive — particularly in tail-risk scenarios and cross-asset
-correlation regimes.
+allocation. The agent learns market regime patterns empirically from historical data.
 
-**Our gap:** Our Kelly formula is mathematically correct given its inputs:
+**Important distinction from §10A:** DRL is **not** an LLM. A DRL agent:
+- Has no language model, no text generation, no hallucination mechanism
+- Learns a policy function: `state → action` through reward signals
+- Is trained on numerical state vectors (CKRI, P_posterior, regime, vol)
+- Produces a deterministic policy once trained (same state → same action)
+- Is fully auditable: the policy network weights are fixed post-training
 
-$$f^* = \frac{b \cdot p - q}{b} \times f_{kelly} \times coherence$$
+DRL is pure mathematics operating on numerical time-series data. It is categorically
+different from LLM text prediction. The CIO's objection to LLMs does not apply.
 
-But the `fractional_multiplier` range (0.05–0.35) was calibrated by expert judgment,
-not by empirical evidence from historical performance. A DRL agent trained on
-BlueLotus historical cycle data could discover the true optimal multiplier
-for each combination of:
-- CKRI zone (CLEAR / WATCH / ELEVATED / HIGH / CRITICAL)
-- Thesis strength (P_posterior quartile)
-- Market regime (RISK ON / RISK OFF / NEUTRAL)
-- Shannon entropy H_norm (signal noise level)
+**Decision: Build this. See WO-20260629-002.**
 
 ---
 
-## §5 · Where BlueLotus V3 Is Ahead of Them
+## §5 · Where BlueLotus V3 Is Ahead
 
-This section is stated not for pride, but to identify what **must not be
-compromised** in the upgrade path. These advantages are harder to build than
-the gaps we must close.
+These advantages must not be compromised in any upgrade:
 
 ### 5.1 The Bayesian Thesis Engine (NITE-PEI) — Unique in the World
-
-No system in the AI4Finance-Foundation ecosystem — and to our knowledge, no
-public open-source system anywhere — implements what NITE-PEI implements:
-
-1. A **live thesis registry** with calibrated prior probabilities per thesis
-2. An **event classifier** that maps news headlines to event taxonomies
-3. A **likelihood ratio table** (expert-initialised, Brier-calibrated over time)
-4. A **sequential Bayesian updater** that produces a quantified posterior per event
-5. A **kill condition FSM** that tracks thesis retirement risk in real time
-6. A **CKRI calculator** that aggregates kill risk across all active theses
-7. A **Kelly-NITE coupler** that adjusts position sizing based on thesis coherence
 
 $$P_{posterior} = \frac{P_{prior} \times LR_{adj}}{P_{prior} \times LR_{adj} + (1 - P_{prior})}$$
 
@@ -268,55 +228,43 @@ $$CKRI = \frac{\sum w_i \cdot P_{kill,i} + \lambda \cdot n_{corr}}{\sum w_i}$$
 
 $$f^* = \frac{b \cdot p - q}{b} \times f_{kelly} \times coherence$$
 
-This is **not a feature**. This is a complete probabilistic reasoning framework
-for investment thesis management. AI4Finance has 43 repositories and 21,000 stars
-and nothing resembling this exists.
+No system in the AI4Finance ecosystem — and to our knowledge, no public
+open-source system anywhere — implements quantified Bayesian thesis management
+with kill-condition scoring and Kelly-NITE coupling. This is unique to BlueLotus.
 
 ### 5.2 Determinism and Auditability
 
-Every BlueLotus V3 pipeline step is **deterministic**:
-- Same `dataset_raw.json` input → same analytical output, every time
-- No stochastic sampling, no random seeds, no temperature in the decision loop
-- Every output is append-only logged with timestamp
+Every BlueLotus V3 pipeline step is deterministic.
+Same `dataset_raw.json` → same analytical output. Always.
+No stochastic sampling. No temperature. No random seed dependency.
 
-AI4Finance's DRL systems are stochastic by design. Two runs of the same PPO agent
-on the same data may produce different weight vectors. There is no single "correct"
-output to audit. In a regulatory or accountability context, this is a significant
-liability.
-
-### 5.3 Governance Architecture
-
-Our 7 doctrines are not documentation — they are **code-enforced invariants**:
+### 5.3 Governance Architecture — 7 Code-Enforced Doctrines
 
 ```python
-# This cannot be overridden by any agent, prompt, or thesis update:
-manual_execution_required = True   # BLV3-DOCTRINE-002
-llm_order_generation = False       # BLV3-DOCTRINE-001
-order_routing_enabled = False      # BLV3-DOCTRINE-003
+manual_execution_required = True        # BLV3-DOCTRINE-002
+llm_order_generation = False            # BLV3-DOCTRINE-001
+order_routing_enabled = False           # BLV3-DOCTRINE-003
 HEDGE_TICKERS = frozenset({"VXX", "VIXY"})  # BLV3-DOCTRINE-007
 ```
 
-No AI4Finance system has a comparable governance layer. Their execution gate is
-Alpaca's pre-trade risk check — a broker-side control, not an architectural control.
-
 ### 5.4 Continuous Production Operation
 
-BlueLotus V3 is **live**. It has been running a 65-step pipeline every 39 minutes
-in production since V1. The AI4Finance repos are primarily:
-- Jupyter notebooks for research demonstration
-- Library code requiring manual invocation
-- Tutorial code for educational use
-
-FinRL-X is the most production-oriented, but remains primarily a research framework.
-BlueLotus is a running intelligence organism.
+BlueLotus V3 is **live**. 65-step pipeline. Every 39 minutes. Since V1.
+AI4Finance repos are primarily Jupyter notebooks requiring manual invocation.
 
 ---
 
-# PART III — THE FOUR UPGRADE PRESCRIPTIONS
+# PART III — THE TWO VALIDATED UPGRADE PRESCRIPTIONS
+
+*Note: The original V1.0 thesis proposed four upgrades. Following CIO amendment
+on 2026-06-22, upgrades involving LLM integration (WO-002: Fine-Tuning,
+WO-003: RAG) are permanently withdrawn. Two upgrades remain.*
+
+---
 
 ## §6 · UPGRADE-001 — Walk-Forward Backtesting Engine
 
-**Priority:** 🔴 CRITICAL — Must be built first
+**Priority:** 🔴 CRITICAL
 **Estimated effort:** 3–4 days
 **Work Order:** WO-20260629-001
 
@@ -328,6 +276,9 @@ BlueLotus V3 has never been validated on historical data. We do not know:
 - What our Sharpe ratio would have been since inception
 - Whether CKRI readings correlate with actual subsequent drawdowns
 
+This is the most important open question in the entire architecture.
+A system that has never been backtested is a system still on trial.
+
 ### Architecture Specification
 
 **New module:** `C:\bluelotus3\backtest\`
@@ -335,173 +286,123 @@ BlueLotus V3 has never been validated on historical data. We do not know:
 ```
 backtest/
 ├── __init__.py
-├── backtest_engine.py         # Core replay engine
-├── scenario_loader.py         # Loads archived dataset_raw.json snapshots
-├── nite_pei_backtest.py       # Replays NITE-PEI through historical events
-├── kelly_backtest.py          # Replays Kelly sizing vs actual outcomes
-├── ckri_validation.py         # Validates CKRI readings vs actual drawdowns
-├── brier_historical.py        # Retrospective Brier scoring on archived forecasts
-└── backtest_report_generator.py  # Outputs TXT + JSON backtest report
+├── backtest_engine.py            # Core walk-forward replay engine
+├── scenario_loader.py            # Loads archived dataset_raw.json snapshots
+├── nite_pei_backtest.py          # Replays NITE-PEI through historical events
+├── kelly_backtest.py             # Replays Kelly sizing vs actual outcomes
+├── ckri_validation.py            # Validates CKRI readings vs actual drawdowns
+├── brier_historical.py           # Retrospective Brier scoring on archived data
+├── sharpe_calculator.py          # Annualised Sharpe, Calmar, Max Drawdown
+└── backtest_report_generator.py  # Outputs TXT + JSON + XLSX backtest report
 ```
 
-**Data sources for backtesting:**
-- `C:\bluelotus3\data\archive\` — historical `dataset_raw.json` snapshots
-- `C:\bluelotus3\data\v3_cycles\` — historical agent report JSONs
-- `C:\bluelotus3\nite_pei\calibration_audit_log.json` — historical LR adjustments
-
-**Core backtest loop:**
+**Core walk-forward loop — entirely deterministic, zero LLM:**
 
 ```python
-def run_backtest(start_date, end_date, initial_portfolio_value):
-    snapshots = load_snapshots(start_date, end_date)
-    results = []
-    for snapshot in walk_forward(snapshots, window=5, step=1):
-        # Feed historical dataset through NITE-PEI
-        nite_result = run_nite_pei_cycle(snapshot["dataset"])
-        # Feed through Kelly
-        kelly_result = compute_kelly(nite_result, snapshot["portfolio"])
-        # Record outcome at next snapshot
-        outcome = measure_outcome(snapshot["next"], kelly_result)
-        results.append(outcome)
+def run_walk_forward_backtest(start_date, end_date):
+    """
+    Strict temporal separation: no future data leaks into past windows.
+    All computation is deterministic numerical analysis.
+    """
+    snapshots = load_archived_snapshots(start_date, end_date)
+
+    for window in walk_forward_windows(snapshots, train_days=60, test_days=5):
+        # Feed historical dataset through deterministic NITE-PEI engine
+        nite_result = run_nite_pei_on_snapshot(window.train_set)
+
+        # Compute Kelly sizing from NITE-PEI output
+        kelly_result = compute_kelly(nite_result, window.train_portfolio)
+
+        # Measure what actually happened in the out-of-sample window
+        actual_outcome = measure_actual_return(window.test_set, kelly_result)
+
+        # Score: Brier, direction accuracy, Sharpe contribution
+        score = evaluate_outcome(nite_result, kelly_result, actual_outcome)
+        results.append(score)
+
     return BacktestReport(results)
 ```
 
-**Output metrics (matching FinRL-X standard):**
-- Sharpe Ratio (annualised)
-- Calmar Ratio
-- Maximum Drawdown
-- LR Calibration Accuracy (% events where LR direction was correct)
-- CKRI Predictive Validity (correlation between CKRI zone and subsequent drawdown)
-- Kelly Efficiency (actual return / Kelly-predicted return)
+**Data sources — no external APIs, no LLMs:**
+- `C:\bluelotus3\data\archive\` — historical `dataset_raw.json` snapshots
+- `C:\bluelotus3\data\v3_cycles\` — historical agent report JSONs
+- `C:\bluelotus3\nite_pei\calibration_audit_log.json` — LR calibration history
 
-**Walk-forward validation rule:**
+**Output metrics (matching FinRL-X standard for fair comparison):**
+
+| Metric | Formula | Target |
+|--------|---------|--------|
+| Sharpe Ratio | $(R_p - R_f) / \sigma_p$ | > 0.80 |
+| Calmar Ratio | CAGR / Max Drawdown | > 0.50 |
+| Max Drawdown | $\min_t(P_t/\max_{s \leq t} P_s - 1)$ | < 20% |
+| LR Direction Accuracy | % events where LR adjusted P in correct direction | > 55% |
+| CKRI Predictive R² | Correlation: CKRI → next-period drawdown | > 0.30 |
+| Brier Score (retrospective) | $\frac{1}{N}\sum(p_i - o_i)^2$ | < 0.25 |
+
+**Walk-forward validation rule — strictly enforced:**
 ```
-Training window:  T-60 days to T-5 days
-Validation window: T-5 days to T
-No signal from T-1 to T leaks into T-60 to T-5 calculation.
+Training window:   T-60 days  →  T-5 days   (history only)
+Validation window: T-5 days   →  T          (out-of-sample)
+
+No feature from the validation window is visible during training.
+No look-ahead bias is possible by construction.
 ```
+
+### New Doctrine Arising from WO-001
+
+**BLV3-DOCTRINE-008 — Backtest Before Trust**
+
+> *No LR table entry, Kelly parameter, CKRI threshold, or analytical operator
+> shall be considered validated until it has been evaluated on a walk-forward
+> backtest spanning at least 60 calendar days of historical BlueLotus cycles.
+> Expert prior values are provisional until calibrated by backtest evidence.*
 
 ---
 
-## §7 · UPGRADE-002 — BlueLotus-Specific Qwen3:4B Fine-Tuning
+## §7 · UPGRADE-002 — DRL Kelly Optimizer
 
-**Priority:** 🟠 HIGH — Transforms agent quality
-**Estimated effort:** 2–3 days
+**Priority:** 🟠 HIGH
+**Estimated effort:** 3–4 days
 **Work Order:** WO-20260629-002
 
-### Problem Statement
+### Why DRL Is Not an LLM
 
-Our Qwen3:4B processes every prompt as a stranger to BlueLotus. It does not
-understand CKRI, NITE-PEI, the Socratic Doctrine, kill conditions, the Computex
-Failure, or what "WATCH zone" means in our context. Every agent report begins
-from zero institutional knowledge.
+This distinction is architecturally critical. The CIO's amendment (§10A) rejects
+LLM integration on the grounds that LLMs have no temporal awareness and will
+confabulate coherent-but-false narratives.
 
-### Architecture Specification
+DRL is a fundamentally different technology:
 
-**Method:** LoRA (Low-Rank Adaptation) — same technique as FinGPT
-**Base model:** `bluelotus-qwen3-4b-gpu:latest` (already pinned in VRAM)
-**Training framework:** `unsloth` or `llama.cpp` GGUF fine-tuning (Windows-compatible)
-**Estimated GPU time:** 6–12 hours on RTX 5060 Ti 16GB
+| Property | LLM (Rejected) | DRL (Approved) |
+|----------|---------------|----------------|
+| Input | Text tokens | Numerical state vector |
+| Output | Text tokens | Continuous action value |
+| Training | Next-token prediction on static corpus | Reward maximisation on temporal sequences |
+| Temporal awareness | ❌ No concept of T+0, T+1, T+2 | ✅ Policy explicitly trained on sequential state transitions |
+| Hallucination risk | ❌ High — confabulates coherent text | ✅ None — outputs a single float |
+| Auditability | ❌ Black-box text generation | ✅ Fixed policy network: same state → same action |
+| Financial validity | ❌ Learns text co-occurrence, not causality | ✅ Learns reward signal tied to actual P&L |
 
-**Training dataset sources:**
-
-| Source | Format | Volume |
-|--------|--------|--------|
-| Agent report JSONs from `v3_cycles/` | Instruction pairs | 300+ reports |
-| 52 research/thesis documents | Document QA pairs | 52 documents |
-| CIO Letters Editions 001–045 | Completion pairs | 45 letters |
-| Chief Strategist reports | Analysis pairs | 20+ reports |
-| `dataset_raw.json` field definitions | Schema understanding | 1 document |
-| Doctrine files | Rule completion | 7 doctrines |
-
-**Instruction format (following FinGPT pattern):**
-
-```json
-{
-  "instruction": "A HAWKISH_BOJ event arrives with LR=1.45. Prior probability is 0.82. Compute the posterior.",
-  "input": "noise_discount=0.10, source_tier=1",
-  "output": "LR_adj = 1 + (1.45 - 1) × (1 - 0.10) = 1.405. Prior odds = 0.82/0.18 = 4.556. Posterior odds = 4.556 × 1.405 = 6.401. P_posterior = 6.401/7.401 = 0.865. Delta_P = +0.045. State: WATCH."
-}
-```
-
-**New model name:** `bluelotus-qwen3-4b-v2-instruct:latest`
-**Deployment:** Hot-swap via Ollama. Keep `v1` as fallback.
-
----
-
-## §8 · UPGRADE-003 — Institutional Archive RAG Layer
-
-**Priority:** 🟡 MEDIUM — Unlocks institutional memory query
-**Estimated effort:** 2 days
-**Work Order:** WO-20260629-003
+**DRL is pure mathematics operating on numerical time-series data.**
+It does not generate narratives. It does not have a language model.
+It cannot hallucinate. It is precisely the kind of deterministic
+numerical engine that BlueLotus is built on.
 
 ### Problem Statement
 
-52 documents are published. Hundreds of agent report JSONs exist. 45 CIO letters
-are archived. But none of it is queryable. The CIO cannot ask a natural language
-question and receive a sourced answer from the institutional record.
+Our Kelly fractional multiplier range (0.05–0.35) is calibrated by the coherence
+formula, which derives from Shannon entropy and branch dispersion. These are
+theoretically sound but **empirically unvalidated**. We do not know the true
+optimal multiplier for each regime/CKRI combination.
 
-### Architecture Specification
-
-**New module:** `C:\bluelotus3\rag\`
-
-```
-rag/
-├── __init__.py
-├── document_indexer.py    # Chunks and embeds all archive documents
-├── vector_store.py        # FAISS local vector index (no cloud)
-├── query_engine.py        # Natural language → retrieved chunks → Qwen3:4B answer
-├── source_formatter.py    # Formats citations: [Source: NITE-PEI Thesis §7, p.3]
-└── rag_report.json        # Append-only query log
-```
-
-**Vector embedding model:** `nomic-embed-text` via Ollama (local, zero cost)
-
-**Document corpus to index:**
-
-```
-C:\bluelotus3\research\*.md          — all thesis documents
-C:\bluelotus3\research\archive\*.txt — archive research
-C:\bluelotus3\reports\*.md           — architecture reports
-C:\bluelotus3\data\v3_cycles\**\*.json — agent report JSONs
-C:\bluelotus3\data\chief_strategist\ — CS report archive
-```
-
-**Query interface:**
-
-```python
-def query_archive(question: str, top_k: int = 5) -> dict:
-    """
-    Example:
-      question = "What was our Gold Thesis probability on June 10?"
-      Returns: {
-        "answer": "On 2026-06-10, P(Gold Thesis) = 0.72 (WATCH zone)...",
-        "sources": [
-          {"doc": "NITE-PEI Technical Report 20260621", "chunk": "..."},
-          {"doc": "v3_cycle_20260610_143922/agent_reports/thesis.json", "chunk": "..."}
-        ]
-      }
-    """
-```
-
-**Pipeline integration:** Add as `Layer 2.5 — Archive Intelligence` in the pipeline.
-Before governance gate, the RAG layer can answer: *"Has this exact regime occurred
-before, and what did we recommend?"*
-
----
-
-## §9 · UPGRADE-004 — DRL Kelly Optimizer
-
-**Priority:** 🟢 MEDIUM-LOW — Enhances sizing accuracy
-**Estimated effort:** 3–4 days
-**Work Order:** WO-20260629-004
-
-### Problem Statement
-
-Our fractional Kelly multiplier (0.05–0.35) is calibrated by the coherence
-formula, which is itself derived from Shannon entropy and branch dispersion.
-These are theoretically sound but empirically unvalidated. We do not know
-the true optimal multiplier for each regime/CKRI combination.
+A PPO agent trained on historical BlueLotus cycle data can empirically discover
+the optimal multiplier for each combination of:
+- CKRI zone (CLEAR / WATCH / ELEVATED / HIGH / CRITICAL)
+- Thesis strength (P_posterior quartile)
+- Market regime (RISK ON / RISK OFF / NEUTRAL)
+- Shannon entropy H_norm (signal noise level)
+- 30-day realised volatility
+- Treasury yield spread (10Y–2Y)
 
 ### Architecture Specification
 
@@ -510,195 +411,358 @@ the true optimal multiplier for each regime/CKRI combination.
 ```
 rl_sizing/
 ├── __init__.py
-├── bluelotus_env.py       # Gym-style environment wrapping BlueLotus state
-├── state_encoder.py       # Encodes: CKRI, P_posterior, H_norm, regime → state vector
-├── ppo_agent.py           # PPO agent (stable-baselines3)
+├── bluelotus_env.py       # Gym-style environment — numerical inputs only
+├── state_encoder.py       # Maps BlueLotus state to DRL state vector
+├── ppo_agent.py           # PPO agent (stable-baselines3, no LLM component)
 ├── train_agent.py         # Training loop on historical snapshots
-├── eval_agent.py          # Walk-forward evaluation
+├── eval_agent.py          # Walk-forward evaluation (uses WO-001 engine)
 └── rl_advisory.py         # Outputs RL multiplier for CIO comparison vs Kelly
 ```
 
-**State vector (what the RL agent observes):**
+**State vector — purely numerical, no text, no language model:**
 
 ```python
-state = [
-    ckri,                    # float 0–1
-    p_posterior_mean,        # mean across all active theses
-    h_norm_mean,             # Shannon entropy of portfolio signals
-    branch_dispersion_mean,  # PEI scenario uncertainty
-    regime_score,            # -5 to +5 (RISK OFF to RISK ON)
-    vol_30d,                 # 30-day realised volatility
-    treasury_spread,         # 10Y - 2Y yield spread
-]
+state_vector = np.array([
+    ckri,                    # float 0.0–1.0
+    p_posterior_mean,        # mean P across all active theses, 0.0–1.0
+    h_norm_mean,             # Shannon entropy normalised, 0.0–1.0
+    branch_dispersion_mean,  # PEI scenario uncertainty, 0.0–1.0
+    regime_score_norm,       # normalised regime: -1.0 (RISK OFF) to +1.0 (RISK ON)
+    vol_30d,                 # 30-day realised volatility, float
+    treasury_spread,         # 10Y - 2Y yield spread, float
+])
+# Shape: (7,) — a plain numpy array. No text. No tokens. No LLM.
 ```
 
-**Action:** `fractional_multiplier ∈ [0.0, 0.5]` (continuous)
+**Action:** `fractional_multiplier ∈ [0.0, 0.50]` (continuous float)
 
-**Reward:**
+**Reward function — grounded in actual numerical P&L:**
 
-$$R_t = \frac{\mu_{t+1} - r_f}{\sigma_{t+1}} - \lambda \cdot DD_t$$
+$$R_t = \frac{R_{portfolio,t+1} - R_{benchmark,t+1}}{\sigma_{t+1}} - \lambda \cdot DD_t$$
 
-where $\mu_{t+1}$ is the return of the Kelly-sized position, $r_f$ is the
-risk-free rate, $\sigma_{t+1}$ is realised volatility, $DD_t$ is drawdown
-penalty, and $\lambda = 0.5$ is the drawdown aversion coefficient.
+where:
+- $R_{portfolio}$ = realised return of Kelly-sized position in next BlueLotus cycle
+- $R_{benchmark}$ = equal-weight benchmark return
+- $\sigma_{t+1}$ = realised volatility of next period
+- $DD_t$ = drawdown penalty (0 if no drawdown, else magnitude)
+- $\lambda = 0.5$ = drawdown aversion coefficient
 
-**Governance invariant:**
+The reward is computed from **actual historical price data** in `dataset_raw.json`.
+No language model interprets the reward. No narrative is generated.
+The agent observes numbers, outputs a number, receives a number.
+
+**Governance invariant — unchanged from BLV3-DOCTRINE-002:**
+
 ```python
-# RL agent NEVER routes orders. It outputs a float.
-# CIO compares RL advisory vs Kelly formula and decides.
-rl_output = {"rl_fractional_multiplier": f_rl, "manual_execution_required": True}
+# DRL agent outputs a float advisory. CIO reads and decides.
+# The float never routes to a broker. Never.
+rl_output = {
+    "rl_fractional_multiplier": float(action),
+    "kelly_fractional_multiplier": float(kelly_multiplier),
+    "delta": float(action - kelly_multiplier),
+    "manual_execution_required": True,       # Permanent invariant
+    "llm_order_generation": False,           # Permanent invariant
+    "order_routing_enabled": False,          # Permanent invariant
+}
 ```
 
 **Training data:** Historical `dataset_raw.json` snapshots with associated
-next-period portfolio performance metrics.
+next-period portfolio performance metrics. Requires WO-001 to be complete first
+(backtest engine generates the training labels).
+
+**Dependency:** WO-001 must be complete before WO-002 training can begin.
 
 ---
 
-# PART IV — PHILOSOPHICAL BOUNDARY
+## §8 · Upgrades Withdrawn — WO-002 (Fine-Tuning) and WO-003 (RAG)
 
-## §10 · What We Must Not Borrow
+These work orders were proposed in thesis V1.0 and are permanently withdrawn
+following CIO amendment on 2026-06-22.
 
-This section is as important as the four upgrades above. The AI4Finance
-ecosystem's 21,000 stars reflect a demand for systems that remove the human
-from the loop. BlueLotus must not follow that path.
+| WO (withdrawn) | Title | Reason |
+|---------------|-------|--------|
+| WO-20260629-002 (old) | Qwen3:4B LoRA Fine-Tuning | LLM has no temporal awareness. Fine-tuning teaches text co-occurrence, not causal market mechanics. Rejected by CIO on first principles. |
+| WO-20260629-003 (old) | Institutional Archive RAG Layer | RAG synthesis engine is an LLM. LLM cannot reliably reason about time-series financial causality. Will confabulate coherent-but-false answers. Rejected by CIO on first principles. |
 
-### The Fundamental Difference
+The `bluelotus-research` GitHub repository already provides human-readable
+access to all 52 institutional documents. A search engine (Ctrl+F, GitHub search)
+is both faster and more honest than an LLM that synthesises from retrieved chunks.
 
-| | AI4Finance | BlueLotus V3 |
-|--|-----------|--------------|
-| **Philosophy** | Automate decision + execution | Augment the CIO's judgment |
-| **Black box?** | Yes — DRL is stochastic | No — every step deterministic |
-| **Who decides?** | The model | The CIO |
-| **Who executes?** | Alpaca API | CIO manually |
-| **Accountability** | Distributed / diffuse | CIO signs every trade |
-| **When wrong** | Automated loss, no override | CIO catches error before execution |
-| **Regulatory risk** | High (autonomous execution) | Zero (advisory only) |
+---
 
-### What BlueLotus Will Never Build
+# PART IV — CIO AMENDMENT: WHY LLM INTEGRATION IS THE WRONG PATH
+
+## §10A · The Fundamental Problem With LLMs in Financial Time-Series Systems
+
+*This section records the CIO's architectural ruling of 2026-06-22 for permanent
+institutional memory. It supersedes any prior recommendation in this or any
+prior thesis document.*
+
+### The Nature of a Language Model
+
+A Large Language Model is trained on a static text corpus. Its training objective
+is **next-token prediction**: given the tokens so far, predict the most likely
+next token.
+
+What this training produces:
+
+```
+LLM learns:  P(token_next | token_1, token_2, ..., token_n)
+
+This is a STATISTICAL DISTRIBUTION over text.
+It is NOT a model of the world.
+It is NOT a causal model.
+It has NO concept of time.
+```
+
+The LLM learned that certain words appear together in financial text. It learned
+*associations*, not *mechanisms*. It learned the *language* of finance, not the
+*causality* of finance.
+
+### Why This Fails for Time-Series Financial Reasoning
+
+Financial markets are a **causal temporal system**. Events happen in sequence.
+Cause precedes effect. The direction of time is the most important variable.
+
+```
+Reality (temporal causality):
+
+T=0   BOJ Governor speaks hawkishly
+T+1h  JPY strengthens
+T+2h  Japanese export stocks fall
+T+3h  US Treasury yields reprice
+T+4h  Gold thesis probability updates via NITE-PEI
+
+Each step is caused by the prior step in clock time.
+```
+
+What an LLM sees when processing this:
+
+```
+LLM input:  "BOJ hawkish JPY strength Japanese stocks Gold thesis"
+LLM output: A plausible sentence containing these words in expected order
+
+The LLM does not know T=0, T+1h, T+2h, T+3h, T+4h.
+The LLM does not know which caused which.
+The LLM does not know what actually happened vs what usually happens.
+The LLM knows only: these tokens frequently appear together in financial text.
+```
+
+The result is a system that produces outputs that are:
+- **Internally coherent** — the text reads well and sounds authoritative
+- **Statistically expected** — these words go together in training data
+- **Temporally ungrounded** — no actual clock time, no actual sequence
+- **Causally unaware** — no model of which event drove which price move
+
+This is not a solvable problem through fine-tuning. Fine-tuning on BlueLotus
+data would teach the LLM to produce text that *sounds like* a BlueLotus report.
+It would not give it the ability to reason correctly about what actually happened
+in the market at T+1h versus T+3h on a specific date.
+
+### The Hallucination Mechanism in Financial Context
+
+When an LLM encounters an ambiguous or novel financial scenario, it cannot say:
+*"I do not know — the causal chain for this event is not in my training data."*
+
+Instead, it does what its training objective demands: **produce the most
+statistically likely next token**. This means it will generate a coherent,
+confident-sounding financial narrative — grounded not in what actually happened,
+but in what *usually* appears in financial text near these keywords.
+
+This is structurally identical to the Computex Failure:
+
+```
+Computex Failure (BlueLotus V1):
+  The dataset saw the effect (MRVL +29.8%)
+  but did not see the cause (Jensen Huang keynote).
+  Result: false confidence from incomplete information.
+
+LLM Failure Mode (generic):
+  The LLM generates a coherent narrative about the effect
+  using the most statistically likely causal explanation —
+  which may or may not be what actually caused the move.
+  Result: false confidence from a model that cannot distinguish
+          "what usually happens" from "what happened this time."
+```
+
+Both produce the same failure: a system that sounds right but is wrong.
+The difference is that the Computex Failure was an architectural gap we
+identified and fixed. An LLM failure mode is a structural property of the
+technology that **cannot be fixed** — it is what language models are.
+
+### The Correct Role of LLMs in BlueLotus
+
+LLMs are not banned from BlueLotus. They serve one valid role:
+
+**Text synthesis of pre-computed numerical results.**
+
+```
+VALID:   Qwen3:4B reads deterministic NITE-PEI output numbers
+         and writes a structured English advisory for the CIO.
+         The numbers come from mathematics. The English wraps them.
+
+INVALID: Qwen3:4B reads market news and generates a thesis probability.
+         The probability came from token prediction, not Bayes' theorem.
+         The CIO cannot know if it is correct.
+```
+
+The current Qwen3:4B role in BlueLotus V3 (9 agent reports) is already
+correctly constrained to text synthesis. The agents receive structured
+numerical context and produce structured text. They do not compute numbers.
+They do not update probabilities. They do not make decisions.
+
+**This boundary must never be crossed. The CIO's ruling of 2026-06-22
+establishes this as a permanent architectural principle.**
+
+---
+
+## §10B · The Philosophical Boundary
+
+### What We Must Not Borrow from AI4Finance
 
 | Capability | Why We Will Not Build It |
 |-----------|------------------------|
+| LLM-generated trading signals | LLM confabulates text, not causal market mechanics |
+| Fine-tuned LLM for thesis updates | Fine-tuning teaches co-occurrence, not temporal causality |
+| RAG with LLM synthesis engine | LLM synthesis is untrustworthy for time-series reasoning |
 | Automated order execution | Violates BLV3-DOCTRINE-002 and BLV3-DOCTRINE-003 |
 | LLM-generated trade orders | Violates BLV3-DOCTRINE-001 |
 | Stochastic decision output | Violates the determinism principle |
-| Black-box portfolio allocation | Violates auditability requirement |
-| VXX/VIXY from equity gate | Violates BLV3-DOCTRINE-007 |
 
-### Why Our Architecture Is Defensible
+### The Fundamental Difference in System Philosophy
 
-AI4Finance's systems are research demonstrations of what AI *can* do in finance.
-BlueLotus is an operational demonstration of what a single disciplined CIO *should*
-be equipped with.
+| | AI4Finance | BlueLotus V3 |
+|--|-----------|--------------|
+| **Core philosophy** | Automate decision + execution | Augment the CIO's judgment |
+| **Temporal reasoning** | LLM text association | Deterministic Bayesian mathematics |
+| **Who updates thesis P?** | LLM generates a number | Bayes' theorem computes a number |
+| **Who decides?** | The model | The CIO |
+| **Who executes?** | Alpaca API | CIO manually |
+| **Accountability** | Diffuse / none | CIO signs every trade |
+| **When the system is wrong** | Automated loss with no human gate | CIO catches the error before execution |
 
-The four upgrades in this thesis (Backtesting, Fine-Tuning, RAG, DRL Sizing)
-each enhance the CIO's information quality without surrendering the CIO's decision
-sovereignty. They make the human **more informed**, not more marginalised.
+AI4Finance has 21,000 stars because there is enormous demand for systems that
+*replace* the human. BlueLotus is built on the insight that replacing the human
+is not the same as *empowering* the human.
 
-This is the BlueLotus thesis, and it does not change.
+The CIO is not a bottleneck. The CIO is the only entity in the system with:
+- Genuine temporal awareness (knows what happened yesterday, last week, last year)
+- Causal understanding (knows *why* the BOJ move mattered for the Gold Thesis)
+- Accountability (will bear the financial consequence of the decision)
+- Contextual judgment (knows the portfolio's personal risk tolerance)
+
+No model has any of these properties. This is why the CIO remains in the loop.
+Not because the technology is not impressive — but because the technology is
+not *sentient*, not *temporally aware*, and not *accountable*.
+
+**That is the thesis. It does not change.**
 
 ---
 
-# PART V — IMPLEMENTATION ROADMAP
+# PART V — REVISED IMPLEMENTATION ROADMAP
 
-## §11 · Work Order Summary
+## §11 · Work Order Summary (Revised)
 
 | WO | Title | Priority | Days | Dependencies |
 |----|-------|----------|------|-------------|
 | WO-20260629-001 | Walk-Forward Backtesting Engine | 🔴 CRITICAL | 3–4 | Historical snapshots in `data/archive/` |
-| WO-20260629-002 | Qwen3:4B LoRA Fine-Tuning | 🟠 HIGH | 2–3 | WO-001 complete (needs backtest data) |
-| WO-20260629-003 | Institutional Archive RAG Layer | 🟡 MEDIUM | 2 | `bluelotus-research` repo (already published) |
-| WO-20260629-004 | DRL Kelly Optimizer | 🟢 MEDIUM-LOW | 3–4 | WO-001 complete (needs historical outcomes) |
+| WO-20260629-002 | DRL Kelly Optimizer | 🟠 HIGH | 3–4 | WO-001 complete (needs backtest labels) |
 
-**Total estimated effort:** 10–13 engineering days
+**~~WO-20260629-002 (Fine-Tuning)~~** — Withdrawn. LLM. Rejected.
+**~~WO-20260629-003 (RAG)~~** — Withdrawn. LLM synthesis. Rejected.
+
+**Total estimated effort:** 6–8 engineering days (down from 10–13)
 **Recommended start:** Week of 2026-06-29
-**Recommended sequencing:**
 
 ```
 Week 1 (29 Jun – 3 Jul):
-  Day 1–2:  WO-001 Phase 1 — Backtest engine + snapshot loader
+  Day 1–2:  WO-001 Phase 1 — Backtest engine + scenario loader
   Day 3–4:  WO-001 Phase 2 — NITE-PEI replay + Sharpe/Brier metrics
-  Day 5:    WO-003 — RAG indexer + FAISS setup + query engine
+  Day 5:    WO-001 Phase 3 — Report generator + full test suite
 
 Week 2 (6 Jul – 10 Jul):
-  Day 1–2:  WO-002 — Training dataset curation + LoRA fine-tuning run
-  Day 3:    WO-002 — Model evaluation + Ollama hot-swap
-  Day 4–5:  WO-004 — DRL environment + PPO training + walk-forward eval
+  Day 1:    WO-002 Phase 1 — Gym environment + state encoder
+  Day 2–3:  WO-002 Phase 2 — PPO training on historical snapshots
+  Day 4:    WO-002 Phase 3 — Walk-forward evaluation
+  Day 5:    WO-002 Phase 4 — RL advisory integration + tests
 ```
 
 ---
 
 ## §12 · Success Criteria
 
-Each upgrade is complete only when the following criteria are met:
-
 ### WO-001 Backtest Engine
 - [ ] `python -m pytest tests/test_backtest_engine.py` — all tests pass
 - [ ] Historical Sharpe ratio computed and stored in `reports/backtest_results.json`
-- [ ] CKRI predictive validity R² > 0.30 (CKRI correlates with subsequent drawdown)
+- [ ] CKRI predictive validity R² > 0.30
 - [ ] LR table directional accuracy > 55% on historical events
-- [ ] Walk-forward report generated: `reports/BlueLotus_Backtest_Report_YYYYMMDD.txt`
+- [ ] Zero LLM calls anywhere in backtest module
+- [ ] Walk-forward report: `reports/BlueLotus_Backtest_Report_YYYYMMDD.txt`
 
-### WO-002 Qwen3:4B Fine-Tuning
-- [ ] Fine-tuned model loads via `ollama run bluelotus-qwen3-4b-v2-instruct:latest`
-- [ ] Correctly answers 10 BlueLotus-specific test prompts (CKRI, NITE-PEI, doctrines)
-- [ ] Perplexity on BlueLotus corpus lower than base Qwen3:4B
-- [ ] Original `bluelotus-qwen3-4b-gpu:latest` preserved as fallback
-- [ ] Zero change to existing pipeline — model swap is transparent
-
-### WO-003 RAG Layer
-- [ ] `python -m pytest tests/test_rag_engine.py` — all tests pass
-- [ ] Query returns sourced answer in < 5 seconds on local hardware
-- [ ] 95% of answers contain at least one correctly-cited source document
-- [ ] `rag/rag_report.json` append-only log is created and growing
-- [ ] Pipeline integration: RAG output appears in `dataset_raw.json` as `archive_intelligence` field
-
-### WO-004 DRL Kelly Optimizer
-- [ ] PPO agent trains to convergence (reward > baseline Kelly after 50k steps)
-- [ ] Walk-forward Sharpe of RL sizing > deterministic Kelly Sharpe (on validation set)
-- [ ] `manual_execution_required: True` present in all RL output dicts
-- [ ] RL output is **advisory only** — never modifies Kelly formula directly
+### WO-002 DRL Kelly Optimizer
+- [ ] PPO agent trains to convergence on historical BlueLotus cycle data
+- [ ] Walk-forward Sharpe of RL sizing ≥ deterministic Kelly Sharpe
+- [ ] `manual_execution_required: True` in all RL output dicts
+- [ ] `llm_order_generation: False` in all RL output dicts
+- [ ] Zero LLM calls anywhere in rl_sizing module
 - [ ] `python -m pytest tests/test_rl_sizing.py` — all tests pass
 
 ---
 
 ## §13 · Test Coverage Requirements
 
-Following BlueLotus SOP, each new module must achieve:
-- Minimum **30 unit tests** per module
-- Zero new failures in `python -m pytest tests/ -x -q` (full suite)
-- All safety invariants tested explicitly
-
-**New test files to create:**
-
+**New test files:**
 ```
-tests/test_backtest_engine.py       (≥40 tests)
-tests/test_rag_engine.py            (≥25 tests)
-tests/test_rl_sizing.py             (≥30 tests)
-tests/test_qwen_finetuned.py        (≥15 tests — prompt quality checks)
+tests/test_backtest_engine.py   (≥ 40 tests)
+tests/test_rl_sizing.py         (≥ 30 tests)
 ```
 
-**Target after all upgrades:** ≥ 420 tests passing (from current 315)
+**Target after both upgrades:** ≥ 385 tests passing (from current 315)
+
+**Mandatory test — for both modules:**
+```python
+def test_no_llm_calls_in_backtest():
+    """Verify that no Ollama / LLM API call occurs during backtesting."""
+    with patch("requests.post") as mock_post:
+        run_walk_forward_backtest("2026-06-01", "2026-06-20")
+        mock_post.assert_not_called()
+
+def test_no_llm_calls_in_rl_sizing():
+    """Verify that no Ollama / LLM API call occurs during RL sizing."""
+    with patch("requests.post") as mock_post:
+        agent = load_ppo_agent()
+        agent.predict(sample_state_vector)
+        mock_post.assert_not_called()
+```
 
 ---
 
 ## §14 · Doctrine Additions
 
-These upgrades require two new doctrine entries:
-
 ### BLV3-DOCTRINE-008 — Backtest Before Trust
 
-> *No analytical operator, LR table entry, Kelly parameter, or CKRI threshold
+> *No LR table entry, Kelly parameter, CKRI threshold, or analytical operator
 > shall be considered validated until it has been evaluated on a walk-forward
 > backtest spanning at least 60 calendar days of historical BlueLotus cycles.
 > Expert prior values are provisional until calibrated by backtest evidence.*
 
-### BLV3-DOCTRINE-009 — RAG Grounding Requirement
+### BLV3-DOCTRINE-010 — LLM Boundary Doctrine
 
-> *When the RAG layer is active, any agent report that contradicts a sourced
-> finding from the institutional archive must include an explicit CONTRADICTION
-> flag in its output JSON. The CIO shall review all CONTRADICTION flags before
-> making any capital decision. The archive is institutional memory. The archive
-> is not overridden without documented CIO rationale.*
+> *Large Language Models are permitted in BlueLotus V3 for one purpose only:
+> synthesis of pre-computed numerical results into structured English advisory
+> text for CIO consumption. LLMs shall not compute probabilities, update thesis
+> states, generate trading signals, size positions, or reason about temporal
+> causality. The boundary between numerical computation (mathematics) and text
+> synthesis (language model) is permanent and inviolable.*
+>
+> *Rationale: LLMs are trained on static text corpora using next-token prediction.
+> They have no model of clock time, no causal model of market mechanics, and no
+> capacity to distinguish "what usually appears in financial text" from "what
+> actually happened in the market." Fine-tuning does not cure this. RAG does not
+> cure this. These are structural properties of the technology, not engineering
+> gaps. Using an LLM for numerical financial reasoning is equivalent to asking a
+> thesaurus to solve a differential equation — the tool is not wrong; it is simply
+> not designed for the task.*
 
 ---
 
@@ -706,45 +770,43 @@ These upgrades require two new doctrine entries:
 
 BlueLotus V3 is architecturally complete as of 2026-06-21.
 
-The four upgrades in this thesis do not change what BlueLotus *is*. They change
-how well-validated, how language-fluent, how queryable, and how empirically-
-optimised it becomes.
+The two upgrades in this revised thesis make it **empirically validated** and
+**self-optimising** — without introducing any technology that cannot be fully
+audited, deterministically reproduced, and temporally grounded.
 
-AI4Finance Foundation, with 43 repositories and 21,000 stars, built impressive
-tools for automating financial decisions. What they did not build — and what only
-BlueLotus has built — is a complete institutional intelligence framework that
-respects the CIO as the sovereign decision-maker.
-
-The four upgrades close the only meaningful technical gaps. After they are
-complete, BlueLotus V3 will have:
+After the two upgrades are complete, BlueLotus V3 will have:
 
 ```
-✓  Walk-forward validated performance metrics   (WO-001)
-✓  Institutionally fine-tuned local LLM         (WO-002)
-✓  Queryable 52-document institutional archive  (WO-003)
-✓  Empirically-optimised Kelly sizing           (WO-004)
-✓  NITE-PEI Bayesian thesis engine              (existing)
-✓  7 governance doctrines, code-enforced        (existing)
-✓  65-step deterministic production pipeline    (existing)
-✓  315+ regression tests                        (existing)
-✓  CIO-only manual execution doctrine           (existing)
+✓  Walk-forward validated Sharpe, Calmar, Max Drawdown    (WO-001)
+✓  Empirically-optimised Kelly fractional multiplier       (WO-002)
+✓  NITE-PEI Bayesian thesis engine                        (existing)
+✓  7 governance doctrines + 2 new (008, 010)              (existing + new)
+✓  65-step deterministic production pipeline              (existing)
+✓  315+ regression tests → target 385+                   (existing + new)
+✓  CIO-only manual execution doctrine                     (existing)
+✓  Zero LLM in the analytical decision loop               (permanent)
+✓  Zero broker write access                               (permanent)
+✓  Qwen3:4B for text synthesis only                       (role-bounded)
 ```
 
-No system in the AI4Finance-Foundation ecosystem, nor any other public
-open-source system known to this research team, will have all of the above.
+The AI4Finance Foundation built tools for machines to make financial decisions.
+BlueLotus V3 is built so that a human CIO — temporally aware, causally literate,
+and personally accountable — can make better decisions than any machine.
 
-**BlueLotus will be the most complete single-CIO investment intelligence system
-ever built.**
+The two architectures are not in competition. They are solving different problems.
+AI4Finance is solving: *"Can a machine trade?"*
+BlueLotus is solving: *"Can a human CIO think at institutional scale?"*
+
+The answer to both is yes. Only one of those answers requires a sentient mind.
 
 ---
 
-*Prepared by: Dr. Claude Code · Windows Platform Team*
-*For: CIO Soh Wee Kian · BlueLotus Fund Singapore*
-*Date: 2026-06-22 SGT*
+*Principal Author: CIO Soh Wee Kian · BlueLotus Fund Singapore*
+*Amended by: Dr. Claude Code · Windows Platform Team · 2026-06-22*
 *Next upgrade cycle: Week of 2026-06-29*
 
 ---
 
 ```
-CIO_ONLY_MANUAL: TRUE · ORDER_ROUTING: DISABLED · ADVISORY ONLY · 🌸
+CIO_ONLY_MANUAL: TRUE · ORDER_ROUTING: DISABLED · LLM: TEXT SYNTHESIS ONLY · 🌸
 ```
