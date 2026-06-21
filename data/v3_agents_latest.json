@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-22 04:54 SGT",
-  "cycle_id": "v3_cycle_20260622_045251",
-  "latest_cycle_id": "v3_cycle_20260622_045251",
+  "generated_at": "2026-06-22 06:02 SGT",
+  "cycle_id": "v3_cycle_20260622_060107",
+  "latest_cycle_id": "v3_cycle_20260622_060107",
   "fallback_from_cycle_id": "",
   "fallback_reason": "",
   "degraded_llm_cycle": false,
@@ -15,8 +15,8 @@
     "Thesis Lifecycle Agent: WAIT",
     "Risk Challenger Agent: CIO_VERIFICATION_REQUIRED",
     "Forecasting Brier Agent: WAIT",
-    "Sector Specialist Agent: CIO_VERIFICATION_REQUIRED",
-    "Sentiment Narrative Agent: WAIT"
+    "Sector Specialist Agent: REVIEW",
+    "Sentiment Narrative Agent: REVIEW"
   ],
   "disagreements": [
     {
@@ -29,7 +29,7 @@
     },
     {
       "topic": "risk emphasis versus ordinary review",
-      "agent_a": "data_integrity,macro_strategist",
+      "agent_a": "data_integrity,risk_challenger",
       "agent_b": "agent council",
       "severity": "high",
       "chief_strategist_resolution": "Preserve deterministic operator blocks and escalate risk items to CIO review.",
@@ -39,28 +39,27 @@
   "cio_attention_items": [
     "Data Integrity Agent",
     "Portfolio Structure Agent",
-    "Risk Challenger Agent",
-    "Sector Specialist Agent"
+    "Risk Challenger Agent"
   ],
   "manual_execution_required": true,
-  "created_at_sgt": "2026-06-22T04:54:16+08:00",
+  "created_at_sgt": "2026-06-22T06:02:29+08:00",
   "contradiction_register": {
     "schema_version": "bluelotus_v3_contradiction_register_v1.0",
-    "cycle_id": "v3_cycle_20260622_045251",
-    "created_at_sgt": "2026-06-22T04:54:16+08:00",
+    "cycle_id": "v3_cycle_20260622_060107",
+    "created_at_sgt": "2026-06-22T06:02:29+08:00",
     "contradiction_count": 1,
     "p1_count": 0,
     "p2_count": 0,
     "p3_count": 1,
     "contradictions": [
       {
-        "contradiction_id": "V3_CYCLE_20260622_045251_P3_AGENT_QUALITY_QUALITY_SCORER_AGENT_COUNCIL_AGENT_JSON_VALIDATED_BUT_",
-        "cycle_id": "v3_cycle_20260622_045251",
+        "contradiction_id": "V3_CYCLE_20260622_060107_P3_AGENT_QUALITY_QUALITY_SCORER_AGENT_COUNCIL_AGENT_JSON_VALIDATED_BUT_",
+        "cycle_id": "v3_cycle_20260622_060107",
         "severity": "P3",
         "domain": "agent_quality",
         "source_a": "quality_scorer",
         "source_b": "agent_council",
-        "conflict_statement": "Agent JSON validated, but quality scorer flagged weak differentiated reasoning for: portfolio_structure, catalyst_intelligence, thesis_lifecycle",
+        "conflict_statement": "Agent JSON validated, but quality scorer flagged weak differentiated reasoning for: macro_strategist, portfolio_structure, catalyst_intelligence, thesis_lifecycle",
         "cio_attention_required": false,
         "recommended_resolution_path": "Treat validated JSON as runtime success, not full reasoning success; use prompt/agent refinement backlog."
       }
@@ -71,8 +70,8 @@
   },
   "cio_decision_strip": {
     "schema_version": "bluelotus_v3_cio_decision_strip_v1.0",
-    "cycle_id": "v3_cycle_20260622_045251",
-    "created_at_sgt": "2026-06-22T04:54:16+08:00",
+    "cycle_id": "v3_cycle_20260622_060107",
+    "created_at_sgt": "2026-06-22T06:02:29+08:00",
     "posture": "REVIEW",
     "new_information": [
       "Chief Clerk mapped 9 validated agent reports. Report action field states: REVIEW.",
@@ -98,22 +97,22 @@
   },
   "nite_pei": {
     "schema_version": "bluelotus_v3_nite_pei_v1.0",
-    "generated_at_sgt": "2026-06-22T04:54:18+08:00",
+    "generated_at_sgt": "2026-06-22T06:02:30+08:00",
     "thesis_probability_snapshots": [
       {
         "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
         "thesis_type": "TRUMP_UNCERTAINTY_THESIS",
-        "P_prior": 0.941413,
-        "P_posterior": 0.929534,
-        "delta_p": -0.011879,
+        "P_prior": 0.929534,
+        "P_posterior": 0.915463,
+        "delta_p": -0.014071,
         "events_applied": [
           {
-            "event_id": "signal:190870",
+            "event_id": "signal:192370",
             "event_class": "GEOPOLITICAL_DEESCALATION",
             "raw_headline": "[SENTIMENT] NVDA: BULLISH (+0.272) -- Oil Falls to 3-Month Low After Trump’s Iran Deal. What It Means for Inflation",
             "source": "Ticker_Sentiment",
             "source_tier": 3,
-            "published_at": "2026-06-22T04:51:45",
+            "published_at": "2026-06-22T06:00:00",
             "source_url": "",
             "matched_keyword": "iran deal",
             "noise_discount_factor": 0.25,
@@ -122,24 +121,24 @@
             "lr_source": "GEOPOLITICAL_DEESCALATION/TRUMP_UNCERTAINTY_THESIS",
             "confidence": "LOW",
             "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.9414 / 0.0586 = 16.0686",
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.9295 / 0.0705 = 13.1912",
               "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(0.9000) - 1) x (1 - noise_discount(0.25)) = 0.9250",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(16.0686) x LR_adjusted(0.9250) = 14.8635",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 14.8635 / 15.8635 = 0.9370",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.9370",
-              "delta_p": "-0.0045"
+              "step_3_posterior_odds": "posterior_odds = prior_odds(13.1912) x LR_adjusted(0.9250) = 12.2019",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 12.2019 / 13.2019 = 0.9243",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.9243",
+              "delta_p": "-0.0053"
             },
-            "p_prior_step": 0.941413,
-            "p_posterior_step": 0.936962,
-            "delta_p_step": -0.004451
+            "p_prior_step": 0.929534,
+            "p_posterior_step": 0.924253,
+            "delta_p_step": -0.005281
           },
           {
-            "event_id": "signal:190868",
+            "event_id": "signal:192368",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "raw_headline": "[SENTIMENT] BAC: BEARISH (-0.234) -- Fed Governor Bowman Spoke at Private Dinner After Policy Meeting",
             "source": "Ticker_Sentiment",
             "source_tier": 3,
-            "published_at": "2026-06-22T04:51:44",
+            "published_at": "2026-06-22T05:59:59",
             "source_url": "",
             "matched_keyword": "bowman",
             "noise_discount_factor": 0.25,
@@ -148,33 +147,33 @@
             "lr_source": "CENTRAL_BANK_HAWKISH/TRUMP_UNCERTAINTY_THESIS",
             "confidence": "LOW",
             "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.9370 / 0.0630 = 14.8634",
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.9243 / 0.0757 = 12.2018",
               "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(0.8500) - 1) x (1 - noise_discount(0.25)) = 0.8875",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(14.8634) x LR_adjusted(0.8875) = 13.1913",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 13.1913 / 14.1913 = 0.9295",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.9295",
-              "delta_p": "-0.0074"
+              "step_3_posterior_odds": "posterior_odds = prior_odds(12.2018) x LR_adjusted(0.8875) = 10.8291",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 10.8291 / 11.8291 = 0.9155",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.9155",
+              "delta_p": "-0.0088"
             },
-            "p_prior_step": 0.936962,
-            "p_posterior_step": 0.929534,
-            "delta_p_step": -0.007428
+            "p_prior_step": 0.924253,
+            "p_posterior_step": 0.915463,
+            "delta_p_step": -0.00879
           }
         ],
         "event_ids": [
-          "signal:190870",
-          "signal:190868"
+          "signal:192370",
+          "signal:192368"
         ],
-        "brier_record_id": "NITE_BRIER_TRUMP_UNCERTAINTY_THESIS_7F88EB97",
+        "brier_record_id": "NITE_BRIER_TRUMP_UNCERTAINTY_THESIS_EE904D5C",
         "lr_lookups": [
           {
-            "event_id": "signal:190870",
+            "event_id": "signal:192370",
             "event_class": "GEOPOLITICAL_DEESCALATION",
             "lr_adjusted": 0.925,
             "lr_source": "GEOPOLITICAL_DEESCALATION/TRUMP_UNCERTAINTY_THESIS",
             "confidence": "LOW"
           },
           {
-            "event_id": "signal:190868",
+            "event_id": "signal:192368",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "lr_adjusted": 0.8875,
             "lr_source": "CENTRAL_BANK_HAWKISH/TRUMP_UNCERTAINTY_THESIS",
@@ -184,7 +183,7 @@
         "kill_state_snapshot": {
           "TRUMP_KC_01": {
             "state": "CONFIRMED",
-            "P_kill": 0.936962
+            "P_kill": 0.924253
           },
           "TRUMP_KC_02": {
             "state": "INACTIVE",
@@ -193,7 +192,7 @@
         },
         "worst_kill_state": "CONFIRMED",
         "posture": "KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED",
-        "advisory_text": "[NITE-PEI] TRUMP_UNCERTAINTY_THESIS: GEOPOLITICAL_DEESCALATION, CENTRAL_BANK_HAWKISH (LR 0.925 via GEOPOLITICAL_DEESCALATION/TRUMP_UNCERTAINTY_THESIS, confidence: LOW). P: 0.941 → 0.930 (▼0.012). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] TRUMP_UNCERTAINTY_THESIS: GEOPOLITICAL_DEESCALATION, CENTRAL_BANK_HAWKISH (LR 0.925 via GEOPOLITICAL_DEESCALATION/TRUMP_UNCERTAINTY_THESIS, confidence: LOW). P: 0.930 → 0.915 (▼0.014). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
@@ -227,12 +226,12 @@
         "delta_p": 0.0,
         "events_applied": [
           {
-            "event_id": "signal:190868",
+            "event_id": "signal:192368",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "raw_headline": "[SENTIMENT] BAC: BEARISH (-0.234) -- Fed Governor Bowman Spoke at Private Dinner After Policy Meeting",
             "source": "Ticker_Sentiment",
             "source_tier": 3,
-            "published_at": "2026-06-22T04:51:44",
+            "published_at": "2026-06-22T05:59:59",
             "source_url": "",
             "matched_keyword": "bowman",
             "noise_discount_factor": 0.25,
@@ -254,12 +253,12 @@
           }
         ],
         "event_ids": [
-          "signal:190868"
+          "signal:192368"
         ],
-        "brier_record_id": "NITE_BRIER_STICKY_INFLATION_THESIS_FF5F825E",
+        "brier_record_id": "NITE_BRIER_STICKY_INFLATION_THESIS_8CD8E02A",
         "lr_lookups": [
           {
-            "event_id": "signal:190868",
+            "event_id": "signal:192368",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "lr_adjusted": 1.15,
             "lr_source": "CENTRAL_BANK_HAWKISH/STICKY_INFLATION_THESIS",
@@ -288,12 +287,12 @@
         "delta_p": 0.0,
         "events_applied": [
           {
-            "event_id": "signal:190868",
+            "event_id": "signal:192368",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "raw_headline": "[SENTIMENT] BAC: BEARISH (-0.234) -- Fed Governor Bowman Spoke at Private Dinner After Policy Meeting",
             "source": "Ticker_Sentiment",
             "source_tier": 3,
-            "published_at": "2026-06-22T04:51:44",
+            "published_at": "2026-06-22T05:59:59",
             "source_url": "",
             "matched_keyword": "bowman",
             "noise_discount_factor": 0.25,
@@ -315,12 +314,12 @@
           }
         ],
         "event_ids": [
-          "signal:190868"
+          "signal:192368"
         ],
-        "brier_record_id": "NITE_BRIER_HAWKISH_WARSH_THESIS_1B288FFE",
+        "brier_record_id": "NITE_BRIER_HAWKISH_WARSH_THESIS_91D67784",
         "lr_lookups": [
           {
-            "event_id": "signal:190868",
+            "event_id": "signal:192368",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "lr_adjusted": 1.2625,
             "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_WARSH_THESIS",
@@ -349,12 +348,12 @@
         "delta_p": 0.0,
         "events_applied": [
           {
-            "event_id": "signal:190868",
+            "event_id": "signal:192368",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "raw_headline": "[SENTIMENT] BAC: BEARISH (-0.234) -- Fed Governor Bowman Spoke at Private Dinner After Policy Meeting",
             "source": "Ticker_Sentiment",
             "source_tier": 3,
-            "published_at": "2026-06-22T04:51:44",
+            "published_at": "2026-06-22T05:59:59",
             "source_url": "",
             "matched_keyword": "bowman",
             "noise_discount_factor": 0.25,
@@ -376,12 +375,12 @@
           }
         ],
         "event_ids": [
-          "signal:190868"
+          "signal:192368"
         ],
-        "brier_record_id": "NITE_BRIER_HAWKISH_BOJ_THESIS_D7A17833",
+        "brier_record_id": "NITE_BRIER_HAWKISH_BOJ_THESIS_83C9AB8D",
         "lr_lookups": [
           {
-            "event_id": "signal:190868",
+            "event_id": "signal:192368",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "lr_adjusted": 1.225,
             "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_BOJ_THESIS",
@@ -403,10 +402,10 @@
         "advisory_text": "[NITE-PEI] HAWKISH_BOJ_THESIS: CENTRAL_BANK_HAWKISH (LR 1.225 via CENTRAL_BANK_HAWKISH/HAWKISH_BOJ_THESIS, confidence: LOW). P: 0.950 → 0.950 (▲0.000). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED."
       }
     ],
-    "ckri": 0.937422,
+    "ckri": 0.935897,
     "ckri_zone": "CRITICAL",
     "ckri_detail": {
-      "weighted_sum": 3.487109,
+      "weighted_sum": 3.479484,
       "correlation_penalty_applied": 1.2,
       "total_weight": 5.0,
       "kill_breakdown": [
@@ -414,9 +413,9 @@
           "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
           "kill_id": "TRUMP_KC_01",
           "kill_weight": 0.6,
-          "P_kill": 0.936962,
+          "P_kill": 0.924253,
           "current_state": "CONFIRMED",
-          "contribution": 0.562177
+          "contribution": 0.554552
         },
         {
           "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
@@ -496,21 +495,21 @@
       {
         "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
         "thesis_type": "TRUMP_UNCERTAINTY_THESIS",
-        "p_posterior_used": 0.929534,
+        "p_posterior_used": 0.915463,
         "analyst_upside_pct": 0.15,
-        "f_star_full": 0.459761,
+        "f_star_full": 0.351883,
         "fractional_multiplier": 0.275,
-        "f_star_kelly": 0.126434,
+        "f_star_kelly": 0.096768,
         "coherence_score": 0.75,
         "h_norm_used": 0.0,
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
         "nav_total": 22987.1,
-        "target_usd_sleeve": 2906.35,
+        "target_usd_sleeve": 2224.42,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 2906.35,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $2,906"
+        "delta_usd": 2224.42,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $2,224"
       },
       {
         "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
@@ -595,8 +594,8 @@
         "severity": "P1",
         "domain": "nite_pei_ckri_vs_agent_risk_assessment",
         "source_a": "nite_pei:ckri_zone=CRITICAL",
-        "source_b": "agents:catalyst_intelligence,portfolio_structure,thesis_lifecycle",
-        "conflict_statement": "NITE-PEI CKRI zone is CRITICAL indicating elevated kill risk, but agents ['catalyst_intelligence', 'portfolio_structure', 'thesis_lifecycle'] report no risk_flags. Agent council may be blind to thesis-level kill conditions.",
+        "source_b": "agents:catalyst_intelligence,forecasting_brier,macro_strategist",
+        "conflict_statement": "NITE-PEI CKRI zone is CRITICAL indicating elevated kill risk, but agents ['catalyst_intelligence', 'forecasting_brier', 'macro_strategist'] report no risk_flags. Agent council may be blind to thesis-level kill conditions.",
         "rule": "NITEPEI-002",
         "cio_attention_required": true,
         "recommended_resolution_path": "CIO must review kill conditions manually. Consider injecting CKRI context into next agent cycle."
@@ -607,13 +606,13 @@
     "manual_execution_required": true,
     "llm_order_generation": false,
     "order_routing_enabled": false,
-    "source_cycle_id": "v3_cycle_20260622_045251",
-    "source_cycle_path": "C:\\bluelotus3\\data\\v3_cycles\\v3_cycle_20260622_045251",
-    "nite_pei_generated_at_sgt": "2026-06-22T04:54:18+08:00",
+    "source_cycle_id": "v3_cycle_20260622_060107",
+    "source_cycle_path": "C:\\bluelotus3\\data\\v3_cycles\\v3_cycle_20260622_060107",
+    "nite_pei_generated_at_sgt": "2026-06-22T06:02:30+08:00",
     "generation_mode": "live_cycle",
     "event_extraction": {
       "dataset_path": "C:\\bluelotus3\\data\\frontend\\dataset_raw.json",
-      "candidate_events": 200,
+      "candidate_events": 201,
       "classified_events": 3,
       "applied_events": 5
     }
@@ -621,69 +620,23 @@
   "agents": [
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260622_045251",
+      "cycle_id": "v3_cycle_20260622_060107",
       "agent_id": "data_integrity",
       "agent_name": "Data Integrity Agent",
       "agent_role": "Check freshness, archive mismatch, source reliability, stale sections, and dataset usability.",
       "model_used": "bluelotus-qwen3-4b-gpu",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260622T045248",
-        "operator_pack_id": "deterministic_operators_latest:20260622T045239",
+        "dataset_snapshot_id": "dataset_raw:20260622T060104",
+        "operator_pack_id": "deterministic_operators_latest:20260622T060054",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.1",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
-      "summary": "Dataset freshness is critical for this cycle. Fear and greed indicator is stale (4552 minutes old) and requires immediate attention. CIO decisions are missing from the archive, causing a critical gap in the freshness recovery process. The dataset is otherwise fresh across all other sections. Source health shows 7 breached sources, indicating potential data contamination.",
+      "summary": "Dataset freshness is FRESH for 48/52 sources but fear_greed is STALE (4621 minutes old) and cio_decisions is missing from archive. Archive status shows 1499 snapshots with latest at 2026-06-22T06:00:50. Data quality SLA shows 7 breached sources including IAEA_News, PBOC_CNY, CNA_Business, CNBC_Markets, NASA_News, NASA_SpaceStation, WarOnTheRocks. Freshness recovery attempted but unresolved sections include cio_decisions. Source health indicates 52 sources expected but 2 warning sources and 7 breached sources.",
       "key_findings": [
-        "[DATASET] Fear and greed indicator is stale (4552 minutes old)"
+        "[DATASET] fear_greed is STALE (4621 minutes old)"
       ],
       "risk_flags": [
-        "P1: Critical stale sections (fear_greed, cio_decisions)"
-      ],
-      "blocked_actions_observed": [
-        "HOLD"
-      ],
-      "allowed_actions_observed": [
-        "WAIT",
-        "HOLD",
-        "REVIEW"
-      ],
-      "affected_theses": [],
-      "affected_assets": [],
-      "causal_completeness": "partial",
-      "blind_spots": [
-        "Stale fear_greed indicator"
-      ],
-      "confidence": 0.95,
-      "recommendation_to_chief_strategist": "CIO_VERIFICATION_REQUIRED",
-      "requires_cio_attention": true,
-      "manual_execution_required": true,
-      "llm_order_generation": false,
-      "created_at_sgt": "2026-06-22T04:53:00+08:00",
-      "prompt_architecture_enabled": false,
-      "prompt_architecture_version": "legacy",
-      "retry_count": 0
-    },
-    {
-      "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260622_045251",
-      "agent_id": "macro_strategist",
-      "agent_name": "Macro Strategist Agent",
-      "agent_role": "Interpret macro regime, cross-market stress, sector breadth, and high-beta permission.",
-      "model_used": "bluelotus-qwen3-4b-gpu",
-      "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260622T045248",
-        "operator_pack_id": "deterministic_operators_latest:20260622T045239",
-        "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.1",
-        "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
-      },
-      "summary": "Macro regime is MILD RISK OFF with liquidity constraints. Risk appetite is contracting (FEAR: 37.3). Treasury yields are elevated (10Y: 4.49%, 2Y: 4.20%). Cross-market confirmation shows credit stress (0.125) and sector rotation toward defensive sectors (XLB down, XLE up). Macro event risks include BOJ June 16 event risk and Fed press conference on June 17. Current regime permits low-beta risk but not high-beta risk. High-beta risk is invalid due to liquidity constraints and contracting risk appetite. Recommendation: WAIT.",
-      "key_findings": [
-        "[DATASET] Treasury yields elevated (10Y: 4.49%, 2Y: 4.20%)",
-        "[DATASET] Cross-market confirmation shows credit stress (0.125) and sector rotation toward defensive sectors (XLB down, XLE up)",
-        "[OPERATOR] Regime: MILD RISK OFF, action: Reduce growth. Add defensives."
-      ],
-      "risk_flags": [
-        "P1: Liquidity constraints from sector rotation (XLB down, XLE up)"
+        "P3: fear_greed stale for 4621 minutes"
       ],
       "blocked_actions_observed": [],
       "allowed_actions_observed": [
@@ -694,27 +647,68 @@
       "affected_theses": [],
       "affected_assets": [],
       "causal_completeness": "partial",
-      "blind_spots": [],
-      "confidence": 0.85,
-      "recommendation_to_chief_strategist": "WAIT",
-      "requires_cio_attention": false,
+      "blind_spots": [
+        "fear_greed stale data",
+        "cio_decisions missing from archive"
+      ],
+      "confidence": 0.95,
+      "recommendation_to_chief_strategist": "CIO_VERIFICATION_REQUIRED",
+      "requires_cio_attention": true,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-22T04:53:10+08:00",
+      "created_at_sgt": "2026-06-22T06:01:16+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 0
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260622_045251",
+      "cycle_id": "v3_cycle_20260622_060107",
+      "agent_id": "macro_strategist",
+      "agent_name": "Macro Strategist Agent",
+      "agent_role": "Interpret macro regime, cross-market stress, sector breadth, and high-beta permission.",
+      "model_used": "bluelotus-qwen3-4b-gpu",
+      "input_refs": {
+        "dataset_snapshot_id": "dataset_raw:20260622T060104",
+        "operator_pack_id": "deterministic_operators_latest:20260622T060054",
+        "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.1",
+        "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
+      },
+      "summary": "The desk identified a potential market shift in the US dollar index due to unexpected Fed rate cuts in Q3 2024.",
+      "key_findings": [
+        "[DATASET] US Dollar Index (DXY) data shows a 12% decline in Q2 2024"
+      ],
+      "risk_flags": [],
+      "blocked_actions_observed": [],
+      "allowed_actions_observed": [
+        "WAIT"
+      ],
+      "affected_theses": [],
+      "affected_assets": [],
+      "causal_completeness": "incomplete",
+      "blind_spots": [
+        "Insufficient data on Fed rate decision rationale"
+      ],
+      "confidence": 0.85,
+      "recommendation_to_chief_strategist": "WAIT",
+      "requires_cio_attention": false,
+      "manual_execution_required": true,
+      "llm_order_generation": false,
+      "created_at_sgt": "2026-06-22T06:01:25+08:00",
+      "prompt_architecture_enabled": false,
+      "prompt_architecture_version": "legacy",
+      "retry_count": 1
+    },
+    {
+      "schema_version": "bluelotus_v3_agent_report_v1.0",
+      "cycle_id": "v3_cycle_20260622_060107",
       "agent_id": "portfolio_structure",
       "agent_name": "Portfolio Structure Agent",
       "agent_role": "Interpret concentration, cash, cluster exposure, HHI, largest position, and top exposures.",
       "model_used": "bluelotus-qwen3-4b-gpu",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260622T045248",
-        "operator_pack_id": "deterministic_operators_latest:20260622T045239",
+        "dataset_snapshot_id": "dataset_raw:20260622T060104",
+        "operator_pack_id": "deterministic_operators_latest:20260622T060054",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.1",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
@@ -736,21 +730,21 @@
       "requires_cio_attention": true,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-22T04:53:18+08:00",
+      "created_at_sgt": "2026-06-22T06:01:33+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 1
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260622_045251",
+      "cycle_id": "v3_cycle_20260622_060107",
       "agent_id": "catalyst_intelligence",
       "agent_name": "Catalyst Intelligence Agent",
       "agent_role": "Interpret catalyst calendar, live news brief, ECE themes, portfolio catalysts, and urgent events.",
       "model_used": "bluelotus-qwen3-4b-gpu",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260622T045248",
-        "operator_pack_id": "deterministic_operators_latest:20260622T045239",
+        "dataset_snapshot_id": "dataset_raw:20260622T060104",
+        "operator_pack_id": "deterministic_operators_latest:20260622T060054",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.1",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
@@ -772,21 +766,21 @@
       "requires_cio_attention": false,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-22T04:53:27+08:00",
+      "created_at_sgt": "2026-06-22T06:01:41+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 1
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260622_045251",
+      "cycle_id": "v3_cycle_20260622_060107",
       "agent_id": "thesis_lifecycle",
       "agent_name": "Thesis Lifecycle Agent",
       "agent_role": "Evaluate active thesis lifecycle states from the configured thesis registry.",
       "model_used": "bluelotus-qwen3-4b-gpu",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260622T045248",
-        "operator_pack_id": "deterministic_operators_latest:20260622T045239",
+        "dataset_snapshot_id": "dataset_raw:20260622T060104",
+        "operator_pack_id": "deterministic_operators_latest:20260622T060054",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.1",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
@@ -808,30 +802,30 @@
       "requires_cio_attention": false,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-22T04:53:35+08:00",
+      "created_at_sgt": "2026-06-22T06:01:49+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 1
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260622_045251",
+      "cycle_id": "v3_cycle_20260622_060107",
       "agent_id": "risk_challenger",
       "agent_name": "Risk Challenger Agent",
       "agent_role": "Adversarial review of hidden assumptions, fragile causal chains, liquidity risk, and correlation risk.",
       "model_used": "bluelotus-qwen3-4b-gpu",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260622T045248",
-        "operator_pack_id": "deterministic_operators_latest:20260622T045239",
+        "dataset_snapshot_id": "dataset_raw:20260622T060104",
+        "operator_pack_id": "deterministic_operators_latest:20260622T060054",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.1",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
-      "summary": "The Risk Challenger Agent identified critical gaps in the portfolio's liquidity and concentration metrics, particularly for ASTS. The broker_unrealized and computed_unrealized discrepancy for ASTS indicates a potential cost basis error that could lead to significant P/L misalignment. The bullish sentiment for GOOGL, while strong, lacks institutional validation and is flagged as 'dirty' due to headline duplication and relevance issues. The portfolio's concentration risk (HHI 0.1321) is moderate but requires manual verification to ensure P/L integrity and liquidity resilience.",
+      "summary": "The Risk Challenger Agent identified critical blind spots in the portfolio's liquidity and concentration risks. The largest position in equity capital (ASTS) shows a significant unrealized P/L discrepancy with the broker, indicating potential cost basis errors. The bullish sentiment around GOOGL is flagged as 'dirty' due to conflicting headlines and institutional relevance concerns. The portfolio's concentration in equity capital (HHI 0.1321) is moderate but risks amplifying volatility under stress. The CIO must manually verify the cost basis discrepancy and the quality of GOOGL sentiment data before proceeding.",
       "key_findings": [
-        "[DATASET] Broker_unrealized vs computed_unrealized conflict for ASTS: $9.71 discrepancy"
+        "[DATASET] GOOGL sentiment data contains conflicting headlines and institutional relevance concerns"
       ],
       "risk_flags": [
-        "P1: Liquidity risk from ASTS position discrepancy"
+        "P2: Liquidity risk from ASTS position discrepancy"
       ],
       "blocked_actions_observed": [],
       "allowed_actions_observed": [
@@ -846,37 +840,77 @@
       ],
       "causal_completeness": "partial",
       "blind_spots": [
-        "The bullish sentiment for GOOGL is flagged as 'dirty' due to headline duplication and relevance issues"
+        "The portfolio's concentration in equity capital (HHI 0.1321) is moderate but risks amplifying volatility under stress"
       ],
       "confidence": 0.85,
       "recommendation_to_chief_strategist": "CIO_VERIFICATION_REQUIRED",
       "requires_cio_attention": true,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-22T04:53:44+08:00",
+      "created_at_sgt": "2026-06-22T06:01:58+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 0
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260622_045251",
+      "cycle_id": "v3_cycle_20260622_060107",
       "agent_id": "forecasting_brier",
       "agent_name": "Forecasting Brier Agent",
       "agent_role": "Observe forecast quality and Brier-related records without altering V2 calibration.",
       "model_used": "bluelotus-qwen3-4b-gpu",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260622T045248",
-        "operator_pack_id": "deterministic_operators_latest:20260622T045239",
+        "dataset_snapshot_id": "dataset_raw:20260622T060104",
+        "operator_pack_id": "deterministic_operators_latest:20260622T060054",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.1",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
-      "summary": "Brier score status: collecting; no due forecasts; no resolved forecasts; no Brier score updates; forecast resolution tracker shows no resolutions; method comparison outputs indicate no resolved forecasts; accuracy summary is empty; signal validation status is collecting; no evidence of Brier continuity or overconfidence; forecast quality is operational but not yet calibratable due to lack of resolution data.",
+      "summary": "Brier score status: collecting; no due forecasts; no resolved forecasts; no forecast resolutions yet. Forecasting system is operational but lacks resolution data to calculate Brier scores. All forecasts are in the 'collecting' state. No evidence of overconfidence or calibration issues detected.",
       "key_findings": [
-        "[BRIER] Brier score status: collecting; no due forecasts; no resolved forecasts; no Brier score updates"
+        "[BRIER] Brier score status: collecting; no due forecasts; no resolved forecasts; no forecast resolutions yet."
+      ],
+      "risk_flags": [],
+      "blocked_actions_observed": [],
+      "allowed_actions_observed": [
+        "WAIT",
+        "HOLD",
+        "REVIEW"
+      ],
+      "affected_theses": [],
+      "affected_assets": [],
+      "causal_completeness": "partial",
+      "blind_spots": [
+        "Brier score resolution data is missing; no historical Brier scores to assess calibration"
+      ],
+      "confidence": 0.85,
+      "recommendation_to_chief_strategist": "WAIT",
+      "requires_cio_attention": false,
+      "manual_execution_required": true,
+      "llm_order_generation": false,
+      "created_at_sgt": "2026-06-22T06:02:07+08:00",
+      "prompt_architecture_enabled": false,
+      "prompt_architecture_version": "legacy",
+      "retry_count": 0
+    },
+    {
+      "schema_version": "bluelotus_v3_agent_report_v1.0",
+      "cycle_id": "v3_cycle_20260622_060107",
+      "agent_id": "sector_specialist",
+      "agent_name": "Sector Specialist Agent",
+      "agent_role": "Evaluate configured sector posture and identify sector-level risk or opportunity.",
+      "model_used": "bluelotus-qwen3-4b-gpu",
+      "input_refs": {
+        "dataset_snapshot_id": "dataset_raw:20260622T060104",
+        "operator_pack_id": "deterministic_operators_latest:20260622T060054",
+        "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.1",
+        "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
+      },
+      "summary": "Sector rotation desk: AI Semiconductors shows selective risk-on (0.3% basket move) from AMD options flow, but no clean catalyst. Banks Financials neutral (0.05% basket move). Gold Miners and Energy show no evidence. China Geopolitics contaminated by cross-sector signals. Sector breadth is low (only 2 sectors with evidence).",
+      "key_findings": [
+        "[DATASET] AI Semiconductors: 0.3% basket move from AMD options flow (T2:NEWS)"
       ],
       "risk_flags": [
-        "P3: No Brier score updates; no resolved forecasts; no Brier continuity"
+        "P2: Selective risk-on in AI Semiconductors without clean catalyst"
       ],
       "blocked_actions_observed": [],
       "allowed_actions_observed": [
@@ -888,85 +922,37 @@
       "affected_assets": [],
       "causal_completeness": "partial",
       "blind_spots": [
-        "Brier score not yet collected; no resolution data for Brier continuity; forecast resolution tracker shows no resolutions"
+        "Cross-sector contamination in China Geopolitics not fully mapped"
       ],
-      "confidence": 0.5,
-      "recommendation_to_chief_strategist": "WAIT",
+      "confidence": 0.85,
+      "recommendation_to_chief_strategist": "REVIEW",
       "requires_cio_attention": false,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-22T04:53:53+08:00",
+      "created_at_sgt": "2026-06-22T06:02:15+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 0
     },
     {
       "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260622_045251",
-      "agent_id": "sector_specialist",
-      "agent_name": "Sector Specialist Agent",
-      "agent_role": "Evaluate configured sector posture and identify sector-level risk or opportunity.",
-      "model_used": "bluelotus-qwen3-4b-gpu",
-      "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260622T045248",
-        "operator_pack_id": "deterministic_operators_latest:20260622T045239",
-        "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.1",
-        "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
-      },
-      "summary": "Sector rotation desk analysis: AI Semiconductors and Quantum show strength with clean catalysts, but Gold Miners and Energy exhibit price action without clean catalysts. Cross-sector contamination from Big Tech options flows risks the portfolio. CIO review required for Gold Miners and Energy due to insufficient evidence.",
-      "key_findings": [
-        "[DATASET] AI Semiconductors: Clean catalysts, strong leadership",
-        "[DATASET] Quantum: Clean catalysts, strong leadership",
-        "[DATASET] Gold Miners: Price action without clean catalyst"
-      ],
-      "risk_flags": [
-        "P2: Gold Miners price action without clean catalyst",
-        "P2: Energy price action without clean catalyst"
-      ],
-      "blocked_actions_observed": [],
-      "allowed_actions_observed": [
-        "WAIT",
-        "HOLD",
-        "REVIEW"
-      ],
-      "affected_theses": [],
-      "affected_assets": [
-        "Gold Miners",
-        "Energy"
-      ],
-      "causal_completeness": "partial",
-      "blind_spots": [
-        "Lack of sector-specific leadership data for Gold Miners and Energy"
-      ],
-      "confidence": 0.85,
-      "recommendation_to_chief_strategist": "CIO_VERIFICATION_REQUIRED",
-      "requires_cio_attention": true,
-      "manual_execution_required": true,
-      "llm_order_generation": false,
-      "created_at_sgt": "2026-06-22T04:54:03+08:00",
-      "prompt_architecture_enabled": false,
-      "prompt_architecture_version": "legacy",
-      "retry_count": 0
-    },
-    {
-      "schema_version": "bluelotus_v3_agent_report_v1.0",
-      "cycle_id": "v3_cycle_20260622_045251",
+      "cycle_id": "v3_cycle_20260622_060107",
       "agent_id": "sentiment_narrative",
       "agent_name": "Sentiment Narrative Agent",
       "agent_role": "Interpret market narrative, risk appetite, panic or euphoria tone, and narrative rotation.",
       "model_used": "bluelotus-qwen3-4b-gpu",
       "input_refs": {
-        "dataset_snapshot_id": "dataset_raw:20260622T045248",
-        "operator_pack_id": "deterministic_operators_latest:20260622T045239",
+        "dataset_snapshot_id": "dataset_raw:20260622T060104",
+        "operator_pack_id": "deterministic_operators_latest:20260622T060054",
         "thesis_registry_version": "bluelotus_v3_thesis_registry_v1.1",
         "live_news_brief_timestamp": "latest_live_news_brief:20260616T083352"
       },
-      "summary": "Market sentiment is bullish for GOOGL with strong AI narrative traction, but headline contamination from Apple-related stories dilutes clean narrative impact. Crowd psychology shows mixed tone with institutional confidence but elevated risk of crowding. Narrative rotation is clean for AI growth themes but contaminated by Apple-specific headlines. Clean narrative rotation in live news is limited to macroeconomic signals.",
+      "summary": "Market sentiment is bullish for GOOGL with strong AI narrative traction, but headline contamination from Apple-related stories dilutes clean narrative impact. Clean narrative rotation shows AI dominance over traditional tech, but Apple's pricing and AI strategy stories create dirty headlines that conflict with GOOGL's narrative focus. Crowd psychology is mixed with bullish AI sentiment but caution from Apple's leadership shifts.",
       "key_findings": [
-        "[DATASET] GOOGL bullish sentiment with 0.2081 score, 4 relevant headlines, 2 dirty headlines"
+        "[DATASET] GOOGL bullish sentiment (score: 0.2081) with 4 relevant headlines, 1 dirty headline"
       ],
       "risk_flags": [
-        "P2: Contaminated headlines dilute clean narrative impact"
+        "P2: Contaminated headlines from Apple stories dilute AI narrative focus for GOOGL"
       ],
       "blocked_actions_observed": [],
       "allowed_actions_observed": [
@@ -980,14 +966,14 @@
       ],
       "causal_completeness": "partial",
       "blind_spots": [
-        "Apple-specific headlines not fully resolved"
+        "Apple's leadership impact on AI strategy is not fully quantified in current data"
       ],
       "confidence": 0.75,
-      "recommendation_to_chief_strategist": "WAIT",
+      "recommendation_to_chief_strategist": "REVIEW",
       "requires_cio_attention": false,
       "manual_execution_required": true,
       "llm_order_generation": false,
-      "created_at_sgt": "2026-06-22T04:54:12+08:00",
+      "created_at_sgt": "2026-06-22T06:02:25+08:00",
       "prompt_architecture_enabled": false,
       "prompt_architecture_version": "legacy",
       "retry_count": 0
