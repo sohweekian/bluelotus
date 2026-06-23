@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Week Overview Forecast — BlueLotus V3</title>
+<meta name="description" content="BlueLotus V3 week overview forecast with quoted research references. Research reference only — not financial advice.">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#060712;--card:#0d0f1c;--line:rgba(192,132,252,.22);
+  --text:#e6edf3;--muted:#8b93a7;--lotus:#c084fc;--gold:#fbbf24;
+  --green:#4ade80;--red:#f87171;--amber:#fbbf24;--cyan:#67e8f9;
+}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 15% 0%,rgba(192,132,252,.14),transparent 32%),radial-gradient(circle at 85% 10%,rgba(103,232,249,.08),transparent 28%),var(--bg);color:var(--text);font-family:Outfit,sans-serif;line-height:1.6}
+.shell{max-width:1080px;margin:0 auto;padding:28px 24px 64px}
+.date-strip{text-align:center;padding:28px 20px 22px;margin:0 0 28px;border:2px solid var(--line);border-radius:14px;background:linear-gradient(180deg,rgba(192,132,252,.12),rgba(13,15,28,.9))}
+.date-strip .forecast-date{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(2.6rem,7vw,4rem);font-weight:700;letter-spacing:.14em;color:#fff;text-transform:uppercase;line-height:1.05;text-shadow:0 0 40px rgba(192,132,252,.35)}
+.date-strip .forecast-validity{margin-top:16px;font-family:'JetBrains Mono',monospace;font-size:clamp(1rem,2.6vw,1.25rem);font-weight:800;letter-spacing:.1em;color:var(--gold);text-transform:uppercase}
+.disclaimer{margin:0 0 24px;padding:14px 16px;border-left:4px solid var(--amber);background:rgba(251,191,36,.08);border-radius:0 8px 8px 0;font-size:.92rem;color:#f5d98b}
+.hero h1{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(2rem,4vw,2.8rem);font-weight:700;margin:0 0 8px;letter-spacing:.04em}
+.hero .sub{color:var(--muted);font-size:.95rem}
+.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;text-align:center}
+.kpi .val{font-family:'JetBrains Mono',monospace;font-size:1.05rem;font-weight:700;margin-bottom:6px}
+.kpi .lbl{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.kpi.warn .val{color:var(--amber)}
+.kpi.danger .val{color:var(--red)}
+.section{margin:28px 0}
+.section h2{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.55rem;margin:0 0 12px;color:#f3e8ff;border-bottom:1px solid var(--line);padding-bottom:8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:12px 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+th,td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.06);text-align:left}
+th{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td.num{text-align:right;font-family:'JetBrains Mono',monospace}
+.quote{margin:10px 0;padding:12px 14px;border-left:3px solid var(--lotus);background:rgba(192,132,252,.06);border-radius:0 8px 8px 0;font-style:italic;color:#ddd6fe;font-size:.92rem}
+.cite{font-size:.75rem;color:var(--muted);margin-top:6px;font-style:normal}
+.pill{display:inline-block;padding:3px 8px;border-radius:999px;font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;font-family:'JetBrains Mono',monospace}
+.pill.down{background:rgba(248,113,113,.15);color:var(--red)}
+.pill.hold{background:rgba(251,191,36,.12);color:var(--amber)}
+.pill.neutral{background:rgba(139,147,167,.15);color:var(--muted)}
+.bar-row{display:grid;grid-template-columns:52px 1fr 56px;gap:10px;align-items:center;margin:8px 0;font-size:.85rem}
+.bar-track{height:10px;background:rgba(255,255,255,.06);border-radius:999px;overflow:hidden}
+.bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#a855f7,#c084fc)}
+.footer{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);text-align:center;font-size:.78rem;color:var(--muted)}
+@media(max-width:800px){.kpi-grid,.grid2{grid-template-columns:1fr}}
+</style>
+<style id="bl-nav-css">
+.bl-nav{position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(8,8,14,0.97);border-bottom:1px solid rgba(192,132,252,0.18);backdrop-filter:blur(16px);font-family:'JetBrains Mono','Courier New',monospace;}
+.bl-nav-inner{max-width:1500px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:52px;}
+.bl-nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.bl-nav-petal{width:18px;height:18px;background:linear-gradient(135deg,#c084fc,#a855f7);border-radius:50% 50% 50% 0;transform:rotate(-45deg);flex-shrink:0;}
+.bl-nav-brand{font-size:10px;font-weight:500;letter-spacing:0.22em;color:#c084fc;text-transform:uppercase;}
+.bl-nav-links{display:flex;align-items:center;gap:0;list-style:none;margin:0;padding:0;}
+.bl-nav-links > li > a{display:block;font-size:9px;letter-spacing:0.13em;color:rgba(221,216,240,0.4);text-decoration:none;text-transform:uppercase;padding:6px 11px;border-radius:3px;transition:color 0.18s,background 0.18s;white-space:nowrap;}
+.bl-nav-links > li > a:hover,.bl-nav-links > li > a.active{color:#c084fc;background:rgba(192,132,252,0.07);}
+.bl-nav-links .sep{width:1px;height:14px;background:rgba(255,255,255,0.07);margin:0 1px;}
+body{padding-top:52px !important;}
+</style>
+</head>
+<body>
+<nav class="bl-nav" aria-label="BlueLotus Navigation">
+  <div class="bl-nav-inner">
+    <a class="bl-nav-logo" href="https://sohweekian.github.io/bluelotus/">
+      <div class="bl-nav-petal"></div>
+      <span class="bl-nav-brand">BlueLotus&nbsp;Fund</span>
+    </a>
+    <ul class="bl-nav-links">
+      <li><a href="https://sohweekian.github.io/bluelotus/">Dashboard</a></li>
+      <li class="sep"></li>
+      <li><a href="https://sohweekian.github.io/bluelotus/week-overview-forecast.html" class="active">Week Forecast</a></li>
+      <li class="sep"></li>
+      <li><a href="https://sohweekian.github.io/bluelotus/chief-strategist.html">Clerk Map</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="shell">
+  <div class="date-strip">
+    <div class="forecast-date">24 JUNE 2026</div>
+    <div class="forecast-validity">FORECAST good for till FRIDAY 26 Jun 2026 Trading Day</div>
+  </div>
+
+  <div class="disclaimer">
+    <strong>Research Reference Only — Not Financial Advice.</strong>
+    Derived from BlueLotus V3 deterministic dataset and report artifacts (cycle 2026-06-24 00:55 SGT).
+    No order routing. CIO_ONLY_MANUAL execution doctrine applies.
+  </div>
+
+  <div class="hero">
+    <h1>Week Overview Forecast</h1>
+    <p class="sub">Governing regime and near-term path · snapshot SF-20260624-020644</p>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi warn"><div class="val">MILD RISK OFF (−2)</div><div class="lbl">Structural regime</div></div>
+    <div class="kpi"><div class="val">WAIT / HOLD</div><div class="lbl">CIO posture · conf. 0.48</div></div>
+    <div class="kpi danger"><div class="val">CKRI CRITICAL (0.95)</div><div class="lbl">NITE-PEI ceiling</div></div>
+  </div>
+
+  <div class="section">
+    <h2>Executive read</h2>
+    <div class="card">
+      <p>Defensive structural regime with <strong>choppy near-term action</strong>. Relief-rally optimism is an <strong>unconfirmed overlay</strong> — not the base case. Space sleeve (ex-SPCX): <strong>sideways-to-mild decline</strong> (−1% to −3%).</p>
+    </div>
+    <table>
+      <thead><tr><th>Lens</th><th>Call</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td>Near-term mode</td><td>Choppy digestion — 45% base (3 sessions)</td><td>ACMS stack</td></tr>
+        <tr><td>Relief overlay</td><td>Possible but NOT CONFIRMED</td><td>Scenario layer</td></tr>
+        <tr><td>Space sleeve</td><td>Sideways-to-mild decline</td><td>BL Conservative 7d</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section grid2">
+    <div>
+      <h2>Governing regime</h2>
+      <div class="quote">"Regime: MILD RISK OFF (score -2) · Regime Action: Reduce growth. Add defensives."<div class="cite">Bluelotus_V3_Report.txt · lines 263–264</div></div>
+      <div class="quote">"Base Regime: MILD RISK OFF - NOT OVERWRITTEN BY OVERLAY · Scenario Overlay: RELIEF_RALLY_POSSIBLE · Risk Clearance: NOT_CONFIRMED"<div class="cite">Bluelotus_V3_Report.txt · lines 305–308</div></div>
+      <table>
+        <thead><tr><th>Factor</th><th class="num">Reading</th></tr></thead>
+        <tbody>
+          <tr><td>Rotation (Rot)</td><td class="num">−2</td></tr>
+          <tr><td>Fear/Greed</td><td class="num">29 — FEAR</td></tr>
+          <tr><td>Sector diff</td><td class="num">−1.72</td></tr>
+          <tr><td>VIX</td><td class="num">18.74</td></tr>
+        </tbody>
+      </table>
+      <p class="cite">dataset_raw.json · regime · cycle_ts 2026-06-24</p>
+    </div>
+    <div>
+      <h2>ACMS near-term stack</h2>
+      <div class="quote">"45.0% Choppy digestion over next 3 U.S. sessions · 30.0% Hawkish Warsh follow-through risk-off fade · 15.0% Relief rally resumption"<div class="cite">Bluelotus_V3_Report.txt · lines 2351–2356</div></div>
+      <div class="bar-row"><span>45%</span><div class="bar-track"><div class="bar-fill" style="width:45%"></div></div><span>Choppy</span></div>
+      <div class="bar-row"><span>30%</span><div class="bar-track"><div class="bar-fill" style="width:30%;opacity:.75"></div></div><span>Warsh fade</span></div>
+      <div class="bar-row"><span>15%</span><div class="bar-track"><div class="bar-fill" style="width:15%;opacity:.55"></div></div><span>Relief</span></div>
+      <div class="bar-row"><span>7%</span><div class="bar-track"><div class="bar-fill" style="width:7%;opacity:.4"></div></div><span>BOJ/yen</span></div>
+      <div class="bar-row"><span>3%</span><div class="bar-track"><div class="bar-fill" style="width:3%;opacity:.3"></div></div><span>Credit tail</span></div>
+      <div class="quote" style="margin-top:14px">"second_tranche_status: BLOCKED · scale_in_status: BLOCKED"<div class="cite">acms_cop_latest.json · summary</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Scenario overlay &amp; PEI gates</h2>
+    <div class="grid2">
+      <div class="card">
+        <div class="quote">"Space Net View: VOLATILE_RELIEF_BOUNCE_NOT_CONFIRMED"<div class="cite">Bluelotus_V3_Report.txt · line 313</div></div>
+        <div class="quote">"CKRI score: 0.950429 · CKRI zone: CRITICAL · Manual execution required: True"<div class="cite">Bluelotus_V3_Report.txt · lines 2362–2365</div></div>
+        <div class="quote">"CIO Action: WAIT / HOLD · Confidence: 0.480 (LOW-MEDIUM)"<div class="cite">Bluelotus_V3_Report.txt · lines 278–279</div></div>
+      </div>
+      <div class="card">
+        <table>
+          <thead><tr><th>Event</th><th>Resolves</th><th>Posture</th></tr></thead>
+          <tbody>
+            <tr><td>Warsh hawkish Fed repricing</td><td>2026-06-29</td><td>HOLD / hedge retain</td></tr>
+            <tr><td>BOJ yen carry unwind watch</td><td>2026-06-29</td><td>Hedge retain / cash preserve</td></tr>
+            <tr><td>SpaceX / ASTS proxy suppression</td><td>2026-07-04</td><td>HOLD / OBSERVE</td></tr>
+          </tbody>
+        </table>
+        <p class="cite">Bluelotus_V3_Report.txt · PEI · lines 1995–2012</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Space sleeve · 7-day conservative (ex-SPCX)</h2>
+    <div class="quote">"ASTS/RKLB/LUNR/RDW/PL forecast_direction: DOWN · expected_return_7d: -1.4% to -2.9%"<div class="cite">research_forecasts.json · BL Conservative 7d · SF-20260624-020644</div></div>
+    <table>
+      <thead><tr><th>Ticker</th><th class="num">Price</th><th class="num">7d target</th><th class="num">7d exp.</th><th>Flow</th><th>Dir.</th></tr></thead>
+      <tbody>
+        <tr><td>ASTS</td><td class="num">$74.29</td><td class="num">$73.23</td><td class="num">−1.4%</td><td>INFLOW</td><td><span class="pill neutral">NEUTRAL</span></td></tr>
+        <tr><td>RKLB</td><td class="num">$96.25</td><td class="num">$93.83</td><td class="num">−2.5%</td><td>INFLOW</td><td><span class="pill down">DOWN</span></td></tr>
+        <tr><td>LUNR</td><td class="num">$20.93</td><td class="num">$20.31</td><td class="num">−2.9%</td><td>DISTRIBUTE</td><td><span class="pill down">DOWN</span></td></tr>
+        <tr><td>RDW</td><td class="num">$12.52</td><td class="num">$12.15</td><td class="num">−2.9%</td><td>DISTRIBUTE</td><td><span class="pill down">DOWN</span></td></tr>
+        <tr><td>PL</td><td class="num">$28.49</td><td class="num">$27.65</td><td class="num">−2.9%</td><td>OUTFLOW</td><td><span class="pill down">DOWN</span></td></tr>
+      </tbody>
+    </table>
+    <p class="cite">Sector read: mild drift down / choppy. SPCX has no forecast row in this stack.</p>
+  </div>
+
+  <div class="section">
+    <h2>Week at a glance</h2>
+    <div class="grid2">
+      <div class="card">
+        <strong>What dictates the week</strong>
+        <ol style="margin:10px 0 0 18px;padding:0;color:var(--muted)">
+          <li>MILD RISK OFF (−2) — structural defensive regime</li>
+          <li>Choppy digestion — 45% ACMS base (3 sessions)</li>
+          <li>WAIT / HOLD — CIO compression</li>
+          <li>CKRI CRITICAL — elevated kill-risk ceiling</li>
+          <li>Fed + BOJ PEI gates resolving 2026-06-29</li>
+        </ol>
+      </div>
+      <div class="card">
+        <strong>Portfolio context</strong>
+        <p style="margin:10px 0 0;color:var(--muted)">Cash ~49% · Assets ~$58.1k<br>Second tranche: BLOCKED · Scale-in: BLOCKED<br>Execution: CIO_ONLY_MANUAL · System orders: 0</p>
+        <p class="cite">Bluelotus_V3_Report.txt · acms_cop_latest.json</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    BlueLotus V3 Research Department · Cycle 2026-06-24 ·
+    <strong>Research Reference Only — Not Financial Advice</strong>
+  </div>
+</div>
+</body>
+</html>
