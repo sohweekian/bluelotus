@@ -1,43 +1,72 @@
-# BlueLotus V3
+# 🪷 BlueLotus V3
 
-BlueLotus V3 is a research and documentation system for organizing market, portfolio, thesis, and scenario information.
+> *A deterministic, LLM-assisted capital markets research system built on Bayesian inference, Shannon entropy, and game theory.*
 
-The active LLM-facing role is the **Chief Clerk / Contradiction Mapper**. It is not a strategist, adviser, portfolio manager, execution agent, or decision-maker. Its job is to preserve source context, cite inputs, map contradictions, summarize readiness changes, and surface what still requires manual CIO review.
+[![GitHub Pages](https://img.shields.io/badge/Live%20Site-sohweekian.github.io%2Fbluelotus-c084fc?style=flat-square&logo=github)](https://sohweekian.github.io/bluelotus/)
+[![License](https://img.shields.io/badge/License-Proprietary-8b93a7?style=flat-square)](LICENSE)
+[![Status](https://img.shields.io/badge/Pipeline-ACTIVE-4ade80?style=flat-square)](.)
 
-## Research-Only Notice
+---
 
-BlueLotus V3 is provided for research, documentation, contradiction mapping, and scenario organization only. It does not provide financial, legal, operational, medical, investment, safety, tax, or strategic advice.
+## What is BlueLotus?
 
-Outputs may be incomplete, outdated, incorrect, or unsuitable for a specific situation. Users are solely responsible for independently verifying all information and for any decisions or actions they take.
+BlueLotus V3 is a 65-step deterministic research pipeline that runs on a ~39-minute cycle. It ingests live market data, news signals, and macro thesis evidence — then synthesises them into a structured, contradiction-mapped intelligence report for CIO review.
 
-BlueLotus V3 does not generate, route, place, or authorize orders. All actions require independent human review.
+It is not a trading bot. It is a **research and contradiction-mapping system**. Every execution decision requires independent human review.
 
-## Safety Posture
+---
 
-- `CIO_ONLY_MANUAL` is the execution doctrine.
-- `ORDER_ROUTING_ENABLED` is false.
-- `SYSTEM_ORDERS_GENERATED` must remain zero.
-- LLM outputs are contradiction maps and summaries, not recommendations.
-- Any apparent recommendation language is legacy compatibility text or a defect requiring cleanup.
+## Architecture at a Glance
 
-## Key Generated Reports
+| Module | Role |
+|---|---|
+| **NITE-PEI** | Bayesian kill-condition engine — tracks thesis invalidation probability |
+| **ACMS-COP** | Multi-agent capital markets state system — 5 scenario forecasts per cycle |
+| **STR** | Shannon-Thorp Refinement — signal entropy scoring + Kelly position sizing |
+| **BGTM-V1** | Game theory module (N-player Bayesian Nash Equilibrium) — parallel research |
+| **Snapshot Archive** | 1,600+ immutable point-in-time pipeline captures for audit and calibration |
 
-Fresh reports are generated under:
+---
 
-```text
-C:\bluelotus3\research\Bluelotus_V3_Report.txt
-C:\bluelotus3\research\Bluelotus_V3_Report.docx
-C:\bluelotus3\research\Bluelotus_V3_Report.xlsx
+## Live Pages
+
+| Page | Description |
+|---|---|
+| [Command Center](https://sohweekian.github.io/bluelotus/) | Live pipeline dashboard |
+| [CIO Dashboard](https://sohweekian.github.io/bluelotus/cio-dashboard.html) | Portfolio and thesis overview |
+| [Superforecasting Thesis](https://sohweekian.github.io/bluelotus/superforecasting-thesis.html) | Calibration framework |
+| [BlueLotus Framework](https://sohweekian.github.io/bluelotus/bluelotus-framework.html) | System architecture overview |
+| [BGTM Thesis](https://sohweekian.github.io/bluelotus/bgtm-thesis.html) | Game Theory research |
+| [Watchlist](https://sohweekian.github.io/bluelotus/bluelotus-watchlist.html) | Live signal watchlist |
+
+### Research Tributes
+
+Built on the intellectual shoulders of:
+[Claude Shannon](https://sohweekian.github.io/bluelotus/shannon-tribute.html) ·
+[Ed Thorp](https://sohweekian.github.io/bluelotus/thorp-tribute.html) ·
+[Alan Turing](https://sohweekian.github.io/bluelotus/turing-tribute.html) ·
+[Albert Einstein](https://sohweekian.github.io/bluelotus/einstein-tribute.html) ·
+[John Nash](https://sohweekian.github.io/bluelotus/gametheory-tribute.html)
+
+---
+
+## Governance Doctrine
+
+```
+CIO_ONLY_MANUAL        = TRUE
+ORDER_ROUTING_ENABLED  = FALSE
+LLM_ORDER_GENERATION   = FALSE
+SYSTEM_ORDERS_GENERATED must remain ZERO
 ```
 
-The report must include:
+All LLM outputs are contradiction maps and research summaries — never trade recommendations. See [DISCLAIMER.md](DISCLAIMER.md).
 
-```text
-CONTRADICTION MAP
-READINESS CHANGE LOG
-Situation Summary As-Is
-```
+---
 
-## License And Disclaimer
+## Research Archive
 
-See `LICENSE` and `DISCLAIMER.md` before using, modifying, or publishing this project.
+Architectural theses and upgrade proposals are maintained in [`/research`](research/).
+
+---
+
+*BlueLotus V3 — Professional Portfolio Manager News Agency*
