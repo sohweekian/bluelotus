@@ -1,72 +1,67 @@
-# 🪷 BlueLotus V3
+# 🪷 BlueLotus V3 — Live Dashboard
 
-> *A deterministic, LLM-assisted capital markets research system built on Bayesian inference, Shannon entropy, and game theory.*
+> *Deterministic capital-markets research dashboard. Contradiction-mapped intelligence for CIO review — not a trading bot.*
 
-[![GitHub Pages](https://img.shields.io/badge/Live%20Site-sohweekian.github.io%2Fbluelotus-c084fc?style=flat-square&logo=github)](https://sohweekian.github.io/bluelotus/)
-[![License](https://img.shields.io/badge/License-Proprietary-8b93a7?style=flat-square)](LICENSE)
-[![Status](https://img.shields.io/badge/Pipeline-ACTIVE-4ade80?style=flat-square)](.)
-
----
-
-## What is BlueLotus?
-
-BlueLotus V3 is a 65-step deterministic research pipeline that runs on a ~39-minute cycle. It ingests live market data, news signals, and macro thesis evidence — then synthesises them into a structured, contradiction-mapped intelligence report for CIO review.
-
-It is not a trading bot. It is a **research and contradiction-mapping system**. Every execution decision requires independent human review.
+[![Live Site](https://img.shields.io/badge/Live-sohweekian.github.io%2Fbluelotus-4fc3f7?style=flat-square)](https://sohweekian.github.io/bluelotus/)
+[![Chief Clerk](https://img.shields.io/badge/Chief_Clerk-Deterministic_Zone_A-533483?style=flat-square)](https://sohweekian.github.io/bluelotus/chief-strategist.html)
+[![Engine](https://img.shields.io/badge/pip-bluelotus--engine-e94560?style=flat-square)](https://github.com/sohweekian/bluelotus-engine)
+[![License](https://img.shields.io/badge/License-MIT-8b93a7?style=flat-square)](LICENSE)
 
 ---
 
-## Architecture at a Glance
+## What is this repo?
 
-| Module | Role |
-|---|---|
-| **NITE-PEI** | Bayesian kill-condition engine — tracks thesis invalidation probability |
-| **ACMS-COP** | Multi-agent capital markets state system — 5 scenario forecasts per cycle |
-| **STR** | Shannon-Thorp Refinement — signal entropy scoring + Kelly position sizing |
-| **BGTM-V1** | Game theory module (N-player Bayesian Nash Equilibrium) — parallel research |
-| **Snapshot Archive** | 1,600+ immutable point-in-time pipeline captures for audit and calibration |
+This repository is the **published dashboard surface** for BlueLotus V3 — HTML, JSON data, and CIO correspondence pushed from the private pipeline via `bluelotus_publisher.py`.
 
----
+It is **not** the full engine. For the open research software:
 
-## Live Pages
-
-| Page | Description |
-|---|---|
-| [Command Center](https://sohweekian.github.io/bluelotus/) | Live pipeline dashboard |
-| [CIO Dashboard](https://sohweekian.github.io/bluelotus/cio-dashboard.html) | Portfolio and thesis overview |
-| [Superforecasting Thesis](https://sohweekian.github.io/bluelotus/superforecasting-thesis.html) | Calibration framework |
-| [BlueLotus Framework](https://sohweekian.github.io/bluelotus/bluelotus-framework.html) | System architecture overview |
-| [BGTM Thesis](https://sohweekian.github.io/bluelotus/bgtm-thesis.html) | Game Theory research |
-| [Watchlist](https://sohweekian.github.io/bluelotus/bluelotus-watchlist.html) | Live signal watchlist |
-
-### Research Tributes
-
-Built on the intellectual shoulders of:
-[Claude Shannon](https://sohweekian.github.io/bluelotus/shannon-tribute.html) ·
-[Ed Thorp](https://sohweekian.github.io/bluelotus/thorp-tribute.html) ·
-[Alan Turing](https://sohweekian.github.io/bluelotus/turing-tribute.html) ·
-[Albert Einstein](https://sohweekian.github.io/bluelotus/einstein-tribute.html) ·
-[John Nash](https://sohweekian.github.io/bluelotus/gametheory-tribute.html)
-
----
-
-## Governance Doctrine
-
-```
-CIO_ONLY_MANUAL        = TRUE
-ORDER_ROUTING_ENABLED  = FALSE
-LLM_ORDER_GENERATION   = FALSE
-SYSTEM_ORDERS_GENERATED must remain ZERO
+```bash
+pip install bluelotus-engine
 ```
 
-All LLM outputs are contradiction maps and research summaries — never trade recommendations. See [DISCLAIMER.md](DISCLAIMER.md).
+Source: [github.com/sohweekian/bluelotus-engine](https://github.com/sohweekian/bluelotus-engine)
 
 ---
 
-## Research Archive
+## Production posture (June 2026)
 
-Architectural theses and upgrade proposals are maintained in [`/research`](research/).
+| Principle | Value |
+|-----------|--------|
+| Execution | `CIO_ONLY_MANUAL` |
+| Order routing | Disabled |
+| Production intelligence | **Deterministic Chief Clerk** (Zone A) |
+| LLM agent council | Quarantined — not authoritative |
+| Research only | No advice · no automatic orders |
+
+The **Chief Clerk page** (`chief-strategist.html`) is entirely deterministic — computed from report bundle, governance gate, operators, and portfolio math. No Qwen council in the production path.
 
 ---
 
-*BlueLotus V3 — Professional Portfolio Manager News Agency*
+## Key pages
+
+| Page | URL |
+|------|-----|
+| Command Center | [/bluelotus/](https://sohweekian.github.io/bluelotus/) |
+| Chief Clerk (Zone A) | [/chief-strategist.html](https://sohweekian.github.io/bluelotus/chief-strategist.html) |
+| CIO Letter | [/cio-letter.html](https://sohweekian.github.io/bluelotus/cio-letter.html) |
+
+---
+
+## Why agents were removed
+
+Live field evaluation (June 2026) found LLM agents unfit for production clerk duty: temporal blindness, partial-read hallucination, non-reproducible outputs.
+
+Details: [bluelotus-engine-docs](https://github.com/sohweekian/bluelotus-engine-docs) · [DETERMINISTIC_TRANSITION.md](https://github.com/sohweekian/bluelotus-research/blob/main/DETERMINISTIC_TRANSITION.md)
+
+---
+
+## Related repos
+
+- **bluelotus-engine** — pip-installable sanitized engine (no publish, no telegram)
+- **bluelotus-engine-docs** — architecture narrative
+- **bluelotus-research** — theses & doctrines
+- **sohweekian** — profile README
+
+---
+
+*Research only. All execution requires independent human review.*
