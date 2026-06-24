@@ -1,43 +1,38 @@
-# 🪷 BlueLotus V3 — Live Dashboard
+# 🪷 BlueLotus V3 — Live Dashboard & Download Portal
 
-> *Deterministic capital-markets research dashboard. Contradiction-mapped intelligence for CIO review — not a trading bot.*
+> Deterministic capital-markets research dashboard. **Not a trading bot.**
 
 [![Live Site](https://img.shields.io/badge/Live-sohweekian.github.io%2Fbluelotus-4fc3f7?style=flat-square)](https://sohweekian.github.io/bluelotus/)
-[![Chief Clerk](https://img.shields.io/badge/Chief_Clerk-Deterministic_Zone_A-533483?style=flat-square)](https://sohweekian.github.io/bluelotus/chief-strategist.html)
-[![Engine](https://img.shields.io/badge/pip-bluelotus--engine-e94560?style=flat-square)](https://github.com/sohweekian/bluelotus-engine)
-[![License](https://img.shields.io/badge/License-MIT-8b93a7?style=flat-square)](LICENSE)
+[![Download Engine](https://img.shields.io/badge/Download-Engine_v3.0.0-e94560?style=flat-square)](https://github.com/sohweekian/bluelotus-engine/releases/tag/v3.0.0)
+[![Documentation](https://img.shields.io/badge/Docs-Read_Me-533483?style=flat-square)](https://github.com/sohweekian/bluelotus-engine-docs)
 
 ---
 
-## What is this repo?
+## What is this?
 
-This repository is the **published dashboard surface** for BlueLotus V3 — HTML, JSON data, and CIO correspondence pushed from the private pipeline via `bluelotus_publisher.py`.
+This repo is the **published dashboard** for BlueLotus V3 — HTML and JSON pushed from the private pipeline. It is the **viewing surface**, not the engine.
 
-It is **not** the full engine. For the open research software:
+---
+
+## Download the software
 
 ```bash
-pip install bluelotus-engine
+pip install https://github.com/sohweekian/bluelotus-engine/releases/download/v3.0.0/bluelotus_engine-3.0.0-py3-none-any.whl
 ```
 
-Source: [github.com/sohweekian/bluelotus-engine](https://github.com/sohweekian/bluelotus-engine)
+| Resource | Link |
+|----------|------|
+| **Download guide** | [bluelotus-engine-docs/DOWNLOAD.md](https://github.com/sohweekian/bluelotus-engine-docs/blob/main/DOWNLOAD.md) |
+| **What it does** | [WHAT_IS_BLUELOTUS.md](https://github.com/sohweekian/bluelotus-engine-docs/blob/main/WHAT_IS_BLUELOTUS.md) |
+| **Who it's for** | [WHO_IS_IT_FOR.md](https://github.com/sohweekian/bluelotus-engine-docs/blob/main/WHO_IS_IT_FOR.md) |
+| **Theses & doctrines** | [bluelotus-research](https://github.com/sohweekian/bluelotus-research) |
+| **Release notice** | [PUBLIC_RELEASE_NOTICE.md](https://github.com/sohweekian/bluelotus-research/blob/main/PUBLIC_RELEASE_NOTICE.md) |
+
+**Engine frozen at v3.0.0.** Private production software remains proprietary.
 
 ---
 
-## Production posture (June 2026)
-
-| Principle | Value |
-|-----------|--------|
-| Execution | `CIO_ONLY_MANUAL` |
-| Order routing | Disabled |
-| Production intelligence | **Deterministic Chief Clerk** (Zone A) |
-| LLM agent council | Quarantined — not authoritative |
-| Research only | No advice · no automatic orders |
-
-The **Chief Clerk page** (`chief-strategist.html`) is entirely deterministic — computed from report bundle, governance gate, operators, and portfolio math. No Qwen council in the production path.
-
----
-
-## Key pages
+## Live pages
 
 | Page | URL |
 |------|-----|
@@ -47,21 +42,10 @@ The **Chief Clerk page** (`chief-strategist.html`) is entirely deterministic —
 
 ---
 
-## Why agents were removed
+## Posture
 
-Live field evaluation (June 2026) found LLM agents unfit for production clerk duty: temporal blindness, partial-read hallucination, non-reproducible outputs.
+- `CIO_ONLY_MANUAL` — manual execution only
+- Deterministic clerk in production path — no LLM agent council
+- Research only — no advice, no automatic orders
 
-Details: [bluelotus-engine-docs](https://github.com/sohweekian/bluelotus-engine-docs) · [DETERMINISTIC_TRANSITION.md](https://github.com/sohweekian/bluelotus-research/blob/main/DETERMINISTIC_TRANSITION.md)
-
----
-
-## Related repos
-
-- **bluelotus-engine** — pip-installable sanitized engine (no publish, no telegram)
-- **bluelotus-engine-docs** — architecture narrative
-- **bluelotus-research** — theses & doctrines
-- **sohweekian** — profile README
-
----
-
-*Research only. All execution requires independent human review.*
+*All execution requires independent human review.*
