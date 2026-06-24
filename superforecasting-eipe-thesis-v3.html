@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+<meta http-equiv="Pragma" content="no-cache"/>
+<meta http-equiv="Expires" content="0"/>
 <title>Superforecasting, Brier &amp; EIPE — BlueLotus V3 PhD Thesis</title>
 <meta name="description" content="BlueLotus V3 second-generation superforecasting thesis: live Brier scores, Event Influence Probability Weighted Effect (EIPE), CIO gut prediction learning, and the test→calibrate→EIPE doctrine."/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
@@ -39,7 +42,14 @@
 body{padding-top:52px !important;}
 @media(max-width:1100px){.bl-nav-links > li > a,.bl-dropdown-btn{font-size:8px;padding:5px 8px;}.bl-nav-brand{display:none;}}
 @media(max-width:720px){.bl-nav-links .sep{display:none;}.bl-nav-links > li > a,.bl-dropdown-btn{padding:5px 6px;letter-spacing:0.07em;}}
+.bl-nav-inner{gap:12px;min-width:0;}
+.bl-nav-logo,.bl-nav-right{flex-shrink:0;}
+.bl-nav-links{flex:1 1 auto;min-width:0;overflow-x:auto;scrollbar-width:thin;-webkit-overflow-scrolling:touch;}
 </style>
+.bl-nav-inner{gap:12px;min-width:0;}
+.bl-nav-logo,.bl-nav-right{flex-shrink:0;}
+.bl-nav-links{flex:1 1 auto;min-width:0;overflow-x:auto;scrollbar-width:thin;-webkit-overflow-scrolling:touch;}
+
 <style>
 :root{--ink:#1a1a2e;--ink-light:#2d2d4a;--muted:#6b7280;--border:#e5e0d8;--paper:#faf8f4;--paper2:#f4f0e8;--lotus:#7c3aed;--lotus-soft:#ede9fe;--gold:#b45309;--gold-soft:#fef3c7;--emerald:#059669;--emerald-soft:#d1fae5;--rose:#be123c;--rose-soft:#ffe4e6;--mono:'JetBrains Mono',monospace;--serif:'Source Serif 4',Georgia,serif;--display:'Playfair Display',Georgia,serif;}
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -124,51 +134,52 @@ tr:nth-child(even) td{background:var(--paper2);}
 </style>
 </head>
 <body>
+<!-- bl-nav-build: 2026-06-24T19:49Z · synced from index.html -->
 <nav class="bl-nav" role="navigation" aria-label="BlueLotus Navigation">
-  <div class="bl-nav-inner">
-    <a class="bl-nav-logo" href="https://sohweekian.github.io/bluelotus/">
-      <div class="bl-nav-petal"></div>
-      <span class="bl-nav-brand">BlueLotus&nbsp;Fund</span>
-    </a>
-    <ul class="bl-nav-links">
-      <li><a href="https://sohweekian.github.io/bluelotus/">Dashboard</a></li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist.html">Portfolio</a></li>
-      <li class="sep"></li>
-      <li class="bl-dropdown">
-        <button class="bl-dropdown-btn bl-nav-action">Forecast <span class="bl-dropdown-arrow">&#9660;</span></button>
-        <div class="bl-dropdown-menu wide">
-          <a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist-superforecast.html"><span class="tribute-dot" style="background:#4ade80;"></span><span>Superforecast Report<span class="subline">78-ticker valuation + Brier tracker</span></span></a>
-          <div class="bl-dropdown-divider"></div>
-          <a href="https://sohweekian.github.io/bluelotus/superforecasting-thesis.html"><span class="tribute-dot" style="background:#fbbf24;"></span><span>Research Thesis I<span class="subline">May 2026 — protocol, calibration, Kelly</span></span></a>
-          <a href="https://sohweekian.github.io/bluelotus/superforecasting-eipe-thesis-v3.html"><span class="tribute-dot" style="background:#a78bfa;"></span><span>Research Thesis II<span class="subline">Jun 2026 — Brier ledger, EIPE, CIO learning</span></span></a>
-        </div>
-      </li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/bluelotus-framework.html">Framework</a></li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/aladdin-story.html">Aladdin</a></li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/chief-strategist.html">Clerk Map</a></li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/cio-letter.html">CIO Letter</a></li>
-      <li class="sep"></li>
-      <li class="bl-dropdown">
-        <button class="bl-dropdown-btn">Tributes <span class="bl-dropdown-arrow">&#9660;</span></button>
-        <div class="bl-dropdown-menu">
-          <a href="https://sohweekian.github.io/bluelotus/einstein-tribute.html"><span class="tribute-dot" style="background:#ff5566;"></span>Einstein &mdash; Prime Mover</a>
-          <a href="https://sohweekian.github.io/bluelotus/shannon-tribute.html"><span class="tribute-dot" style="background:#4a9eff;"></span>Shannon &mdash; Information</a>
-          <a href="https://sohweekian.github.io/bluelotus/turing-tribute.html"><span class="tribute-dot" style="background:#00e5a0;"></span>Turing &mdash; Machine Mind</a>
-          <a href="https://sohweekian.github.io/bluelotus/thorp-tribute.html"><span class="tribute-dot" style="background:#c9a84c;"></span>Thorp &mdash; The Edge</a>
-          <div class="bl-dropdown-divider"></div>
-          <a href="https://sohweekian.github.io/bluelotus/gametheory-tribute.html"><span class="tribute-dot" style="background:#9b7fff;"></span>Von Neumann &amp; Nash</a>
-        </div>
-      </li>
-    </ul>
-    <div class="bl-nav-right">
-      <div class="bl-nav-live"><div class="bl-nav-dot"></div>Live&nbsp;v1.7</div>
-    </div>
-  </div>
+<div class="bl-nav-inner">
+<a class="bl-nav-logo" href="https://sohweekian.github.io/bluelotus/">
+<div class="bl-nav-petal"></div>
+<span class="bl-nav-brand">BlueLotus&nbsp;Fund</span>
+</a>
+<ul class="bl-nav-links">
+<li><a href="https://sohweekian.github.io/bluelotus/">Dashboard</a></li>
+<li class="sep"></li>
+<li><a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist.html">Portfolio</a></li>
+<li class="sep"></li>
+<li class="bl-dropdown">
+<button class="bl-dropdown-btn bl-nav-action">Forecast <span class="bl-dropdown-arrow">&#9660;</span></button>
+<div class="bl-dropdown-menu wide">
+<a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist-superforecast.html"><span class="tribute-dot" style="background:#4ade80;"></span><span>Superforecast Report<span class="subline">78-ticker valuation + Brier tracker</span></span></a>
+<div class="bl-dropdown-divider"></div>
+<a href="https://sohweekian.github.io/bluelotus/superforecasting-thesis.html"><span class="tribute-dot" style="background:#fbbf24;"></span><span>Research Thesis I<span class="subline">May 2026 — protocol, calibration, Kelly</span></span></a>
+<a href="https://sohweekian.github.io/bluelotus/superforecasting-eipe-thesis-v3.html"><span class="tribute-dot" style="background:#a78bfa;"></span><span>Research Thesis II<span class="subline">Jun 2026 — Brier ledger, EIPE, CIO learning</span></span></a>
+</div>
+</li>
+<li class="sep"></li>
+<li><a href="https://sohweekian.github.io/bluelotus/bluelotus-framework.html">Framework</a></li>
+<li class="sep"></li>
+<li><a href="https://sohweekian.github.io/bluelotus/aladdin-story.html">Aladdin</a></li>
+<li class="sep"></li>
+<li><a href="https://sohweekian.github.io/bluelotus/chief-strategist.html">Clerk Map</a></li>
+<li class="sep"></li>
+<li><a href="https://sohweekian.github.io/bluelotus/cio-letter.html">CIO Letter</a></li>
+<li class="sep"></li>
+<li class="bl-dropdown">
+<button class="bl-dropdown-btn">Tributes <span class="bl-dropdown-arrow">&#9660;</span></button>
+<div class="bl-dropdown-menu">
+<a href="https://sohweekian.github.io/bluelotus/einstein-tribute.html"><span class="tribute-dot" style="background:#ff5566;"></span>Einstein &mdash; Prime Mover</a>
+<a href="https://sohweekian.github.io/bluelotus/shannon-tribute.html"><span class="tribute-dot" style="background:#4a9eff;"></span>Shannon &mdash; Information</a>
+<a href="https://sohweekian.github.io/bluelotus/turing-tribute.html"><span class="tribute-dot" style="background:#00e5a0;"></span>Turing &mdash; Machine Mind</a>
+<a href="https://sohweekian.github.io/bluelotus/thorp-tribute.html"><span class="tribute-dot" style="background:#c9a84c;"></span>Thorp &mdash; The Edge</a>
+<div class="bl-dropdown-divider"></div>
+<a href="https://sohweekian.github.io/bluelotus/gametheory-tribute.html"><span class="tribute-dot" style="background:#9b7fff;"></span>Von Neumann &amp; Nash</a>
+</div>
+</li>
+</ul>
+<div class="bl-nav-right">
+<div class="bl-nav-live"><div class="bl-nav-dot"></div>Live&nbsp;v1.7</div>
+</div>
+</div>
 </nav>
 
 <section class="cover">
