@@ -39,6 +39,10 @@ pip install https://github.com/sohweekian/bluelotus-engine/releases/download/v3.
 | Command Center | [/bluelotus/](https://sohweekian.github.io/bluelotus/) |
 | Chief Clerk (Zone A) | [/chief-strategist.html](https://sohweekian.github.io/bluelotus/chief-strategist.html) |
 | CIO Letter | [/cio-letter.html](https://sohweekian.github.io/bluelotus/cio-letter.html) |
+| **Superforecasting Thesis II (V3 · EIPE)** | [/superforecasting-eipe-thesis-v3.html](https://sohweekian.github.io/bluelotus/superforecasting-eipe-thesis-v3.html) |
+| Superforecasting Thesis I (May 2026) | [/superforecasting-thesis.html](https://sohweekian.github.io/bluelotus/superforecasting-thesis.html) |
+| 78-Ticker Superforecast Report | [/bluelotus-watchlist-superforecast.html](https://sohweekian.github.io/bluelotus/bluelotus-watchlist-superforecast.html) |
+| BGTM Game Theory Thesis | [/bgtm-thesis.html](https://sohweekian.github.io/bluelotus/bgtm-thesis.html) |
 
 ---
 
