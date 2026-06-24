@@ -1,3 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Superforecasting, Brier &amp; EIPE — BlueLotus V3 PhD Thesis</title>
+<meta name="description" content="BlueLotus V3 second-generation superforecasting thesis: live Brier scores, Event Influence Probability Weighted Effect (EIPE), CIO gut prediction learning, and the test→calibrate→EIPE doctrine."/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style id="bl-nav-css">
 .bl-nav{position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(8,8,14,0.97);border-bottom:1px solid rgba(192,132,252,0.18);backdrop-filter:blur(16px);font-family:'JetBrains Mono','Courier New',monospace;}
 .bl-nav-inner{max-width:1500px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:52px;}
@@ -24,42 +32,14 @@
 .bl-nav-live{font-size:9px;letter-spacing:0.12em;color:#4ade80;text-transform:uppercase;display:flex;align-items:center;gap:5px;}
 .bl-nav-dot{width:5px;height:5px;background:#4ade80;border-radius:50%;animation:blPulse 1.8s ease infinite;}
 @keyframes blPulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
-.bl-dropdown-menu.wide{min-width:280px;text-align:left;}
+.bl-dropdown-menu.wide{min-width:250px;text-align:left;}
 .bl-dropdown-menu .subline{display:block;font-size:7px;letter-spacing:.06em;color:rgba(221,216,240,.28);text-transform:none;margin-top:2px;line-height:1.25;}
 .bl-nav-action{border:1px solid rgba(192,132,252,.22)!important;background:rgba(192,132,252,.06)!important;color:rgba(232,222,255,.72)!important;}
+.bl-nav-action:hover{background:rgba(192,132,252,.12)!important;color:#fff!important;}
 body{padding-top:52px !important;}
+@media(max-width:1100px){.bl-nav-links > li > a,.bl-dropdown-btn{font-size:8px;padding:5px 8px;}.bl-nav-brand{display:none;}}
+@media(max-width:720px){.bl-nav-links .sep{display:none;}.bl-nav-links > li > a,.bl-dropdown-btn{padding:5px 6px;letter-spacing:0.07em;}}
 </style>
-<nav class="bl-nav" role="navigation" aria-label="BlueLotus Navigation">
-  <div class="bl-nav-inner">
-    <a class="bl-nav-logo" href="https://sohweekian.github.io/bluelotus/"><div class="bl-nav-petal"></div><span class="bl-nav-brand">BlueLotus&nbsp;Fund</span></a>
-    <ul class="bl-nav-links">
-      <li><a href="https://sohweekian.github.io/bluelotus/">Dashboard</a></li><li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist.html">Portfolio</a></li><li class="sep"></li>
-                  <li class="bl-dropdown">
-        <button class="bl-dropdown-btn bl-nav-action">Forecast <span class="bl-dropdown-arrow">&#9660;</span></button>
-        <div class="bl-dropdown-menu wide">
-          <a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist-superforecast.html"><span class="tribute-dot" style="background:#4ade80;"></span><span>Superforecast Report<span class="subline">78-ticker valuation + Brier tracker</span></span></a>
-          <div class="bl-dropdown-divider"></div>
-          <a href="https://sohweekian.github.io/bluelotus/superforecasting-thesis.html"><span class="tribute-dot" style="background:#fbbf24;"></span><span>Research Thesis I<span class="subline">May 2026 — protocol, calibration, Kelly</span></span></a>
-          <a href="https://sohweekian.github.io/bluelotus/superforecasting-eipe-thesis-v3.html"><span class="tribute-dot" style="background:#a78bfa;"></span><span>Research Thesis II<span class="subline">Jun 2026 — Brier ledger, EIPE, CIO learning</span></span></a>
-        </div>
-      </li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/bgtm-thesis.html">BGTM</a></li>
-      <li class="sep"></li>
-      <li><a href="https://sohweekian.github.io/bluelotus/bluelotus-framework.html">Framework</a></li>
-    </ul>
-    <div class="bl-nav-right"><div class="bl-nav-live"><div class="bl-nav-dot"></div>Research&nbsp;II</div></div>
-  </div>
-</nav>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Superforecasting, Brier &amp; EIPE — BlueLotus V3 PhD Thesis</title>
-<meta name="description" content="BlueLotus V3 second-generation superforecasting thesis: live Brier scores, Event Influence Probability Weighted Effect (EIPE), CIO gut prediction learning, and the test→calibrate→EIPE doctrine."/>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
 :root{--ink:#1a1a2e;--ink-light:#2d2d4a;--muted:#6b7280;--border:#e5e0d8;--paper:#faf8f4;--paper2:#f4f0e8;--lotus:#7c3aed;--lotus-soft:#ede9fe;--gold:#b45309;--gold-soft:#fef3c7;--emerald:#059669;--emerald-soft:#d1fae5;--rose:#be123c;--rose-soft:#ffe4e6;--mono:'JetBrains Mono',monospace;--serif:'Source Serif 4',Georgia,serif;--display:'Playfair Display',Georgia,serif;}
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -144,6 +124,52 @@ tr:nth-child(even) td{background:var(--paper2);}
 </style>
 </head>
 <body>
+<nav class="bl-nav" role="navigation" aria-label="BlueLotus Navigation">
+  <div class="bl-nav-inner">
+    <a class="bl-nav-logo" href="https://sohweekian.github.io/bluelotus/">
+      <div class="bl-nav-petal"></div>
+      <span class="bl-nav-brand">BlueLotus&nbsp;Fund</span>
+    </a>
+    <ul class="bl-nav-links">
+      <li><a href="https://sohweekian.github.io/bluelotus/">Dashboard</a></li>
+      <li class="sep"></li>
+      <li><a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist.html">Portfolio</a></li>
+      <li class="sep"></li>
+      <li class="bl-dropdown">
+        <button class="bl-dropdown-btn bl-nav-action">Forecast <span class="bl-dropdown-arrow">&#9660;</span></button>
+        <div class="bl-dropdown-menu wide">
+          <a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist-superforecast.html"><span class="tribute-dot" style="background:#4ade80;"></span><span>Superforecast Report<span class="subline">78-ticker valuation + Brier tracker</span></span></a>
+          <div class="bl-dropdown-divider"></div>
+          <a href="https://sohweekian.github.io/bluelotus/superforecasting-thesis.html"><span class="tribute-dot" style="background:#fbbf24;"></span><span>Research Thesis I<span class="subline">May 2026 — protocol, calibration, Kelly</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/superforecasting-eipe-thesis-v3.html"><span class="tribute-dot" style="background:#a78bfa;"></span><span>Research Thesis II<span class="subline">Jun 2026 — Brier ledger, EIPE, CIO learning</span></span></a>
+        </div>
+      </li>
+      <li class="sep"></li>
+      <li><a href="https://sohweekian.github.io/bluelotus/bluelotus-framework.html">Framework</a></li>
+      <li class="sep"></li>
+      <li><a href="https://sohweekian.github.io/bluelotus/aladdin-story.html">Aladdin</a></li>
+      <li class="sep"></li>
+      <li><a href="https://sohweekian.github.io/bluelotus/chief-strategist.html">Clerk Map</a></li>
+      <li class="sep"></li>
+      <li><a href="https://sohweekian.github.io/bluelotus/cio-letter.html">CIO Letter</a></li>
+      <li class="sep"></li>
+      <li class="bl-dropdown">
+        <button class="bl-dropdown-btn">Tributes <span class="bl-dropdown-arrow">&#9660;</span></button>
+        <div class="bl-dropdown-menu">
+          <a href="https://sohweekian.github.io/bluelotus/einstein-tribute.html"><span class="tribute-dot" style="background:#ff5566;"></span>Einstein &mdash; Prime Mover</a>
+          <a href="https://sohweekian.github.io/bluelotus/shannon-tribute.html"><span class="tribute-dot" style="background:#4a9eff;"></span>Shannon &mdash; Information</a>
+          <a href="https://sohweekian.github.io/bluelotus/turing-tribute.html"><span class="tribute-dot" style="background:#00e5a0;"></span>Turing &mdash; Machine Mind</a>
+          <a href="https://sohweekian.github.io/bluelotus/thorp-tribute.html"><span class="tribute-dot" style="background:#c9a84c;"></span>Thorp &mdash; The Edge</a>
+          <div class="bl-dropdown-divider"></div>
+          <a href="https://sohweekian.github.io/bluelotus/gametheory-tribute.html"><span class="tribute-dot" style="background:#9b7fff;"></span>Von Neumann &amp; Nash</a>
+        </div>
+      </li>
+    </ul>
+    <div class="bl-nav-right">
+      <div class="bl-nav-live"><div class="bl-nav-dot"></div>Live&nbsp;v1.7</div>
+    </div>
+  </div>
+</nav>
 
 <section class="cover">
   <div class="cover-badge">BlueLotus Research Series · Volume II</div>
@@ -402,5 +428,22 @@ tr:nth-child(even) td{background:var(--paper2);}
   BLUELOTUS FUND · RESEARCH COMMISSION 002 · SUPERFORECASTING &amp; EIPE · 25 JUNE 2026 · SINGAPORE<br/>
   <span style="margin-top:8px;display:inline-block;">CIO_ONLY_MANUAL · ADVISORY ONLY · NO ORDER ROUTING</span>
 </footer>
+<script id="bl-nav-js">
+(function(){
+  document.querySelectorAll('.bl-dropdown-btn').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      var parent = btn.closest('.bl-dropdown');
+      document.querySelectorAll('.bl-dropdown.open').forEach(function(el){ if(el!==parent) el.classList.remove('open'); });
+      if(parent) parent.classList.toggle('open');
+    });
+  });
+  document.addEventListener('click', function(e){
+    if(!e.target.closest('.bl-dropdown')){
+      document.querySelectorAll('.bl-dropdown.open').forEach(function(el){ el.classList.remove('open'); });
+    }
+  });
+})();
+</script>
 </body>
 </html>
