@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-24 09:22 SGT",
-  "cycle_id": "v3_cycle_20260624_092209",
-  "latest_cycle_id": "v3_cycle_20260624_092209",
+  "generated_at": "2026-06-24 09:42 SGT",
+  "cycle_id": "v3_cycle_20260624_094212",
+  "latest_cycle_id": "v3_cycle_20260624_094212",
   "fallback_from_cycle_id": "",
   "fallback_reason": "",
   "clerk_mode": "deterministic",
@@ -13,21 +13,14 @@
   "agent_consensus": [],
   "disagreements": [],
   "cio_attention_items": [
-    "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers.",
-    "Broker vs computed unrealized P/L conflict on 7 position(s): ASTS, RKLB, LUNR, RDW, PL, VXX, VIXY.",
-    "Governance gate failed: pnl_integrity.",
-    "Governance gate failed: pnl_integrity",
-    "P/L integrity: ASTS broker=-181.15 computed=-152.36",
-    "P/L integrity: RKLB broker=-17.41 computed=-26.6",
-    "P/L integrity: LUNR broker=67.56 computed=27.45",
-    "P/L integrity: RDW broker=-81.91 computed=-53.4"
+    "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers."
   ],
   "digest_layers": [
     {
       "layer_id": "cycle_identity",
       "layer": "package_cycle_identity",
       "status": "DATA_CONFIRMED",
-      "summary": "Cycle v3_cycle_20260624_092209 · deterministic clerk · Zone A authority"
+      "summary": "Cycle v3_cycle_20260624_094212 · deterministic clerk · Zone A authority"
     },
     {
       "layer_id": "source_hierarchy",
@@ -44,20 +37,20 @@
     {
       "layer_id": "governance_readiness",
       "layer": "governance_gate",
-      "status": "WARN",
-      "summary": "Gate score 90 · failed: pnl_integrity"
+      "status": "PASS",
+      "summary": "Gate score 95 · all passed"
     },
     {
       "layer_id": "portfolio_execution",
       "layer": "broker_portfolio",
-      "status": "WARN",
-      "summary": "Assets 57883.61 · cash 27616.12 (47.7%) · P/L conflicts 7: ASTS broker=-181.15 computed=-152.36 Δ=28.79 · RKLB broker=-17.41 computed=-26.6 Δ=9.19 · LUNR broker=67.56 computed=27.45 Δ=40.11 · RDW broker=-81.91 computed=-53.4 Δ=28.51 · PL broker=159.62 computed=33.52 Δ=126.1 · VX"
+      "status": "PASS",
+      "summary": "Assets 57830.02 · cash 27616.12 (47.8%) · P/L integrity OK"
     },
     {
       "layer_id": "concentration_risk",
       "layer": "risk_metrics",
       "status": "DATA_CONFIRMED",
-      "summary": "status NORMAL · largest ASTS · wt 31.9% · HHI 0.152"
+      "summary": "status NORMAL · largest ASTS · wt 31.9% · HHI 0.1518"
     },
     {
       "layer_id": "blind_spot_causal",
@@ -85,19 +78,19 @@
     }
   ],
   "manual_execution_required": true,
-  "created_at_sgt": "2026-06-24T09:22:09+08:00",
+  "created_at_sgt": "2026-06-24T09:42:12+08:00",
   "contradiction_register": {
     "schema_version": "bluelotus_v3_contradiction_register_v1.0",
-    "cycle_id": "v3_cycle_20260624_092209",
-    "created_at_sgt": "2026-06-24T09:22:09+08:00",
-    "contradiction_count": 3,
-    "p1_count": 3,
+    "cycle_id": "v3_cycle_20260624_094212",
+    "created_at_sgt": "2026-06-24T09:42:12+08:00",
+    "contradiction_count": 1,
+    "p1_count": 1,
     "p2_count": 0,
     "p3_count": 0,
     "contradictions": [
       {
-        "contradiction_id": "V3_CYCLE_20260624_092209_P1_THESIS_VS_ORDER_BOOK_GOLD_THESIS_OPERATOR_MOOMOO_READONLY_ORDERS_GOL",
-        "cycle_id": "v3_cycle_20260624_092209",
+        "contradiction_id": "V3_CYCLE_20260624_094212_P1_THESIS_VS_ORDER_BOOK_GOLD_THESIS_OPERATOR_MOOMOO_READONLY_ORDERS_GOL",
+        "cycle_id": "v3_cycle_20260624_094212",
         "severity": "P1",
         "domain": "thesis_vs_order_book",
         "source_a": "gold_thesis_operator",
@@ -105,28 +98,6 @@
         "conflict_statement": "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers.",
         "cio_attention_required": true,
         "recommended_resolution_path": "CIO must verify whether open orders are intentional support bids, stale orders, or should be cancelled."
-      },
-      {
-        "contradiction_id": "V3_CYCLE_20260624_092209_P1_PORTFOLIO_PNL_INTEGRITY_BROKER_PORTFOLIO_COMPUTED_PORTFOLIO_MATH_BRO",
-        "cycle_id": "v3_cycle_20260624_092209",
-        "severity": "P1",
-        "domain": "portfolio_pnl_integrity",
-        "source_a": "broker_portfolio",
-        "source_b": "computed_portfolio_math",
-        "conflict_statement": "Broker vs computed unrealized P/L conflict on 7 position(s): ASTS, RKLB, LUNR, RDW, PL, VXX, VIXY.",
-        "cio_attention_required": true,
-        "recommended_resolution_path": "CIO must reconcile broker P/L against computed cost basis before sizing or risk decisions."
-      },
-      {
-        "contradiction_id": "V3_CYCLE_20260624_092209_P1_GOVERNANCE_GATE_GOVERNANCE_GATE_OPERATING_TRUTH_GOVERNANCE_GATE_FAIL",
-        "cycle_id": "v3_cycle_20260624_092209",
-        "severity": "P1",
-        "domain": "governance_gate",
-        "source_a": "governance_gate",
-        "source_b": "operating_truth",
-        "conflict_statement": "Governance gate failed: pnl_integrity.",
-        "cio_attention_required": true,
-        "recommended_resolution_path": "CIO must review failed gate before treating report as fully cleared."
       }
     ],
     "manual_execution_required": true,
@@ -135,12 +106,12 @@
   },
   "cio_decision_strip": {
     "schema_version": "bluelotus_v3_cio_decision_strip_v1.0",
-    "cycle_id": "v3_cycle_20260624_092209",
-    "created_at_sgt": "2026-06-24T09:22:09+08:00",
+    "cycle_id": "v3_cycle_20260624_094212",
+    "created_at_sgt": "2026-06-24T09:42:12+08:00",
     "posture": "CIO_VERIFICATION_REQUIRED",
     "new_information": [
-      "Deterministic Chief Clerk mapped 10 Zone A layers. No LLM agent council. Report action field states: REVIEW. Contradictions: 3 (P1 3, P2 0).",
-      "3 contradiction governance item(s) detected."
+      "Deterministic Chief Clerk mapped 10 Zone A layers. No LLM agent council. Report action field states: REVIEW. Contradictions: 1 (P1 1, P2 0).",
+      "1 contradiction governance item(s) detected."
     ],
     "action_blocked": [
       "ADD_HIGH_BETA_RISK",
@@ -156,9 +127,7 @@
       "WAIT"
     ],
     "cio_decision_required": [
-      "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers.",
-      "Broker vs computed unrealized P/L conflict on 7 position(s): ASTS, RKLB, LUNR, RDW, PL, VXX, VIXY.",
-      "Governance gate failed: pnl_integrity."
+      "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers."
     ],
     "manual_execution_required": true,
     "llm_order_generation": false,
@@ -166,7 +135,7 @@
   },
   "nite_pei": {
     "schema_version": "bluelotus_v3_nite_pei_v1.0",
-    "generated_at_sgt": "2026-06-24T09:22:10+08:00",
+    "generated_at_sgt": "2026-06-24T09:42:14+08:00",
     "thesis_probability_snapshots": [
       {
         "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
@@ -392,11 +361,11 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 30267.49,
-        "target_usd_sleeve": 3701.02,
+        "nav_total": 30213.9,
+        "target_usd_sleeve": 3694.47,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 3701.02,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $3,701"
+        "delta_usd": 3694.47,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $3,694"
       },
       {
         "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
@@ -411,11 +380,11 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 30267.49,
-        "target_usd_sleeve": 5132.85,
+        "nav_total": 30213.9,
+        "target_usd_sleeve": 5123.76,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 5132.85,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $5,133"
+        "delta_usd": 5123.76,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $5,124"
       },
       {
         "thesis_id": "STICKY_INFLATION_THESIS",
@@ -430,11 +399,11 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 30267.49,
-        "target_usd_sleeve": 3990.59,
+        "nav_total": 30213.9,
+        "target_usd_sleeve": 3983.52,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 3990.59,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $3,991"
+        "delta_usd": 3983.52,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $3,984"
       },
       {
         "thesis_id": "HAWKISH_WARSH_THESIS",
@@ -449,11 +418,11 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 30267.49,
-        "target_usd_sleeve": 3182.2,
+        "nav_total": 30213.9,
+        "target_usd_sleeve": 3176.57,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 3182.2,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $3,182"
+        "delta_usd": 3176.57,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $3,177"
       },
       {
         "thesis_id": "HAWKISH_BOJ_THESIS",
@@ -468,11 +437,11 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 30267.49,
-        "target_usd_sleeve": 3611.55,
+        "nav_total": 30213.9,
+        "target_usd_sleeve": 3605.15,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 3611.55,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $3,612"
+        "delta_usd": 3605.15,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $3,605"
       }
     ],
     "nite_pei_contradictions": [],
@@ -481,13 +450,13 @@
     "manual_execution_required": true,
     "llm_order_generation": false,
     "order_routing_enabled": false,
-    "source_cycle_id": "v3_cycle_20260624_092209",
-    "source_cycle_path": "C:\\bluelotus3\\data\\v3_cycles\\v3_cycle_20260624_092209",
-    "nite_pei_generated_at_sgt": "2026-06-24T09:22:10+08:00",
+    "source_cycle_id": "v3_cycle_20260624_094212",
+    "source_cycle_path": "C:\\bluelotus3\\data\\v3_cycles\\v3_cycle_20260624_094212",
+    "nite_pei_generated_at_sgt": "2026-06-24T09:42:14+08:00",
     "generation_mode": "live_cycle",
     "event_extraction": {
       "dataset_path": "C:\\bluelotus3\\data\\frontend\\dataset_raw.json",
-      "candidate_events": 196,
+      "candidate_events": 195,
       "classified_events": 1,
       "applied_events": 0
     }
