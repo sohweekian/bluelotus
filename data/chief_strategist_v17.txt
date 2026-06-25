@@ -269,7 +269,7 @@ ACMS-COP Strategic Thinking
 - CIO posture: Hold positions. Wait for signal.
 
 2. Seven-Layer Evidence Summary
-- Dataset / cycle: 2026-06-25 22:55:23
+- Dataset / cycle: 2026-06-25 22:55:26
 - Regime score: 0.0
 - VIX: 18.69
 - Fear & Greed: 27.2 FEAR
@@ -431,7 +431,7 @@ STR - SIGNAL, ENTROPY, AND EDGE
 ==================================
 Status: OPERATIONAL | Version: str_v0.1
 Governance Pack: GOVPACK_83ec235639784ed2
-Report Binding: BIND_REPORT_MEMORY_20260625_145534_d66ea05f3b
+Report Binding: BIND_REPORT_MEMORY_20260625_145538_d66ea05f3b
 Execution: CIO_ONLY_MANUAL | Order Routing: FALSE | System Orders Generated: 0
 
 STR-1 Signal Entropy Table
@@ -514,7 +514,7 @@ Buying Power Reconciliation
 - explanation: Broker buying power reconciles after open-order reserve and margin adjustment.
 
 Beta Source Reconciliation
-- risk_model_beta=3.00875 (HISTORICAL_BETA_VALIDATED) | str_proxy_beta=None (RISK_MODEL_BETA_UNAVAILABLE) | conflict=False | none
+- risk_model_beta=3.00875 (HISTORICAL_BETA_VALIDATED) | str_proxy_beta=3.033973 (STR_PROXY_BETA_ESTIMATE) | conflict=False | none
 
 Snapshot Age Banner
 - formal=2026-06-25T22:55:26+00:00 | live=2026-06-25T22:18:18+00:00 | broker=2026-06-25T22:18:18+00:00 | formal_minus_dashboard_min=37 | FORMAL_REPORT_NEWER_THAN_LIVE_DASHBOARD
@@ -535,7 +535,7 @@ Sentiment Hygiene Entropy Link
 - dirty=88 clean=0 ratio=1.0 entropy=0.0 | HIGH_DIRTY_RATIO | cio_tape_eligible=False
 
 Kelly Hedge Instrument Exclusion
-- none | HEDGE_INSTRUMENT_EXCLUDED_FROM_EQUITY_KELLY
+- VIXY, VXX | HEDGE_INSTRUMENT_EXCLUDED_FROM_EQUITY_KELLY
 
 Open Order State Reconciliation
 - QUBT BUY 200.0 @ 9.98 | FILLED_ALL | FILLED | live_exchange=False | FILLED | CIO review=False
@@ -647,7 +647,7 @@ V3.4 BENCHMARK DASHBOARD
 ============================
 Canonical: v3.1-canonical-contract validation=PASS
 Replay: strategies=12 scenarios=9 point_in_time=PASS
-Benchmark: BENCH_20260625_225535 status=PASS
+Benchmark: BENCH_20260625_225544 status=PASS
 Observation lock: OBSERVATION_ACTIVE upgrade_allowed=False
 Execution safety: CIO_ONLY_MANUAL | order_routing_enabled=False | orders_generated=0
 - #1 BUY_AND_HOLD_PORTFOLIO sharpe=0.807518 drawdown=-0.083978
@@ -655,201 +655,3 @@ Execution safety: CIO_ONLY_MANUAL | order_routing_enabled=False | orders_generat
 - #3 HIGH_BETA_SLEEVE sharpe=0.45895 drawdown=-0.054233
 - #4 SPY_BENCHMARK sharpe=0.425062 drawdown=-0.103933
 - #5 EQUAL_WEIGHT_HELD sharpe=0.38968 drawdown=-0.125611
-
-
-==============================================================================
-NITE-PEI THESIS ENGINE â€” CIO ADVISORY
-News Impact & Thesis Engine for Prospective Event Intelligence
-==============================================================================
-Generated : 2026-06-25T22:55:31+08:00
-Schema    : bluelotus_v3_nite_pei_v1.0
-Execution : MANUAL_EXECUTION_REQUIRED | LLM_ORDER_GENERATION=FALSE
-
-COMPOSITE KILL RISK INDEX (CKRI)
-----------------------------------------
-  CKRI Score : 1.0326
-  Zone       : CRITICAL
-  Weighted sum       : 3.9629
-  Correlation penalty: 1.2000
-  Total weight       : 5.0000
-
-  Zone Guidance: RAISE_CASH_REVIEW â€” significant de-risk advisory.
-
-  Kill Condition Breakdown:
-  Thesis                               Kill ID               Weight   P_kill State       
-  ----------------------------------------------------------------------------------------
-  TRUMP_UNCERTAINTY_THESIS             TRUMP_KC_01            0.600   0.8671 CONFIRMED...
-  TRUMP_UNCERTAINTY_THESIS             TRUMP_KC_02            0.400   0.0500 INACTIVE....
-  PETRO_RECYCLED_DOLLAR_THESIS         PETRO_KC_01            0.500   0.9500 CONFIRMED...
-  PETRO_RECYCLED_DOLLAR_THESIS         PETRO_KC_02            0.500   0.9500 CONFIRMED...
-  STICKY_INFLATION_THESIS              STICKY_KC_01           0.550   0.9298 CONFIRMED...
-  STICKY_INFLATION_THESIS              STICKY_KC_02           0.450   0.9298 CONFIRMED...
-  HAWKISH_WARSH_THESIS                 WARSH_KC_01            0.700   0.9149 CONFIRMED...
-  HAWKISH_WARSH_THESIS                 WARSH_KC_02            0.300   0.9149 CONFIRMED...
-  HAWKISH_BOJ_THESIS                   BOJ_KC_01              0.650   0.9392 CONFIRMED...
-  HAWKISH_BOJ_THESIS                   BOJ_KC_02              0.350   0.0500 INACTIVE....
-
-BAYESIAN UPDATE FORMULA (applied per event per thesis)
-----------------------------------------
-  Step 1 : prior_odds    = P_prior / (1 - P_prior)
-  Step 2 : LR_adjusted   = 1.0 + (LR_table[event_class][thesis_type] - 1.0) x (1 - noise_discount)
-           noise_discount pulls evidence toward neutral LR=1.0; T1=0.00  T2=0.10  T3=0.25  T4=0.50
-  Step 3 : post_odds     = prior_odds Ã— LR_adjusted
-  Step 4 : P_posterior   = post_odds / (1 + post_odds)
-  Step 5 : clamp to [0.05, 0.95]  (prevents probability from reaching 0 or 1)
-  Multi-event: posterior_N becomes prior_(N+1)  (sequential compounding)
-
-  LR > 1.0 = event is evidence FOR the thesis (raises P)
-  LR < 1.0 = event is evidence AGAINST the thesis (lowers P)
-  LR = 1.0 = event carries no information (no update)
-
-THESIS PROBABILITY SNAPSHOTS â€” WITH EVIDENCE
-----------------------------------------
-  â”Œâ”€ TRUMP_UNCERTAINTY_THESIS
-  â”‚  P: 0.9500 â†’ 0.9500  (â€” 0.0000)   Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED
-  â”‚  Advisory: [NITE-PEI] TRUMP_UNCERTAINTY_THESIS: GEOPOLITICAL_ESCALATION, GEOPOLITICAL_ESCALATION (LR 1.150 via GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS, confidence: LOW). P: 0.950 → 0.950 (▲0.000). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED.
-  â”‚  Evidence (2 event(s) processed):
-  â”‚   [1] GEOPOLITICAL_ESCALATION  keyword: 'war'  tier: T3
-  â”‚       Headline    : [SENTIMENT] ASML: NEUTRAL (-0.079) -- Europe is pushing back on Washington’s chip war
-  â”‚       Source      : Ticker_Sentiment
-  â”‚       Published   : 2026-06-25T22:51:34
-  â”‚       Dataset Key : 
-  â”‚       Source URL  : [NO SOURCE URL â€” ACCOUNTABILITY BREACH]
-  â”‚       â”€â”€ Bayesian Equation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  â”‚       prior_odds = P/(1-P) = 0.9500 / 0.0500 = 19.0000
-  â”‚       LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500
-  â”‚       posterior_odds = prior_odds(19.0000) x LR_adjusted(1.1500) = 21.8500
-  â”‚       P_posterior = posterior_odds / (1 + posterior_odds) = 21.8500 / 22.8500 = 0.9500
-  â”‚       clamp([0.05, 0.95]) => 0.9500
-  â”‚       Î” P this step: +0.0000
-  â”‚   [2] GEOPOLITICAL_ESCALATION  keyword: 'hormuz'  tier: T2
-  â”‚       Headline    : Hormuz tanker traffic climbs to 25% of prewar level
-  â”‚       Source      : Nikkei_Asia
-  â”‚       Published   : 2026-06-25T14:41:00
-  â”‚       Dataset Key : 
-  â”‚       Source URL  : https://news.google.com/rss/articles/CBMiqwFBVV95cUxPeko2VzRNODlfQVFTOU5adkc5R1RBSXVLTnlkOXJtQ0E0cmZZMHBxQnRwSm1kSjB1YmwzSm5yNUdOb1dBNGZ4dlN1X3JpWU5fUHVFU2wxTDhuOXRkMDlpcDFBeUpkdGxqOWlGZ2xMS3k5YUh1QTF4MG5uMV9EbFFFQ0k5TEdBeHNTdU5ILTlDTFdhRWdicGk1eTJuZjNzbG5PcUlKNEJVTk5oYWs?oc=5
-  â”‚       â”€â”€ Bayesian Equation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  â”‚       prior_odds = P/(1-P) = 0.9500 / 0.0500 = 19.0000
-  â”‚       LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.10)) = 1.1800
-  â”‚       posterior_odds = prior_odds(19.0000) x LR_adjusted(1.1800) = 22.4200
-  â”‚       P_posterior = posterior_odds / (1 + posterior_odds) = 22.4200 / 23.4200 = 0.9500
-  â”‚       clamp([0.05, 0.95]) => 0.9500
-  â”‚       Î” P this step: +0.0000
-  â”‚  Kill States: TRUMP_KC_01: CONFIRMED (P=0.867)  TRUMP_KC_02: INACTIVE (P=0.050)
-  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-
-  â”Œâ”€ PETRO_RECYCLED_DOLLAR_THESIS
-  â”‚  P: 0.9500 â†’ 0.9500  (â€” 0.0000)   Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED
-  â”‚  Advisory: [NITE-PEI] PETRO_RECYCLED_DOLLAR_THESIS: GEOPOLITICAL_ESCALATION, GEOPOLITICAL_ESCALATION (LR 1.150 via GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS, confidence: LOW). P: 0.950 → 0.950 (▲0.000). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED.
-  â”‚  Evidence (2 event(s) processed):
-  â”‚   [1] GEOPOLITICAL_ESCALATION  keyword: 'war'  tier: T3
-  â”‚       Headline    : [SENTIMENT] ASML: NEUTRAL (-0.079) -- Europe is pushing back on Washington’s chip war
-  â”‚       Source      : Ticker_Sentiment
-  â”‚       Published   : 2026-06-25T22:51:34
-  â”‚       Dataset Key : 
-  â”‚       Source URL  : [NO SOURCE URL â€” ACCOUNTABILITY BREACH]
-  â”‚       â”€â”€ Bayesian Equation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  â”‚       prior_odds = P/(1-P) = 0.9500 / 0.0500 = 19.0000
-  â”‚       LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500
-  â”‚       posterior_odds = prior_odds(19.0000) x LR_adjusted(1.1500) = 21.8500
-  â”‚       P_posterior = posterior_odds / (1 + posterior_odds) = 21.8500 / 22.8500 = 0.9500
-  â”‚       clamp([0.05, 0.95]) => 0.9500
-  â”‚       Î” P this step: +0.0000
-  â”‚   [2] GEOPOLITICAL_ESCALATION  keyword: 'hormuz'  tier: T2
-  â”‚       Headline    : Hormuz tanker traffic climbs to 25% of prewar level
-  â”‚       Source      : Nikkei_Asia
-  â”‚       Published   : 2026-06-25T14:41:00
-  â”‚       Dataset Key : 
-  â”‚       Source URL  : https://news.google.com/rss/articles/CBMiqwFBVV95cUxPeko2VzRNODlfQVFTOU5adkc5R1RBSXVLTnlkOXJtQ0E0cmZZMHBxQnRwSm1kSjB1YmwzSm5yNUdOb1dBNGZ4dlN1X3JpWU5fUHVFU2wxTDhuOXRkMDlpcDFBeUpkdGxqOWlGZ2xMS3k5YUh1QTF4MG5uMV9EbFFFQ0k5TEdBeHNTdU5ILTlDTFdhRWdicGk1eTJuZjNzbG5PcUlKNEJVTk5oYWs?oc=5
-  â”‚       â”€â”€ Bayesian Equation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  â”‚       prior_odds = P/(1-P) = 0.9500 / 0.0500 = 19.0000
-  â”‚       LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.10)) = 1.1800
-  â”‚       posterior_odds = prior_odds(19.0000) x LR_adjusted(1.1800) = 22.4200
-  â”‚       P_posterior = posterior_odds / (1 + posterior_odds) = 22.4200 / 23.4200 = 0.9500
-  â”‚       clamp([0.05, 0.95]) => 0.9500
-  â”‚       Î” P this step: +0.0000
-  â”‚  Kill States: PETRO_KC_01: CONFIRMED (P=0.950)  PETRO_KC_02: CONFIRMED (P=0.950)
-  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-
-  â”Œâ”€ STICKY_INFLATION_THESIS
-  â”‚  P: 0.9397 â†’ 0.9298  (â–¼ 0.0099)   Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED
-  â”‚  Advisory: [NITE-PEI] STICKY_INFLATION_THESIS: CENTRAL_BANK_DOVISH (LR 0.850 via CENTRAL_BANK_DOVISH/STICKY_INFLATION_THESIS, confidence: LOW). P: 0.940 → 0.930 (▼0.010). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED.
-  â”‚  Evidence (1 event(s) processed):
-  â”‚   [1] CENTRAL_BANK_DOVISH  keyword: 'pivot'  tier: T3
-  â”‚       Headline    : QCOM Stock Jumps As Wall Street Embraces Qualcomm's AI Data Center Pivot — Morgan Stanley Says It Was 'Wrong To Be Skeptical'
-  â”‚       Source      : ticker_sentiment:QCOM
-  â”‚       Published   : 2026-06-25 22:51:34
-  â”‚       Dataset Key : 
-  â”‚       Source URL  : [NO SOURCE URL â€” ACCOUNTABILITY BREACH]
-  â”‚       â”€â”€ Bayesian Equation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  â”‚       prior_odds = P/(1-P) = 0.9397 / 0.0603 = 15.5799
-  â”‚       LR_adjusted = 1 + (LR_raw(0.8000) - 1) x (1 - noise_discount(0.25)) = 0.8500
-  â”‚       posterior_odds = prior_odds(15.5799) x LR_adjusted(0.8500) = 13.2429
-  â”‚       P_posterior = posterior_odds / (1 + posterior_odds) = 13.2429 / 14.2429 = 0.9298
-  â”‚       clamp([0.05, 0.95]) => 0.9298
-  â”‚       Î” P this step: -0.0099
-  â”‚  Kill States: STICKY_KC_01: CONFIRMED (P=0.930)  STICKY_KC_02: CONFIRMED (P=0.930)
-  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-
-  â”Œâ”€ HAWKISH_WARSH_THESIS
-  â”‚  P: 0.9328 â†’ 0.9149  (â–¼ 0.0179)   Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED
-  â”‚  Advisory: [NITE-PEI] HAWKISH_WARSH_THESIS: CENTRAL_BANK_DOVISH (LR 0.775 via CENTRAL_BANK_DOVISH/HAWKISH_WARSH_THESIS, confidence: LOW). P: 0.933 → 0.915 (▼0.018). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED.
-  â”‚  Evidence (1 event(s) processed):
-  â”‚   [1] CENTRAL_BANK_DOVISH  keyword: 'pivot'  tier: T3
-  â”‚       Headline    : QCOM Stock Jumps As Wall Street Embraces Qualcomm's AI Data Center Pivot — Morgan Stanley Says It Was 'Wrong To Be Skeptical'
-  â”‚       Source      : ticker_sentiment:QCOM
-  â”‚       Published   : 2026-06-25 22:51:34
-  â”‚       Dataset Key : 
-  â”‚       Source URL  : [NO SOURCE URL â€” ACCOUNTABILITY BREACH]
-  â”‚       â”€â”€ Bayesian Equation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  â”‚       prior_odds = P/(1-P) = 0.9328 / 0.0672 = 13.8701
-  â”‚       LR_adjusted = 1 + (LR_raw(0.7000) - 1) x (1 - noise_discount(0.25)) = 0.7750
-  â”‚       posterior_odds = prior_odds(13.8701) x LR_adjusted(0.7750) = 10.7493
-  â”‚       P_posterior = posterior_odds / (1 + posterior_odds) = 10.7493 / 11.7493 = 0.9149
-  â”‚       clamp([0.05, 0.95]) => 0.9149
-  â”‚       Î” P this step: -0.0179
-  â”‚  Kill States: WARSH_KC_01: CONFIRMED (P=0.915)  WARSH_KC_02: CONFIRMED (P=0.915)
-  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-
-  â”Œâ”€ HAWKISH_BOJ_THESIS
-  â”‚  P: 0.9500 â†’ 0.9392  (â–¼ 0.0108)   Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED
-  â”‚  Advisory: [NITE-PEI] HAWKISH_BOJ_THESIS: CENTRAL_BANK_DOVISH (LR 0.812 via CENTRAL_BANK_DOVISH/HAWKISH_BOJ_THESIS, confidence: LOW). P: 0.950 → 0.939 (▼0.011). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED.
-  â”‚  Evidence (1 event(s) processed):
-  â”‚   [1] CENTRAL_BANK_DOVISH  keyword: 'pivot'  tier: T3
-  â”‚       Headline    : QCOM Stock Jumps As Wall Street Embraces Qualcomm's AI Data Center Pivot — Morgan Stanley Says It Was 'Wrong To Be Skeptical'
-  â”‚       Source      : ticker_sentiment:QCOM
-  â”‚       Published   : 2026-06-25 22:51:34
-  â”‚       Dataset Key : 
-  â”‚       Source URL  : [NO SOURCE URL â€” ACCOUNTABILITY BREACH]
-  â”‚       â”€â”€ Bayesian Equation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  â”‚       prior_odds = P/(1-P) = 0.9500 / 0.0500 = 19.0000
-  â”‚       LR_adjusted = 1 + (LR_raw(0.7500) - 1) x (1 - noise_discount(0.25)) = 0.8125
-  â”‚       posterior_odds = prior_odds(19.0000) x LR_adjusted(0.8125) = 15.4375
-  â”‚       P_posterior = posterior_odds / (1 + posterior_odds) = 15.4375 / 16.4375 = 0.9392
-  â”‚       clamp([0.05, 0.95]) => 0.9392
-  â”‚       Î” P this step: -0.0108
-  â”‚  Kill States: BOJ_KC_01: CONFIRMED (P=0.939)  BOJ_KC_02: INACTIVE (P=0.050)
-  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-
-KELLY-NITE POSITION SIZING ADVISORIES
-----------------------------------------
-  Thesis                                f*_kelly  Coherence   Target USD    Delta USD Action
-  ----------------------------------------------------------------------------------------------------
-  TRUMP_UNCERTAINTY_THESIS                0.1696      0.750 $      8,114 $     +8,114 THESIS STRENGTHENED — CONSIDER ADD of $8,114
-  PETRO_RECYCLED_DOLLAR_THESIS            0.1696      0.750 $      8,114 $     +8,114 THESIS STRENGTHENED — CONSIDER ADD of $8,114
-  STICKY_INFLATION_THESIS                 0.1270      0.750 $      6,076 $     +6,076 THESIS STRENGTHENED — CONSIDER ADD of $6,076
-  HAWKISH_WARSH_THESIS                    0.0956      0.750 $      4,572 $     +4,572 THESIS STRENGTHENED — CONSIDER ADD of $4,572
-  HAWKISH_BOJ_THESIS                      0.1467      0.750 $      7,021 $     +7,021 THESIS STRENGTHENED — CONSIDER ADD of $7,021
-
-  All Kelly outputs are advisory only. MANUAL_EXECUTION_REQUIRED.
-
-NITE-PEI CONTRADICTION REGISTER
-----------------------------------------
-  Total contradictions : 0
-  P1 (critical)        : 0
-
-  No contradictions detected this cycle.
-
-==============================================================================
-END NITE-PEI CIO ADVISORY â€” MANUAL_EXECUTION_REQUIRED
-==============================================================================
