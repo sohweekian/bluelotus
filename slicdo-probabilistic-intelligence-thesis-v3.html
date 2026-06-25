@@ -9,6 +9,9 @@
 <title>SLICDO Probabilistic Intelligence — BlueLotus V3 PhD Thesis III</title>
 <meta name="description" content="Research Thesis III: event extraction, ACMS-COP and NITE-PEI probability trees, session forecasting, dual Brier learning — BlueLotus SLICDO methodology."/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous"/>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
 <style id="bl-nav-css">
 .bl-nav{position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(8,8,14,0.97);border-bottom:1px solid rgba(192,132,252,0.18);backdrop-filter:blur(16px);font-family:'JetBrains Mono','Courier New',monospace;}
 .bl-nav-inner{max-width:1500px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:52px;}
@@ -42,11 +45,11 @@
 body{padding-top:52px !important;}
 @media(max-width:1100px){.bl-nav-links > li > a,.bl-dropdown-btn{font-size:8px;padding:5px 8px;}.bl-nav-brand{display:none;}}
 @media(max-width:720px){.bl-nav-links .sep{display:none;}.bl-nav-links > li > a,.bl-dropdown-btn{padding:5px 6px;letter-spacing:0.07em;}}
-</style>
+
 .bl-nav-inner{gap:12px;min-width:0;}
 .bl-nav-logo,.bl-nav-right{flex-shrink:0;}
 .bl-nav-links{flex:1 1 auto;min-width:0;overflow-x:auto;scrollbar-width:thin;-webkit-overflow-scrolling:touch;}
-
+</style>
 <style>
 :root{--ink:#0f172a;--ink-light:#334155;--muted:#64748b;--border:#e2e8f0;--paper:#f8fafc;--paper2:#f1f5f9;--teal:#0d9488;--teal-soft:#ccfbf1;--lotus:#7c3aed;--gold:#b45309;--gold-soft:#fef3c7;--mono:'JetBrains Mono',monospace;--serif:'Source Serif 4',Georgia,serif;--display:'Playfair Display',Georgia,serif;}
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -77,7 +80,8 @@ p{margin-bottom:18px;color:var(--ink-light);}
 .formula pre,.code-block pre{margin:0;white-space:pre-wrap;}
 .diagram-block{background:#0f172a;border:1px solid #334155;border-radius:8px;padding:16px;margin:24px 0;}
 .diagram-label{font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#5eead4;margin-bottom:8px;}
-.mermaid-src{color:#cbd5e1;font-family:var(--mono);font-size:12px;white-space:pre-wrap;margin:0;}
+pre.mermaid{margin:0;background:transparent;}
+.math-block{margin:24px 0;overflow-x:auto;}
 .thesis-table{width:100%;border-collapse:collapse;margin:24px 0;font-size:14px;}
 .thesis-table th{background:var(--ink);color:#f8fafc;padding:10px 12px;text-align:left;font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;}
 .thesis-table td{padding:10px 12px;border-bottom:1px solid var(--border);color:var(--ink-light);vertical-align:top;}
@@ -90,7 +94,7 @@ a{color:var(--teal);}
 </style>
 </head>
 <body>
-<!-- bl-nav-build: 2026-06-25T04:49Z · synced from index.html -->
+<!-- bl-nav-build: 2026-06-25T05:06Z · synced from index.html -->
 <nav class="bl-nav" role="navigation" aria-label="BlueLotus Navigation">
   <div class="bl-nav-inner">
     <a class="bl-nav-logo" href="https://sohweekian.github.io/bluelotus/">
@@ -102,7 +106,7 @@ a{color:var(--teal);}
       <li class="sep"></li>
       <li><a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist.html">Portfolio</a></li>
       <li class="sep"></li>
-                        <li class="bl-dropdown">
+                              <li class="bl-dropdown">
         <button class="bl-dropdown-btn bl-nav-action">Forecast <span class="bl-dropdown-arrow">&#9660;</span></button>
         <div class="bl-dropdown-menu wide">
           <a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist-superforecast.html"><span class="tribute-dot" style="background:#4ade80;"></span><span>Superforecast Report<span class="subline">78-ticker valuation + Brier tracker</span></span></a>
@@ -154,26 +158,6 @@ a{color:var(--teal);}
 </section>
 
 <div class="wrap">
-<section class="chapter cover-chapter" id="top"><h1>Probabilistic Market Intelligence by Construction</h1></section>
-<section class="chapter" id="a-phd-level-thesis-on-event-extraction-long-horizon-thesis-forecasting-acms-cop-nite-pei-probability-trees-session-outcome-forecasting-and-dual-brier-learning-in-bluelotus-v3-slicdo"><h2>A PhD-Level Thesis on Event Extraction, Long-Horizon Thesis Forecasting, ACMS–COP / NITE–PEI Probability Trees, Session Outcome Forecasting, and Dual Brier Learning in BlueLotus V3 (SLICDO)</h2>
-<hr class="section-rule"/>
-<p><strong>Author:</strong> Soh Wee Kian — Chief Investment Officer, BlueLotus Fund  </p>
-<p><strong>Institution:</strong> BlueLotus V3 · SLICDO (Self-Learning Institutional Cognitive Digital Organization)  </p>
-<p><strong>Research Support:</strong> Chief Clerk · Chief Strategist · Platform Engineering  </p>
-<p><strong>Date:</strong> 25 June 2026 · Singapore  </p>
-<p><strong>Field:</strong> Probabilistic Forecasting · Event-Driven Finance · Institutional Decision Systems  </p>
-<p><strong>Classification:</strong> BlueLotus Research Series · SLICDO-PEI-ACMS · V3 Doctrine  </p>
-<p><strong>Publication (HTML):</strong> <a href="https://sohweekian.github.io/bluelotus/slicdo-probabilistic-intelligence-thesis-v3.html">slicdo-probabilistic-intelligence-thesis-v3.html</a> *(GitHub Pages)*  </p>
-<p><strong>Companion Documents:</strong> <code>BlueLotus_V3_Superforecasting_EIPE_PhD_Thesis_2026.md</code> · <code>BlueLotus_NITE_PEI_Integrated_Thesis.md</code> · <code>Prospective_Event_Intelligence.txt</code> · <code>BGTM_V1_PhD_Thesis_GameTheory_NashEquilibrium_2026.md</code></p>
-<hr class="section-rule"/>
-<div class="pullquote"><p>*&quot;Pipeline calculates. Clerk maps contradictions. CIO decides.&quot;*</p></div>
-<p>&gt;</p>
-<div class="pullquote"><p>— SLICDO operating doctrine, BlueLotus V3, 2026.</p></div>
-<hr class="section-rule"/>
-<div class="pullquote"><p>*&quot;A forecast that cannot be scored is not a forecast; it is commentary.&quot;*</p></div>
-<p>&gt;</p>
-<div class="pullquote"><p>— Prospective Event Intelligence (PEI) doctrine, extending Tetlock &amp; Gardner (2015).</p></div>
-<hr class="section-rule"/>
 <div class="abstract" id="abstract"><div class="label">Abstract</div>
 <p>This thesis presents the <strong>complete probabilistic intelligence methodology</strong> of BlueLotus V3: how major market-moving events are extracted from heterogeneous news and behavioural evidence; how long-horizon structural theses are maintained and updated; how <strong>ACMS–COP</strong> (Adaptive Capital Market State — Chief Operating Picture) and <strong>NITE–PEI</strong> (News Impact and Thesis Engine — Prospective Event Intelligence) jointly construct <strong>probability trees</strong> over scenarios; how <strong>trading-session outcomes</strong> are forecast as short-horizon nodes in those trees; and how <strong>dual Brier accountability</strong> — CIO predictions versus system predictions — forms a closed learning loop that improves both human and machine calibration over time.</p>
 <p>We formalise five layers:</p>
@@ -221,47 +205,45 @@ a{color:var(--teal);}
 </table>
 <p>Every forecast declares its horizon in <code>resolution_criteria</code>.</p>
 <h3>2.3 System Map</h3>
-<div class="diagram-block"><div class="diagram-label">Architecture</div><pre class="mermaid-src">flowchart TB
+<div class="diagram-block"><div class="diagram-label">Architecture</div><pre class="mermaid">flowchart TB
     subgraph ingest [Layer I — Evidence]
         NEWS[Agency headlines T0-T4]
         TAPE[Market tape / widgets]
-        NEWS --&gt; ECE[Event clustering]
-        TAPE --&gt; ECE
-        ECE --&gt; PEI_REG[PEI Event Registry]
+        NEWS --> ECE[Event clustering]
+        TAPE --> ECE
+        ECE --> PEI_REG[PEI Event Registry]
     end
 
     subgraph thesis [Layer II — Long Horizon]
         TH_REG[thesis_registry.yaml]
-        TH_REG --&gt; NITE[NITE-PEI Bayesian Updater]
-        PEI_REG --&gt; NITE
-        NITE --&gt; KC[Kill Condition State Machine]
-        KC --&gt; CKRI[Composite Kill Risk Index]
+        TH_REG --> NITE[NITE-PEI Bayesian Updater]
+        PEI_REG --> NITE
+        NITE --> KC[Kill Condition State Machine]
+        KC --> CKRI[Composite Kill Risk Index]
     end
 
     subgraph trees [Layer III — Probability Trees]
-        PEI_REG --&gt; BRANCH[PEI Scenario Branches]
-        ACMS[ACMS-COP Regime + Flow] --&gt; SESS[Session Scenario Stack]
-        BRANCH --&gt; MERGE[Clerk Integration]
-        SESS --&gt; MERGE
+        PEI_REG --> BRANCH[PEI Scenario Branches]
+        ACMS[ACMS-COP Regime + Flow] --> SESS[Session Scenario Stack]
+        BRANCH --> MERGE[Clerk Integration]
+        SESS --> MERGE
     end
 
-    subgraph predict [Layer IV-V — Forecast &amp; Learn]
-        MERGE --&gt; CIO_PRED[CIO Predictions]
-        MERGE --&gt; SYS_PRED[System Forecasts]
-        CIO_PRED --&gt; BRIER_CIO[CIO Brier Ledger]
-        SYS_PRED --&gt; BRIER_SYS[Engine Brier DB]
-        BRIER_CIO --&gt; LEARN[Calibration Feedback]
-        BRIER_SYS --&gt; LEARN
-        LEARN --&gt; NITE
-        LEARN --&gt; BRANCH
+    subgraph predict [Layer IV-V — Forecast & Learn]
+        MERGE --> CIO_PRED[CIO Predictions]
+        MERGE --> SYS_PRED[System Forecasts]
+        CIO_PRED --> BRIER_CIO[CIO Brier Ledger]
+        SYS_PRED --> BRIER_SYS[Engine Brier DB]
+        BRIER_CIO --> LEARN[Calibration Feedback]
+        BRIER_SYS --> LEARN
+        LEARN --> NITE
+        LEARN --> BRANCH
     end</pre></div>
 <hr class="section-rule"/>
 <section class="chapter" id="ch3-layer-i-major-event-extraction"><h2>Chapter 3 — Layer I — Major Event Extraction</h2>
 <h3>3.1 Definition of a PEI Event</h3>
 <p>A <strong>major event</strong> in BlueLotus is not merely a headline. It is a tuple:</p>
-<p>\[</p>
-<p>\mathcal{E} = (id, type, title, t, \mathcal{A}, \mathcal{S}, \theta_0, \mathcal{C}^+, \mathcal{C}^-, \mathcal{K}, \rho)</p>
-<p>\]</p>
+<div class="math-block">\[\mathcal{E} = (id, type, title, t, \mathcal{A}, \mathcal{S}, \theta_0, \mathcal{C}^+, \mathcal{C}^-, \mathcal{K}, \rho)\]</div>
 <p>where:</p>
 <ul><li>\(id\) — stable identifier (<code>stable_id(&quot;PEI_EVENT&quot;, type, title)</code>)</li><li>\(type\) — event class (<code>FED_POLICY</code>, <code>YEN_CARRY_RISK</code>, <code>AI_CAPEX_EVENT</code>, <code>GEOPOLITICAL_DEESCALATION</code>, …)</li><li>\(t\) — timestamp (SGT)</li><li>\(\mathcal{A}\) — affected assets</li><li>\(\mathcal{S}\) — affected sleeves (portfolio groupings)</li><li>\(\theta_0\) — initial hypothesis (natural language + structured signals)</li><li>\(\mathcal{C}^+, \mathcal{C}^-\) — confirmation / contradiction signals</li><li>\(\mathcal{K}\) — kill conditions</li><li>\(\rho\) — resolution criteria (clairvoyance test — no ex-post dispute)</li></ul>
 <p><strong>Implementation:</strong> <code>pei/event_registry.py</code> → <code>build_candidate_events()</code>; persisted via <code>pei/builder.py</code>.</p>
@@ -295,9 +277,7 @@ a{color:var(--teal);}
 <p>A <strong>long-horizon thesis</strong> \(T_j\) is a structural proposition about global markets over months to years:</p>
 <ul><li>Sticky Inflation / Fiscal Dominance  </li><li>Petro-Recycled Dollar  </li><li>Hawkish Warsh Fed  </li><li>Hawkish BOJ / Yen Carry  </li><li>AI Infrastructure / Power Bottleneck  </li><li>Oil De-escalation / Peace Dividend  </li><li>Final Frontier Space  </li><li>Gold Structural Inflation vs Tactical Relief  </li></ul>
 <p>Each thesis \(T_j\) carries:</p>
-<p>\[</p>
-<p>T_j = (P_j,\; \mathcal{K}_j,\; \mathrm{posture}_j,\; \mathrm{sleeves}_j)</p>
-<p>\]</p>
+<div class="math-block">\[T_j = (P_j,\; \mathcal{K}_j,\; \mathrm{posture}_j,\; \mathrm{sleeves}_j)\]</div>
 <p>where \(P_j \in [0.05, 0.95]\) is the live probability the thesis remains <strong>valid</strong> (not killed).</p>
 <p><strong>Source:</strong> <code>config/thesis_registry.yaml</code>; snapshots in NITE-PEI cycle output (<code>nite_pei_block.json</code>).</p>
 <h3>4.2 Kill Conditions</h3>
@@ -306,7 +286,7 @@ a{color:var(--teal);}
 <p><strong>State machine</strong> (<code>nite_pei/kill_condition_state_machine.py</code>):</p>
 <table class="thesis-table">
 <tr><th>State</th><th>Condition on \(P_{\mathrm{kill}}\)</th></tr>
-<tr><td>INACTIVE</td><td>\(&lt; 0.10\)</td></tr>
+<tr><td>INACTIVE</td><td>\(< 0.10\)</td></tr>
 <tr><td>WATCH</td><td>\(\geq 0.10\)</td></tr>
 <tr><td>TRIGGERED</td><td>\(\geq 0.35\)</td></tr>
 <tr><td>CONFIRMED</td><td>\(\geq 0.65\)</td></tr>
@@ -314,9 +294,7 @@ a{color:var(--teal);}
 </table>
 <h3>4.3 Composite Kill Risk Index (CKRI)</h3>
 <p>Aggregate tail risk across theses:</p>
-<p>\[</p>
-<p>\mathrm{CKRI} = \frac{1}{\sum_k \omega_k}\left(\sum_k \omega_k P_{\mathrm{kill},k} + \rho \cdot \max(0, n_{\mathrm{correlated}} - 1)\right)</p>
-<p>\]</p>
+<div class="math-block">\[\mathrm{CKRI} = \frac{1}{\sum_k \omega_k}\left(\sum_k \omega_k P_{\mathrm{kill},k} + \rho \cdot \max(0, n_{\mathrm{correlated}} - 1)\right)\]</div>
 <p>Default \(\rho = 0.15\). Zones: CLEAR \([0,0.20)\), WATCH, ELEVATED, HIGH, CRITICAL \(\geq 0.80\).</p>
 <p><strong>Implementation:</strong> <code>nite_pei/ckri_calculator.py</code></p>
 <p>CKRI replaces binary &quot;cash fortress mode&quot; with continuous risk indexing — advisory only.</p>
@@ -327,9 +305,7 @@ a{color:var(--teal);}
 <section class="chapter" id="ch5-layer-iii-probability-trees-pei-nite-pei-and-acms-cop"><h2>Chapter 5 — Layer III — Probability Trees: PEI, NITE–PEI, and ACMS–COP</h2>
 <h3>5.1 PEI Scenario Trees</h3>
 <p>For each event \(\mathcal{E}\), PEI constructs <strong>mutually exclusive branches</strong> \(\mathcal{B} = \{B_1, \ldots, B_n\}\):</p>
-<p>\[</p>
-<p>\sum_{i=1}^{n} P(B_i \mid \mathcal{E}) = 1, \qquad P(B_i) \geq 0</p>
-<p>\]</p>
+<div class="math-block">\[\sum_{i=1}^{n} P(B_i \mid \mathcal{E}) = 1, \qquad P(B_i) \geq 0\]</div>
 <p>Each branch carries:</p>
 <ul><li><code>branch_probability</code> \(P(B_i)\)</li><li><code>confirmation_signals</code>, <code>contradiction_signals</code>, <code>kill_conditions</code></li><li><code>allowed_action</code> / <code>blocked_action</code> (policy, not orders)</li><li><code>resolution_criteria</code></li></ul>
 <p><strong>Implementation:</strong> <code>pei/event_tree_builder.py</code> → <code>build_scenario_trees()</code></p>
@@ -344,32 +320,20 @@ a{color:var(--teal);}
 <h3>5.2 NITE–PEI: Bayesian Thesis Update</h3>
 <p>When classified news event \(e\) arrives with class \(c(e)\), affected thesis \(T_j\) updates:</p>
 <p><strong>Step 1 — Prior odds</strong></p>
-<p>\[</p>
-<p>O_j^{\mathrm{prior}} = \frac{P_j}{1 - P_j}</p>
-<p>\]</p>
+<div class="math-block">\[O_j^{\mathrm{prior}} = \frac{P_j}{1 - P_j}\]</div>
 <p><strong>Step 2 — Likelihood ratio lookup</strong></p>
-<p>\[</p>
-<p>\mathrm{LR}_{c,j} = \mathrm{LR\_table}[c(e)][T_j] \quad\text{(fallback: ANY, then 1.0)}</p>
-<p>\]</p>
+<div class="math-block">\[\mathrm{LR}_{c,j} = \mathrm{LR\_table}[c(e)][T_j] \quad\text{(fallback: ANY, then 1.0)}\]</div>
 <p><strong>Step 3 — Noise discount (source tier)</strong></p>
-<p>\[</p>
-<p>\mathrm{LR}^{\mathrm{adj}} = 1 + (1 - \delta_{\mathrm{noise}}) \cdot (\mathrm{LR}_{c,j} - 1)</p>
-<p>\]</p>
+<div class="math-block">\[\mathrm{LR}^{\mathrm{adj}} = 1 + (1 - \delta_{\mathrm{noise}}) \cdot (\mathrm{LR}_{c,j} - 1)\]</div>
 <p>where \(\delta_{\mathrm{noise}} \in [0,1]\) increases for T3–T4 sources.</p>
 <p><strong>Step 4 — Posterior odds and probability</strong></p>
-<p>\[</p>
-<p>O_j^{\mathrm{post}} = O_j^{\mathrm{prior}} \cdot \mathrm{LR}^{\mathrm{adj}}, \qquad</p>
-<p>P_j^{\mathrm{post}} = \frac{O_j^{\mathrm{post}}}{1 + O_j^{\mathrm{post}}}</p>
-<p>\]</p>
+<div class="math-block">\[O_j^{\mathrm{post}} = O_j^{\mathrm{prior}} \cdot \mathrm{LR}^{\mathrm{adj}}, \qquad
+P_j^{\mathrm{post}} = \frac{O_j^{\mathrm{post}}}{1 + O_j^{\mathrm{post}}}\]</div>
 <p><strong>Step 5 — Clamp</strong></p>
-<p>\[</p>
-<p>P_j^{\mathrm{post}} \leftarrow \max(0.05,\; \min(0.95,\; P_j^{\mathrm{post}}))</p>
-<p>\]</p>
+<div class="math-block">\[P_j^{\mathrm{post}} \leftarrow \max(0.05,\; \min(0.95,\; P_j^{\mathrm{post}}))\]</div>
 <p><strong>Step 6 — Sequential composition</strong></p>
 <p>For events \(e_1, e_2, \ldots, e_n\) in one cycle:</p>
-<p>\[</p>
-<p>P_j^{(n)} = \mathrm{Update}(\mathrm{Update}(\cdots P_j^{(0)} \cdots))</p>
-<p>\]</p>
+<div class="math-block">\[P_j^{(n)} = \mathrm{Update}(\mathrm{Update}(\cdots P_j^{(0)} \cdots))\]</div>
 <p>Posterior of event \(n\) becomes prior of event \(n{+}1\).</p>
 <p><strong>Implementation:</strong> <code>nite_pei/bayesian_updater.py</code> (<code>compute_posterior</code>, <code>get_lr</code>)</p>
 <h3>5.3 ACMS–COP: Behavioural-Regime Layer</h3>
@@ -387,7 +351,7 @@ a{color:var(--teal);}
 <p>Clerk may revise these probabilities when cross-reading PEI branches + same-day catalysts (documented in <code>manual_cio_clerk_*.json</code>).</p>
 <h3>5.4 Tree Integration: How Layers Compose</h3>
 <p>The <strong>full probability tree</strong> for a decision cycle is a <strong>product of coupled distributions</strong>, not a single Bayesian network learned from data:</p>
-<div class="diagram-block"><div class="diagram-label">Architecture</div><pre class="mermaid-src">flowchart LR
+<div class="diagram-block"><div class="diagram-label">Architecture</div><pre class="mermaid">flowchart LR
     subgraph macro [Macro Branches]
         FED[FED_POLICY branches]
         BOJ[YEN_CARRY branches]
@@ -405,13 +369,11 @@ a{color:var(--teal);}
         ROFF[Risk-off continues]
     end
 
-    macro --&gt; session
-    sector --&gt; session
-    ACMS[ACMS regime prior] --&gt; session</pre></div>
+    macro --> session
+    sector --> session
+    ACMS[ACMS regime prior] --> session</pre></div>
 <p><strong>Clerk integration rule:</strong> Session node probabilities are revised by <strong>likelihood ratios</strong> from same-day evidence:</p>
-<p>\[</p>
-<p>P_{\mathrm{session}}(B) \propto P_{\mathrm{ACMS}}(B) \cdot \prod_{e \in \mathcal{E}_{\mathrm{today}}} \mathrm{LR}_e(B)</p>
-<p>\]</p>
+<div class="math-block">\[P_{\mathrm{session}}(B) \propto P_{\mathrm{ACMS}}(B) \cdot \prod_{e \in \mathcal{E}_{\mathrm{today}}} \mathrm{LR}_e(B)\]</div>
 <p>then renormalised over mutually exclusive session branches.</p>
 <p>This is <strong>not</strong> fully automated in production yet — Clerk journals document the revision; automation is the engineering target described in <code>BlueLotus_NITE_PEI_Integrated_Thesis.md</code> §17.</p>
 <hr class="section-rule"/>
@@ -419,9 +381,7 @@ a{color:var(--teal);}
 <h3>6.1 Session Forecast Definition</h3>
 <p>A <strong>trading session forecast</strong> is a short-horizon binary or multi-branch proposition:</p>
 <p><strong>Binary example:</strong></p>
-<p>\[</p>
-<p>Y_{\mathrm{relief}} = \mathbb{1}\{\mathrm{SPY}_t &gt; \mathrm{SPY}_{t-1} \;\land\; \mathrm{QQQ}_t &gt; \mathrm{QQQ}_{t-1} \;\land\; \Delta\mathrm{VXX}_t \leq 0\}</p>
-<p>\]</p>
+<div class="math-block">\[Y_{\mathrm{relief}} = \mathbb{1}\{\mathrm{SPY}_t > \mathrm{SPY}_{t-1} \;\land\; \mathrm{QQQ}_t > \mathrm{QQQ}_{t-1} \;\land\; \Delta\mathrm{VXX}_t \leq 0\}\]</div>
 <p><strong>Multi-branch example (25 Jun 2026):</strong></p>
 <table class="thesis-table">
 <tr><th>Branch</th><th>Description</th><th>\(P\)</th></tr>
@@ -442,17 +402,11 @@ a{color:var(--teal);}
 <tr><td>ACMS MILD RISK OFF</td><td>Relief fails</td><td>0.85</td></tr>
 </table>
 <p><strong>Step 3</strong> — Compute unnormalised posterior:</p>
-<p>\[</p>
-<p>\tilde{P}(B) = P_{\mathrm{ACMS}}(B) \cdot \prod_{e} \mathrm{LR}_e(B)</p>
-<p>\]</p>
+<div class="math-block">\[\tilde{P}(B) = P_{\mathrm{ACMS}}(B) \cdot \prod_{e} \mathrm{LR}_e(B)\]</div>
 <p><strong>Step 4</strong> — Normalise:</p>
-<p>\[</p>
-<p>P(B) = \frac{\tilde{P}(B)}{\sum_{B&#x27;} \tilde{P}(B&#x27;)}</p>
-<p>\]</p>
+<div class="math-block">\[P(B) = \frac{\tilde{P}(B)}{\sum_{B'} \tilde{P}(B')}\]</div>
 <p><strong>Step 5</strong> — CIO binary call:</p>
-<p>\[</p>
-<p>P(Y_{\mathrm{relief}}) = P(B_{\mathrm{full\ relief}}) + \alpha \cdot P(B_{\mathrm{mixed}})</p>
-<p>\]</p>
+<div class="math-block">\[P(Y_{\mathrm{relief}}) = P(B_{\mathrm{full\ relief}}) + \alpha \cdot P(B_{\mathrm{mixed}})\]</div>
 <p>with \(\alpha \in [0,1]\) (typically 0.25–0.50) reflecting partial credit for mixed sessions.</p>
 <h3>6.3 Cross-Links to PEI Branches</h3>
 <p>Session relief probability rises when:</p>
@@ -480,13 +434,9 @@ a{color:var(--teal);}
 <p><strong>Witness</strong> files record ground truth with timestamps and data sources — the clairvoyance test.</p>
 <h3>7.3 Brier Score (Unified)</h3>
 <p>For forecast \(i\) with stated probability \(f_i\) and outcome \(o_i \in \{0,1\}\):</p>
-<p>\[</p>
-<p>\mathrm{BS}_i = (f_i - o_i)^2</p>
-<p>\]</p>
+<div class="math-block">\[\mathrm{BS}_i = (f_i - o_i)^2\]</div>
 <p>Aggregate:</p>
-<p>\[</p>
-<p>\overline{\mathrm{BS}} = \frac{1}{N}\sum_{i=1}^{N} \mathrm{BS}_i</p>
-<p>\]</p>
+<div class="math-block">\[\overline{\mathrm{BS}} = \frac{1}{N}\sum_{i=1}^{N} \mathrm{BS}_i\]</div>
 <table class="thesis-table">
 <tr><th>Score</th><th>Interpretation</th></tr>
 <tr><td>0.00</td><td>Perfect</td></tr>
@@ -496,9 +446,7 @@ a{color:var(--teal);}
 <p><strong>Implementations:</strong></p>
 <ul><li><code>learning/cio_forecast_binary.py</code> → <code>brier_from_binary_call()</code></li><li><code>acms_cop/learning/brier_scorer.py</code></li><li><code>pei/brier_crs_engine.py</code></li><li><code>research/eipe_core.py</code></li></ul>
 <h3>7.4 Murphy Decomposition</h3>
-<p>\[</p>
-<p>\overline{\mathrm{BS}} = \mathrm{Reliability} - \mathrm{Resolution} + \mathrm{Uncertainty}</p>
-<p>\]</p>
+<div class="math-block">\[\overline{\mathrm{BS}} = \mathrm{Reliability} - \mathrm{Resolution} + \mathrm{Uncertainty}\]</div>
 <p><strong>Reliability</strong> — calibration: when CIO says 70%, it should happen ~70% of the time.  </p>
 <p><strong>Resolution</strong> — forecasts differ from base rate when correct.  </p>
 <p><strong>Uncertainty</strong> — irreducible outcome variance.</p>
@@ -523,25 +471,23 @@ a{color:var(--teal);}
 </table>
 <p>Learning requires <strong>both</strong> scorecards on the <strong>same resolution rules</strong> where questions overlap.</p>
 <h3>8.2 Learning Cycle (Per V3 Pipeline Run)</h3>
-<div class="diagram-block"><div class="diagram-label">Architecture</div><pre class="mermaid-src">flowchart TD
-    A[Scan CIO prediction archives] --&gt; B[Sync MySQL registry]
-    B --&gt; C[Resolve open claims vs witness/tape]
-    C --&gt; D[Compute BS_CIO]
-    E[Resolve system forecasts vs market data] --&gt; F[Compute BS_SYS]
-    D --&gt; G[Murphy decomposition by theme]
-    F --&gt; G
-    G --&gt; H{mean_brier_theme}
-    H --&gt; I[Shrink probabilities]
-    H --&gt; J[Update LR table calibration_n]
-    I --&gt; K[Next cycle priors]
-    J --&gt; K
-    K --&gt; L[Clerk + CIO review]</pre></div>
+<div class="diagram-block"><div class="diagram-label">Architecture</div><pre class="mermaid">flowchart TD
+    A[Scan CIO prediction archives] --> B[Sync MySQL registry]
+    B --> C[Resolve open claims vs witness/tape]
+    C --> D[Compute BS_CIO]
+    E[Resolve system forecasts vs market data] --> F[Compute BS_SYS]
+    D --> G[Murphy decomposition by theme]
+    F --> G
+    G --> H{mean_brier_theme}
+    H --> I[Shrink probabilities]
+    H --> J[Update LR table calibration_n]
+    I --> K[Next cycle priors]
+    J --> K
+    K --> L[Clerk + CIO review]</pre></div>
 <p><strong>Script:</strong> <code>scripts/sync_cio_forecasts_and_brier.py</code>, <code>learning/cio_prediction_brier.py</code></p>
 <h3>8.3 Calibration Shrinkage</h3>
 <p>When theme mean Brier \(\bar{B}_{\mathrm{theme}}\) is available:</p>
-<p>\[</p>
-<p>P_{\mathrm{cal}} = 0.5 + (P_{\mathrm{raw}} - 0.5) \cdot (1 - \bar{B}_{\mathrm{theme}})</p>
-<p>\]</p>
+<div class="math-block">\[P_{\mathrm{cal}} = 0.5 + (P_{\mathrm{raw}} - 0.5) \cdot (1 - \bar{B}_{\mathrm{theme}})\]</div>
 <p>with \(\bar{B}_{\mathrm{theme}}\) clamped to \([0, 0.49]\).</p>
 <p><strong>Effect:</strong> Overconfident CIO or engine calls are pulled toward 0.5 proportionally to historical miscalibration.</p>
 <p><strong>Implementation:</strong> <code>research/eipe_core.py</code> → <code>shrink_probability()</code></p>
@@ -550,9 +496,7 @@ a{color:var(--teal);}
 <ul><li><code>lr</code> — point estimate  </li><li><code>confidence</code> — LOW / MEDIUM / HIGH  </li><li><code>calibration_n</code> — resolved event count  </li></ul>
 <p><strong>Update rule (planned maturity path):</strong></p>
 <p>When event class \(c\) resolves against thesis \(T_j\) with outcome \(o\):</p>
-<p>\[</p>
-<p>\mathrm{LR}_{c,j}^{\mathrm{new}} = \mathrm{LR}_{c,j}^{\mathrm{old}} \cdot \exp\left(\eta \cdot (o - P_j^{\mathrm{pre}})\right)</p>
-<p>\]</p>
+<div class="math-block">\[\mathrm{LR}_{c,j}^{\mathrm{new}} = \mathrm{LR}_{c,j}^{\mathrm{old}} \cdot \exp\left(\eta \cdot (o - P_j^{\mathrm{pre}})\right)\]</div>
 <p>with learning rate \(\eta\) small (e.g. 0.05–0.15), bounded to prevent explosion.</p>
 <p>Until <code>calibration_n \geq 30</code>, BGTM game-theoretic probabilities blend per doctrine-008 cold-start protocol.</p>
 <h3>8.5 Clerk ↔ CIO ↔ System Feedback</h3>
@@ -579,48 +523,34 @@ a{color:var(--teal);}
 <tr><td>\(\omega_k\)</td><td>Kill condition weight</td></tr>
 </table>
 <h3>9.2 Equation Block A — NITE-PEI Posterior</h3>
-<p>\[</p>
-<p>\boxed{</p>
-<p>P_j^{\mathrm{post}} = \mathrm{clamp}_{[0.05,0.95]}\left(</p>
-<p>\frac{\frac{P_j}{1-P_j} \cdot \mathrm{LR}^{\mathrm{adj}}_{c,j}}{1 + \frac{P_j}{1-P_j} \cdot \mathrm{LR}^{\mathrm{adj}}_{c,j}}</p>
-<p>\right)</p>
-<p>}</p>
-<p>\]</p>
+<div class="math-block">\[\boxed{
+P_j^{\mathrm{post}} = \mathrm{clamp}_{[0.05,0.95]}\left(
+\frac{\frac{P_j}{1-P_j} \cdot \mathrm{LR}^{\mathrm{adj}}_{c,j}}{1 + \frac{P_j}{1-P_j} \cdot \mathrm{LR}^{\mathrm{adj}}_{c,j}}
+\right)
+}\]</div>
 <h3>9.3 Equation Block B — PEI Branch Normalisation</h3>
-<p>\[</p>
-<p>\boxed{</p>
-<p>\sum_{i=1}^{n} P(B_i) = 1, \quad P(B_i) \geq 0</p>
-<p>}</p>
-<p>\]</p>
+<div class="math-block">\[\boxed{
+\sum_{i=1}^{n} P(B_i) = 1, \quad P(B_i) \geq 0
+}\]</div>
 <p>Clerk revisions must preserve unity: if branch \(i\) gains \(\Delta\), allocate \(-\Delta\) across siblings proportionally or by documented rule.</p>
 <h3>9.4 Equation Block C — Session Node Update</h3>
-<p>\[</p>
-<p>\boxed{</p>
-<p>P(B) = \frac{P_{\mathrm{ACMS}}(B)\prod_{e}\mathrm{LR}_e(B)}{\sum_{B&#x27;} P_{\mathrm{ACMS}}(B&#x27;)\prod_{e}\mathrm{LR}_e(B&#x27;)}</p>
-<p>}</p>
-<p>\]</p>
+<div class="math-block">\[\boxed{
+P(B) = \frac{P_{\mathrm{ACMS}}(B)\prod_{e}\mathrm{LR}_e(B)}{\sum_{B'} P_{\mathrm{ACMS}}(B')\prod_{e}\mathrm{LR}_e(B')}
+}\]</div>
 <h3>9.5 Equation Block D — EIPE Price Effect</h3>
-<p>\[</p>
-<p>\boxed{</p>
-<p>\Delta \hat{r}_{t,h} = \sum_{i \in \mathcal{E}_t} w_{\tau_i} \cdot P_i^{(\mathrm{cal})} \cdot E_{i \to t,h} \cdot \sigma_i</p>
-<p>}</p>
-<p>\]</p>
-<p>\[</p>
-<p>\hat{P}_{t,h} = \mathrm{price\_anchor}_t \cdot (1 + \Delta \hat{r}_{t,h})</p>
-<p>\]</p>
+<div class="math-block">\[\boxed{
+\Delta \hat{r}_{t,h} = \sum_{i \in \mathcal{E}_t} w_{\tau_i} \cdot P_i^{(\mathrm{cal})} \cdot E_{i \to t,h} \cdot \sigma_i
+}\]</div>
+<div class="math-block">\[\hat{P}_{t,h} = \mathrm{price\_anchor}_t \cdot (1 + \Delta \hat{r}_{t,h})\]</div>
 <h3>9.6 Equation Block E — Brier &amp; Shrink</h3>
-<p>\[</p>
-<p>\boxed{</p>
-<p>\mathrm{BS} = (f - o)^2, \qquad</p>
-<p>P_{\mathrm{cal}} = 0.5 + (P_{\mathrm{raw}} - 0.5)(1 - \bar{B}_{\mathrm{theme}})</p>
-<p>}</p>
-<p>\]</p>
+<div class="math-block">\[\boxed{
+\mathrm{BS} = (f - o)^2, \qquad
+P_{\mathrm{cal}} = 0.5 + (P_{\mathrm{raw}} - 0.5)(1 - \bar{B}_{\mathrm{theme}})
+}\]</div>
 <h3>9.7 Equation Block F — CKRI</h3>
-<p>\[</p>
-<p>\boxed{</p>
-<p>\mathrm{CKRI} = \frac{\sum_k \omega_k P_{\mathrm{kill},k} + \rho \cdot \max(0, n_{\mathrm{corr}}-1)}{\sum_k \omega_k}</p>
-<p>}</p>
-<p>\]</p>
+<div class="math-block">\[\boxed{
+\mathrm{CKRI} = \frac{\sum_k \omega_k P_{\mathrm{kill},k} + \rho \cdot \max(0, n_{\mathrm{corr}}-1)}{\sum_k \omega_k}
+}\]</div>
 <hr class="section-rule"/>
 <section class="chapter" id="ch10-worked-example-25-june-2026-relief-rally-session"><h2>Chapter 10 — Worked Example: 25 June 2026 Relief Rally Session</h2>
 <h3>10.1 Catalyst Set</h3>
@@ -720,6 +650,27 @@ a{color:var(--teal);}
     }
   });
 })();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  var root = document.querySelector(".wrap") || document.body;
+  if (typeof renderMathInElement === "function") {
+    renderMathInElement(root, {
+      delimiters: [
+        {left: "$$", right: "$$", display: true},
+        {left: "\\[", right: "\\]", display: true},
+        {left: "\\(", right: "\\)", display: false}
+      ],
+      throwOnError: false,
+      ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code", "option"]
+    });
+  }
+  if (typeof mermaid !== "undefined") {
+    mermaid.initialize({startOnLoad: false, theme: "neutral", securityLevel: "loose", flowchart: {useMaxWidth: true}});
+    mermaid.run({querySelector: ".mermaid"});
+  }
+});
 </script>
 </body>
 </html>
