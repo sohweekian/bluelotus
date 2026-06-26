@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-26 13:24 SGT",
-  "cycle_id": "v3_cycle_20260626_132405",
-  "latest_cycle_id": "v3_cycle_20260626_132405",
+  "generated_at": "2026-06-26 14:40 SGT",
+  "cycle_id": "v3_cycle_20260626_143956",
+  "latest_cycle_id": "v3_cycle_20260626_143956",
   "fallback_from_cycle_id": "",
   "fallback_reason": "",
   "clerk_mode": "deterministic",
@@ -18,7 +18,7 @@
       "layer_id": "cycle_identity",
       "layer": "package_cycle_identity",
       "status": "DATA_CONFIRMED",
-      "summary": "Cycle v3_cycle_20260626_132405 · deterministic clerk · Zone A authority"
+      "summary": "Cycle v3_cycle_20260626_143956 · deterministic clerk · Zone A authority"
     },
     {
       "layer_id": "source_hierarchy",
@@ -42,13 +42,13 @@
       "layer_id": "portfolio_execution",
       "layer": "broker_portfolio",
       "status": "PASS",
-      "summary": "Assets 52966.57 · cash 38616.32 (72.9%) · broker P/L authoritative (snapshot)"
+      "summary": "Assets 52982.07 · cash 38616.32 (72.9%) · broker P/L authoritative (snapshot)"
     },
     {
       "layer_id": "concentration_risk",
       "layer": "risk_metrics",
       "status": "DATA_CONFIRMED",
-      "summary": "status NORMAL · largest NVDA · wt 13.3% · HHI 0.0908"
+      "summary": "status NORMAL · largest NVDA · wt 13.4% · HHI 0.0907"
     },
     {
       "layer_id": "blind_spot_causal",
@@ -60,7 +60,7 @@
       "layer_id": "deterministic_operators",
       "layer": "operator_blocks",
       "status": "DATA_CONFIRMED",
-      "summary": "Blocked 6 · permitted HOLD, REVIEW, WAIT"
+      "summary": "Blocked 5 · permitted HOLD, REVIEW, WAIT"
     },
     {
       "layer_id": "forecast_brier",
@@ -76,11 +76,11 @@
     }
   ],
   "manual_execution_required": true,
-  "created_at_sgt": "2026-06-26T13:24:06+08:00",
+  "created_at_sgt": "2026-06-26T14:39:56+08:00",
   "contradiction_register": {
     "schema_version": "bluelotus_v3_contradiction_register_v1.0",
-    "cycle_id": "v3_cycle_20260626_132405",
-    "created_at_sgt": "2026-06-26T13:24:06+08:00",
+    "cycle_id": "v3_cycle_20260626_143956",
+    "created_at_sgt": "2026-06-26T14:39:56+08:00",
     "contradiction_count": 0,
     "p1_count": 0,
     "p2_count": 0,
@@ -92,8 +92,8 @@
   },
   "cio_decision_strip": {
     "schema_version": "bluelotus_v3_cio_decision_strip_v1.0",
-    "cycle_id": "v3_cycle_20260626_132405",
-    "created_at_sgt": "2026-06-26T13:24:06+08:00",
+    "cycle_id": "v3_cycle_20260626_143956",
+    "created_at_sgt": "2026-06-26T14:39:56+08:00",
     "posture": "REVIEW",
     "new_information": [
       "Deterministic Chief Clerk mapped 10 Zone A layers. No LLM agent council. Report action field states: REVIEW. Contradictions: 0 (P1 0, P2 0).",
@@ -101,7 +101,6 @@
     ],
     "action_blocked": [
       "ADD_RISK_WITHOUT_CATALYST_REVIEW",
-      "ADD_WITHOUT_THESIS_REVIEW",
       "INCREASE_GOLD_THESIS_RISK",
       "SCALE_IN_ADD",
       "SECOND_TRANCHE_ADD",
@@ -121,7 +120,7 @@
   },
   "nite_pei": {
     "schema_version": "bluelotus_v3_nite_pei_v1.0",
-    "generated_at_sgt": "2026-06-26T13:24:07+08:00",
+    "generated_at_sgt": "2026-06-26T14:39:59+08:00",
     "thesis_probability_snapshots": [
       {
         "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
@@ -129,10 +128,47 @@
         "P_prior": 0.95,
         "P_posterior": 0.95,
         "delta_p": 0.0,
-        "events_applied": [],
-        "event_ids": [],
-        "brier_record_id": "",
-        "lr_lookups": [],
+        "events_applied": [
+          {
+            "event_id": "signal:500500",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "raw_headline": "[SENTIMENT] ASML: NEUTRAL (-0.079) -- Europe is pushing back on Washington’s chip war",
+            "source": "Ticker_Sentiment",
+            "source_tier": 3,
+            "published_at": "2026-06-26T14:38:56",
+            "source_url": "",
+            "matched_keyword": "war",
+            "noise_discount_factor": 0.25,
+            "lr_raw": 1.2,
+            "lr_adjusted": 1.15,
+            "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.9500 / 0.0500 = 19.0000",
+              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(19.0000) x LR_adjusted(1.1500) = 21.8500",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 21.8500 / 22.8500 = 0.9500",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.9500",
+              "delta_p": "+0.0000"
+            },
+            "p_prior_step": 0.95,
+            "p_posterior_step": 0.95,
+            "delta_p_step": 0.0
+          }
+        ],
+        "event_ids": [
+          "signal:500500"
+        ],
+        "brier_record_id": "NITE_BRIER_TRUMP_UNCERTAINTY_THESIS_B13F142C",
+        "lr_lookups": [
+          {
+            "event_id": "signal:500500",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "lr_adjusted": 1.15,
+            "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW"
+          }
+        ],
         "kill_state_snapshot": {
           "TRUMP_KC_01": {
             "state": "CONFIRMED",
@@ -145,7 +181,7 @@
         },
         "worst_kill_state": "CONFIRMED",
         "posture": "KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED",
-        "advisory_text": "[NITE-PEI] TRUMP_UNCERTAINTY_THESIS: no events. P: 0.950 → 0.950 (▲0.000). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] TRUMP_UNCERTAINTY_THESIS: GEOPOLITICAL_ESCALATION (LR 1.150 via GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS, confidence: LOW). P: 0.950 → 0.950 (▲0.000). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
@@ -153,10 +189,47 @@
         "P_prior": 0.95,
         "P_posterior": 0.95,
         "delta_p": 0.0,
-        "events_applied": [],
-        "event_ids": [],
-        "brier_record_id": "",
-        "lr_lookups": [],
+        "events_applied": [
+          {
+            "event_id": "signal:500500",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "raw_headline": "[SENTIMENT] ASML: NEUTRAL (-0.079) -- Europe is pushing back on Washington’s chip war",
+            "source": "Ticker_Sentiment",
+            "source_tier": 3,
+            "published_at": "2026-06-26T14:38:56",
+            "source_url": "",
+            "matched_keyword": "war",
+            "noise_discount_factor": 0.25,
+            "lr_raw": 1.2,
+            "lr_adjusted": 1.15,
+            "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.9500 / 0.0500 = 19.0000",
+              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(19.0000) x LR_adjusted(1.1500) = 21.8500",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 21.8500 / 22.8500 = 0.9500",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.9500",
+              "delta_p": "+0.0000"
+            },
+            "p_prior_step": 0.95,
+            "p_posterior_step": 0.95,
+            "delta_p_step": 0.0
+          }
+        ],
+        "event_ids": [
+          "signal:500500"
+        ],
+        "brier_record_id": "NITE_BRIER_PETRO_RECYCLED_DOLLAR_THESIS_BB0EA26F",
+        "lr_lookups": [
+          {
+            "event_id": "signal:500500",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "lr_adjusted": 1.15,
+            "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
+            "confidence": "LOW"
+          }
+        ],
         "kill_state_snapshot": {
           "PETRO_KC_01": {
             "state": "CONFIRMED",
@@ -169,7 +242,7 @@
         },
         "worst_kill_state": "CONFIRMED",
         "posture": "KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED",
-        "advisory_text": "[NITE-PEI] PETRO_RECYCLED_DOLLAR_THESIS: no events. P: 0.950 → 0.950 (▲0.000). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] PETRO_RECYCLED_DOLLAR_THESIS: GEOPOLITICAL_ESCALATION (LR 1.150 via GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS, confidence: LOW). P: 0.950 → 0.950 (▲0.000). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "STICKY_INFLATION_THESIS",
@@ -347,11 +420,11 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 14350.25,
-        "target_usd_sleeve": 2433.56,
+        "nav_total": 14365.75,
+        "target_usd_sleeve": 2436.19,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 2433.56,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $2,434"
+        "delta_usd": 2436.19,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $2,436"
       },
       {
         "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
@@ -366,11 +439,11 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 14350.25,
-        "target_usd_sleeve": 2433.56,
+        "nav_total": 14365.75,
+        "target_usd_sleeve": 2436.19,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 2433.56,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $2,434"
+        "delta_usd": 2436.19,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $2,436"
       },
       {
         "thesis_id": "STICKY_INFLATION_THESIS",
@@ -385,11 +458,11 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 14350.25,
-        "target_usd_sleeve": 1822.11,
+        "nav_total": 14365.75,
+        "target_usd_sleeve": 1824.08,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 1822.11,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $1,822"
+        "delta_usd": 1824.08,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $1,824"
       },
       {
         "thesis_id": "HAWKISH_WARSH_THESIS",
@@ -404,11 +477,11 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 14350.25,
-        "target_usd_sleeve": 1371.28,
+        "nav_total": 14365.75,
+        "target_usd_sleeve": 1372.76,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 1371.28,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $1,371"
+        "delta_usd": 1372.76,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $1,373"
       },
       {
         "thesis_id": "HAWKISH_BOJ_THESIS",
@@ -423,11 +496,11 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 14350.25,
-        "target_usd_sleeve": 2105.68,
+        "nav_total": 14365.75,
+        "target_usd_sleeve": 2107.96,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 2105.68,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $2,106"
+        "delta_usd": 2107.96,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $2,108"
       }
     ],
     "nite_pei_contradictions": [],
@@ -436,15 +509,15 @@
     "manual_execution_required": true,
     "llm_order_generation": false,
     "order_routing_enabled": false,
-    "source_cycle_id": "v3_cycle_20260626_132405",
-    "source_cycle_path": "C:\\bluelotus3\\data\\v3_cycles\\v3_cycle_20260626_132405",
-    "nite_pei_generated_at_sgt": "2026-06-26T13:24:07+08:00",
+    "source_cycle_id": "v3_cycle_20260626_143956",
+    "source_cycle_path": "C:\\bluelotus3\\data\\v3_cycles\\v3_cycle_20260626_143956",
+    "nite_pei_generated_at_sgt": "2026-06-26T14:39:59+08:00",
     "generation_mode": "live_cycle",
     "event_extraction": {
       "dataset_path": "C:\\bluelotus3\\data\\frontend\\dataset_raw.json",
-      "candidate_events": 204,
+      "candidate_events": 202,
       "classified_events": 1,
-      "applied_events": 0
+      "applied_events": 2
     }
   },
   "agents": []
