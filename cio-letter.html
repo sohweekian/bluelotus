@@ -4,8 +4,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>CIO Letter Edition 051 &mdash; Clerk Error Incident Report | BlueLotus Fund</title>
-<meta content="BlueLotus Fund CIO Letter Edition 051 &mdash; Clerk Error Incident Report CLERK-ERR-20260629-001. P1 Material Data Integrity Failure. Self-reported. 29 June 2026." name="description"/>
+<title>CIO Letter Edition 052 &mdash; How Today's Agentic AI Is Programmed | BlueLotus Fund</title>
+<meta content="BlueLotus Fund CIO Letter Edition 052 &mdash; How Today's Agentic AI Is Programmed. A Technical and Architectural Thesis on the Methods, Internals, and Deployment Patterns of Agentic AI Systems. 30 June 2026." name="description"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&amp;family=DM+Mono:wght@300;400;500&amp;family=Lora:ital,wght@0,400;0,500;1,400&amp;display=swap" rel="stylesheet"/>
 <style>
@@ -527,8 +527,8 @@
 <h1 class="hero-title">CIO Letter<br/><em>To Our Investors</em></h1>
 <div class="hero-meta">
 <span class="hero-pill">Kian Soh · Chief Investment Officer</span>
-<span class="hero-pill">29 June 2026</span>
-<span class="hero-pill">Edition 051</span>
+<span class="hero-pill">30 June 2026</span>
+<span class="hero-pill">Edition 052</span>
 </div>
 <div class="hero-rule"></div>
 </div>
@@ -537,6 +537,399 @@
 <div class="letter-block">
 <div class="letter-tag">Chief Investment Officer · Official Correspondence</div>
 <div class="letter-body">
+<!-- ══ EDITION 052 — JUNE 30, 2026 ══ -->
+      <div class="edition-block" id="edition-052">
+        <div class="edition-tag">
+          <span class="edition-num">Edition 052</span>
+          <span class="edition-date">30 June 2026 · Singapore</span>
+        </div>
+
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Postdoctoral-Style Thesis Essay · Department of Quantitative Behavioral Finance · BlueLotus Fund · Internal Academic Publication</div>
+
+        <h2 style="font-family:var(--serif);font-size:28px;line-height:1.2;margin:4px 0 8px;color:var(--ink)">
+          How Today's Agentic AI Is Programmed
+        </h2>
+        <p style="font-family:var(--serif);font-size:16px;font-style:italic;color:var(--muted);margin:0 0 6px;line-height:1.4">A Technical and Architectural Thesis on the Methods, Internals, and Deployment Patterns of Agentic AI Systems</p>
+        <p style="font-size:11px;font-family:var(--mono);color:var(--muted);margin:0 0 24px;letter-spacing:0.05em">Prepared for Soh Wee Kian, CIO, BlueLotus Fund · Singapore · 30 June 2026</p>
+
+        <!-- Preliminary note -->
+        <h3 style="font-size:15px;font-weight:700;color:var(--ink);margin:0 0 14px">Preliminary Note on Method and Scope</h3>
+
+        <p style="font-size:13px;color:var(--muted);margin:0 0 12px">This essay is structured through five research methods — Quantitative, Qualitative, Ethnographic, Superforecasting, and Adversarial Collaboration — the same epistemological architecture BlueLotus's own research desk developed across its CIO Letter archive. But the <em>substance</em> of this essay, unlike an earlier draft, is the actual engineering of agentic AI: the agent loop at the bytecode-adjacent level, the JSON-RPC wire protocol that lets a model call a tool, the state-machine internals of production orchestration frameworks, the mathematics and failure modes of structured generation, the taxonomy of reasoning architectures (ReAct, Reflexion, Plan-and-Execute, ReWOO), and the layered memory systems that let an agent remember anything past a single context window.</p>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);border-left:3px solid var(--lotus);border-radius:0 6px 6px 0;padding:12px 18px;margin:0 0 28px;font-size:12px;color:var(--muted)">
+          Every claim below is either sourced to a specific, dated technical document or marked explicitly as synthesis. No primary fieldwork was conducted; this is not an accredited dissertation. <strong style="color:var(--ink)">It is a serious, technically detailed account of how these systems are actually built, written to the standard you asked for the first time and did not get.</strong>
+        </div>
+
+        <!-- ═══ SECTION I ═══ -->
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--lotus);font-weight:700;margin:28px 0 18px;padding-bottom:8px;border-bottom:1px solid var(--border)">I — QUANTITATIVE: THE ENGINEERING SUBSTRATE, PRECISELY</div>
+
+        <h3 style="font-size:15px;font-weight:700;color:var(--ink);margin:0 0 14px">1.1 · The Agent Loop, Decomposed to Its Actual Operations</h3>
+
+        <p style="font-size:13px;color:var(--muted);margin:0 0 14px">Every agentic AI system, regardless of vendor, reduces to the same five-step cycle repeated until termination: <strong style="color:var(--ink)">(1) gather context, (2) call the model, (3) parse the model's output for a tool-call request, (4) execute that tool call in the host environment, (5) append the result to context and return to step 1.</strong> Anthropic's own technical account of Claude Code is explicit that this loop is genuinely model-driven — the orchestration code does not decide which file to read or which command to run; the model does, and the harness exists to execute that decision safely. The loop itself is described as "not complicated" by independent technical analysis; what is complicated, and what differentiates production systems from toy demos, is the infrastructure wrapped around it.</p>
+
+        <h3 style="font-size:15px;font-weight:700;color:var(--ink);margin:0 0 14px">1.2 · Tool Calling: The Actual Request/Response Mechanics</h3>
+
+        <p style="font-size:13px;color:var(--muted);margin:0 0 14px">Tool calling (also called function calling) is not the model executing code. This distinction is foundational and is stated identically across every major provider's documentation: <strong style="color:var(--ink)">function calling does not give the LLM the capability to execute code</strong> — the model only identifies the appropriate function, gathers required parameters, and returns a structured JSON object; the actual execution happens in the calling application's runtime.</p>
+
+        <div style="background:#1a1a2e;border-radius:8px;padding:16px 18px;margin:0 0 16px;overflow-x:auto">
+          <pre style="font-family:var(--mono);font-size:10.5px;color:#e0e0e0;margin:0;line-height:1.6;white-space:pre"># 1. Define the tool as a JSON Schema, attached to the API call
+tools = [{
+    "name": "get_stock_price",
+    "description": "Get the current price for a stock ticker",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "ticker": {"type": "string", "description": "Stock ticker symbol, e.g. AAPL"}
+        },
+        "required": ["ticker"]
+    }
+}]
+
+# 2. The model is called with the user message AND the tool definitions
+response = client.messages.create(
+    model="claude-opus-4-6",
+    messages=[{"role": "user", "content": "What's AAPL trading at?"}],
+    tools=tools
+)
+
+# 3. If the model decides a tool is needed, it returns a tool_use block,
+#    NOT a text response — execution has not happened yet
+# response.content == [{"type": "tool_use", "name": "get_stock_price",
+#                        "input": {"ticker": "AAPL"}, "id": "toolu_01..."}]
+
+# 4. Your application code executes the actual function
+result = get_stock_price_impl(ticker="AAPL")
+
+# 5. The result is appended back into the message history as a tool_result,
+#    and the model is called AGAIN with the full updated history
+messages.append({"role": "assistant", "content": response.content})
+messages.append({"role": "user", "content": [
+    {"type": "tool_result", "tool_use_id": "toolu_01...", "content": str(result)}
+]})
+final_response = client.messages.create(model="claude-opus-4-6", messages=messages, tools=tools)</pre>
+        </div>
+
+        <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.3);border-left:3px solid #c9a84c;border-radius:0 6px 6px 0;padding:12px 18px;margin:0 0 28px;font-size:12px;color:var(--muted)">
+          <strong style="color:#c9a84c">A detail with real cost implications:</strong> tool definitions are not metadata sitting outside the model's context — they are injected into the system message before tokenization, which means callable function definitions count against the model's context limit and are billed as input tokens. At scale, with dozens of registered tools, this becomes a genuine architectural constraint, which is why frontier providers now ship a tool-search mechanism that defers rarely used tools and loads them only when the model needs them.
+        </div>
+
+        <h3 style="font-size:15px;font-weight:700;color:var(--ink);margin:0 0 14px">1.3 · Structured Output Enforcement: Constrained Decoding at the Token Level</h3>
+
+        <p style="font-size:13px;color:var(--muted);margin:0 0 12px">The naive version of tool calling — asking the model to emit JSON and hoping it's well-formed — has a known and serious failure rate: the model's JSON output is, mechanically, still tokens being predicted one by one, with the schema acting only as a strong hint. Production systems in 2026 have moved past this probabilistic approach to <strong style="color:var(--ink)">constrained decoding</strong>: a logit processor sits between the model's output probability distribution and the sampling step, and at each token position it masks out every token that would violate the target JSON Schema, using a finite state machine built from the schema itself.</p>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin:0 0 28px;font-size:12px;color:var(--muted)">
+          This is implemented via high-performance grammar engines (XGrammar, llguidance) that pre-compute token masks so there is minimal latency impact after the first call with a given schema — the same tokens-per-second as ordinary text generation, with <strong style="color:var(--ink)">mathematically guaranteed schema compliance rather than best-effort compliance.</strong> OpenAI's "strict mode" and Anthropic's structured-output guarantees are productized versions of exactly this mechanism, with the explicit tradeoff that some strict-mode implementations are incompatible with parallel tool calls, forcing an architectural choice between guaranteed-valid single calls and faster-but-probabilistic parallel calls.
+        </div>
+
+        <h3 style="font-size:15px;font-weight:700;color:var(--ink);margin:0 0 14px">1.4 · The Orchestration Layer: Graph-Based State Machines</h3>
+
+        <p style="font-size:13px;color:var(--muted);margin:0 0 16px">Above the single-call tool-use mechanism sits the orchestration framework, and the dominant production pattern in 2026 is the <strong style="color:var(--ink)">typed, cyclic state graph</strong> — LangGraph's architecture being the most widely deployed instance, with measured production usage including financial services, healthcare, and software development pipelines. The architecture is built from four primitives, and understanding them precisely is the difference between debugging an agent and guessing at it:</p>
+
+        <div style="display:flex;flex-direction:column;gap:10px;margin:0 0 20px">
+          <div style="background:var(--paper2);border:1px solid var(--border);border-left:3px solid var(--lotus);border-radius:0 8px 8px 0;padding:13px 18px;font-size:12px">
+            <strong style="color:var(--ink)">State</strong> <span style="color:var(--muted)">— a typed schema (commonly a Python <code style="font-family:var(--mono);font-size:10px;background:var(--paper);padding:1px 4px;border-radius:3px">TypedDict</code> or Pydantic model) that every node reads from and writes to. State updates use <strong style="color:var(--lotus)">reducer functions</strong> — <code style="font-family:var(--mono);font-size:10px;background:var(--paper);padding:1px 4px;border-radius:3px">(Value, Value) → Value</code> — that define how a node's partial update merges into existing state, rather than simply overwriting it.</span>
+          </div>
+          <div style="background:var(--paper2);border:1px solid var(--border);border-left:3px solid var(--lotus);border-radius:0 8px 8px 0;padding:13px 18px;font-size:12px">
+            <strong style="color:var(--ink)">Nodes</strong> <span style="color:var(--muted)">— plain functions that take the current state and return a partial update. The key architectural property: <em>nodes do not call each other directly.</em> They communicate exclusively by reading and writing the shared state object, which is what makes the graph debuggable.</span>
+          </div>
+          <div style="background:var(--paper2);border:1px solid var(--border);border-left:3px solid var(--lotus);border-radius:0 8px 8px 0;padding:13px 18px;font-size:12px">
+            <strong style="color:var(--ink)">Edges</strong> <span style="color:var(--muted)">— functions that determine which node executes next. <strong style="color:var(--lotus)">Conditional edges</strong> evaluate the state and route dynamically — explicitly described as the locus where "most of an agent's decisions live." A loop is simply a conditional edge that routes back to a node the graph has already visited.</span>
+          </div>
+          <div style="background:var(--paper2);border:1px solid var(--border);border-left:3px solid var(--lotus);border-radius:0 8px 8px 0;padding:13px 18px;font-size:12px">
+            <strong style="color:var(--ink)">Checkpointers</strong> <span style="color:var(--muted)">— the persistence layer, without which a graph cannot pause for human approval or resume after a crash. PostgreSQL is the standard recommendation; SQLite is explicitly flagged as "a write-performance trap under load." The execution model is borrowed from Google's Pregel system — discrete "super-steps," with checkpoints saved at super-step boundaries, not mid-function inside a node.</span>
+          </div>
+        </div>
+
+        <div style="background:rgba(220,38,38,0.04);border:1px solid rgba(220,38,38,0.2);border-left:3px solid #dc2626;border-radius:0 6px 6px 0;padding:12px 18px;margin:0 0 20px;font-size:12px;color:var(--muted)">
+          <strong style="color:#dc2626">Concrete operational consequence:</strong> if execution is interrupted mid-node and later resumed, the affected node re-runs from the start of its function — node logic must be written idempotently. A node that inserts a database row must use an idempotency key or upsert, because re-execution after a crash will otherwise create a duplicate.
+        </div>
+
+        <div style="background:#1a1a2e;border-radius:8px;padding:16px 18px;margin:0 0 28px;overflow-x:auto">
+          <pre style="font-family:var(--mono);font-size:10.5px;color:#e0e0e0;margin:0;line-height:1.6;white-space:pre">from typing import Annotated, Sequence, TypedDict
+from langchain_core.messages import BaseMessage
+from langgraph.graph import StateGraph, START, END, add_messages
+from langgraph.checkpoint.postgres import PostgresSaver
+
+class AgentState(TypedDict):
+    messages: Annotated[Sequence[BaseMessage], add_messages]  # reducer: appends
+    retry_count: int
+    is_authorized: bool
+
+def classify_intent(state: AgentState) -> AgentState:
+    # calls the LLM, returns a partial state update
+    ...
+
+def route_on_intent(state: AgentState) -> str:
+    # conditional edge: inspects state, returns the name of the next node
+    if state["is_authorized"]:
+        return "execute_action"
+    return "request_approval"  # routes to a human-in-the-loop interrupt node
+
+graph = StateGraph(AgentState)
+graph.add_node("classify", classify_intent)
+graph.add_node("execute_action", execute_action_node)
+graph.add_node("request_approval", human_approval_node)
+graph.add_edge(START, "classify")
+graph.add_conditional_edges("classify", route_on_intent)
+graph.add_edge("execute_action", END)
+
+compiled = graph.compile(checkpointer=PostgresSaver.from_conn_string(DB_URI))</pre>
+        </div>
+
+        <h3 style="font-size:15px;font-weight:700;color:var(--ink);margin:0 0 14px">1.5 · Multi-Agent Coordination Topologies, With Measured Tradeoffs</h3>
+
+        <p style="font-size:13px;color:var(--muted);margin:0 0 12px">Three coordination topologies dominate production multi-agent systems, and they are architecturally distinct, not stylistic variants of the same thing.</p>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:16px 20px;margin:0 0 14px;overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:12px">
+            <tr style="border-bottom:1px solid var(--border)"><th style="padding:6px 8px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">TOPOLOGY</th><th style="padding:6px 8px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">FRAMEWORK</th><th style="padding:6px 8px;text-align:left;color:var(--muted);font-weight:400;font-family:var(--mono);font-size:9px">CHARACTERISTIC</th></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:7px 8px;font-weight:600">Graph-based</td><td style="padding:7px 8px;font-family:var(--mono);font-size:10px;color:var(--lotus)">LangGraph</td><td style="padding:7px 8px;font-size:11px;color:var(--muted)">Agents are nodes in an explicit, inspectable state graph; control flow is fully programmer-defined</td></tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.04)"><td style="padding:7px 8px;font-weight:600">Role-based crews</td><td style="padding:7px 8px;font-family:var(--mono);font-size:10px;color:var(--lotus)">CrewAI</td><td style="padding:7px 8px;font-size:11px;color:var(--muted)">Developers define agents by role and goal; framework infers execution order — faster to prototype, harder to debug</td></tr>
+            <tr><td style="padding:7px 8px;font-weight:600">Conversational</td><td style="padding:7px 8px;font-family:var(--mono);font-size:10px;color:var(--lotus)">AutoGen / AG2</td><td style="padding:7px 8px;font-size:11px;color:var(--muted)">Agents collaborate through natural-language dialogue turns — weakest of the three for deterministic, auditable execution</td></tr>
+          </table>
+        </div>
+
+        <div class="highlight">
+          A controlled benchmark running 2,000 task instances across LangGraph, LangChain, AutoGen, and CrewAI on the same underlying model found <strong>LangGraph fastest on latency across all five tasks tested</strong>, while LangChain was the most token-efficient — evidence that the orchestration layer, not just the model, materially determines both cost and speed at scale.
+        </div>
+
+        <!-- ═══ SECTION II ═══ -->
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--lotus);font-weight:700;margin:28px 0 18px;padding-bottom:8px;border-bottom:1px solid var(--border)">II — QUALITATIVE: THE REASONING ARCHITECTURES, AND WHY EACH ONE EXISTS</div>
+
+        <h3 style="font-size:15px;font-weight:700;color:var(--ink);margin:0 0 14px">2.1 · ReAct: The Foundational Pattern</h3>
+
+        <p style="font-size:13px;color:var(--muted);margin:0 0 14px"><strong style="color:var(--ink)">ReAct</strong> (Yao et al., 2022) is the load-bearing pattern underneath nearly every production coding agent, including the agent loop inside Claude Code itself. Mechanically: the model produces a "thought" (free-text reasoning about what to do), then selects a tool ("act"), then receives the tool's output ("observation"), and the observation feeds directly back into the <em>next</em> reasoning step — meaning when something unexpected comes back, the agent can reason about why rather than blindly retrying the same action. This interleaving is the entire innovation relative to earlier "chain of thought" prompting, which reasons in one shot without ever touching the real world mid-reasoning.</p>
+
+        <div style="background:rgba(106,79,158,0.04);border:1px solid rgba(106,79,158,0.2);border-radius:6px;padding:12px 18px;margin:0 0 16px;font-size:12px;color:var(--muted)">
+          The original paper reported concrete gains from this interleaving — a <strong style="color:var(--ink)">34% improvement on ALFWorld</strong> and <strong style="color:var(--ink)">10% on WebShop</strong> versus action-only approaches that skip the explicit reasoning step.
+        </div>
+
+        <div style="background:#1a1a2e;border-radius:8px;padding:16px 18px;margin:0 0 16px;overflow-x:auto">
+          <pre style="font-family:var(--mono);font-size:10.5px;color:#e0e0e0;margin:0;line-height:1.6;white-space:pre">def react_loop(task, tools, max_steps=8):
+    history = [f"Task: {task}"]
+    for step in range(max_steps):
+        thought_and_action = llm.generate(history + ["Thought:"])
+        history.append(thought_and_action)
+        if "Final Answer:" in thought_and_action:
+            return extract_final_answer(thought_and_action)
+        tool_name, tool_args = parse_action(thought_and_action)
+        observation = tools[tool_name](**tool_args)
+        history.append(f"Observation: {observation}")
+    return "Max steps exceeded"</pre>
+        </div>
+
+        <div style="background:rgba(220,38,38,0.04);border:1px solid rgba(220,38,38,0.2);border-left:3px solid #dc2626;border-radius:0 6px 6px 0;padding:12px 18px;margin:0 0 28px;font-size:12px;color:var(--muted)">
+          <strong style="color:#dc2626">A documented failure mode:</strong> ReAct agents are happy to call a verification tool twice, then three times, then twenty, because the model has no memory of past failed verifications beyond what fits in the context window. Production fixes are architectural, not prompt-level: a per-tool call cap, and variants like Focused ReAct that explicitly re-state the original task at every reasoning step and impose an early-stop criterion — if any action exactly repeats, inference halts and a final answer is forced.
+        </div>
+
+        <h3 style="font-size:15px;font-weight:700;color:var(--ink);margin:0 0 14px">2.2 · Reflexion: Adding a Genuine Learning Loop on Top of ReAct</h3>
+
+        <p style="font-size:13px;color:var(--muted);margin:0 0 12px"><strong style="color:var(--ink)">Reflexion</strong> (Shinn et al., 2023) extends ReAct with self-evaluation and memory-based refinement: after each reasoning-act cycle, the agent critiques its own output, and that critique is stored in memory and explicitly injected into the <em>next</em> attempt's context — a genuine learning loop rather than a single pass. In a coding-agent context: the agent's code fails the unit test suite, the agent generates a verbal critique of <em>why</em> it failed, that critique becomes part of the prompt for the next generation attempt.</p>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:6px;padding:12px 18px;margin:0 0 28px;font-size:12px;color:var(--muted)">
+          <strong style="color:var(--ink)">Architectural cost:</strong> Reflexion requires additional LLM calls purely for the reflection step, making it more expensive than plain ReAct. The consensus production guidance is that the overhead is worth paying specifically for trial-and-error-heavy tasks — debugging, unfamiliar codebases, creative problem-solving — and usually not worth it for straightforward retrieval tasks where there is little to learn from a single failure.
+        </div>
+
+        <h3 style="font-size:15px;font-weight:700;color:var(--ink);margin:0 0 14px">2.3 · Plan-and-Execute and ReWOO: The Architectural Alternative</h3>
+
+        <p style="font-size:13px;color:var(--muted);margin:0 0 12px">Plan-and-Execute inverts ReAct's core assumption. Rather than reasoning at every single step, the agent constructs the entire multi-step plan upfront, then executes that plan with a cheaper, simpler executor. <strong style="color:var(--ink)">ReWOO</strong> ("Reasoning WithOut Observation," Xu et al., 2023) pushes this further: it decouples reasoning from observations entirely, using as few as <strong style="color:var(--lotus)">two total LLM calls</strong> — one to produce the full plan, one to synthesize the final answer — rather than one LLM call per step the way ReAct does.</p>
+
+        <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.3);border-left:3px solid #c9a84c;border-radius:0 6px 6px 0;padding:12px 18px;margin:0 0 28px;font-size:12px;color:var(--muted)">
+          <strong style="color:#c9a84c">The tradeoff, precisely:</strong> this saves dramatically on token cost and latency for tasks where the plan can be correctly determined in advance, but ReWOO struggles when tool results are unexpected, because it commits to its full plan before seeing any observations — there is no mechanism, by design, for an early tool result to change a later planned step.
+        </div>
+
+        <h3 style="font-size:15px;font-weight:700;color:var(--ink);margin:0 0 14px">2.4 · Why Production Systems Pick One Pattern Over Another</h3>
+
+        <p style="font-size:13px;color:var(--muted);margin:0 0 16px">The qualitative logic governing pattern selection reduces to a single axis: <strong style="color:var(--ink)">predictability of the task shape versus cost tolerance for per-step reasoning.</strong> ReAct is correct when the workflow shape genuinely cannot be known upfront. ReWOO and Plan-and-Execute are correct when the task decomposition is genuinely knowable in advance and the cost of per-step LLM calls is the binding constraint — practitioners cite costs as concrete as <strong style="color:var(--ink)">$0.15 per six-step ReAct run</strong> on a frontier model, which compounds meaningfully at production scale. Reflexion is layered on top of either base pattern when the task is expected to fail on the first attempt some non-trivial fraction of the time.</p>
+
+        <h3 style="font-size:15px;font-weight:700;color:var(--ink);margin:0 0 14px">2.5 · The Strategic Logic of MCP as a Standardization Layer</h3>
+
+        <p style="font-size:13px;color:var(--muted);margin:0 0 28px">The Model Context Protocol, published by Anthropic in November 2024, solves a named, specific engineering problem: the <strong style="color:var(--ink)">"N × M integration problem"</strong> — integrating N tools with M model front-ends previously required a custom integration for every N×M pair. MCP's innovation is <em>where</em> it places the standardization: rather than a standard library interface, MCP shifts standardization to be <strong style="color:var(--lotus)">model-facing</strong> — the model itself can dynamically discover what tools a server offers at runtime, because the discovery happens over the wire protocol rather than in application code written in advance.</p>
+
+        <!-- ═══ SECTION III ═══ -->
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--lotus);font-weight:700;margin:28px 0 18px;padding-bottom:8px;border-bottom:1px solid var(--border)">III — ETHNOGRAPHIC: HOW MCP AND ORCHESTRATION ACTUALLY BEHAVE UNDER THE HOOD</div>
+
+        <h3 style="font-size:15px;font-weight:700;color:var(--ink);margin:0 0 14px">3.1 · The Wire Protocol, Traced Message by Message</h3>
+
+        <p style="font-size:13px;color:var(--muted);margin:0 0 14px">MCP is built on <strong style="color:var(--ink)">JSON-RPC 2.0</strong>, a transport-agnostic remote-procedure-call specification. The three message shapes are distinguished purely by which fields are present: a message with both <code style="font-family:var(--mono);font-size:11px;background:var(--paper);padding:1px 4px;border-radius:3px">method</code> and <code style="font-family:var(--mono);font-size:11px;background:var(--paper);padding:1px 4px;border-radius:3px">id</code> is a Request; a message with <code style="font-family:var(--mono);font-size:11px;background:var(--paper);padding:1px 4px;border-radius:3px">result</code> or <code style="font-family:var(--mono);font-size:11px;background:var(--paper);padding:1px 4px;border-radius:3px">error</code> plus a matching <code style="font-family:var(--mono);font-size:11px;background:var(--paper);padding:1px 4px;border-radius:3px">id</code> is a Response; a message with <code style="font-family:var(--mono);font-size:11px;background:var(--paper);padding:1px 4px;border-radius:3px">method</code> but no <code style="font-family:var(--mono);font-size:11px;background:var(--paper);padding:1px 4px;border-radius:3px">id</code> is a Notification.</p>
+
+        <div style="background:#1a1a2e;border-radius:8px;padding:16px 18px;margin:0 0 16px;overflow-x:auto">
+          <pre style="font-family:var(--mono);font-size:10.5px;color:#e0e0e0;margin:0;line-height:1.6;white-space:pre">// Client → Server: "what tools do you have?"
+{"jsonrpc": "2.0", "id": 1, "method": "tools/list"}
+
+// Server → Client: the tool catalog, each entry carrying its own JSON Schema
+{"jsonrpc": "2.0", "id": 1, "result": {
+  "tools": [{
+    "name": "search_products",
+    "description": "Search for products using keywords",
+    "inputSchema": {
+      "type": "object",
+      "properties": {"keywords": {"type": "array", "items": {"type": "string"}}},
+      "required": ["keywords"]
+    }
+  }]
+}}
+
+// Client → Server: invoke a specific tool with model-generated arguments
+{"jsonrpc": "2.0", "id": 2, "method": "tools/call",
+ "params": {"name": "search_products", "arguments": {"keywords": ["running shoes"]}}}
+
+// Server → Client: a structured error, when something goes wrong
+{"jsonrpc": "2.0", "id": 2, "error": {
+  "code": -32000, "message": "Tool execution failed",
+  "data": {"tool": "search_products", "error": "API rate limit exceeded", "retry_after": 60}
+}}</pre>
+        </div>
+
+        <div style="background:rgba(106,79,158,0.04);border:1px solid rgba(106,79,158,0.2);border-radius:6px;padding:12px 18px;margin:0 0 28px;font-size:12px;color:var(--muted)">
+          The error object's <code style="font-family:var(--mono);font-size:11px;background:var(--paper);padding:1px 4px;border-radius:3px">data</code> field is not decorative — it is explicitly designed to be re-injected into the model's context so the model can reason about the failure ("the API is rate-limited, wait 60 seconds, do not retry immediately") rather than receiving a bare HTTP-style failure code it cannot act on.
+        </div>
+
+        <h3 style="font-size:15px;font-weight:700;color:var(--ink);margin:0 0 14px">3.2 · The Local-Process Pattern</h3>
+
+        <p style="font-size:13px;color:var(--muted);margin:0 0 20px">The most common deployment shape observed in practice — stdio transport for local tools — works by direct process management, not networking: the host application launches the server as a subprocess and wires its stdin/stdout streams directly to the MCP client. This is why a locally running coding agent can spin up a filesystem MCP server, a database MCP server, and a Git MCP server as three separate child processes, each maintaining its own isolated JSON-RPC session — each client-server pair enforces a strict 1:1 relationship specifically so that protocols, permissions, and policies do not bleed across domains.</p>
+
+        <h3 style="font-size:15px;font-weight:700;color:var(--ink);margin:0 0 14px">3.3 · Lab-Native Harnesses: Subagents and Credential Isolation</h3>
+
+        <p style="font-size:13px;color:var(--muted);margin:0 0 12px">Anthropic's own account of Claude Code's evolution describes a concrete architectural migration. In its early design, Claude Code operated as a single agent handling every read, edit, and command sequentially. The documented limitation: even though context windows have grown substantially, <strong style="color:var(--ink)">reasoning quality does not scale linearly with context length</strong> — cramming an entire long session's history into one agent's working context degrades its judgment well before the token limit is reached. The architectural response: distribute work across multiple specialized subagents, each focused on a single objective, sharing progress through a coordination layer — with the explicit further benefit of <strong style="color:var(--lotus)">parallel execution.</strong></p>
+
+        <div style="background:rgba(220,38,38,0.04);border:1px solid rgba(220,38,38,0.2);border-left:3px solid #dc2626;border-radius:0 8px 8px 0;padding:14px 20px;margin:0 0 28px;font-size:12px">
+          <strong style="color:#dc2626">The credential-isolation pattern.</strong> <span style="color:var(--muted)">The problem statement, precisely: when an agent harness runs inside the same container as the filesystem it works on, the code Claude generates sits right next to the credentials it has access to — a prompt injection could lead the model to leak a token by convincing it to read and exfiltrate its own environment variables. The architectural fix is decoupling: keeping credentials out of the execution sandbox entirely, so that even a fully successful prompt injection inside the sandbox has no secret to leak.</span>
+        </div>
+
+        <h3 style="font-size:15px;font-weight:700;color:var(--ink);margin:0 0 14px">3.4 · What Goes Wrong in Practice: The Plausible-But-Wrong Failure Mode</h3>
+
+        <div style="background:rgba(220,38,38,0.05);border:2px solid rgba(220,38,38,0.35);border-radius:8px;padding:16px 20px;margin:0 0 20px">
+          <p style="font-size:12px;color:var(--muted);margin:0 0 10px">The single most operationally important ethnographic finding available is not abstract — it is a dated, self-reported production incident from a live agentic system. A clerk agent, asked to produce a portfolio report from a multi-file dataset, read a two-day-stale snapshot and failed to notice an explicit <code style="font-family:var(--mono);font-size:10px;background:var(--paper);padding:1px 4px;border-radius:3px">buying_power_delta_flag: True</code> warning sitting in the same JSON object it had already successfully queried earlier in the same session — not because the data was unavailable or the model lacked the reasoning capacity to interpret a boolean flag, but <strong style="color:#dc2626">because no step in its process forced a freshness check before the report was assembled.</strong></p>
+          <p style="font-size:12px;color:var(--muted);margin:0">The reported consequence was concrete: one position's market value was overstated by roughly $3,800, and a cash buying-power figure was overstated by close to $9,800.</p>
+        </div>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:6px;padding:12px 18px;margin:0 0 28px;font-size:12px;color:var(--muted)">
+          The corrective protocol written afterward is itself an instructive ethnographic artifact, because it is <em>not</em> a prompting fix. It is a hard procedural rule embedded as a forced first step: always read the snapshot timestamp before reporting any figure derived from it; always check the unreconciled-fills flag; never reconstruct current state from historical fill history alone. <strong style="color:var(--ink)">This is the practical, load-bearing meaning of the "plausible-but-wrong" failure category</strong> — a fluent, confidently-formatted, internally-consistent report is harder to catch as wrong than a visibly broken one, precisely because nothing about its surface form signals the error.
+        </div>
+
+        <h3 style="font-size:15px;font-weight:700;color:var(--ink);margin:0 0 14px">3.5 · The Contested Productivity Finding</h3>
+
+        <p style="font-size:13px;color:var(--muted);margin:0 0 14px">Independent field research published a genuinely counter-intuitive result: a randomized controlled trial of experienced open-source developers working in their own large, familiar repositories found they were measurably <strong style="color:#dc2626">slower — roughly 19%</strong> — when using AI coding assistance, even though they <em>believed</em> they were faster.</p>
+
+        <div class="highlight">
+          The mechanism: reviewing fluent-but-subtly-wrong output in a codebase one already knows intimately can cost more time than writing the change directly, because the review step has to be as careful as authorship would have been, but without the benefit of having built the mental model of the change while writing it. <strong>This generalizes precisely the plausible-but-wrong pattern from Section 3.4 — the productivity claim and the reliability claim are, mechanically, the same finding viewed from two different angles.</strong>
+        </div>
+
+        <!-- ═══ SECTION IV ═══ -->
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--lotus);font-weight:700;margin:28px 0 18px;padding-bottom:8px;border-bottom:1px solid var(--border)">IV — SUPERFORECASTING: WHERE THE ENGINEERING GOES NEXT, 2026–2030</div>
+
+        <p style="font-size:13px;color:var(--muted);margin:0 0 16px">Following Tetlock's discipline of explicit, falsifiable, scenario-weighted forecasting rather than narrative prediction, the following four-scenario fan addresses specifically the <em>engineering</em> trajectory of agentic systems — orchestration architecture, protocol standardization, and reliability infrastructure — over the next four years.</p>
+
+        <div style="display:flex;flex-direction:column;gap:10px;margin:0 0 28px">
+
+          <div style="background:rgba(106,79,158,0.05);border:2px solid rgba(106,79,158,0.3);border-radius:8px;padding:14px 20px">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+              <span style="font-family:var(--mono);font-size:10px;color:var(--lotus);font-weight:700">S1 — GRAPH-BASED ORCHESTRATION BECOMES THE DEFAULT SUBSTRATE</span>
+              <span style="font-family:var(--mono);font-size:12px;font-weight:700;color:var(--lotus)">weight ≈ 0.45</span>
+            </div>
+            <p style="font-size:12px;color:var(--muted);margin:0">Central case. LangGraph's cyclic state-graph model, or near-identical architecture inside lab-native SDKs, becomes the assumed substrate for any production agent handling real-world side effects — in the same way REST became assumed for web APIs. Role-based frameworks persist for rapid prototyping. MCP's JSON-RPC layer becomes assumed infrastructure the way HTTP is — present, invisible, rarely discussed except when something breaks.</p>
+          </div>
+
+          <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:14px 20px">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+              <span style="font-family:var(--mono);font-size:10px;color:var(--ink);font-weight:700">S2 — CONSTRAINED GENERATION AND VERIFICATION CLOSE THE RELIABILITY GAP</span>
+              <span style="font-family:var(--mono);font-size:12px;font-weight:700;color:var(--ink)">weight ≈ 0.25</span>
+            </div>
+            <p style="font-size:12px;color:var(--muted);margin:0">Token-level constrained-decoding techniques extend further up the stack — toward constrained plan generation, automated verification of tool-call preconditions, formal-methods-adjacent guardrails around irreversible actions. The METR-style productivity gap closes because review tooling, not raw model capability, improves enough that catching plausible-but-wrong output becomes cheaper.</p>
+          </div>
+
+          <div style="background:rgba(220,38,38,0.04);border:1px solid rgba(220,38,38,0.2);border-radius:8px;padding:14px 20px">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+              <span style="font-family:var(--mono);font-size:10px;color:#dc2626;font-weight:700">S3 — A HIGH-PROFILE AGENTIC FAILURE HARDENS THE HUMAN-GATE DEFAULT</span>
+              <span style="font-family:var(--mono);font-size:12px;font-weight:700;color:#dc2626">weight ≈ 0.20</span>
+            </div>
+            <p style="font-size:12px;color:var(--muted);margin:0">A production incident — credential leakage despite isolation efforts, a financial reporting error with real capital consequences — becomes the canonical cautionary case across the industry. The response is architectural conservatism: human-in-the-loop interrupt nodes become mandatory rather than optional at any action boundary with real-world consequence, across regulated industries specifically.</p>
+          </div>
+
+          <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:14px 20px">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+              <span style="font-family:var(--mono);font-size:10px;color:var(--muted);font-weight:700">S4 — ORCHESTRATION COMPLEXITY PLATEAUS, FRAMEWORKS CONSOLIDATE</span>
+              <span style="font-family:var(--mono);font-size:12px;font-weight:700;color:var(--muted)">weight ≈ 0.10</span>
+            </div>
+            <p style="font-size:12px;color:var(--muted);margin:0">The current graph/role/conversational taxonomy proves durable — no genuinely new orchestration paradigm emerges; the next four years are spent hardening, securing, standardizing existing patterns. Weighted lowest because the pace of architectural change from 2022 (ReAct) through 2026 (production graph orchestration, MCP standardization) has been fast enough that betting on stasis requires the trend to specifically break.</p>
+          </div>
+
+        </div>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin:0 0 28px;font-size:12px">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--muted);text-transform:uppercase;margin-bottom:8px">4.2 · Leading Indicators</div>
+          <div style="display:flex;flex-direction:column;gap:5px;color:var(--muted)">
+            <span>Whether MCP authentication and authorization patterns mature into a hardened standard or remain a recurring security gap</span>
+            <span>Whether constrained-decoding extends from schema-level to plan-level and action-level enforcement, or hits a tractability wall</span>
+            <span>Rate and severity of publicly disclosed agentic production incidents, weighted toward financial and healthcare deployments</span>
+            <span>Whether credential-isolation becomes a security-audit checklist item, or remains an advanced practice limited to frontier labs</span>
+          </div>
+        </div>
+
+        <!-- ═══ SECTION V ═══ -->
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--lotus);font-weight:700;margin:28px 0 18px;padding-bottom:8px;border-bottom:1px solid var(--border)">V — ADVERSARIAL COLLABORATION: THE STRONGEST CASE AGAINST SECTIONS I THROUGH IV</div>
+
+        <div style="display:flex;flex-direction:column;gap:10px;margin:0 0 28px">
+
+          <div style="background:var(--paper2);border:1px solid var(--border);border-left:3px solid #c9a84c;border-radius:0 8px 8px 0;padding:14px 20px;font-size:12px">
+            <div style="font-family:var(--mono);font-size:9px;color:#c9a84c;text-transform:uppercase;font-weight:700;margin-bottom:8px">5.1 · Counter-Thesis to Section I — Orchestration Is Being Oversold Relative to the Model</div>
+            <p style="color:var(--muted);margin:0 0 8px">Section I cites a documented 7-point GAIA gap between scaffolds on an identical model. An adversarial reading: this is true, but orchestration choice matters most when capability is held fixed — and capability is not holding fixed. The SWE-bench trajectory climbed from low single digits to 70%-plus in roughly two years; a sufficiently large jump in underlying model capability could plausibly compress the orchestration-driven gap toward zero.</p>
+            <p style="color:#c9a84c;font-weight:700;margin:0">Verdict: partially correct. The orchestration-matters claim survives, but the magnitude of that gap is not established as stable across model generations.</p>
+          </div>
+
+          <div style="background:var(--paper2);border:1px solid var(--border);border-left:3px solid #c9a84c;border-radius:0 8px 8px 0;padding:14px 20px;font-size:12px">
+            <div style="font-family:var(--mono);font-size:9px;color:#c9a84c;text-transform:uppercase;font-weight:700;margin-bottom:8px">5.2 · Counter-Thesis to Section II — The Pattern Taxonomy Is Cleaner in Theory Than in Practice</div>
+            <p style="color:var(--muted);margin:0 0 8px">Section II treats ReAct, Reflexion, Plan-and-Execute, and ReWOO as discrete, separately-chosen architectures. Production systems increasingly <strong style="color:var(--ink)">compose</strong> these patterns — hybrid architectures like "RP-ReAct" and "ReAction models" combining action and reflection cycles. Presenting the four patterns as a clean decision tree understates how much real production engineering is hybrid composition.</p>
+            <p style="color:#c9a84c;font-weight:700;margin:0">Verdict: a fair and meaningful correction. The decision-tree framing describes dominant pure forms and canonical tradeoffs, not an exhaustive map of production architecture.</p>
+          </div>
+
+          <div style="background:rgba(220,38,38,0.04);border:1px solid rgba(220,38,38,0.2);border-left:3px solid #dc2626;border-radius:0 8px 8px 0;padding:14px 20px;font-size:12px">
+            <div style="font-family:var(--mono);font-size:9px;color:#dc2626;text-transform:uppercase;font-weight:700;margin-bottom:8px">5.3 · Counter-Thesis to Section III — One Incident and One RCT Are Carrying Too Much Weight</div>
+            <p style="color:var(--muted);margin:0 0 8px">Section III's strongest empirical claims rest on a single disclosed incident and a single METR RCT. This is exactly the evidentiary thinness the source material itself warns against — the METR finding may not generalize to other populations, and one fund's incident report is n=1 and self-selected: a fund that produces detailed public incident reports is unusually transparent by construction, making it an unrepresentative sample.</p>
+            <p style="color:#dc2626;font-weight:700;margin:0">Verdict: correct and should not be softened. Section III's findings are documented existence proofs — real, occurred in production — not evidence of frequency. Using this section to estimate base rates would be over-extrapolating.</p>
+          </div>
+
+          <div style="background:rgba(220,38,38,0.04);border:1px solid rgba(220,38,38,0.2);border-left:3px solid #dc2626;border-radius:0 8px 8px 0;padding:14px 20px;font-size:12px">
+            <div style="font-family:var(--mono);font-size:9px;color:#dc2626;text-transform:uppercase;font-weight:700;margin-bottom:8px">5.4 · Counter-Thesis to Section IV — The Scenario Weights Have No Scoring Infrastructure Behind Them</div>
+            <p style="color:var(--muted);margin:0 0 8px">Assigning numbers like 0.45, 0.25, 0.20, 0.10 to engineering-trajectory scenarios four years out creates an appearance of calibrated rigor the underlying process does not actually possess, absent a real, scored, resolved forecast ledger. Until these scenarios resolve and get scored against a proper scoring rule, they are indistinguishable from confident narrative dressed in probabilistic language.</p>
+            <p style="color:#dc2626;font-weight:700;margin:0">Verdict: correct, and important to keep stated plainly. The value of Section IV is concentrated entirely in its falsifiability — the named leading indicators — not in the specific numbers.</p>
+          </div>
+
+        </div>
+
+        <h3 style="font-size:15px;font-weight:700;color:var(--ink);margin:0 0 14px">5.5 · The Structural Blind Spot Underneath All Five Sections</h3>
+
+        <div style="background:rgba(106,79,158,0.06);border:2px solid var(--lotus);border-radius:8px;padding:18px 22px;margin:0 0 28px">
+          <p style="font-size:13px;color:var(--muted);margin:0 0 10px">One assumption runs underneath every section of this essay and deserves to be named rather than left implicit: this entire document treats "how agentic AI is programmed" as a stable enough subject to write a detailed technical account of in the present tense. But the evidence assembled in Section I shows version churn fast enough to undercut that assumption within the document's own lifetime — LangGraph crossed from 0.x to 1.1.6 within roughly a year, MCP's authentication model was explicitly absent at launch and added later.</p>
+          <p style="font-size:13px;color:var(--ink);font-weight:600;margin:0">The architectural patterns described — the loop, the state graph, JSON-RPC tool calling, ReAct's reason-act-observe cycle — are more durable than any specific number or library version cited alongside them, and a reader should weight the patterns far more heavily than the snapshot statistics used to illustrate them.</p>
+        </div>
+
+        <!-- Conclusion -->
+        <h3 style="font-size:15px;font-weight:700;color:var(--ink);margin:0 0 14px">Conclusion</h3>
+
+        <p style="font-size:13px;color:var(--muted);margin:0 0 12px">Agentic AI in 2026 is built from a small number of genuinely stable primitives wrapped in fast-moving infrastructure. At the core: a five-step loop — context, model call, parse, execute, append — that has not changed in shape since ReAct formalized it in 2022. Around that loop: a tool-calling mechanism that has matured from probabilistic JSON-mode guessing to mathematically-guaranteed constrained decoding at the token level. Around that: an orchestration layer that has converged, for production use cases with real side effects, on typed cyclic state graphs with reducer-based state merging, conditional-edge routing, and Pregel-style super-step checkpointing — a design lineage borrowed explicitly from distributed-systems theory, not invented fresh for AI. Around that: a standardized wire protocol, MCP, that solved a named N×M integration problem by moving tool discovery from compile-time application code to runtime JSON-RPC negotiation. And running through all of it: a security and reliability architecture — credential isolation, human-in-the-loop interrupt nodes, idempotent node design for crash recovery — that exists because the failure modes are concrete, documented, and in at least one disclosed case, expensive.</p>
+
+        <div style="background:var(--paper2);border:2px solid var(--lotus);border-radius:8px;padding:20px 24px;margin:0 0 24px">
+          <p style="font-size:13px;color:var(--muted);margin:0">The adversarial pass against this account concludes that the technical claims in Sections I through III have real, citable evidentiary weight, that the pattern taxonomy in Section II is real but cleaner in description than in production practice, and that the forecast in Section IV should be read as a structured, falsifiable opinion rather than a settled prediction. <strong style="color:var(--ink)">That is the most honest summary this essay can offer of itself: a detailed, technically grounded account of how these systems are actually built, true to its sources, and explicit about exactly where its own confidence should and should not extend.</strong></p>
+        </div>
+
+        <!-- Sources -->
+        <h3 style="font-size:15px;font-weight:700;color:var(--ink);margin:0 0 14px">Sources</h3>
+
+        <div style="background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:16px 20px;margin:0 0 24px;font-size:11px;color:var(--muted)">
+          This essay draws on technical documentation and engineering analysis from: Anthropic's published architecture accounts of Claude Code (including its agent-loop design, multi-agent migration, and Claude Managed Agents credential-isolation rationale); the official Model Context Protocol specification and architecture documentation (modelcontextprotocol.io); LangChain/LangGraph's official Graph API documentation and StateGraph reference; OpenAI's function-calling and structured-outputs API documentation; the original ReAct (Yao et al., 2022) and Reflexion (Shinn et al., 2023) papers and subsequent technical surveys of agentic reasoning architectures; the METR randomized controlled trial on AI-assisted developer productivity; and independent 2026 technical comparisons of LangGraph, CrewAI, and AutoGen in production deployment. All claims are cited inline to their original source at the point made.
+        </div>
+
+        <div class="edition-sign">
+          <span class="sign-name-sm">BlueLotus Fund Research Department</span>
+          <span class="sign-title-sm">How Today's Agentic AI Is Programmed · Postdoctoral-Style Thesis Essay · Edition 052 · 30 June 2026 · Singapore · Prepared for CIO Soh Wee Kian</span>
+        </div>
+      </div>
+
+      <div class="edition-divider"></div>
+
 <!-- ══ EDITION 051 — JUNE 29, 2026 ══ -->
       <div class="edition-block" id="edition-051">
         <div class="edition-tag">
