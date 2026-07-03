@@ -1,0 +1,108 @@
+===============================================================================
+DR. CODEX WORK ORDER
+NITE-PEI Durability Patch: Bayesian Correctness + Live Pipeline Wiring
+Work Order ID: WO-CODEX-20260621-NITEPEI-DURABILITY
+Date: 2026-06-21 SGT
+===============================================================================
+
+OBJECTIVE
+---------
+Convert NITE-PEI from a partially wired experimental module into a durable
+production-adjacent V3 pipeline layer.
+
+This work order repairs the defects found in:
+
+  C:\bluelotus3\research\DR_CODEX_AUDIT_NITEPEI_Claude_Work_20260621.txt
+
+SCOPE
+-----
+Modify:
+
+  C:\bluelotus3\nite_pei\bayesian_updater.py
+  C:\bluelotus3\nite_pei\event_classifier.py
+  C:\bluelotus3\scripts\run_nite_pei_cycle.py
+  C:\bluelotus3\config\v3_intelligence_pipeline.yaml or equivalent pipeline config
+  C:\bluelotus3\tests\test_nite_pei_engine.py
+  C:\bluelotus3\tests\test_nite_pei_integration.py
+
+Add if needed:
+
+  helper functions for event extraction, event IDs, duplicate guards, and cycle
+  metadata.
+
+PHASES
+------
+PHASE 1 — Bayesian correctness
+
+  Replace LR adjustment:
+
+    old: lr_adjusted = lr_raw * (1 - discount)
+    new: lr_adjusted = 1 + (lr_raw - 1) * (1 - discount)
+
+  This preserves neutral LR=1.0 and discounts all evidence toward neutral.
+
+PHASE 2 — Source-tier parsing
+
+  Implement parse_source_tier() to accept:
+
+    1, 2, 3, 4
+    "1", "2", "3", "4"
+    "T1", "T2", "T3", "T4"
+
+PHASE 3 — Live event extraction
+
+  Replace static REAL_EVENTS operating feed with dataset_raw.json extraction.
+  Use stable event_id values.
+  Keep a fallback only as an explicit no-event or degraded path, not as hidden
+  repeated evidence.
+
+PHASE 4 — Duplicate guard
+
+  Before applying an event to a thesis, check probability_history for prior
+  event_ids/applied_event_ids. Skip duplicates for the same thesis.
+
+PHASE 5 — Brier preregistration
+
+  For every thesis probability update with applied events, call
+  write_forecast_record() and store brier_record_id in:
+
+    - thesis probability history
+    - nite_pei thesis snapshot
+    - nite_pei block
+
+PHASE 6 — Pipeline wiring
+
+  Add NITE-PEI runner as a regular pipeline step after grand cycle and before
+  publisher, so every V3 cycle has a chance to produce nite_pei_block.json.
+
+PHASE 7 — Verification
+
+  Run:
+
+    python -m py_compile nite_pei/*.py scripts/run_nite_pei_cycle.py
+    python -m pytest tests/test_nite_pei_engine.py tests/test_nite_pei_integration.py -q
+    python -m pytest tests -q
+    python -m scripts.run_nite_pei_cycle
+    python mid/bluelotus_publisher.py
+
+  Verify public JSON:
+
+    data/v3_agents_latest.json -> non-empty nite_pei{} block
+
+OUT OF SCOPE
+------------
+No broker execution.
+No LLM prompt changes.
+No V2 changes.
+No automatic order generation.
+No Telegram NITE-PEI bulletin.
+
+COMPLETION REPORT
+-----------------
+Write:
+
+  C:\bluelotus3\research\DR_CODEX_TECHNICAL_REPORT_NITEPEI_DURABILITY_PATCH_20260621.txt
+
+===============================================================================
+END_OF_WORK_ORDER
+===============================================================================

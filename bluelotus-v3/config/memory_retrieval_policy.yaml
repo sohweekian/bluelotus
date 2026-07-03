@@ -1,0 +1,249 @@
+# ============================================================
+# BlueLotus V3 — Memory Retrieval Policy
+# ============================================================
+# Defines how historical institutional memory is injected
+# into each agent's prompt context on each cycle.
+#
+# ARCHITECTURE DOCTRINE:
+#   - File-first principle: Memory Retriever reads from
+#     data/v3_cycles/ archive BEFORE attempting any DB read.
+#   - If the cycle archive is empty or too new (< 2 cycles),
+#     memory_injection_mode falls back to "no_memory".
+#   - Memory is injected as a separate "memory_context" key
+#     in the prompt — never merged into desk_context.
+#   - Budget caps are hard limits. Truncation from oldest
+#     cycle first.
+#
+# KEYS:
+#   source: Where to read memory from (file archive path pattern)
+#   lookback_cycles: How many past cycles to consider
+#   extract_fields: Which JSON fields to extract from past reports
+#   max_injection_chars: Hard budget ceiling for memory block
+#   injection_mode: always | if_changes_detected | never
+#   staleness_skip_hours: Skip memory injection if newest file
+#                         is older than N hours (data too stale)
+#
+# version: 1.0
+# maintained_by: CIO Architecture Review
+# ============================================================
+
+schema_version: "bluelotus_v3_memory_policy_v1.0"
+
+global:
+  memory_archive_dir_env: V3_CYCLE_OUTPUT_DIR
+  # Resolves to data/v3_cycles/ — each cycle is a subdirectory
+  cycle_dir_pattern: "v3_cycle_*"
+  report_subdir: agent_reports
+  max_lookback_cycles: 5
+  # Never look back further than this regardless of agent policy
+  staleness_hard_skip_hours: 72
+  # If newest cycle is older than 72h, skip all memory injection
+  file_first: true
+  # Always try file archive before any database query
+
+agents:
+
+  # ── DATA INTEGRITY ─────────────────────────────────────────
+  data_integrity:
+    injection_mode: always
+    lookback_cycles: 3
+    extract_fields:
+      - key_findings
+      - risk_flags
+      - blind_spots
+      - causal_completeness
+    max_injection_chars: 800
+    staleness_skip_hours: 48
+    memory_label: recent_audit_history
+    purpose: >
+      Allows the auditor to detect recurring freshness failures
+      or sources that have been stale across multiple cycles.
+      Three cycles is sufficient to identify a pattern vs a
+      one-off miss.
+
+  # ── MACRO STRATEGIST ───────────────────────────────────────
+  macro_strategist:
+    injection_mode: always
+    lookback_cycles: 5
+    extract_fields:
+      - summary
+      - key_findings
+      - recommendation_to_chief_strategist
+      - affected_assets
+    max_injection_chars: 1200
+    staleness_skip_hours: 48
+    memory_label: recent_regime_reads
+    purpose: >
+      Five-cycle history gives the macro desk a short-term
+      regime trajectory. A desk that said RISK OFF five cycles
+      in a row should not flip without addressing the change.
+      Prevents single-cycle overreaction.
+
+  # ── PORTFOLIO STRUCTURE ────────────────────────────────────
+  portfolio_structure:
+    injection_mode: always
+    lookback_cycles: 3
+    extract_fields:
+      - summary
+      - key_findings
+      - risk_flags
+      - affected_assets
+      - requires_cio_attention
+    max_injection_chars: 800
+    staleness_skip_hours: 24
+    memory_label: recent_structure_reads
+    purpose: >
+      Three-cycle structural history detects concentration
+      drift — positions that have been growing as a percentage
+      of equity capital cycle over cycle. Shorter lookback
+      appropriate because portfolio structure changes daily.
+
+  # ── CATALYST INTELLIGENCE ──────────────────────────────────
+  catalyst_intelligence:
+    injection_mode: if_changes_detected
+    lookback_cycles: 2
+    extract_fields:
+      - key_findings
+      - affected_assets
+      - affected_theses
+    max_injection_chars: 600
+    staleness_skip_hours: 12
+    memory_label: recent_catalyst_log
+    change_detection_field: key_findings
+    # Only inject if current cycle's affected_assets differs
+    # from previous cycle (new catalyst detected)
+    purpose: >
+      Catalyst desk gets memory only when the catalyst
+      landscape changed. Prevents re-surfacing stale catalysts
+      that have already been reviewed. 12h staleness threshold
+      because catalyst windows are time-critical.
+
+  # ── THESIS LIFECYCLE ───────────────────────────────────────
+  thesis_lifecycle:
+    injection_mode: always
+    lookback_cycles: 5
+    extract_fields:
+      - summary
+      - key_findings
+      - affected_theses
+      - recommendation_to_chief_strategist
+    max_injection_chars: 1000
+    staleness_skip_hours: 48
+    memory_label: thesis_state_history
+    purpose: >
+      Thesis states must be evaluated in context of trajectory.
+      A thesis at WATCH for 5 cycles with no confirming evidence
+      has a different risk profile than a newly-added WATCH.
+      Five cycles of history enables this trajectory read.
+
+  # ── RISK CHALLENGER ────────────────────────────────────────
+  risk_challenger:
+    injection_mode: always
+    lookback_cycles: 5
+    extract_fields:
+      - key_findings
+      - risk_flags
+      - blind_spots
+      - affected_assets
+    max_injection_chars: 1200
+    staleness_skip_hours: 48
+    cross_agent_memory: true
+    cross_agent_source_agents:
+      - macro_strategist
+      - portfolio_structure
+      - thesis_lifecycle
+    # Risk Challenger gets memory from OTHER agents' past cycles
+    # to find persistent disagreements or ignored warnings
+    memory_label: cross_desk_warning_history
+    purpose: >
+      Risk Challenger's adversarial mandate requires seeing
+      what other desks have been saying for 5 cycles. Persistent
+      risk_flags that appear in macro or portfolio history but
+      haven't been resolved are prime attack targets.
+
+  # ── FORECASTING BRIER ──────────────────────────────────────
+  forecasting_brier:
+    injection_mode: always
+    lookback_cycles: 5
+    extract_fields:
+      - summary
+      - key_findings
+      - blind_spots
+    max_injection_chars: 800
+    staleness_skip_hours: 72
+    memory_label: brier_observation_history
+    purpose: >
+      Brier agent needs full five-cycle history to observe
+      calibration continuity. 72h staleness threshold because
+      Brier observations are valid even if slightly stale.
+
+  # ── SECTOR SPECIALIST ──────────────────────────────────────
+  sector_specialist:
+    injection_mode: if_changes_detected
+    lookback_cycles: 3
+    extract_fields:
+      - summary
+      - key_findings
+      - affected_assets
+    max_injection_chars: 700
+    staleness_skip_hours: 24
+    memory_label: recent_sector_reads
+    change_detection_field: affected_assets
+    purpose: >
+      Sector specialist gets memory when sector leadership
+      signals have changed. Prevents regurgitating the same
+      sector commentary every cycle.
+
+  # ── SENTIMENT NARRATIVE ────────────────────────────────────
+  sentiment_narrative:
+    injection_mode: if_changes_detected
+    lookback_cycles: 2
+    extract_fields:
+      - summary
+      - key_findings
+      - affected_assets
+    max_injection_chars: 500
+    staleness_skip_hours: 12
+    memory_label: recent_narrative_tone
+    change_detection_field: summary
+    purpose: >
+      Sentiment is highly perishable. Only inject if narrative
+      tone has changed from previous cycle. 12h staleness
+      threshold. Two cycles is enough for tone comparison.
+
+  # ── GOLD SAFEHAVEN ─────────────────────────────────────────
+  gold_safehaven:
+    injection_mode: always
+    lookback_cycles: 5
+    extract_fields:
+      - summary
+      - key_findings
+      - risk_flags
+      - affected_theses
+    max_injection_chars: 800
+    staleness_skip_hours: 48
+    memory_label: gold_thesis_trajectory
+    purpose: >
+      Gold Safehaven needs thesis trajectory history to assess
+      whether gold confirmation is building across cycles or
+      stalling. Five cycles enables a short-term trend read.
+
+  # ── CHIEF STRATEGIST ───────────────────────────────────────
+  chief_strategist:
+    injection_mode: always
+    lookback_cycles: 3
+    extract_fields:
+      - cio_action
+      - regime_consensus
+      - top_risks
+      - thesis_summary
+    source_file: chief_strategist_briefing.json
+    # Reads from the briefing JSON, not from agent_reports/
+    max_injection_chars: 1000
+    staleness_skip_hours: 48
+    memory_label: prior_cio_briefings
+    purpose: >
+      Chief Strategist reads its own prior briefings to detect
+      drift in CIO action recommendation. A change from HOLD
+      to REVIEW requires more evidence than if the desk has
+      been at REVIEW for three consecutive cycles.

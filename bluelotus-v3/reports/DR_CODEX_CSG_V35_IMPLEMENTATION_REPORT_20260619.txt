@@ -1,0 +1,381 @@
+===============================================================================
+BLUELOTUS V3 - CHIEF STRATEGIST GOVERNANCE LAYER v3.5 IMPLEMENTATION REPORT
+FROM  : Dr. Codex, Windows Platform Team
+TO    : Chief Architect ChatGPT 5.5 and Dr. Claude Code
+DATE  : 2026-06-19 SGT
+SYSTEM: C:\bluelotus3
+===============================================================================
+
+EXECUTIVE SUMMARY
+-------------------------------------------------------------------------------
+Dr. Codex implemented the Chief Strategist Governance Layer (CSG) v3.5 requested
+in the work order.
+
+Purpose:
+  Prevent Chief Strategist communication drift by forcing every strategic reply,
+  report, and public archive to reconcile tactical scores with the standing
+  structural thesis registry.
+
+Primary doctrine now enforced:
+  Tactical score modifies timing.
+  Tactical score does not invalidate structural thesis unless kill conditions
+  are triggered.
+
+The implementation is deterministic, dataset-embedded, report-rendered, audited,
+and inserted into the V3 pipeline before report generation.
+
+
+NEW GOVERNANCE ARTIFACTS
+-------------------------------------------------------------------------------
+Created package:
+  C:\bluelotus3\chief_strategist_governance\
+
+Created modules:
+  C:\bluelotus3\chief_strategist_governance\__init__.py
+  C:\bluelotus3\chief_strategist_governance\csg_builder.py
+  C:\bluelotus3\chief_strategist_governance\report_renderers.py
+  C:\bluelotus3\chief_strategist_governance\reply_audit.py
+  C:\bluelotus3\chief_strategist_governance\partial_package.py
+
+Created root CLI scripts:
+  C:\bluelotus3\build_chief_strategist_governance_pack.py
+  C:\bluelotus3\run_chief_strategist_reply_audit.py
+
+Created tests:
+  C:\bluelotus3\tests\test_chief_strategist_governance.py
+
+
+DATA OUTPUTS CREATED
+-------------------------------------------------------------------------------
+The CSG builder now writes:
+
+  C:\bluelotus3\data\chief_strategist\thesis_registry.json
+  C:\bluelotus3\data\chief_strategist\event_thesis_map_latest.json
+  C:\bluelotus3\data\chief_strategist\reconciliation_matrix_latest.json
+  C:\bluelotus3\data\chief_strategist\chief_strategist_context_latest.json
+  C:\bluelotus3\data\chief_strategist\chief_strategist_reply_audit_latest.json
+  C:\bluelotus3\data\chief_strategist\required_briefing_points_latest.json
+  C:\bluelotus3\data\chief_strategist\forbidden_interpretations_latest.json
+  C:\bluelotus3\data\chief_strategist\chief_strategist_governance_manifest_latest.json
+
+The live dataset is now embedded with:
+
+  dataset_raw["chief_strategist_governance"]
+  dataset_raw["active_thesis_reconciliation"]
+  dataset_raw["strategic_tactical_reconciliation_matrix"]
+  dataset_raw["event_thesis_map"]
+  dataset_raw["required_briefing_points"]
+  dataset_raw["forbidden_interpretations"]
+
+
+THESIS REGISTRY IMPLEMENTED
+-------------------------------------------------------------------------------
+The new registry covers the minimum required strategic families:
+
+  THESIS_GOLD_STRUCTURAL_INFLATION
+    Gold / gold miners as structural inflation and fiscal dominance hedge.
+    Tactical score changes timing only unless kill conditions trigger.
+
+  THESIS_BANKS_NIM_ENGINE
+    Banks require NIM, curve, credit, deposit beta, and BAC/WFC/XLF context.
+
+  THESIS_CASH_FORTRESS
+    High cash is intentional defensive optionality under WAIT/HOLD/REVIEW.
+
+  THESIS_SATELLITE_CONVEXITY
+    ASTS/RKLB/QBTS/QUBT/LUNR/IONQ/RGTI are satellite or scout exposures, not
+    core holdings.
+
+  THESIS_VOLATILITY_HEDGE
+    VXX/VIXY/UVXY are risk-off hedge instruments; strength does not authorize
+    automatic adds.
+
+  THESIS_RISK_OFF_DISLOCATION_SCOUTING
+    Scout orders are front-line dislocation detectors. Scout fill does not
+    authorize second tranche deployment.
+
+
+EVENT / THESIS MAP IMPLEMENTED
+-------------------------------------------------------------------------------
+The event map now links strategic interpretation to:
+
+  iran_deescalation
+  warsh_hawkish_fed
+  big_beautiful_bill
+  stargate_ai_spending
+  golden_dome_defense_spending
+  petrodollar_recycling
+  tariff_uncertainty
+  boj_yen_carry_risk
+  credit_stress
+  vix_volatility_regime
+
+This prevents single-event narrative errors such as:
+
+  "Iran peace invalidates gold."
+
+Correct interpretation:
+
+  Iran peace may reduce immediate geopolitical premium, but it does not by
+  itself invalidate the structural inflation / fiscal dominance gold thesis.
+
+
+PIPELINE INTEGRATION
+-------------------------------------------------------------------------------
+Patched:
+  C:\bluelotus3\config\v3_pipeline.yaml
+
+New step inserted after final dataset archive and before governance gate:
+
+  working_dir: .
+  script: build_chief_strategist_governance_pack.py
+  timeout_seconds: 300
+
+New step inserted after report generation and before report regression audit:
+
+  working_dir: .
+  script: run_chief_strategist_reply_audit.py
+  timeout_seconds: 300
+  args:
+    --report research/Bluelotus_V3_Report.txt
+    --dataset data/frontend/dataset_raw.json
+
+This means the V3 production sequence is now:
+
+  dataset export
+  archive snapshot
+  CSG pack build and dataset embedding
+  governance gate
+  scenario overlay
+  governance regression
+  V3 report generation
+  CSG reply audit
+  report regression audit
+  ACMS-COP DB loader
+  publisher
+  V3 grand orchestration cycle
+
+
+REPORT INTEGRATION
+-------------------------------------------------------------------------------
+Patched:
+  C:\bluelotus3\research\research_report_generator.py
+
+TXT report:
+  C:\bluelotus3\research\Bluelotus_V3_Report.txt
+  New section appended:
+    CHIEF STRATEGIST GOVERNANCE LAYER
+
+Word report:
+  C:\bluelotus3\research\Bluelotus_V3_Report.docx
+  New section inserted near the top of the report:
+    Chief Strategist Governance Layer
+
+Excel report:
+  C:\bluelotus3\research\Bluelotus_V3_Report.xlsx
+  New worksheets:
+    CS_Governance
+    Thesis_Reconciliation
+    Event_Thesis_Map
+
+The report generator now self-heals once by building the CSG pack if the dataset
+does not yet contain it. If CSG remains missing or inactive, report generation is
+blocked.
+
+
+CHIEF STRATEGIST GENERATOR HARDENING
+-------------------------------------------------------------------------------
+Patched:
+  C:\bluelotus3\chief_strategist\strategist_report_generator.py
+
+New behavior:
+  The Chief Strategist report generator loads dataset_raw.json and requires
+  active CSG before rendering.
+
+If missing:
+  RuntimeError: Chief Strategist report blocked: CSG v3.5 missing or inactive.
+
+If active:
+  The generated Chief Strategist report includes the CSG text section.
+
+
+PUBLISHER INTEGRATION
+-------------------------------------------------------------------------------
+Patched:
+  C:\bluelotus3\mid\bluelotus_publisher.py
+
+New behavior:
+  The publisher checks CSG before building the public Chief Strategist archive.
+  If missing, it attempts deterministic rebuild of the CSG pack.
+  If present, it appends the CSG section to the public Chief Strategist text.
+
+This prevents website/public archive drift from the research report.
+
+
+REPLY AUDIT IMPLEMENTED
+-------------------------------------------------------------------------------
+Created:
+  C:\bluelotus3\chief_strategist_governance\reply_audit.py
+
+Audit detects:
+  Missing/inactive CSG
+  Missing CSG section in report
+  Gold/gold-miner discussion without structural thesis context
+  Iran peace/de-escalation used as gold invalidation
+  Bank discussion without NIM/credit/curve/BAC/WFC/XLF
+  Scout order confused with second-tranche authorization
+  Satellite names described as core without registry approval
+  Weak forecast confidence language
+  Missing current-event linkage
+  Unsafe execution language
+  CIO_ONLY_MANUAL visibility failure
+
+Important audit refinement:
+  The audit ignores the CSG section's own "blocked output" examples when
+  checking for live narrative violations, so forbidden examples do not create
+  false positives.
+
+Latest audit result:
+  PASS
+  fail_count    = 0
+  warning_count = 0
+
+
+PARTIAL PACKAGE RESILIENCE
+-------------------------------------------------------------------------------
+Created:
+  C:\bluelotus3\chief_strategist_governance\partial_package.py
+
+Capabilities:
+  Detect and recover CSG presence/version/status from:
+    TXT report
+    DOCX document XML
+    XLSX workbook XML
+
+If no CSG section is found:
+  Returns WARNING with artifact-level findings.
+
+This supports later audit when only the report package is available and
+dataset_raw.json is missing.
+
+
+REGRESSION HARNESS HARDENING
+-------------------------------------------------------------------------------
+Patched:
+  C:\bluelotus3\research\run_report_regression_audit.py
+
+Reason:
+  Legacy regression expected the phrase "Gold thesis is confirming" even when
+  current live state is not confirming. This was a stale fixed-wording test.
+
+Fix:
+  Regression now validates that gold wording is present and that stale
+  concentration wording is absent, without forcing a false confirming phrase.
+
+Patched:
+  C:\bluelotus3\governance\regression_tests.py
+
+Reason:
+  Windows cp1252 console crashed when printing Unicode arrow characters.
+
+Fix:
+  stdout/stderr are reconfigured to UTF-8 with replacement fallback.
+
+
+VERIFICATION RESULTS
+-------------------------------------------------------------------------------
+CSG pack build:
+  PASS
+
+Focused CSG tests:
+  Command:
+    python -m pytest tests\test_chief_strategist_governance.py -q
+  Result:
+    5 passed
+
+V3 report generation:
+  Command:
+    python research\research_report_generator.py
+  Result:
+    TXT generated
+    XLSX generated
+    DOCX generated
+    Consistency Audit: CONSISTENT score=90.5
+    Acceptance Validation: PASS (10/10)
+
+CSG reply audit:
+  Command:
+    python run_chief_strategist_reply_audit.py --report research\Bluelotus_V3_Report.txt --dataset data\frontend\dataset_raw.json
+  Result:
+    PASS
+    fail_count=0
+    warning_count=0
+
+Artifact presence check:
+  TXT_CSG_PRESENT                 = True
+  DOCX_CSG_PRESENT                = True
+  XLSX_CS_Governance              = True
+  XLSX_Thesis_Reconciliation      = True
+  XLSX_Event_Thesis_Map           = True
+
+Report regression audit:
+  Command:
+    python research\run_report_regression_audit.py
+  Result:
+    PASS 10/10
+
+Governance regression:
+  Command:
+    python governance\regression_tests.py
+  Result:
+    PASS 61/61
+
+Full Python test suite:
+  Command:
+    python -m pytest tests -q
+  Result:
+    103 passed, 1 warning
+
+Warning:
+  tests/test_v3_db_connection.py::test_v3_connection returns True instead of
+  asserting. This is pre-existing pytest hygiene, not a CSG failure.
+
+
+SAFETY INVARIANTS
+-------------------------------------------------------------------------------
+Confirmed preserved:
+
+  CIO_ONLY_MANUAL
+  order_routing_enabled = False
+  orders_generated_by_pipeline = 0
+  CSG does not generate orders
+  CSG does not alter broker execution
+  CSG does not override deterministic operators
+  CSG governs language and strategic reconciliation only
+
+
+CURRENT OPERATIONAL STATUS
+-------------------------------------------------------------------------------
+CSG v3.5 is operational.
+
+The system now has:
+  deterministic strategic thesis registry
+  active thesis reconciliation
+  event-to-thesis map
+  strategic/tactical reconciliation matrix
+  required briefing points
+  forbidden interpretations
+  TXT/Word/Excel report integration
+  Chief Strategist generator block gate
+  publisher CSG append path
+  reply audit
+  partial package recovery
+  regression coverage
+
+Final classification:
+  GREEN / IMPLEMENTED / REGRESSION-PASSED
+
+Dr. Codex holds the watch.
+===============================================================================
+END_OF_REPORT
+===============================================================================

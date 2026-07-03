@@ -1,0 +1,481 @@
+# BlueLotus V3 — NITE-PEI Likelihood Ratio Table
+# =================================================
+# Schema: lr_table[event_class][thesis_type] = {lr, confidence, calibration_n, last_calibrated_sgt}
+#
+# LR > 1.0 : Event is evidence FOR the thesis (raises probability)
+# LR < 1.0 : Event is evidence AGAINST the thesis (lowers probability)
+# LR = 1.0 : Event carries no information about the thesis (no update)
+#
+# confidence: LOW (calibration_n < 10) | MEDIUM (10-29) | HIGH (30+)
+# All initial values are expert-estimated. Brier calibration loop updates lr and calibration_n post-resolution.
+#
+# ANTI-HARDCODE: Do not put lr values in Python code. All values live here.
+#
+# Source: BlueLotus_NITE_PEI_Integrated_Thesis.md §7
+# Author: CIO Soh Wee Kian + Dr. Claude Code, 2026-06-21
+
+lr_table:
+
+  CENTRAL_BANK_HAWKISH:
+    TRUMP_UNCERTAINTY_THESIS:
+      lr: 0.85
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    PETRO_RECYCLED_DOLLAR_THESIS:
+      lr: 1.10
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    STICKY_INFLATION_THESIS:
+      lr: 1.20
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    HAWKISH_WARSH_THESIS:
+      lr: 1.35
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    HAWKISH_BOJ_THESIS:
+      lr: 1.30
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    GOLD_THESIS:
+      lr: 0.75
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    SPACE_THESIS:
+      lr: 0.85
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    QUANTUM_THESIS:
+      lr: 0.85
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    BANK_THESIS:
+      lr: 1.10
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    CASH_POSITION_THESIS:
+      lr: 1.20
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+
+  CENTRAL_BANK_DOVISH:
+    TRUMP_UNCERTAINTY_THESIS:
+      lr: 1.10
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    STICKY_INFLATION_THESIS:
+      lr: 0.80
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    HAWKISH_WARSH_THESIS:
+      lr: 0.70
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    HAWKISH_BOJ_THESIS:
+      lr: 0.75
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    GOLD_THESIS:
+      lr: 1.30
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    SPACE_THESIS:
+      lr: 1.15
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    QUANTUM_THESIS:
+      lr: 1.15
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    BANK_THESIS:
+      lr: 0.90
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    CASH_POSITION_THESIS:
+      lr: 0.80
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+
+  CENTRAL_BANK_NEUTRAL:
+    ANY:
+      lr: 1.00
+      confidence: HIGH
+      calibration_n: 999
+      last_calibrated_sgt: null
+      note: "Neutral central bank action carries no update by definition"
+
+  GEOPOLITICAL_ESCALATION:
+    TRUMP_UNCERTAINTY_THESIS:
+      lr: 1.20
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    GOLD_THESIS:
+      lr: 1.40
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    SPACE_THESIS:
+      lr: 0.90
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    QUANTUM_THESIS:
+      lr: 0.90
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    BANK_THESIS:
+      lr: 0.85
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    PETRO_RECYCLED_DOLLAR_THESIS:
+      lr: 1.20
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    CASH_POSITION_THESIS:
+      lr: 1.25
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+
+  GEOPOLITICAL_DEESCALATION:
+    TRUMP_UNCERTAINTY_THESIS:
+      lr: 0.90
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    GOLD_THESIS:
+      lr: 0.80
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    SPACE_THESIS:
+      lr: 1.10
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    BANK_THESIS:
+      lr: 1.10
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    CASH_POSITION_THESIS:
+      lr: 0.85
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+
+  SANCTIONS_NEW:
+    GOLD_THESIS:
+      lr: 1.25
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    PETRO_RECYCLED_DOLLAR_THESIS:
+      lr: 1.15
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    TRUMP_UNCERTAINTY_THESIS:
+      lr: 1.15
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+
+  INFLATION_ABOVE_EXPECTATION:
+    STICKY_INFLATION_THESIS:
+      lr: 1.40
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    HAWKISH_WARSH_THESIS:
+      lr: 1.30
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    GOLD_THESIS:
+      lr: 1.35
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    BANK_THESIS:
+      lr: 0.85
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    SPACE_THESIS:
+      lr: 0.90
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    CASH_POSITION_THESIS:
+      lr: 1.15
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+
+  INFLATION_BELOW_EXPECTATION:
+    STICKY_INFLATION_THESIS:
+      lr: 0.70
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    HAWKISH_WARSH_THESIS:
+      lr: 0.75
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    GOLD_THESIS:
+      lr: 0.80
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    BANK_THESIS:
+      lr: 1.10
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    SPACE_THESIS:
+      lr: 1.15
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+
+  RECESSION_SIGNAL:
+    GOLD_THESIS:
+      lr: 1.20
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    CASH_POSITION_THESIS:
+      lr: 1.35
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    TRUMP_UNCERTAINTY_THESIS:
+      lr: 1.15
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    BANK_THESIS:
+      lr: 0.75
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    SPACE_THESIS:
+      lr: 0.85
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+
+  LIQUIDITY_EXPANSION:
+    GOLD_THESIS:
+      lr: 1.15
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    SPACE_THESIS:
+      lr: 1.10
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    QUANTUM_THESIS:
+      lr: 1.10
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    BANK_THESIS:
+      lr: 1.10
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    CASH_POSITION_THESIS:
+      lr: 0.85
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+
+  REFLEXIVE_SUPPRESSION:
+    ANY:
+      lr: 1.00
+      confidence: HIGH
+      calibration_n: 999
+      last_calibrated_sgt: null
+      note: "Reflexive suppression events carry LR=1.0 by definition — price moves, thesis unchanged (per PEI Reflexive Suppression Theorem)"
+
+  LAUNCH_SUCCESS:
+    SPACE_THESIS:
+      lr: 1.25
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+
+  LAUNCH_FAILURE:
+    SPACE_THESIS:
+      lr: 0.70
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+
+  REGULATORY_APPROVAL:
+    SPACE_THESIS:
+      lr: 1.30
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    QUANTUM_THESIS:
+      lr: 1.20
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    ANY:
+      lr: 1.20
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+
+  REGULATORY_REJECTION:
+    SPACE_THESIS:
+      lr: 0.65
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    QUANTUM_THESIS:
+      lr: 0.75
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    ANY:
+      lr: 0.70
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+
+  QUANTUM_MILESTONE:
+    QUANTUM_THESIS:
+      lr: 1.30
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+
+  QUANTUM_COMPETITOR_ADVANCE:
+    QUANTUM_THESIS:
+      lr: 0.90
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+
+  EARNINGS_BEAT_MATERIAL:
+    ANY:
+      lr: 1.20
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+
+  EARNINGS_MISS_MATERIAL:
+    ANY:
+      lr: 0.75
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+
+  SECTOR_CONTRACT_WIN:
+    SPACE_THESIS:
+      lr: 1.30
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    QUANTUM_THESIS:
+      lr: 1.25
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    ANY:
+      lr: 1.25
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+
+  SECTOR_CONTRACT_LOSS:
+    SPACE_THESIS:
+      lr: 0.70
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    QUANTUM_THESIS:
+      lr: 0.75
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+    ANY:
+      lr: 0.75
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+
+  YEN_CARRY_RISK:
+    HAWKISH_BOJ_THESIS:
+      lr: 1.45
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+      note: "Yen carry unwind directly confirms BOJ tightening thesis"
+    TRUMP_UNCERTAINTY_THESIS:
+      lr: 1.15
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+      note: "Yen carry unwind triggers risk-off; elevated policy uncertainty"
+    STICKY_INFLATION_THESIS:
+      lr: 0.90
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+      note: "Carry unwind deflationary impulse; mild against sticky inflation"
+    HAWKISH_WARSH_THESIS:
+      lr: 1.10
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+      note: "Yen risk adds to cross-asset stress; moderate support for hawkish Fed"
+    PETRO_RECYCLED_DOLLAR_THESIS:
+      lr: 0.95
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+      note: "Yen carry risk neutral-to-slight bearish for petrodollar recycling"
+    ANY:
+      lr: 1.00
+      confidence: LOW
+      calibration_n: 0
+      last_calibrated_sgt: null
+
+  UNKNOWN:
+    ANY:
+      lr: 1.00
+      confidence: HIGH
+      calibration_n: 999
+      last_calibrated_sgt: null
+      note: "Unknown event class — no update by definition"

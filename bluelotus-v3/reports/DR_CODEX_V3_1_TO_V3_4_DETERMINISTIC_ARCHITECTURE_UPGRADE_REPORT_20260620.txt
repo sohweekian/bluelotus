@@ -1,0 +1,270 @@
+===============================================================================
+DR. CODEX WINDOWS PLATFORM TEAM
+BLUELOTUS V3.1 TO V3.4 DETERMINISTIC ARCHITECTURE UPGRADE REPORT
+Generated: 2026-06-20 SGT
+Audience: CIO, Chief Architect ChatGPT 5.5, Dr. Claude Code
+===============================================================================
+
+EXECUTIVE SUMMARY
+-------------------------------------------------------------------------------
+The V3.1 to V3.4 architecture upgrade has been implemented and verified.
+BlueLotus V3 now has a canonical data contract, deterministic pipeline stage
+manifest, risk overlay, replay/backtest engine, benchmark dashboard, and a
+one-week observation lock.
+
+The system remains advisory-only.
+
+Safety invariants preserved:
+- execution_authority = CIO_ONLY_MANUAL
+- order_routing_enabled = false
+- system/orders_generated = 0
+- broker mode = READ_ONLY / READ_ONLY_EXTRACTION
+- no automatic DCA
+- no automatic second tranche
+- no broker mutation
+
+
+V3.1 CANONICAL DATA CONTRACT
+-------------------------------------------------------------------------------
+Implemented package:
+- C:\bluelotus3\canonical\
+
+Key modules:
+- canonical_schema.py
+- truth_source_resolver.py
+- target_usd_vector.py
+- artifact_manifest.py
+- canonical_validator.py
+- canonical_data_contract.py
+
+New dataset key:
+- dataset_raw["canonical"]
+
+The canonical contract now resolves:
+- governance truth
+- session truth
+- portfolio truth
+- open-order truth
+- target USD vector
+- artifact manifest
+- truth-source audit
+
+Live validation result:
+- canonical.validation.status = PASS
+
+
+V3.2 DETERMINISTIC PIPELINE AND RISK OVERLAY
+-------------------------------------------------------------------------------
+Implemented packages:
+- C:\bluelotus3\deterministic_pipeline\
+- C:\bluelotus3\risk\
+
+New dataset keys:
+- dataset_raw["deterministic_pipeline_v3_2"]
+- dataset_raw["risk_overlay"]
+
+Pipeline stages implemented:
+1. Universe Selection
+2. Signal Quality
+3. Source Capacity
+4. Sleeve Rule
+5. PEI Event Gate
+6. STR Kelly
+7. Risk Overlay
+8. Target Vector
+9. CIO Review
+
+Live result:
+- pipeline stage_count = 9
+- pipeline validation = PASS
+- risk_overlay_status = RISK_REVIEW
+
+Risk overlay now exposes:
+- portfolio_beta_estimate
+- portfolio_var_status
+- VaR95_display
+- beta_display
+- cash_weight
+- cash_floor
+- cash_available_after_open_orders
+- hedge_value
+- hedge_gap_usd
+- cluster_concentration
+- largest_position_weight
+- max_drawdown_proxy
+- ticker-level risk-adjusted target USD
+
+
+V3.3 DETERMINISTIC REPLAY / BACKTEST ENGINE
+-------------------------------------------------------------------------------
+Implemented packages:
+- C:\bluelotus3\replay\
+- C:\bluelotus3\backtest\
+
+New dataset key:
+- dataset_raw["deterministic_replay_v3_3"]
+
+Replay coverage:
+- 12 strategies
+- 9 scenarios
+- 108 deterministic strategy/scenario benchmark rows
+
+The replay engine includes:
+- strategy catalog
+- scenario catalog
+- point-in-time guard
+- deterministic proxy metrics
+- backtest result summary
+
+Live result:
+- strategy_count = 12
+- scenario_count = 9
+- benchmark_results = 108
+- point_in_time_guard_status = PASS
+
+
+V3.4 BENCHMARK DASHBOARD AND OBSERVATION LOCK
+-------------------------------------------------------------------------------
+Implemented package:
+- C:\bluelotus3\benchmark\
+
+New dataset keys:
+- dataset_raw["benchmark_dashboard_v3_4"]
+- dataset_raw["v3_4_observation_lock"]
+
+Benchmark dashboard includes:
+- benchmark_id
+- strategy_scorecards
+- scenario_scorecards
+- portfolio_scorecard
+- layer_attribution
+- benchmark_rankings
+- one_week_observation_lock
+- governance block
+
+Live result:
+- benchmark_dashboard_status = PASS
+- observation lock = OBSERVATION_ACTIVE
+- upgrade_allowed = false
+
+Observation lock file:
+- C:\bluelotus3\data\frontend\v3_4_observation_lock.json
+
+
+DATABASE AND SCHEMA SURFACE
+-------------------------------------------------------------------------------
+Added JSON schemas:
+- C:\bluelotus3\schemas\canonical_data_contract.schema.json
+- C:\bluelotus3\schemas\artifact_manifest.schema.json
+- C:\bluelotus3\schemas\target_usd_vector.schema.json
+- C:\bluelotus3\schemas\deterministic_pipeline.schema.json
+- C:\bluelotus3\schemas\risk_overlay.schema.json
+- C:\bluelotus3\schemas\replay_engine.schema.json
+- C:\bluelotus3\schemas\backtest_result.schema.json
+- C:\bluelotus3\schemas\benchmark_result.schema.json
+- C:\bluelotus3\schemas\benchmark_dashboard.schema.json
+- C:\bluelotus3\schemas\benchmark_scorecard.schema.json
+
+Added non-destructive MySQL migration:
+- C:\bluelotus3\db\v3_4_architecture_tables.sql
+
+The migration defines storage surfaces for:
+- canonical contracts
+- artifact manifests
+- target USD vectors
+- deterministic pipeline runs
+- risk overlay snapshots
+- replay runs
+- replay strategy results
+- benchmark dashboards
+- benchmark strategy scorecards
+- benchmark scenario scorecards
+- observation locks
+
+
+REPORT AND PUBLISHER INTEGRATION
+-------------------------------------------------------------------------------
+Modified:
+- C:\bluelotus3\mid\export_dataset_raw.py
+- C:\bluelotus3\research\research_report_generator.py
+- C:\bluelotus3\mid\bluelotus_publisher.py
+
+dataset_raw.json now carries all V3.1-V3.4 architecture keys.
+
+TXT report now includes:
+- 00F - V3.4 BENCHMARK DASHBOARD AND OBSERVATION LOCK
+
+XLSX report now includes required sheets:
+- Canonical_Contract
+- Target_USD_Vector
+- Risk_Overlay
+- Deterministic_Pipeline
+- Replay_Summary
+- Benchmark_Summary
+- Benchmark_Strategies
+- Scenario_Scorecards
+- Layer_Attribution
+- One_Week_Observation
+
+Publisher now appends a V3.4 benchmark section to:
+- C:\bluelotus3\reports\chief_strategist_v17.txt
+
+GitHub publisher verification:
+- index.html PASS 200
+- chief-strategist.html PASS 200
+- data/portfolio_live.json PASS 200
+- data/chief_strategist_v17.txt PASS 200
+- data/v3_agents_latest.json PASS 200
+
+
+TESTS AND VERIFICATION
+-------------------------------------------------------------------------------
+New test file:
+- C:\bluelotus3\tests\test_v3_1_to_v3_4_architecture.py
+
+Focused architecture tests:
+- 7 passed
+
+Regression set:
+- 59 passed
+
+Regenerated production artifacts:
+- C:\bluelotus3\data\frontend\dataset_raw.json
+- C:\bluelotus3\research\Bluelotus_V3_Report.txt
+- C:\bluelotus3\research\Bluelotus_V3_Report.docx
+- C:\bluelotus3\research\Bluelotus_V3_Report.xlsx
+- C:\bluelotus3\research\research_report_delivery_latest.json
+- C:\bluelotus3\reports\chief_strategist_v17.txt
+
+Latest report run:
+- Archive inserted id = 125
+- Consistency Audit = CONSISTENT, score 90.5
+- Acceptance Validation = PASS, 10/10
+- Artifact manifest = ARTIFACTS_CONSISTENT
+- Delivery warnings = []
+
+
+NOTES FOR DR. CLAUDE CODE AND CHIEF ARCHITECT
+-------------------------------------------------------------------------------
+This upgrade changes BlueLotus V3 from a report-generation pipeline into a more
+explicit deterministic institutional architecture.
+
+The key improvement is not autonomy. It is memory, auditability, replayability,
+and comparability.
+
+V3.1 defines what the system believes to be true.
+V3.2 shows how the deterministic pipeline reasons from truth to advisory output.
+V3.3 asks how strategies would behave under repeatable scenario replay.
+V3.4 compares those strategies and freezes the architecture for observation.
+
+The CIO remains the only execution authority.
+
+Recommended next action:
+- Observe the V3.4 benchmark and observation lock for one week.
+- Do not refactor architecture during the lock unless there is a bug fix or data
+  quality defect.
+- Treat benchmark rankings as research signals, not trade commands.
+
+===============================================================================
+END OF REPORT
+===============================================================================

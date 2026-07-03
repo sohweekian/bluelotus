@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BlueLotus V3 — Full Pipeline Workflow</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+  body {
+    background: #0a0a0f;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+  }
+  h1 {
+    text-align: center;
+    color: #4fc3f7;
+    font-size: 1.6rem;
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+  }
+  .subtitle {
+    text-align: center;
+    color: #888;
+    font-size: 0.85rem;
+    margin-bottom: 28px;
+  }
+  .mermaid {
+    display: flex;
+    justify-content: center;
+  }
+  .mermaid svg {
+    max-width: 100%;
+    height: auto;
+  }
+</style>
+</head>
+<body>
+<h1>BlueLotus V3 — Full Pipeline Workflow</h1>
+<p class="subtitle">Automated intelligence pipeline · Every 39 minutes · 65 steps</p>
+<div class="mermaid">
+flowchart TD
+    A([Pipeline Start\nEvery 39 Minutes]) --> B
+
+    subgraph LAYER1["🔵  LAYER 1 — DATA INGESTION"]
+        B[fetch_analyst_targets] --> C[fetch_capital_flow]
+        C --> D[fetch_fundamentals]
+        D --> E[fetch_treasury_yields]
+        E --> F[fetch_cross_market_confirmation]
+        F --> G[fetch_portfolio_readonly]
+        G --> H[fetch_execution_records]
+        H --> I[fetch_corporate_actions]
+        I --> J[ingest.py\nSignals · News · Macro]
+        J --> K[fetch_tech_publications]
+        K --> L[fetch_conference_calendar]
+        L --> M[fetch_ceo_appearances]
+        M --> N[fetch_ticker_earnings]
+        N --> O[fetch_catalyst_calendar]
+        O --> P[fetch_historical_prices\n180d lookback]
+        P --> Q[historical_backfill_scheduler]
+    end
+
+    subgraph EXPORT1["📦  EXPORT & ARCHIVE"]
+        Q --> R[export_dataset_raw.json]
+        R --> S[archive_dataset_snapshot]
+        S --> T[run_freshness_recovery]
+        T --> R2[export_dataset_raw v2]
+    end
+
+    subgraph LAYER2["🟣  LAYER 2 — ANALYTICAL ENGINES"]
+        R2 --> U[historical_risk_model\nVaR · Beta · Vol]
+        U --> V[seed_cio_decision_journal]
+        V --> W[seed_thesis_lifecycle]
+        W --> X[record_cio_cognition]
+        X --> Y[run_monitoring_alerts]
+        Y --> Z[institutional_quant_pipeline\nIQ Readiness Score]
+        Z --> AA[run_deterministic_operators\nOperator Layer]
+        AA --> AB[bluelotus_superforecast_engine\nBrier Forecasts]
+        AB --> AC[forecast_resolution_tracker]
+        AC --> AD[forecast_method_comparison]
+    end
+
+    subgraph LAYER3["🔐  LAYER 3 — GOVERNANCE"]
+        AD --> AE[build_chief_strategist_governance_pack]
+        AE --> AF[build_chief_strategist_master_prompt]
+        AF --> AG[build_cio_context_capsule]
+        AG --> AH[governance_gate.py\nApproval Gate]
+        AH --> AI[scenario_overlay_engine\nGeopolitical Overlay]
+        AI --> AJ[regression_tests]
+    end
+
+    subgraph LAYER4["📊  LAYER 4 — REPORT GENERATION"]
+        AJ --> AK[research_report_generator.py\nBluelotus_V3_Report TXT · XLSX · DOCX]
+        AK --> AL[validate_cio_context_capsule]
+        AL --> AM[run_chief_strategist_reply_audit]
+        AM --> AN[run_report_regression_audit]
+        AN --> AO[acms_cop_db_loader\nSQL Database]
+    end
+
+    subgraph LAYER5["🧠  LAYER 5 — NITE-PEI ENGINE"]
+        AO --> AP[run_v3_grand_cycle\nV3.1–V3.4 Agents · 9 Agent Reports]
+        AP --> AQ[run_nite_pei_cycle\nBayesian Thesis Updates · CKRI · Kelly · Advisory]
+    end
+
+    subgraph LAYER6["🚀  LAYER 6 — PUBLISH"]
+        AQ --> AR[bluelotus_publisher.py]
+        AR --> AS[GitHub Pages\nindex.html Dashboard]
+        AR --> AT[chief-strategist.html]
+        AR --> AU[v3_agents_latest.json]
+        AR --> AV[dataset_public.json]
+        AR --> AW[chief_strategist_v17.txt]
+    end
+
+    style A fill:#4fc3f7,color:#000,font-weight:bold
+    style LAYER1 fill:#1a1a2e,color:#aad4f5,stroke:#2a4a7f
+    style EXPORT1 fill:#16213e,color:#aad4f5,stroke:#2a4a7f
+    style LAYER2 fill:#1e0a3c,color:#cdb4f7,stroke:#6a3daa
+    style LAYER3 fill:#2a0a3c,color:#e0aaff,stroke:#9040cc
+    style LAYER4 fill:#3c0a14,color:#ffaaaa,stroke:#cc2040
+    style LAYER5 fill:#0a2a3c,color:#aaddff,stroke:#1a6a9f
+    style LAYER6 fill:#0a2a16,color:#aaffcc,stroke:#1a9f4a
+</div>
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'dark',
+    flowchart: {
+      curve: 'basis',
+      nodeSpacing: 40,
+      rankSpacing: 50,
+      padding: 20
+    },
+    themeVariables: {
+      primaryColor: '#1a3a5c',
+      primaryTextColor: '#e0e0e0',
+      primaryBorderColor: '#4fc3f7',
+      lineColor: '#4fc3f7',
+      secondaryColor: '#2a2a4a',
+      tertiaryColor: '#1a1a2e',
+      background: '#0a0a0f',
+      mainBkg: '#1a1a2e',
+      nodeBorder: '#4fc3f7',
+      clusterBkg: '#12122a',
+      titleColor: '#4fc3f7',
+      edgeLabelBackground: '#1a1a2e',
+      fontSize: '13px'
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,612 @@
+===============================================================================
+DR. CODEX AUDIT REPORT
+BlueLotus V3 NITE-PEI Engine Implementation by Dr. Claude Code
+Date: 2026-06-21 SGT
+Prepared for: CIO, Dr. Claude Code, Chief Architect ChatGPT 5.5
+===============================================================================
+
+AUDIT SCOPE
+-----------
+User requested audit of Dr. Claude Code's completed WO-20260621-002:
+
+  C:\bluelotus3\research\WORKORDER_NITEPEI_Integrated_Thesis_20260621.txt
+
+Claude completion report:
+
+  C:\bluelotus3\research\BlueLotus_ThesisReport_NITEPEI_20260621.txt
+
+This audit reviewed:
+
+  - New nite_pei/ modules
+  - thesis_registry.yaml schema extension
+  - v3_doctrine_seed.json doctrine extension
+  - bluelotus_publisher.py integration
+  - test_nite_pei_engine.py coverage
+  - public v3_agents_latest.json state
+  - targeted adversarial probes
+
+No implementation files were changed during this audit.
+
+===============================================================================
+SOP OBSERVATION
+---------------
+Claude Code successfully created a substantial NITE-PEI library layer:
+
+  - 11 Python modules compile.
+  - 71 NITE-PEI acceptance tests pass.
+  - Full V3 suite passes: 305 passed, 1 pre-existing warning.
+  - Doctrine 007 is present.
+  - Thesis registry was extended to v1.1 with probabilities and kill conditions.
+  - Safety invariants are mostly preserved at module output level.
+
+However, audit found a sharp distinction:
+
+  Claude built NITE-PEI components.
+  Claude did not fully wire NITE-PEI into the live V3 production cycle.
+
+Public v3_agents_latest.json, checked after Claude's work:
+
+  cycle_id:       v3_cycle_20260621_015635
+  generated_at:   2026-06-21 02:47 SGT
+  has_nite_pei:   false
+
+System search outside nite_pei/ and tests found only:
+
+  C:\bluelotus3\mid\bluelotus_publisher.py:3521
+    "nite_pei": v3_data.get("nite_pei", {})
+
+No orchestration runner, agent cycle, or data builder currently calls:
+
+  build_nite_pei_block()
+  update_thesis()
+  compute_ckri_from_registry()
+  build_kelly_advisory()
+  equity_de_risk_advisory()
+  hedge_sizing_advisory()
+
+===============================================================================
+FINDINGS
+===============================================================================
+
+[P1] LR noise discount formula can reverse or amplify evidence incorrectly
+---------------------------------------------------------------------------
+File:
+
+  C:\bluelotus3\nite_pei\bayesian_updater.py:99
+
+Current logic:
+
+  lr_adjusted = lr_raw * (1.0 - noise_discount_factor)
+
+Observed probe:
+
+  LR 1.00 with 50% discount -> LR 0.50
+  LR 0.60 with 50% discount -> LR 0.30
+  LR 0.80 with 50% discount -> LR 0.40
+
+Why this matters:
+
+  A noise discount should reduce evidentiary force toward neutral LR=1.0.
+  The current formula does that only for LR > 1.0.
+
+  For LR < 1.0, it strengthens bearish evidence instead of weakening it.
+  For LR = 1.0, it turns neutral evidence bearish.
+
+Consequence:
+
+  A low-quality or T4 bearish/de-risk event can move thesis probabilities more
+  violently than a high-quality event. This is mathematically unsafe for a
+  Bayesian thesis engine.
+
+Recommended fix:
+
+  Discount in log-odds / LR-distance space:
+
+    lr_adjusted = 1.0 + (lr_raw - 1.0) * (1.0 - noise_discount_factor)
+
+  Examples with 50% discount:
+
+    LR 1.40 -> 1.20
+    LR 1.00 -> 1.00
+    LR 0.60 -> 0.80
+
+Acceptance tests needed:
+
+  - Neutral LR remains neutral under any discount.
+  - Bullish LR moves toward 1.0.
+  - Bearish LR moves toward 1.0.
+
+===============================================================================
+
+[P1] NITE-PEI is not wired into the live V3 cycle or public JSON yet
+-------------------------------------------------------------------
+Evidence:
+
+  Public endpoint:
+    https://sohweekian.github.io/bluelotus/data/v3_agents_latest.json
+
+  Audit result:
+    has_nite_pei = false
+
+  Search outside new modules/tests:
+    only bluelotus_publisher.py line 3521 references nite_pei.
+
+Why this matters:
+
+  The engine exists as a library, but no production cycle currently:
+
+    - classifies incoming news events,
+    - updates thesis probabilities,
+    - writes Brier forecast records,
+    - computes CKRI,
+    - builds Kelly-NITE advisories,
+    - passes nite_pei{} into publisher data.
+
+  Therefore CIO cannot yet rely on the dashboard/report to show live NITE-PEI
+  results.
+
+Recommended fix:
+
+  Add a dedicated orchestration bridge, e.g.
+
+    orchestration/run_nite_pei_cycle.py
+    or mid/run_nite_pei_update.py
+
+  Then call it from V3 grand cycle before publisher payload build.
+
+Acceptance tests needed:
+
+  - One test cycle produces v3_data["nite_pei"].
+  - Public v3_agents_latest.json contains non-empty nite_pei{}.
+  - nite_pei.thesis_probability_snapshots has at least one real or explicit
+    no-event snapshot.
+
+===============================================================================
+
+[P2] Chief Strategist HTML section claimed by work order is absent
+------------------------------------------------------------------
+Work order required:
+
+  Add "NITE-PEI Thesis Updates" HTML section to chief-strategist renderer.
+
+Audit search:
+
+  rg "NITE-PEI Thesis Updates|build_nite_pei_block|nite_pei" bluelotus_publisher.py
+
+Result:
+
+  Only line 3521:
+    "nite_pei": v3_data.get("nite_pei", {})
+
+No HTML renderer section exists.
+
+Why this matters:
+
+  Even after the orchestration bridge is added, the Chief Strategist page will
+  not visibly render the NITE-PEI advisory section unless publisher HTML is
+  extended.
+
+Recommended fix:
+
+  Add a render_nite_pei_section(v3_data) function and insert it into
+  chief-strategist.html generation.
+
+Acceptance tests needed:
+
+  - HTML contains "NITE-PEI Thesis Updates" when nite_pei{} has data.
+  - Empty nite_pei{} does not create misleading blank section.
+
+===============================================================================
+
+[P2] Source-tier parser silently downgrades string tiers to T2
+-------------------------------------------------------------
+File:
+
+  C:\bluelotus3\nite_pei\event_classifier.py:185
+
+Current logic:
+
+  tier = int(source_tier) if source_tier in _TIER_DISCOUNT else 2
+
+Observed probe:
+
+  source_tier = 1    -> T1, discount 0.00
+  source_tier = "1"  -> T2, discount 0.10
+  source_tier = "T1" -> T2, discount 0.10
+  source_tier = 4    -> T4, discount 0.50
+  source_tier = "4"  -> T2, discount 0.10
+  source_tier = "T4" -> T2, discount 0.10
+
+Why this matters:
+
+  News pipelines often encode tiers as "T1", "T2", "1", or strings.
+  The current parser treats those as unknown and defaults them to T2.
+
+Consequence:
+
+  High-quality T1 sources can be incorrectly discounted.
+  Low-quality T4 sources can be incorrectly promoted.
+
+Recommended fix:
+
+  Add parse_source_tier(source_tier):
+
+    - accepts int 1..4
+    - accepts "1".."4"
+    - accepts "T1".."T4"
+    - unknown -> T3 or explicit UNKNOWN_SOURCE policy, not silent T2 unless
+      doctrine says T2 default.
+
+Acceptance tests needed:
+
+  - classify_event(..., "T1") returns source_tier=1.
+  - classify_event(..., "T4") returns source_tier=4.
+  - classify_event(..., "4") returns source_tier=4.
+
+===============================================================================
+
+[P2] Brier "append-only" invariant is only partially true
+---------------------------------------------------------
+File:
+
+  C:\bluelotus3\nite_pei\brier_calibration_loop.py:175-178
+
+Current resolve_forecast() mutates the existing ledger record:
+
+  record["resolution_pending"] = False
+  record["final_outcome"] = outcome_int
+  record["brier_score"] = bs
+  record["direction_correct"] = direction_correct
+
+Why this matters:
+
+  Work order says append-only memory and "records are never deleted or
+  overwritten." Updating the same forecast record in place loses the original
+  unresolved state as a separate immutable artifact.
+
+This may be acceptable if BlueLotus defines "append-only" as "no deletion, but
+status fields may update." But it is not strict immutability.
+
+Recommended fix:
+
+  Choose one doctrine:
+
+  Option A: strict immutable ledger
+    - write forecast_created record
+    - append forecast_resolved record
+    - derive current state by folding records
+
+  Option B: operational ledger
+    - allow in-place resolution update
+    - rename invariant from append-only to audit-backed mutable status
+    - keep calibration_audit_log append-only
+
+===============================================================================
+
+[P3] Test suite proves modules, not live integration
+---------------------------------------------------
+Claude's tests pass:
+
+  test_nite_pei_engine.py: 71 passed
+  full suite: 305 passed
+
+But the suite does not currently assert:
+
+  - V3 grand cycle calls NITE-PEI.
+  - publisher receives non-empty nite_pei{}.
+  - public JSON contains nite_pei{}.
+  - Chief Strategist HTML renders NITE-PEI section.
+  - source-tier string parsing.
+  - LR discount symmetry around 1.0.
+
+Recommended fix:
+
+  Add integration tests in a new file:
+
+    tests/test_nite_pei_v3_integration.py
+
+Minimum acceptance tests:
+
+  - build latest V3 payload with a mock nite_pei block and verify JSON key.
+  - render Chief Strategist with nite_pei block and verify HTML section.
+  - run NITE-PEI bridge on synthetic event and verify thesis update + brier record.
+
+===============================================================================
+TEST RESULTS FROM AUDIT
+-----------------------
+
+Compile:
+
+  python -m py_compile nite_pei/*.py mid/bluelotus_publisher.py
+
+Result:
+
+  PASS, with pre-existing publisher SyntaxWarning around invalid escape sequence.
+
+Narrow NITE-PEI tests:
+
+  python -m pytest C:\bluelotus3\tests\test_nite_pei_engine.py -q
+
+Result:
+
+  71 passed
+
+Full V3 tests:
+
+  python -m pytest C:\bluelotus3\tests -q
+
+Result:
+
+  305 passed, 1 warning
+
+Warning:
+
+  tests/test_v3_db_connection.py::test_v3_connection returns True instead of
+  using assert. This warning is pre-existing and not related to NITE-PEI.
+
+===============================================================================
+VERDICT
+-------
+
+Claude Code delivered a strong foundation layer, but not a completed live
+production NITE-PEI engine.
+
+Classification:
+
+  FOUNDATION: PASS
+  UNIT TESTS: PASS
+  SAFETY INVARIANTS: MOSTLY PASS
+  LIVE ORCHESTRATION: NOT WIRED
+  PUBLIC DASHBOARD: NOT WIRED
+  BAYESIAN LR DISCOUNT MATH: NEEDS FIX BEFORE LIVE USE
+
+Recommended operational status:
+
+  NITE-PEI should remain DISABLED / LIBRARY-ONLY until P1 and P2 findings are
+  cleared.
+
+Do not rely on NITE-PEI outputs for CIO dashboard decisions yet, because live
+outputs are not present and the LR noise-discount math can distort probabilities.
+
+===============================================================================
+ADDENDUM — CURRENT-STATE RECONCILIATION AFTER CONTINUED AUDIT
+===============================================================================
+
+During continued audit, additional files and runtime artifacts were observed that
+were not visible in the first narrow search snapshot. This addendum supersedes
+the earlier "not wired at all" wording and replaces it with a more precise state:
+
+  NITE-PEI is partially wired through a standalone runner and publisher pickup,
+  but it is not yet persistent in the regular V3 24/7 pipeline cadence.
+
+Additional observed files:
+
+  C:\bluelotus3\scripts\run_nite_pei_cycle.py
+  C:\bluelotus3\mid\nite_pei_report_builder.py
+  C:\bluelotus3\data\v3_cycles\v3_cycle_20260621_024733\nite_pei_block.json
+  C:\bluelotus3\reports\bluelotus_v3_nite_pei_report.txt
+  C:\bluelotus3\reports\bluelotus_v3_nite_pei_report.docx
+  C:\bluelotus3\reports\bluelotus_v3_nite_pei_report.xlsx
+
+Additional publisher integration:
+
+  C:\bluelotus3\mid\bluelotus_publisher.py:3374-3382
+    Loads nite_pei_block.json from a cycle folder if present.
+
+  C:\bluelotus3\mid\bluelotus_publisher.py:3991-4024
+    Appends NITE-PEI section to TXT report and writes standalone NITE-PEI
+    TXT/Word/Excel reports.
+
+Corrected integration finding:
+
+  The system can publish NITE-PEI data when a specific cycle folder contains:
+
+    nite_pei_block.json
+
+  But the regular pipeline did not create that file for later cycles.
+
+Cycle observation:
+
+  v3_cycle_20260621_024733  -> HasNitePei = True
+  v3_cycle_20260621_035214  -> HasNitePei = False
+  v3_cycle_20260621_045621  -> HasNitePei = False
+  v3_cycle_20260621_060039  -> HasNitePei = False
+
+Public endpoint after regular pipeline publish:
+
+  cycle_id:          v3_cycle_20260621_045621
+  generated_at:      2026-06-21 06:00 SGT
+  has_nite_pei_key:  true
+  nite_pei_empty:    true
+  nite_pei_keys:     []
+
+Pipeline log:
+
+  V3 RUN 64 executed:
+    orchestration.run_v3_grand_cycle --persist-db
+
+  No invocation of:
+    python -m scripts.run_nite_pei_cycle
+
+Therefore, the current production problem is:
+
+  The standalone NITE-PEI runner works at least once, but it is not called by
+  the recurring V3 intelligence pipeline before publisher execution. The result
+  is a non-durable integration: one cycle had NITE-PEI, later live cycles did not.
+
+===============================================================================
+ADDITIONAL FINDINGS
+===============================================================================
+
+[P1] NITE-PEI runner uses static embedded events, not live dataset extraction
+----------------------------------------------------------------------------
+File:
+
+  C:\bluelotus3\scripts\run_nite_pei_cycle.py:46-103
+
+Current implementation:
+
+  REAL_EVENTS = [
+      "Iran Closes Strait Of Hormuz ...",
+      "Fed Governor Bowman Spoke ...",
+      "Yen carry-trade unwind risk ...",
+      "FOMC June 16-17 rate decision risk ..."
+  ]
+
+Why this matters:
+
+  The script header says it runs against real events from the dataset, but the
+  code uses a hardcoded REAL_EVENTS list. Even if these were copied from the
+  dataset during implementation, they are now static and will repeat every time
+  the runner is called.
+
+Consequence:
+
+  Re-running NITE-PEI can repeatedly update thesis probabilities from the same
+  stale embedded events. That risks probability drift and false learning.
+
+Recommended fix:
+
+  Replace REAL_EVENTS with deterministic extraction from dataset_raw.json:
+
+    - news/signals/latest event rows
+    - macro_event_risks
+    - thesis-specific event streams
+
+  Each event must have a stable event_id. The runner should skip event_id values
+  already applied to the same thesis unless a new version/revision exists.
+
+Acceptance tests needed:
+
+  - No hardcoded headline list in runner.
+  - Same event_id cannot update the same thesis twice.
+  - Missing event feed produces explicit no_event cycle, not stale repetition.
+
+===============================================================================
+
+[P1] Regular V3 pipeline does not invoke NITE-PEI runner
+-------------------------------------------------------
+Evidence:
+
+  C:\bluelotus3\logs\v3_pipeline_loop_20260615_092212.log
+
+  The 06:00 pipeline executed:
+
+    orchestration.run_v3_grand_cycle --persist-db
+    bluelotus_publisher.py
+
+  It did not execute:
+
+    python -m scripts.run_nite_pei_cycle
+
+Current effect:
+
+  Publisher can load nite_pei_block.json if present, but later V3 cycles do not
+  produce the block. The website then publishes:
+
+    "nite_pei": {}
+
+Recommended fix:
+
+  Add NITE-PEI as a durable pipeline step after grand cycle completion and before
+  publisher:
+
+    1. run_v3_grand_cycle writes cycle folder
+    2. scripts.run_nite_pei_cycle writes nite_pei_block.json into that same folder
+    3. bluelotus_publisher.py publishes v3_agents_latest.json and reports
+
+Acceptance tests needed:
+
+  - Latest cycle folder has nite_pei_block.json after one pipeline pass.
+  - Public v3_agents_latest.json has non-empty nite_pei{} after publisher.
+  - If NITE-PEI fails, publisher displays explicit degraded_nite_pei status
+    instead of silently publishing {}.
+
+===============================================================================
+
+[P2] NITE-PEI block was generated after the target cycle's core timestamps
+--------------------------------------------------------------------------
+Observed:
+
+  v3_cycle_20260621_024733 cycle files: around 02:47-02:49 SGT
+  nite_pei_block.json: 03:38 SGT
+
+Why this matters:
+
+  A NITE-PEI block written long after its target cycle can mix later registry
+  state with an earlier agent cycle. This can be acceptable for a backfill or
+  manual enrichment pass, but the public report should label it as such.
+
+Recommended fix:
+
+  Add fields to nite_pei_block.json:
+
+    source_cycle_id
+    source_cycle_created_at_sgt
+    nite_pei_generated_at_sgt
+    generation_mode: live_cycle | manual_backfill | recovery
+
+===============================================================================
+
+[P2] Brier pre-registration is not used by the standalone runner
+----------------------------------------------------------------
+Work order required a Brier pre-registration loop.
+
+The module exists:
+
+  C:\bluelotus3\nite_pei\brier_calibration_loop.py
+
+But the runner import list does not include write_forecast_record(), and search
+does not show it being called by the runner.
+
+Observed:
+
+  C:\bluelotus3\data\nite_pei_brier_ledger.json -> []
+
+Why this matters:
+
+  The probability updates are not yet Brier-gradeable through the NITE-PEI
+  ledger, even though the Brier calibration module exists.
+
+Recommended fix:
+
+  During each thesis update, call write_forecast_record() and store the returned
+  brier_record_id in:
+
+    - thesis probability history
+    - nite_pei_block thesis snapshot
+
+===============================================================================
+
+REVISED VERDICT
+---------------
+
+Claude Code's NITE-PEI delivery is stronger than a library-only scaffold, because
+there is now a standalone runner, publisher pickup, and standalone TXT/Word/Excel
+report generation.
+
+But the layer is not yet production-durable:
+
+  - Not called by the regular 39-minute / 24-7 V3 pipeline.
+  - Latest public JSON currently publishes nite_pei: {}.
+  - Runner uses static embedded event list.
+  - LR discount math remains unsafe.
+  - NITE-PEI Brier ledger remains empty.
+
+Operational classification:
+
+  FOUNDATION: PASS
+  STANDALONE RUNNER: PARTIAL PASS
+  PUBLISHER PICKUP: PARTIAL PASS
+  REGULAR PIPELINE INTEGRATION: FAIL
+  LIVE PUBLIC JSON DURABILITY: FAIL
+  BAYESIAN DISCOUNT MATH: FAIL UNTIL FIXED
+  BRIER PRE-REGISTRATION: NOT ACTIVE
+
+Recommended status:
+
+  NITE-PEI should remain EXPERIMENTAL / OBSERVE ONLY until the P1 items are fixed.
+
+===============================================================================
+END_OF_AUDIT
+===============================================================================

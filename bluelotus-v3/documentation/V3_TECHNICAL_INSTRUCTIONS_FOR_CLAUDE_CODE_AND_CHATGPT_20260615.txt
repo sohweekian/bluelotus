@@ -1,0 +1,293 @@
+BlueLotus V3 Technical Instructions Update
+For: Dr. Claude Code and ChatGPT 5.5
+Date: 2026-06-15 SGT
+Sign-off: Dr. Codex Windows Platform Team
+
+1. Current V3 Architecture Position
+
+BlueLotus V3 now has a working local LLM conduit.
+
+The local model is Qwen3:4B, served by Ollama, called through the BlueLotus V3 Python client layer.
+
+Ollama is not the user-facing chat interface for V3. Ollama is the local model runtime engine.
+
+Operational stack:
+
+BlueLotus V3
+  -> llm_clients/ollama_client.py
+  -> Ollama local API
+  -> Qwen3:4B
+  -> NVIDIA GPU VRAM
+
+Do not build new direct model access paths that bypass the V3 client unless explicitly instructed.
+
+2. Ollama Function
+
+Ollama serves these functions only:
+
+- Store local model files.
+- Load Qwen3:4B into GPU VRAM.
+- Expose the local API endpoint configured by environment/config.
+- Manage loaded model sessions through commands such as ollama ps and ollama stop.
+- Handle CUDA / GPU offload.
+- Return model responses to the V3 client.
+
+Ollama is a runtime backend, not the governance layer, not the agent layer, and not the execution authority.
+
+3. BlueLotus V3 Function
+
+BlueLotus V3 owns:
+
+- Model role selection.
+- Prompt routing.
+- Prompt guard.
+- Safety doctrine injection.
+- Structured JSON requirement.
+- Response schema validation.
+- No-write-to-V2 protection.
+- Audit logging.
+- Future multi-agent orchestration.
+
+All LLM calls must flow through the V3 client and registry system unless a diagnostic command is being run.
+
+4. Current Local LLM Entry Points
+
+Primary programmatic entry point:
+
+C:\bluelotus3\llm_clients\ollama_client.py
+
+Primary function:
+
+chat_with_model(
+    model_role: str,
+    system_prompt: str,
+    user_prompt: str,
+    require_json: bool = True
+) -> dict
+
+Live terminal dialogue viewer:
+
+C:\bluelotus3\start_live_qwen_dialogue.bat
+
+This opens a terminal where Dr. Codex can send text to Qwen and Qwen streams a live reply.
+
+5. GPU Runtime Rule
+
+Do not force Qwen3:4B to CPU on this machine.
+
+This system has an NVIDIA RTX 5060 Ti with 16GiB VRAM.
+
+Qwen3:4B should run GPU-first.
+
+The current configured runtime is:
+
+- GPU execution through Ollama.
+- Context window: 4096.
+- Response cap: 512 tokens.
+- Temperature: 0.
+- Thinking disabled through the V3 API config.
+
+Use ollama ps to verify runtime residency:
+
+ollama ps
+
+Expected healthy state when loaded:
+
+PROCESSOR = 100% GPU
+CONTEXT = 4096
+
+6. Avoid Duplicate Qwen Sessions
+
+Do not load multiple Qwen sessions unnecessarily.
+
+If BlueLotus V3 already has Qwen loaded in VRAM, opening raw Ollama chat with another model name or context can create another running context and may exhaust VRAM.
+
+Before manual diagnostics, check:
+
+ollama ps
+
+If needed, unload a model:
+
+ollama stop qwen3:4b
+ollama stop bluelotus-qwen3-4b-gpu
+
+Then start only the required session.
+
+7. CUDA / KV Cache Error Meaning
+
+If this error appears:
+
+failed to allocate buffer for kv cache
+cudaMalloc failed: out of memory
+
+It usually means the model context/KV cache request is too large for available VRAM, or another model session is already resident in VRAM.
+
+Do not immediately switch to CPU.
+
+First actions:
+
+- Run ollama ps.
+- Run nvidia-smi.
+- Stop duplicate loaded models.
+- Keep num_ctx at 4096 unless deliberately testing higher context.
+- Avoid raw Ollama sessions while V3 is using the model.
+
+8. Anti-Hardcoding Doctrine
+
+Never hardcode production or machine-specific constants in business logic.
+
+Do not hardcode:
+
+- Paths.
+- Model names.
+- Ollama URL.
+- Ports.
+- Context size.
+- Output folders.
+- Prompt paths.
+- Source URLs.
+- Telegram credentials.
+- Broker details.
+- Ticker lists.
+- Thresholds.
+
+Allowed locations for configurable values:
+
+- .env
+- .env.template
+- YAML config
+- registry files
+- schema files
+- prompt registry
+- CLI or installer parameters
+- documentation and tests where appropriate
+
+Business logic must read from config, registry, schema, or environment.
+
+Audit command:
+
+powershell -ExecutionPolicy Bypass -File C:\bluelotus3\scripts\audit_no_hardcoding.ps1
+
+Expected result:
+
+PASS = no hardcoded production constants in business logic
+
+9. Current Important Config Files
+
+Main config:
+
+C:\bluelotus3\config\bluelotus3.yaml
+
+Model registry:
+
+C:\bluelotus3\config\model_registry.yaml
+
+Prompt registry:
+
+C:\bluelotus3\config\prompt_registry.yaml
+
+Safety policy:
+
+C:\bluelotus3\config\llm_safety_policy.yaml
+
+Schemas:
+
+C:\bluelotus3\schemas\llm_response.schema.json
+C:\bluelotus3\schemas\specialist_agent_output.schema.json
+
+Environment template:
+
+C:\bluelotus3\.env.template
+
+10. Mandatory Safety Boundaries
+
+Qwen3:4B is a local analyst tool only.
+
+The LLM may:
+
+- Analyze.
+- Summarize.
+- Classify.
+- Identify risks.
+- Challenge assumptions.
+- Recommend CIO review.
+
+The LLM may not:
+
+- Generate broker orders.
+- Execute trades.
+- Route orders.
+- Request broker credentials.
+- Override deterministic operator blocks.
+- Write into BlueLotus V2 production.
+
+CIO manual decision remains absolute.
+
+11. Required Verification Before Any Future Agent Work
+
+Before adding multi-agent behavior, run:
+
+cmd /c C:\bluelotus3\run_llm_infrastructure_healthcheck.bat
+
+cmd /c C:\bluelotus3\run_qwen3_4b_smoke_test.bat
+
+powershell -ExecutionPolicy Bypass -File C:\bluelotus3\scripts\audit_no_hardcoding.ps1
+
+All must pass.
+
+12. Future Multi-Agent Implementation Rule
+
+Do not build agents that call Ollama directly.
+
+Each future agent must call the V3 model router/client layer.
+
+Correct future pattern:
+
+Agent
+  -> model_role
+  -> prompt registry
+  -> prompt guard
+  -> ollama_client.chat_with_model
+  -> JSON validator
+  -> archive / report
+  -> CIO review
+
+Incorrect pattern:
+
+Agent
+  -> raw hardcoded Ollama URL
+  -> raw model name
+  -> unvalidated text response
+
+13. News Reporter Independence
+
+The V3 News Reporter is deterministic and independent.
+
+Do not attach Qwen3:4B to the News Reporter loop unless a separate work order explicitly requests it.
+
+The current News Reporter loop remains RSS/feed driven and deterministic.
+
+14. V2 Protection
+
+Do not modify C:\bluelotus2.
+
+V2 is frozen for the 90-day production observation period.
+
+All experiments must remain inside C:\bluelotus3.
+
+15. Final Operating Doctrine
+
+Deterministic operators remain the safety layer.
+
+Qwen3:4B is a local specialist analyst.
+
+Ollama is the local model runtime.
+
+BlueLotus V3 is the orchestration and governance layer.
+
+Chief Strategist synthesis comes later.
+
+CIO decides manually.
+
+No LLM may generate or execute trades.
+

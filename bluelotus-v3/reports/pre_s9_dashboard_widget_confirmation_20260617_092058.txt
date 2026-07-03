@@ -1,0 +1,446 @@
+===============================================================================
+BLUELOTUS V3 — PRE-S9 DASHBOARD WIDGET PERSISTENCE CONFIRMATION GATE
+FROM       : Dr. Codex, Windows Platform Team
+TO         : Chief Architecture Expert / BlueLotus Architecture Department
+CC         : Dr. Claude Code, Chief Architect ChatGPT 5.5
+DATE       : 2026-06-17 09:20 SGT
+SYSTEM     : C:\bluelotus3
+STATUS     : PASS
+FINAL      : S9_AUTHORIZED
+===============================================================================
+
+EXECUTIVE SUMMARY
+-------------------------------------------------------------------------------
+The Pre-S9 Dashboard Widget Persistence Confirmation Gate has passed.
+
+S6, S7, and S8 now survive:
+  - registry validation
+  - publisher regeneration
+  - local dashboard verification
+  - public GitHub Pages verification
+  - fail-closed missing-marker simulation
+  - recovery mode restore
+  - targeted widget/dashboard/safety regression tests
+
+No S9 code was built during this work order.
+
+Gate-time corrections made:
+  1. Added explicit thesis_id metadata to dashboard_widgets.yaml for S6/S7/S8.
+  2. Replaced update_dashboard_widgets.py Windows os.system verifier launch with
+     subprocess.run([...]) so --restore --verify-public works reliably on Windows.
+
+
+-------------------------------------------------------------------------------
+1. REGISTRY VERIFICATION RESULT
+-------------------------------------------------------------------------------
+File:
+  C:\bluelotus3\config\dashboard_widgets.yaml
+
+Result:
+  PASS
+
+Verified:
+  - Registry exists.
+  - schema_version = dashboard_widgets_v1.0
+  - Protected start marker = THESIS_WIDGETS_START
+  - Protected end marker   = THESIS_WIDGETS_END
+  - S6/S7/S8 present.
+  - All three widgets enabled.
+  - Display order correct:
+      S6 -> S7 -> S8
+  - Marker IDs unique.
+  - JSON endpoints unique.
+  - Section IDs unique.
+
+Protected widgets:
+  S6:
+    marker    = ai-infra-live
+    thesis_id = AI_INFRASTRUCTURE_POWER_THESIS
+    endpoint  = data/thesis_widgets/ai_infrastructure_power_latest.json
+
+  S7:
+    marker    = credit-refi-live
+    thesis_id = CREDIT_REFINANCING_LIQUIDITY_THESIS
+    endpoint  = data/thesis_widgets/credit_refinancing_liquidity_latest.json
+
+  S8:
+    marker    = global-leverage-live
+    thesis_id = GLOBAL_LEVERAGE_UNWIND_THESIS
+    endpoint  = data/thesis_widgets/global_leverage_unwind_latest.json
+
+
+-------------------------------------------------------------------------------
+2. PUBLISHER REGENERATION SURVIVAL RESULT
+-------------------------------------------------------------------------------
+Command:
+  python C:\bluelotus3\mid\bluelotus_publisher.py
+
+Result:
+  PASS
+
+Publisher output:
+  GitHub index.html                       PASS 200
+  GitHub chief-strategist.html            PASS 200
+  GitHub data/portfolio_live.json         PASS 200
+  GitHub data/chief_strategist_v17.txt    PASS 200
+  GitHub data/v3_agents_latest.json       PASS 200
+  Completed
+
+Post-regeneration GitHub index verification:
+  INDEX_SHA                  995325bda49944c10069f0906be516b6b42dde8e
+  THESIS_WIDGETS_START       count 1
+  THESIS_WIDGETS_END         count 1
+  ai-infra-live              count 2
+  credit-refi-live           count 2
+  global-leverage-live       count 2
+  System Health              count 1
+  ZONE_BEFORE_SYSTEM_HEALTH  True
+  ORDER_OK                   True
+
+Note:
+  The publisher still emits pre-existing SyntaxWarning messages for invalid
+  escape sequence '\d'. These warnings did not block dashboard generation,
+  publisher push, or widget verification.
+
+
+-------------------------------------------------------------------------------
+3. LOCAL VERIFICATION RESULT
+-------------------------------------------------------------------------------
+Command required by work order:
+  python C:\bluelotus3\scripts\verify_dashboard_widgets_local.py
+
+Result:
+  PASS local dashboard widget verification
+    ai-infra-live: 2
+    credit-refi-live: 2
+    global-leverage-live: 2
+
+Additional local verification against fetched GitHub index:
+  python C:\bluelotus3\scripts\verify_dashboard_widgets_local.py --html C:\bluelotus3\data\debug_index_from_github.html
+
+Result:
+  PASS local dashboard widget verification
+    ai-infra-live: 2
+    credit-refi-live: 2
+    global-leverage-live: 2
+
+
+-------------------------------------------------------------------------------
+4. PUBLIC VERIFICATION RESULT
+-------------------------------------------------------------------------------
+Command:
+  python C:\bluelotus3\scripts\verify_dashboard_widgets_public.py
+
+Result:
+  PASS public dashboard widget verification
+    S6 ai-infra-live OK
+    S7 credit-refi-live OK
+    S8 global-leverage-live OK
+
+Public homepage:
+  https://sohweekian.github.io/bluelotus/
+
+
+-------------------------------------------------------------------------------
+5. JSON ENDPOINT VERIFICATION
+-------------------------------------------------------------------------------
+Base:
+  https://sohweekian.github.io/bluelotus
+
+S6 endpoint:
+  data/thesis_widgets/ai_infrastructure_power_latest.json
+  HTTP 200
+  thesis_id = AI_INFRASTRUCTURE_POWER_THESIS
+  status    = WEAKENING
+  score     = 29.0
+
+S7 endpoint:
+  data/thesis_widgets/credit_refinancing_liquidity_latest.json
+  HTTP 200
+  thesis_id = CREDIT_REFINANCING_LIQUIDITY_THESIS
+  status    = LOW_STRESS
+  score     = 32.0
+
+S8 endpoint:
+  data/thesis_widgets/global_leverage_unwind_latest.json
+  HTTP 200
+  thesis_id = GLOBAL_LEVERAGE_UNWIND_THESIS
+  status    = WATCH
+  score     = 50.6
+
+Safety fields present in all three JSON outputs:
+  execution_authority
+  order_routing_enabled
+  llm_order_generation
+  orders_generated
+
+Safety values confirmed:
+  execution_authority     = CIO_ONLY_MANUAL
+  order_routing_enabled   = false
+  llm_order_generation    = false
+  orders_generated        = 0
+
+
+-------------------------------------------------------------------------------
+6. .NOJEKYLL VERIFICATION
+-------------------------------------------------------------------------------
+File:
+  C:\bluelotus3\.nojekyll
+
+Result:
+  PASS
+
+Confirmed:
+  - File exists locally.
+  - File survived publisher regeneration.
+  - update_dashboard_widgets.py preserves/pushes .nojekyll during recovery.
+
+
+-------------------------------------------------------------------------------
+7. FAILURE SIMULATION RESULT
+-------------------------------------------------------------------------------
+Simulation:
+  - Loaded fetched GitHub index.html locally.
+  - Replaced every occurrence of enabled S7 marker:
+      credit-refi-live
+    with:
+      REMOVED_S7_MARKER
+  - Ran dashboard_widget_manager.assert_publishable() on the broken local string.
+  - Did not push the broken homepage.
+
+Result:
+  PASS
+
+Guard output:
+  VERIFY_ERRORS ['missing enabled widget marker: credit-refi-live']
+  FAIL_CLOSED_PASS True
+  ERROR_TYPE RuntimeError
+  ERROR_MESSAGE dashboard widget verification failed: missing enabled widget marker: credit-refi-live
+
+Conclusion:
+  The fail-closed guard detects a missing enabled widget marker and prevents
+  broken dashboard publication.
+
+
+-------------------------------------------------------------------------------
+8. RECOVERY MODE RESULT
+-------------------------------------------------------------------------------
+Command:
+  python C:\bluelotus3\scripts\update_dashboard_widgets.py --restore --verify-public
+
+Result:
+  PASS
+
+Output:
+  PASS public dashboard widget verification
+    S6 ai-infra-live OK
+    S7 credit-refi-live OK
+    S8 global-leverage-live OK
+  PASS pushed index.html with registry widgets sha=9d9cc4cf73d33566216db727f73f89af9d0a56f3
+
+Recovery behavior confirmed:
+  - Protected widget zone exists after restore.
+  - S6/S7/S8 markers exist.
+  - Widget order follows registry.
+  - Public verification passes after push.
+
+
+-------------------------------------------------------------------------------
+9. TEST SUITE RESULTS
+-------------------------------------------------------------------------------
+Command:
+  python -m pytest
+    C:\bluelotus3\thesis_widgets\tests
+    C:\bluelotus3\tests\test_dashboard_widget_persistence.py
+    C:\bluelotus3\tests\test_no_hardcoding.py
+    C:\bluelotus3\tests\test_no_hardcoded_db_config.py
+    C:\bluelotus3\tests\test_no_bluelotus2_write.py
+    C:\bluelotus3\tests\test_no_v2_database_write.py
+    C:\bluelotus3\tests\test_no_order_language.py
+    C:\bluelotus3\tests\test_prompt_architecture_safety.py
+    -q
+
+Result:
+  304 passed, 2 warnings
+
+Coverage included:
+  - S6 widget tests
+  - S7 widget tests
+  - S8 widget tests
+  - dashboard widget persistence tests
+  - no-hardcoding checks
+  - no-broker/no-LLM widget checks
+  - no-V2-write checks
+  - order-language safety checks
+  - prompt architecture safety checks
+
+Supplemental governance regression:
+  Command:
+    python C:\bluelotus3\governance\regression_tests.py
+
+  Result:
+    58/61 passed
+    3 failed
+
+  Failed supplemental governance checks:
+    - test_regime_consistency
+    - T38_final_rendered_action_uses_risk_override
+    - T39_no_trade_ok_for_cluster_blocked_ticker
+
+  Classification:
+    Not caused by the dashboard widget persistence hardening.
+    Not part of the specific Pre-S9 dashboard widget persistence gate pass/fail.
+    Should remain visible to Architecture for general pipeline governance follow-up.
+
+
+-------------------------------------------------------------------------------
+10. SAFETY VERIFICATION
+-------------------------------------------------------------------------------
+Result:
+  PASS
+
+Confirmed for dashboard widget persistence layer:
+  - No broker API imported.
+  - No order routing added.
+  - No LLM dependency introduced.
+  - No Qwen/Ollama dependency introduced.
+  - No hardcoded widget IDs in publisher logic.
+  - No hardcoded JSON endpoints in publisher logic.
+  - Widget marker IDs and endpoints live in config/dashboard_widgets.yaml.
+  - dashboard_widget_manager.py contains no C:\bluelotus2 path reference.
+  - update_dashboard_widgets.py contains no C:\bluelotus2 path reference.
+  - C:\bluelotus2 was not modified by this work order.
+
+Safety scan notes:
+  - bluelotus_publisher.py contains a pre-existing C:\bluelotus2\.env fallback
+    read reference and pre-existing Qwen dashboard display text.
+  - The protected widget persistence layer did not introduce those references.
+  - dashboard_widget_manager.py and update_dashboard_widgets.py remain broker-free,
+    LLM-free, Qwen-free, Ollama-free, and V2-write-free.
+
+Protected widget zone wording scan:
+  buy                count 0
+  sell               count 0
+  place order        count 0
+  submit order       count 0
+  execute order      count 0
+  order routing      count 0
+  order_routing      count 3
+  CIO_ONLY_MANUAL    count 3
+  ORDER_ROUTING: DISABLED count 3
+
+Interpretation:
+  The widget zone contains no trade-instruction language. It only contains
+  required safety metadata and disabled-routing footer text.
+
+
+-------------------------------------------------------------------------------
+11. NO-HARDCODING VERIFICATION
+-------------------------------------------------------------------------------
+Result:
+  PASS
+
+Confirmed:
+  - Publisher calls render_widget_zone() from dashboard_widget_manager.
+  - Publisher does not hardcode S6/S7/S8 marker IDs.
+  - Publisher does not hardcode S6/S7/S8 JSON endpoints.
+  - Widget order, marker IDs, JSON endpoints, placement, refresh interval,
+    and safety footer are config-driven through dashboard_widgets.yaml.
+
+
+-------------------------------------------------------------------------------
+12. NO-V2-WRITE VERIFICATION
+-------------------------------------------------------------------------------
+Result:
+  PASS
+
+Confirmed:
+  - Work performed only inside C:\bluelotus3.
+  - No C:\bluelotus2 files were edited.
+  - dashboard_widget_manager.py has zero C:\bluelotus2 references.
+  - update_dashboard_widgets.py has zero C:\bluelotus2 references.
+  - targeted no-V2-write tests passed within the 304-test gate suite.
+
+Note:
+  C:\bluelotus3 is not a git repository in this runtime, so git status could
+  not be used for proof. Verification used direct file/path scans and test
+  execution instead.
+
+
+-------------------------------------------------------------------------------
+13. NO-BROKER-EXECUTION VERIFICATION
+-------------------------------------------------------------------------------
+Result:
+  PASS
+
+Confirmed:
+  - No broker API imported in dashboard widget manager or updater.
+  - No place_order / submit_order / execute_order path in dashboard widget manager.
+  - Widget JSON safety fields remain:
+      execution_authority   = CIO_ONLY_MANUAL
+      order_routing_enabled = false
+      llm_order_generation  = false
+      orders_generated      = 0
+  - Governance safety checks for CIO_ONLY_MANUAL, no generated orders, and
+    order routing disabled passed inside the supplemental governance run.
+
+
+-------------------------------------------------------------------------------
+14. S9 AUTHORIZATION RULE CHECKLIST
+-------------------------------------------------------------------------------
+1. Full publisher regeneration preserves S6/S7/S8.
+   PASS
+
+2. Local verification passes.
+   PASS
+
+3. Public verification passes.
+   PASS
+
+4. JSON endpoints are live.
+   PASS
+
+5. .nojekyll is preserved.
+   PASS
+
+6. Fail-closed guard works.
+   PASS
+
+7. Recovery mode works.
+   PASS
+
+8. Required dashboard/widget/safety tests pass.
+   PASS — 304 passed, 2 warnings
+
+9. No V2 write.
+   PASS
+
+10. No broker execution.
+   PASS
+
+11. No LLM dependency introduced.
+   PASS
+
+12. No hardcoding regression.
+   PASS
+
+
+-------------------------------------------------------------------------------
+FINAL VERDICT
+-------------------------------------------------------------------------------
+S9_AUTHORIZED
+
+Authorization scope:
+  S9 may proceed from the dashboard widget persistence perspective.
+
+Standing instruction:
+  Do not build S9 until the Architecture Department issues the S9 work order.
+
+Operational note:
+  Supplemental governance regression currently shows 58/61 with 3 unrelated
+  failures. These should be tracked separately by Architecture, but they do not
+  invalidate the completed dashboard widget persistence confirmation gate.
+
+===============================================================================
+END_OF_REPORT
+===============================================================================

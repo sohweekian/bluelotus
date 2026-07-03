@@ -1,0 +1,372 @@
+# ============================================================================
+# BlueLotus V3 - Thesis Widget Config
+# Thesis: Oil De-escalation / Peace Dividend
+# ID:     OIL_DEESCALATION_PEACE_DIVIDEND_THESIS
+# ============================================================================
+#
+# NO HARDCODING DOCTRINE: All configurable values live here.
+# Python reads this file. Python never owns these values.
+# To change any setting: edit this file -> restart the widget.
+#
+# THESIS DIRECTION: Higher score = stronger peace-dividend confirmation.
+# 0 = no confirmed peace dividend, 100 = broad de-escalation confirmation.
+# ============================================================================
+
+thesis_id: "OIL_DEESCALATION_PEACE_DIVIDEND_THESIS"
+schema_version: "thesis_widget_v1.1"
+title: "Oil De-escalation / Peace Dividend Thesis"
+display_title: "S9 - Oil De-escalation / Peace Dividend Thesis"
+dashboard_section: "S9"
+
+output:
+  local_dir: "data/thesis_widgets"
+  local_file: "oil_deescalation_peace_dividend_latest.json"
+  github_path: "data/thesis_widgets/oil_deescalation_peace_dividend_latest.json"
+
+refresh_interval_seconds: 600
+
+market_hours:
+  timezone: "America/New_York"
+  open_time: "09:30"
+  close_time: "16:00"
+  trading_days: [0, 1, 2, 3, 4]
+  data_freshness_labels:
+    OPEN: "LIVE INTRADAY"
+    CLOSED_PRE: "EQUITY / ETF DATA LAST SESSION CLOSE"
+    CLOSED_POST: "EQUITY / ETF DATA LAST SESSION CLOSE"
+    CLOSED_WEEKEND: "EQUITY / ETF DATA LAST SESSION CLOSE"
+
+benchmarks:
+  - SPY
+  - QQQ
+
+yfinance_symbol_map:
+  VIX: "^VIX"
+
+baskets:
+  OIL_RISK_PREMIUM:
+    label: "Oil / Energy Risk Premium"
+    scoring_weight: 25
+    enabled: true
+    tickers:
+      - display: "USO"
+        yf_symbol: "USO"
+        benefit_on_rise: false
+      - display: "BNO"
+        yf_symbol: "BNO"
+        benefit_on_rise: false
+      - display: "XLE"
+        yf_symbol: "XLE"
+        benefit_on_rise: false
+      - display: "XOM"
+        yf_symbol: "XOM"
+        benefit_on_rise: false
+      - display: "CVX"
+        yf_symbol: "CVX"
+        benefit_on_rise: false
+      - display: "OXY"
+        yf_symbol: "OXY"
+        benefit_on_rise: false
+      - display: "COP"
+        yf_symbol: "COP"
+        benefit_on_rise: false
+    interpretations:
+      PASS: "Oil-risk premium fading - possible de-escalation relief"
+      WATCH: "Oil-risk premium mixed - monitor for confirmation"
+      FAIL: "Oil-risk premium rising - renewed escalation or supply shock risk"
+      UNKNOWN: "Oil-risk premium data unavailable"
+
+  TRANSPORT_AIRLINES:
+    label: "Transport / Airlines / Logistics"
+    scoring_weight: 20
+    enabled: true
+    tickers:
+      - display: "JETS"
+        yf_symbol: "JETS"
+        benefit_on_rise: true
+      - display: "DAL"
+        yf_symbol: "DAL"
+        benefit_on_rise: true
+      - display: "UAL"
+        yf_symbol: "UAL"
+        benefit_on_rise: true
+      - display: "AAL"
+        yf_symbol: "AAL"
+        benefit_on_rise: true
+      - display: "FDX"
+        yf_symbol: "FDX"
+        benefit_on_rise: true
+      - display: "UPS"
+        yf_symbol: "UPS"
+        benefit_on_rise: true
+    interpretations:
+      PASS: "Transport-sensitive assets benefiting from fuel-cost relief"
+      WATCH: "Transport response mixed"
+      FAIL: "Transports falling despite oil relief - demand warning"
+      UNKNOWN: "Transport data unavailable"
+
+  CONSUMER_RELIEF:
+    label: "Consumer / Inflation Relief"
+    scoring_weight: 15
+    enabled: true
+    tickers:
+      - display: "XLY"
+        yf_symbol: "XLY"
+        benefit_on_rise: true
+      - display: "WMT"
+        yf_symbol: "WMT"
+        benefit_on_rise: true
+      - display: "COST"
+        yf_symbol: "COST"
+        benefit_on_rise: true
+      - display: "TGT"
+        yf_symbol: "TGT"
+        benefit_on_rise: true
+    interpretations:
+      PASS: "Consumer basket confirming inflation relief"
+      WATCH: "Consumer relief mixed"
+      FAIL: "Consumer weakness offsets oil relief"
+      UNKNOWN: "Consumer data unavailable"
+
+  SAFE_HAVEN_UNWIND:
+    label: "Safe-Haven / Volatility Unwind"
+    scoring_weight: 15
+    enabled: true
+    tickers:
+      - display: "GLD"
+        yf_symbol: "GLD"
+        benefit_on_rise: false
+      - display: "GDX"
+        yf_symbol: "GDX"
+        benefit_on_rise: false
+      - display: "GDXJ"
+        yf_symbol: "GDXJ"
+        benefit_on_rise: false
+      - display: "VIX"
+        yf_symbol: "^VIX"
+        benefit_on_rise: false
+      - display: "VXX"
+        yf_symbol: "VXX"
+        benefit_on_rise: false
+    interpretations:
+      PASS: "Safe-haven and volatility premium unwinding"
+      WATCH: "Safe-haven unwind mixed"
+      FAIL: "Safe havens or volatility rising - de-escalation conflict"
+      UNKNOWN: "Safe-haven data unavailable"
+
+  BROAD_RISK_ON:
+    label: "Broad Risk-On Confirmation"
+    scoring_weight: 15
+    enabled: true
+    tickers:
+      - display: "SPY"
+        yf_symbol: "SPY"
+        benefit_on_rise: true
+      - display: "QQQ"
+        yf_symbol: "QQQ"
+        benefit_on_rise: true
+      - display: "IWM"
+        yf_symbol: "IWM"
+        benefit_on_rise: true
+      - display: "ARKK"
+        yf_symbol: "ARKK"
+        benefit_on_rise: true
+    interpretations:
+      PASS: "Broad risk appetite confirming peace-dividend regime"
+      WATCH: "Risk appetite mixed"
+      FAIL: "Broad risk assets falling - oil decline may be macro weakness"
+      UNKNOWN: "Broad risk data unavailable"
+
+  DEFENSE_CROSSCHECK:
+    label: "Defense / Geopolitical Risk Cross-Check"
+    scoring_weight: 5
+    enabled: true
+    optional: true
+    tickers:
+      - display: "ITA"
+        yf_symbol: "ITA"
+        benefit_on_rise: false
+      - display: "XAR"
+        yf_symbol: "XAR"
+        benefit_on_rise: false
+      - display: "LMT"
+        yf_symbol: "LMT"
+        benefit_on_rise: false
+      - display: "RTX"
+        yf_symbol: "RTX"
+        benefit_on_rise: false
+    interpretations:
+      PASS: "Defense-risk premium fading"
+      WATCH: "Defense cross-check mixed"
+      FAIL: "Defense-risk premium rising"
+      UNKNOWN: "Defense cross-check unavailable"
+
+signal_thresholds:
+  pass_pct: 0.5
+  fail_pct: 0.5
+  basket_pass_ratio: 0.50
+  basket_fail_ratio: 0.50
+
+ticker_contribution_weights:
+  PASS: 1.0
+  WATCH: 0.4
+  FAIL: 0.0
+  UNKNOWN: 0.0
+
+status_thresholds:
+  CONFIRMING: 75
+  WATCH: 55
+  MIXED: 40
+  WEAKENING: 20
+
+confidence_rules:
+  high_required_baskets:
+    - OIL_RISK_PREMIUM
+    - TRANSPORT_AIRLINES
+    - SAFE_HAVEN_UNWIND
+    - BROAD_RISK_ON
+  medium_min_pass_count: 3
+  low_min_pass_count: 1
+
+confidence_thresholds:
+  HIGH: 75
+  MEDIUM: 55
+  LOW: 20
+
+cio_action_map:
+  CONFIRMING_HIGH: "HOLD_REVIEW"
+  CONFIRMING_MEDIUM: "HOLD_REVIEW"
+  CONFIRMING_LOW: "HOLD"
+  WATCH_HIGH: "HOLD"
+  WATCH_MEDIUM: "HOLD"
+  WATCH_LOW: "HOLD"
+  MIXED_HIGH: "WAIT"
+  MIXED_MEDIUM: "WAIT"
+  MIXED_LOW: "WAIT"
+  WEAKENING_HIGH: "NO_ADD"
+  WEAKENING_MEDIUM: "NO_ADD"
+  WEAKENING_LOW: "NO_ADD"
+  CONTRADICTED_HIGH: "NO_ADD"
+  CONTRADICTED_MEDIUM: "NO_ADD"
+  CONTRADICTED_LOW: "NO_ADD"
+  UNKNOWN: "CIO_REVIEW_REQUIRED"
+
+add_allowed_rules:
+  allowed_statuses:
+    - CONFIRMING
+  allowed_confidences:
+    - HIGH
+    - MEDIUM
+  required_pass_baskets:
+    - OIL_RISK_PREMIUM
+    - TRANSPORT_AIRLINES
+    - SAFE_HAVEN_UNWIND
+    - BROAD_RISK_ON
+  max_escalation_penalty: 5
+  max_false_positive_penalty: 5
+
+headline_sources:
+  - "data/headlines_live.json"
+
+headline_scoring_weight: 15
+headline_max_score: 15
+headline_pts_per_hit: 1.5
+
+headline_keywords:
+  - "ceasefire"
+  - "truce"
+  - "peace talks"
+  - "de-escalation"
+  - "deescalation"
+  - "stand down"
+  - "stand-down"
+  - "deal reached"
+  - "shipping resumes"
+  - "Hormuz open"
+  - "Strait of Hormuz open"
+  - "oil flows resume"
+  - "cease hostilities"
+  - "conflict eases"
+  - "tensions ease"
+  - "diplomatic talks"
+  - "sanctions relief"
+  - "ceasefire agreement"
+  - "maritime route open"
+  - "Middle East de-escalation"
+
+escalation_keywords:
+  - "escalation"
+  - "missile strike"
+  - "retaliation"
+  - "Hormuz closed"
+  - "Strait of Hormuz closed"
+  - "oil supply disruption"
+  - "tanker attack"
+  - "shipping halted"
+  - "airstrike"
+  - "war risk"
+  - "conflict widens"
+  - "sanctions tightened"
+  - "blockade"
+  - "drone strike"
+  - "military response"
+
+escalation_penalty:
+  max_penalty: 25
+  pts_per_hit: 2.5
+
+false_positive_rules:
+  demand_destruction:
+    enabled: true
+    required_signals:
+      OIL_RISK_PREMIUM: PASS
+      BROAD_RISK_ON: FAIL
+      TRANSPORT_AIRLINES: FAIL
+      CONSUMER_RELIEF: FAIL
+    penalty: 20
+    message: "Oil down due to demand weakness, not peace dividend"
+  safe_haven_conflict:
+    enabled: true
+    required_signals:
+      OIL_RISK_PREMIUM: PASS
+      SAFE_HAVEN_UNWIND: FAIL
+    penalty: 12
+    message: "Oil relief conflicts with rising safe-haven or volatility assets"
+
+external_evidence:
+  enabled: true
+  sources:
+    credit_liquidity:
+      path: "data/thesis_widgets/credit_refinancing_liquidity_latest.json"
+      label: "S7 Credit / Refinancing / Liquidity"
+      status_field: "status"
+      score_field: "score"
+      optional: true
+      block_statuses:
+        - ACTIVE_STRESS
+        - SEVERE_STRESS
+      watch_statuses:
+        - WATCH
+    leverage_unwind:
+      path: "data/thesis_widgets/global_leverage_unwind_latest.json"
+      label: "S8 Global Leverage Unwind"
+      status_field: "status"
+      score_field: "score"
+      optional: true
+      block_statuses:
+        - WATCH
+        - ACTIVE_UNWIND
+        - SEVERE_UNWIND
+
+blind_spots:
+  - "ETF and equity data reflect last US market session when market is closed"
+  - "No direct Brent/WTI futures term-structure monitoring"
+  - "No direct shipping-rate or tanker-tracking feed"
+  - "Headline matching is deterministic keyword search, not semantic interpretation"
+  - "Falling oil can be recessionary unless transports, consumers, volatility, and risk assets confirm"
+  - "S7/S8 external evidence is optional and read-only; missing data becomes a blind spot, not a crash"
+
+safety:
+  execution_authority: "CIO_ONLY_MANUAL"
+  order_routing_enabled: false
+  llm_order_generation: false

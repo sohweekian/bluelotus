@@ -1,0 +1,450 @@
+# ============================================================
+# BlueLotus V3 — Agent Context Map
+# ============================================================
+# Canonical whitelist of dataset fields, operators, and live
+# sources that each agent is ALLOWED to see.
+#
+# ARCHITECTURE DOCTRINE:
+#   - Every key must be present here before the PromptCompiler
+#     may inject it into an agent's desk_context.
+#   - Absence = forbidden. No fallback to "send everything."
+#   - budget_chars limits the compact() serialisation ceiling
+#     for this section per agent (0 = no limit applied).
+#   - common_context is injected into EVERY agent automatically.
+#
+# CHANGE CONTROL:
+#   - Any new dataset section added to export_dataset_raw.py
+#     must be registered here before agents may access it.
+#   - Operator changes in deterministic_operators require a
+#     corresponding entry in the agent's allowed_operators list.
+#
+# version: 1.0
+# maintained_by: CIO Architecture Review
+# ============================================================
+
+schema_version: "bluelotus_v3_context_map_v1.0"
+
+# -----------------------------------------------------------
+# COMMON CONTEXT — injected into every agent automatically
+# -----------------------------------------------------------
+common_context:
+  fields:
+    - key: operator_summary
+      source: operator_verdict_pack.source_summary
+      budget_chars: 800
+    - key: blocked_actions
+      source: operator_verdict_pack.blocked_actions
+      budget_chars: 400
+    - key: allowed_actions
+      source: operator_verdict_pack.allowed_actions
+      budget_chars: 400
+  notes: >
+    These three fields are always present. Agents must respect
+    blocked_actions as hard constraints; allowed_actions as
+    CIO-manual-review candidates only.
+
+# -----------------------------------------------------------
+# PER-AGENT CONTEXT WHITELISTS
+# -----------------------------------------------------------
+agents:
+
+  # ── DATA INTEGRITY ─────────────────────────────────────────
+  data_integrity:
+    display_name: Data Integrity Agent
+    allowed_dataset_keys:
+      - key: meta
+        budget_chars: 600
+        purpose: Dataset generation timestamp, cycle ID, source list
+      - key: source_health
+        budget_chars: 1200
+        purpose: Per-source freshness status, last-seen timestamps, null flags
+      - key: data_quality_sla
+        budget_chars: 800
+        purpose: SLA pass/fail per section, staleness thresholds
+      - key: freshness_recovery
+        budget_chars: 600
+        purpose: Recovered vs failed freshness recovery attempts
+      - key: dataset_snapshot_archive
+        budget_chars: 600
+        purpose: Archive ID, hash, snapshot timestamp for mismatch detection
+      - key: data_lineage
+        budget_chars: 400
+        purpose: Source chain for each data section
+    allowed_operators:
+      - freshness_governor
+      - archive_mismatch
+    live_news_access: false
+    brier_access: false
+    thesis_registry_access: false
+    forbidden_keys:
+      - portfolio
+      - regime
+      - ticker_sentiment
+      - event_correlations
+      - thesis_lifecycle
+      - research_forecasting
+    max_total_context_chars: 6000
+    notes: >
+      Data Integrity sees only provenance and quality signals.
+      It must not see market data or thesis state — its job is
+      evidence audit, not market interpretation.
+
+  # ── MACRO STRATEGIST ───────────────────────────────────────
+  macro_strategist:
+    display_name: Macro Strategist Agent
+    allowed_dataset_keys:
+      - key: regime
+        budget_chars: 1200
+        purpose: Regime label, score, VIX, SPY/QQQ/IWM, breadth, confirmation
+      - key: fear_greed
+        budget_chars: 400
+        purpose: CNN Fear & Greed index, label, trend
+      - key: treasury_yields
+        budget_chars: 600
+        purpose: 2Y/10Y/30Y yields, curve shape, real-rate proxy
+      - key: cross_market_confirmation
+        budget_chars: 800
+        purpose: Dollar (UUP), gold, oil, EM, credit stress confirmation signals
+      - key: macro_event_risks
+        budget_chars: 600
+        purpose: Central bank meetings, CPI, NFP, geopolitical events within 14 days
+    allowed_operators:
+      - macro_regime
+      - freshness_governor
+    live_news_access: false
+    brier_access: false
+    thesis_registry_access: false
+    forbidden_keys:
+      - portfolio
+      - risk_metrics
+      - thesis_lifecycle
+      - ticker_sentiment
+      - source_health
+      - data_quality_sla
+    max_total_context_chars: 6000
+    notes: >
+      Macro Strategist sees only systemic signals. Portfolio
+      names appear only when they are macro transmission
+      channels (e.g., VXX as volatility proxy), never as
+      sizing targets.
+
+  # ── PORTFOLIO STRUCTURE ────────────────────────────────────
+  portfolio_structure:
+    display_name: Portfolio Structure Agent
+    allowed_dataset_keys:
+      - key: portfolio
+        budget_chars: 1400
+        purpose: Position list, qty, price, unrealized_pnl, weight, thesis tag
+      - key: portfolio_readonly
+        budget_chars: 600
+        purpose: Cash level, total AUM, market value, integrity flag
+      - key: risk_metrics
+        budget_chars: 1200
+        purpose: HHI (equity-only + vs AUM), concentration status, cluster weights,
+                 PNL integrity conflicts, largest position, equity_invested_capital
+      - key: portfolio_constraints
+        budget_chars: 600
+        purpose: Max position size, max cluster, cash floor, add-risk gates
+      - key: portfolio_mandates
+        budget_chars: 400
+        purpose: CIO mandate text, gold-miner rules, execution authority
+    allowed_operators:
+      - concentration_risk
+      - portfolio_mandate
+      - execution_safety
+    live_news_access: false
+    brier_access: false
+    thesis_registry_access: false
+    forbidden_keys:
+      - regime
+      - fear_greed
+      - ticker_sentiment
+      - event_correlations
+      - macro_event_risks
+      - source_health
+    max_total_context_chars: 6400
+    notes: >
+      Portfolio Structure sees only structural facts: weights,
+      concentration metrics, cash, and mandate constraints.
+      It must not see macro regime signals — its job is
+      structure, not market timing. HHI must always reference
+      concentration_hhi_equity_only (not vs total AUM).
+
+  # ── CATALYST INTELLIGENCE ──────────────────────────────────
+  catalyst_intelligence:
+    display_name: Catalyst Intelligence Agent
+    allowed_dataset_keys:
+      - key: catalyst_calendar
+        budget_chars: 1000
+        purpose: Earnings, FDA, FOMC dates for portfolio tickers; days_until, alert_flag
+      - key: conference_calendar
+        budget_chars: 600
+        purpose: Sector conferences, investor days, developer conferences
+      - key: ceo_appearances
+        budget_chars: 400
+        purpose: CEO media appearances, interviews, investor meetings
+      - key: macro_event_risks
+        budget_chars: 600
+        purpose: Central bank, CPI, NFP events that can move portfolio names
+      - key: priority_intelligence
+        budget_chars: 800
+        purpose: Top-priority intelligence items from ingest/scoring layer
+    allowed_operators:
+      - catalyst_intelligence
+      - macro_regime
+    live_news_access: true
+    live_news_budget_chars: 1600
+    brier_access: false
+    thesis_registry_access: false
+    forbidden_keys:
+      - portfolio
+      - risk_metrics
+      - ticker_sentiment
+      - research_forecasting
+      - source_health
+    max_total_context_chars: 7000
+    notes: >
+      Catalyst Intelligence is the only agent besides
+      Sentiment Narrative that gets live_news. It must
+      distinguish confirmed catalysts from generic headlines
+      using the alert_flag field in catalyst_calendar.
+
+  # ── THESIS LIFECYCLE ───────────────────────────────────────
+  thesis_lifecycle:
+    display_name: Thesis Lifecycle Agent
+    allowed_dataset_keys:
+      - key: thesis_lifecycle
+        budget_chars: 1200
+        purpose: Active thesis states, last updated, score, confirmation evidence
+      - key: priority_intelligence
+        budget_chars: 600
+        purpose: Top items that may confirm or contradict active theses
+    allowed_operators:
+      - thesis_lifecycle
+      - gold_thesis
+      - archive_mismatch
+    live_news_access: false
+    brier_access: false
+    thesis_registry_access: true
+    thesis_registry_budget_chars: 1400
+    forbidden_keys:
+      - portfolio
+      - risk_metrics
+      - regime
+      - ticker_sentiment
+      - source_health
+    max_total_context_chars: 6000
+    notes: >
+      Thesis Lifecycle is the only agent besides Gold Safehaven
+      that gets the thesis_registry. It must evaluate lifecycle
+      state changes using structured evidence, not price alone.
+
+  # ── RISK CHALLENGER ────────────────────────────────────────
+  risk_challenger:
+    display_name: Risk Challenger Agent
+    # Risk Challenger sees cross-desk synthesis: it receives
+    # a curated governance_risk bundle and dirty-evidence
+    # signals, plus the full operator pack (not just selected ops).
+    allowed_dataset_keys:
+      - key: risk_metrics
+        budget_chars: 1000
+        purpose: Concentration, HHI, PNL conflicts, largest position
+      - key: portfolio_constraints
+        budget_chars: 400
+        purpose: Mandate constraints being tested or near breach
+      - key: monitoring
+        budget_chars: 600
+        purpose: Monitoring flags, watchlist triggers, alert statuses
+      - key: signal_validation
+        budget_chars: 600
+        purpose: Signal quality scores, stale signals, dirty evidence flags
+      - key: ticker_sentiment
+        budget_chars: 800
+        purpose: Sentiment with relevance scores — used to find dirty/weak evidence
+      - key: event_correlations
+        budget_chars: 600
+        purpose: ECE top rows — used to find unsubstantiated causal claims
+    allowed_operators: all
+    # Risk Challenger gets the full operator pack to find failures
+    live_news_access: false
+    brier_access: false
+    thesis_registry_access: false
+    forbidden_keys:
+      - source_health
+      - data_quality_sla
+      - research_forecasting
+      - conference_calendar
+      - ceo_appearances
+    max_total_context_chars: 7000
+    notes: >
+      Risk Challenger receives the full operator pack (not a
+      subset) because its mandate is to find FAILURES across
+      all operators. It sees dirty evidence specifically to
+      attack false confidence — not to confirm existing calls.
+      allowed_operators: all means the context_builder passes
+      the complete operators dict.
+
+  # ── FORECASTING BRIER ──────────────────────────────────────
+  forecasting_brier:
+    display_name: Forecasting Brier Agent
+    allowed_dataset_keys:
+      - key: research_forecasting
+        budget_chars: 1200
+        purpose: Probability forecasts, resolution criteria, method comparisons
+      - key: backtest_results
+        budget_chars: 800
+        purpose: Historical backtest outcomes for Brier continuity check
+      - key: signal_validation
+        budget_chars: 600
+        purpose: Signal quality, overconfidence flags
+    allowed_operators:
+      - macro_regime
+      - catalyst_intelligence
+    live_news_access: false
+    brier_access: true
+    brier_budget_chars: 1200
+    thesis_registry_access: false
+    forbidden_keys:
+      - portfolio
+      - risk_metrics
+      - ticker_sentiment
+      - source_health
+      - thesis_lifecycle
+    max_total_context_chars: 5500
+    notes: >
+      Forecasting Brier is read-only. It observes probability
+      discipline and Brier continuity without altering V2
+      calibration. It must not recommend model changes.
+
+  # ── SECTOR SPECIALIST ──────────────────────────────────────
+  sector_specialist:
+    display_name: Sector Specialist Agent
+    allowed_dataset_keys:
+      - key: event_correlations
+        budget_chars: 800
+        purpose: Top ECE rows — sector-tagged evidence
+      - key: event_correlations_all
+        budget_chars: 1400
+        purpose: Full ECE table — all themes, directions, basket moves, confidence
+      - key: capital_flow
+        budget_chars: 600
+        purpose: Options flow, institutional capital allocation by sector
+      - key: tech_pub_signals
+        budget_chars: 600
+        purpose: Tech publication signals (AI/semiconductor/quantum news quality)
+      - key: institutional_quant
+        budget_chars: 600
+        purpose: Quant readiness, factor scores, sector-level quant signals
+    allowed_operators:
+      - macro_regime
+      - concentration_risk
+      - catalyst_intelligence
+    live_news_access: false
+    brier_access: false
+    thesis_registry_access: false
+    forbidden_keys:
+      - portfolio
+      - risk_metrics
+      - source_health
+      - thesis_lifecycle
+      - research_forecasting
+    max_total_context_chars: 6000
+    notes: >
+      Sector Specialist uses ECE evidence to assess sector
+      posture. It must call out price-action-only evidence
+      (basket_move without clean catalyst) and contamination
+      (one sector's news leaked into another sector's ECE row).
+
+  # ── SENTIMENT NARRATIVE ────────────────────────────────────
+  sentiment_narrative:
+    display_name: Sentiment Narrative Agent
+    allowed_dataset_keys:
+      - key: ticker_sentiment
+        budget_chars: 1400
+        purpose: Per-ticker sentiment scores, relevance flags, dirty headline counts
+      - key: source_health
+        budget_chars: 600
+        purpose: Source trust tiers — needed to assess narrative cleanliness
+    allowed_operators:
+      - macro_regime
+      - catalyst_intelligence
+    live_news_access: true
+    live_news_budget_chars: 1200
+    brier_access: false
+    thesis_registry_access: false
+    forbidden_keys:
+      - portfolio
+      - risk_metrics
+      - thesis_lifecycle
+      - research_forecasting
+      - data_quality_sla
+    max_total_context_chars: 5500
+    notes: >
+      Sentiment Narrative interprets tone and crowd psychology.
+      It must distinguish clean tape (T1/T2 source sentiment)
+      from dirty tape (T3/T4 amplification). The sentiment_
+      hygiene_gate operator verdict must be respected.
+
+  # ── GOLD SAFEHAVEN (future agent) ──────────────────────────
+  gold_safehaven:
+    display_name: Gold Safe-Haven Agent
+    allowed_dataset_keys:
+      - key: regime
+        budget_chars: 600
+        purpose: Risk-off confirmation for gold safe-haven thesis
+      - key: treasury_yields
+        budget_chars: 600
+        purpose: Real yields — primary gold driver signal
+      - key: cross_market_confirmation
+        budget_chars: 800
+        purpose: Dollar strength, oil risk premium, GLD/GDX/GDXJ signals
+      - key: risk_metrics
+        budget_chars: 600
+        purpose: Concentration in gold-miner cluster, add_allowed flag
+      - key: portfolio
+        budget_chars: 600
+        purpose: Gold-miner and AU/NEM positions specifically
+    allowed_operators:
+      - gold_thesis
+      - concentration_risk
+      - macro_regime
+    live_news_access: false
+    brier_access: false
+    thesis_registry_access: true
+    thesis_registry_budget_chars: 800
+    forbidden_keys:
+      - ticker_sentiment
+      - event_correlations_all
+      - research_forecasting
+      - source_health
+      - data_quality_sla
+    max_total_context_chars: 5500
+    notes: >
+      Gold Safehaven is a future specialist agent. It is not
+      yet in agent_registry.yaml or execution_queue.yaml.
+      Context map defined here for prompt architecture readiness.
+      When activated: add to agent_registry and execution_queue
+      with execution_order between thesis_lifecycle (50) and
+      risk_challenger (60).
+
+  # ── CHIEF STRATEGIST (synthesis role) ──────────────────────
+  chief_strategist:
+    display_name: Chief Strategist (Synthesis)
+    # Chief Strategist does NOT run as an LLM agent.
+    # It is a deterministic synthesis engine that reads
+    # all agent reports and produces the CIO briefing.
+    # This entry defines what it is ALLOWED to read from
+    # the cycle output for its synthesis inputs.
+    synthesis_inputs:
+      - all_agent_reports         # from agent_reports/ directory
+      - disagreement_log          # from disagreement_log.json
+      - operator_verdict_pack     # from operator_verdict_pack.json
+      - cycle_context.input_refs  # provenance chain
+    live_news_access: false
+    dataset_access: false
+    notes: >
+      Chief Strategist is a deterministic synthesis module
+      (chief_strategist/synthesis_engine.py), not an LLM agent.
+      It does not receive raw dataset — it reads agent reports.
+      Prompt packs for chief_strategist define the render format
+      and synthesis rules, not an LLM system prompt.

@@ -1,0 +1,337 @@
+===============================================================================
+BLUELOTUS V3 — DASHBOARD WIDGET PERSISTENCE HARDENING REPORT
+FROM       : Dr. Codex, Windows Platform Team
+TO         : Dr. Claude Code, Windows Platform Team
+CC         : Chief Architect ChatGPT 5.5
+DATE       : 2026-06-17 09:11 SGT
+STATUS     : COMPLETED
+SEVERITY   : P1 RESOLVED
+===============================================================================
+
+OBJECTIVE
+-------------------------------------------------------------------------------
+Harden the BlueLotus V3 dashboard so thesis widgets cannot be accidentally
+deleted during publisher regeneration.
+
+Incident addressed:
+  - S8 Global Leverage Unwind widget was added.
+  - S6 AI Infrastructure and S7 Credit Refinancing/Liquidity disappeared from
+    the dashboard presentation layer.
+  - Root class of failure: per-widget HTML injection created replacement risk.
+  - Required fix: registry-driven protected dashboard widget composition.
+
+Protected scope:
+  - C:\bluelotus3 only.
+  - C:\bluelotus2 was not modified.
+  - Broker execution remains disabled.
+  - CIO_ONLY_MANUAL remains intact.
+
+-------------------------------------------------------------------------------
+IMPLEMENTATION SUMMARY
+-------------------------------------------------------------------------------
+
+1. CENTRAL DASHBOARD WIDGET REGISTRY CREATED
+
+File:
+  C:\bluelotus3\config\dashboard_widgets.yaml
+
+Registry now defines:
+  - Protected dashboard widget zone markers.
+  - Widget display order.
+  - Widget section IDs.
+  - Widget marker IDs.
+  - Widget JSON endpoints.
+  - Common public base URL.
+  - Fail-closed publish policy.
+
+Enabled widgets:
+  - S6 | AI Infrastructure / Power Bottleneck
+    marker   : ai-infra-live
+    endpoint : data/thesis_widgets/ai_infrastructure_power_latest.json
+
+  - S7 | Credit Refinancing / Liquidity Stress
+    marker   : credit-refi-live
+    endpoint : data/thesis_widgets/credit_refinancing_liquidity_latest.json
+
+  - S8 | Global Leverage Unwind
+    marker   : global-leverage-live
+    endpoint : data/thesis_widgets/global_leverage_unwind_latest.json
+
+Protected zone:
+  <!-- THESIS_WIDGETS_START -->
+  ...
+  <!-- THESIS_WIDGETS_END -->
+
+
+2. SHARED WIDGET MANAGER CREATED
+
+File:
+  C:\bluelotus3\scripts\dashboard_widget_manager.py
+
+Responsibilities:
+  - Load and validate dashboard_widgets.yaml.
+  - Render all enabled widgets from the registry.
+  - Insert or replace only the protected thesis widget zone.
+  - Verify S6/S7/S8 markers exist.
+  - Verify widget order is stable.
+  - Ensure the widget zone remains before System Health.
+  - Fail publish when enabled widget markers are missing.
+  - Preserve .nojekyll.
+
+Key guard behavior:
+  - If FAIL_PUBLISH_IF_ENABLED_WIDGET_MISSING is unset, default is fail-closed.
+  - If enabled widget markers are missing, publisher/update scripts return
+    failure instead of silently publishing a partial dashboard.
+
+
+3. BLUELOTUS PUBLISHER HARDENED
+
+File:
+  C:\bluelotus3\mid\bluelotus_publisher.py
+
+Changes:
+  - Imports dashboard_widget_manager.
+  - Renders the protected widget zone during dashboard build.
+  - Places thesis widgets before System Health.
+  - Calls ensure_nojekyll().
+  - Calls assert_publishable() before pushing index.html.
+
+Result:
+  - bluelotus_publisher.py regeneration no longer removes S6/S7/S8.
+  - Dashboard publishing fails closed if registry-enabled widgets are missing.
+
+
+4. CENTRAL UPDATE SCRIPT CREATED
+
+File:
+  C:\bluelotus3\scripts\update_dashboard_widgets.py
+
+Capabilities:
+  - --restore
+  - --verify-public
+  - Fetch current GitHub Pages index.html.
+  - Replace or insert protected widget zone.
+  - Push corrected index.html through GitHub Contents API.
+  - Preserve .nojekyll.
+  - Validate publishability before push.
+
+This replaces the unsafe operational pattern of independently injecting
+individual widget blocks.
+
+
+5. LOCAL AND PUBLIC VERIFICATION SCRIPTS CREATED
+
+Local verifier:
+  C:\bluelotus3\scripts\verify_dashboard_widgets_local.py
+
+Public verifier:
+  C:\bluelotus3\scripts\verify_dashboard_widgets_public.py
+
+Verification checks:
+  - Dashboard widget zone exists.
+  - S6/S7/S8 markers exist.
+  - Widget order is S6 -> S7 -> S8.
+  - System Health remains present.
+  - Widget JSON endpoints exist.
+  - Safety fields exist:
+      execution_authority
+      order_routing_enabled
+      llm_order_generation
+      orders_generated
+
+
+6. LEGACY PER-WIDGET UPDATE SCRIPTS CONVERTED TO SAFE WRAPPERS
+
+Files:
+  C:\bluelotus3\scripts\update_s6_card.py
+  C:\bluelotus3\scripts\update_s7_card.py
+  C:\bluelotus3\scripts\update_s8_card.py
+
+Change:
+  - These scripts no longer perform isolated per-card injection.
+  - They now delegate to:
+      C:\bluelotus3\scripts\update_dashboard_widgets.py --restore --verify-public
+
+Result:
+  - Running an old card update command restores the entire registry-defined
+    widget zone instead of risking removal of neighboring widgets.
+
+
+7. ENVIRONMENT TEMPLATE UPDATED
+
+File:
+  C:\bluelotus3\.env.template
+
+Added:
+  DASHBOARD_WIDGET_REGISTRY_PATH=config\dashboard_widgets.yaml
+  FAIL_PUBLISH_IF_ENABLED_WIDGET_MISSING=true
+
+
+8. TEST SUITE ADDED
+
+File:
+  C:\bluelotus3\tests\test_dashboard_widget_persistence.py
+
+Coverage:
+  - Registry exists and loads.
+  - S6/S7/S8 are present in registry.
+  - Enabled widgets have markers and JSON endpoints.
+  - Duplicate marker IDs fail validation.
+  - Duplicate section IDs fail validation.
+  - Zone renders all enabled widgets.
+  - Protected zone markers exist.
+  - Verification requires S6/S7/S8.
+  - Widget zone is before System Health.
+  - Restore mode inserts missing zone.
+  - Non-restore mode refuses missing zone.
+  - assert_publishable fails when enabled markers are missing.
+  - .nojekyll exists or is created.
+  - Publisher is wired to widget guard.
+  - Manager has no broker or LLM dependency.
+  - Manager has no protected C:\bluelotus2 dependency.
+
+
+-------------------------------------------------------------------------------
+LIVE INCIDENT CORRECTION DURING HARDENING
+-------------------------------------------------------------------------------
+
+During final verification, local S6 JSON contained the required field:
+  orders_generated: 0
+
+But the public GitHub Pages endpoint initially still served the old S6 payload
+without orders_generated.
+
+Root cause found:
+  - Two stale S6 daemon processes were still running:
+      thesis_widgets/ai_infrastructure_power.py
+  - Those old live processes were able to republish the older payload shape.
+
+Correction:
+  - Stopped duplicate stale S6 widget processes.
+  - Regenerated S6 once from current source.
+  - Confirmed GitHub API content now contains:
+      orders_generated: 0
+  - Restarted exactly one fresh S6 daemon.
+
+Current confirmed S6 daemon:
+  - PID observed after restart: 9300
+  - Command:
+      C:\Users\sohwe\AppData\Local\Microsoft\WindowsApps\python.exe
+      C:\bluelotus3\thesis_widgets\ai_infrastructure_power.py
+
+Existing S8 daemon confirmed still running:
+  - PID observed: 45568
+  - Command:
+      C:\Users\sohwe\AppData\Local\Microsoft\WindowsApps\python.exe
+      C:\bluelotus3\thesis_widgets\global_leverage_unwind.py
+
+
+-------------------------------------------------------------------------------
+VERIFICATION RESULTS
+-------------------------------------------------------------------------------
+
+Publisher regeneration:
+  Command:
+    python C:\bluelotus3\mid\bluelotus_publisher.py
+
+  Result:
+    GitHub index.html                  PASS 200
+    GitHub chief-strategist.html       PASS 200
+    GitHub data/portfolio_live.json    PASS 200
+    GitHub data/chief_strategist_v17.txt PASS 200
+    GitHub data/v3_agents_latest.json  PASS 200
+    Completed
+
+Note:
+  - Publisher emitted pre-existing SyntaxWarning messages for invalid escape
+    sequence '\d'. These did not block publishing or widget verification.
+
+
+Local dashboard verification:
+  Command:
+    python C:\bluelotus3\scripts\verify_dashboard_widgets_local.py --html C:\bluelotus3\data\debug_index_from_github.html
+
+  Result:
+    PASS local dashboard widget verification
+      ai-infra-live: 2
+      credit-refi-live: 2
+      global-leverage-live: 2
+
+
+Public dashboard verification:
+  Command:
+    python C:\bluelotus3\scripts\verify_dashboard_widgets_public.py
+
+  Result:
+    PASS public dashboard widget verification
+      S6 ai-infra-live OK
+      S7 credit-refi-live OK
+      S8 global-leverage-live OK
+
+
+GitHub API index verification:
+  Confirmed:
+    THESIS_WIDGETS_START     count 1
+    ai-infra-live            count 2
+    credit-refi-live         count 2
+    global-leverage-live     count 2
+    System Health            count 1
+
+
+Test suite:
+  Command:
+    python -m pytest C:\bluelotus3\tests\test_dashboard_widget_persistence.py C:\bluelotus3\thesis_widgets\tests -q
+
+  Result:
+    299 passed, 2 warnings
+
+
+-------------------------------------------------------------------------------
+SAFETY CONFIRMATION
+-------------------------------------------------------------------------------
+
+Confirmed:
+  - C:\bluelotus2 not modified.
+  - Dashboard widget manager has no broker dependency.
+  - Dashboard widget manager has no LLM dependency.
+  - Dashboard widget manager has no protected C:\bluelotus2 dependency.
+  - execution_authority remains CIO_ONLY_MANUAL.
+  - order_routing_enabled remains false.
+  - llm_order_generation remains false.
+  - orders_generated remains 0.
+  - .nojekyll preserved.
+
+
+-------------------------------------------------------------------------------
+FINAL STATUS
+-------------------------------------------------------------------------------
+
+OPEN INCIDENT:
+  S6/S7 disappearance after S8 dashboard update
+
+STATUS:
+  RESOLVED
+
+HARDENING STATUS:
+  COMPLETED
+
+PUBLIC WEBSITE STATUS:
+  VERIFIED GREEN
+
+REGRESSION STATUS:
+  299 tests passing
+
+OPERATIONAL VERDICT:
+  S6, S7, and S8 dashboard widgets are now registry-owned and protected from
+  accidental deletion during publisher regeneration.
+
+NEXT RECOMMENDED POLICY:
+  For S9 and later widgets, add entries only to:
+    C:\bluelotus3\config\dashboard_widgets.yaml
+
+  Do not create new isolated per-card dashboard injection scripts. Any legacy
+  per-widget script should delegate to update_dashboard_widgets.py.
+
+===============================================================================
+END_OF_REPORT
+===============================================================================

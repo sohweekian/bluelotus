@@ -1,0 +1,253 @@
+BLUELOTUS V3 - SHANNON-THORP REFINEMENT IMPLEMENTATION REPORT
+Prepared by: Dr. Codex, Windows Platform Team
+Date: 2026-06-20 SGT
+Authority: CIO_ONLY_MANUAL
+Order Routing: DISABLED
+System Generated Orders: 0
+
+1. Executive Summary
+--------------------
+The Shannon-Thorp Refinement layer, abbreviated STR, has been implemented as a
+research-only, non-executing intelligence layer inside BlueLotus V3.
+
+STR adds:
+  - Shannon signal entropy beside existing categorical labels.
+  - Source-capacity collection records beside existing static source tiers.
+  - Third-witness cost-basis reconciliation pathway for persistent P/L conflicts.
+  - Thorp/Kelly advisory sizing beside CIO manual sizing.
+  - VXX/VIXY hedge-ratio review beside existing hedge doctrine.
+
+STR does not generate orders.
+STR does not route orders.
+STR does not override CIO_ONLY_MANUAL.
+STR does not override deterministic governance.
+STR does not mutate broker records.
+
+2. Files Created
+----------------
+  C:\bluelotus3\acms_cop\classifiers\signal_entropy_classifier.py
+  C:\bluelotus3\acms_cop\classifiers\source_capacity_tracker.py
+  C:\bluelotus3\acms_cop\learning\cost_basis_reconciler.py
+  C:\bluelotus3\acms_cop\learning\kelly_edge_calculator.py
+  C:\bluelotus3\acms_cop\learning\hedge_ratio_reviewer.py
+  C:\bluelotus3\acms_cop\reports\signal_edge_dashboard_renderer.py
+
+  C:\bluelotus3\tests\test_str_signal_entropy.py
+  C:\bluelotus3\tests\test_str_source_capacity.py
+  C:\bluelotus3\tests\test_str_cost_basis_reconciler.py
+  C:\bluelotus3\tests\test_str_kelly_edge_calculator.py
+  C:\bluelotus3\tests\test_str_hedge_ratio_reviewer.py
+  C:\bluelotus3\tests\test_str_report_integration.py
+  C:\bluelotus3\tests\test_str_governance_fail_closed.py
+
+3. Files Modified
+-----------------
+  C:\bluelotus3\acms_cop\classifiers\__init__.py
+  C:\bluelotus3\acms_cop\learning\__init__.py
+  C:\bluelotus3\acms_cop\reports\__init__.py
+  C:\bluelotus3\acms_cop\schema\acms_schema.sql
+  C:\bluelotus3\acms_cop\db\acms_loader.py
+  C:\bluelotus3\research\research_report_generator.py
+  C:\bluelotus3\mid\bluelotus_publisher.py
+  C:\bluelotus3\tests\test_acms_schema.py
+
+4. Database Tables Created
+--------------------------
+ACMS-COP migration was run successfully:
+  python -m acms_cop.db.migrations --database bluelotus3
+
+Migration result:
+  ACMS-COP migrations applied: 14 statements
+
+New append-only STR tables:
+  acms_signal_entropy
+  acms_source_capacity
+  acms_cost_basis_reconciliation
+  acms_kelly_sizing_advisory
+  acms_hedge_ratio_review
+  acms_str_cycle_summary
+
+Current inserted row counts:
+  acms_signal_entropy: 202
+  acms_source_capacity: 52
+  acms_cost_basis_reconciliation: 4
+  acms_kelly_sizing_advisory: 201
+  acms_hedge_ratio_review: 1
+  acms_str_cycle_summary: 1
+
+5. JSON Keys Added
+------------------
+dataset_raw now includes:
+  dataset_raw["shannon_thorp_refinement"]
+
+Delivery JSON now includes:
+  research_report_delivery_latest.json["shannon_thorp_refinement"]
+
+Root object includes:
+  status
+  version
+  generated_at
+  governance_pack_id
+  report_memory_binding_id
+  execution_authority
+  order_routing_enabled
+  system_orders_generated
+  signal_entropy
+  source_capacity
+  cost_basis_reconciliation
+  kelly_sizing_advisory
+  hedge_ratio_review
+  brier_logging_status
+  cycle_summary
+  doctrine
+
+6. Report Sections Added
+------------------------
+TXT report:
+  STR - SIGNAL, ENTROPY, AND EDGE
+  STR-1 Signal Entropy Table
+  STR-2 Source Capacity Watch
+  STR-3 Cost Basis Reconciliation
+  STR-4 Kelly Advisory Sizing
+  STR-5 Hedge Ratio Review
+  STR-6 STR Governance Footer
+
+DOCX report:
+  00C - STR SIGNAL, ENTROPY, AND EDGE
+  SHANNON-THORP RESEARCH-ONLY ADVISORY LAYER
+
+Website publisher:
+  Chief Strategist report text now appends the STR text section when available.
+  Raw GitHub report confirmed to contain STR sections.
+
+7. XLSX Sheets Added
+--------------------
+  STR_Signal_Entropy
+  STR_Source_Capacity
+  STR_Cost_Basis
+  STR_Kelly_Sizing
+  STR_Hedge_Review
+  STR_Cycle_Summary
+
+Existing PEI sheets were preserved.
+
+8. Current Cycle STR Output
+---------------------------
+STR status: OPERATIONAL
+Signal entropy records: 202
+Source capacity records: 52
+Cost-basis reconciliation records: 4
+Kelly advisory sizing records: 201
+Hedge review records: 1
+Hedge status: UNDER_HEDGED
+
+Persistent cost-basis conflicts reported:
+  ASTS: UNRESOLVED_AWAITING_THIRD_SOURCE
+  QUBT: UNRESOLVED_AWAITING_THIRD_SOURCE
+  LUNR: UNRESOLVED_AWAITING_THIRD_SOURCE
+  QBTS: UNRESOLVED_AWAITING_THIRD_SOURCE
+
+This is correct under the thesis doctrine:
+  It does not resolve the cost-basis conflict by fiat.
+  It adds a third-witness reconciliation pathway.
+
+9. Test Results
+---------------
+STR unit/integration tests:
+  16 passed
+
+STR + nearby ACMS/report regression set:
+  24 passed
+
+Python compile check:
+  PASS for STR modules, report generator, publisher, and ACMS loader.
+
+Report generation:
+  python C:\bluelotus3\research\research_report_generator.py
+  PASS
+  TXT generated
+  XLSX generated
+  DOCX generated
+  Delivery JSON generated
+  Acceptance Validation: PASS (10/10)
+
+ACMS loader:
+  Dry run: PASS
+  Live insert: PASS
+  Inserted rows: 694
+
+10. Governance Verification
+---------------------------
+Verified:
+  execution_authority = CIO_ONLY_MANUAL
+  order_routing_enabled = FALSE
+  system_orders_generated = 0
+
+STR records governance pack and report memory binding on root object and row
+objects. Every STR table includes:
+  run_id
+  cycle_timestamp
+  dataset_timestamp
+  report_binding_id
+  governance_pack_id
+  execution_authority
+  order_routing_enabled
+  system_orders_generated
+  created_at
+
+11. Execution Safety Verification
+---------------------------------
+No STR module imports broker execution APIs.
+No STR module creates orders.
+No STR module routes orders.
+No STR module modifies broker records.
+No Kelly advisory output is treated as execution permission.
+No entropy classification is treated as automatic buy/sell permission.
+No hedge review output is treated as an automatic hedge change.
+
+12. Known Limitations
+---------------------
+1. Source capacity remains CAPACITY_COLLECTING because resolved forecast history
+   is still immature. This is intentional and thesis-compliant.
+
+2. Cost-basis reconciliation cannot resolve ASTS/QUBT/LUNR/QBTS until a third
+   independent witness is provided, such as broker statement export, second API
+   endpoint, manual CSV, or approved screenshot/OCR extraction.
+
+3. Kelly sizing is advisory only and depends on analyst upside and probability
+   estimates. It is not a portfolio optimizer and not an order generator.
+
+4. Hedge review uses available beta estimates and VXX/VIXY exposure. It should be
+   treated as review intelligence, not a hedge instruction.
+
+5. Dashboard publishing displays STR via Chief Strategist report text. A richer
+   visual STR widget can be built later if CIO requests it.
+
+13. Next-Cycle Verification Checklist
+-------------------------------------
+At the next V3 cycle, verify:
+  1. dataset_raw["shannon_thorp_refinement"] exists.
+  2. STR status remains OPERATIONAL.
+  3. Governance remains CIO_ONLY_MANUAL.
+  4. Order routing remains FALSE.
+  5. System orders generated remains 0.
+  6. ASTS/QUBT/LUNR/QBTS cost-basis conflicts remain visible until third witness exists.
+  7. Kelly rows remain advisory-only.
+  8. XLSX retains all six STR sheets.
+  9. DOCX retains STR section.
+  10. TXT retains STR section.
+  11. ACMS loader inserts STR rows append-only.
+  12. Publisher includes STR in Chief Strategist report text.
+
+14. Final Doctrine Statement
+----------------------------
+STR is research-only.
+STR does not generate orders.
+STR does not route orders.
+STR does not override CIO_ONLY_MANUAL.
+STR adds numbers beside existing labels.
+STR adds advisory formula sizing beside CIO sizing.
+STR adds a third-witness reconciliation pathway for cost-basis conflicts.
+
+Implementation status:
+  COMPLETE / OPERATIONAL / GOVERNANCE-BOUND

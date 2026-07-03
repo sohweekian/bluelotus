@@ -1,0 +1,98 @@
+================================================================================
+BLUELOTUS V3 — WORK ORDER
+Empty Agent Findings: Semantic Content Gate
+================================================================================
+Date          : 2026-06-21
+Work Order ID : WO-20260621-001
+Author        : Dr. Claude Code (Windows Platform Team)
+SOP Reference : BlueLotus V3 Bug-Solving SOP — Step 3
+================================================================================
+
+PROBLEM
+-------
+5 of 9 agents (data_integrity, macro_strategist, portfolio_structure,
+catalyst_intelligence, thesis_lifecycle) returned JSON with all analytical
+content fields at scaffold defaults:
+  summary: ""
+  key_findings: []
+  confidence: 0.5
+  causal_completeness: "partial"
+  retry_count: 0
+
+The reports are schema-valid and pass all existing validation gates, so no
+retry is triggered. The Chief Strategist page displays "No findings" for these
+agents, giving the CIO a degraded intelligence picture.
+
+ROOT CAUSE
+----------
+compact_user_prompt() in agents/base_agent.py (lines 344-350) includes a
+fully-formed empty JSON scaffold as the shape template:
+
+  "Return this shape exactly with your desk-specific content:\n"
+  {"schema_version":..., "key_findings":[], "confidence":0.5, "summary":"", ...}
+
+qwen3:4b interprets "this shape exactly" literally: fills in metadata fields
+it can extract from the prompt (cycle_id, agent_id, created_at_sgt) and
+returns the content arrays verbatim from the template. The result is
+schema-valid, sets result["ok"]=True, and exits the retry loop with 0 retries.
+
+AFFECTED FILES
+--------------
+1. C:\bluelotus3\agents\base_agent.py
+   - run_legacy_prompt_path() lines 51-99
+   - run_new_prompt_architecture() lines 101-165
+
+2. C:\bluelotus3\prompting\retry_prompt_builder.py
+   - classify_error() function
+   - _REPAIR_INSTRUCTIONS dict
+   - build_retry_user_prompt() function
+
+PROPOSED FIX
+------------
+Change 1 — base_agent.py: Semantic content gate
+  After the initial LLM call returns ok=True, check for all-default content:
+    is_empty = (
+        not report.get("summary") and
+        not report.get("key_findings") and
+        report.get("confidence") == 0.5
+    )
+  If is_empty: synthesise result = {"ok": False, "error": "EMPTY_CONTENT_RESPONSE: ..."}
+  This feeds the existing retry loop without restructuring it.
+
+  Apply same check in BOTH run_legacy_prompt_path and run_new_prompt_architecture.
+
+Change 2 — retry_prompt_builder.py: EMPTY_CONTENT_RESPONSE handling
+  Add "EMPTY_CONTENT_RESPONSE" to classify_error() pattern matching.
+  Add repair instruction that explicitly calls out the empty response and
+  demands at least 1 key_findings item starting with [DATASET], [OPERATOR],
+  [NEWS], [THESIS], or [BRIER].
+  The retry user prompt must show the agent its previous empty response and
+  say "Your findings were empty. Analyse the evidence packet and populate
+  key_findings with at least 1 real finding."
+
+ACCEPTANCE TESTS
+----------------
+1. python -m py_compile agents/base_agent.py → COMPILE_OK
+2. python -m py_compile prompting/retry_prompt_builder.py → COMPILE_OK
+3. python -m pytest tests/ -x -q → relevant tests pass
+4. Run a new V3 cycle: python -m orchestration.run_v3_grand_cycle
+5. Check learning_loop_snapshot.json: failing agents should show retry_count >= 1
+6. Check agent JSON files: key_findings should be non-empty for at least 3 of
+   the previously-failing agents
+
+SAFETY INVARIANTS
+-----------------
+- Do NOT change schema (key_findings may still be [] after retry — if model
+  genuinely cannot find evidence after 2 retries, accept empty)
+- Do NOT change retry max count (remains LLM_MAX_RETRIES = 2)
+- Do NOT touch agent prompts, dataset, or publisher
+- Do NOT change schema validation logic
+- BlueLotus Law preserved: no order language, CIO_ONLY_MANUAL unchanged
+
+OUT OF SCOPE FOR THIS WORK ORDER
+---------------------------------
+- Increasing num_predict from 800 to 1400 (separate enhancement)
+- Changing the scaffold template in compact_user_prompt()
+- Prompt architecture changes
+- Quality score threshold recalibration
+================================================================================

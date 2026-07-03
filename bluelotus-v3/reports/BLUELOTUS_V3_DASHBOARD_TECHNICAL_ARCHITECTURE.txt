@@ -1,0 +1,1077 @@
+================================================================================
+BLUELOTUS V3 — DASHBOARD TECHNICAL ARCHITECTURE
+================================================================================
+CLASSIFICATION : INTERNAL — ARCHITECTURE TEAM
+FROM           : Dr. Claude Code, Chief Architecture Specialist
+TO             : Dr. Codex (Windows Platform Team) / Chief Architecture Specialist
+DATE           : 2026-06-17
+SYSTEM         : C:\bluelotus3
+PUBLIC URL     : https://sohweekian.github.io/bluelotus/
+================================================================================
+
+
+================================================================================
+1. EXECUTIVE SUMMARY
+================================================================================
+
+The BlueLotus V3 dashboard is a live, registry-driven, multi-thesis intelligence
+dashboard hosted on GitHub Pages. It surfaces four independent thesis widgets
+(S6 through S9) and a V2-legacy CIO intelligence layer on a single public
+homepage.
+
+Key architectural facts:
+
+  - Four standalone thesis widget daemons run independently of each other and of
+    the V3 publisher pipeline. Each daemon fetches market prices via yfinance,
+    scores a set of baskets against configurable YAML thresholds, and pushes a
+    JSON result to GitHub every 600 seconds.
+
+  - The dashboard (index.html) is rendered by bluelotus_publisher.py and hosted
+    on GitHub Pages. Widget cards are registry-driven HTML+JS blocks injected
+    into a protected zone; they self-refresh in the browser via fetch() every
+    600 seconds without requiring a new HTML push.
+
+  - A central dashboard widget registry (config/dashboard_widgets.yaml) is the
+    single source of truth for which widgets exist, their render order, their
+    marker IDs, and their JSON endpoints. The publisher reads the registry at
+    build time and refuses to publish an index.html that is missing any enabled
+    widget marker (fail-closed guard).
+
+  - All four widgets enforce: CIO_ONLY_MANUAL execution authority,
+    order_routing_enabled = false, llm_order_generation = false, no broker
+    imports, no LLM imports (Qwen, Ollama, OpenAI, Anthropic). These invariants
+    are enforced by the test suite on every build.
+
+  - Test count as of 2026-06-17: 339 passed, 2 warnings (unrelated to BlueLotus).
+
+
+================================================================================
+2. HIGH-LEVEL ARCHITECTURE DIAGRAM
+================================================================================
+
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │                        BLUELOTUS V3 SYSTEM                          │
+  │                                                                      │
+  │   STANDALONE THESIS WIDGET DAEMONS (each independent)               │
+  │                                                                      │
+  │   ┌────────────┐  ┌────────────┐  ┌────────────┐  ┌────────────┐   │
+  │   │ S6 Daemon  │  │ S7 Daemon  │  │ S8 Daemon  │  │ S9 Daemon  │   │
+  │   │ ai_infra_  │  │ credit_re- │  │ global_le- │  │ oil_deesc- │   │
+  │   │ power.py   │  │ fi_liq.py  │  │ verage_.py │  │ alation.py │   │
+  │   └─────┬──────┘  └─────┬──────┘  └─────┬──────┘  └─────┬──────┘   │
+  │         │               │               │               │           │
+  │         │  yfinance     │  yfinance     │  yfinance     │  yfinance │
+  │         ▼               ▼               ▼               ▼           │
+  │   ┌────────────────────────────────────────────────────────────┐    │
+  │   │            data/thesis_widgets/ (local JSON files)         │    │
+  │   │  ai_infrastructure_power_latest.json                       │    │
+  │   │  credit_refinancing_liquidity_latest.json                  │    │
+  │   │  global_leverage_unwind_latest.json                        │    │
+  │   │  oil_deescalation_peace_dividend_latest.json               │    │
+  │   └──────────────────────────┬─────────────────────────────────┘    │
+  │                              │  GitHub API (push per cycle)         │
+  │                              ▼                                       │
+  │   ┌──────────────────────────────────────────────────────────────┐  │
+  │   │  GitHub Repository: sohweekian/bluelotus                     │  │
+  │   │  data/thesis_widgets/*_latest.json  (JSON endpoints)         │  │
+  │   │  index.html                         (dashboard)              │  │
+  │   └──────────────────────────┬───────────────────────────────────┘  │
+  │                              │  GitHub Pages (static hosting)       │
+  │                              ▼                                       │
+  │   ┌──────────────────────────────────────────────────────────────┐  │
+  │   │  https://sohweekian.github.io/bluelotus/                     │  │
+  │   │  Browser: JS fetch() every 600 s → live widget cards        │  │
+  │   └──────────────────────────────────────────────────────────────┘  │
+  │                                                                      │
+  │   DASHBOARD PUBLISHER (separate, triggered manually or by V2 pipe)  │
+  │   ┌──────────────────────────────────────────────────────────────┐  │
+  │   │  bluelotus_publisher.py                                      │  │
+  │   │    → reads config/dashboard_widgets.yaml (registry)         │  │
+  │   │    → renders widget zone HTML                               │  │
+  │   │    → assert_publishable() — fail-closed guard               │  │
+  │   │    → pushes index.html to GitHub                            │  │
+  │   └──────────────────────────────────────────────────────────────┘  │
+  └──────────────────────────────────────────────────────────────────────┘
+
+
+================================================================================
+3. THESIS WIDGET DAEMON ARCHITECTURE
+================================================================================
+
+Each of the four V3 thesis widgets (S6–S9) follows an identical architectural
+pattern. The pattern is a contract, not a convention — tests enforce it.
+
+3.1 STRUCTURAL INVARIANTS (enforced by test suite)
+────────────────────────────────────────────────────
+
+  NO_HARDCODING_DOCTRINE
+    All operational values live exclusively in the YAML config file. Python
+    reads the config at startup and owns zero operational constants. This
+    includes: ticker symbols, scoring weights, thresholds, market hours,
+    timezone, output paths, GitHub paths, headline keywords, status strings,
+    CIO action labels, and safety constants. Consequence: any operational
+    change is a config edit followed by a daemon restart — never a code change.
+
+  SAFETY CONSTANTS (identical across all four widgets)
+    execution_authority:   "CIO_ONLY_MANUAL"
+    order_routing_enabled: false
+    llm_order_generation:  false
+    orders_generated:      0        (always 0 in every output)
+
+  FORBIDDEN IMPORTS
+    None of the following may appear anywhere in a V3 widget Python file:
+    openai, anthropic, ollama, qwen, langchain, alpaca, ibapi, ib_insync,
+    moomoo, futu. Tests parse Python ASTs to enforce this.
+
+  FORBIDDEN PATHS
+    No reference to "C:\bluelotus2" in any V3 widget Python file. V3 and V2
+    are fully separated systems. Tests enforce this.
+
+  SCHEMA
+    Every widget output JSON carries: schema_version = "thesis_widget_v1.1",
+    thesis_id, status, score, confidence, cio_action, add_allowed, risk_level,
+    data_quality, market_status, market_open, last_updated_sgt, last_updated_utc,
+    primary_signals, ticker_evidence, headline_score, external_evidence,
+    blind_spots, safety block. Tests validate all required fields on every run.
+
+3.2 EXECUTION LOOP
+───────────────────
+
+  Each daemon runs a continuous loop:
+
+    while True:
+        run_once(cfg)     # fetch prices, score, build output, save, push to GitHub
+        sleep(600)        # refresh_interval_seconds from YAML
+
+  Each run_once() call:
+    1. Fetch market prices for all configured tickers via yfinance (5-day window)
+    2. Compute day_change_pct for each ticker
+    3. Score each basket (weighted pass/watch/fail counts → basket score)
+    4. Apply basket-level signal (pass/fail/watch/stress/calm depending on widget)
+    5. Score headline feed (data/headlines_live.json) via keyword matching
+    6. Apply escalation or risk penalties where configured
+    7. Apply false-positive rules where configured (S9 only)
+    8. Read external evidence from peer widget JSON files (optional, graceful)
+    9. Compute total score (clamped 0–100)
+    10. Map score → status → confidence → cio_action
+    11. Compute add_allowed from status + confidence + basket gates + external evidence
+    12. Build full output dict
+    13. Save JSON locally
+    14. Push JSON to GitHub via REST API (base64-encoded content, creates or updates file)
+
+3.3 DATA QUALITY TRACKING
+──────────────────────────
+
+  Each widget tracks yfinance availability per ticker:
+    FULL:        all symbols returned valid price data
+    PARTIAL:     some symbols returned valid data, some failed
+    UNAVAILABLE: no symbol returned valid data
+
+  data_quality is surfaced in the JSON output and is visible in the dashboard
+  card. PARTIAL and UNAVAILABLE degrade the score and trigger heightened CIO
+  review recommendations.
+
+3.4 MARKET HOURS AWARENESS
+────────────────────────────
+
+  Each widget determines its market_status at run time from the YAML config:
+    OPEN:           market is live (09:30–16:00 ET, Mon–Fri)
+    CLOSED_PRE:     before market open on a trading day
+    CLOSED_POST:    after market close on a trading day
+    CLOSED_WEEKEND: Saturday or Sunday
+
+  The data_freshness_label reflects this in the dashboard card, so the CIO
+  always knows whether the data is intraday or last-session close.
+
+3.5 EXTERNAL EVIDENCE (WIDGET CROSS-READS)
+────────────────────────────────────────────
+
+  S8 reads S5 (BOJ/Yen Watcher) and S7 (Credit/Liquidity) JSON files as
+  optional external evidence. Absent files are handled gracefully — no crash,
+  no hard dependency.
+
+  S9 reads S7 (Credit/Liquidity) and S8 (Leverage Unwind) JSON files as
+  optional external evidence. S7 ACTIVE_STRESS or SEVERE_STRESS blocks
+  add_allowed. S8 WATCH, ACTIVE_UNWIND, or SEVERE_UNWIND blocks add_allowed.
+
+  External evidence is strictly read-only and optional. No widget writes to
+  another widget's data file or calls another widget's code.
+
+3.6 HEADLINE FEED
+──────────────────
+
+  All four widgets read data/headlines_live.json produced by the V3 news probe
+  daemon (news_probe_daemon.py). If the file does not exist, headline_score is
+  zero and the widget continues without error. Headline scoring is purely
+  deterministic: case-insensitive substring keyword matching — no LLM, no NLP.
+
+  S9 additionally scans for escalation keywords (e.g., "Hormuz closed",
+  "tanker attack", "missile strike") and applies a negative score penalty
+  (max -25) to prevent false-positive peace-dividend signals during
+  re-escalation events.
+
+
+================================================================================
+4. WIDGET CATALOGUE — S6 THROUGH S9
+================================================================================
+
+────────────────────────────────────────────────────────────────────────────────
+4.1  S6 · AI INFRASTRUCTURE / POWER BOTTLENECK THESIS
+────────────────────────────────────────────────────────────────────────────────
+
+  Thesis ID:      AI_INFRASTRUCTURE_POWER_THESIS
+  Widget file:    thesis_widgets/ai_infrastructure_power.py
+  Config:         config/thesis_widgets/ai_infrastructure_power.yaml
+  JSON output:    data/thesis_widgets/ai_infrastructure_power_latest.json
+  Dashboard ID:   ai-infra-live
+  Card type:      thesis_monitor
+  Schema version: thesis_widget_v1.1
+
+  THESIS DIRECTION
+    Higher score = stronger confirmation of AI infrastructure / power bottleneck
+    thesis. 0 = thesis not confirmed. 100 = all channels confirming strongly.
+
+  BASKETS & WEIGHTS (total weighted capacity = 80, headline adds up to 15)
+
+    AI_COMPUTE           weight 20
+      Tickers: NVDA, AVGO, AMD, SMCI, ARM, MU
+      PASS when: ≥55% of tickers up ≥0.5% on the day
+      Thesis signal: AI compute names outperforming → core thesis engine active
+
+    HYPERSCALER          weight 15
+      Tickers: MSFT, GOOGL, AMZN, META, ORCL
+      PASS when: ≥55% of tickers up ≥0.5%
+      Thesis signal: hyperscalers bid → market rewards AI capex commitment
+
+    POWER_GRID           weight 25
+      Tickers: VRT, ETN, PWR, GEV, CEG, NEE, SO, DUK
+      PASS when: ≥55% of tickers up ≥0.5%
+      Thesis signal: power/grid names bid → AI data center demand confirming in
+      the physical power layer; this is the primary differentiator from a pure
+      tech/equity rally
+
+    COPPER_INFRASTRUCTURE weight 10
+      Tickers: COPX, FCX
+      PASS when: ≥55% up ≥0.5%
+      Thesis signal: copper proxies bid → physical infrastructure demand confirmed
+
+    NUCLEAR_POWER        weight 10
+      Tickers: URA, CCJ, SMR
+      PASS when: ≥55% up ≥0.5%
+      Thesis signal: nuclear/uranium names bid → long-duration power capacity
+      thesis active (SMRs, data center power offtake agreements)
+
+  HEADLINE KEYWORDS (26 terms, max +15 pts, 1.5 pts per match)
+    "AI data center", "data center power", "data center demand", "grid
+    bottleneck", "electricity demand", "AI capex", "GPU cluster", "nuclear
+    power", "transformer shortage", "cooling", "hyperscaler spending", "power
+    shortage", "energy infrastructure", "cloud capex", "data center",
+    "power grid", "electrification", "copper demand", "uranium", "SMR",
+    "nuclear reactor", "AI infrastructure", "power bottleneck", "clean energy",
+    "grid capacity", "capex cycle"
+
+  RISK PENALTY
+    If SPY and QQQ both fall ≥2.0% on the day, a broad-market liquidation
+    penalty is applied (max -10 pts). This prevents the widget from showing
+    CONFIRMING during a broad rout that happens to drag AI names up in relative
+    terms via sector rotation.
+
+  STATUS THRESHOLDS
+    CONFIRMING ≥75  WATCH ≥55  MIXED ≥40  WEAKENING ≥20  CONTRADICTED <20
+
+  CIO ACTION MAP
+    CONFIRMING → HOLD_REVIEW    WATCH → HOLD
+    MIXED      → WAIT           WEAKENING / CONTRADICTED → NO_ADD
+    UNKNOWN    → CIO_REVIEW_REQUIRED
+
+  ADD ALLOWED
+    True only when status = CONFIRMING.
+
+────────────────────────────────────────────────────────────────────────────────
+4.2  S7 · CREDIT / REFINANCING / LIQUIDITY THESIS
+────────────────────────────────────────────────────────────────────────────────
+
+  Thesis ID:      CREDIT_REFINANCING_LIQUIDITY_THESIS
+  Widget file:    thesis_widgets/credit_refinancing_liquidity.py
+  Config:         config/thesis_widgets/credit_refinancing_liquidity.yaml
+  JSON output:    data/thesis_widgets/credit_refinancing_liquidity_latest.json
+  Dashboard ID:   credit-refi-live
+  Card type:      risk_monitor
+  Schema version: thesis_widget_v1.1
+
+  THESIS DIRECTION
+    INVERTED from S6/S9. Higher score = more credit/liquidity STRESS.
+    This is a risk monitor, not a thesis confirmation engine.
+    0 = credit calm. 100 = severe systemic stress.
+    add_allowed is always false (risk monitor; adds never permitted via signal).
+
+  BASKETS & WEIGHTS
+
+    HIGH_YIELD_CREDIT    weight 25   stress_on_rise: false
+      Tickers: HYG, JNK, ANGL, SJNK
+      STRESS when: ≥55% fall ≥0.5% (credit ETFs falling = spread widening)
+      Signal: high-yield under pressure → refinancing/liquidity stress
+
+    INVESTMENT_GRADE     weight 15   stress_on_rise: false
+      Tickers: LQD, VCIT, IEF, TLT, SHY
+      STRESS when: ≥55% fall ≥0.5%
+      Signal: IG credit weakening → broader stress spreading from HY into IG
+
+    LEVERAGED_LOANS      weight 10   stress_on_rise: false
+      Tickers: BKLN, FLOT, SRLN
+      STRESS when: ≥55% fall ≥0.5%
+      Signal: floating-rate/leveraged loan market deteriorating
+
+    BANKS_FINANCIALS     weight 20   stress_on_rise: false
+      Tickers: XLF, KRE, JPM, BAC, WFC, GS, MS, C
+      STRESS when: ≥55% fall ≥0.5%
+      Signal: banking sector under pressure → financial system confirming stress
+
+    REFINANCING_SENSITIVE weight 15  stress_on_rise: false
+      Tickers: IWM, VNQ, XLRE, XHB
+      STRESS when: ≥55% fall ≥0.5%
+      Signal: small caps, REITs, housing under pressure → rate/refi stress
+
+    VOL_DOLLAR_LIQUIDITY weight 10   stress_on_rise: true
+      Tickers: ^VIX, VXX, UVXY, UUP
+      Overridden threshold: 1.5% (volatility needs larger move to signal)
+      STRESS when: ≥55% rise ≥1.5% (vol rising = liquidity stress)
+      Signal: VIX/VXX/dollar funding under pressure → systemic liquidity concern
+
+  CALM OFFSET
+    If both HIGH_YIELD_CREDIT and BANKS_FINANCIALS are simultaneously CALM,
+    a score deduction up to -10 is applied. This prevents false-positive stress
+    readings when the core credit/financial system is healthy.
+
+  HEADLINE KEYWORDS (25 terms)
+    "credit stress", "refinancing", "debt maturity", "private credit",
+    "default", "distressed debt", "bankruptcy", "bond market", "liquidity",
+    "funding stress", "credit spreads", "leveraged loans", "CLO",
+    "regional bank", "deposit outflow", "commercial real estate", "CRE",
+    "downgrade", "covenant", "debt rollover", "maturity wall", "junk bonds",
+    "high yield", "investment grade", "financial conditions"
+
+  STATUS THRESHOLDS (stress scale)
+    SEVERE_STRESS ≥75  ACTIVE_STRESS ≥55  WATCH ≥40  LOW_STRESS ≥20  CALM <20
+
+  CIO ACTION MAP
+    SEVERE_STRESS  → RISK_REVIEW     ACTIVE_STRESS → HEDGE_REVIEW
+    WATCH          → HOLD_REVIEW     LOW_STRESS    → HOLD
+    CALM           → WAIT            UNKNOWN       → CIO_REVIEW_REQUIRED
+
+  LIVE STATUS (2026-06-17): LOW_STRESS, score 32.0 — credit system stable
+
+────────────────────────────────────────────────────────────────────────────────
+4.3  S8 · GLOBAL LEVERAGE UNWIND THESIS
+────────────────────────────────────────────────────────────────────────────────
+
+  Thesis ID:      GLOBAL_LEVERAGE_UNWIND_THESIS
+  Widget file:    thesis_widgets/global_leverage_unwind.py
+  Config:         config/thesis_widgets/global_leverage_unwind.yaml
+  JSON output:    data/thesis_widgets/global_leverage_unwind_latest.json
+  Dashboard ID:   global-leverage-live
+  Card type:      risk_monitor
+  Schema version: thesis_widget_v1.1
+
+  THESIS DIRECTION
+    INVERTED. Higher score = more leverage-unwind STRESS.
+    0 = leveraged positions calm. 100 = severe forced deleveraging.
+    add_allowed is always false (risk monitor).
+
+  BASKETS & WEIGHTS
+
+    YEN_CARRY_STRESS     weight 25
+      Tickers: USDJPY (via JPY=X), FXY
+      stress_on_rise: false for JPY=X (falling USDJPY = yen strengthening = carry unwind)
+      stress_on_rise: true  for FXY   (rising yen ETF = carry pressure)
+      Signal: yen strengthening materially → carry trade unwind confirmed
+
+    VOLATILITY           weight 20
+      Tickers: VIX (^VIX), VXX, UVXY
+      stress_on_rise: true; threshold overridden to 1.5%
+      Signal: vol expanding sharply → fear-driven deleveraging
+
+    HIGH_BETA_SPECULATIVE weight 20
+      Tickers: NVDA, TSLA, MSTR, COIN, QBTS, QUBT, IONQ, RGTI, ASTS, RKLB,
+               LUNR, PL, ARKK
+      stress_on_rise: false (falling = stress)
+      Signal: speculative names under forced liquidation → crowded positions unwinding
+      Note: 13 tickers makes this the densest basket; measures forced selling
+      across AI, crypto-adjacent, quantum, space, and pure speculation names
+
+    CREDIT_FUNDING       weight 15
+      Tickers: HYG, JNK, LQD (stress_on_rise: false)
+               UUP, SHY, TLT (stress_on_rise: true — rising dollar/treasuries = flight)
+      Signal: credit spreads widening and dollar funding under pressure
+
+    JAPAN_EQUITY         weight 10
+      Tickers: EWJ, DXJ
+      stress_on_rise: false
+      Signal: Japan equity falling → yen carry unwind transmitting to equity channel
+
+    CRYPTO_LIQUIDATION   weight 5   optional: true
+      Tickers: BTC-USD, ETH-USD
+      stress_on_rise: false; threshold overridden to 2.0%
+      optional = true → basket failure does not fail the whole widget
+      Signal: crypto liquidation → speculative leverage stress crossing asset classes
+
+  HEADLINE KEYWORDS (21 terms)
+    "carry trade", "yen carry", "yen strengthens", "yen surge", "BOJ hawkish",
+    "margin call", "deleveraging", "hedge fund unwind", "forced selling",
+    "liquidation", "funding stress", "dollar funding", "volatility spike",
+    "VIX spike", "risk parity", "leverage unwind", "crowded trade",
+    "basis trade", "carry unwind", "Japan rate hike", "BOJ rate hike",
+    "yen intervention"
+
+  CALM OFFSET
+    If YEN_CARRY_STRESS, VOLATILITY, CREDIT_FUNDING, and HIGH_BETA_SPECULATIVE
+    are all simultaneously CALM, a deduction up to -10 is applied. Requires all
+    four major stress channels to be calm before reducing the score.
+
+  EXTERNAL EVIDENCE (optional reads)
+    S5 BOJ/Yen Watcher: data/thesis_widgets/boj_yen_watcher_latest.json
+    S7 Credit/Liquidity: data/thesis_widgets/credit_refinancing_liquidity_latest.json
+
+  STATUS THRESHOLDS (stress scale)
+    SEVERE_UNWIND ≥75  ACTIVE_UNWIND ≥55  WATCH ≥35  LOW ≥15  CALM <15
+
+  CIO ACTION MAP
+    SEVERE_UNWIND → RISK_REVIEW   ACTIVE_UNWIND → HEDGE_REVIEW
+    WATCH         → NO_ADD        LOW / CALM    → HOLD / WAIT
+    UNKNOWN       → CIO_REVIEW_REQUIRED
+
+  LIVE STATUS (2026-06-17): WATCH, score 43.2
+
+────────────────────────────────────────────────────────────────────────────────
+4.4  S9 · OIL DE-ESCALATION / PEACE DIVIDEND THESIS
+────────────────────────────────────────────────────────────────────────────────
+
+  Thesis ID:      OIL_DEESCALATION_PEACE_DIVIDEND_THESIS
+  Widget file:    thesis_widgets/oil_deescalation_peace_dividend.py
+  Config:         config/thesis_widgets/oil_deescalation_peace_dividend.yaml
+  JSON output:    data/thesis_widgets/oil_deescalation_peace_dividend_latest.json
+  Dashboard ID:   oil-peace-dividend-live
+  Card type:      thesis_monitor
+  Schema version: thesis_widget_v1.1
+
+  THESIS DIRECTION
+    Higher score = stronger confirmation of oil de-escalation / peace dividend.
+    0 = thesis not confirmed or contradicted. 100 = all channels confirming.
+    This widget is the only one with explicit false-positive detection rules
+    and a separate escalation-keyword penalty mechanism.
+
+  BASKETS & WEIGHTS
+
+    OIL_RISK_PREMIUM     weight 25
+      Tickers: USO, BNO, XLE, XOM, CVX, OXY, COP
+      benefit_on_rise: false (falling oil = pass — risk premium fading)
+      Signal: oil-risk premium fading → possible de-escalation / supply relief
+
+    TRANSPORT_AIRLINES   weight 20
+      Tickers: JETS, DAL, UAL, AAL, FDX, UPS
+      benefit_on_rise: true (rising = pass — fuel cost relief benefits confirmed)
+      Signal: transports bid → industry pricing in oil cost relief
+
+    CONSUMER_RELIEF      weight 15
+      Tickers: XLY, WMT, COST, TGT
+      benefit_on_rise: true
+      Signal: consumer names bid → inflation relief flowing through to demand
+
+    SAFE_HAVEN_UNWIND    weight 15
+      Tickers: GLD, GDX, GDXJ, VIX (^VIX), VXX
+      benefit_on_rise: false (falling = pass — safe havens unwinding = risk-on)
+      Signal: gold, miners, vol dropping → geopolitical fear premium leaving
+
+    BROAD_RISK_ON        weight 15
+      Tickers: SPY, QQQ, IWM, ARKK
+      benefit_on_rise: true
+      Signal: broad risk appetite rising → confirms peace-dividend regime
+
+    DEFENSE_CROSSCHECK   weight 5   optional: true
+      Tickers: ITA, XAR, LMT, RTX
+      benefit_on_rise: false (falling defense = pass — risk premium fading)
+      Signal: defense risk premium fading (cross-check only, low weight)
+
+  FALSE-POSITIVE DETECTION RULES (unique to S9)
+
+    demand_destruction    penalty -20
+      Triggers when: OIL_RISK_PREMIUM=PASS AND BROAD_RISK_ON=FAIL
+                     AND TRANSPORT_AIRLINES=FAIL AND CONSUMER_RELIEF=FAIL
+      Interpretation: oil is falling due to demand collapse (recession signal),
+      not a geopolitical peace dividend. Score penalised to prevent erroneous
+      confirmation.
+
+    safe_haven_conflict   penalty -12
+      Triggers when: OIL_RISK_PREMIUM=PASS AND SAFE_HAVEN_UNWIND=FAIL
+      Interpretation: oil is falling but gold/VIX/VXX remain elevated —
+      geopolitical tension has not actually resolved. Common false-positive
+      pattern during temporary oil dips inside ongoing conflict.
+      NOTE: This rule fired on 2026-06-17 (current session).
+
+  ESCALATION PENALTY (unique to S9)
+    Separate keyword scan for escalation signals in headlines_live.json.
+    Keywords (13): "escalation", "missile strike", "retaliation", "Hormuz
+    closed", "Strait of Hormuz closed", "oil supply disruption", "tanker
+    attack", "shipping halted", "airstrike", "war risk", "conflict widens",
+    "sanctions tightened", "blockade", "drone strike", "military response"
+    Penalty: -2.5 per keyword match, capped at -25 total.
+
+  DE-ESCALATION HEADLINE KEYWORDS (20 terms for positive score)
+    "ceasefire", "truce", "peace talks", "de-escalation", "deescalation",
+    "stand down", "stand-down", "deal reached", "shipping resumes",
+    "Hormuz open", "Strait of Hormuz open", "oil flows resume",
+    "cease hostilities", "conflict eases", "tensions ease",
+    "diplomatic talks", "sanctions relief", "ceasefire agreement",
+    "maritime route open", "Middle East de-escalation"
+
+  EXTERNAL EVIDENCE (optional, read-only)
+    S7 Credit/Liquidity:
+      block_statuses = [ACTIVE_STRESS, SEVERE_STRESS]
+      watch_statuses = [WATCH]
+      If S7 is ACTIVE_STRESS or SEVERE_STRESS → blocks add_allowed
+    S8 Global Leverage Unwind:
+      block_statuses = [WATCH, ACTIVE_UNWIND, SEVERE_UNWIND]
+      If S8 is WATCH or worse → blocks add_allowed
+
+  ADD PERMISSION LOGIC (multi-gate)
+    add_allowed = true ONLY when ALL of the following are met:
+      1. status in [CONFIRMING]
+      2. confidence in [HIGH, MEDIUM]
+      3. OIL_RISK_PREMIUM = PASS
+      4. TRANSPORT_AIRLINES = PASS
+      5. SAFE_HAVEN_UNWIND = PASS
+      6. BROAD_RISK_ON = PASS
+      7. escalation_penalty ≤ 5
+      8. false_positive_penalty ≤ 5
+      9. No external evidence source blocks add
+
+  STATUS THRESHOLDS
+    CONFIRMING ≥75  WATCH ≥55  MIXED ≥40  WEAKENING ≥20  CONTRADICTED <20
+
+  LIVE STATUS (2026-06-17)
+    OIL_RISK_PREMIUM:   PASS  (USO -4.74%, oil channel confirming)
+    TRANSPORT_AIRLINES: PASS  (JETS, DAL, UAL, AAL, FDX, UPS up)
+    CONSUMER_RELIEF:    WATCH (mixed)
+    SAFE_HAVEN_UNWIND:  FAIL  (GLD, GDX holding; VIX elevated)
+    BROAD_RISK_ON:      FAIL  (SPY, QQQ, IWM weak)
+    DEFENSE_CROSSCHECK: FAIL  (ITA, RTX, LMT elevated)
+    safe_haven_conflict: TRIGGERED (-12 penalty)
+    S8 external evidence: WATCH → blocks add_allowed
+    Result: status = WEAKENING, score = 30.0, confidence = LOW,
+            cio_action = NO_ADD, add_allowed = false
+    Interpretation: Oil is down but geopolitical fear (gold/VIX) and broad risk
+    appetite are not confirming the peace dividend thesis. The fall in oil is
+    not yet validated as a peace-driven event.
+
+
+================================================================================
+5. DASHBOARD LAYER
+================================================================================
+
+5.1 HOSTING
+────────────
+
+  The dashboard is hosted on GitHub Pages at:
+    https://sohweekian.github.io/bluelotus/
+
+  Repository: github.com/sohweekian/bluelotus
+  Branch: main (GitHub Pages serves from root of main)
+  Jekyll bypass: .nojekyll file present in repo root (prevents GitHub Pages
+  from running the Jekyll static site generator, which would interfere with
+  our HTML)
+
+5.2 index.html COMPOSITION
+────────────────────────────
+
+  index.html is generated and pushed by bluelotus_publisher.py (V3). It
+  contains both legacy V2 sections and the V3 thesis widget zone.
+
+  Page structure (top to bottom):
+    1. Headlines bar           — live JS fetch of news_probe headlines
+    2. Command header          — fund status, CIO action, regime, score
+    3. Pulse strip             — VIX, Fear & Greed, portfolio summary
+    4. Situational board       — regime/thesis matrix
+    5. THESIS_WIDGETS_START    ←── PROTECTED ZONE BEGINS
+    6. S6 card                 — AI Infrastructure / Power
+    7. S7 card                 — Credit / Refinancing / Liquidity
+    8. S8 card                 — Global Leverage Unwind
+    9. S9 card                 — Oil De-escalation / Peace Dividend
+    10. THESIS_WIDGETS_END     ←── PROTECTED ZONE ENDS
+    11. Calendar section       — forward catalyst calendar
+    12. System health          — pipeline status, last cycle time
+
+  The THESIS_WIDGETS zone is a protected HTML block bounded by comment markers:
+    <!-- THESIS_WIDGETS_START -->
+    ... widget cards ...
+    <!-- THESIS_WIDGETS_END -->
+
+5.3 LIVE WIDGET CARD RENDERING
+────────────────────────────────
+
+  Each widget card is a self-contained HTML+JS block. The JavaScript inside
+  each card:
+    - On page load: fetches the widget's JSON endpoint from GitHub Pages
+      (cache-busted with ?t=Date.now())
+    - Parses the JSON and renders: status badge, score bar, confidence,
+      CIO action, market status, add permission indicator
+    - Renders primary_signals table (basket signals with interpretation)
+    - Renders ticker_evidence table (per-ticker: symbol, price, day%, signal)
+    - Renders headline evidence (up to 3 matched headlines)
+    - Renders external evidence block (peer widget status)
+    - Renders blind spots list
+    - Schedules a re-fetch every refresh_interval_ms milliseconds (600000)
+
+  No server-side rendering occurs. The HTML page is static; all live data comes
+  from the JSON endpoints hosted in the same GitHub Pages repository.
+
+  Status colours (configured per widget in dashboard_widgets.yaml):
+    S6 / S9 (thesis monitors):
+      CONFIRMING → cyan     WATCH → blue      MIXED → amber
+      WEAKENING  → orange   CONTRADICTED → red  UNKNOWN → slate
+
+    S7 (credit risk monitor):
+      SEVERE_STRESS → red   ACTIVE_STRESS → orange   WATCH → amber
+      LOW_STRESS    → blue  CALM → green              UNKNOWN → slate
+
+    S8 (leverage risk monitor):
+      SEVERE_UNWIND → red   ACTIVE_UNWIND → orange   WATCH → amber
+      LOW           → blue  CALM → green              UNKNOWN → slate
+
+
+================================================================================
+6. DASHBOARD WIDGET REGISTRY AND PERSISTENCE HARDENING
+================================================================================
+
+6.1 THE REGISTRY
+─────────────────
+
+  File: C:\bluelotus3\config\dashboard_widgets.yaml
+  Schema version: dashboard_widgets_v1.0
+
+  The registry is the single source of truth for the dashboard widget layer.
+  It defines:
+    - Zone start/end marker strings (THESIS_WIDGETS_START, THESIS_WIDGETS_END)
+    - Placement rule (zone must appear before "System Health")
+    - Whether to fail publishing when an enabled widget marker is missing
+    - Common base URL and signal colour palette
+    - Full specification for each widget:
+        widget_id, section_id, display_title, enabled, display_order,
+        marker_id, json_endpoint, local_json_path, card_type, renderer_script,
+        placement_zone, refresh_interval_ms, required_safety_footer,
+        fail_if_missing_json, preserve_on_publish, created_by, schema_version
+
+  Current registry entries:
+
+    S6  ai_infra_power            display_order=60   ai-infra-live
+    S7  credit_refi_liquidity     display_order=70   credit-refi-live
+    S8  global_leverage_unwind    display_order=80   global-leverage-live
+    S9  oil_deescalation_...      display_order=90   oil-peace-dividend-live
+
+  Unique constraint: marker_id must be unique across all widgets. Duplicate
+  marker_ids cause validate_registry() to raise ValueError — caught by tests.
+
+  Unique constraint: section_id must be unique. Enforced the same way.
+
+6.2 DASHBOARD WIDGET MANAGER
+──────────────────────────────
+
+  File: C:\bluelotus3\scripts\dashboard_widget_manager.py
+
+  Key functions:
+
+    load_registry(path)
+      Loads and validates the YAML registry. Raises on schema violations.
+
+    validate_registry(registry)
+      Enforces all structural invariants: unique marker IDs, unique section IDs,
+      required fields on every widget entry.
+
+    enabled_widgets(registry)
+      Returns the enabled widget list sorted by display_order.
+
+    render_widget_card(widget, registry)
+      Renders the full HTML+JS block for one widget. Reads colour palette,
+      JSON endpoint, refresh interval, and all display parameters from the
+      registry entry. Returns a self-contained string of HTML.
+
+    render_widget_zone(registry)
+      Renders the full protected zone: START marker + all enabled cards in
+      display_order + END marker. Returns the complete HTML block.
+
+    verify_html(html_text, registry)
+      Validates a candidate index.html string:
+        - START marker present exactly once
+        - END marker present exactly once
+        - Zone appears before "System Health" text
+        - All enabled widget markers present in HTML
+        - No disabled widget markers present
+        - No unexpected duplicate marker references
+      Returns a list of error strings (empty = valid).
+
+    replace_or_insert_zone(html_text, registry, restore=False)
+      Normal mode (restore=False): replaces the existing zone between markers.
+        Raises ValueError if markers are absent.
+      Restore mode (restore=True): inserts a fresh zone before "System Health"
+        if no zone markers are present. Used by recovery scripts.
+
+    assert_publishable(html_text, registry)
+      Calls verify_html(). If errors are found AND the registry's
+      FAIL_PUBLISH_IF_ENABLED_WIDGET_MISSING flag is set (default: true),
+      raises RuntimeError. This prevents a partial dashboard from being pushed
+      to GitHub.
+
+    ensure_nojekyll(root)
+      Creates the .nojekyll file in the repo root if absent.
+
+6.3 PUBLISHER INTEGRATION
+───────────────────────────
+
+  bluelotus_publisher.py is wired to the widget manager at three points:
+
+    1. After building the base index.html HTML:
+       zone_html = render_widget_zone(registry)
+       html = replace_or_insert_zone(html, registry)
+
+    2. Before pushing to GitHub:
+       assert_publishable(html, registry)
+       # Raises RuntimeError if any enabled widget marker is missing
+
+    3. Before pushing:
+       ensure_nojekyll(repo_root)
+       # Guarantees .nojekyll is always present
+
+  This means: every time bluelotus_publisher.py runs and pushes index.html,
+  the S6–S9 widget zone is rebuilt from the registry and verified before push.
+  It is structurally impossible for a publisher run to silently drop a widget.
+
+6.4 RECOVERY SCRIPTS
+─────────────────────
+
+  If the dashboard widget zone is ever missing from the live index.html
+  (e.g., manual edit, corrupted push), recovery is one command:
+
+    python C:\bluelotus3\scripts\update_dashboard_widgets.py --restore --verify-public
+
+  update_dashboard_widgets.py:
+    - Pulls current index.html from GitHub
+    - Detects missing zone markers (restore mode)
+    - Inserts the full widget zone before System Health
+    - Verifies all markers present
+    - Pushes updated index.html to GitHub
+    - Optionally fetches the public GitHub Pages URL and verifies markers
+
+  Per-widget wrapper scripts also exist:
+    scripts/update_s6_card.py  → calls update_dashboard_widgets.py --restore --verify-public
+    scripts/update_s7_card.py  → same
+    scripts/update_s8_card.py  → same
+    (S9 follows same pattern)
+
+6.5 INCIDENT HISTORY: THE S6/S7 LOSS EVENT (2026-06-17)
+──────────────────────────────────────────────────────────
+
+  During S8 deployment, S8 was injected into a publisher-regenerated
+  index.html that did not yet contain the S6/S7 card blocks (they were in a
+  prior, manually-injected version of the HTML). S8 was preserved but S6 and
+  S7 were absent.
+
+  Root class of failure: per-widget injection against a stale HTML base.
+
+  Resolution: ran update_s6_card.py, update_s7_card.py, update_s8_card.py in
+  sequence. Added .nojekyll to fix GitHub Pages Jekyll build failure.
+
+  Prevention (now in place): the registry-driven zone system described in §6.2
+  and §6.3 above. The publisher now always rebuilds the entire zone from the
+  registry before push, and assert_publishable() makes the push fail-closed.
+  No individual widget can be lost silently.
+
+
+================================================================================
+7. INTER-WIDGET DATA FLOW
+================================================================================
+
+  The four widgets are independent but two maintain soft cross-reads:
+
+  S7 ──read-only──► S8 (S8 external evidence: S7 credit status)
+  S7 ──read-only──► S9 (S9 external evidence: S7 credit status)
+  S8 ──read-only──► S9 (S9 external evidence: S8 leverage status)
+
+  S9 add_allowed gate as of 2026-06-17:
+    S7: LOW_STRESS → does NOT block
+    S8: WATCH      → BLOCKS add_allowed = false
+
+  These reads are:
+    - File-based (reading peer widget's JSON output from local disk)
+    - Optional (graceful if file missing or parse error)
+    - One-way (no widget writes to another's file)
+    - Unidirectional (no circular dependencies: S7→S8→S9, no reverse)
+
+  ASCII inter-widget dependency graph:
+    S6  (no external evidence reads)
+    S7  (no external evidence reads)
+    S8  ← reads S7
+    S9  ← reads S7, reads S8
+
+
+================================================================================
+8. SAFETY ARCHITECTURE
+================================================================================
+
+  8.1 EXECUTION AUTHORITY
+      execution_authority = "CIO_ONLY_MANUAL" on every widget output.
+      The system can recommend actions (HOLD, WAIT, NO_ADD, RISK_REVIEW,
+      HEDGE_REVIEW, HOLD_REVIEW, CIO_REVIEW_REQUIRED) but cannot initiate,
+      route, or execute any trade or order.
+
+  8.2 ORDER ROUTING
+      order_routing_enabled = false. No order routing code exists anywhere in
+      V3. Tests verify no broker library imports (ibapi, ib_insync, alpaca,
+      moomoo, futu).
+
+  8.3 LLM GATE
+      llm_order_generation = false. No LLM, NLP, or AI model is called at
+      any point in the widget scoring pipeline. All scoring is deterministic:
+      yfinance price changes + threshold comparisons + keyword substring
+      matching. Tests verify no LLM library imports (openai, anthropic, ollama,
+      qwen, langchain).
+
+  8.4 SYSTEM SEPARATION
+      V3 (C:\bluelotus3) has no write paths into V2 (C:\bluelotus2). Tests
+      verify no "bluelotus2" string appears in any V3 widget Python file.
+
+  8.5 ADD_ALLOWED CONSERVATISM
+      add_allowed = true is the hardest state to reach by design:
+        S6: requires status = CONFIRMING (score ≥ 75)
+        S7: always false (risk monitor — adds never permitted via signal)
+        S8: always false (risk monitor — adds never permitted via signal)
+        S9: requires CONFIRMING + HIGH/MEDIUM confidence + all 4 core baskets
+            passing + escalation penalty ≤ 5 + false_positive penalty ≤ 5 +
+            S7 not ACTIVE/SEVERE_STRESS + S8 not WATCH/ACTIVE/SEVERE_UNWIND
+      As of 2026-06-17, no widget has add_allowed = true.
+
+
+================================================================================
+9. TEST COVERAGE
+================================================================================
+
+  Total: 339 tests passed as of 2026-06-17.
+
+  Per-widget test suites (S6–S9):
+    TestConfig             — config file existence, required keys, basket structure
+    TestNoHardcodingDoctrine — AST scan: no hardcoded tickers, thesis IDs,
+                               market hours, broker/LLM imports, V2 paths
+    TestSafety             — safety constants, output safety fields
+    TestSignalLogic        — basket scoring under pass/fail/watch price scenarios
+    TestExternalEvidence   — missing files don't crash; peer statuses block add_allowed
+    TestMarketHours        — OPEN/CLOSED_PRE/CLOSED_POST/CLOSED_WEEKEND detection
+    TestOutputSchema       — all required fields present; score in [0,100]; valid enums
+    TestDashboardRegistry  — widget registered; order correct; zone renders before
+                             System Health
+
+  Dashboard persistence test suite (test_dashboard_widget_persistence.py):
+    14 tests covering:
+    - Registry loads; all 4 widgets present (S6–S9)
+    - enabled widgets have marker_id, json_endpoint, preserve_on_publish
+    - Duplicate marker_id raises ValueError
+    - Duplicate section_id raises ValueError
+    - Zone renders all markers in display_order
+    - Protected markers in zone HTML
+    - verify_html detects missing markers
+    - Zone must appear before System Health
+    - Restore mode inserts zone before System Health
+    - Non-restore mode raises on missing zone
+    - assert_publishable raises on missing enabled marker
+    - .nojekyll exists or is created
+    - bluelotus_publisher.py imports render_widget_zone + assert_publishable +
+      ensure_nojekyll (publisher is wired to the guard)
+    - manager.py has no broker or LLM imports
+    - manager.py has no V2 path references
+
+  S9-specific additional tests:
+    TestFalsePositiveLogic — demand_destruction flag, safe_haven_conflict flag,
+                             escalation headline penalty
+
+
+================================================================================
+10. OPERATIONAL REFERENCE
+================================================================================
+
+  10.1 STARTING / RESTARTING A WIDGET DAEMON
+
+    Each widget is a standalone Python script with a main loop.
+
+    python C:\bluelotus3\thesis_widgets\ai_infrastructure_power.py
+    python C:\bluelotus3\thesis_widgets\credit_refinancing_liquidity.py
+    python C:\bluelotus3\thesis_widgets\global_leverage_unwind.py
+    python C:\bluelotus3\thesis_widgets\oil_deescalation_peace_dividend.py
+
+    To run once only (no daemon loop):
+    python C:\bluelotus3\thesis_widgets\<widget>.py --once
+
+    Daemons write logs to stdout. Recommend running under a process manager
+    (Task Scheduler, pm2, nssm, or a persistent terminal) to survive restarts.
+
+  10.2 CHANGING A CONFIG VALUE
+
+    1. Edit the relevant YAML in C:\bluelotus3\config\thesis_widgets\
+    2. Restart the daemon
+    3. Verify the next JSON output reflects the change
+    No Python file changes required for any operational value.
+
+  10.3 ADDING A NEW TICKER TO AN EXISTING BASKET
+
+    1. Edit the YAML config — add entry under the relevant basket's tickers list
+    2. Restart the daemon
+    Done. No Python changes. No test changes (unless the ticker is a new
+    special-symbol variant requiring a yfinance_symbol_map entry).
+
+  10.4 ADDING A NEW WIDGET (e.g., S10)
+
+    1. Create config/thesis_widgets/<new_widget>.yaml
+    2. Create thesis_widgets/<new_widget>.py (follow S6–S9 pattern)
+    3. Create thesis_widgets/tests/test_<new_widget>.py
+    4. Add entry to config/dashboard_widgets.yaml
+    5. Run full test suite — must pass
+    6. Start daemon
+    7. Run bluelotus_publisher.py to push updated index.html with S10 card
+
+  10.5 REBUILDING THE DASHBOARD
+
+    python C:\bluelotus3\mid\bluelotus_publisher.py
+
+    This: renders the widget zone from registry, asserts publishable, pushes
+    index.html + portfolio_live.json + chief-strategist.html to GitHub.
+    Fails loudly (RuntimeError) if any enabled widget marker is missing.
+
+  10.6 EMERGENCY RESTORE
+
+    python C:\bluelotus3\scripts\update_dashboard_widgets.py --restore --verify-public
+
+    Pulls live HTML from GitHub, inserts fresh widget zone from registry,
+    verifies all markers, pushes corrected HTML.
+
+  10.7 RUNNING THE FULL TEST SUITE
+
+    cd C:\bluelotus3
+    python -m pytest thesis_widgets/tests/ tests/ -v
+
+  10.8 VERIFYING THE LIVE DASHBOARD
+
+    Public URL: https://sohweekian.github.io/bluelotus/
+
+    Markers to verify present in page source:
+      ai-infra-live            (S6)
+      credit-refi-live         (S7)
+      global-leverage-live     (S8)
+      oil-peace-dividend-live  (S9)
+      THESIS_WIDGETS_START
+      THESIS_WIDGETS_END
+
+    All four widget JSON endpoints are live:
+      https://sohweekian.github.io/bluelotus/data/thesis_widgets/ai_infrastructure_power_latest.json
+      https://sohweekian.github.io/bluelotus/data/thesis_widgets/credit_refinancing_liquidity_latest.json
+      https://sohweekian.github.io/bluelotus/data/thesis_widgets/global_leverage_unwind_latest.json
+      https://sohweekian.github.io/bluelotus/data/thesis_widgets/oil_deescalation_peace_dividend_latest.json
+
+
+================================================================================
+11. KEY FILES REFERENCE
+================================================================================
+
+  CONFIG
+  ──────
+  C:\bluelotus3\config\dashboard_widgets.yaml
+    Central dashboard widget registry. Single source of truth for widget
+    ordering, marker IDs, JSON endpoints, colour palettes, and publish guards.
+
+  C:\bluelotus3\config\thesis_widgets\ai_infrastructure_power.yaml
+  C:\bluelotus3\config\thesis_widgets\credit_refinancing_liquidity.yaml
+  C:\bluelotus3\config\thesis_widgets\global_leverage_unwind.yaml
+  C:\bluelotus3\config\thesis_widgets\oil_deescalation_peace_dividend.yaml
+    Per-widget operational configs. All scoring, ticker, threshold, keyword,
+    and safety values. Python never owns these values.
+
+  WIDGET DAEMONS
+  ──────────────
+  C:\bluelotus3\thesis_widgets\ai_infrastructure_power.py
+  C:\bluelotus3\thesis_widgets\credit_refinancing_liquidity.py
+  C:\bluelotus3\thesis_widgets\global_leverage_unwind.py
+  C:\bluelotus3\thesis_widgets\oil_deescalation_peace_dividend.py
+
+  DASHBOARD
+  ─────────
+  C:\bluelotus3\scripts\dashboard_widget_manager.py
+    Registry loader, validator, HTML renderer, zone manager, publishability guard.
+
+  C:\bluelotus3\mid\bluelotus_publisher.py
+    Dashboard HTML builder and GitHub pusher. Wired to widget manager.
+
+  C:\bluelotus3\scripts\update_dashboard_widgets.py
+    Emergency restore / verify script.
+
+  TESTS
+  ─────
+  C:\bluelotus3\thesis_widgets\tests\test_ai_infrastructure_power.py
+  C:\bluelotus3\thesis_widgets\tests\test_credit_refinancing_liquidity.py
+  C:\bluelotus3\thesis_widgets\tests\test_global_leverage_unwind.py
+  C:\bluelotus3\thesis_widgets\tests\test_oil_deescalation_peace_dividend.py
+  C:\bluelotus3\tests\test_dashboard_widget_persistence.py
+
+  DATA (local, also pushed to GitHub)
+  ────
+  C:\bluelotus3\data\thesis_widgets\ai_infrastructure_power_latest.json
+  C:\bluelotus3\data\thesis_widgets\credit_refinancing_liquidity_latest.json
+  C:\bluelotus3\data\thesis_widgets\global_leverage_unwind_latest.json
+  C:\bluelotus3\data\thesis_widgets\oil_deescalation_peace_dividend_latest.json
+  C:\bluelotus3\data\headlines_live.json   (written by news_probe_daemon.py)
+
+  REPO ROOT
+  ─────────
+  C:\bluelotus3\.nojekyll     (GitHub Pages Jekyll bypass)
+
+
+================================================================================
+12. KNOWN LIMITATIONS AND BLIND SPOTS (SYSTEM-WIDE)
+================================================================================
+
+  1. All equity and ETF price data reflects the last US market session close
+     when the NYSE is closed. No pre-market or overnight data.
+
+  2. yfinance is the sole market data source. It is not a licensed real-time
+     feed and may have delays, gaps, or occasional symbol outages.
+
+  3. Headline matching is deterministic keyword substring search — no semantic
+     analysis, no disambiguation, no sentiment scoring. A headline mentioning
+     "no deal reached on ceasefire" would score positively on "deal reached"
+     and "ceasefire". The keyword lists must be maintained with care.
+
+  4. The news headline feed (data/headlines_live.json) depends on
+     news_probe_daemon.py running continuously. If the daemon is stopped,
+     headline_score is zero for all widgets until it restarts.
+
+  5. No intraday Japan market data. EWJ and DXJ reflect the prior US session
+     close even when the Tokyo Stock Exchange is open.
+
+  6. No direct futures data (Brent, WTI, CBOT). USO and BNO are ETF proxies.
+
+  7. No repo rate, SOFR, or TONAR monitoring. Dollar funding stress is inferred
+     from UUP (ETF) only.
+
+  8. No prime broker data, hedge fund positioning data, or COT data in V3
+     widgets (these exist in V2 pipeline but are separate systems).
+
+  9. CryptoLiquidation basket (S8) uses BTC-USD and ETH-USD only. No
+     on-chain data, no funding rate, no open interest monitoring.
+
+  10. add_allowed = true is a necessary but not sufficient condition for the
+      CIO to add risk. It is a signal that the system's quantitative gates are
+      open, not a directive. CIO manual judgment is always required.
+
+
+================================================================================
+END OF DOCUMENT
+================================================================================
+Generated by: Dr. Claude Code, Chief Architecture Specialist
+System:       C:\bluelotus3
+Date:         2026-06-17
+For:          Dr. Codex (Windows Platform Team) / Chief Architecture Specialist
+================================================================================

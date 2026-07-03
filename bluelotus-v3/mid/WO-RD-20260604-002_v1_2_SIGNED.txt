@@ -1,0 +1,1028 @@
+==============================================================================
+  BLUELOTUS FUND — RESEARCH DEPARTMENT
+  WORK ORDER — WO-RD-20260604-002
+==============================================================================
+  Classification  : Internal Engineering Request
+  Issued by       : Research Department
+  Issued to       : Market Intelligence Department (MID) Engineering
+  Endorsement     : ChatGPT Research Department — CONCURRED
+  CIO Approval    : APPROVED by CIO Soh Wee Kian (per explicit instruction)
+  Date Issued     : 2026-06-04
+  Revision        : v1.2 — ChatGPT Research Department concurrence and CIO
+                    approval added. Data-integrity gating strengthened: DEFECT-07
+                    and DEFECT-08 must be cleared before Phase 2 features.
+  Predecessor     : WO-RD-20260603-001 (Phase 1 — completed)
+  Deadline        : 2026-06-07 23:59 SGT (Sunday EOD)
+  Hard target     : 2026-06-06 23:59 SGT (Saturday EOD)
+  Priority        : URGENT — DATA INTEGRITY FIRST; Phase 2 gated behind fixes
+==============================================================================
+
+
+==============================================================================
+  EXECUTIVE APPROVAL AND CONCURRENCE — v1.2
+==============================================================================
+
+  ChatGPT Research Department Concurrence:
+    CONCURRED. WO-RD-20260604-002 correctly identifies the active risks in
+    the current V2 system. DEFECT-07 and DEFECT-08 are data-integrity defects
+    and must be cleared before Phase 2 production promotion. Squeeze, volume,
+    and top-mover catalyst features remain valid, but they must not be built
+    on corrupted price or cost-basis data.
+
+  CIO Approval:
+    APPROVED by Soh Wee Kian / Kian, CIO — BlueLotus Fund, per explicit
+    instruction in the 2026-06-04 ChatGPT session. Approval is conditional
+    on the data-integrity gate: live price capture and avg_cost/cost-basis
+    validation first; Phase 2 feature expansion second.
+
+  Execution Authority:
+    MID Engineering is authorised to acknowledge and execute this Work Order
+    immediately. Any change to moomoo_intelligence.py must follow the standing
+    engineering rule: read the full file, state exact line changes, verify
+    against Moomoo UI, and validate dataset_raw.json before promotion.
+
+
+==============================================================================
+  REVISION NOTES — v1.2
+==============================================================================
+
+  Two critical defects added to this Work Order following CIO review of
+  live Moomoo screenshots at 04:13 SGT and 04:18 SGT on 2026-06-04.
+
+  DEFECT-07 (CRITICAL):
+    moomoo_intelligence.py captures only regular session closing prices.
+    Pre-market and post-market prices are NOT captured. This means the
+    live_prices data in dataset_raw.json is stale and wrong for
+    approximately 18 hours out of every 24-hour cycle.
+
+  DEFECT-08 (CRITICAL):
+    moomoo_intelligence.py is reporting corrupted avg_cost values for
+    BAC and WFC. Dataset reported BAC avg_cost=$47.014 and WFC
+    avg_cost=$72.169. Actual values confirmed from Moomoo positions
+    screen: BAC=$51.118, WFC=$77.446. Errors of $4.10/share and
+    $5.28/share respectively. Likely caused by MID Engineering modifying
+    moomoo_intelligence.py without referencing the full session context,
+    introducing a calculation error in the avg_cost field.
+
+  Both defects are elevated to CRITICAL priority and must be fixed
+  before Phase 2 feature additions begin. Data integrity is the
+  foundation. Features built on corrupted data produce corrupted
+  intelligence.
+
+  ChatGPT Research Department concurrence added:
+    WO-RD-20260604-002 is approved in principle. The priority order is
+    correct, but DEFECT-07 and DEFECT-08 are now treated as Phase 1.5
+    data-integrity gates. No Phase 2 feature is authorised for promotion
+    until live price capture and avg_cost/cost-basis integrity are verified
+    against Moomoo UI and dataset_raw.json in a live cycle.
+
+  CIO approval added:
+    CIO Soh Wee Kian approves this Work Order for immediate execution,
+    subject to the same condition: data-integrity fixes first, then Phase 2
+    squeeze/volume/catalyst-verification features.
+
+
+  CIO note on record:
+    "yesterday MID messed with it. It's a new conversation... he didn't
+     reference the entire context."
+    "moomoo_intelligence.py is not able to pick up the afterhours trading,
+     and pre-market pricing... the TRUE pricing of the stocks, 24 hours.
+     I noticed this problem for a few days already."
+
+
+
+
+This Work Order authorises immediate Phase 1.5 data-integrity remediation
+and conditional Phase 2 implementation of the BlueLotus V2 intelligence
+platform upgrade. Phase 1 (WO-RD-20260603-001) is complete with 5 of 6
+defects fully resolved and 1 partially resolved (DEFECT-06 classifier —
+included in this order). However, Phase 2 feature promotion is gated behind
+verified resolution of DEFECT-07 and DEFECT-08.
+
+The Phase 2 scope is driven by a specific CIO operational requirement:
+
+  "I don't have the ability to detect squeezes / predict them.
+   V2 must be able to do this."
+
+This is the primary engineering objective of this Work Order. All other
+Phase 2 items are ranked in service of this objective.
+
+Reference documents:
+  - WO-RD-20260603-001 v1.1 (Phase 1 Work Order — completed)
+  - WO-RD-20260603-001-SIGNOFF.txt (Phase 1 sign-off)
+  - CIO Captain's Log 20260603 (strategic context)
+  - Research Department / ChatGPT Research Department joint audit
+  - CIO session notes 2026-06-04 04:15 SGT
+
+Governing constraint:
+  System is live 24/7 hourly. No interruption to live pipeline.
+  All fixes staged and tested on parallel instance before promotion.
+  No new AI model calls. All additions deterministic and rules-based.
+  Weekend delivery: Saturday 6 June 2026 EOD SGT (hard target).
+  Sunday 7 June 2026 EOD SGT (buffer).
+
+  DATA-INTEGRITY GATE:
+    DEFECT-07 and DEFECT-08 must be fixed, tested, and verified against
+    live Moomoo UI values before any Phase 2 feature is promoted to the
+    production hourly pipeline. Phase 2 coding may be staged in parallel,
+    but production release is blocked until data integrity is clean.
+
+
+==============================================================================
+  2. CIO STRATEGIC CONTEXT — WHY THIS MATTERS
+==============================================================================
+
+The CIO runs a three-sleeve portfolio architecture:
+
+  SLEEVE 1 — BASELINE (Core)
+    BAC, WFC, AU, NEM
+    Mandate: long-term hold, trade volatility around baseline
+    Signals needed: overbought trim alerts, oversold reload alerts
+
+  SLEEVE 2 — SATELLITE (Speculative / Conviction)
+    QBTS, QUBT (and future names)
+    Mandate: multi-year thesis hold, DCA at lows, trade squeezes
+    Signals needed: DCA zone alerts, squeeze risk detection,
+                    short interest, volume anomalies
+
+  SLEEVE 3 — CASH / TRADING
+    ~$24,000 dry powder
+    Mandate: tactical deployment on signals from Sleeves 1 and 2
+
+The $5,000/month P/L target requires:
+  - Baseline volatility trading on overbought/oversold signals
+  - Quantum squeeze capture (currently invisible to the system)
+  - DCA zone detection when satellite names reach accumulation levels
+
+Phase 2 makes all three visible in the live report.
+
+
+==============================================================================
+  3. PORTFOLIO MANDATE METADATA — REQUIRED FIRST
+==============================================================================
+
+Before any other Phase 2 item is implemented, MID Engineering must add
+portfolio mandate metadata to dataset_raw.json. This metadata governs
+how the Research Department interprets signals for each position.
+
+Required addition to portfolio.positions[ticker]:
+
+  "mandate": "BASELINE" or "SATELLITE" or "TRADING"
+  "trade_around": true / false
+  "dca_enabled": true / false
+  "dca_zone_low": price (manually set by CIO)
+  "dca_zone_high": price (manually set by CIO)
+  "squeeze_monitor": true / false
+
+Initial values (CIO to confirm):
+
+  BAC:  mandate=BASELINE,  trade_around=true,  dca_enabled=false
+  WFC:  mandate=BASELINE,  trade_around=true,  dca_enabled=false
+  AU:   mandate=BASELINE,  trade_around=true,  dca_enabled=false
+  NEM:  mandate=BASELINE,  trade_around=true,  dca_enabled=false
+  QBTS: mandate=SATELLITE, trade_around=true,  dca_enabled=true,
+        dca_zone_low=22.00, dca_zone_high=24.00, squeeze_monitor=true
+  QUBT: mandate=SATELLITE, trade_around=true,  dca_enabled=true,
+        dca_zone_low=10.00, dca_zone_high=11.00, squeeze_monitor=true
+
+The Research Department report must read mandate flags and change its
+language accordingly:
+
+  BASELINE ticker at RSI > 70:
+    "TRIM SIGNAL — [ticker] overbought. Trade-around opportunity."
+
+  BASELINE ticker at RSI < 35:
+    "RELOAD SIGNAL — [ticker] at support. Baseline accumulation zone."
+
+  SATELLITE ticker in DCA zone:
+    "DCA ZONE — [ticker] within accumulation range $X-$Y. Thesis intact."
+
+  SATELLITE ticker with squeeze signal:
+    "SQUEEZE ALERT — [ticker] elevated squeeze risk. See squeeze scorecard."
+
+This is the single most important language change in Phase 2.
+It transforms the report from generic scoring to mandate-aware intelligence.
+
+
+==============================================================================
+  3b. CRITICAL DEFECTS — MUST FIX BEFORE PHASE 2 FEATURES BEGIN
+==============================================================================
+
+These two defects were discovered on 2026-06-04 and are elevated above
+all Phase 2 feature additions in priority. No new features are worth
+building on corrupted price and cost data.
+
+------------------------------------------------------------------------------
+  DEFECT-07 — moomoo_intelligence.py: Pre/Post Market Price Capture Failure
+  Severity      : CRITICAL
+  Classification: Data integrity — live price pipeline
+  Owner         : MID Engineering
+  Target        : Friday 5 June EOD — before any Phase 2 features
+  Effort        : 1 day
+------------------------------------------------------------------------------
+
+Problem:
+  moomoo_intelligence.py currently captures only the regular US trading
+  session closing price for all tickers. It does not capture pre-market
+  or post-market prices.
+
+  The US regular trading session runs 09:30 - 16:00 ET, which is
+  21:30 - 04:00 SGT. This means the live_prices data in dataset_raw.json
+  is sourced from the correct real-time feed for only approximately
+  6.5 hours per 24-hour cycle.
+
+  For the remaining ~17.5 hours per day — which covers:
+    Pre-market   : 04:00 - 09:30 ET  (16:00 - 21:30 SGT)
+    Post-market  : 16:00 - 20:00 ET  (04:00 - 08:00 SGT)
+
+  moomoo_intelligence.py serves the PREVIOUS regular session close price.
+  This is stale, wrong, and misleading for all 24/7 portfolio valuation
+  and signal purposes.
+
+  Confirmed example from live screenshot (2026-06-04 16:11 SGT):
+    WFC regular session close : $78.680  (-$0.760, -0.96%)
+    WFC pre-market price      : $79.047  (+$0.367, +0.47%)
+    moomoo_intelligence.py    : $78.680  ← WRONG (stale close)
+    Error on 40 shares        : $14.68 understatement of market value
+
+  This error compounds across every position in the portfolio and
+  affects:
+    - live_prices[ticker].price in dataset_raw.json
+    - Portfolio market value calculation
+    - Unrealised P/L per position
+    - Total fund NAV
+    - 8-Lens L2 technical scoring (uses current price vs MAs)
+    - CIO portfolio compression section
+
+  The CIO has observed this problem for multiple days. The report
+  is presenting incorrect portfolio valuations during the majority
+  of the Singapore trading day — which is when the CIO is most
+  active.
+
+Required fix:
+
+  moomoo_intelligence.py must detect the current market session state
+  and request the appropriate price field from the Moomoo API:
+
+  Session detection logic:
+    current_et = convert SGT to ET
+    if 09:30 <= current_et < 16:00:
+        session = "REGULAR"
+        price_field = get_market_snapshot() regular price
+    elif 04:00 <= current_et < 09:30:
+        session = "PRE_MARKET"
+        price_field = get_market_snapshot() pre-market price
+    elif 16:00 <= current_et < 20:00:
+        session = "POST_MARKET"
+        price_field = get_market_snapshot() after-hours price
+    else:
+        session = "CLOSED"
+        price_field = last known close (with CLOSED flag)
+
+  The live_prices export must include:
+    price         : the most current available price
+                    (pre/regular/post depending on session)
+    session       : "REGULAR" / "PRE_MARKET" / "POST_MARKET" / "CLOSED"
+    regular_close : last regular session close (always stored)
+    pre_mkt_price : pre-market price if available (null if not)
+    post_mkt_price: post-market price if available (null if not)
+    price_source  : which field is being used as the primary price
+
+  The research report must display session context alongside price:
+    WFC  $79.047  [PRE-MARKET]  (+0.47% pre-mkt)
+
+  The portfolio position table must use the session-correct price
+  for unrealised P/L and market value calculations.
+
+  Data source verification required:
+    Confirm which Moomoo API field returns pre-market price.
+    Confirm which field returns post-market price.
+    Verify against official Moomoo documentation before implementing.
+    Do NOT assume field names — confirm them.
+    If Moomoo API does not provide pre/post market prices,
+    document this limitation explicitly and flag to CIO.
+
+Required addition to dataset_raw.json:
+  meta.market_session : current session state at time of export
+  live_prices[ticker].session : session state for this price capture
+  live_prices[ticker].price   : session-correct current price
+  live_prices[ticker].regular_close : last regular session close
+
+Required addition to research report:
+  Dataset integrity section must show:
+    Market Session    : PRE_MARKET / REGULAR / POST_MARKET / CLOSED
+    Price Source      : pre-market / regular session / post-market
+
+  If session = PRE_MARKET or POST_MARKET, add warning:
+    "Prices reflect [pre/post]-market data. Lower liquidity.
+     Regular session close also available."
+
+  If session = CLOSED, add warning:
+    "Markets closed. Prices reflect last regular session close.
+     Pre/post market data not available for this cycle."
+
+Acceptance criteria:
+  live_prices[ticker].price correctly reflects pre-market pricing
+  during SGT 16:00 - 21:30 window.
+  live_prices[ticker].price correctly reflects post-market pricing
+  during SGT 04:00 - 08:00 window.
+  Portfolio market value and unrealised P/L calculated from
+  session-correct price in all report cycles.
+  meta.market_session field present and correct in every export.
+  Research report shows session label alongside all prices.
+
+------------------------------------------------------------------------------
+  DEFECT-08 — moomoo_intelligence.py: avg_cost Corruption
+  Severity      : CRITICAL
+  Classification: Data integrity — portfolio cost basis
+  Owner         : MID Engineering
+  Target        : Friday 5 June EOD — simultaneous with DEFECT-07
+  Effort        : 0.5 days
+  Root cause    : MID Engineering modified moomoo_intelligence.py on
+                  2026-06-03 without referencing full session context,
+                  introducing an error in avg_cost calculation or field
+                  mapping for positions with multiple fill lots.
+------------------------------------------------------------------------------
+
+Problem:
+  moomoo_intelligence.py is reporting incorrect avg_cost values for
+  at least two portfolio positions. Confirmed from live Moomoo
+  positions screenshot at 04:13 SGT on 2026-06-04:
+
+  BAC:
+    Dataset avg_cost  : $47.014   ← WRONG
+    Actual avg_cost   : $51.118   ← Confirmed from Moomoo UI
+    Error             : $4.104/share | $266.76 on 65 shares
+
+  WFC:
+    Dataset avg_cost  : $72.169   ← WRONG
+    Actual avg_cost   : $77.446   ← Confirmed from Moomoo UI
+    Error             : $5.277/share | $211.08 on 40 shares
+
+  Total cost basis error: $477.84 across two positions.
+
+  This corrupts:
+    - Unrealised P/L per position (overstated)
+    - Total portfolio P/L (overstated)
+    - 8-Lens L1 earnings yield spread calculation
+    - CIO portfolio compression action bands
+    - Any entry/exit decision based on cost basis
+
+  The inflated P/L figures in the report gave false comfort.
+  A position showing +11.46% P/L (based on wrong $47 avg cost)
+  is actually showing +2.52% P/L (based on correct $51.118 avg cost).
+  This is a material misrepresentation of portfolio performance.
+
+  Suspected root cause:
+    MID Engineering modified the avg_cost calculation in
+    moomoo_intelligence.py on 2026-06-03. The modification likely
+    changed how multi-lot positions are averaged, or incorrectly
+    mapped the avg_cost field from the Moomoo API response.
+    The fix was made without referencing the prior working version
+    or the full engineering context.
+
+Required fix:
+
+  Step 1 — Identify the change:
+    Run git diff or compare current moomoo_intelligence.py against
+    the last known good version (pre-2026-06-03 modification).
+    Identify exactly which line(s) changed the avg_cost logic.
+
+  Step 2 — Verify correct field:
+    Confirm the correct Moomoo API field for average cost.
+    The field must return the actual blended cost across all fill lots.
+    Verify this against the Moomoo positions UI value for BAC and WFC.
+
+  Step 3 — Restore and validate:
+    Restore the correct avg_cost field mapping.
+    Run a test cycle.
+    Verify dataset_raw.json portfolio.positions.BAC.avg_cost = $51.118
+    Verify dataset_raw.json portfolio.positions.WFC.avg_cost = $77.446
+    Verify QBTS avg_cost = $27.872 (also check this was not affected)
+    Verify QUBT avg_cost = $11.592 (also check this was not affected)
+    Verify AU avg_cost = $89.88
+
+  Step 4 — Add assertion:
+    After every portfolio snapshot write, assert:
+      avg_cost > 0 for all positions
+      avg_cost < (current_price * 3) for all positions
+        (a sanity check — cost basis should not be 3x current price)
+      unrealised_pnl = (current_price - avg_cost) * qty
+        (verify the P/L math is internally consistent)
+    If any assertion fails, flag portfolio integrity_flag = TRUE
+    and write integrity_flag_reason = "avg_cost validation failed
+    for [ticker]: computed [X] vs expected range"
+
+  Standing engineering rule (permanent):
+    Any modification to moomoo_intelligence.py MUST be preceded by:
+      1. Reading the current file in full
+      2. Stating the exact lines being changed and why
+      3. Verifying the change against live Moomoo UI values
+         in the next cycle before promoting to production
+    A modification made without these steps is not authorised.
+
+Acceptance criteria:
+  dataset_raw.json portfolio.positions.BAC.avg_cost = $51.118 (±$0.01)
+  dataset_raw.json portfolio.positions.WFC.avg_cost = $77.446 (±$0.01)
+  All other position avg_cost values verified against Moomoo UI.
+  Assertion gate implemented and firing correctly.
+  No unrealised P/L figures in the report can be materially wrong
+  due to incorrect avg_cost.
+
+
+
+
+Items are ordered by CIO impact. MID Engineering must implement in this
+sequence. If weekend deadline forces a cut, cut from the bottom of the list,
+never from the top.
+
+------------------------------------------------------------------------------
+  P2-01 — Short Interest and Squeeze Risk Scoring
+  Priority      : CRITICAL — PRIMARY CIO REQUIREMENT
+  Owner         : MID Engineering
+  Target        : Saturday 6 June EOD
+  Effort        : 2 days
+------------------------------------------------------------------------------
+
+Problem:
+  QBTS and QUBT are known squeeze vehicles. The CIO has 2 years of trading
+  history in these names but currently has no systematic signal for squeeze
+  risk. Large unexplained moves in ENPH, UUUU, ASTS, FCEL in prior cycles
+  were almost certainly squeeze-related but the system could not identify them.
+
+Required data fields per ticker (where available):
+  short_interest_pct_float    : short interest as % of float
+  short_interest_shares       : total shares short
+  days_to_cover               : short interest / avg daily volume
+  short_interest_change_pct   : week-over-week change in short interest
+  borrow_fee_pct              : annualised borrow cost (if available)
+  short_interest_date         : date of last short interest report
+
+Required computed field:
+  squeeze_risk_score          : 0-100 composite score
+
+Squeeze risk score formula (deterministic):
+
+  Component 1 — Short Interest % Float (0-40 pts)
+    >= 30% float short  : 40 pts
+    20-30%              : 30 pts
+    10-20%              : 20 pts
+    5-10%               : 10 pts
+    < 5%                : 0 pts
+
+  Component 2 — Days to Cover (0-30 pts)
+    >= 10 days          : 30 pts
+    5-10 days           : 20 pts
+    3-5 days            : 10 pts
+    < 3 days            : 0 pts
+
+  Component 3 — Short Interest Change (0-20 pts)
+    Increasing >= 20%   : 20 pts (shorts piling in = fuel)
+    Increasing 10-20%   : 10 pts
+    Stable              : 5 pts
+    Decreasing          : 0 pts
+
+  Component 4 — Borrow Fee (0-10 pts)
+    >= 100% annualised  : 10 pts (very hard to borrow)
+    50-100%             : 7 pts
+    20-50%              : 4 pts
+    < 20%               : 0 pts
+
+  squeeze_risk_score = sum of components (max 100)
+
+Squeeze risk classification:
+  80-100 : EXTREME — active squeeze conditions
+  60-79  : HIGH    — squeeze risk elevated
+  40-59  : MEDIUM  — monitor closely
+  20-39  : LOW     — background risk only
+  0-19   : MINIMAL — no squeeze signal
+
+Data source:
+  FINRA short interest data (bi-monthly, free, public)
+  URL: https://www.finra.org/investors/learn-to-invest/
+       advanced-investing/short-selling/short-interest
+  Alternative: Moomoo short interest if API confirmed available
+  Frequency: Update on FINRA release dates (1st and 15th of month)
+             Store last known value between releases
+
+Required additions to dataset_raw.json:
+  short_interest[ticker] = {all fields above}
+
+Required additions to research_report.txt:
+
+  New section after L7 Capital Flow:
+
+  L7b SHORT INTEREST & SQUEEZE RISK
+  ──────────────────────────────────────────────────────
+  Ticker  Short%Float  DaysCover  SqueezeScore  Risk      Trend
+  QBTS    XX.X%        X.X        XX/100        HIGH      INCREASING
+  QUBT    XX.X%        X.X        XX/100        MEDIUM    STABLE
+  [all satellite tickers]
+
+  CIO Squeeze Alert (if score >= 60):
+  ⚡ SQUEEZE ALERT: [ticker] squeeze_risk=HIGH (score XX/100)
+     Short float XX% | Days to cover X.X | Borrow fee XX%
+     Action: Monitor for volume spike + price acceleration as trigger.
+
+Acceptance criteria:
+  squeeze_risk_score present for all SATELLITE mandate tickers.
+  Squeeze alert fires in CIO compression when score >= 60.
+  L7b section present in every live report.
+
+------------------------------------------------------------------------------
+  P2-02 — Volume and Relative Volume Per Ticker
+  Priority      : CRITICAL
+  Owner         : MID Engineering
+  Target        : Saturday 6 June EOD
+  Effort        : 1 day
+------------------------------------------------------------------------------
+
+Problem:
+  A +10% move on 0.5x average volume is noise.
+  A +10% move on 5x average volume is a confirmed signal.
+  A squeeze without volume confirmation is not a squeeze — it is a drift.
+  Currently the system has no volume data. Every price move is unweighted.
+
+Required data fields per ticker:
+  volume_current      : today's volume (shares)
+  volume_avg_20d      : 20-day average daily volume
+  relative_volume     : volume_current / volume_avg_20d
+  dollar_volume       : volume_current * current_price
+  volume_spike        : true if relative_volume >= 2.0
+
+Relative volume classification:
+  >= 5.0x : EXTREME VOLUME — high conviction move
+  2.0-5.0x : ELEVATED — meaningful signal
+  1.0-2.0x : NORMAL
+  < 1.0x   : BELOW AVERAGE — weak signal, treat with caution
+
+Required additions to research_report.txt:
+
+  Price action table gains two columns:
+  Ticker  Move    Price   RelVol   VolSpike   Sentiment  ...
+  QBTS    -6.70%  $27.91  3.2x     YES        N/A ...
+
+  Top mover section note:
+  "Move confirmed by 3.2x volume — HIGH CONVICTION"
+  "Move on 0.6x volume — LOW CONVICTION — treat with caution"
+
+  Squeeze alert integration:
+  Volume spike + short interest high = squeeze confirmation signal
+  Volume spike alone = momentum signal
+  Short interest high + no volume = pre-squeeze watch
+
+Required additions to dataset_raw.json:
+  live_prices[ticker].volume_current
+  live_prices[ticker].volume_avg_20d
+  live_prices[ticker].relative_volume
+  live_prices[ticker].volume_spike
+
+Data source:
+  Moomoo get_market_snapshot() — confirm volume fields available
+  Alternative: Yahoo Finance volume endpoint (free, reliable)
+
+Acceptance criteria:
+  relative_volume present for all 83 watchlist tickers.
+  Volume spike flag fires when relative_volume >= 2.0.
+  Top mover table shows relative volume column.
+  Squeeze alert integrates volume confirmation.
+
+------------------------------------------------------------------------------
+  P2-03 — Top-Mover Catalyst Verification Table
+  Priority      : HIGH
+  Owner         : MID Engineering + Research Department
+  Target        : Saturday 6 June EOD
+  Effort        : 1 day
+------------------------------------------------------------------------------
+
+Problem:
+  Every cycle the blind spot check flags 5-9 unexplained large moves.
+  This is the primary driver of the 0.200 confidence penalty and WAIT/HOLD.
+  With volume and short interest now available, many of these moves
+  can be automatically classified.
+
+Required output — new section in research_report.txt:
+
+  TOP MOVER CATALYST VERIFICATION
+  ──────────────────────────────────────────────────────────────────
+  Ticker  Move     Catalyst Match  Type          Source    Confidence
+  LUNR    -14.85%  NO MATCH        UNEXPLAINED   N/A       LOW
+  QUBT    -7.80%   PARTIAL         SHORT_SELLING  RelVol    MEDIUM
+  QBTS    -6.70%   PARTIAL         SECTOR_DRAG   ECE       MEDIUM
+  MRNA    +8.02%   YES             NEWS_CATALYST  Reuters   HIGH
+
+Catalyst match logic (deterministic):
+
+  MATCHED if any of:
+    - Active earnings in catalyst_calendar (same day)
+    - CEO appearance within 24h
+    - ECE theme basket move > 3% in same direction
+    - Volume spike >= 3x AND news source match
+
+  PARTIAL if any of:
+    - ECE theme basket move 1-3% in same direction
+    - Sector peer group move in same direction
+    - Volume spike >= 2x but no news match
+    - Short interest > 20% (squeeze candidate)
+
+  UNEXPLAINED if none of the above
+
+Required addition to causal chain pass rate:
+  MATCHED moves count as PASS
+  PARTIAL moves count as 0.5 PASS
+  UNEXPLAINED moves count as FAIL
+
+This directly improves causal chain pass rate from 0.700 toward 0.800+
+and reduces blind spot penalty from 0.200 toward 0.100.
+
+Acceptance criteria:
+  Every top mover (>= |5%|) has a catalyst match record.
+  Causal chain pass rate improves in next live cycle.
+  Unexplained moves reduced to <= 3 per cycle.
+
+------------------------------------------------------------------------------
+  P2-04 — Portfolio Mandate Language in Research Report
+  Priority      : HIGH
+  Owner         : Research Department
+  Target        : Saturday 6 June EOD
+  Effort        : 1 day
+------------------------------------------------------------------------------
+
+Problem:
+  The report currently says WAIT/HOLD for both BAC (BASELINE — trade around)
+  and QUBT (SATELLITE — DCA enabled). These require completely different
+  language and actions. The generic band (WAIT/HOLD, WATCH/BUY DIP) does
+  not reflect the CIO's actual mandate for each position.
+
+Required changes to research_report.txt:
+
+  Portfolio Position-Level Compression must read mandate flag
+  and produce mandate-appropriate language:
+
+  BASELINE tickers:
+    If RSI > 70 or technical = overbought:
+      → "TRIM SIGNAL — [ticker] overbought [RSI XX].
+         Trade-around opportunity. Consider partial exit.
+         Re-entry target: [support level]"
+
+    If RSI < 35 or technical = oversold:
+      → "RELOAD SIGNAL — [ticker] at support.
+         Baseline accumulation zone. Add to position."
+
+    If neutral:
+      → "BASELINE HOLD — [ticker] within normal range.
+         No action required."
+
+  SATELLITE tickers:
+    If price within dca_zone_low / dca_zone_high:
+      → "DCA ZONE — [ticker] in accumulation range
+         $[dca_zone_low] - $[dca_zone_high]. Thesis intact.
+         Consider adding to position."
+
+    If squeeze_risk_score >= 60:
+      → "SQUEEZE ALERT — [ticker] elevated squeeze risk
+         (score [XX]/100). Monitor volume for trigger signal."
+
+    If price well above cost basis (> 20%):
+      → "SATELLITE PROFIT ZONE — [ticker] +[XX]% above cost.
+         Consider partial trim to lock gains."
+
+    Default:
+      → "SATELLITE HOLD — [ticker] within thesis range.
+         Monitor for DCA or squeeze entry signal."
+
+Acceptance criteria:
+  Portfolio compression section uses mandate-aware language.
+  No BASELINE ticker receives generic WAIT/HOLD.
+  No SATELLITE ticker receives generic WAIT/HOLD.
+  DCA zone alert fires when price within defined range.
+
+------------------------------------------------------------------------------
+  P2-05 — DEFECT-06 Residual: ECE Tier Classifier Fix
+  Priority      : HIGH
+  Owner         : MID Engineering
+  Target        : Friday 5 June EOD
+  Effort        : 0.5 days
+------------------------------------------------------------------------------
+
+Problem:
+  Carried over from Phase 1. The _classify_tier() function exists but
+  incorrectly tags analyst consensus why-text as Tier 1 instead of Tier 4.
+  9 of 10 ECE themes are miscategorised. Confidence caps are therefore
+  not firing correctly.
+
+Root cause confirmed:
+  The classifier is not detecting [ANALYST CONSENSUS] and
+  [WALL ST. ANALYSTS] prefixes in the why field.
+
+Required fix:
+  _classify_tier() must check why field string for these prefixes:
+
+  if why.startswith('[ANALYST CONSENSUS]'):
+      return 4  # cap 55%
+
+  if why.startswith('[WALL ST. ANALYSTS]'):
+      # Check if it references a specific dated action
+      if 'upgrade' in why.lower() or 'downgrade' in why.lower():
+          return 1  # cap 90%
+      else:
+          return 4  # cap 55% — static consensus, not a catalyst
+
+  if why.startswith('@'):
+      return 2  # social/news signal — cap 80%
+
+  if any(word in why.lower() for word in
+         ['earnings', 'fomc', 'fed', 'beige book',
+          'ceo', 'product launch', 'acquisition']):
+      return 1  # cap 90%
+
+  if any(word in why.lower() for word in
+         ['government', 'sanctions', 'executive order',
+          'regulatory', 'court', 'law', 'treaty']):
+      return 0  # cap 95%
+
+  default: return 3  # price/flow anomaly — cap 70%
+
+Acceptance criteria:
+  All analyst-consensus-anchored ECE themes carry confidence <= 55%.
+  Evidence tier label correctly shown in report.
+  No Tier 1 tag on static analyst consensus why-text.
+
+------------------------------------------------------------------------------
+  P2-06 — Company-Name-to-Ticker Mapping for Tech Publications
+  Priority      : MEDIUM
+  Owner         : MID Engineering
+  Target        : Sunday 7 June EOD
+  Effort        : 0.5 days
+------------------------------------------------------------------------------
+
+Problem:
+  139 tech publication articles per cycle show tickers=N/A.
+  Articles reference company names (Marvell, Broadcom, Nvidia)
+  not ticker symbols. The ingest pipeline cannot link them to watchlist.
+  L8 signal quality is degraded for most tickers.
+
+Required fix:
+  Add deterministic company-name-to-ticker lookup table in ingest.py.
+  Apply to tech_pub_signals article extraction before writing to DB.
+
+Minimum required mappings (expand over time):
+
+  COMPANY_TICKER_MAP = {
+    'nvidia': 'NVDA', 'nvda': 'NVDA',
+    'amd': 'AMD', 'advanced micro': 'AMD',
+    'intel': 'INTC',
+    'apple': 'AAPL',
+    'microsoft': 'MSFT',
+    'google': 'GOOGL', 'alphabet': 'GOOGL',
+    'meta': 'META', 'facebook': 'META',
+    'amazon': 'AMZN', 'aws': 'AMZN',
+    'broadcom': 'AVGO',
+    'marvell': 'MRVL',
+    'tsmc': 'TSM', 'taiwan semiconductor': 'TSM',
+    'tesla': 'TSLA',
+    'qualcomm': 'QCOM',
+    'arm': 'ARM',
+    'oracle': 'ORCL',
+    'salesforce': 'CRM',
+    'palantir': 'PLTR',
+    'd-wave': 'QBTS', 'dwave': 'QBTS',
+    'quantum computing inc': 'QUBT', 'qubt': 'QUBT',
+    'ionq': 'IONQ',
+    'rigetti': 'RGTI',
+    'bank of america': 'BAC',
+    'wells fargo': 'WFC',
+    'newmont': 'NEM',
+    'anglogold': 'AU',
+    'exxon': 'XOM', 'exxonmobil': 'XOM',
+    'crowdstrike': 'CRWD',
+    'palo alto': 'PANW',
+    'dell': 'DELL',
+    'applied materials': 'AMAT',
+  }
+
+Apply to article text (case-insensitive search of title + first 200 chars).
+Append matched tickers to existing tickers_mentioned list.
+
+Acceptance criteria:
+  tickers=N/A reduced by >= 50% across all tech pub articles.
+  No false positive matches (verify sample of 10 articles).
+  Existing correct ticker matches are not overwritten.
+
+------------------------------------------------------------------------------
+  P2-07 — Squeeze Signal Integration into CIO Compression
+  Priority      : HIGH
+  Owner         : Research Department
+  Target        : Saturday 6 June EOD
+  Effort        : 1 day
+  Dependency    : P2-01 must be complete first
+------------------------------------------------------------------------------
+
+Problem:
+  Even when squeeze_risk_score is computed (P2-01), it needs to surface
+  in the right place — the CIO Compression section — where the CIO
+  actually reads and acts. A squeeze score buried in L7b will be missed.
+
+Required additions to CIO Action Compression section:
+
+  If any SATELLITE ticker has squeeze_risk_score >= 60:
+
+  ⚡ SQUEEZE WATCH — [ticker]
+     Score      : [XX]/100 ([EXTREME/HIGH/MEDIUM])
+     Short Float: [XX]%
+     Days Cover : [X.X]
+     Rel Volume : [X.X]x (today)
+     Trigger    : Watch for volume spike >= 3x on upward price move.
+                  That is the squeeze entry signal.
+     Action     : Pre-position small. Add on volume confirmation.
+                  Exit partial on first RSI > 75 reading.
+
+  If squeeze_risk_score >= 80 (EXTREME):
+  Add to Executive Summary as a top-line alert.
+
+  Volume spike same-day confirmation rule:
+  If squeeze_risk_score >= 60 AND relative_volume >= 3.0 AND price > 0:
+    → "SQUEEZE ACTIVE — [ticker] volume [X.X]x with price +[X]%.
+       Squeeze may be in progress. Monitor closely."
+
+Acceptance criteria:
+  Squeeze watch appears in CIO compression for any score >= 60.
+  Squeeze active alert fires when volume + price + short interest
+  all confirm simultaneously.
+  Executive summary includes squeeze alert when score >= 80.
+
+
+==============================================================================
+  5. ITEMS EXPLICITLY DEFERRED TO PHASE 3
+==============================================================================
+
+The following are agreed Phase 3 items and are NOT in scope this weekend:
+
+  - Index breadth (advance/decline, % above MAs, new highs/lows)
+  - Sector ETF confirmation (SPY, QQQ, SMH, XLF, XLE)
+  - Credit and liquidity stress (HYG/LQD, DXY, MOVE, HY spread)
+  - Index futures / premarket direction (ES, NQ, RTY, YM)
+  - Options pressure layer (put/call, IV rank, unusual options volume)
+  - Experimental regime probability model
+  - Historical analog memory table
+
+Phase 3 Work Order will be issued after Phase 2 sign-off.
+
+
+==============================================================================
+  6. WEEKEND DELIVERY SCHEDULE
+==============================================================================
+
+  Thursday 4 June (today) — IMMEDIATE:
+    CIO approves this Work Order v1.1.
+    ChatGPT Research Department endorses.
+    MID Engineering acknowledges.
+    MID Engineering reads this Work Order IN FULL before touching
+    any file. No exceptions.
+    MID Engineering runs git diff on moomoo_intelligence.py to
+    identify the avg_cost regression introduced on 2026-06-03.
+    Portfolio mandate metadata values confirmed by CIO.
+
+  Friday 5 June — DATA INTEGRITY FIRST:
+    DEFECT-08 fix complete and verified (avg_cost corruption).
+      BAC avg_cost = $51.118 confirmed in live cycle.
+      WFC avg_cost = $77.446 confirmed in live cycle.
+    DEFECT-07 fix complete and verified (pre/post market prices).
+      Pre-market prices confirmed in live cycle during SGT 16-21:30.
+      Session label visible in research report.
+    P2-05 complete (ECE classifier fix — quickest feature win).
+    P2-06 complete (ticker mapping — deterministic, low risk).
+    P2-01 begins (short interest — primary objective).
+    P2-02 begins (volume data).
+
+  Saturday 6 June (hard target) — FEATURES:
+    P2-01 complete — short interest + squeeze risk score live.
+    P2-02 complete — volume + relative volume live.
+    P2-03 complete — top mover catalyst verification.
+    P2-04 complete — mandate-aware report language.
+    P2-07 complete — squeeze alert in CIO compression.
+    Full cycle test — verify all new fields in live dataset_raw.json.
+    Research Department sign-off on Phase 2.
+
+  Sunday 7 June (buffer):
+    Any incomplete items from Saturday.
+    CIO acceptance testing.
+    Phase 2 declared complete.
+    Phase 3 Work Order drafted.
+
+
+==============================================================================
+  7. IMPLEMENTATION CONSTRAINTS
+==============================================================================
+
+All Phase 1 constraints remain in force:
+
+  1. No interruption to live 24/7 hourly pipeline.
+  2. All fixes staged on parallel instance before promotion.
+  3. No new AI model calls — all additions deterministic.
+  4. Backward compatibility — downstream departments unaffected.
+  5. No architectural changes to the core ingest/export pipeline.
+
+Additional Phase 2 constraint:
+
+  6. Data source verification required before any new source is added.
+     Short interest source must be confirmed returning valid data
+     before being written to dataset_raw.json.
+     Volume source must be confirmed against known values
+     before integration.
+     No hallucinated API calls. Verify against official documentation.
+
+
+==============================================================================
+  8. SUCCESS CRITERIA FOR PHASE 2 COMPLETION
+==============================================================================
+
+Phase 2 is complete when all of the following are true
+in a live hourly report by Sunday 7 June 2026 EOD:
+
+  DATA INTEGRITY (DEFECT-07 and DEFECT-08 — must pass first):
+  [ ] live_prices[ticker].price reflects pre-market price during
+      SGT 16:00 - 21:30 window (not stale regular session close)
+  [ ] live_prices[ticker].price reflects post-market price during
+      SGT 04:00 - 08:00 window
+  [ ] meta.market_session field present and correct every cycle
+  [ ] Session label visible in research report alongside all prices
+  [ ] portfolio.positions.BAC.avg_cost = $51.118 (±$0.01)
+  [ ] portfolio.positions.WFC.avg_cost = $77.446 (±$0.01)
+  [ ] All other avg_cost values verified against Moomoo UI
+  [ ] Assertion gate on avg_cost firing correctly
+  [ ] Portfolio integrity_flag reason includes avg_cost validation
+
+  PHASE 2 FEATURES (after data integrity confirmed):
+  [ ] squeeze_risk_score present for QBTS and QUBT every cycle
+  [ ] Squeeze alert fires in CIO compression when score >= 60
+  [ ] relative_volume present for all 83 watchlist tickers
+  [ ] Volume spike flag fires correctly at >= 2.0x
+  [ ] Top mover table includes catalyst match and relative volume
+  [ ] Unexplained top movers reduced to <= 3 per cycle
+  [ ] Portfolio positions show mandate-aware language
+  [ ] DCA zone alert fires when QUBT / QBTS in accumulation range
+  [ ] ECE classifier correctly tags analyst consensus as Tier 4
+  [ ] Tech pub tickers=N/A reduced by >= 50%
+  [ ] Causal chain pass rate >= 0.800
+  [ ] Blind spot penalty <= 0.100
+
+Upon Phase 2 completion, projected report score:
+  Structural               : 9.0 / 10
+  Reliability-adjusted     : 8.8 / 10
+
+Phase 3 Work Order (WO-RD-20260607-003) to be issued on Sunday 7 June.
+
+
+==============================================================================
+  9. ACCEPTANCE AND SIGN-OFF REQUIRED
+==============================================================================
+
+  Role                          Party                        Status
+  ──────────────────────────────────────────────────────────────────────────
+  Issuing Department            Research Department (Claude)  ISSUED
+  Co-endorsing Department       ChatGPT Research Department   CONCURRED
+  CIO Approval                  BlueLotus CIO (Kian)          APPROVED
+  MID Engineering Acknowledge   Market Intelligence Dept       PENDING
+
+  Work Order is ACTIVE upon MID Engineering acknowledgement. ChatGPT Research
+  Department concurrence and CIO approval have been granted in this revision.
+
+  CIO NOTE: Portfolio mandate metadata values currently remain as stated in
+  Section 3 unless later amended by CIO. MID Engineering must not infer or
+  overwrite CIO accumulation ranges without explicit approval.
+
+
+==============================================================================
+  SIGN-OFF BLOCK
+==============================================================================
+
+  Research Department (Claude)
+  Signature : Research Department (Claude)
+  Date      : 2026-06-04
+  Status    : ISSUED — v1.2
+
+  ChatGPT Research Department
+  Signature : ChatGPT Research Department — CONCURRED
+  Date      : 2026-06-04
+  Status    : CONCURRED — Data integrity first; Phase 2 gated behind
+              DEFECT-07 and DEFECT-08 verification.
+
+  CIO — BlueLotus Fund (Soh Wee Kian / Kian)
+  Signature : Soh Wee Kian — CIO APPROVAL RECORDED
+  Date      : 2026-06-04
+  Status    : APPROVED FOR EXECUTION — per CIO instruction in session.
+              MID Engineering may proceed subject to data-integrity gate.
+
+  MID Engineering — Market Intelligence Department
+  Signature : ________________________
+  Date      : ________________
+  Status    : PENDING ACKNOWLEDGEMENT
+
+==============================================================================
+  END OF WORK ORDER — WO-RD-20260604-002 (v1.2)
+  BlueLotus Fund — Research Department
+  Issued: 2026-06-04
+  Revised: 2026-06-04 — ChatGPT concurrence and CIO approval added
+  Deadline: 2026-06-07 23:59 SGT
+==============================================================================

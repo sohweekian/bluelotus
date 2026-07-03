@@ -1,0 +1,229 @@
+===============================================================================
+DR. CODEX TECHNICAL REPORT
+BlueLotus V3 — Contradiction Governance Layer and CIO Decision Strip
+Date: 2026-06-20 SGT
+Audience: CIO Soh Wee Kian, Dr. Claude Code, Chief Architect ChatGPT
+===============================================================================
+
+1. CIO DIRECTIVE
+-------------------------------------------------------------------------------
+The CIO asked for the newly identified BlueLotus blind spots to be handled under
+the new institutional SOP:
+
+  Observe existing problems.
+  Hypothesize solutions.
+  Write thesis.
+  Write work order.
+  Execute.
+  Test.
+  Observe logs.
+  Refine.
+  Test again.
+  Write technical report.
+
+This work implements the first BlueLotus V3 Contradiction Governance Layer.
+
+2. THESIS AND WORK ORDER CREATED
+-------------------------------------------------------------------------------
+Thesis:
+  C:\bluelotus3\research\BlueLotus_V3_Contradiction_Governance_Thesis_20260620.md
+
+Work Order:
+  C:\bluelotus3\research\WORK_ORDER_Contradiction_Governance_Layer_20260620.txt
+
+Core thesis:
+  BlueLotus V3 no longer suffers mainly from lack of intelligence. The next risk
+  is silent contradiction across memory, doctrine, thesis, portfolio policy,
+  deterministic operators, agent reports, dashboards, and CIO-facing reports.
+
+3. SOFTWARE IMPLEMENTED
+-------------------------------------------------------------------------------
+New module:
+  C:\bluelotus3\governance\contradiction_governance.py
+
+New package initializer:
+  C:\bluelotus3\governance\__init__.py
+
+New tests:
+  C:\bluelotus3\tests\test_contradiction_governance.py
+
+Orchestrator integration:
+  C:\bluelotus3\orchestration\linear_agent_orchestrator.py
+
+Runtime/refinement changes:
+  C:\bluelotus3\config\execution_queue.yaml
+  C:\bluelotus3\prompting\retry_prompt_builder.py
+
+Existing regression fixes found during full-suite testing:
+  C:\bluelotus3\acms_cop\reports\remediation_reconciliation.py
+
+4. NEW GOVERNANCE ARTIFACTS
+-------------------------------------------------------------------------------
+Every V3 cycle now writes:
+
+  Cycle-local contradiction register:
+    <cycle_dir>\governance\contradiction_register.json
+
+  Cycle-local CIO decision strip:
+    <cycle_dir>\governance\cio_decision_strip.json
+
+  Latest register:
+    C:\bluelotus3\data\governance\contradiction_register_latest.json
+
+  Latest decision strip:
+    C:\bluelotus3\data\governance\cio_decision_strip_latest.json
+
+5. CONTRADICTION RULES IMPLEMENTED
+-------------------------------------------------------------------------------
+R1 — Add action conflicts with deterministic block.
+R2 — Thesis says reduce/no-add while open order book implies add.
+R3 — Portfolio target/policy conflicts with concentration warning.
+R4 — Agent council degraded or partial while posture appears normal.
+R5 — Public/dashboard cycle freshness conflicts with latest council cycle.
+R6 — Agent JSON validates but quality scorer flags weak differentiated reasoning.
+
+6. CIO DECISION STRIP IMPLEMENTED
+-------------------------------------------------------------------------------
+Each cycle now produces a compressed CIO frame:
+
+  POSTURE
+  NEW_INFORMATION
+  ACTION_BLOCKED
+  ACTION_PERMITTED
+  CIO_DECISION_REQUIRED
+
+Latest observed strip:
+  cycle_id: v3_cycle_20260620_220853
+  posture: CIO_VERIFICATION_REQUIRED
+  blocked: ADD_RISK_WITHOUT_CATALYST_REVIEW, INCREASE_GOLD_THESIS_RISK,
+           SCALE_IN_ADD, SECOND_TRANCHE_ADD, USE_ARCHIVE_AS_LIVE_TRUTH
+  permitted: HOLD, REVIEW, WAIT
+  CIO decision required:
+    Gold thesis risk increase is blocked while open order book contains
+    gold/miner-linked tickers.
+
+7. TESTING AND ERROR OBSERVATION
+-------------------------------------------------------------------------------
+First focused test:
+  8/8 contradiction governance tests passed.
+
+Focused regression slice:
+  14/14 passed.
+
+First integrated cycle:
+  cycle_id: v3_cycle_20260620_220205
+  validated_agent_reports: 8
+  agent_errors: 1
+
+Observed logs:
+  - Data Integrity failed JSON retry.
+  - Multiple llama-server workers remained alive after failure.
+  - Retry prompt was truncating broken JSON near the error location, making
+    repair unreliable.
+
+8. REFINEMENTS APPLIED AFTER LOG OBSERVATION
+-------------------------------------------------------------------------------
+Refinement A — Retry prompt repair:
+  JSON_PARSE_ERROR retries now regenerate a fresh minimal valid schema object
+  instead of attempting to repair a truncated malformed response.
+
+Refinement B — Ollama worker cleanup:
+  Added execution_queue.yaml flag:
+    kill_llama_server_on_agent_error: true
+
+  On Windows, failed agent calls now clean orphaned llama-server.exe workers
+  before the next linear agent call proceeds.
+
+Refinement C — Full-suite discovered report hygiene mismatches:
+  Fixed status labels:
+    LIVE_DASHBOARD_NEWER
+    CURRENT
+
+  Fixed entropy label:
+    HIGH_ENTROPY / NOISY_SIGNAL
+
+9. FINAL ROBUST TEST RESULTS
+-------------------------------------------------------------------------------
+Full test suite:
+  229 passed
+  1 warning
+
+Warning:
+  tests/test_v3_db_connection.py returns True instead of asserting; this is a
+  pre-existing pytest style warning and not a functional failure.
+
+Final V3 cycle:
+  cycle_id: v3_cycle_20260620_220853
+  validated_agent_reports: 9
+  agent_errors: 0
+  contradiction_count: 2
+  P1: 1
+  P3: 1
+
+Latest contradiction register:
+  C:\bluelotus3\data\governance\contradiction_register_latest.json
+
+Latest CIO decision strip:
+  C:\bluelotus3\data\governance\cio_decision_strip_latest.json
+
+Publisher:
+  GitHub index.html: PASS 200
+  GitHub chief-strategist.html: PASS 200
+  GitHub data/portfolio_live.json: PASS 200
+  GitHub data/chief_strategist_v17.txt: PASS 200
+  GitHub data/v3_agents_latest.json: PASS 200
+  GitHub data/dataset_public.json: PASS 200
+
+Public endpoint verified:
+  https://sohweekian.github.io/bluelotus/data/v3_agents_latest.json
+  cycle_id: v3_cycle_20260620_220853
+  agent_count: 9
+  recommended_posture: REVIEW
+
+10. CURRENT OPEN OBSERVATIONS
+-------------------------------------------------------------------------------
+The contradiction layer correctly detects that:
+
+  - Runtime succeeded: 9/9 agents, 0 errors.
+  - Reasoning quality still requires improvement: several agents validated JSON
+    but scored weakly under the quality scorer.
+  - Gold/miner open-order intent must be reconciled with the deterministic
+    INCREASE_GOLD_THESIS_RISK block.
+
+This is good behavior. The system no longer hides the contradiction. It records
+it and escalates it to CIO verification.
+
+11. SAFETY INVARIANTS
+-------------------------------------------------------------------------------
+Preserved:
+
+  CIO_ONLY_MANUAL
+  manual_execution_required = true
+  llm_order_generation = false
+  order_routing_enabled = false
+  broker execution path = none
+  LLM execution authority = none
+
+12. FINAL ENGINEERING VERDICT
+-------------------------------------------------------------------------------
+The first Contradiction Governance Layer is operational.
+
+BlueLotus V3 now has a new institutional capability:
+
+  It can detect when its own layers disagree.
+
+This is a major step from memory toward coherence. The system does not merely
+store doctrine, reports, thesis, and agent output. It now begins to reconcile
+them and raise contradictions before the CIO acts.
+
+Final status:
+  DELIVERED
+  TESTED
+  REFINED AFTER LOG OBSERVATION
+  FULL SUITE GREEN
+  V3 CYCLE GREEN
+  PUBLISHED
+
+===============================================================================
+END_OF_REPORT
+===============================================================================

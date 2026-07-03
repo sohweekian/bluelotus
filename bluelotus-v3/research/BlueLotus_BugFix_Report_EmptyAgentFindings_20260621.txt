@@ -1,0 +1,205 @@
+================================================================================
+BLUELOTUS V3 — TECHNICAL BUG FIX REPORT
+Empty Agent Findings: Semantic Content Gate + Token Budget Fix
+================================================================================
+Date          : 2026-06-21
+Work Order    : WO-20260621-001
+Author        : Dr. Claude Code (Windows Platform Team)
+SOP Reference : BlueLotus V3 Bug-Solving SOP — Steps 1-12
+================================================================================
+
+
+────────────────────────────────────────────────────────────────────────────────
+1. WHAT FAILED
+────────────────────────────────────────────────────────────────────────────────
+
+Bug A — Semantic Empty Response (5 agents)
+  5 of 9 agents (data_integrity, macro_strategist, portfolio_structure,
+  catalyst_intelligence, thesis_lifecycle) produced reports with all content
+  fields at scaffold defaults: summary="", key_findings=[], confidence=0.5.
+  The Chief Strategist page showed "No findings" for these agents, giving the
+  CIO a severely degraded intelligence picture. No retry was triggered because
+  the responses were schema-valid.
+
+Bug B — JSON Truncation (macro_strategist, discovered in fix validation cycle)
+  macro_strategist produced a response that exceeded 800 tokens (num_predict
+  ceiling). The JSON was cut off at character 2463 with "Unterminated string".
+  Retries also truncated. The agent was logged as an error for the cycle.
+
+
+────────────────────────────────────────────────────────────────────────────────
+2. WHAT LOGS/TESTS SHOWED
+────────────────────────────────────────────────────────────────────────────────
+
+Direct inspection of v3_cycle_20260620_233427 agent JSON files confirmed:
+  data_integrity:        summary="", key_findings=[], confidence=0.5, retries=0
+  macro_strategist:      summary="", key_findings=[], confidence=0.5, retries=0
+  portfolio_structure:   summary="", key_findings=[], confidence=0.5, retries=0
+  catalyst_intelligence: summary="", key_findings=[], confidence=0.5, retries=0
+  thesis_lifecycle:      summary="", key_findings=[], confidence=0.5, retries=0
+
+Code inspection of agents/base_agent.py confirmed:
+  - compact_user_prompt() lines 344-350 includes a fully-formed empty JSON
+    scaffold as the shape template, with key_findings:[], confidence:0.5
+  - retry_allowed() only fires on JSON parse or schema validation errors
+  - Empty arrays pass schema validation → ok=True → retry loop never enters
+
+v3_cycle_20260621_011318 (first fix cycle) showed:
+  - macro_strategist error: "Unterminated string at char 2463" → truncation
+  - config/model_registry.yaml had num_predict: 800
+  - 800 tokens × ~3 chars/token ≈ 2400 chars → consistent with char 2463 cutoff
+
+
+────────────────────────────────────────────────────────────────────────────────
+3. HYPOTHESES
+────────────────────────────────────────────────────────────────────────────────
+
+Bug A Hypothesis:
+  qwen3:4b interprets "Return this shape exactly" literally. It fills in
+  metadata fields it can copy from the prompt (cycle_id, agent_id, timestamps)
+  and returns the content arrays verbatim from the scaffold template.
+  The response is schema-valid → result["ok"]=True → retry loop exits at 0.
+  This is a semantic emptiness failure: structurally valid, analytically hollow.
+
+Bug B Hypothesis:
+  qwen3:4b generates a detailed macro analysis response that exceeds the 800
+  token output cap (num_predict: 800 in model_registry.yaml). The Ollama
+  server stops generation at the token limit, producing a truncated JSON string
+  that fails parsing. Retries also truncate at the same limit.
+
+
+────────────────────────────────────────────────────────────────────────────────
+4. FILES CHANGED
+────────────────────────────────────────────────────────────────────────────────
+
+Fix A — agents/base_agent.py
+  Added semantic content gate in BOTH run_legacy_prompt_path() and
+  run_new_prompt_architecture(), applied after each LLM call (initial + retries).
+
+  Gate logic:
+    if result["ok"] and not summary and not key_findings and confidence == 0.5:
+        result = {"ok": False, "error": "EMPTY_CONTENT_RESPONSE: ...", ...}
+
+  This feeds the existing retry loop without restructuring it. After the gate
+  fires, the retry loop runs the EMPTY_CONTENT_RESPONSE repair prompt, which
+  explicitly tells the model to populate findings from the evidence packet.
+
+Fix A — prompting/retry_prompt_builder.py
+  Added EMPTY_CONTENT_RESPONSE handling:
+  - classify_error(): detects "empty_content_response" in error string
+  - _REPAIR_INSTRUCTIONS: repair instruction demanding at least 1 finding
+  - build_retry_user_prompt(): dedicated case that shows the agent its previous
+    empty response and explicitly demands real content
+  - should_retry(): EMPTY_CONTENT_RESPONSE explicitly marked as retryable
+    (before the existing "empty" substring block)
+
+Fix B — config/model_registry.yaml
+  num_predict raised from 800 to 1400 for default_specialist model role.
+  This gives qwen3:4b 75% more output budget, preventing JSON truncation
+  on verbose agents like macro_strategist.
+
+
+────────────────────────────────────────────────────────────────────────────────
+5. TESTS RUN
+────────────────────────────────────────────────────────────────────────────────
+
+Compile checks:
+  python -m py_compile agents/base_agent.py         → OK
+  python -m py_compile prompting/retry_prompt_builder.py → OK
+
+Full test suite:
+  python -m pytest tests/ -x -q
+  Result: 229 passed, 1 warning, 0 failures
+
+V3 cycle validation run 1 (content gate only, num_predict still 800):
+  Cycle: v3_cycle_20260621_011318
+  - 8 validated, 1 error (macro_strategist: JSON truncation at char 2463)
+  - Quality pass rate: 50% (up from 33%)
+  - catalyst_intelligence: retries=1, findings=1 ✅
+  - portfolio_structure: retries=1, findings=1 ✅
+  - thesis_lifecycle: retries=1, findings=1 ✅
+  - Confirmed Bug B: macro_strategist truncated by 800 token limit
+
+V3 cycle validation run 2 (content gate + num_predict=1400):
+  Cycle: v3_cycle_20260621_013308
+  - 9 validated, 0 errors ✅
+  - Quality pass rate: 56% (up from 33%)
+  - Average score: 72.0 (up from 66.2)
+  - All 9 agents: non-empty summary, ≥1 finding ✅
+  - macro_strategist: retries=1, conf=0.75, findings=1 ✅ (no truncation)
+  - data_integrity: retries=1, conf=0.95, findings=1 ✅
+  - 5 agents triggered semantic content gate and retried successfully
+
+
+────────────────────────────────────────────────────────────────────────────────
+6. FINAL CYCLE RESULT
+────────────────────────────────────────────────────────────────────────────────
+
+Cycle ID          : v3_cycle_20260621_013308
+Validated reports : 9 / 9
+Agent errors      : 0
+Quality pass rate : 56%
+Average score     : 72.0
+
+Agent Results (all with real findings):
+  data_integrity        : C  (73.0) retries=1 findings=1 conf=0.95
+  macro_strategist      : D  (64.8) retries=1 findings=1 conf=0.75
+  portfolio_structure   : D  (65.0) retries=1 findings=1 conf=0.85
+  catalyst_intelligence : D  (60.9) retries=1 findings=1 conf=0.85
+  thesis_lifecycle      : C  (74.8) retries=1 findings=1 conf=0.85
+  risk_challenger       : C  (73.8) retries=0 findings=1 conf=0.85
+  forecasting_brier     : D  (68.0) retries=0 findings=1 conf=0.50
+  sector_specialist     : B  (82.6) retries=0 findings=3 conf=0.75
+  sentiment_narrative   : B  (85.5) retries=0 findings=1 conf=0.50
+
+Published:
+  GitHub chief-strategist.html: PASS (200)
+  GitHub data/v3_agents_latest.json: PASS (200)
+  URL: https://sohweekian.github.io/bluelotus/chief-strategist.html
+
+
+────────────────────────────────────────────────────────────────────────────────
+7. REMAINING RISKS
+────────────────────────────────────────────────────────────────────────────────
+
+Risk 1 — Quality still below 60% threshold for some agents (MEDIUM / ONGOING)
+  4 agents remain below the 60% quality threshold (D grade). These agents are
+  now producing real content (not empty scaffolds) but their reasoning quality
+  is still rated below the bar. This is a prompt engineering backlog item, not
+  a code defect. The semantic content gate has done its job by forcing real
+  analysis; further improvement requires better prompts or a larger model.
+
+Risk 2 — Semantic gate may accept low-quality retries (LOW / DESIGN AWARENESS)
+  After 2 retries, the gate accepts whatever the model produces — even if the
+  retry still has sparse findings. This is correct: after max retries the system
+  falls back gracefully. The alternative (blocking the cycle) would be worse.
+
+Risk 3 — 1400 tokens may still truncate on edge cases (LOW)
+  num_predict=1400 gives more headroom but is not unlimited. If a future agent
+  produces a very verbose response, truncation could recur. Monitor macro_strategist
+  and other analytical agents over the next 5 cycles. If truncation re-appears,
+  raise to 1800.
+
+Risk 4 — forecasting_brier and sentiment_narrative at conf=0.5 (LOW)
+  These two agents have genuine findings but confidence=0.5. This is not a
+  scaffold default — they are producing real content but expressing genuine
+  uncertainty. The semantic gate correctly does not flag them because their
+  summary and key_findings are non-empty.
+
+
+────────────────────────────────────────────────────────────────────────────────
+8. SAFETY INVARIANTS — CONFIRMED PRESERVED
+────────────────────────────────────────────────────────────────────────────────
+
+  CIO_ONLY_MANUAL              : TRUE
+  order_routing_enabled        : FALSE
+  llm_order_generation         : FALSE
+  append-only memory           : PRESERVED
+  no V2 contamination          : PRESERVED
+  no hidden hardcoding         : PRESERVED (gate uses field values, not agent IDs)
+  no silent contradictions     : PRESERVED
+
+
+────────────────────────────────────────────────────────────────────────────────
+END OF REPORT
+================================================================================

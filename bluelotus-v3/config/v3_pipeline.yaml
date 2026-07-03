@@ -1,0 +1,220 @@
+pipeline:
+  display_name: BlueLotus V3 Intelligence Pipeline
+  wait_seconds: 2340
+  wait_minutes: 39
+  persist_db: true
+  continue_on_step_error: true
+  default_step_timeout_seconds: 300
+
+steps:
+  - working_dir: mid
+    script: fetch_analyst_targets.py
+    timeout_seconds: 600
+  - working_dir: mid
+    script: fetch_capital_flow.py
+    timeout_seconds: 900
+  - working_dir: mid
+    script: fetch_fundamentals.py
+  - working_dir: mid
+    script: fetch_treasury_yields.py
+  - working_dir: mid
+    script: fetch_cross_market_confirmation.py
+  - working_dir: mid
+    script: fetch_portfolio_readonly.py
+  - working_dir: mid
+    script: fetch_execution_records_readonly.py
+    args:
+      - --days
+      - 180
+  - working_dir: mid
+    script: fetch_corporate_actions.py
+    args:
+      - --limit
+      - 200
+      - --sleep-sec
+      - 0.02
+  - working_dir: mid
+    script: ingest.py
+    timeout_seconds: 900
+  - working_dir: mid
+    script: fetch_tech_publications.py
+  - working_dir: mid
+    script: fetch_conference_calendar.py
+    args:
+      - --rss-scan
+  - working_dir: mid
+    script: fetch_ceo_appearances.py
+  - working_dir: mid
+    script: fetch_ticker_earnings.py
+  - working_dir: mid
+    script: fetch_catalyst_calendar.py
+  - working_dir: mid
+    script: fetch_historical_prices.py
+    args:
+      - --portfolio-and-factors
+      - --days
+      - 180
+      - --sleep-sec
+      - 0.55
+  - working_dir: mid
+    script: historical_backfill_scheduler.py
+    args:
+      - --batch-size
+      - 12
+      - --days
+      - 180
+      - --min-rows
+      - 90
+      - --sleep-sec
+      - 0.55
+  - working_dir: mid
+    script: export_dataset_raw.py
+  - working_dir: mid
+    script: archive_dataset_snapshot.py
+    args:
+      - --no-signal
+  - working_dir: mid
+    script: run_freshness_recovery.py
+    timeout_seconds: 900
+  - working_dir: mid
+    script: export_dataset_raw.py
+  - working_dir: mid
+    script: archive_dataset_snapshot.py
+    args:
+      - --no-signal
+  - working_dir: mid
+    script: historical_risk_model.py
+    args:
+      - --lookback-days
+      - 180
+  - working_dir: mid
+    script: export_dataset_raw.py
+  - working_dir: mid
+    script: archive_dataset_snapshot.py
+    args:
+      - --no-signal
+  - working_dir: mid
+    script: seed_cio_decision_journal.py
+  - working_dir: mid
+    script: export_dataset_raw.py
+  - working_dir: mid
+    script: archive_dataset_snapshot.py
+    args:
+      - --no-signal
+  - working_dir: mid
+    script: seed_thesis_lifecycle.py
+  - working_dir: mid
+    script: record_cio_cognition.py
+  - working_dir: mid
+    script: export_dataset_raw.py
+  - working_dir: mid
+    script: archive_dataset_snapshot.py
+    args:
+      - --no-signal
+  - working_dir: mid
+    script: run_monitoring_alerts.py
+  - working_dir: mid
+    script: export_dataset_raw.py
+  - working_dir: mid
+    script: archive_dataset_snapshot.py
+    args:
+      - --no-signal
+  - working_dir: mid
+    script: institutional_quant_pipeline.py
+  - working_dir: mid
+    script: export_dataset_raw.py
+  - working_dir: mid
+    script: run_deterministic_operators.py
+    allowed_returncodes:
+      - 0
+      - 1
+  - working_dir: mid
+    script: export_dataset_raw.py
+  - working_dir: mid
+    script: archive_dataset_snapshot.py
+    args:
+      - --no-signal
+  - working_dir: research
+    script: bluelotus_superforecast_engine.py
+  - working_dir: research
+    script: forecast_resolution_tracker.py
+  - working_dir: research
+    script: forecast_method_comparison.py
+  - working_dir: mid
+    script: export_dataset_raw.py
+  - working_dir: mid
+    script: run_deterministic_operators.py
+    allowed_returncodes:
+      - 0
+      - 1
+  - working_dir: mid
+    script: export_dataset_raw.py
+  - working_dir: mid
+    script: archive_dataset_snapshot.py
+    args:
+      - --no-signal
+  - working_dir: mid
+    script: run_monitoring_alerts.py
+  - working_dir: mid
+    script: export_dataset_raw.py
+  - working_dir: mid
+    script: run_deterministic_operators.py
+    allowed_returncodes:
+      - 0
+      - 1
+  - working_dir: mid
+    script: export_dataset_raw.py
+  - working_dir: mid
+    script: archive_dataset_snapshot.py
+  - working_dir: .
+    script: build_chief_strategist_governance_pack.py
+    timeout_seconds: 300
+  - working_dir: .
+    script: build_chief_strategist_master_prompt.py
+    timeout_seconds: 300
+  - working_dir: .
+    script: build_cio_context_capsule.py
+    timeout_seconds: 300
+  - working_dir: governance
+    script: governance_gate.py
+  - working_dir: governance
+    script: scenario_overlay_engine.py
+  - working_dir: governance
+    script: regression_tests.py
+  - working_dir: research
+    script: research_report_generator.py
+  - working_dir: .
+    script: validate_cio_context_capsule.py
+    timeout_seconds: 300
+  - working_dir: .
+    script: run_chief_strategist_reply_audit.py
+    timeout_seconds: 300
+    args:
+      - --report
+      - research/Bluelotus_V3_Report.txt
+      - --dataset
+      - data/frontend/dataset_raw.json
+  - working_dir: research
+    script: run_report_regression_audit.py
+  - working_dir: .
+    script: acms_cop_db_loader.py
+    timeout_seconds: 600
+    args:
+      - --dataset
+      - data/frontend/dataset_raw.json
+      - --workbook
+      - research/Bluelotus_V3_Report.xlsx
+      - --database
+      - Bluelotus3
+      - --mode
+      - live
+  - working_dir: .
+    module: orchestration.run_v3_grand_cycle
+    timeout_seconds: 1800
+    args:
+      - --persist-db
+  - working_dir: .
+    module: scripts.run_nite_pei_cycle
+    timeout_seconds: 300
+  - working_dir: mid
+    script: bluelotus_publisher.py

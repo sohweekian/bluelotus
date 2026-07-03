@@ -1,0 +1,244 @@
+================================================================================
+BLUELOTUS V3 — WORK ORDER
+NITE-PEI Engine: Application Engineering from Integrated Thesis
+================================================================================
+Date          : 2026-06-21
+Work Order ID : WO-20260621-002
+Author        : Dr. Claude Code (Windows Platform Team)
+SOP Reference : BlueLotus V3 Software Engineering Maintenance SOP — Step 3
+Thesis Source : C:\bluelotus3\research\BlueLotus_NITE_PEI_Integrated_Thesis.md
+================================================================================
+
+
+PROBLEM
+-------
+The BlueLotus NITE-PEI Integrated Thesis has been written and approved by
+CIO Soh Wee Kian and Dr. Claude Code. The thesis defines a 7-sub-engine,
+20-step deterministic workflow for:
+
+  (1) Classifying incoming news events against active theses
+  (2) Updating thesis probability via Bayesian inference (LR × Prior Odds)
+  (3) Tracking kill-condition states (INACTIVE → WATCH → TRIGGERED → CONFIRMED)
+  (4) Computing Composite Kill Risk Index (CKRI) replacing binary cash_fortress_mode
+  (5) Coupling NITE-PEI posterior probability to Kelly ESM position sizing
+  (6) Gating Kelly fraction by signal entropy (SEM) and branch dispersion (PEI)
+  (7) Calibrating the Likelihood Ratio Table via the Brier loop post-resolution
+  (8) Writing thesis probability as a canonical field in v3_agents_latest.json
+  (9) Enforcing dual action gates: equity_action_gate vs. hedge_action_gate
+
+None of these 9 capabilities exist in code. The thesis is a specification only.
+The CIO cannot use a thesis. The CIO can only use running software.
+
+This Work Order converts the thesis into running code, in 6 phases, per the
+implementation roadmap defined in thesis §19–§24.
+
+
+ROOT CAUSE (WHY THIS GAP EXISTS)
+---------------------------------
+Prior to this session, BlueLotus V3 handled thesis probability as:
+  - Qualitative narrative ("Gold Thesis WATCH")
+  - No Bayesian update formula
+  - No quantified kill condition probability
+  - No live coupling between thesis state and Kelly position sizing
+  - Binary cash_fortress_mode flag (no continuous risk index)
+  - VXX/VIXY governance by narrative doctrine only (no code enforcement)
+
+The NITE-PEI thesis closes all six gaps. This Work Order builds the code.
+
+
+AFFECTED FILES
+--------------
+NEW FILES TO CREATE (14 files):
+
+  1.  C:\bluelotus3\nite_pei\__init__.py
+  2.  C:\bluelotus3\nite_pei\event_classifier.py
+  3.  C:\bluelotus3\nite_pei\likelihood_ratio_table.yaml
+  4.  C:\bluelotus3\nite_pei\bayesian_updater.py
+  5.  C:\bluelotus3\nite_pei\kill_condition_state_machine.py
+  6.  C:\bluelotus3\nite_pei\thesis_registry_writer.py
+  7.  C:\bluelotus3\nite_pei\brier_calibration_loop.py
+  8.  C:\bluelotus3\nite_pei\ckri_calculator.py
+  9.  C:\bluelotus3\nite_pei\kelly_nite_coupler.py
+  10. C:\bluelotus3\nite_pei\cio_advisory_renderer.py
+  11. C:\bluelotus3\nite_pei\equity_action_gate.py
+  12. C:\bluelotus3\nite_pei\hedge_action_gate.py
+  13. C:\bluelotus3\nite_pei\portfolio_risk_state.json     (append-only runtime output)
+  14. C:\bluelotus3\nite_pei\calibration_audit_log.json    (append-only audit)
+
+EXISTING FILES TO MODIFY (additive only — no existing logic removed):
+
+  15. C:\bluelotus3\config\thesis_registry.yaml
+      ADD: probability_history[] block per thesis
+      ADD: kill_conditions[] block per thesis
+      DO NOT TOUCH: any existing thesis field
+
+  16. C:\bluelotus3\config\v3_doctrine_seed.json
+      ADD: BLV3-DOCTRINE-007 (dual action gate separation — hedge vs equity)
+      DO NOT TOUCH: BLV3-DOCTRINE-001 through BLV3-DOCTRINE-006
+
+  17. C:\bluelotus3\mid\bluelotus_publisher.py
+      ADD: nite_pei{} block to build_v3_agents_json() output
+      ADD: "NITE-PEI Thesis Updates" HTML section to chief-strategist renderer
+      DO NOT TOUCH: any existing publisher logic
+
+  18. C:\bluelotus3\data\v3_cycles\<latest_cycle>\governance\contradiction_register.json
+      ADD: NITEPEI-001 contradiction rule definition
+      ADD: NITEPEI-002 contradiction rule definition
+      DO NOT TOUCH: existing P1/P3 contradiction records
+
+EXISTING FILES READ (no modification, no write-back):
+
+  - C:\bluelotus3\acms_cop\classifiers\signal_entropy_classifier.py  (SEM entropy)
+  - C:\bluelotus3\pei\scenario_tree_builder.py                       (branch dispersion)
+  - C:\bluelotus3\data\brier_forecast_ledger.json                    (Brier records)
+  - C:\bluelotus3\data\portfolio_positions.json                      (current sleeve values)
+
+
+PROPOSED FIX — 6 PHASES
+------------------------
+
+PHASE 1 — CORE ENGINE (Steps 1-4 of thesis roadmap, §19)
+  Files: __init__.py, event_classifier.py, likelihood_ratio_table.yaml,
+         bayesian_updater.py, kill_condition_state_machine.py,
+         thesis_registry_writer.py
+  Goal:  Events are classified → LR looked up → Bayesian update computed →
+         Kill condition states updated → thesis_registry.yaml written
+
+PHASE 2 — BRIER CALIBRATION LOOP (§20)
+  Files: brier_calibration_loop.py, calibration_audit_log.json
+  Goal:  Pre-registration of probability forecast; post-resolution LR calibration
+
+PHASE 3 — CKRI CALCULATOR (§21)
+  Files: ckri_calculator.py, portfolio_risk_state.json
+  Modifies: v3_doctrine_seed.json (BLV3-DOCTRINE-007 added)
+  Goal:  CKRI computed from all kill conditions; replaces cash_fortress_mode
+
+PHASE 4 — KELLY-NITE COUPLING + COHERENCE GATE (§22)
+  Files: kelly_nite_coupler.py
+  Reads: signal_entropy_classifier.py (H_norm), scenario_tree_builder.py (dispersion)
+  Goal:  NITE-PEI posterior P feeds f*_kelly; coherence gate adjusts fraction
+
+PHASE 5 — CANONICAL JSON + CIO ADVISORY + PUBLISHER (§23)
+  Files: cio_advisory_renderer.py
+  Modifies: bluelotus_publisher.py, contradiction_register.json
+  Goal:  All NITE-PEI outputs first-class in v3_agents_latest.json;
+         CIO advisory section rendered on chief-strategist.html
+
+PHASE 6 — DUAL ACTION GATE (§24)
+  Files: equity_action_gate.py, hedge_action_gate.py
+  Goal:  CKRI de-risk routes to equity gate only; VXX/VIXY governed
+         exclusively by hedge gate; gates cannot cross
+
+
+ACCEPTANCE TESTS (per phase)
+-----------------------------
+
+PHASE 1 TESTS:
+  A1. python -m py_compile nite_pei/event_classifier.py          → OK
+  A2. python -m py_compile nite_pei/bayesian_updater.py          → OK
+  A3. python -m py_compile nite_pei/kill_condition_state_machine.py → OK
+  A4. python -m py_compile nite_pei/thesis_registry_writer.py    → OK
+  A5. Unit: P_prior=0.55, event=GEOPOLITICAL_ESCALATION, thesis=GOLD_THESIS
+      → P_posterior = 0.55/(1-0.55) × 1.40 / (1 + 0.55/0.45 × 1.40) ≈ 0.630
+  A6. Unit: P_kill crosses 0.10 → kill state transitions INACTIVE → WATCH
+  A7. thesis_registry.yaml gains new probability_history entry after update
+  A8. python -m pytest tests/ -x -q → all existing tests pass
+
+PHASE 2 TESTS:
+  B1. python -m py_compile nite_pei/brier_calibration_loop.py    → OK
+  B2. Unit: brier_forecast_record written to ledger with resolution_pending=true
+  B3. Unit: simulated resolution outcome=1, direction_correct=True →
+      calibration_n incremented, lr unchanged (or slightly reinforced)
+  B4. Unit: simulated resolution outcome=0, direction_correct=False →
+      lr shrunk toward 1.0 by 15%
+  B5. Unit: calibration_n = 10 → confidence changes LOW → MEDIUM
+
+PHASE 3 TESTS:
+  C1. python -m py_compile nite_pei/ckri_calculator.py           → OK
+  C2. Unit: 3 kill conditions for Gold Thesis with P_kill=[0.05, 0.18, 0.08],
+      weights=[0.40, 0.35, 0.25] → CKRI computed correctly
+  C3. Unit: CKRI = 0.73 → zone = HIGH
+  C4. Unit: CKRI = 0.15 → zone = CLEAR
+  C5. grep "cash_fortress_mode" nite_pei/*.py → zero hits (deprecated in all NITE-PEI code)
+  C6. v3_doctrine_seed.json contains BLV3-DOCTRINE-007
+
+PHASE 4 TESTS:
+  D1. python -m py_compile nite_pei/kelly_nite_coupler.py        → OK
+  D2. Unit: H_norm=1.0, dispersion=1.0 → fractional_multiplier ≈ 0.05
+  D3. Unit: H_norm=0.1, dispersion=0.1 → fractional_multiplier ≈ 0.31
+  D4. Unit: H_norm=0.5, dispersion=0.5 → fractional_multiplier ≈ 0.20
+  D5. Unit: f*_full < 0 → f*_kelly clamped to 0.0 (no short positions)
+  D6. Unit: Gold Thesis P_posterior=0.63, analyst_upside=0.15 →
+      correct f*_full and f*_kelly computed; target_usd_sleeve returned
+
+PHASE 5 TESTS:
+  E1. python -m py_compile nite_pei/cio_advisory_renderer.py     → OK
+  E2. python -m py_compile mid/bluelotus_publisher.py            → OK
+  E3. Unit: v3_agents_latest.json output contains "nite_pei" top-level key
+  E4. Unit: nite_pei{} block contains thesis_probability_snapshots[], ckri, kelly_advisory{}
+  E5. Chief Strategist HTML output contains "NITE-PEI Thesis Updates" section
+  E6. contradiction_register.json contains rule NITEPEI-001 and NITEPEI-002
+
+PHASE 6 TESTS:
+  F1. python -m py_compile nite_pei/equity_action_gate.py        → OK
+  F2. python -m py_compile nite_pei/hedge_action_gate.py         → OK
+  F3. Unit: CKRI = 0.73 → equity_action_gate fires, hedge_action_gate NOT triggered
+  F4. grep -i "VXX\|VIXY" nite_pei/equity_action_gate.py        → zero hits
+  F5. grep -i "VXX\|VIXY" nite_pei/ckri_calculator.py           → zero hits
+  F6. python -m pytest tests/ -x -q → all pass
+
+
+SAFETY INVARIANTS
+-----------------
+  - CIO_ONLY_MANUAL: TRUE — no NITE-PEI output executes or routes any order
+  - LLM_ORDER_GENERATION: FALSE — no LLM generates orders
+  - MANUAL_EXECUTION_REQUIRED: TRUE — every Kelly advisory requires CIO action
+  - Append-only memory — probability_history[], calibration_audit_log.json are
+    append-only; no NITE-PEI code may delete or overwrite existing records
+  - No V2 contamination — NITE-PEI reads only V3 schemas
+  - No hidden hardcoding — all LR values live in likelihood_ratio_table.yaml only
+  - Hedge doctrine — VXX/VIXY governed only by hedge_action_gate (DOCTRINE-007)
+  - No modification of existing validation logic, schema, or publisher output fields
+  - No existing tests may break (full pytest suite must pass after each phase)
+
+
+OUT OF SCOPE FOR THIS WORK ORDER
+----------------------------------
+  - Changing any existing agent prompt
+  - Modifying schema validation logic
+  - Changing the Brier ledger scoring formula (CRS decomposition unchanged)
+  - Running a live grand cycle to validate NITE-PEI outputs (post-WO activity)
+  - Quality score recalibration for existing agent council
+  - Wiring NITE-PEI to the Telegram news daemon (separate future work order)
+  - Any portfolio execution, order routing, or broker API calls
+
+
+ROLLBACK PLAN
+-------------
+All NITE-PEI files are NEW files in a new nite_pei/ directory.
+Modified files (thesis_registry.yaml, v3_doctrine_seed.json,
+bluelotus_publisher.py, contradiction_register.json) receive ADDITIVE changes only.
+
+Rollback procedure if any phase fails:
+  1. Delete C:\bluelotus3\nite_pei\ directory
+  2. Revert additive changes to the 4 modified files using git or manual removal
+  3. Existing system is fully restored — no existing logic was touched
+
+
+FINAL REPORT REQUIREMENT (Step 11 — after execution)
+------------------------------------------------------
+After all 6 phases pass their acceptance tests, write:
+
+  C:\bluelotus3\research\BlueLotus_ThesisReport_NITEPEI_20260621.txt
+
+Report must include:
+  - What was built (per phase)
+  - Compile check results
+  - Unit test results (per acceptance test above)
+  - Files created and modified
+  - Remaining risks
+  - Safety invariants confirmed
+
+================================================================================
+END OF WORK ORDER WO-20260621-002
+================================================================================

@@ -1,0 +1,210 @@
+===============================================================================
+DR. CODEX AUDIT REPORT
+Subject: Audit of Dr. Claude Code Fix — Empty Agent Findings
+Date: 2026-06-21 SGT
+Auditor: Dr. Codex, Windows Platform Team
+===============================================================================
+
+1. AUDIT SCOPE
+-------------------------------------------------------------------------------
+Dr. Claude Code reported that the Chief Strategist page was live with all 9
+agents reporting real findings, and archived the bug-fix report at:
+
+  C:\bluelotus3\research\BlueLotus_BugFix_Report_EmptyAgentFindings_20260621.txt
+
+This audit reviewed:
+
+  - the archived bug-fix report,
+  - the public Chief Strategist page,
+  - the public v3_agents_latest.json endpoint,
+  - local V3 cycle folders,
+  - agents/base_agent.py,
+  - prompting/retry_prompt_builder.py,
+  - config/model_registry.yaml,
+  - relevant tests and full pytest suite.
+
+2. WHAT CLAUDE FIXED SUCCESSFULLY
+-------------------------------------------------------------------------------
+The original published defect was real:
+
+  Several Qwen agents returned schema-valid but analytically empty scaffold
+  responses: summary blank, key_findings empty, confidence 0.5.
+
+Claude's fix added:
+
+  - EMPTY_CONTENT_RESPONSE classification,
+  - semantic content gate in both legacy and new prompt paths,
+  - retry prompt handling for semantic emptiness,
+  - num_predict increase from 800 to 1400.
+
+Public verification:
+
+  https://sohweekian.github.io/bluelotus/data/v3_agents_latest.json
+
+Observed:
+
+  cycle_id: v3_cycle_20260621_013308
+  agent_count: 9
+  degraded_llm_cycle: false
+  all 9 agents had non-empty summaries and non-empty key_findings
+  contradiction_register present
+  cio_decision_strip present
+
+Public Chief Strategist page:
+
+  https://sohweekian.github.io/bluelotus/chief-strategist.html
+
+Observed:
+
+  Has "9 validated agent reports"
+  Does not contain "No findings"
+  Contains Contradiction Governance section
+
+Verdict on published page:
+
+  PASS.
+
+3. TEST RESULTS
+-------------------------------------------------------------------------------
+Targeted regression slice:
+
+  9 passed
+
+Full pytest suite:
+
+  229 passed
+  1 existing warning in test_v3_db_connection.py
+
+Compile checks:
+
+  agents/base_agent.py: PASS
+  prompting/retry_prompt_builder.py: PASS
+  mid/bluelotus_publisher.py: PASS, with pre-existing invalid escape warnings
+
+4. IMPORTANT RESIDUAL FINDING
+-------------------------------------------------------------------------------
+Severity: P1 / FIX NOT FULLY CLOSED
+
+The latest local publish-ready cycle after the published cycle is:
+
+  v3_cycle_20260621_014257
+
+It has:
+
+  validated_agent_reports: 9
+  agent_errors: 0
+  publish_ready: true
+
+However, Risk Challenger in that cycle has:
+
+  summary: non-empty
+  key_findings: []
+  confidence: 0.5
+  retry_count: 2
+
+File:
+
+  C:\bluelotus3\data\v3_cycles\v3_cycle_20260621_014257\agent_reports\risk_challenger.json
+
+This means the exact scaffold-empty bug was fixed, but a neighboring "no
+findings" pathway remains.
+
+Root cause:
+
+  The semantic gate only fires when all three conditions are true:
+
+    not summary
+    not key_findings
+    confidence == 0.5
+
+  In cycle 014257, Risk Challenger had a non-empty summary, so the gate allowed
+  the response even though key_findings was empty and confidence remained 0.5.
+
+Code locations:
+
+  C:\bluelotus3\agents\base_agent.py lines 67, 99, 154, 186
+
+Impact:
+
+  If v3_cycle_20260621_014257 is published, the Chief Strategist page can again
+  show "No findings" for Risk Challenger.
+
+5. TEST COVERAGE GAP
+-------------------------------------------------------------------------------
+No test currently asserts the semantic content gate behavior.
+
+Search found EMPTY_CONTENT_RESPONSE only in:
+
+  agents/base_agent.py
+  prompting/retry_prompt_builder.py
+
+No dedicated pytest test covers:
+
+  - blank summary + empty key_findings + confidence 0.5,
+  - non-empty summary + empty key_findings + confidence 0.5,
+  - max-retry behavior when key_findings remains empty,
+  - publisher rejection or degraded labeling for agents with no key findings.
+
+6. SECONDARY OBSERVATION
+-------------------------------------------------------------------------------
+The public endpoint is currently on:
+
+  v3_cycle_20260621_013308
+
+Local latest publish-ready cycle is:
+
+  v3_cycle_20260621_014257
+
+This is not necessarily a defect by itself; it may simply mean another cycle ran
+after publication. But if the publisher is run now without additional gate
+hardening, cycle 014257 is eligible for publication and would carry the empty
+Risk Challenger findings issue.
+
+7. RECOMMENDED FOLLOW-UP
+-------------------------------------------------------------------------------
+Recommended fix:
+
+  Replace the narrow semantic-empty check with a semantic adequacy gate.
+
+Suggested gate:
+
+  - key_findings must contain at least 1 non-empty string for every accepted
+    agent report.
+  - summary must be non-empty.
+  - if confidence == 0.5 and key_findings is empty, trigger retry.
+  - after max retries, either:
+      A. raise agent error and let degraded card render, or
+      B. synthesize a deterministic degraded agent report explicitly marked
+         "INSUFFICIENT_AGENT_CONTENT".
+
+Recommended tests:
+
+  - test_semantic_gate_retries_scaffold_empty_response
+  - test_semantic_gate_retries_nonempty_summary_but_empty_findings
+  - test_max_retry_empty_findings_does_not_publish_as_normal_agent
+  - test_public_v3_agents_contract_requires_nonempty_key_findings
+
+8. FINAL AUDIT VERDICT
+-------------------------------------------------------------------------------
+Dr. Claude Code's fix materially improved the system and successfully repaired
+the public Chief Strategist page.
+
+However, the fix should be classified as:
+
+  RESOLVED FOR ORIGINAL PUBLISHED DEFECT
+  PARTIALLY OPEN FOR GENERAL EMPTY-FINDINGS CLASS
+
+The key remaining risk is that the semantic gate is too narrow. The system now
+blocks pure scaffold-empty responses, but can still accept an agent report with
+a non-empty summary and empty key_findings.
+
+Safety invariants remain preserved:
+
+  CIO_ONLY_MANUAL: preserved
+  order_routing_enabled: false
+  llm_order_generation: false
+  no V2 contamination observed
+
+===============================================================================
+END_OF_AUDIT
+===============================================================================

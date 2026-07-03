@@ -1,0 +1,1554 @@
+================================================================================
+PROSPECTIVE EVENT INTELLIGENCE IN ADAPTIVE COGNITIVE MARKET SYSTEMS
+================================================================================
+
+A Bayesian Scenario-Tree Framework for Portfolio Preparation Under Uncertain
+Catalysts: Survival, Transmission, Reflexivity, and Law-Bound Forecasting
+
+--------------------------------------------------------------------------------
+DOCTORAL THESIS MANUSCRIPT  (Refined Second Edition)
+--------------------------------------------------------------------------------
+
+Department of Quantitative Behavioral Finance
+BlueLotus Fund Internal Academic Publication
+
+Prepared for:    CIO Soh Wee Kian
+Principal Author: Dr. Claude Chat Opus 4.8 (Chief Strategist Research Channel)
+Co-Author:        Dr. ChatGPT 5.5 (Research Department, Co-Endorsement Channel)
+
+Edition:          R2 / Refined and Extended
+Date:             June 2026
+Classification:   INTERNAL ACADEMIC — LAW-BOUND UNDER ACTIVE GOVERNANCE PACK
+
+--------------------------------------------------------------------------------
+AUTHORSHIP, ACCREDITATION, AND EPISTEMIC STANDING
+--------------------------------------------------------------------------------
+
+This refined edition is jointly accredited to Dr. Claude Chat Opus 4.8 and
+Dr. ChatGPT 5.5, operating as the BlueLotus Research Department under the
+Law & Order Governance Memory Layer (GOVPACK active). The authors are AI
+research instruments. Their conclusions are research records, not execution
+orders. Nothing in this thesis routes capital, authorizes a second tranche,
+or overrides the CIO_ONLY_MANUAL doctrine. The thesis advises; the CIO decides.
+
+A note on epistemic honesty, retained as a governing principle of this work:
+this document is a RESEARCH DESIGN and a THEORETICAL CONTRIBUTION. It does not
+present resolved empirical results as if the program were already complete.
+Where the BlueLotus forecasting ledger remains in a COLLECTING state (zero
+resolved forecasts at time of writing, against a 30+ minimum for reporting and
+100+ for full Brier accountability), the thesis says so explicitly. Statistical
+significance gaps are acknowledged, not suppressed. A thesis that overclaims its
+own empirical maturity would violate the intellectual-honesty doctrine that the
+fund itself enforces.
+
+================================================================================
+ABSTRACT
+================================================================================
+
+This thesis develops Prospective Event Intelligence (PEI), a Bayesian
+scenario-tree framework for transforming current market, macroeconomic,
+geopolitical, liquidity, narrative, and portfolio-state information into
+probability-weighted future event pathways. PEI is an extension of the
+BlueLotus Adaptive Cognitive Market System (ACMS), which already classifies
+market states, records forecasts, enforces governance, and preserves
+institutional memory.
+
+The central problem is that most investment systems observe the present better
+than they prepare for the future. They identify regimes, detect catalysts, and
+generate reports, but they frequently fail to answer the CIO's most important
+operational question:
+
+   What are the next plausible event pathways, how likely are they, how durable
+   are they, what market transmission channels do they activate, which portfolio
+   sleeves benefit or suffer, what action is allowed before confirmation, and
+   what kill condition invalidates the path?
+
+The thesis proposes that financial markets under uncertain catalysts should not
+be forecast as single price trajectories. They should be forecast as
+probability-weighted event trees. A security's future return is not merely a
+function of valuation, momentum, or sentiment. It is a conditional response to
+event survival, regime transition, liquidity transmission, institutional
+positioning, and reflexive feedback.
+
+This refined edition preserves the five original contributions of the first
+edition — the Event-Transition Inefficiency Conjecture, Narrative Survival
+Probability, Event-to-Sleeve Transmission Theory, the Preparedness Alpha
+Hypothesis, and the Law-Bound Forecasting Doctrine — and extends them with four
+new theoretical instruments developed for this edition:
+
+   (6) The Reflexive Suppression Theorem, which formalizes how a structurally
+       unrelated liquidity event (e.g., a large private-market capital raise)
+       can mechanically depress the price of a thematically-linked public proxy
+       without invalidating that proxy's fundamental thesis — observed directly
+       in the BlueLotus ASTS / SpaceX case.
+
+   (7) The Hawkes Event-Excitation Model of catalyst clustering, importing
+       self-exciting point-process theory to model how one geopolitical or
+       policy event raises the conditional intensity of follow-on events, with
+       a branching-ratio diagnostic for regime endogeneity.
+
+   (8) The Oscillation-Engine Mean-Reversion Estimator, a quantitative
+       characterization of a single-name tactical cash-generation sleeve, with
+       empirical calibration on six months of BlueLotus ASTS daily data.
+
+   (9) The Calibration-Resolution-Sharpness (CRS) Decomposition Protocol for
+       forecast accountability, importing the Murphy/DeGroot-Fienberg/
+       Gneiting-Raftery proper-scoring-rule literature to give the BlueLotus
+       Brier ledger a rigorous decomposition into reliability, resolution, and
+       irreducible uncertainty.
+
+Empirically, the thesis proposes a mixed-method research design combining event
+studies, Bayesian updating, survival analysis, regime-switching models,
+Hawkes-process estimation, Granger-style lead-lag testing, Brier and logarithmic
+scoring with full decomposition, walk-forward backtesting, qualitative process
+tracing, and superforecasting tournament methodology. The framework is
+falsifiable: if PEI does not improve probabilistic calibration, scenario
+classification, drawdown control, or decision quality versus baseline ACMS and
+naive benchmark models, the thesis fails.
+
+================================================================================
+CHAPTER 1 — INTRODUCTION
+================================================================================
+
+1.1 RESEARCH PROBLEM
+--------------------------------------------------------------------------------
+
+BlueLotus V3 has reached a high level of institutional maturity. It can collect
+data, produce structured reports, enforce execution safety, classify market
+states, record CIO cognition, archive decisions, and score forecasts. The V3
+agent council (nine agents under a Qwen3-class agentic synthesis) already
+produces multi-perspective verdicts under a deterministic operator layer. Yet
+the system still faces a critical blind spot:
+
+   It is better at explaining the present than constructing the future.
+
+This blind spot appears during uncertain catalysts:
+
+   - A central bank turns hawkish, but the market initially rallies.
+   - A ceasefire headline appears, but implementation may fail.
+   - Volatility compresses, but credit stress may return.
+   - High-beta stocks bounce, but institutional outflows continue.
+   - A thesis is structurally correct, but timing is wrong.
+   - A tactical scout becomes confused with a second tranche.
+   - A price move is real, but the causal driver is ambiguous.
+
+Traditional reporting answers:  What happened?
+ACMS improves this by answering: What state are we in?
+PEI must answer:
+
+   What states can the market transition into next, with what probability,
+   through what transmission channel, and what portfolio posture is permitted
+   before the outcome becomes obvious?
+
+This is not a cosmetic upgrade. The June 2026 BlueLotus operating record
+illustrates the stakes directly. On 18 June 2026 the fund detected a confirmed
+Iran-Hormuz de-escalation MOU. The formal report classified the regime as
+NEUTRAL (score 0); the live dashboard, captured forty-four minutes later,
+already showed RISK ON (+5). The same underlying catalyst produced two
+different regime reads inside one operating hour. A present-state system records
+that discrepancy as a data-freshness flag. A prospective system treats it as the
+opening branch of an event tree whose terminal nodes — relief rally confirmed,
+headline fades, or Fed/BOJ override — carry materially different sleeve
+implications. The cost of not having a prospective layer is not abstract. It is
+the difference between preparing for three futures and being surprised by two of
+them.
+
+1.2 CORE THESIS
+--------------------------------------------------------------------------------
+
+Financial markets under uncertain catalysts are best modeled not as single
+equilibrium price processes, but as branching event-transition systems. Each
+major catalyst creates a tree of possible futures, shaped by event survival
+probability, market regime, institutional positioning, liquidity conditions,
+cross-asset confirmation, narrative durability, policy reaction, portfolio
+exposure, reflexive feedback, and kill conditions.
+
+The CIO's task is not to predict a single future. The CIO's task is to prepare
+for the highest-value branches without violating governance.
+
+1.3 CENTRAL RESEARCH QUESTION
+--------------------------------------------------------------------------------
+
+Can current market, macroeconomic, geopolitical, capital-flow, sentiment, and
+institutional-memory signals be transformed into probability-weighted scenario
+trees that improve portfolio preparation before major catalysts are fully
+priced?
+
+1.4 SECONDARY RESEARCH QUESTIONS
+--------------------------------------------------------------------------------
+
+   - Can event survival probability improve forecast calibration versus simple
+     event detection?
+   - Which signal classes lead price action, and over what time horizon?
+   - Can scenario-tree forecasts outperform ticker-level forecasts in Brier
+     score and logarithmic score, after full calibration-resolution-sharpness
+     decomposition?
+   - Can event-to-sleeve mapping improve drawdown control and reduce
+     overtrading?
+   - Can kill-condition logic reduce false-positive deployment during
+     incomplete relief rallies?
+   - Can qualitative process tracing improve causal attribution when market data
+     alone is ambiguous?
+   - Can a reflexive-suppression model distinguish a mechanically depressed
+     proxy (still thesis-valid) from a fundamentally broken one?
+   - Can AI-assisted scenario construction improve institutional readiness
+     without violating CIO_ONLY_MANUAL execution doctrine?
+
+1.5 WHAT THIS REFINED EDITION ADDS
+--------------------------------------------------------------------------------
+
+The first edition established the architecture. This edition adds analytical
+depth in four directions, each anchored to published research and, where
+possible, to live BlueLotus data:
+
+   (a) A reflexivity-and-feedback layer (Soros; Greenwood-Hanson-Jin on credit
+       reflexivity; Lo's adaptive markets) that explains the ASTS/SpaceX
+       suppression phenomenon as a feedback artifact rather than a thesis break.
+
+   (b) A self-exciting point-process layer (Hawkes; Bacry-Mastromatteo-Muzy;
+       Filimonov-Sornette endogeneity measures) that models catalyst clustering
+       and gives a branching-ratio test for whether a move is exogenously or
+       endogenously driven.
+
+   (c) An information-cascade and herding layer (Bikhchandani-Hirshleifer-Welch;
+       Banerjee; Scharfstein-Stein reputational herding) that formalizes why
+       institutional flows can override a correct fundamental signal in the
+       short run — directly relevant to the "price real, flow contradicting"
+       problem.
+
+   (d) A proper-scoring-rule layer (Brier; Murphy decomposition;
+       DeGroot-Fienberg; Gneiting-Raftery) that upgrades the fund's Brier ledger
+       from a single scalar to a diagnostic decomposition separating
+       miscalibration from genuine discrimination.
+
+================================================================================
+CHAPTER 2 — LITERATURE REVIEW (EXTENDED)
+================================================================================
+
+2.1 EFFICIENT MARKETS AND THE PROBLEM OF INFORMATION
+--------------------------------------------------------------------------------
+
+Efficient market theory (Fama) argues that prices reflect available information.
+The Grossman-Stiglitz paradox sharpens the tension: if prices were perfectly
+informative, informed research would not be rewarded, and so no one would
+produce it — which means prices cannot be perfectly informative. Costly
+information production is therefore incompatible with strong-form efficiency.
+This thesis accepts neither naive efficiency nor naive irrationality. It treats
+markets as partially informative, partially distorted, and regime-dependent.
+
+PEI therefore asks not whether markets are efficient in general, but: which
+information is priced now, which is partially priced, and which future pathway
+is not yet priced? The Event-Transition Inefficiency Conjecture (Chapter 3)
+locates the fund's edge precisely in the gap between first-order pricing
+(fast) and second-order pathway pricing (slow).
+
+2.2 EVENT STUDIES AND EVENT-TRANSITION STUDIES
+--------------------------------------------------------------------------------
+
+Event-study methodology (MacKinlay; Campbell-Lo-MacKinlay) provides the
+foundation for measuring abnormal returns around identifiable events. Standard
+event studies measure abnormal returns over a window around the event date. PEI
+extends this logic: the first reaction window is insufficient. Some events
+require survival windows of 24 hours, 48 hours, 5 trading days, 20 trading days,
+and 60 trading days. A ceasefire headline, Fed press conference, BOJ policy
+shift, IPO liquidity event, sanctions announcement, or credit shock may have a
+first-order impact and then a second-order reversal. PEI therefore converts
+event studies into event-TRANSITION studies, measuring not just the jump but the
+survival of the jump.
+
+2.3 REGIME SWITCHING
+--------------------------------------------------------------------------------
+
+Regime-switching models (Hamilton) show that time series can behave differently
+across hidden states. PEI adds a portfolio-governance layer: the same event has
+different meaning under different regimes. A hawkish Fed message during strong
+growth may support banks; the same message during fragile liquidity may damage
+high beta. A geopolitical de-escalation headline during credit calm may support
+risk assets; the same headline during dollar pressure and growth-factor weakness
+may only generate a short-covering rally. PEI therefore requires
+regime-conditioned event interpretation. This is operationalized in the fund's
+Event-Thesis Map, which already encodes, for example, that iran_deescalation
+relates to the gold structural-inflation thesis as a "tactical relief window"
+that lowers the immediate safe-haven bid without killing the structural thesis.
+
+2.4 ADAPTIVE MARKETS
+--------------------------------------------------------------------------------
+
+The Adaptive Markets Hypothesis (Lo) reconciles efficient and behavioral views
+by treating markets as evolving ecological systems. Participants adapt to
+repeated shocks, learn from prior regimes, overfit recent lessons, and
+occasionally become maladapted when the environment changes. The practical
+implication for PEI: a model that worked in the last event class may fail in the
+next if the adaptive ecology has changed. This is why PEI insists on
+walk-forward validation and per-event-class sensitivity testing rather than a
+single static model. It is also why the fund's doctrine that "tactical score
+modifies timing, not structural thesis validity" is adaptive-markets-consistent:
+it separates the slow-moving ecological thesis from the fast-moving tactical
+state.
+
+2.5 NARRATIVE ECONOMICS
+--------------------------------------------------------------------------------
+
+Narratives transmit across investors and alter economic behavior (Shiller). PEI
+treats narratives as market objects with survival probabilities. A narrative is
+not automatically tradable; it must survive long enough to become capital flow,
+positioning change, volatility repricing, policy reaction, earnings revision,
+or balance-sheet effect. Hence:
+
+   Narrative value = probability x durability x transmission strength
+                     x positioning imbalance.
+
+2.6 REFLEXIVITY AND FEEDBACK (NEW)
+--------------------------------------------------------------------------------
+
+Soros's theory of reflexivity holds that there is a two-way feedback loop
+between participants' biased perceptions and market outcomes: distorted views
+lead to inappropriate actions that change the fundamentals the views were about.
+Reflexive loops can be self-reinforcing (boom-bust) or self-correcting. The
+boom-bust sequence proceeds in identifiable stages: an underlying trend emerges,
+a prevailing bias reinforces it, the bias is not yet recognized as a bias, a
+testing phase arrives, and finally the loop becomes self-defeating and unwinds.
+
+Greenwood and Hanson and Jin formalize reflexivity in credit markets: during
+credit booms, low default rates make investors believe future defaults will be
+low, and in the near term this belief is self-fulfilling because cheap financing
+prevents the defaults that would otherwise occur. The feedback loop is always
+present but is stronger at some times than others.
+
+PEI imports reflexivity in two ways. First, narrative survival probability is
+explicitly a reflexive quantity: a narrative that attracts flow validates itself
+until it does not. Second — and this is the genuinely new contribution of this
+edition — reflexivity explains the BlueLotus ASTS/SpaceX observation. The
+SpaceX private capital raise (a USD 20 billion-plus bond program plus an ongoing
+IPO pipeline) mechanically drains liquidity from publicly-traded space proxies
+by reallocating capital toward the private vehicle. This is a NEGATIVE reflexive
+externality on the proxy: a structurally unrelated event suppresses the proxy's
+price without touching its fundamentals. The Reflexive Suppression Theorem
+(Chapter 3) formalizes this and gives the CIO a test to distinguish a
+mechanically-suppressed-but-valid name from a genuinely-broken one.
+
+2.7 INFORMATION CASCADES AND HERDING (NEW)
+--------------------------------------------------------------------------------
+
+Bikhchandani, Hirshleifer, and Welch's theory of informational cascades shows
+that rational agents observing predecessors' actions (but not their private
+signals) may optimally discard their own private information and follow the
+crowd. Once a cascade starts, public information stops accumulating and
+followers herd regardless of their private signals. Banerjee's herd model and
+Scharfstein-Stein's reputational-herding model (managers herd to avoid the
+career risk of being wrong alone) provide complementary mechanisms. Wermers
+provides evidence that mutual-fund herding influences prices.
+
+The relevance to PEI is direct and operational. The BlueLotus institutional-flow
+layer repeatedly shows a correct fundamental signal coexisting with contradicting
+institutional flow — for example, a name whose thesis is intact while
+super-large and large tranches distribute. Cascade theory explains why: flow can
+be a herding artifact that temporarily overrides fundamentals. This justifies
+the fund's doctrine of treating price-without-flow-confirmation as provisional,
+and it gives a theoretical basis for the kill condition
+"institutional_outflows_worsen_after_price_bounce."
+
+2.8 SELF-EXCITING POINT PROCESSES (NEW)
+--------------------------------------------------------------------------------
+
+The Hawkes process (Hawkes, 1971) is a self-exciting point process whose
+conditional intensity rises when an event occurs and decays between events:
+
+   lambda(t) = mu + SUM_{t_i < t} alpha * exp(-beta * (t - t_i))
+
+where mu is the baseline intensity, alpha the excitation amplitude, and beta the
+decay rate. Hawkes processes have been applied to volatility clustering,
+order-flow dynamics, extreme-return occurrences, and financial contagion
+(Bacry-Mastromatteo-Muzy; Ait-Sahalia et al. on mutually-exciting jumps across
+international indices; Errais-Giesecke-Goldberg on correlated default). A central
+diagnostic is the BRANCHING RATIO n = alpha/beta (for the exponential kernel),
+the average number of first-generation offspring per event. Filimonov and
+Sornette use the branching ratio as a measure of market ENDOGENEITY: as n -> 1,
+the market is near-critical and most activity is internally generated
+(reflexive) rather than driven by exogenous news; empirical estimates in
+high-frequency equity data have risen toward 0.7-0.9 over recent decades.
+
+PEI imports the Hawkes framework to model CATALYST clustering: a geopolitical
+escalation raises the conditional intensity of follow-on escalations; a single
+hawkish central-bank surprise raises the intensity of repricing events across
+rates, FX, and credit. The branching-ratio diagnostic gives the CIO a
+quantitative handle on the question "is this move exogenous news or endogenous
+reflexive cascade?" — which maps directly onto the fund's causal-verification
+doctrine.
+
+2.9 SUPERFORECASTING AND PROPER SCORING RULES (EXTENDED)
+--------------------------------------------------------------------------------
+
+Superforecasting research (Tetlock and Mellers; the Good Judgment Project)
+demonstrates the value of decomposing uncertain events into explicit
+probabilistic questions, updating frequently, avoiding overconfidence, and
+scoring forecasts. PEI imports this into portfolio governance: every scenario
+branch must have a probability, a resolution date, observable resolution
+criteria, a Brier score, a calibration record, and a post-mortem. A forecast
+that cannot be scored is not a forecast; it is commentary.
+
+This edition extends the scoring foundation using the proper-scoring-rule
+literature. The Brier score is a STRICTLY PROPER scoring rule (Gneiting and
+Raftery): its expectation is optimized if and only if the forecaster reports the
+true probability, so it cannot be gamed. Crucially, the Brier score admits the
+Murphy decomposition (also DeGroot-Fienberg; Dawid) into three interpretable
+terms:
+
+   Brier = Reliability - Resolution + Uncertainty
+
+where Reliability (calibration) measures the average mismatch between forecast
+probabilities and realized frequencies (lower is better), Resolution measures
+how far conditional outcome frequencies depart from the base rate (higher is
+better — it is the discrimination the forecaster adds), and Uncertainty is the
+irreducible variance of the outcome (a property of the problem, not the
+forecaster). The Gneiting-Raftery sharpness principle states the goal precisely:
+maximize sharpness (resolution) SUBJECT TO calibration. The CRS Decomposition
+Protocol (Chapter 6) operationalizes this for the BlueLotus Brier ledger so that
+when forecasts mature, the fund can diagnose WHETHER a poor score reflects
+miscalibration (fixable by recalibration) or low resolution (fixable only by
+better signals).
+
+2.10 BAYESIAN MODEL AVERAGING AND FORECAST COMBINATION
+--------------------------------------------------------------------------------
+
+Financial markets contain multiple competing explanations; a single model is
+rarely sufficient. Bayesian model averaging (Steel; Raftery et al.) provides a
+formal way to combine competing models and penalize overconfidence. PEI avoids
+one-model dominance, allowing a macro-policy hypothesis, a liquidity hypothesis,
+a credit hypothesis, a positioning hypothesis, a narrative hypothesis, a
+technical-break hypothesis, and a portfolio-flow hypothesis. The final scenario
+probability is a weighted posterior, not a single model output. This mirrors the
+V3 nine-agent council design, which is itself an informal model-averaging
+device: the Macro Strategist, Risk Challenger, Sentiment Narrative, and other
+agents are competing models whose disagreement is logged and escalated rather
+than silently averaged away.
+
+2.11 BACKTEST OVERFITTING AND DATA SNOOPING
+--------------------------------------------------------------------------------
+
+Financial research is vulnerable to false discoveries (Bailey-Lopez de Prado on
+the deflated Sharpe ratio and backtest overfitting; White's Reality Check;
+Harvey-Liu-Zhu on multiple-testing in cross-sectional asset pricing). PEI must
+therefore include explicit safeguards: walk-forward validation, out-of-sample
+testing, purged and embargoed cross-validation (Lopez de Prado), the White
+Reality Check, false-discovery-rate control, the deflated Sharpe ratio,
+sensitivity analysis, and pre-registered hypotheses. No PEI claim is accepted
+because it worked once in a dramatic case study. This is the methodological
+firewall that separates the thesis from narrative confirmation.
+================================================================================
+CHAPTER 3 — THEORY OF PROSPECTIVE EVENT INTELLIGENCE (EXTENDED)
+================================================================================
+
+3.1 DEFINITIONS
+--------------------------------------------------------------------------------
+
+   Event                   A discrete or semi-discrete catalyst capable of
+                           changing market expectations.
+   Event Pathway           A sequence of plausible developments following an
+                           event.
+   Scenario Branch         A specific future state within the event pathway.
+   Event Survival          The probability that the catalyst remains valid over
+   Probability             a specified time window.
+   Transmission Channel    The mechanism by which an event affects prices:
+                           rates, credit, volatility, FX, commodities, flows,
+                           earnings, valuation, liquidity, or narrative.
+   Sleeve Mapping          The translation from event pathway to portfolio
+                           sleeve impact.
+   Kill Condition          A condition that invalidates the branch or blocks
+                           additional exposure.
+   Preparedness Alpha      The advantage gained from being positioned or
+                           procedurally ready before a scenario becomes obvious.
+   Branching Ratio         (NEW) The Hawkes-process measure of endogeneity: the
+                           average number of follow-on events triggered per
+                           event; n -> 1 signals a near-critical, reflexive,
+                           internally-driven regime.
+   Reflexive Suppression   (NEW) Mechanical depression of a public proxy's price
+                           by a structurally-unrelated liquidity event, without
+                           fundamental invalidation.
+
+3.2 THE EVENT-TRANSITION INEFFICIENCY CONJECTURE
+--------------------------------------------------------------------------------
+
+Conjecture 1: Markets price first-order event headlines faster than
+second-order event transitions.
+
+Example:
+   First-order:  Iran peace deal announced.
+   Second-order: Does the deal survive inspections, shipping insurance,
+                 sanctions relief, oil normalization, domestic political
+                 backlash, and Fed inflation repricing?
+
+The first-order headline may be priced within minutes. The second-order pathway
+may take days or weeks. This creates the window in which PEI operates. The
+conjecture is testable: if true, abnormal returns conditional on second-order
+resolution should be predictable from PEI survival forecasts beyond what
+first-order headline polarity predicts. If false, headline polarity alone should
+subsume the survival signal in a horse-race regression. The test is specified in
+Chapter 6.
+
+3.3 NARRATIVE SURVIVAL PROBABILITY
+--------------------------------------------------------------------------------
+
+An event is not binary. A peace deal, Fed pivot, BOJ move, IPO liquidity event,
+or regulatory action has a SURVIVAL CURVE. Let event E_i be observed at time t0.
+Define survival over horizon h:
+
+   P_i(h) = P( E_i still market-valid at t0 + h | X_t0 )
+
+where X_t0 includes source credibility, counterparty incentives, historical
+failure rate, cross-market confirmation, volatility response, institutional
+flow, policy constraints, and contradiction signals. Survival is estimated by
+the discrete-time hazard model of Section 6.3.
+
+3.4 EVENT VALUE EQUATION
+--------------------------------------------------------------------------------
+
+The investable value of an event is:
+
+   V(E_i) = P(S_i) * D_i * T_i * I_i * G_i  -  R_i
+
+where:
+   P(S_i) = event survival probability
+   D_i    = durability (narrative half-life; Section 12.2)
+   T_i    = transmission strength (how forcefully it reaches prices/flows)
+   I_i    = positioning imbalance (how crowded the opposite side is)
+   G_i    = governance permission (1 if allowed, 0 if blocked)
+   R_i    = residual risk / kill-condition penalty
+
+This equation formalizes a key BlueLotus doctrine: a catalyst is not enough. It
+must survive, transmit, confirm, and fit governance. Note the multiplicative
+governance gate: if G_i = 0 the entire value collapses to -R_i regardless of how
+attractive the other factors are. PEI is structurally incapable of recommending
+a governance-blocked action, by construction of the value function itself.
+
+3.5 SCENARIO-TREE MODEL
+--------------------------------------------------------------------------------
+
+Let B = {b_1, ..., b_n} be scenario branches. Each branch has probability p_b,
+expected return r_b, expected shortfall ES_b, and governance permission g_b. The
+portfolio action a should maximize a governance-penalized, risk-averse utility:
+
+   U(a) = SUM_b p_b * R(a,b)
+        - lambda * SUM_b p_b * ES(a,b)
+        - C(a)
+        - kappa * SUM_b p_b * K(a,b)
+
+where R(a,b) is return under action a if branch b occurs, ES(a,b) is expected
+shortfall, C(a) is concentration/turnover/liquidity cost, K(a,b) is the
+kill-condition violation penalty, and lambda, kappa are risk-aversion and
+governance-penalty coefficients. If g_b = 0 for the action under branch b, the
+action is blocked regardless of expected return. PEI is not a profit-maximizing
+machine; it is a law-bound portfolio-preparation system.
+
+3.6 THE REFLEXIVE SUPPRESSION THEOREM (NEW)
+--------------------------------------------------------------------------------
+
+Motivation. On the live BlueLotus book, ASTS (a publicly-traded space/satellite
+name) fell 5.58 percent on a session in which SPY rose 0.78 percent, QQQ rose
+2.51 percent, and the broad relief rally from the confirmed Iran-Hormuz MOU was
+otherwise intact. The space/defense theme basket was selectively risk-off
+(-1.61 percent) while AI/semis (+5.31 percent) and quantum (+4.34 percent)
+rallied. Simultaneously, Bloomberg reported a SpaceX bond program of at least
+USD 20 billion and an ongoing private fundraising campaign. The naive reading is
+"space thesis broken." The correct reading is reflexive suppression.
+
+Statement. Let a public proxy P be thematically linked to a private vehicle Q
+(here, ASTS and SpaceX share the commercial-space theme). Let a large primary
+capital event occur at Q that absorbs marginal thematic capital. Then, over the
+absorption window, the proxy P can exhibit negative abnormal returns driven by
+liquidity reallocation rather than by any change in P's fundamentals or
+forward cash flows.
+
+Formalization. Decompose the proxy's return into a thematic-fundamental
+component and a liquidity-flow component:
+
+   r_P = beta_theme * r_theme  +  gamma * dL_P  +  epsilon
+
+where dL_P is the change in marginal thematic capital available to P. A primary
+event at Q induces dL_P < 0 (capital is reallocated from public proxies to the
+private vehicle). If |gamma * dL_P| > |beta_theme * r_theme|, then r_P < 0 even
+when r_theme > 0. The proxy falls in a rising thematic tape. This is a flow
+artifact, not a fundamental signal.
+
+Diagnostic test (the discriminator the CIO needs). Reflexive suppression is
+present, rather than genuine thesis breakdown, when ALL of the following hold:
+
+   (i)   the thematic basket ex-proxy is flat-to-up while the proxy is down;
+   (ii)  a documented primary capital event at the linked private vehicle
+         coincides with the absorption window;
+   (iii) the proxy's own fundamental catalysts (contracts, earnings, regulatory
+         milestones) are unchanged;
+   (iv)  the proxy's price reverts toward its mean once the absorption window
+         closes (testable ex post);
+   (v)   institutional outflow in the proxy is consistent with reallocation
+         (rotational) rather than capitulation (one-directional acceleration
+         with rising volatility and credit stress).
+
+If instead the thematic basket is broadly down, fundamental catalysts have
+deteriorated, and outflow is accelerating with credit stress, the suppression
+diagnosis fails and a genuine-breakdown diagnosis is warranted, which would
+escalate toward a kill condition.
+
+Governance consequence. Under reflexive suppression, the correct action class is
+HOLD / OBSERVE or, for a name the CIO knows behaviorally, PULLBACK-ONLY ADD into
+the suppression — NOT de-risk. The theorem thereby protects the CIO from being
+shaken out of a valid position by a mechanical liquidity drain. It also bounds
+the protection: criterion (iv) is falsifiable ex post, so a suppression call
+that does not mean-revert is automatically logged as a forecasting error and
+fed to the Brier ledger.
+
+3.7 THE HAWKES EVENT-EXCITATION MODEL (NEW)
+--------------------------------------------------------------------------------
+
+PEI models the catalyst stream as a marked Hawkes process. Let events arrive
+with conditional intensity:
+
+   lambda(t) = mu + SUM_{t_i < t} alpha(m_i) * exp(-beta * (t - t_i))
+
+where m_i is the MARK of event i (its magnitude/severity — e.g., the size of a
+geopolitical shock or the surprise in a policy statement), and alpha(m_i) scales
+excitation by the mark. The branching ratio for the exponential kernel is
+n = E[alpha(m)] / beta.
+
+Interpretation for the CIO:
+   - n near 0:   events are mostly exogenous, independent news arrivals; the
+                 tape is news-driven and a single resolved catalyst is unlikely
+                 to spawn a cascade.
+   - n near 1:   the regime is near-critical and reflexive; most "new" events
+                 are endogenously triggered by prior events. A single shock can
+                 ignite a self-sustaining cascade (the mechanism behind flash
+                 crashes and contagion).
+
+The branching ratio operationalizes the difference between "one peace headline"
+and "a peace headline that triggers an oil repricing that triggers an inflation
+repricing that triggers a Fed repricing." It is the quantitative form of the
+fund's Event Gravity Principle (Section 12.3). Estimation uses maximum-likelihood
+on the catalyst-timestamp series with the standard Ozaki recursion for the
+exponential kernel, with the Filimonov-Sornette endogeneity caveat that
+mis-specified kernels bias n upward — so power-law and sum-of-exponential kernels
+are fitted as robustness checks.
+
+3.8 THE OSCILLATION-ENGINE MEAN-REVERSION ESTIMATOR (NEW)
+--------------------------------------------------------------------------------
+
+Several BlueLotus sleeves are not buy-and-hold positions but tactical
+cash-generation engines: trim into strength, reload into weakness, harvest the
+oscillation. The PL/ASTS sleeve is the canonical example. PEI formalizes the
+behavior of such a sleeve so that the CIO's discretionary edge can be measured
+rather than asserted.
+
+Let a single-name engine have a slow-moving central tendency mu_t (its
+behavioral "usual price") and fast mean-reverting deviations. A discrete
+Ornstein-Uhlenbeck representation:
+
+   P_{t+1} - P_t = theta * (mu_t - P_t) + sigma * z_t
+
+where theta is the speed of mean reversion, sigma the volatility, and z_t a
+shock. The engine's expected one-step return from price P_t is
+theta * (mu_t - P_t): positive when price is below the central tendency,
+negative when above. The optimal oscillation policy (trim above mu_t, reload
+below) is the discrete analogue of harvesting the OU drift, bounded by the
+sleeve's capital cap and the Thorp free-rider rule (trim to realized profit at
+consensus, hold a stub for convexity).
+
+Empirical calibration on six months of BlueLotus ASTS daily data (Dec 2025 -
+Jun 2026, 132 trading days) is reported in Chapter 5 and yields a central
+tendency near USD 89-90 (mean close 89.64, median 87.55), an average daily
+absolute move of 6.2 percent, an average daily high-low range of 10.1 percent,
+and a support zone (10th-25th percentile of closes) of roughly USD 73-81. These
+parameters make the name a textbook oscillation engine: high sigma, identifiable
+mu_t, repeated tests of the support band. The estimator gives the CIO's "buy the
+low, it usually mean-reverts to ninety" intuition a defensible quantitative
+form, and — critically — a falsifiable one: if reload-zone entries stop
+mean-reverting to mu_t, the engine is logged as regime-broken.
+
+================================================================================
+CHAPTER 4 — HYPOTHESES (EXTENDED)
+================================================================================
+
+H1 — EVENT SURVIVAL FORECASTING HYPOTHESIS
+   PEI event-survival forecasts produce lower Brier scores than naive event
+   detection. Baselines: naive 50/50, historical base rate, headline-only
+   classifier, current ACMS state-only model. Evaluation: Brier score, log
+   score, full Murphy decomposition (reliability/resolution/uncertainty),
+   calibration slope, reliability diagram, Diebold-Mariano test.
+
+H2 — LEAD-LAG SIGNAL HIERARCHY HYPOTHESIS
+   Different signal classes have statistically different lead times before
+   event-branch realization. Classes: rates, FX, credit, volatility,
+   institutional flow, options flow, sector-ETF rotation, CFTC positioning,
+   news intensity, narrative sentiment, portfolio-specific price/flow behavior.
+   Tests: Granger-style lead-lag, distributed-lag models, VAR impulse response,
+   cross-correlation functions, horizon-specific logistic regression, all with
+   Newey-West standard errors.
+
+H3 — SCENARIO-TREE PORTFOLIO PREPARATION HYPOTHESIS
+   Scenario-tree preparation improves risk-adjusted outcomes versus
+   present-state advice. Baselines: ACMS state classification, static risk
+   parity, 60/40, equal-weight sleeve, momentum-only. Metrics: max drawdown,
+   expected shortfall, hit rate, turnover, Sharpe, Sortino, Calmar, utility,
+   post-event regret.
+
+H4 — KILL-CONDITION GOVERNANCE HYPOTHESIS
+   Explicit kill-condition logic reduces false-positive risk deployment.
+   Measures: bad adds blocked, false-positive rate, drawdown avoided,
+   opportunity cost of blocked trades, net utility of the blocking rule.
+
+H5 — NARRATIVE DURABILITY HYPOTHESIS
+   Narrative survival probability predicts multi-day continuation better than
+   headline polarity alone. Test cases: ceasefire, Fed pivot, AI-capex,
+   SpaceX IPO/liquidity, energy shock.
+
+H6 — LAW-BOUND FORECASTING HYPOTHESIS
+   Governance-bound forecasting produces fewer contradictory recommendations
+   than unconstrained LLM synthesis. Measures: contradiction count, rule
+   violations, unauthorized-execution-language count, post-hoc reinterpretation
+   drift, false-confidence score.
+
+H7 — REFLEXIVE SUPPRESSION HYPOTHESIS (NEW)
+   The five-criterion suppression diagnostic (Section 3.6) discriminates
+   mechanically-suppressed-but-valid proxies from genuinely-broken ones better
+   than chance and better than a price-momentum-only classifier. Resolution
+   criterion: ex-post mean reversion of suppression-flagged names within the
+   absorption window plus a defined recovery horizon. Metrics: precision/recall
+   on the binary "reverted vs. did not revert," ROC-AUC, and the realized P/L
+   difference between holding through suppression versus de-risking.
+
+H8 — BRANCHING-RATIO ENDOGENEITY HYPOTHESIS (NEW)
+   A higher estimated Hawkes branching ratio at event onset predicts higher
+   realized post-event volatility and a higher probability of multi-event
+   cascades. Resolution: realized 5-day and 20-day volatility and the count of
+   follow-on catalysts. Test: regression of realized volatility on estimated n
+   with regime and cross-market controls.
+
+H9 — OSCILLATION-ENGINE EDGE HYPOTHESIS (NEW)
+   For a calibrated oscillation engine, a disciplined trim-above-mu /
+   reload-below-mu policy bounded by the capital cap and Thorp free-rider rule
+   produces positive realized cash generation net of costs, and reload-zone
+   entries mean-revert toward mu_t at a rate consistent with the estimated
+   theta. Resolution: realized per-cycle P/L and the fraction of reload entries
+   that recover to mu_t within a defined horizon. Falsification: if reload
+   entries stop reverting, the engine is regime-broken and the hypothesis fails
+   for that name.
+
+================================================================================
+CHAPTER 5 — DATA DESIGN AND THE ASTS CALIBRATION CASE
+================================================================================
+
+5.1 CORE DATASET
+--------------------------------------------------------------------------------
+
+The empirical dataset combines BlueLotus V3 cycle snapshots, ACMS-COP
+classifications, the CIO decision ledger, the forecast and Brier ledger,
+portfolio positions, open orders and fills, cross-market confirmation, capital
+flow, options flow, the macro calendar, geopolitical events, earnings and
+conference calendars, market prices, Treasury yields, FX proxies, credit ETFs,
+volatility proxies, commodity proxies, news-source event tags, and final
+realized outcomes. The fund's own database (bluelotus3 schema) already persists
+the relevant tables: execution_readonly_deals and execution_readonly_orders
+(fills and orders), historical_prices, daily_regime_snapshots,
+cio_decision_journal, forecast_resolutions, risk_model_runs, and the v3 agent
+and operator-verdict tables.
+
+5.2 EVENT UNIVERSE
+--------------------------------------------------------------------------------
+
+Events are sampled across at least seven classes: central-bank events,
+geopolitical escalation/de-escalation, commodity-shock events,
+credit/liquidity-stress events, major IPO / capital-market liquidity events,
+sector-technology catalysts, and portfolio-specific events.
+
+5.3 INITIAL BLUELOTUS CASE STUDIES
+--------------------------------------------------------------------------------
+
+Five process-tracing cases anchor the design: the Iran-Hormuz de-escalation
+relief-rally thesis; the Warsh hawkish-Fed transition; the SpaceX IPO liquidity
+suppression; the BOJ / yen-carry unwind risk; and the gold safe-haven /
+fiscal-dominance thesis. These are not sufficient for final statistical proof;
+they are design fixtures.
+
+5.4 MINIMUM STATISTICAL SAMPLE AND HONEST STATUS
+--------------------------------------------------------------------------------
+
+For credible statistical testing: minimum 100 resolved event forecasts
+(preferred 300); minimum 500 ticker-branch forecasts (preferred 1,000+);
+minimum 24 walk-forward months (preferred 60+, using public historical data).
+
+HONEST STATUS DISCLOSURE. At time of writing, the BlueLotus Brier ledger is in
+COLLECTING state: zero resolved forecasts against the 30+ minimum for reporting
+and 100+ for full accountability. The forecasting infrastructure exists (385
+forecast rows across 200 tickers in the superforecast snapshot), but NO
+statistical claim of forecasting superiority can yet be made. This thesis is
+therefore, at present, a RESEARCH DESIGN with one calibrated single-name case
+study (ASTS, Section 5.5), not a completed empirical program. Stating otherwise
+would violate the fund's intellectual-honesty doctrine. The acceptance and
+falsification criteria of Chapter 10 are pre-registered precisely so that, when
+the ledger matures, the test is conducted against commitments made before the
+data resolved.
+
+5.5 THE ASTS CALIBRATION CASE (EMPIRICAL ANCHOR)
+--------------------------------------------------------------------------------
+
+The single fully-calibrated empirical fixture in this edition is the ASTS
+oscillation engine, computed on merged bluelotus2/bluelotus3 daily bars,
+9 December 2025 through 18 June 2026 (132 trading days, qfq-adjusted).
+
+Price-behavior parameters:
+   6-month range:              USD 61.40 (low, 17 Dec 2025) to USD 133.86
+                               (high, 28 May 2026)
+   Mean close:                 USD 89.64
+   Median close:               USD 87.55
+   Current close (18 Jun):     USD 80.66 (a 10.0 percent discount to the mean)
+   Average daily |return|:     6.2 percent
+   Average daily H-L range:    10.1 percent
+   Days with |move| >= 10%:    28 of 132
+   Days with |move| >= 5%:     75 of 132 (the majority of sessions)
+   Support zone (10-25 pct):   ~USD 73-81
+   Mid range (40-60 pct):      ~USD 86-91
+   Upper resistance (75-90):   ~USD 96-111
+
+Monthly oscillation (open-to-close):
+   Dec 2025  -0.9%   |  Jan 2026 +49.6%  |  Feb 2026 -27.9%
+   Mar 2026  +5.1%   |  Apr 2026 -12.6%  |  May 2026 +53.0%  |  Jun 2026 -25.8%
+
+Post-drop recovery (mean-reversion evidence). Of 11 sessions with single-day
+drops of 10 percent or more, seven showed positive 5-to-10-day forward returns.
+The two clear non-recoveries (12 Feb off USD 116; 29 May off the USD 133
+all-time high) both originated from extended highs, consistent with the
+Oscillation-Engine estimator's prediction that reversion is reliable from the
+support band but unreliable from over-extended peaks.
+
+Calibration verdict. ASTS satisfies the oscillation-engine profile: high sigma,
+a stable behavioral central tendency near USD 89-90, and repeated support-band
+tests that mean-revert. The current USD 80.66 print sits in the lower-mid zone,
+roughly 10 percent below mu_t, which is exactly the reload-zone condition under
+which the estimator predicts positive expected one-step drift. This is the
+quantitative form of the CIO's stated rationale for carrying the name above its
+nominal sleeve cap: a six-month behavioral edge on a name whose mean is known.
+The reflexive-suppression diagnostic (Section 3.6) further classifies the
+18 June -5.58 percent session as suppression (thematic basket mixed, SpaceX
+primary event coincident, fundamentals unchanged, outflow rotational) rather
+than breakdown — a HOLD/OBSERVE or PULLBACK-ONLY-ADD signal, not a de-risk.
+
+5.6 RESOLUTION RULES
+--------------------------------------------------------------------------------
+
+Each forecast must specify the event question, probability, branch definitions,
+resolution source, resolution date, update history, final outcome, Brier score,
+log score, proposed portfolio action, action taken, and post-mortem. Example:
+
+   Question: Will the Iran-Hormuz peace deal remain market-valid over the next
+   five U.S. trading sessions?
+   Resolution criteria: no confirmed walk-back; oil risk premium does not return
+   sharply; VXX does not close green for two consecutive sessions; SPY/QQQ do
+   not fade with rising volatility; shipping/insurance normalization does not
+   materially deteriorate.
+================================================================================
+CHAPTER 6 — QUANTITATIVE METHODOLOGY (EXTENDED)
+================================================================================
+
+6.1 BAYESIAN UPDATING
+--------------------------------------------------------------------------------
+
+For each event branch b, the posterior probability is:
+
+   P(b | X_t) = [ P(X_t | b) * P(b) ] / P(X_t)
+
+where X_t is real-time evidence grouped as macro, credit, volatility, flow,
+price, narrative, portfolio, and governance evidence. Updates are triggered by
+the rules of Section 8.3 (new macro data, policy statements, volatility-proxy
+threshold crossings, credit moves, oil moves, USD/JPY moves, flow changes, price
+confirmation/contradiction, or kill-condition activation).
+
+6.2 BAYESIAN MODEL AVERAGING
+--------------------------------------------------------------------------------
+
+Each model M_k produces a branch probability P(b | X_t, M_k). The final PEI
+probability is:
+
+   P(b | X_t) = SUM_k P(b | X_t, M_k) * P(M_k | D)
+
+Models include the regime model, event-survival model, flow model, credit model,
+volatility model, narrative model, options-flow model, and portfolio-state
+model. Model weights P(M_k | D) are themselves updated by each model's realized
+log-score, so persistently miscalibrated models lose weight over time. This is
+the formal counterpart to the V3 council's disagreement-logging: models that are
+repeatedly wrong are down-weighted, not silently retained.
+
+6.3 SURVIVAL ANALYSIS
+--------------------------------------------------------------------------------
+
+Event durability is modeled with a discrete-time hazard. For event i, define
+failure as catalyst invalidation (peace deal walked back; VXX reverses;
+oil-risk premium returns; credit stress appears; high beta fades; Fed repricing
+overwhelms relief; governance kill condition triggered). The discrete-time
+hazard:
+
+   P( F_{i,t} = 1 | F_{i,t-1} = 0, X_t ) = logit^{-1}( a + b' * X_t )
+
+The survival curve P_i(h) of Section 3.3 is the product of period-by-period
+non-failure probabilities. Continuous-time alternatives (Cox proportional
+hazards) are fitted as robustness checks, with the caveat that the
+proportional-hazards assumption is tested (Schoenfeld residuals) rather than
+assumed.
+
+6.4 EVENT-STUDY TESTING
+--------------------------------------------------------------------------------
+
+For each event class: define event date t0; estimate normal returns over a
+pre-event window; compute abnormal returns; compute cumulative abnormal returns
+over [-1,+1], [0,+1], [0,+5], [0,+20]; and compare branches (confirmed event,
+failed event, policy-override event, credit-stress-override event). Cross-
+sectional and time-series standard errors are corrected for event-window
+overlap and clustering.
+
+6.5 LEAD-LAG TESTING
+--------------------------------------------------------------------------------
+
+For signal class s, test whether s_t predicts branch realization or abnormal
+return at horizon h:
+
+   Y_{t+h} = a + b_s * S_t + b_r * R_t + b_c * C_t + e_t
+
+where Y is the branch outcome or abnormal return, S_t the signal, R_t regime
+controls, C_t cross-market controls. Newey-West standard errors handle
+autocorrelation and heteroskedasticity. Granger-causality is interpreted
+strictly as predictive precedence, not structural causation; process tracing
+(Chapter 7) supplies the causal narrative that statistics alone cannot.
+
+6.6 HAWKES BRANCHING-RATIO ESTIMATION (NEW)
+--------------------------------------------------------------------------------
+
+The catalyst-timestamp series is fitted with a marked exponential-kernel Hawkes
+process by maximum likelihood (Ozaki recursion). The branching ratio
+n = E[alpha(m)]/beta is reported with bootstrap confidence intervals.
+Robustness: power-law and sum-of-two-exponential kernels are fitted to guard
+against the Filimonov-Sornette upward bias in n under kernel mis-specification.
+The estimated n at event onset becomes a regressor in H8 (endogeneity predicts
+realized volatility and cascade count).
+
+6.7 FORECAST EVALUATION WITH CRS DECOMPOSITION (NEW / EXTENDED)
+--------------------------------------------------------------------------------
+
+The Brier score:
+
+   BS = (1/N) * SUM_i ( f_i - o_i )^2
+
+with f_i the forecast probability and o_i the realized outcome (1/0). The Brier
+score is strictly proper (Gneiting-Raftery): it is minimized in expectation only
+by truthful probabilities, so it cannot be gamed. The Murphy decomposition
+(DeGroot-Fienberg) partitions the mean Brier score into:
+
+   BS = Reliability - Resolution + Uncertainty
+
+   Reliability (calibration loss): average squared gap between forecast
+      probabilities and the conditional outcome frequencies in each probability
+      bin. LOWER is better. A reliability term near zero means "when the system
+      says 70 percent, it happens about 70 percent of the time."
+   Resolution: average squared gap between bin outcome frequencies and the
+      overall base rate. HIGHER is better. It is the discrimination the system
+      adds beyond always predicting the base rate.
+   Uncertainty: variance of the outcome, o_bar*(1-o_bar). A property of the
+      problem, not the forecaster; it is the irreducible floor.
+
+The Gneiting-Raftery sharpness principle gives the operational target: MAXIMIZE
+RESOLUTION SUBJECT TO CALIBRATION. The protocol therefore reports all three
+components for every model and every event class, plus the logarithmic score
+(which penalizes confident errors more harshly and is the natural score for
+early-warning, long-horizon forecasts), reliability diagrams, expected
+calibration error, ROC-AUC for binary questions, and precision/recall for rare
+events. This converts the fund's single Brier scalar into a diagnostic: a poor
+score caused by high reliability loss is fixed by recalibration; a poor score
+caused by low resolution is fixed only by better signals — two different
+remedies that the undecomposed scalar cannot distinguish.
+
+6.8 STATISTICAL TESTS
+--------------------------------------------------------------------------------
+
+Required: Brier-difference test; Diebold-Mariano forecast-accuracy test;
+event-study t-tests with robust errors; nonparametric bootstrap; multiple-
+hypothesis correction (Benjamini-Hochberg FDR and, for strategy selection,
+the White Reality Check / Hansen SPA); deflated Sharpe ratio; per-event-class
+sensitivity; out-of-sample walk-forward performance; strategy-level drawdown
+and expected-shortfall tests; and forecast-calibration stability across
+sub-periods.
+
+6.9 ANTI-OVERFITTING PROTOCOL
+--------------------------------------------------------------------------------
+
+Pre-registered hypotheses; frozen feature set per test window; no look-ahead;
+no survivorship bias; point-in-time data; explicit transaction-cost and slippage
+assumptions; walk-forward validation; purged and embargoed cross-validation
+(Lopez de Prado) around overlapping event windows; White Reality Check for
+strategy selection. No result is accepted unless reproducible. The fund's
+existing point-in-time-readiness telemetry is the substrate for this protocol;
+the thesis's contribution is to bind it to pre-registration so that the
+program cannot be retroactively tuned to fit the events it studied.
+
+================================================================================
+CHAPTER 7 — QUALITATIVE METHODOLOGY
+================================================================================
+
+7.1 WHY QUALITATIVE RESEARCH IS NECESSARY
+--------------------------------------------------------------------------------
+
+Markets are not purely numerical. Events contain ambiguity that cannot be
+measured immediately: policy credibility, diplomatic incentives, leadership
+psychology, institutional behavior, media-narrative drift, investor attention,
+uncertainty avoidance, and reflexive crowd behavior. PEI therefore requires
+qualitative process tracing. The reflexivity and cascade literatures
+(Chapter 2) are precisely theories of phenomena that resist purely quantitative
+identification in real time; process tracing is how the fund reasons about them
+before the statistics resolve.
+
+7.2 PROCESS-TRACING PROTOCOL
+--------------------------------------------------------------------------------
+
+For each major event: record the initial event; identify competing hypotheses;
+record evidence for and against each; build a timeline; track probability
+updates; record the CIO decision; record portfolio action or non-action;
+resolve the outcome; conduct a post-mortem. This is the Bayesian-process-tracing
+discipline (Bennett; Beach-Pedersen) applied to portfolio decisions, with the
+explicit requirement that evidence both FOR and AGAINST each hypothesis be
+logged — the antidote to confirmation bias.
+
+7.3 CAUSAL NARRATIVE AUDIT
+--------------------------------------------------------------------------------
+
+Each final report must ask: Did we confuse headline with durable catalyst? Did
+we confuse relief rally with regime change? Did we confuse scout with second
+tranche? Did we overfit one historical analogy? Did we treat price as
+confirmation without flow? Did we ignore credit? FX? Volatility? Did we
+preserve cash when uncertainty remained? Did we follow law-bound governance?
+Did we mistake reflexive suppression for thesis breakdown (NEW)? Did we mistake
+an endogenous cascade for exogenous news (NEW)?
+
+================================================================================
+CHAPTER 8 — SUPERFORECASTING DESIGN
+================================================================================
+
+8.1 FORECAST QUESTION FORMAT
+--------------------------------------------------------------------------------
+
+Bad question:  Will ASTS go up?
+Good question: Will ASTS outperform QQQ by at least 5 percent over the next five
+   trading sessions, conditional on VXX falling, credit remaining calm, and the
+   Iran-Hormuz de-escalation narrative surviving 48 hours?
+
+Every PEI forecast must be precise, time-bounded, externally resolvable,
+probabilistic, and linked to a portfolio action.
+
+8.2 FORECAST TYPES
+--------------------------------------------------------------------------------
+
+Event-survival, regime-transition, sleeve-impact, kill-condition, portfolio-
+action, drawdown-risk, volatility-compression, credit-stress, narrative-
+persistence, repricing-window, reflexive-suppression-reversion (NEW), and
+branching-ratio-cascade (NEW) forecasts.
+
+8.3 FORECAST UPDATE RULE
+--------------------------------------------------------------------------------
+
+Forecasts update when new macro data arrives; a new policy statement appears; a
+volatility proxy crosses a threshold; credit spreads move; oil moves; USD/JPY
+moves; institutional flow changes; price action confirms or contradicts; or a
+kill condition activates. The superforecasting literature's central empirical
+finding — that frequent, granular belief updating is among the strongest
+predictors of forecaster accuracy — is thereby built into the system as a rule,
+not left to discretion.
+
+8.4 SCORING AND POST-MORTEM LABELS
+--------------------------------------------------------------------------------
+
+Every forecast receives a Brier score (with CRS decomposition at the aggregate
+level), a log score, a calibration bucket, a confidence-error measure, an
+update-frequency record, and a post-mortem label drawn from: correct
+probability / correct action; correct probability / wrong action; wrong
+probability / lucky outcome; correct thesis / wrong timing; correct timing /
+wrong thesis; missing catalyst; ignored kill condition; false confirmation;
+narrative overreach; reflexive-suppression misread (NEW); endogeneity misread
+(NEW); governance breach avoided.
+
+================================================================================
+CHAPTER 9 — PORTFOLIO TRANSLATION FRAMEWORK
+================================================================================
+
+9.1 EVENT-TO-SLEEVE MAPPING
+--------------------------------------------------------------------------------
+
+Portfolio construction begins not with ticker desire but with event pathway:
+event detected -> event survival scored -> scenario tree created -> transmission
+channels identified -> regime interaction mapped -> sleeve beneficiaries and
+losers identified -> exposure rule checked -> kill conditions checked -> action
+classification assigned -> CIO decides manually.
+
+9.2 SLEEVE FRAMEWORK
+--------------------------------------------------------------------------------
+
+High-beta relief basket; tactical cash-generation engine (oscillation engine,
+Section 3.8); banks/NIM engine; gold/fiscal-dominance hedge; volatility hedge;
+cash fortress; AI/semi growth sleeve; defense/space strategic optionality;
+commodity/geopolitical hedge.
+
+9.3 ACTION CLASSES
+--------------------------------------------------------------------------------
+
+LOAD ALLOWED; HALF-LOAD ONLY; PULLBACK-ONLY ADD; HOLD / OBSERVE; TRIM-REVIEW;
+HEDGE RETAIN; ADD BLOCKED; DE-RISK REVIEW. Each action must be branch-specific.
+
+9.4 WORKED EXAMPLE: IRAN-HORMUZ DE-ESCALATION (LIVE)
+--------------------------------------------------------------------------------
+
+Event: Peace deal / Strait of Hormuz relief (confirmed MOU, 18 June 2026).
+
+Branch A — Relief Rally Confirmed.
+   Confirmation: oil down; VXX down; credit calm; SPY/QQQ/IWM positive; USD/JPY
+   stable; high beta holds gains.
+   Action: hold scouts; trim over-cap tactical exposure into strength (Thorp
+   rule); review partial hedge harvest ONLY after confirmation; no chase at
+   open.
+
+Branch B — Headline Fades.
+   Confirmation: oil rebounds; VXX rises; SPY/QQQ fade; high-beta gap-up fails;
+   gold safe-haven bid returns.
+   Action: preserve cash; retain hedge; no adds; de-risk review.
+
+Branch C — Fed/BOJ Override.
+   Confirmation: yields higher; dollar higher; USD/JPY unstable; QQQ fades;
+   growth factor under pressure. (Live note: WSJ reported yields slipping after
+   Warsh's debut, but bond futures simultaneously drove July-hike wagers, and
+   the BOJ raised to a 31-year-high 1 percent with the yen-carry watcher at
+   WATCH — so this branch carried real, non-trivial probability mass.)
+   Action: add blocked; hedge retained; cash fortress preserved; banks reviewed
+   only if credit calm and curve/NIM supportive.
+
+This example demonstrates the core PEI principle: a catalyst can be bullish in
+one branch and irrelevant — or adverse — in another. The same Hormuz MOU is a
+relief tailwind in Branch A and a non-factor swamped by macro in Branch C. The
+correct posture is not to pick one branch and bet it, but to hold the
+governance-compliant action that performs acceptably across the probability-
+weighted tree: high cash, retained hedge, scouts in, over-cap tactical trimmed
+into strength, no chase. That is exactly the posture the live book held.
+================================================================================
+CHAPTER 10 — BACKTESTING DESIGN
+================================================================================
+
+10.1 OBJECTIVE
+--------------------------------------------------------------------------------
+
+The backtest does not test whether PEI predicts every market move. It tests
+whether PEI improves PORTFOLIO PREPARATION under uncertainty. Primary objective:
+reduce severe decision errors during uncertain catalysts. Secondary: improve
+Brier score, log score, drawdown, expected shortfall, action discipline, and
+post-event regret.
+
+10.2 STRATEGIES COMPARED
+--------------------------------------------------------------------------------
+
+   Strategy 1 — Naive baseline (equal branch probabilities).
+   Strategy 2 — Regime-only ACMS (posture from current regime only).
+   Strategy 3 — Event-headline model (posture from catalyst polarity only).
+   Strategy 4 — PEI scenario tree (survival, transmission, confirmation, kill
+                conditions, sleeve mapping, reflexive-suppression and
+                branching-ratio overlays).
+   Strategy 5 — PEI with governance blocks (Strategy 4 constrained by sleeve
+                rules, exposure caps, and CIO_ONLY_MANUAL doctrine).
+
+10.3 PORTFOLIO SIMULATION
+--------------------------------------------------------------------------------
+
+Research-only; no automated execution implied. For each event: create the
+forecast at t0; assign branch probabilities; generate the allowed posture;
+simulate the action under predefined rules; apply transaction costs and
+slippage; record outcomes at 1D, 5D, 20D, 60D; score the forecast (with CRS
+decomposition at the aggregate); score the portfolio result; record the
+post-mortem.
+
+10.4 PERFORMANCE METRICS
+--------------------------------------------------------------------------------
+
+Forecast: Brier (decomposed into reliability/resolution/uncertainty), log score,
+calibration, resolution, sharpness. Portfolio: total return, event-window
+return, max drawdown, expected shortfall, volatility, Sharpe, Sortino, Calmar,
+turnover, exposure utilization, hit rate, regret. Governance: bad trades
+blocked, good trades missed, rule violations, overexposure incidents,
+contradiction count, unauthorized-execution-language count.
+
+10.5 ACCEPTANCE CRITERIA
+--------------------------------------------------------------------------------
+
+PEI is accepted only if it achieves at least THREE of the following
+out-of-sample: lower Brier than baseline; lower log loss; lower max drawdown;
+lower expected shortfall; better calibration (lower reliability term); lower
+false-positive add rate; lower post-event regret; fewer governance
+contradictions; better scenario-classification accuracy; higher utility after
+costs.
+
+10.6 FALSIFICATION CRITERIA
+--------------------------------------------------------------------------------
+
+The thesis FAILS if: scenario-tree forecasts do not outperform naive or
+regime-only forecasts; event-survival probabilities are not calibrated; kill
+conditions block more good trades than bad ones; playbooks increase drawdowns;
+results vanish after transaction costs; results fail out-of-sample; results
+depend on cherry-picked events; backtest significance disappears under the White
+Reality Check; the system produces contradictory governance advice; the human
+CIO cannot understand or audit the outputs; reflexive-suppression flags do not
+predict mean reversion better than chance (NEW); or the branching ratio does not
+predict realized volatility (NEW).
+
+================================================================================
+CHAPTER 11 — PROPOSED BLUELOTUS IMPLEMENTATION
+================================================================================
+
+11.1 NEW MODULE STACK
+--------------------------------------------------------------------------------
+
+   event_ontology.py            scenario_tree_builder.py
+   event_survival_model.py      event_to_sleeve_mapper.py
+   signal_lead_lag_engine.py    latent_risk_incubator.py
+   scenario_brier_resolver.py   portfolio_playbook_renderer.py
+   pei_backtest_engine.py       pei_postmortem_reviewer.py
+   hawkes_branching_estimator.py   (NEW — endogeneity / cascade)
+   reflexive_suppression_detector.py (NEW — proxy-vs-private liquidity)
+   oscillation_engine_calibrator.py  (NEW — OU mean-reversion per name)
+   crs_decomposition_scorer.py       (NEW — Murphy/Gneiting-Raftery)
+
+All modules are research and preparation tools. None routes orders. The
+deterministic operator layer continues to block ADD_RISK_WITHOUT_CATALYST_REVIEW,
+ADD_WITHOUT_THESIS_REVIEW, SCALE_IN_ADD, SECOND_TRANCHE_ADD, and
+USE_ARCHIVE_AS_LIVE_TRUTH.
+
+11.2 NEW DATABASE TABLES
+--------------------------------------------------------------------------------
+
+   pei_event_registry              pei_branch_probability_updates
+   pei_event_hypotheses            pei_transmission_channels
+   pei_scenario_branches           pei_sleeve_mapping
+   pei_event_survival_forecasts    pei_kill_condition_checks
+   pei_portfolio_playbooks         pei_forecast_resolutions
+   pei_brier_scores                pei_backtest_runs
+   pei_postmortems                 pei_hawkes_estimates        (NEW)
+   pei_suppression_flags (NEW)     pei_oscillation_calibrations (NEW)
+   pei_crs_decompositions (NEW)
+
+11.3 REPORT OUTPUT
+--------------------------------------------------------------------------------
+
+Each report includes a PEI section: active event tree; branch probabilities; top
+evidence for and against each branch; confirmation signals; kill conditions;
+sleeve mapping; allowed action; blocked action; forecast resolution date; and,
+where relevant, the reflexive-suppression flag and the estimated branching
+ratio. Example:
+
+   +----------------------------+-------------+-----------------------------+----------------------------+
+   | Scenario                   | Probability | Confirmation                | Portfolio Action           |
+   +----------------------------+-------------+-----------------------------+----------------------------+
+   | Relief rally confirms      |     40%     | VXX down, credit calm,      | Hold scouts / trim         |
+   |                            |             | high beta holds             | over-cap into strength     |
+   | Fed/BOJ override dominates |     35%     | yields up, dollar up,       | Add blocked / hedge retain |
+   |                            |             | QQQ fades, yen carry watch  |                            |
+   | Headline fails             |     25%     | oil up, VXX green, SPY fade | Preserve cash / de-risk    |
+   +----------------------------+-------------+-----------------------------+----------------------------+
+
+11.4 GOVERNANCE
+--------------------------------------------------------------------------------
+
+PEI operates under the Law & Order Governance Memory Layer. PEI does not write
+law; does not change sleeve rules; does not route orders; does not authorize a
+second tranche; does not override the CIO. PEI forecasts and prepares only.
+
+================================================================================
+CHAPTER 12 — ORIGINAL THEORIES AND CONJECTURES (EXTENDED)
+================================================================================
+
+12.1 PREPAREDNESS ALPHA HYPOTHESIS
+--------------------------------------------------------------------------------
+
+Alpha does not always come from predicting the most likely future; sometimes it
+comes from preparing rationally for several futures before others have mapped
+them.
+
+   A_p = V(P_prepared) - V(P_reactive)
+
+where V(P_prepared) is the value of a pre-mapped scenario posture and
+V(P_reactive) the value of reacting after confirmation. Preparedness alpha is
+the value of optionality plus the avoided cost of forced, late, expensive
+reaction.
+
+12.2 NARRATIVE HALF-LIFE THEORY
+--------------------------------------------------------------------------------
+
+Every market narrative has a half-life. Short half-life narratives produce
+gap-fade behavior; long half-life narratives produce multi-session repricing.
+Half-life is estimated from source credibility, repetition intensity,
+institutional adoption, cross-asset confirmation, contradiction frequency,
+policy durability, and capital-flow confirmation. The half-life maps directly
+to the hazard rate of Section 6.3: a long half-life is a low failure hazard.
+
+12.3 EVENT GRAVITY PRINCIPLE
+--------------------------------------------------------------------------------
+
+Some events exert gravitational force across multiple sleeves. A hawkish Fed
+affects high beta, banks, gold, the dollar, credit, volatility, liquidity, and
+cash value simultaneously. The greater the number of affected sleeves, the
+higher the event gravity. Event gravity is the multi-sleeve analogue of the
+Hawkes branching ratio: a high-gravity event is one whose excitation propagates
+across many transmission channels, raising the conditional intensity of
+follow-on repricings in each.
+
+12.4 LATENT RISK INCUBATION PRINCIPLE
+--------------------------------------------------------------------------------
+
+Some signals are early but not tradable: consumer-savings deterioration,
+private-market liquidity drain, yen-carry pressure, sovereign-debt interest
+burden, fiscal dominance, credit-stress divergence. These should not force
+immediate trading; they are incubated with future review dates. The SpaceX
+private-market liquidity drain is a live incubated signal: it is real, it
+suppresses proxies reflexively, and it warrants a scheduled review rather than
+an immediate trade.
+
+12.5 LAW-BOUND AI COGNITION PRINCIPLE
+--------------------------------------------------------------------------------
+
+AI forecasting must be structurally subordinate to institutional law. Without
+law, AI becomes narrative drift. With law, AI becomes controlled synthesis. This
+principle is not decorative: the multiplicative governance gate in the Event
+Value Equation (Section 3.4) and the g_b = 0 blocking term in the scenario-tree
+utility (Section 3.5) make law-violation mathematically dominated, not merely
+discouraged.
+
+12.6 THE REFLEXIVE SUPPRESSION THEOREM (CROSS-REFERENCE)
+--------------------------------------------------------------------------------
+
+Formalized in Section 3.6. Its place among the original contributions: it is the
+first BlueLotus construct to give the CIO a falsifiable test for the difference
+between a name that is DOWN because it is BROKEN and a name that is DOWN because
+a structurally-unrelated private vehicle is absorbing its thematic capital. The
+distinction is worth real money: in the ASTS case it is the difference between
+de-risking a valid oscillation engine at the bottom of its support band and
+holding (or adding into) a mechanically-suppressed name that mean-reverts to ~90.
+
+12.7 THE ENDOGENEITY-AWARENESS PRINCIPLE (NEW)
+--------------------------------------------------------------------------------
+
+Derived from the Hawkes branching ratio. A move should be interpreted
+differently depending on whether it is exogenously driven (news) or endogenously
+driven (reflexive cascade). Near-critical regimes (branching ratio near 1) are
+fragile: small shocks can ignite large cascades, and apparent "news" may be
+mostly internally generated noise. In such regimes the correct posture tilts
+toward hedge-retention and cash-preservation, because the tail of self-excited
+cascades is fat. This principle gives the volatility-hedge sleeve a rigorous
+trigger beyond simple VIX level.
+
+================================================================================
+CHAPTER 13 — EXPECTED CONTRIBUTIONS
+================================================================================
+
+13.1 ACADEMIC CONTRIBUTION
+--------------------------------------------------------------------------------
+
+A bridge between event studies, adaptive markets, Bayesian forecasting,
+superforecasting and proper scoring rules, reflexivity and feedback theory,
+self-exciting point processes, information-cascade theory, behavioral finance,
+portfolio governance, and AI-augmented decision systems. The specific novel
+constructs are the Reflexive Suppression Theorem, the Hawkes Event-Excitation
+catalyst model with its endogeneity-awareness principle, the Oscillation-Engine
+mean-reversion estimator, and the CRS-decomposition accountability protocol.
+
+13.2 PRACTICAL CONTRIBUTION
+--------------------------------------------------------------------------------
+
+An operating tool for preparing before events; avoiding headline chasing; sizing
+under uncertainty; preserving cash when risk clearance is incomplete; retaining
+hedges when event-failure risk remains; distinguishing mechanical suppression
+from breakdown; distinguishing exogenous news from endogenous cascade; and
+scoring every forecast afterward with a decomposition that tells the CIO whether
+to fix calibration or fix signals.
+
+13.3 BLUELOTUS CONTRIBUTION
+--------------------------------------------------------------------------------
+
+It transforms BlueLotus from:
+   Market Intelligence -> Research Report -> CIO Decision
+into:
+   Market Intelligence -> Event Tree -> Scenario Probabilities ->
+   Sleeve Mapping -> Governance Filter -> CIO Decision ->
+   Brier/CRS/Post-Mortem Learning.
+
+================================================================================
+CHAPTER 14 — CONCLUSION
+================================================================================
+
+The next frontier for BlueLotus is not more data collection, not more
+dashboards, not more narrative reports. It is prospective event intelligence.
+
+The institution must learn to ask: What can happen next? What branch are we
+entering? What evidence confirms it? What evidence contradicts it? What sleeve is
+affected? What exposure is allowed? What must be blocked? What is the kill
+condition? Is this proxy suppressed or broken? Is this move exogenous or
+endogenous? What did we forecast? Were we calibrated, and was our miss a
+calibration failure or a resolution failure? Did preparation improve the outcome?
+
+The purpose of PEI is not to predict the future with certainty. It is to make the
+institution structurally prepared for uncertainty.
+
+The honest status of this thesis is that it is a rigorous research DESIGN with
+one fully-calibrated empirical case (the ASTS oscillation engine) and a Brier
+ledger still in COLLECTING state. Its claims about forecasting superiority are
+pre-registered hypotheses awaiting 100+ resolved forecasts, not demonstrated
+results. That distinction is itself a contribution: a forecasting thesis that
+refuses to overclaim its own maturity models the epistemic discipline it
+prescribes.
+
+The final doctrine:
+
+   Forecast events, not prices.
+   Forecast pathways, not headlines.
+   Map pathways to sleeves.
+   Bind action to law.
+   Distinguish suppression from breakdown.
+   Distinguish exogenous shock from endogenous cascade.
+   Score every forecast, and decompose every score.
+   Learn every cycle.
+
+================================================================================
+APPENDIX A — MINIMUM EMPIRICAL TABLE SHELLS
+================================================================================
+
+Table A1 — Event Forecast Accuracy (with CRS decomposition)
+   Columns: Model | N | Brier | Reliability | Resolution | Uncertainty |
+            Log Score | Calibration Slope | DM Test vs Baseline
+   Rows:    Naive 50/50 | Historical base rate | Regime-only ACMS |
+            PEI scenario tree | PEI + governance
+   (All cells TBD pending 100+ resolved forecasts.)
+
+Table A2 — Portfolio Backtest
+   Columns: Strategy | Return | Max DD | ES95 | Sharpe | Sortino | Calmar |
+            Turnover | Regret
+   Rows:    Static benchmark | Regime-only | Headline-only | PEI |
+            PEI + governance
+
+Table A3 — Kill-Condition Utility
+   Columns: Kill Condition | Trigger Count | Bad Trades Blocked |
+            Good Trades Missed | Net Utility
+   Rows:    VXX reversal | Credit stress | High-beta fade | USD/JPY break |
+            Institutional outflow | PnL-integrity conflict
+
+Table A4 — Reflexive-Suppression Discrimination (NEW)
+   Columns: Flagged Name | Suppression Criteria Met (of 5) | Reverted to mu?
+            (Y/N) | Recovery Horizon (days) | Held-vs-Derisk P/L Delta
+   Rows:    (ASTS 18-Jun-2026 case as first entry; others TBD.)
+
+Table A5 — Hawkes Branching-Ratio Diagnostics (NEW)
+   Columns: Event | Estimated n | 95% CI | Kernel | Realized 5D Vol |
+            Realized 20D Vol | Follow-on Catalyst Count
+   Rows:    (TBD per event.)
+
+Table A6 — ASTS Oscillation-Engine Calibration (POPULATED)
+   Sample: 132 trading days, 9-Dec-2025 to 18-Jun-2026, qfq-adjusted.
+   Mean close 89.64 | Median 87.55 | Range 61.40-133.86 |
+   Avg |daily move| 6.2% | Avg daily H-L range 10.1% |
+   Days |move|>=10%: 28/132 | Days |move|>=5%: 75/132 |
+   Support band (P10-P25): ~73-81 | Mid (P40-P60): ~86-91 |
+   Resistance (P75-P90): ~96-111 |
+   Post-10%-drop recovery: 7 of 11 positive at 5-10 day horizon.
+
+================================================================================
+APPENDIX B — REFERENCE FOUNDATION
+================================================================================
+
+Efficiency, information, and adaptive markets:
+   Fama, E. F. Efficient Capital Markets.
+   Grossman, S. J. and Stiglitz, J. E. On the Impossibility of Informationally
+      Efficient Markets.
+   Lo, A. W. The Adaptive Markets Hypothesis.
+
+Event studies and regime switching:
+   MacKinlay, A. C. Event Studies in Economics and Finance.
+   Campbell, Lo, MacKinlay. The Econometrics of Financial Markets.
+   Hamilton, J. D. A New Approach to the Economic Analysis of Nonstationary
+      Time Series and the Business Cycle (regime switching).
+
+Reflexivity and feedback (added this edition):
+   Soros, G. The Alchemy of Finance; Fallibility, Reflexivity, and the Human
+      Uncertainty Principle.
+   Greenwood, R., Hanson, S. G., and Jin, L. J. Reflexivity in Credit Markets
+      (NBER w25747).
+
+Self-exciting point processes (extended this edition):
+   Hawkes, A. G. Spectra of Some Self-Exciting and Mutually Exciting Point
+      Processes (1971).
+   Bacry, E., Mastromatteo, I., and Muzy, J.-F. Hawkes Processes in Finance.
+   Filimonov, V. and Sornette, D. Quantifying Reflexivity in Financial Markets:
+      Toward a Prediction of Flash Crashes (branching-ratio endogeneity).
+   Ait-Sahalia, Y., Cacho-Diaz, J., and Laeven, R. Modeling Financial Contagion
+      Using Mutually Exciting Jump Processes.
+   Errais, E., Giesecke, K., and Goldberg, L. Affine Point Processes and
+      Portfolio Credit Risk.
+
+Information cascades and herding (added this edition):
+   Bikhchandani, S., Hirshleifer, D., and Welch, I. A Theory of Fads, Fashion,
+      Custom, and Cultural Change as Informational Cascades (1992).
+   Banerjee, A. V. A Simple Model of Herd Behavior.
+   Scharfstein, D. and Stein, J. Herd Behavior and Investment (reputational).
+   Bikhchandani, S. and Sharma, S. Herd Behavior in Financial Markets (IMF).
+   Wermers, R. Mutual Fund Herding and the Impact on Stock Prices.
+
+Forecasting, scoring, and superforecasting (extended this edition):
+   Brier, G. W. Verification of Forecasts Expressed in Terms of Probability.
+   Murphy, A. H. A New Vector Partition of the Probability Score (decomposition).
+   DeGroot, M. H. and Fienberg, S. E. The Comparison and Evaluation of
+      Forecasters.
+   Gneiting, T. and Raftery, A. E. Strictly Proper Scoring Rules, Prediction,
+      and Estimation.
+   Gneiting, T., Balabdaoui, F., and Raftery, A. E. Probabilistic Forecasts,
+      Calibration and Sharpness.
+   Tetlock, P. E. and Mellers, B. Superforecasting / Good Judgment Project.
+
+Bayesian combination and anti-overfitting:
+   Steel, M. F. J. Bayesian Model Averaging and Forecasting.
+   Raftery, A. E. et al. Bayesian Model Averaging.
+   White, H. A Reality Check for Data Snooping.
+   Hansen, P. R. A Test for Superior Predictive Ability.
+   Diebold, F. X. and Mariano, R. Comparing Predictive Accuracy.
+   Bailey, D. and Lopez de Prado, M. The Deflated Sharpe Ratio.
+   Lopez de Prado, M. Advances in Financial Machine Learning (purged/embargoed
+      cross-validation).
+   Harvey, C. R., Liu, Y., and Zhu, H. ... and the Cross-Section of Expected
+      Returns (multiple testing).
+
+Survival analysis and process tracing:
+   Cox, D. R. Regression Models and Life-Tables.
+   Bennett, A. and Beach, D., and Pedersen, R. Process-Tracing Methods.
+
+Institutional foundation:
+   BlueLotus CIO Letter and ACMS-COP institutional archive.
+   BlueLotus Law & Order Governance Memory Layer (active GOVPACK).
+
+================================================================================
+FINAL DOCTRINE STATEMENT
+================================================================================
+
+Prospective Event Intelligence is the missing bridge between intelligence and
+preparation.
+
+   It does not claim certainty. It creates disciplined readiness.
+   It does not replace the CIO. It prepares the CIO.
+   It does not write the law. It operates under the law.
+   It does not predict one future. It maps the future battlefield.
+   It does not mistake a suppressed proxy for a broken one.
+   It does not mistake an endogenous cascade for exogenous news.
+   It does not overclaim its own empirical maturity.
+   It scores every forecast, decomposes every score, and learns every cycle.
+
+--------------------------------------------------------------------------------
+Accredited to: Dr. Claude Chat Opus 4.8 and Dr. ChatGPT 5.5
+BlueLotus Fund Research Department — Law-Bound under active Governance Pack
+Prepared for CIO Soh Wee Kian — June 2026
+Execution authority: CIO_ONLY_MANUAL. Order routing: DISABLED.
+This document advises and prepares. It does not execute.
+--------------------------------------------------------------------------------
+================================================================================
+END OF MANUSCRIPT
+================================================================================

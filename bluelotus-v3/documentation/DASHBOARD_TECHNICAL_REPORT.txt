@@ -1,0 +1,972 @@
+================================================================================
+  BLUELOTUS V3 — DASHBOARD TECHNICAL REPORT
+  Prepared : 2026-06-17  (Singapore Time)
+  Updated  : 2026-06-17  (post news probe v1.3 config migration)
+  System   : BlueLotus V3
+  Root Dir : C:\bluelotus3
+  Dashboard: https://sohweekian.github.io/bluelotus/
+================================================================================
+
+
+================================================================================
+0. ENGINEERING DOCTRINE — READ THIS FIRST
+================================================================================
+
+  This section is non-negotiable. Every contributor and every AI assistant
+  working on BlueLotus V3 must read and honour these rules before touching
+  any file in this repository.
+
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │  RULE 1 — NO HARDCODING. EVER.                                          │
+  │                                                                         │
+  │  Configuration values — URLs, thresholds, time windows, intervals,      │
+  │  limits, labels, ticker lists, scoring weights, keyword lists — must    │
+  │  NEVER appear as literals inside Python (.py) files.                    │
+  │                                                                         │
+  │  Every configurable value lives in a JSON config file.                  │
+  │  Python reads it. Python never owns it.                                 │
+  │                                                                         │
+  │  Correct:   freshness_min comes from news_probe_sources.json            │
+  │  WRONG:     freshness_min = 720  inside news_probe_daemon.py            │
+  │                                                                         │
+  │  To change a setting → edit the JSON → restart the daemon.             │
+  │  Never modify Python code for a configuration change.                   │
+  └─────────────────────────────────────────────────────────────────────────┘
+
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │  RULE 2 — MODULAR DESIGN. ONE DAEMON, ONE RESPONSIBILITY.               │
+  │                                                                         │
+  │  Each daemon is a fully independent module. It has its own:             │
+  │    - Script (.py)                                                        │
+  │    - Config file(s) (.json)                                             │
+  │    - Log file (.log)                                                    │
+  │    - Output JSON pushed to GitHub Pages                                 │
+  │                                                                         │
+  │  Daemons do NOT call each other. They do NOT share state.              │
+  │  They communicate only through JSON files on disk or GitHub Pages.      │
+  │                                                                         │
+  │  Killing one daemon does not affect any other daemon.                   │
+  │  Restarting one daemon does not require touching any other daemon.      │
+  └─────────────────────────────────────────────────────────────────────────┘
+
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │  RULE 3 — CONFIG FILES ARE THE SINGLE SOURCE OF TRUTH.                  │
+  │                                                                         │
+  │  If a value appears in both a JSON config AND a Python file, the        │
+  │  Python file is WRONG. Delete the Python copy. Read from JSON.          │
+  │                                                                         │
+  │  Config files must validate their own required fields at daemon          │
+  │  startup. If a required field is missing, the daemon refuses to start   │
+  │  with a FATAL error — it does NOT fall back to a hidden default.        │
+  └─────────────────────────────────────────────────────────────────────────┘
+
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │  RULE 4 — DAEMONS NEVER EXIT ON RUNTIME ERRORS.                         │
+  │                                                                         │
+  │  Network failures, API timeouts, GitHub push failures, bad RSS feeds   │
+  │  — these are expected conditions. The main loop catches all exceptions, │
+  │  logs them, and continues to the next cycle.                            │
+  │                                                                         │
+  │  A daemon exits ONLY on startup fatal errors (bad config file,          │
+  │  missing required fields) or explicit Ctrl-C by the operator.           │
+  └─────────────────────────────────────────────────────────────────────────┘
+
+  These four rules define the BlueLotus V3 digital organisation standard.
+  Violations are architectural regressions — not style preferences.
+
+
+================================================================================
+1. OVERVIEW
+================================================================================
+
+  The BlueLotus V3 dashboard is a GitHub Pages static site powered by five
+  independent long-running Python daemons on this Windows machine. Each daemon
+  runs on a fixed interval, computes its output, and pushes a JSON file to the
+  GitHub repository. The browser JavaScript fetches those JSON files to render
+  live dashboard sections.
+
+  No web server. No MySQL. No pipeline dependency. Each daemon is a fully
+  self-contained module — its own config, its own log, its own output.
+
+  All five daemons are launched by a single batch file:
+
+      C:\bluelotus3\start_daemons.bat
+
+  Python interpreter (bluelotus3 has no venv — falls back to V2 venv):
+
+      C:\bluelotus2\.venv\Scripts\python.exe
+
+  Credentials file:
+
+      C:\bluelotus3\.env
+      (contains GITHUB_TOKEN, GITHUB_USERNAME, GITHUB_PAGES_REPO,
+       GITHUB_BRANCH, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
+
+  IMPORTANT: Daemons read GITHUB_TOKEN at module load (startup). If the
+  .env file is empty or missing when the daemon starts, the token will be
+  blank for the entire lifetime of that process. Fix: populate .env first,
+  then start daemons.
+
+
+================================================================================
+2. DATA FLOW
+================================================================================
+
+  JSON config file(s)
+       |
+       |-- read at startup by daemon (validated — FATAL if missing fields)
+       |
+  C:\bluelotus3\mid\<daemon>.py
+       |
+       |-- computes output locally ---> C:\bluelotus3\data\<output>.json
+       |
+       └-- pushes via GitHub API  ----> data/<output>.json  (GitHub Pages)
+                                             |
+                                             └-- browser JS polls every 10 min
+                                                 --> live dashboard section
+
+  Key principle: Python code is logic only. Data, URLs, thresholds, and
+  intervals are owned by JSON files and flow into Python at runtime.
+
+
+================================================================================
+3. DAEMON INVENTORY
+================================================================================
+
+--------------------------------------------------------------------------------
+DAEMON 1 — NEWS PROBE  (v1.3)
+--------------------------------------------------------------------------------
+  Script   : C:\bluelotus3\mid\news_probe_daemon.py
+  Sources  : C:\bluelotus3\mid\news_probe_sources.json  ← ALL source config here
+  Runtime  : C:\bluelotus3\mid\news_probe_config.json   ← ALL timing config here
+  Log      : C:\bluelotus3\logs\news_probe.log
+  Output   : data/headlines_live.json  -->  GitHub Pages
+  Interval : 10 minutes  (set in news_probe_config.json)
+  Telegram : ENABLED  (interval set in news_probe_config.json)
+  Dashboard: HEADLINES section
+
+  WHAT IT DOES:
+  Fetches RSS feeds from 8 financial news sources every 10 minutes. Applies
+  per-source freshness windows. Deduplicates within each cycle. Builds
+  headlines_live.json grouped by source and pushes to GitHub Pages.
+  Dashboard JS reads source_order from the JSON — adding a source to
+  news_probe_sources.json auto-adds it to the dashboard with zero Python
+  changes required.
+
+  CONFIG-DRIVEN ARCHITECTURE (v1.3 — upgraded 2026-06-17):
+  All source URLs, freshness windows, labels, and logos are owned by
+  news_probe_sources.json. All timing, limits, and Telegram settings are
+  owned by news_probe_config.json. The Python daemon contains zero
+  hardcoded configuration values. To change any setting, edit the JSON
+  and restart the daemon.
+
+  NEWS SOURCES  (config lives in news_probe_sources.json — edit there):
+  +--------------------+-------------------------+-----------+-----------------+
+  | Source ID          | Label                   | Type      | Freshness       |
+  +--------------------+-------------------------+-----------+-----------------+
+  | FT_World           | FT World                | Direct RSS| 720 min (12h)   |
+  | WSJ                | WSJ                     | GNews     | 720 min (12h)   |
+  | Bloomberg          | Bloomberg               | GNews     | 720 min (12h)   |
+  | SCMP               | SCMP                    | GNews     | 720 min (12h)   |
+  | Nikkei_Asia        | Nikkei Asia             | GNews     | 720 min (12h)   |
+  | NHK_Economy        | NHK (Japan Economy)     | NHK RSS   | 720 min (12h)   |
+  | NHK_Politics       | NHK (Japan Policy)      | NHK RSS   | 720 min (12h)   |
+  | Google_News_JP_BOJ | BOJ News (Japanese)     | GNews JP  | 720 min (12h)   |
+  +--------------------+-------------------------+-----------+-----------------+
+  (GNews = Google News RSS proxy)
+
+  To change any freshness window: edit news_probe_sources.json → restart daemon.
+  Do NOT touch news_probe_daemon.py for configuration changes.
+
+  RUNTIME CONFIG  (news_probe_config.json — edit there, not in Python):
+    probe_interval_seconds    : 600   (10 min)
+    freshness_window_minutes  : 720   (12h global default)
+    max_items_per_source      : 6
+    dedup_cache_hours         : 24
+    dedup_cache_path          : data/news_dedup_cache.json
+    telegram_enabled          : true
+    telegram_interval_minutes : 10
+    source_timeout_seconds    : 15
+
+  STARTUP VALIDATION:
+  Daemon refuses to start if news_probe_sources.json is missing any
+  required field (label, url, method, freshness_min) for any listed source.
+  This prevents silent misconfiguration from propagating to GitHub Pages.
+
+  CURRENT STATUS  : RUNNING v1.3 — GitHub push OK (200) — Telegram OK
+                    All 8 sources at 720-min (12h) freshness window
+
+
+--------------------------------------------------------------------------------
+DAEMON 2 — THESIS PROBE  (Gold Safe-Haven + ECE)
+--------------------------------------------------------------------------------
+  Script   : C:\bluelotus3\mid\thesis_probe_daemon.py
+  Log      : C:\bluelotus3\logs\thesis_probe.log
+  Output   : data/thesis_evidence_live.json  -->  GitHub Pages
+  Interval : 10 minutes
+  Dashboard: S3 - THESIS EVIDENCE section
+
+  WHAT IT DOES:
+  Fetches live intraday price data for 70+ tickers in one batched yfinance
+  download. Runs two analytical engines against that price data:
+
+  ENGINE A — GOLD SAFE-HAVEN THESIS TRACKER (8 checks)
+  Scores whether the Gold thesis is CONFIRMING, WATCH, WARNING, or FAILING.
+  Thresholds: CONFIRMING >= 0.75 / WATCH 0.50-0.74 / WARNING 0.30-0.49 / FAILING < 0.30
+
+  Gold thesis tickers:
+    GLD, SLV, GDX, GDXJ, AU, NEM, UUP, TLT, IEF,
+    SPY, QQQ, IWM, VXX, UVXY, XLE, ^VIX
+
+  ENGINE B — ECE  (Event Correlation Engine, 12 themes)
+  Scans which thematic baskets are moving directionally.
+  Output: RISK ON / RISK OFF / WATCH / NEUTRAL per theme.
+
+  ECE THEMES:
+  +-----+------------------------------+--------------------------------------+
+  | #   | Theme                        | Tickers                              |
+  +-----+------------------------------+--------------------------------------+
+  |  1  | MAG7 / BIG TECH              | AAPL MSFT GOOGL AMZN META NVDA TSLA |
+  |  2  | CONSUMER TECH / APPLE        | AAPL NFLX SPOT SNAP PINS            |
+  |  3  | OIL / GAS                    | XLE XOM CVX COP OXY                 |
+  |  4  | QUANTUM                      | QBTS IONQ RGTI QUBT IBM             |
+  |  5  | AI / SEMIS                   | NVDA AMD AVGO AMAT ARM SMCI         |
+  |  6  | CLEAN ENERGY / SOLAR         | ENPH FSLR SEDG RUN PLUG             |
+  |  7  | SPACE / DEFENSE              | ASTS RKLB LUNR PL SPCE LMT RTX     |
+  |  8  | MACRO / FED                  | SPY QQQ IWM                         |
+  |  9  | GOLD / SAFE HAVEN            | GLD GDX GDXJ AU NEM SLV            |
+  | 10  | SOFTWARE / CYBER             | PANW CRWD FTNT ZS OKTA              |
+  | 11  | BANKS / LIQUIDITY            | XLF JPM BAC GS MS                   |
+  | 12  | EARNINGS CATALYST            | ORCL DAL FDX NKE ACN ADBE COST     |
+  +-----+------------------------------+--------------------------------------+
+
+  Also scans Reuters Commodities RSS for oil geopolitical keywords:
+    hormuz, iran, oil shock, opec, crude, brent, wti, sanctions, tanker, etc.
+
+  CURRENT STATUS  : RUNNING — Cycle 1 — GitHub push OK (200)
+  LATEST READING  : Gold CONFIRMING | score=0.938 | confidence=HIGH
+                    ECE: 10 RISK_OFF / 2 RISK_ON
+                    Live Regime: RISK OFF | score=-4 | VIX=16.0 | conf=MEDIUM_HIGH
+
+
+--------------------------------------------------------------------------------
+DAEMON 3 — WARSH THESIS PROBE  (Hawkish Fed / Warsh Thesis)
+--------------------------------------------------------------------------------
+  Script   : C:\bluelotus3\mid\warsh_thesis_probe_daemon.py
+  Engine   : C:\bluelotus3\mid\warsh_thesis_engine.py
+  Log      : C:\bluelotus3\logs\warsh_thesis.log
+  Output   : data/warsh_thesis_live.json  -->  GitHub Pages
+  Interval : 10 minutes
+  Dashboard: S4 - HAWKISH WARSH THESIS section
+
+  THESIS ID: THESIS-HAWKISH-WARSH-FED
+
+  WHAT IT DOES:
+  Tracks whether a hawkish Federal Reserve / Warsh policy posture is
+  confirming or being invalidated across 8 asset-class dimensions.
+  Data inputs: headlines_live.json (Fed keyword tone scan) + yfinance prices.
+
+  SCORING MODEL  (100 points total):
+  +--------------------+--------+--------------------------------------------+
+  | Dimension          | Weight | Instruments                                |
+  +--------------------+--------+--------------------------------------------+
+  | Fed Tone           |  20 pt | headlines_live.json (hawkish/dovish scan)  |
+  | Rates              |  15 pt | TLT, IEF, SHY, ^TNX, ^TYX, ^IRX          |
+  | Dollar             |  10 pt | UUP                                        |
+  | Banks              |  15 pt | XLF, JPM, BAC, GS, MS                     |
+  | Gold Miners        |  15 pt | GLD, GDX, GDXJ, AU, NEM, SLV              |
+  | High Beta          |  10 pt | QQQ, IWM, ARKK                             |
+  | Credit             |  10 pt | HYG, LQD                                   |
+  | Yen Carry          |   5 pt | FXY, ^USDJPY                               |
+  +--------------------+--------+--------------------------------------------+
+  Status thresholds: HAWKISH (confirming) / MIXED / DOVISH / UNKNOWN
+
+  CURRENT STATUS  : RUNNING — Cycle 1 — GitHub push OK (200)
+  LATEST READING  : MIXED | score=61.5/100 | fed_tone=UNKNOWN | cio_action=NO_ADD
+
+
+--------------------------------------------------------------------------------
+DAEMON 4 — BOJ / YEN CARRY EVENT WATCHER  (V3 new, not in V2)
+--------------------------------------------------------------------------------
+  Script   : C:\bluelotus3\mid\boj_yen_carry_probe_daemon.py
+  Engine   : C:\bluelotus3\mid\boj_yen_carry_event_watcher.py
+  Log      : C:\bluelotus3\logs\boj_yen_carry.log
+  Output   : data/boj_yen_carry_live.json  -->  GitHub Pages
+  Interval : 10 minutes
+  Dashboard: BOJ / YEN CARRY RISK section
+
+  WHAT IT DOES:
+  Monitors BOJ policy signals and Yen carry-trade stress on a 10-minute cycle.
+  Primary trigger: USD/JPY intraday movement. Scores 0-100 across carry-trade
+  risk dimensions and outputs cio_action: WAIT / HOLD_HEDGE / REDUCE.
+
+  CURRENT STATUS  : RUNNING — Cycle 1 — GitHub push OK
+  LATEST READING  : WATCH | score=41.0/100 | USD/JPY 1h=-0.015% | cio_action=HOLD_HEDGE
+
+
+--------------------------------------------------------------------------------
+DAEMON 5 — PORTFOLIO LIVE UPDATER
+--------------------------------------------------------------------------------
+  Script   : C:\bluelotus3\mid\portfolio_live_updater.py
+  Log      : C:\bluelotus3\logs\portfolio_live_updater.log
+  Output   : data/portfolio_live.json  -->  GitHub Pages
+  Interval : 60 minutes  (not 10 min)
+  Dashboard: COMMAND BAR  (regime, portfolio value, cash, P&L)
+
+  WHAT IT DOES:
+  Reads live position data from Moomoo every hour. Extracts positions, cash,
+  market value, and unrealized P&L. Pushes portfolio_live.json to GitHub Pages
+  for the dashboard command bar to display.
+
+  NOTE: Missing config file C:\bluelotus3\mid\portfolio_thesis_labels.json
+  All positions currently shown as WATCH until this file is created.
+
+  CURRENT STATUS  : RUNNING — Cycle 1 — GitHub push OK (HTTP 200)
+  LATEST READING  : 6 positions | cash=$55,030.60 | market value=$3,000.12
+
+
+================================================================================
+4. MODULAR ARCHITECTURE — HOW IT ALL FITS TOGETHER
+================================================================================
+
+  Each daemon is a module. Modules are independent. This is not accidental —
+  it is a deliberate design principle of the BlueLotus V3 digital organisation.
+
+  SEPARATION OF CONCERNS:
+  +-----------------------+----------------------------------------------------+
+  | Layer                 | What lives here                                    |
+  +-----------------------+----------------------------------------------------+
+  | .env                  | Secrets only (tokens, credentials). Never config.  |
+  | *_sources.json        | Source registry: IDs, URLs, labels, logos,         |
+  |                       | per-source thresholds and freshness windows.       |
+  | *_config.json         | Runtime settings: intervals, limits, toggles.      |
+  | *_daemon.py           | Logic only. Reads config. Computes. Pushes.        |
+  |                       | Contains ZERO hardcoded configuration values.      |
+  | data/*.json           | Output. Written by daemons. Read by JS dashboard.  |
+  +-----------------------+----------------------------------------------------+
+
+  WHY THIS MATTERS:
+  - A non-engineer (or a different AI assistant next session) can change a
+    freshness window, add a news source, or adjust a scoring threshold by
+    editing a JSON file in a text editor — no Python knowledge required.
+  - Config changes are version-controlled, diffable, and reviewable.
+  - Python files change only when logic changes — not when parameters change.
+    This means fewer Python restarts, fewer logic bugs, and a clean audit trail.
+  - Modules fail loudly on misconfiguration (FATAL at startup) rather than
+    silently using stale defaults that produce wrong dashboard data.
+
+  INTER-DAEMON COMMUNICATION:
+  Daemons share data only through JSON files on disk:
+    - Warsh Thesis Probe reads headlines_live.json  (written by News Probe)
+    - BOJ Engine reads headlines_live.json           (written by News Probe)
+  There are no direct function calls, no shared memory, no message queues.
+  This keeps every daemon independently restartable.
+
+  ADDING A NEW NEWS SOURCE (example of how modular design works in practice):
+  1. Add an entry to news_probe_sources.json with label, url, method,
+     freshness_min, and logo.
+  2. Add the source ID to source_order in news_probe_sources.json.
+  3. Restart news_probe_daemon.py.
+  That is all. Zero Python changes. The new source appears on the dashboard
+  automatically because the JS reads source_order dynamically from the JSON.
+
+
+================================================================================
+5. COMPLETE FILE REFERENCE
+================================================================================
+
+  SCRIPTS (all daemons)
+  -------
+  C:\bluelotus3\mid\news_probe_daemon.py
+  C:\bluelotus3\mid\thesis_probe_daemon.py
+  C:\bluelotus3\mid\warsh_thesis_probe_daemon.py
+  C:\bluelotus3\mid\boj_yen_carry_probe_daemon.py
+  C:\bluelotus3\mid\boj_yen_carry_event_watcher.py    (engine for daemon 4)
+  C:\bluelotus3\mid\warsh_thesis_engine.py             (engine for daemon 3)
+  C:\bluelotus3\mid\portfolio_live_updater.py
+
+  CONFIGURATION  (edit these files to change settings — never edit Python)
+  -------------
+  C:\bluelotus3\mid\news_probe_sources.json    (8 sources: URL, freshness, logos)
+  C:\bluelotus3\mid\news_probe_config.json     (intervals, limits, telegram)
+  C:\bluelotus3\.env                           (secrets: tokens, credentials)
+  C:\bluelotus3\start_daemons.bat              (launch all 5 daemons)
+
+  LOGS
+  ----
+  C:\bluelotus3\logs\news_probe.log
+  C:\bluelotus3\logs\thesis_probe.log
+  C:\bluelotus3\logs\warsh_thesis.log
+  C:\bluelotus3\logs\boj_yen_carry.log
+  C:\bluelotus3\logs\portfolio_live_updater.log
+
+  LOCAL DATA OUTPUT
+  -----------------
+  C:\bluelotus3\data\headlines_live.json
+  C:\bluelotus3\data\thesis_evidence_live.json
+  C:\bluelotus3\data\warsh_thesis\warsh_thesis_live.json
+  C:\bluelotus3\data\boj_yen_carry_live.json
+  C:\bluelotus3\data\portfolio_live\portfolio_live.json
+  C:\bluelotus3\data\news_dedup_cache.json             (24h dedup cache)
+
+  GITHUB PAGES OUTPUT  (live URLs)
+  ---------------------------------
+  data/headlines_live.json
+  data/thesis_evidence_live.json
+  data/warsh_thesis_live.json
+  data/boj_yen_carry_live.json
+  data/portfolio_live.json
+
+  PYTHON INTERPRETER
+  ------------------
+  C:\bluelotus2\.venv\Scripts\python.exe
+  (bluelotus3 has no .venv — start_daemons.bat falls back to bluelotus2 venv)
+
+
+================================================================================
+6. DAEMON STATUS SUMMARY  (as of 2026-06-17 03:38 SGT)
+================================================================================
+
+  +---------------------------+----------+--------------------+-------------+
+  | Daemon                    | Interval | GitHub Push        | Status      |
+  +---------------------------+----------+--------------------+-------------+
+  | news_probe_daemon  (v1.3) | 10 min   | OK (200)           | RUNNING     |
+  | thesis_probe_daemon       | 10 min   | OK (200)           | RUNNING     |
+  | warsh_thesis_probe_daemon | 10 min   | OK (200)           | RUNNING     |
+  | boj_yen_carry_probe_daemon| 10 min   | OK (200)           | RUNNING     |
+  | portfolio_live_updater    | 60 min   | OK (200)           | RUNNING     |
+  +---------------------------+----------+--------------------+-------------+
+
+  All 5 daemons confirmed running and pushing to GitHub Pages.
+  News Probe upgraded to v1.3 — fully config-driven, all 8 sources at 720 min
+  (12-hour) freshness window.
+
+
+================================================================================
+7. HOW TO RESTART ALL DAEMONS
+================================================================================
+
+  Option A — Batch file (recommended):
+      Double-click: C:\bluelotus3\start_daemons.bat
+      (or run from CMD: cd /d C:\bluelotus3 && start_daemons.bat)
+
+  Option B — Individual daemon (if one daemon dies):
+      cd /d C:\bluelotus3
+      start "BlueLotus V3 News Probe"    /min C:\bluelotus2\.venv\Scripts\python.exe mid\news_probe_daemon.py
+      start "BlueLotus V3 Thesis Probe"  /min C:\bluelotus2\.venv\Scripts\python.exe mid\thesis_probe_daemon.py
+      start "BlueLotus V3 Warsh Probe"   /min C:\bluelotus2\.venv\Scripts\python.exe mid\warsh_thesis_probe_daemon.py
+      start "BlueLotus V3 BOJ Probe"     /min C:\bluelotus2\.venv\Scripts\python.exe mid\boj_yen_carry_probe_daemon.py
+      start "BlueLotus V3 Portfolio"     /min C:\bluelotus2\.venv\Scripts\python.exe mid\portfolio_live_updater.py
+
+  NOTE: Daemons are NOT registered as Windows Services or Task Scheduler tasks.
+  If the machine reboots or the session ends, all daemons die and must be
+  manually restarted. Consider registering them in Task Scheduler with
+  OnStartup + RestartOnFailure to survive reboots automatically.
+
+
+================================================================================
+8. KNOWN ISSUES
+================================================================================
+
+  1. MISSING portfolio_thesis_labels.json
+     File: C:\bluelotus3\mid\portfolio_thesis_labels.json
+     Impact: All portfolio positions shown as WATCH on dashboard.
+             Watchlist section cannot populate.
+     Fix: Create the file with position-to-thesis label mappings.
+
+  2. NO bluelotus3 VENV
+     bluelotus3 has no .venv directory.
+     start_daemons.bat falls back to C:\bluelotus2\.venv\Scripts\python.exe.
+     This works but means bluelotus3 depends on bluelotus2 being present.
+     Fix: Run  python -m venv C:\bluelotus3\.venv  and install requirements.
+
+  3. NO AUTO-RESTART ON REBOOT
+     Daemons are plain processes. A system reboot, sleep, or session kill
+     terminates all 5 daemons. No watchdog, no Task Scheduler registration.
+     Fix: Register each daemon in Windows Task Scheduler.
+
+
+================================================================================
+9. ENGINEERING CHECKLIST — FOR ANY FUTURE CODE CHANGES
+================================================================================
+
+  Before modifying any daemon or config file, ask these questions:
+
+  [ ] Is this a config change or a logic change?
+      - Config change → edit JSON only, restart daemon, do not touch Python.
+      - Logic change  → edit Python only, no values in the code.
+
+  [ ] Does the Python file I am changing contain any hardcoded values?
+      (URLs, numbers, thresholds, strings that could ever need changing)
+      If yes → move them to the appropriate JSON config file first.
+
+  [ ] Does my change affect other daemons?
+      - If it changes a JSON output schema → update all readers.
+      - If it adds a new JSON field → ensure backward compatibility.
+
+  [ ] Does the daemon validate its config at startup?
+      - Any new required config field must be validated at startup.
+      - Startup FATAL errors are better than silent wrong values at runtime.
+
+  [ ] Did I update this technical report?
+      - Source table changes → Section 3.
+      - New config fields → Section 3 runtime config block.
+      - New files → Section 5.
+      - Status changes → Section 6.
+
+
+================================================================================
+10. THESIS WIDGETS — S6 AI INFRASTRUCTURE / POWER BOTTLENECK
+    (Added 2026-06-17 — Work Order AI_INFRASTRUCTURE_POWER_THESIS)
+================================================================================
+
+  This section documents the first BlueLotus V3 Thesis Widget: a standalone
+  monitoring module that tracks whether the AI Infrastructure / Power Bottleneck
+  investment thesis is confirming or weakening in real time.
+
+  Thesis Widgets are a separate class of module from the core daemons above.
+  They live under C:\bluelotus3\thesis_widgets\ and are managed by their own
+  orchestrator. They follow all V3 engineering doctrine rules.
+
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │  THESIS WIDGET DOCTRINE                                                  │
+  │                                                                         │
+  │  1. Every thesis widget is 100% standalone. No V2 pipeline dependency.  │
+  │  2. No LLM calls. No broker execution. No order language.               │
+  │  3. All config (tickers, weights, thresholds, keywords) in YAML only.   │
+  │  4. Safety constants validated at startup — FATAL if wrong.             │
+  │  5. CIO action values are advisory only. Execution = CIO_ONLY_MANUAL.   │
+  └─────────────────────────────────────────────────────────────────────────┘
+
+--------------------------------------------------------------------------------
+10.1  MISSION OBJECTIVE
+--------------------------------------------------------------------------------
+
+  Track whether the AI Infrastructure / Power Bottleneck investment thesis is
+  CONFIRMING across five market baskets:
+
+    AI Compute       — GPU and semiconductor demand (NVDA, AVGO, AMD, SMCI, ARM, MU)
+    Hyperscalers     — Cloud capex commitments (MSFT, GOOGL, AMZN, META, ORCL)
+    Power / Grid     — Electricity infrastructure (VRT, ETN, PWR, GEV, CEG, NEE, SO, DUK)
+    Copper Infra     — Physical copper demand proxy (COPX, FCX)
+    Nuclear Power    — Baseload clean power (URA, CCJ, SMR)
+
+  Plus: headline keyword scoring (25 AI/power keywords from config)
+  Plus: broad market risk penalty (SPY+QQQ sell-off detection)
+
+  Output: status (CONFIRMING/WATCH/MIXED/WEAKENING/CONTRADICTED/UNKNOWN),
+          score 0-100, CIO action, add_allowed flag, ticker evidence table.
+
+
+--------------------------------------------------------------------------------
+10.2  FILES CREATED
+--------------------------------------------------------------------------------
+
+  +----------------------------------------------------------+----------------+
+  | File                                                     | Role           |
+  +----------------------------------------------------------+----------------+
+  | config/thesis_widgets/ai_infrastructure_power.yaml       | ALL config     |
+  | thesis_widgets/ai_infrastructure_power.py                | Widget engine  |
+  | thesis_widgets/__init__.py                               | Package init   |
+  | thesis_widgets/run_all_thesis_widgets.py                 | Orchestrator   |
+  | thesis_widgets/tests/__init__.py                         | Test package   |
+  | thesis_widgets/tests/test_ai_infrastructure_power.py     | 74 tests       |
+  | scripts/inject_s6_card.py                               | One-time push  |
+  +----------------------------------------------------------+----------------+
+
+  OUTPUT (runtime):
+  C:\bluelotus3\data\thesis_widgets\ai_infrastructure_power_latest.json
+  data/thesis_widgets/ai_infrastructure_power_latest.json  (GitHub Pages)
+
+
+--------------------------------------------------------------------------------
+10.3  CONFIG STRUCTURE  (ai_infrastructure_power.yaml)
+--------------------------------------------------------------------------------
+
+  The YAML is the single source of truth for the entire widget.
+  Python contains ZERO hardcoded values.
+
+  Top-level keys:
+    thesis_id           : AI_INFRASTRUCTURE_POWER_THESIS
+    schema_version      : thesis_widget_v1.0
+    refresh_interval_min: 10
+
+  Five baskets (each has: tickers, weight, interpretations per signal):
+    +----------------------+--------+--------------------------------------+
+    | Basket               | Weight | Tickers                              |
+    +----------------------+--------+--------------------------------------+
+    | AI_COMPUTE           |  20 pt | NVDA AVGO AMD SMCI ARM MU            |
+    | HYPERSCALER          |  15 pt | MSFT GOOGL AMZN META ORCL            |
+    | POWER_GRID           |  25 pt | VRT ETN PWR GEV CEG NEE SO DUK       |
+    | COPPER_INFRASTRUCTURE|  10 pt | COPX FCX                             |
+    | NUCLEAR_POWER        |  10 pt | URA CCJ SMR                          |
+    +----------------------+--------+--------------------------------------+
+
+  Scoring weights (total = 100):
+    basket components   : 80 pt  (AI_COMPUTE+HYPERSCALER+POWER+COPPER+NUCLEAR)
+    headline_max        : 15 pt  (keyword matching against headlines_live.json)
+    risk_penalty_max    : 10 pt  (subtracted when broad market liquidates)
+
+  Signal thresholds (from config — NEVER hardcoded in Python):
+    pass_pct  : +0.5%   → ticker signal = PASS
+    fail_pct  : -0.5%   → ticker signal = FAIL (inclusive boundary)
+    [between] → WATCH
+
+  Status thresholds:
+    score >= 75  → CONFIRMING
+    score >= 55  → WATCH
+    score >= 40  → MIXED
+    score >= 20  → WEAKENING
+    score <  20  → CONTRADICTED
+
+  Confidence thresholds:
+    data >= 70%  → HIGH
+    data >= 45%  → MEDIUM
+    data >= 20%  → LOW
+    otherwise    → UNKNOWN
+
+  CIO action map (compound status+confidence key):
+    CONFIRMING_HIGH    → HOLD_REVIEW
+    CONFIRMING_MEDIUM  → HOLD_REVIEW
+    CONFIRMING_LOW     → WAIT
+    WATCH_HIGH         → HOLD
+    WATCH_MEDIUM       → HOLD
+    WATCH_LOW          → WAIT
+    MIXED_*            → WAIT
+    WEAKENING_*        → NO_ADD
+    CONTRADICTED_*     → RISK_REVIEW
+    UNKNOWN_*          → CIO_REVIEW_REQUIRED
+
+  Safety block (validated at every startup):
+    execution_authority   : CIO_ONLY_MANUAL
+    order_routing_enabled : false
+    llm_order_generation  : false
+
+  25 headline keywords (examples):
+    "data center power", "ai electricity demand", "nuclear restart",
+    "hyperscaler capex", "grid upgrade", "copper shortage", "uranium spot",
+    "smr approval", "nvidia earnings", "ai infrastructure" ...
+
+
+--------------------------------------------------------------------------------
+10.4  SCORING LOGIC
+--------------------------------------------------------------------------------
+
+  STEP 1 — Fetch prices (yfinance)
+    Batch download: all 24 thesis tickers + SPY + QQQ in one call.
+    Handles new yfinance MultiIndex column structure (ticker, field).
+    Graceful per-ticker failure: missing data → signal = UNKNOWN.
+    data_quality: FULL (all) / PARTIAL (some) / UNAVAILABLE (none).
+
+  STEP 2 — Score each basket
+    For each ticker in basket:
+      signal = PASS  if day_change_pct >= pass_pct
+      signal = FAIL  if day_change_pct <= fail_pct  (inclusive boundary)
+      signal = WATCH otherwise
+    basket_score = (PASS_count / total_enabled_tickers) * basket_weight
+    basket_signal = PASS if >50% PASS, FAIL if >50% FAIL, else WATCH
+
+  STEP 3 — Score headlines
+    Read data/headlines_live.json (if available; degrade gracefully if missing)
+    Scan all headline text for 25 config-defined keywords
+    Each unique keyword match contributes: keyword_score = headline_max/len(keywords)
+    headline_score = sum(unique matches) capped at headline_max
+
+  STEP 4 — Risk penalty
+    If SPY day_change_pct < spy_threshold AND QQQ day_change_pct < qqq_threshold:
+      penalty = min(risk_penalty_max, |avg(SPY,QQQ)| * multiplier)
+    Penalty is subtracted from total score.
+
+  STEP 5 — Total score and status
+    total = basket_total + headline_score - risk_penalty
+    status = map(total → CONFIRMING/WATCH/MIXED/WEAKENING/CONTRADICTED)
+    confidence = map(data_fraction → HIGH/MEDIUM/LOW/UNKNOWN)
+    cio_action = cio_action_map[status + "_" + confidence]
+    add_allowed = (status == "CONFIRMING" and no concentration override)
+
+
+--------------------------------------------------------------------------------
+10.5  JSON OUTPUT SCHEMA  (ai_infrastructure_power_latest.json)
+--------------------------------------------------------------------------------
+
+  Key fields:
+    schema_version          : "thesis_widget_v1.0"
+    thesis_id               : "AI_INFRASTRUCTURE_POWER_THESIS"
+    title                   : "AI Infrastructure / Power Bottleneck Thesis"
+    display_title           : "S6 · AI Infrastructure / Power Bottleneck Thesis"
+    dashboard_section       : "S6"
+    status                  : CONFIRMING | WATCH | MIXED | WEAKENING |
+                              CONTRADICTED | UNKNOWN
+    score                   : float 0-100
+    score_max               : 100
+    confidence              : HIGH | MEDIUM | LOW | UNKNOWN
+    cio_action              : WAIT | HOLD | HOLD_REVIEW | NO_ADD |
+                              RISK_REVIEW | CIO_REVIEW_REQUIRED
+    add_allowed             : boolean
+    risk_level              : NORMAL | ELEVATED | HIGH
+    risk_penalty_applied    : float
+    data_quality            : FULL | PARTIAL | UNAVAILABLE
+    last_updated_sgt        : "2026-06-17 05:40 SGT"
+    last_updated_utc        : "2026-06-16T21:40:47Z"
+    summary                 : one-sentence status summary (no order language)
+    primary_signals         : [{basket, label, signal, scoring_weight}] × 5
+    headline_score          : float
+    headline_evidence       : [{keyword, source, headline}]
+    ticker_evidence         : [{ticker, group, price, day_change_pct,
+                                relative_to_spy, relative_to_qqq, signal,
+                                interpretation}]
+    safety                  : {execution_authority, order_routing_enabled,
+                                orders_generated_by_pipeline,
+                                llm_order_generation}
+
+  LIVE EXAMPLE (2026-06-17 05:40 SGT):
+    status     : WEAKENING
+    score      : 29.0 / 100
+    confidence : LOW
+    cio_action : NO_ADD
+    add_allowed: false
+    AI_COMPUTE (weight 20): FAIL — NVDA -2.37%, AVGO -4.37%, AMD -7.30% all FAIL
+    HYPERSCALER (weight 15): WATCH — GOOGL +1.06% PASS offsets MSFT/META/AMZN
+    POWER_GRID (weight 25): WATCH — VRT/ETN/PWR/GEV in WATCH range
+    COPPER (weight 10): FAIL — COPX/FCX both failing
+    NUCLEAR (weight 10): FAIL — URA/CCJ/SMR all down
+    SPY -0.60%, QQQ -1.90% (no risk penalty triggered — below thresholds)
+
+
+--------------------------------------------------------------------------------
+10.6  DASHBOARD RENDERING  (S6 card)
+--------------------------------------------------------------------------------
+
+  Location in dashboard: Between S5 BOJ/Yen Carry and System Health footer.
+  Color accent: Emerald green (#34d399) — distinct from S3 purple, S4 amber,
+                S5 cyan.
+
+  Card structure:
+    Header    : "S6 · AI INFRASTRUCTURE / POWER BOTTLENECK" + timestamp + status badge
+    Score bar : Animated progress bar (red < 40, orange 40-55, yellow 55-75, green ≥75)
+    CIO row   : CIO Action + Add Allowed (green YES / red BLOCKED)
+    Baskets   : 5-row grid (basket label + signal badge per basket)
+    Top Movers: Table — Ticker | Price | CHG% | vs SPY | Signal badge (8 rows)
+    Headline  : News catalyst section (renders only when headline_score > 0)
+    Footer    : Safety governance footer (CIO_ONLY_MANUAL · ORDER_ROUTING: DISABLED)
+
+  JS fetch:
+    URL     : BASE + "/data/thesis_widgets/ai_infrastructure_power_latest.json"
+    Refresh : 600,000ms (10 min) via setInterval
+    Fallback: "S6 · AI INFRASTRUCTURE / POWER — widget not yet running [retry]"
+
+  Injection: scripts/inject_s6_card.py (one-time, idempotent — skips if already
+  present). Pushes via GitHub Contents API with SHA verification.
+
+
+--------------------------------------------------------------------------------
+10.7  TEST RESULTS  (74/74 PASSED)
+--------------------------------------------------------------------------------
+
+  Test runner: pytest (installed in C:\bluelotus2\.venv)
+  Command    : python -m pytest thesis_widgets/tests/test_ai_infrastructure_power.py -v
+  Result     : 74 passed, 0 failed, 0 warnings  (0.88s)
+
+  Test classes and coverage:
+  +---------------------------------+-------+----------------------------------+
+  | Class                           | Tests | What is verified                 |
+  +---------------------------------+-------+----------------------------------+
+  | T1 TestConfigLoading            |   9   | YAML exists, loads, required keys|
+  |                                 |       | 5 baskets, weight sum, safety    |
+  | T2 TestTickerConfigDriven       |   7   | All 5 baskets in YAML, no        |
+  |                                 |       | hardcoded ticker lists (AST scan)|
+  | T3 TestIndependence             |   5   | No V2 imports, no LLM imports,   |
+  |                                 |       | no grand pipeline, no V2 writes  |
+  | T4 TestSignalClassification     |   7   | PASS/WATCH/FAIL/UNKNOWN at all   |
+  |                                 |       | boundaries (inclusive fail pct)  |
+  | T5 TestRelativePerformance      |   5   | vs SPY/QQQ relative calc, None   |
+  |                                 |       | handling                         |
+  | T6 TestStatusMapping            |   6   | Score→Status at all thresholds   |
+  |                                 |       | including boundary cases         |
+  | T7 TestConfidenceMapping        |   4   | Data% → HIGH/MEDIUM/LOW/UNKNOWN  |
+  | T8 TestCIOActionMapping         |   6   | Compound key → CIO action; no    |
+  |                                 |       | BUY/SELL in any mapped value     |
+  | T9 TestHeadlineScoring          |   3   | No file → 0, matching → score,   |
+  |                                 |       | cap at headline_max              |
+  | T10 TestRiskPenalty             |   5   | Both breach → penalty, one → no  |
+  |                                 |       | penalty, missing → no penalty,   |
+  |                                 |       | cap at risk_penalty_max          |
+  | T11 TestFullRun                 |   3   | Full run with all data, no data, |
+  |                                 |       | yfinance exception               |
+  | T12 TestJSONOutputSchema        |   9   | All required fields, safety=true,|
+  |                                 |       | score range, valid enums, no     |
+  |                                 |       | order language, bool types       |
+  | T13 TestNoHardcodingRegression  |   3   | AST scan: no threshold/path/ID   |
+  |                                 |       | literals in Python source        |
+  | T14 TestOutputFile              |   2   | File written to correct path,    |
+  |                                 |       | valid JSON                       |
+  +---------------------------------+-------+----------------------------------+
+  TOTAL                             |  74   | ALL PASS                         |
+  +---------------------------------+-------+----------------------------------+
+
+
+--------------------------------------------------------------------------------
+10.8  SAFETY VERIFICATION  (checked against work order requirements)
+--------------------------------------------------------------------------------
+
+  [ ✓ ] execution_authority = CIO_ONLY_MANUAL  (validated at startup)
+  [ ✓ ] order_routing_enabled = false           (validated at startup)
+  [ ✓ ] llm_order_generation = false            (validated at startup)
+  [ ✓ ] orders_generated_by_pipeline = 0        (hardwired in JSON output)
+  [ ✓ ] No "BUY", "SELL", "SHORT", "COVER" in any CIO action value
+  [ ✓ ] No broker API calls (no moomoo, place_order, execute_order)
+  [ ✓ ] No LLM client imports (no import qwen/ollama/openai/anthropic)
+  [ ✓ ] No bluelotus2 path writes
+  [ ✓ ] Widget does NOT import from V3 agent/orchestration modules
+  [ ✓ ] Safety constants checked by T9/T12 tests — test failure = safety drift
+
+  Widget is read-only intelligence. It observes and reports only.
+  All position actions require explicit CIO decision outside this system.
+
+
+--------------------------------------------------------------------------------
+10.9  NO-HARDCODING VERIFICATION
+--------------------------------------------------------------------------------
+
+  [ ✓ ] All 24 thesis tickers in YAML only (AST scan confirms — T2.6)
+  [ ✓ ] All scoring weights in YAML only
+  [ ✓ ] All signal thresholds (pass_pct, fail_pct) in YAML only
+  [ ✓ ] All status thresholds (confirming, watch, mixed, weakening) in YAML
+  [ ✓ ] All confidence thresholds in YAML
+  [ ✓ ] All 25 headline keywords in YAML only
+  [ ✓ ] Output path driven by config (output.local_path from YAML)
+  [ ✓ ] GitHub path driven by config (output.github_path from YAML)
+  [ ✓ ] Thesis ID read from config (never hardcoded in logic)
+  [ ✓ ] Refresh interval read from config
+  [ ✓ ] CIO action map in YAML only
+  [ ✓ ] Risk penalty thresholds and multiplier in YAML only
+
+  Regression tests T13.1/T13.2/T13.3 use Python ast.walk() to parse the
+  widget AST and assert no score threshold, path, or thesis ID literal
+  appears as a constant in the Python source.
+
+
+--------------------------------------------------------------------------------
+10.10  NO-V2-WRITE VERIFICATION
+--------------------------------------------------------------------------------
+
+  [ ✓ ] Widget reads only: config YAML + data/headlines_live.json (optional)
+  [ ✓ ] Widget writes only: data/thesis_widgets/ai_infrastructure_power_latest.json
+  [ ✓ ] No bluelotus2 paths referenced anywhere in widget source
+  [ ✓ ] No V2 database connections
+  [ ✓ ] No V2 pipeline imports or function calls
+
+
+--------------------------------------------------------------------------------
+10.11  WIDGET ORCHESTRATOR
+--------------------------------------------------------------------------------
+
+  Script: C:\bluelotus3\thesis_widgets\run_all_thesis_widgets.py
+
+  Registry pattern — to add a new thesis widget:
+    1. Add entry to WIDGET_REGISTRY in run_all_thesis_widgets.py (id, script, enabled)
+    2. That is all. The orchestrator launches it automatically.
+
+  Current registry:
+    [ ENABLED ] AI_INFRASTRUCTURE_POWER_THESIS   thesis_widgets/ai_infrastructure_power.py
+    [ DISABLED] GOLD_SAFE_HAVEN_THESIS            (future)
+    [ DISABLED] WARSH_FED_THESIS                 (future)
+    [ DISABLED] BOJ_CARRY_THESIS                 (future)
+    [ DISABLED] PETRO_DOLLAR_THESIS              (future)
+    [ DISABLED] STICKY_INFLATION_THESIS          (future)
+
+  Run one cycle only (test mode):
+    python thesis_widgets\run_all_thesis_widgets.py --once
+
+  Run as daemons (production):
+    python thesis_widgets\run_all_thesis_widgets.py
+
+
+--------------------------------------------------------------------------------
+10.12  KNOWN LIMITATIONS
+--------------------------------------------------------------------------------
+
+  1. MARKETS CLOSED DETECTION
+     When US markets are closed (nights, weekends), yfinance returns the
+     previous session's closing prices. Day_change_pct reflects Monday→Friday
+     close, not an intraday move. The widget does not flag this.
+     Recommended next step: add market_open flag to JSON output.
+
+  2. HEADLINE SCORE ONLY WHEN DAEMON RUNNING
+     If news_probe_daemon.py is not running, data/headlines_live.json is stale
+     or absent. The widget handles this gracefully (headline_score = 0) but the
+     headline component is dark. Not a bug — by design (modular independence).
+
+  3. SMR TICKER
+     SMR (NuScale Power) has very low liquidity. yfinance may return stale or
+     zero volume data on some days. The widget handles it gracefully (UNKNOWN)
+     but it does not weight-adjust for liquidity.
+
+  4. BUCKET-LEVEL RISK PENALTY
+     The risk penalty currently applies only to the combined SPY+QQQ drop.
+     It does not detect sector-specific AI sell-offs that leave SPY flat.
+     Recommended next step: add AI-specific liquidation check (NVDA + AMD > 5%
+     simultaneous drop triggers ai_sector_penalty).
+
+
+--------------------------------------------------------------------------------
+10.13  RECOMMENDED NEXT IMPROVEMENTS
+--------------------------------------------------------------------------------
+
+  Priority 1 — MARKET HOURS DETECTION
+    Add US market open/close flag to JSON output. Show "MARKET CLOSED —
+    showing last session close" banner in dashboard card during closed hours.
+
+  Priority 2 — AI SECTOR LIQUIDATION PENALTY
+    Separate basket-specific risk penalty: if NVDA+AMD+AVGO all drop >3%
+    simultaneously, apply an ai_sector_specific_penalty regardless of SPY.
+
+  Priority 3 — CUMULATIVE SCORE HISTORY
+    Write last 10 score readings to a separate history JSON. Dashboard can
+    plot a sparkline showing thesis trend over last 100 minutes.
+
+  Priority 4 — THRESHOLD CALIBRATION
+    The current pass_pct=+0.5%/fail_pct=-0.5% thresholds produce a lot of
+    WATCH signals. Consider narrowing to 0.3%/−0.3% after observing 2 weeks
+    of live data. All changes via YAML only — zero Python changes.
+
+  Priority 5 — NEWS KEYWORD TUNING
+    The 25 headline keywords are a first approximation. After 1 week of live
+    data, review which keywords actually matched and which never fired.
+    Prune dead keywords, add new ones. YAML change only.
+
+
+--------------------------------------------------------------------------------
+10.14  LIVE READINESS ASSESSMENT
+--------------------------------------------------------------------------------
+
+  Component                  | Status      | Notes
+  ---------------------------+-------------+------------------------------------
+  Config YAML                | LIVE        | Validated, all fields present
+  Widget engine (Python)     | LIVE        | 74/74 tests passing
+  yfinance price fetch       | LIVE        | 26/26 tickers fetched
+  GitHub push                | LIVE        | HTTP 201/200, data on GitHub Pages
+  Dashboard S6 card          | LIVE        | Rendering at bluelotus/ — verified
+  Test suite                 | 74/74 PASS  | Zero warnings
+  Safety verification        | VERIFIED    | All 8 safety checks PASS
+  No-hardcoding verification | VERIFIED    | AST regression tests PASS
+
+  VERDICT: LIVE AND CONFIRMED OPERATIONAL
+
+  First live reading: 2026-06-17 05:40 SGT
+    Status     : WEAKENING (score 29/100)
+    AI Compute : FAIL (NVDA -2.37%, AVGO -4.37%, AMD -7.30%)
+    Hyperscaler: WATCH (GOOGL +1.06% partially offsets)
+    Power Grid : WATCH
+    Copper     : FAIL
+    Nuclear    : FAIL
+    CIO Action : NO_ADD
+    Add Allowed: False
+
+
+================================================================================
+  END OF REPORT
+  BlueLotus V3 — C:\bluelotus3
+  Dashboard: https://sohweekian.github.io/bluelotus/
+  Engineering Doctrine: NO HARDCODING. MODULAR DESIGN. CONFIG IS TRUTH.
+================================================================================
