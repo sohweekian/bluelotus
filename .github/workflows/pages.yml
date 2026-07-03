@@ -37,6 +37,26 @@ jobs:
         with:
           path: "/tmp/site"
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages (attempt 1)
+        id: deployment1
+        uses: actions/deploy-pages@v4
+        continue-on-error: true
+
+      - name: Wait before retry
+        if: steps.deployment1.outcome == 'failure'
+        run: sleep 15
+
+      - name: Deploy to GitHub Pages (attempt 2)
+        id: deployment2
+        if: steps.deployment1.outcome == 'failure'
+        uses: actions/deploy-pages@v4
+        continue-on-error: true
+
+      - name: Wait before retry 2
+        if: steps.deployment1.outcome == 'failure' && steps.deployment2.outcome == 'failure'
+        run: sleep 15
+
+      - name: Deploy to GitHub Pages (attempt 3)
         id: deployment
+        if: steps.deployment1.outcome == 'failure' && steps.deployment2.outcome == 'failure'
         uses: actions/deploy-pages@v4
