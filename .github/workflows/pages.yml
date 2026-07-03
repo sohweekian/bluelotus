@@ -2,12 +2,9 @@ name: Deploy GitHub Pages
 
 on:
   schedule:
-    # Rebuild every 2 hours. V3 pushes to main constantly — decoupling
-    # the Pages build from push events permanently eliminates build spam.
-    - cron: '0 */2 * * *'
-  workflow_dispatch:  # CIO can manually trigger a rebuild anytime
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
 
-# Only one deployment runs at a time.
 concurrency:
   group: "pages"
   cancel-in-progress: true
