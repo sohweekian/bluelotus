@@ -1109,8 +1109,13 @@ def build_nav(active_page: str = "") -> str:
       <li class="bl-dropdown">
         <button class="bl-dropdown-btn bl-nav-action">Forecast <span class="bl-dropdown-arrow">&#9660;</span></button>
         <div class="bl-dropdown-menu wide">
-          <a href="{b}/bluelotus-watchlist-superforecast.html"><span class="tribute-dot" style="background:#4ade80;"></span><span>Superforecast<span class="subline">78-ticker valuation + Brier tracker</span></span></a>
-          <a href="{b}/superforecasting-thesis.html"><span class="tribute-dot" style="background:#fbbf24;"></span><span>Forecast Thesis<span class="subline">Protocol, calibration, Kelly discipline</span></span></a>
+          <a href="{b}/bluelotus-watchlist-superforecast.html"><span class="tribute-dot" style="background:#4ade80;"></span><span>Superforecast Report<span class="subline">78-ticker valuation + Brier tracker</span></span></a>
+          <div class="bl-dropdown-divider"></div>
+          <a href="{b}/superforecasting-thesis.html"><span class="tribute-dot" style="background:#fbbf24;"></span><span>Research Thesis I<span class="subline">May 2026 — protocol, calibration, Kelly</span></span></a>
+          <a href="{b}/superforecasting-eipe-thesis-v3.html"><span class="tribute-dot" style="background:#a78bfa;"></span><span>Research Thesis II<span class="subline">Jun 2026 — Brier ledger, EIPE, CIO learning</span></span></a>
+          <a href="{b}/slicdo-probabilistic-intelligence-thesis-v3.html"><span class="tribute-dot" style="background:#2dd4bf;"></span><span>Research Thesis III<span class="subline">Jun 2026 — PEI, ACMS–COP, dual Brier</span></span></a>
+          <a href="{b}/bgtm-thesis.html"><span class="tribute-dot" style="background:#38bdf8;"></span><span>BGTM-V1<span class="subline">Jun 2026 — Nash equilibrium, game theory</span></span></a>
+          <a href="{b}/agentic-turn-thesis.html"><span class="tribute-dot" style="background:#c084fc;"></span><span>The Agentic Turn<span class="subline">Jun 2026 — Claude Code &amp; SE labour</span></span></a>
         </div>
       </li>
       <li class="sep"></li>
