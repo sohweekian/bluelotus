@@ -32,6 +32,43 @@ jobs:
           mkdir -p /tmp/site
           rsync -a --exclude='bluelotus-v3/' --exclude='.git/' --exclude='.github/' . /tmp/site/
 
+      - name: Patch nav - ensure all 6 Forecast theses present
+        run: |
+          python3 - <<'PYEOF'
+          import os, re
+
+          AGENTIC_ENTRY = '          <a href="https://sohweekian.github.io/bluelotus/agentic-turn-thesis.html"><span class="tribute-dot" style="background:#c084fc;"></span><span>The Agentic Turn<span class="subline">Jun 2026 — Claude Code &amp;amp; SE labour</span></span></a>\n'
+
+          BGTM_PATTERN = re.compile(
+              r'(<a href="https://sohweekian\.github\.io/bluelotus/bgtm-thesis\.html"[^\n]*\n)'
+              r'(\s*</div>)',
+              re.MULTILINE
+          )
+
+          site_dir = '/tmp/site'
+          patched = 0
+          for fname in os.listdir(site_dir):
+              if not fname.endswith('.html'):
+                  continue
+              path = os.path.join(site_dir, fname)
+              with open(path, 'r', encoding='utf-8') as f:
+                  content = f.read()
+              if 'agentic-turn-thesis.html' in content:
+                  continue
+              if 'bgtm-thesis.html' not in content:
+                  continue
+              new_content = BGTM_PATTERN.sub(
+                  lambda m: m.group(1) + AGENTIC_ENTRY + m.group(2),
+                  content
+              )
+              if new_content != content:
+                  with open(path, 'w', encoding='utf-8') as f:
+                      f.write(new_content)
+                  print(f'  patched: {fname}')
+                  patched += 1
+          print(f'Total patched: {patched} files')
+          PYEOF
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
