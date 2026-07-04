@@ -7,7 +7,6 @@ on:
     paths:
       - 'index.html'
       - 'chief-strategist.html'
-      - 'cio-letter.html'
   schedule:
     - cron: '*/10 * * * *'
   workflow_dispatch:
@@ -37,16 +36,7 @@ jobs:
       - name: Prepare site files
         run: |
           mkdir -p /tmp/site
-          rsync -a --exclude='bluelotus-v3/' --exclude='.git/' --exclude='.github/' --exclude='cio-letter.html' . /tmp/site/
-
-      - name: Add cio-letter.html (manually managed — never auto-synced)
-        run: |
-          # cio-letter.html is pushed manually via GitHub API.
-          # It is excluded from the rsync above and only deployed from the repo
-          # when the user explicitly pushes it (listed in the trigger paths above).
-          # The cron/auto-cycle carries over whatever is currently in the repo.
-          cp cio-letter.html /tmp/site/cio-letter.html
-          echo "cio-letter.html: $(wc -c < /tmp/site/cio-letter.html) bytes"
+          rsync -a --exclude='bluelotus-v3/' --exclude='.git/' --exclude='.github/' . /tmp/site/
 
       - name: Patch nav - ensure all 6 Forecast theses present
         run: |
@@ -55,41 +45,10 @@ jobs:
 
           AGENTIC_ENTRY = '          <a href="https://sohweekian.github.io/bluelotus/agentic-turn-thesis.html"><span class="tribute-dot" style="background:#c084fc;"></span><span>The Agentic Turn<span class="subline">Jun 2026 — Claude Code &amp;amp; SE labour</span></span></a>\n'
 
-          DISS_BLOCK = (
-              '          <div class="bl-dropdown-divider"></div>\n'
-              '          <a href="https://sohweekian.github.io/bluelotus/demotion-thesis.html"><span class="tribute-dot" style="background:#f97316;"></span><span>Dissertation I<span class="subline">Jul 2026 — LLM demotion &amp;amp; MVR principle</span></span></a>\n'
-              '          <a href="https://sohweekian.github.io/bluelotus/calibration-mirror-thesis.html"><span class="tribute-dot" style="background:#ec4899;"></span><span>Dissertation II<span class="subline">Jul 2026 — Calibration Mirror &amp;amp; Brier</span></span></a>\n'
-              '          <a href="https://sohweekian.github.io/bluelotus/shannon-thorp-edge-thesis.html"><span class="tribute-dot" style="background:#eab308;"></span><span>Dissertation III<span class="subline">Jul 2026 — Shannon-Thorp signal edge</span></span></a>\n'
-              '          <a href="https://sohweekian.github.io/bluelotus/prospective-event-intelligence-thesis.html"><span class="tribute-dot" style="background:#22d3ee;"></span><span>Dissertation IV<span class="subline">Jul 2026 — NITE-PEI regime transitions</span></span></a>\n'
-              '          <a href="https://sohweekian.github.io/bluelotus/agentic-production-function-thesis.html"><span class="tribute-dot" style="background:#a3e635;"></span><span>Dissertation V<span class="subline">Jul 2026 — Agentic Production Function</span></span></a>\n'
-          )
-
           BGTM_PATTERN = re.compile(
               r'(<a href="https://sohweekian\.github\.io/bluelotus/bgtm-thesis\.html"[^\n]*\n)'
               r'(\s*</div>)',
               re.MULTILINE
-          )
-
-          AGENTIC_PATTERN = re.compile(
-              r'(<a href="https://sohweekian\.github\.io/bluelotus/agentic-turn-thesis\.html"[^\n]*\n)'
-              r'(\s*</div>)',
-              re.MULTILINE
-          )
-
-          # Matches old-style 2-item dropdown: "◆ Forecast Thesis" as last entry before </div>
-          OLD_THESIS_PATTERN = re.compile(
-              r'<a href="https://sohweekian\.github\.io/bluelotus/superforecasting-thesis\.html">◆ Forecast Thesis</a>\n'
-              r'(</div>)',
-              re.MULTILINE
-          )
-
-          OLD_THESIS_REPLACEMENT = (
-              '<a href="https://sohweekian.github.io/bluelotus/superforecasting-thesis.html">◆ Research Thesis I</a>\n'
-              '<a href="https://sohweekian.github.io/bluelotus/superforecasting-eipe-thesis-v3.html">◆ Research Thesis II</a>\n'
-              '<a href="https://sohweekian.github.io/bluelotus/slicdo-probabilistic-intelligence-thesis-v3.html">◆ Research Thesis III</a>\n'
-              '<a href="https://sohweekian.github.io/bluelotus/bgtm-thesis.html">◆ BGTM-V1</a>\n'
-              '<a href="https://sohweekian.github.io/bluelotus/agentic-turn-thesis.html">◆ The Agentic Turn</a>\n'
-              '\\1'
           )
 
           site_dir = '/tmp/site'
@@ -100,22 +59,14 @@ jobs:
               path = os.path.join(site_dir, fname)
               with open(path, 'r', encoding='utf-8') as f:
                   content = f.read()
-              new_content = content
-              # Case 1: old-style 2-item Forecast dropdown -> expand to full 5-thesis nav
-              if OLD_THESIS_PATTERN.search(new_content):
-                  new_content = OLD_THESIS_PATTERN.sub(OLD_THESIS_REPLACEMENT, new_content)
-              # Case 2: pages with BGTM but without Agentic Turn -> add Agentic Turn
-              if 'bgtm-thesis.html' in new_content and 'agentic-turn-thesis.html' not in new_content:
-                  new_content = BGTM_PATTERN.sub(
-                      lambda m: m.group(1) + AGENTIC_ENTRY + m.group(2),
-                      new_content
-                  )
-              # Case 3: pages with Agentic Turn but without Dissertation I -> add 5 dissertations
-              if 'agentic-turn-thesis.html' in new_content and 'demotion-thesis.html' not in new_content:
-                  new_content = AGENTIC_PATTERN.sub(
-                      lambda m: m.group(1) + DISS_BLOCK + m.group(2),
-                      new_content
-                  )
+              if 'agentic-turn-thesis.html' in content:
+                  continue
+              if 'bgtm-thesis.html' not in content:
+                  continue
+              new_content = BGTM_PATTERN.sub(
+                  lambda m: m.group(1) + AGENTIC_ENTRY + m.group(2),
+                  content
+              )
               if new_content != content:
                   with open(path, 'w', encoding='utf-8') as f:
                       f.write(new_content)
