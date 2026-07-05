@@ -76,6 +76,43 @@ a:hover{text-decoration:underline;}
 .future-item{border:1px solid var(--border);border-radius:7px;padding:14px;}
 .future-item-title{font-size:10px;font-weight:700;color:var(--green);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;}
 .future-item-desc{font-size:10px;color:var(--muted);line-height:1.6;}
+/* Roadmap tiers */
+.rm-section{margin-bottom:32px;}
+.rm-tier-label{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:6px 14px;border-radius:4px;display:inline-flex;align-items:center;gap:7px;margin-bottom:16px;}
+.rm-tier-promoted{background:rgba(74,222,128,.1);color:var(--green);border:1px solid rgba(74,222,128,.3);}
+.rm-tier-q32026{background:rgba(251,191,36,.1);color:var(--amber);border:1px solid rgba(251,191,36,.3);}
+.rm-tier-q42026{background:rgba(251,146,60,.1);color:#fb923c;border:1px solid rgba(251,146,60,.3);}
+.rm-tier-2027{background:rgba(99,102,241,.1);color:#a5b4fc;border:1px solid rgba(99,102,241,.3);}
+.rm-tier-layer{background:rgba(45,212,191,.1);color:#2dd4bf;border:1px solid rgba(45,212,191,.3);}
+.rm-tier-speculative{background:rgba(156,163,175,.08);color:#9ca3af;border:1px solid rgba(156,163,175,.2);}
+.rm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;}
+.rm-card{border-radius:8px;padding:16px 18px;}
+.rm-card-promoted{background:rgba(74,222,128,.04);border:1px solid rgba(74,222,128,.2);}
+.rm-card-q3{background:rgba(251,191,36,.04);border:1px solid rgba(251,191,36,.2);}
+.rm-card-q4{background:rgba(251,146,60,.04);border:1px solid rgba(251,146,60,.2);}
+.rm-card-2027{background:rgba(99,102,241,.04);border:1px solid rgba(99,102,241,.2);}
+.rm-card-layer{background:rgba(45,212,191,.04);border:1px solid rgba(45,212,191,.2);}
+.rm-card-speculative{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.07);}
+.rm-name{font-size:11px;font-weight:700;color:var(--text);margin-bottom:2px;}
+.rm-index{font-size:9px;letter-spacing:.1em;color:var(--muted);margin-bottom:8px;}
+.rm-trigger{font-size:10px;color:var(--muted);line-height:1.6;}
+.rm-trigger strong{color:var(--text);}
+.rm-signal{font-size:9px;letter-spacing:.08em;font-style:italic;color:var(--accent);margin-top:6px;}
+.rm-badge{font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-left:6px;}
+.rm-badge-live{background:rgba(74,222,128,.15);color:var(--green);border:1px solid rgba(74,222,128,.3);}
+.rm-badge-cond{background:rgba(251,191,36,.1);color:var(--amber);border:1px solid rgba(251,191,36,.25);}
+.rm-badge-design{background:rgba(192,132,252,.1);color:var(--accent);border:1px solid rgba(192,132,252,.25);}
+.rm-target-box{font-size:9px;letter-spacing:.12em;color:var(--muted);margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.05);}
+.rm-promoted-link{font-size:10px;font-weight:700;color:var(--green);}
+.rm-promoted-link a{color:var(--green);}
+.rm-progress-bar{height:3px;border-radius:2px;margin-top:8px;overflow:hidden;background:rgba(255,255,255,.06);}
+.rm-progress-fill{height:100%;border-radius:2px;}
+/* Stats strip */
+.rm-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-bottom:32px;border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.rm-stat{padding:16px;text-align:center;border-right:1px solid var(--border);}
+.rm-stat:last-child{border-right:none;}
+.rm-stat-num{font-size:24px;font-weight:800;letter-spacing:-.02em;}
+.rm-stat-label{font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
 
 /* Page footer */
 .page-footer{text-align:center;padding:40px 32px;color:var(--muted);border-top:1px solid var(--border);margin-top:24px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;}
@@ -599,65 +636,240 @@ a:hover{text-decoration:underline;}
 <!-- ═══ FUTURE INCLUSIONS ═══ -->
 <div class="future-box" id="future">
   <div class="future-inner">
-    <div class="future-title">Planned Future Inclusions — Upgrade Roadmap</div>
-    <p style="font-size:11px;color:var(--muted);margin-bottom:20px;line-height:1.7;">The following economies are on the upgrade roadmap. As the triggers below are met, they will be promoted from excluded to active canaries. The system is designed to expand — not to remain static.</p>
-    <div class="future-grid">
-      <div class="future-item">
-        <div class="future-item-title">🇮🇳 India (RBI) — NEXT</div>
-        <div class="future-item-desc">Priority Round 2. First canary built after the current expansion. Kill condition architecture design session required. Target: Q3 2026 build.</div>
+    <div class="future-title">🗺 Planned Future Inclusions — Upgrade Roadmap</div>
+    <p style="font-size:11px;color:var(--muted);margin-bottom:28px;line-height:1.8;">The following economies are on the upgrade roadmap. As the triggers below are met, they will be promoted from excluded to active canaries. <strong style="color:var(--text);">The system is designed to expand — not to remain static.</strong> Current target: 50 active canaries by Q2 2027, culminating in the Global Capital Flow Compass synthesis layer.</p>
+
+    <!-- Stats strip -->
+    <div class="rm-stats">
+      <div class="rm-stat">
+        <div class="rm-stat-num" style="color:var(--green);">40</div>
+        <div class="rm-stat-label">Active Canaries<br/>July 2026</div>
       </div>
-      <div class="future-item">
-        <div class="future-item-title">🇵🇰 Pakistan (SBP)</div>
-        <div class="future-item-desc">Add when: CPI sustainably below 15% AND rupee in credible band. Nuclear + IMF kill condition architecture needed. Target: Q4 2026 if reform holds.</div>
+      <div class="rm-stat">
+        <div class="rm-stat-num" style="color:#fb923c;">3</div>
+        <div class="rm-stat-label">Just Promoted<br/>Round 3</div>
       </div>
-      <div class="future-item">
-        <div class="future-item-title">🇧🇩 Bangladesh (BB)</div>
-        <div class="future-item-desc">Add when: Yunus government stabilises OR elected government confirmed. Garment manufacturing signal currently invisible in system. Target: Q2 2027.</div>
+      <div class="rm-stat">
+        <div class="rm-stat-num" style="color:var(--amber);">7</div>
+        <div class="rm-stat-label">On Deck<br/>Q4 2026</div>
       </div>
-      <div class="future-item">
-        <div class="future-item-title">🇳🇴 Norway (Norges Bank)</div>
-        <div class="future-item-desc">Add for GPF-Global ($1.7T AUM) capital flow lens. NOK petro-currency signal. Target: Round 2 alongside India.</div>
+      <div class="rm-stat">
+        <div class="rm-stat-num" style="color:#a5b4fc;">6</div>
+        <div class="rm-stat-label">2027 Roadmap<br/>Conditional</div>
       </div>
-      <div class="future-item">
-        <div class="future-item-title">🇰🇿 Kazakhstan (NBK)</div>
-        <div class="future-item-desc">Add when: Trans-Caspian pipeline route bypasses Russia OR uranium explicitly priced in commodity layer. World's largest uranium producer (43% supply).</div>
+      <div class="rm-stat">
+        <div class="rm-stat-num" style="color:#2dd4bf;">50+</div>
+        <div class="rm-stat-label">Target Network<br/>Q2 2027</div>
       </div>
-      <div class="future-item">
-        <div class="future-item-title">🇵🇪 Peru (BCRP)</div>
-        <div class="future-item-desc">Add when: Political baseline stabilises (5 presidents since 2018). World's 2nd largest copper producer. BCCh partially proxies until then.</div>
+    </div>
+
+    <!-- TIER 0: Recently Promoted -->
+    <div class="rm-section">
+      <div class="rm-tier-label rm-tier-promoted">✅ ROUND 3 — JUST PROMOTED &nbsp;·&nbsp; JULY 2026</div>
+      <div class="rm-grid">
+        <div class="rm-card rm-card-promoted">
+          <div class="rm-name">🇮🇳 Reserve Bank of India <span class="rm-badge rm-badge-live">LIVE</span></div>
+          <div class="rm-index">RBI INDIA · IKRI · Domain #73</div>
+          <div class="rm-trigger"><strong>Why now:</strong> World's fastest-growing major economy (8.2% FY2024 GDP). Monsoon dependency creates unique food inflation kill condition. India-Pakistan/China dual nuclear-armed geopolitical front. Apple/Foxconn China+1 manufacturing renaissance creates inverse bullish signal for AAPL.</div>
+          <div class="rm-signal">Current IKRI: 0.3850 WATCH — "The Canary Is Watching"</div>
+          <div class="rm-promoted-link">→ <a href="https://sohweekian.github.io/bluelotus/canary/RBI_India_Canary_Q3_2026_Brief.html">View RBI India Brief</a></div>
+        </div>
+        <div class="rm-card rm-card-promoted">
+          <div class="rm-name">🇳🇴 Norges Bank Norway <span class="rm-badge rm-badge-live">LIVE</span></div>
+          <div class="rm-index">NORGES BANK · NKRI · Domain #74</div>
+          <div class="rm-trigger"><strong>Why now:</strong> Government Pension Fund Global ($1.7 trillion AUM — world's largest sovereign wealth fund). NKRI tracks GPF-Global allocation shifts that move global equity markets. NOK is the world's purest petro-currency. Oil price KC is a direct global commodity signal.</div>
+          <div class="rm-signal">Current NKRI: 0.2350 NORMAL — "The Canary Is Silent"</div>
+          <div class="rm-promoted-link">→ <a href="https://sohweekian.github.io/bluelotus/canary/NorgesBank_Norway_Canary_Q3_2026_Brief.html">View Norges Bank Brief</a></div>
+        </div>
+        <div class="rm-card rm-card-promoted">
+          <div class="rm-name">🇸🇪 Riksbank Sweden <span class="rm-badge rm-badge-live">LIVE</span></div>
+          <div class="rm-index">RIKSBANK · SKRI · Domain #75</div>
+          <div class="rm-trigger"><strong>Why now:</strong> First central bank to adopt negative rates (2015) and first to fully exit (2024) — makes it the world's forward monetary policy signal. Sweden's housing bubble (KC_02) is the most overextended in the developed world. NATO accession and Baltic security nexus adds geopolitical dimension.</div>
+          <div class="rm-signal">Current SKRI: 0.2650 WATCH — "The Canary Is Watching"</div>
+          <div class="rm-promoted-link">→ <a href="https://sohweekian.github.io/bluelotus/canary/Riksbank_Sweden_Canary_Q3_2026_Brief.html">View Riksbank Brief</a></div>
+        </div>
       </div>
-      <div class="future-item">
-        <div class="future-item-title">🇬🇭 Ghana (BOG)</div>
-        <div class="future-item-desc">Add post-debt-restructuring completion. Same trajectory as Sri Lanka. Target: 2027 once IMF programme stabilises BOG credibility.</div>
+    </div>
+
+    <!-- TIER 1: On Deck Q4 2026 -->
+    <div class="rm-section">
+      <div class="rm-tier-label rm-tier-q42026">⏳ ON DECK — Q4 2026 / Q1 2027 &nbsp;·&nbsp; CONDITIONAL TRIGGERS</div>
+      <div class="rm-grid">
+        <div class="rm-card rm-card-q4">
+          <div class="rm-name">🇵🇰 Pakistan (SBP) <span class="rm-badge rm-badge-cond">CONDITIONAL</span></div>
+          <div class="rm-index">State Bank of Pakistan · PKRI</div>
+          <div class="rm-trigger"><strong>Add when:</strong> CPI sustainably below 15% AND PKR in credible IMF-monitored band for ≥2 quarters. <strong>Architecture required:</strong> Nuclear + IMF dual kill condition framework is the most complex in the canary network. Pakistan is simultaneously a nuclear-armed state (KC_01 single trigger) and a chronic IMF borrower (20th programme in 2023). Two kill conditions require distinct NLP detectors in Urdu and English.</div>
+          <div class="rm-signal">Signal value: High — India-Pakistan geopolitical dyad, China CPEC chokepoint, Afghan border instability</div>
+          <div class="rm-target-box">TARGET: Q4 2026 if reform momentum holds · Design session required</div>
+        </div>
+        <div class="rm-card rm-card-q4">
+          <div class="rm-name">🇲🇦 Morocco (BAM) <span class="rm-badge rm-badge-cond">CONDITIONAL</span></div>
+          <div class="rm-index">Bank Al-Maghrib · MKRI</div>
+          <div class="rm-trigger"><strong>Add when:</strong> EU-Morocco FTA Phase II advances OR phosphate export concentration exceeds threshold. <strong>Why impactful:</strong> World's largest phosphate reserves (70%+ of global reserves excluding USA). Renault, Stellantis, Boeing manufacturing hub. Green hydrogen ambitions. Atlantic bridge between Europe and Africa. Morocco's BAM is credible and data-transparent.</div>
+          <div class="rm-signal">Signal value: Very High — food security (phosphates = fertilizer = food prices globally), EU supply chain proxy</div>
+          <div class="rm-target-box">TARGET: Round 4 when EU FTA advances · Phosphate price layer design pending</div>
+        </div>
+        <div class="rm-card rm-card-q4">
+          <div class="rm-name">🇵🇱 Poland (NBP) <span class="rm-badge rm-badge-cond">CONDITIONAL</span></div>
+          <div class="rm-index">Narodowy Bank Polski · PLRI</div>
+          <div class="rm-trigger"><strong>Add when:</strong> EU defence spending floor becomes binding macroeconomic theme. <strong>Why impactful:</strong> 4% GDP defence spending — highest in NATO. Largest non-eurozone EU economy. Artillery shell production hub for Ukraine. Poland is the eastern flank anchor for NATO and is accumulating gold reserves aggressively. PLN is underpriced in the canary network.</div>
+          <div class="rm-signal">Signal value: High — NATO frontline, defence industrial complex, EU non-eurozone inflation divergence</div>
+          <div class="rm-target-box">TARGET: Q4 2026 if EU defence macro theme escalates</div>
+        </div>
+        <div class="rm-card rm-card-q4">
+          <div class="rm-name">🇰🇿 Kazakhstan (NBK) <span class="rm-badge rm-badge-cond">CONDITIONAL</span></div>
+          <div class="rm-index">National Bank of Kazakhstan · KZRI</div>
+          <div class="rm-trigger"><strong>Add when:</strong> Trans-Caspian pipeline route bypasses Russia AND/OR uranium explicitly priced in commodity layer. <strong>Why impactful:</strong> World's largest uranium producer (43% of global supply) — single chokepoint for nuclear energy supply chains globally. Also significant oil (BTC pipeline) and rare earth deposits. Kazakhstan is the keystone of Central Asia's post-Russia realignment.</div>
+          <div class="rm-signal">Signal value: Very High — uranium, oil, rare earths, Russia bypass corridor, China BRI node</div>
+          <div class="rm-target-box">TARGET: Q4 2026 when uranium pricing layer is designed</div>
+        </div>
+        <div class="rm-card rm-card-q4">
+          <div class="rm-name">🇨🇿 Czech Republic (CNB) <span class="rm-badge rm-badge-design">DESIGN</span></div>
+          <div class="rm-index">Czech National Bank · CZRI</div>
+          <div class="rm-trigger"><strong>Add when:</strong> Czech CNB becomes a standalone forward indicator of Central European monetary divergence from ECB. <strong>Why impactful:</strong> Czech Republic is the most industrialised Central European economy (Skoda/VW supply chain, aerospace). CNB was the first European central bank to hike post-COVID (June 2021) — genuine leading indicator. CZK holds its own against EUR, making it a non-ECB signal.</div>
+          <div class="rm-signal">Signal value: Medium-High — early hiker signal, automotive supply chain, EU-Russia energy corridor proxy</div>
+          <div class="rm-target-box">TARGET: Q4 2026 as Central European bloc expansion</div>
+        </div>
+        <div class="rm-card rm-card-q4">
+          <div class="rm-name">🇸🇦 Saudi Arabia Vision 2030 Monitor</div>
+          <div class="rm-index">SAMA Extension Layer · SARI+</div>
+          <div class="rm-trigger"><strong>Supplement to existing SAMA canary:</strong> As Vision 2030 execution accelerates (NEOM, giga-projects, Aramco diversification, LIV Golf sovereign wealth deployment), a dedicated SARI+ instrument tracking PIF (Public Investment Fund, $700B) allocation shifts alongside SAMA is warranted. Not a new canary — an intelligence extension layer.</div>
+          <div class="rm-signal">Signal value: High — PIF allocation = sovereign capital flow signal for global markets</div>
+          <div class="rm-target-box">TARGET: Extension to SAMA brief by Q4 2026</div>
+        </div>
+        <div class="rm-card rm-card-q4">
+          <div class="rm-name">🇮🇩 BI Indonesia Extended Layer</div>
+          <div class="rm-index">Bank Indonesia Extension · IKRI+</div>
+          <div class="rm-trigger"><strong>Supplement to existing BI canary:</strong> Indonesia's nickel dominance (40%+ of global reserves, critical for EV batteries) and its 275M population (4th largest) make a dedicated commodity layer extension warranted. A nickel/cobalt price kill condition separate from the monetary IKRI would capture the EV supply chain signal more precisely.</div>
+          <div class="rm-signal">Signal value: High — nickel, EV battery supply chain, largest ASEAN economy</div>
+          <div class="rm-target-box">TARGET: BI+Nickel layer by Q4 2026</div>
+        </div>
       </div>
-      <div class="future-item">
-        <div class="future-item-title">🇲🇦 Morocco (BAM)</div>
-        <div class="future-item-desc">Add as Europe-Africa supply chain proxy matures. Renault/Stellantis/Boeing manufacturing hub. Target: Round 2 when FTA with EU advances.</div>
+    </div>
+
+    <!-- TIER 2: 2027 Roadmap -->
+    <div class="rm-section">
+      <div class="rm-tier-label rm-tier-2027">📅 2027 ROADMAP — LONGER-HORIZON PROMOTIONS</div>
+      <div class="rm-grid">
+        <div class="rm-card rm-card-2027">
+          <div class="rm-name">🇧🇩 Bangladesh (BB)</div>
+          <div class="rm-index">Bangladesh Bank · BDRI · Target: Q2 2027</div>
+          <div class="rm-trigger"><strong>Add when:</strong> Yunus government stabilises OR elected government confirmed. <strong>Why impactful:</strong> World's 2nd largest garment exporter (38M workers). Garment manufacturing signal is currently invisible in the canary network — Bangladesh represents a unique labour-cost and supply chain canary for global apparel pricing. BDT stability and political governance are the preconditions.</div>
+          <div class="rm-target-box">TARGET: Q2 2027 · Conditional on political stabilisation</div>
+        </div>
+        <div class="rm-card rm-card-2027">
+          <div class="rm-name">🇬🇭 Ghana (BOG)</div>
+          <div class="rm-index">Bank of Ghana · GHRI · Target: Q3 2027</div>
+          <div class="rm-trigger"><strong>Add when:</strong> IMF programme debt restructuring is complete and BOG credibility is restored. Ghana is the most instructive debt-restructuring case study of the 2020s (defaulted Dec 2022, IMF programme Apr 2023). The BOG canary will become a leading indicator for sub-Saharan African sovereign debt stress — a signal class currently absent from the network.</div>
+          <div class="rm-target-box">TARGET: Q3 2027 · Requires IMF programme completion</div>
+        </div>
+        <div class="rm-card rm-card-2027">
+          <div class="rm-name">🇵🇪 Peru (BCRP)</div>
+          <div class="rm-index">Banco Central de Reserva del Perú · PERI</div>
+          <div class="rm-trigger"><strong>Add when:</strong> Political baseline stabilises (5 presidents since 2018). <strong>Why impactful:</strong> World's 2nd largest copper producer (12% global supply) and 1st in silver. BCCh Chile currently partially proxies via the copper price kill condition. A standalone Peru canary would resolve the political risk premium embedded in copper pricing. BCRP is technically credible.</div>
+          <div class="rm-target-box">TARGET: 2027 · Requires 2-year political stability window</div>
+        </div>
+        <div class="rm-card rm-card-2027">
+          <div class="rm-name">🇸🇪 Riksbank Extension — Baltic Security</div>
+          <div class="rm-index">Riksbank+NATO Layer · SKRI+</div>
+          <div class="rm-trigger"><strong>Extension to existing Riksbank canary:</strong> Sweden's NATO accession (2024) creates a new geopolitical kill condition dimension not captured in the current SKRI. A Baltic security extension layer tracking Russian submarine activity, Finnish-Swedish-Norwegian defence spending coordination, and Nord Stream II legacy is warranted as the NATO-Russia fault line hardens.</div>
+          <div class="rm-target-box">TARGET: Extension by Q1 2027</div>
+        </div>
+        <div class="rm-card rm-card-2027">
+          <div class="rm-name">🇱🇰 Sri Lanka (CBSL)</div>
+          <div class="rm-index">Central Bank of Sri Lanka · LKRI</div>
+          <div class="rm-trigger"><strong>Add when:</strong> IMF Extended Fund Facility programme reaches 18-month milestone with sustained compliance. Sri Lanka's 2022 default and recovery is the most documented EM sovereign stress case of the decade. A CBSL canary would provide the purest small-open-economy IMF-conditionality signal — a forward indicator for Ghana, Pakistan, and other programme economies.</div>
+          <div class="rm-target-box">TARGET: Q2 2027 · IMF programme milestone gate</div>
+        </div>
+        <div class="rm-card rm-card-2027">
+          <div class="rm-name">🇪🇹 Ethiopia (NBE)</div>
+          <div class="rm-index">National Bank of Ethiopia · ETERI</div>
+          <div class="rm-trigger"><strong>Add when:</strong> Tigray peace agreement holds for 24 months AND NBE publishing frequency increases to monthly. <strong>Why impactful:</strong> Fastest-growing large African economy pre-conflict. BRICS observer status. Grand Ethiopian Renaissance Dam (GERD) is the most consequential water infrastructure project in Africa — downstream impact on Egypt and Sudan is a direct signal to our CBE Egypt canary.</div>
+          <div class="rm-target-box">TARGET: Q3 2027 · Peace stability and data quality gates</div>
+        </div>
       </div>
-      <div class="future-item">
-        <div class="future-item-title">🇨🇩 DRC Cobalt Monitor</div>
-        <div class="future-item-desc">Not a CB canary — a commodity layer instrument. World's 70%+ cobalt supply. Required for complete EV battery supply chain intelligence. Design pending.</div>
+    </div>
+
+    <!-- TIER 3: Commodity & Synthesis Layers -->
+    <div class="rm-section">
+      <div class="rm-tier-label rm-tier-layer">🌐 INTELLIGENCE LAYERS — CROSS-CANARY SYNTHESIS</div>
+      <div class="rm-grid">
+        <div class="rm-card rm-card-layer">
+          <div class="rm-name">🌐 Global Capital Flow Compass</div>
+          <div class="rm-index">Synthesis Layer · Requires 40+ Active Canaries</div>
+          <div class="rm-trigger"><strong>Architecture:</strong> A meta-layer running across all 50+ active canaries. Produces a real-time inflow/outflow/cascade map showing which territories are absorbing capital, which are exporting stress, and which are acting as transmission vectors. The Compass would be the first unified global macro intelligence instrument in CivilisationOS. <strong>Minimum 40 active canaries required to be statistically meaningful.</strong> We now have 40. Design begins Q3 2026.</div>
+          <div class="rm-signal">🚦 40 canaries active — UNLOCK CONDITION MET. Design commencing Q3 2026.</div>
+          <div class="rm-target-box">TARGET: Q4 2026 · Architecture design session required</div>
+          <div class="rm-progress-bar"><div class="rm-progress-fill" style="width:100%;background:var(--green);"></div></div>
+        </div>
+        <div class="rm-card rm-card-layer">
+          <div class="rm-name">🇨🇩 DRC Cobalt Monitor</div>
+          <div class="rm-index">Commodity Layer Instrument · Not a CB canary</div>
+          <div class="rm-trigger"><strong>Architecture:</strong> Not modelled as a central bank canary — modelled as a commodity chokepoint instrument. The DRC controls 70%+ of global cobalt supply, making it the single most important bottleneck in EV battery supply chains. A dedicated DRC Cobalt Monitor would track artisanal mining output, Glencore/CMOC production levels, US-China cobalt stockpiling, and USGS supply disruption alerts. Required for complete EV battery supply chain intelligence.</div>
+          <div class="rm-signal">Signal value: Critical — EV batteries, defence batteries, aerospace alloys, chip manufacturing</div>
+          <div class="rm-target-box">TARGET: Q1 2027 · Commodity layer design session pending</div>
+        </div>
+        <div class="rm-card rm-card-layer">
+          <div class="rm-name">🌾 Global Food Security Layer</div>
+          <div class="rm-index">Commodity Layer · El Niño / ENSO Tracker</div>
+          <div class="rm-trigger"><strong>Architecture:</strong> A cross-canary food security synthesis layer aggregating signals from CBK Kenya (drought), RBI India (monsoon), SBV Vietnam (Mekong delta), CBN Nigeria (Sahel), and CBE Egypt (Nile). The El Niño/La Niña ENSO cycle is the single most powerful exogenous macro shock to food inflation globally. A standalone layer would synthesise the distributed food signals already embedded in multiple canaries into a unified food security intelligence product.</div>
+          <div class="rm-signal">Signal value: Very High — directly feeds into inflation trajectories across 12+ active canaries</div>
+          <div class="rm-target-box">TARGET: Q4 2026 alongside Global Capital Flow Compass</div>
+        </div>
+        <div class="rm-card rm-card-layer">
+          <div class="rm-name">⚡ Critical Minerals Supply Chain Layer</div>
+          <div class="rm-index">Commodity Layer · Rare Earths / Semiconductors</div>
+          <div class="rm-trigger"><strong>Architecture:</strong> A synthesis layer aggregating rare earth and critical mineral signals from PBOC China (gallium/germanium export controls — KC_04 SINGLE TRIGGER), BOK Korea (HBM/semiconductor), TSMC Taiwan (CoWoS/advanced packaging), DRC Cobalt Monitor (cobalt), Kazakhstan NBK (uranium), and MP Materials (US rare earths). The PBOC KC_04 single trigger is already the most dangerous supply chain condition in the current network. A dedicated synthesis layer would aggregate all critical mineral signals into a unified geopolitical supply chain risk score.</div>
+          <div class="rm-signal">Signal value: Critical — semiconductors, defence, EV, renewables all depend on this signal cluster</div>
+          <div class="rm-target-box">TARGET: Q1 2027 · Requires DRC + Kazakhstan + MP Materials data integration</div>
+        </div>
       </div>
-      <div class="future-item">
-        <div class="future-item-title">🇵🇱 Poland (NBP)</div>
-        <div class="future-item-desc">Add if EU defence spending becomes a macro theme. Poland spends 4% GDP on defence — highest in NATO. Largest non-eurozone EU economy.</div>
+    </div>
+
+    <!-- TIER 4: Speculative / Long-horizon -->
+    <div class="rm-section">
+      <div class="rm-tier-label rm-tier-speculative">🔮 LONG-HORIZON — SPECULATIVE OR REGIME-CHANGE DEPENDENT</div>
+      <div class="rm-grid">
+        <div class="rm-card rm-card-speculative">
+          <div class="rm-name">🇮🇷 Iran (CBI)</div>
+          <div class="rm-index">Central Bank of Iran · Sanctions Monitor</div>
+          <div class="rm-trigger">Currently: Structurally impossible (Category 1). <strong>Add if:</strong> Comprehensive nuclear deal restores Iran to SWIFT. Iran's 4th largest proven oil reserves and geopolitical position (Strait of Hormuz, Hezbollah, Houthi command and control) make it the highest-value excluded canary in the network. A sanctions-monitor instrument (not a full canary) could be built without SWIFT access.</div>
+          <div class="rm-target-box">Horizon: Regime-change or nuclear deal dependent · No time target</div>
+        </div>
+        <div class="rm-card rm-card-speculative">
+          <div class="rm-name">🇦🇿 Azerbaijan (CBAR)</div>
+          <div class="rm-index">Central Bank of Azerbaijan · AZRI</div>
+          <div class="rm-trigger"><strong>Add when:</strong> Trans-Caspian International Transport Route (TITR) volumes exceed 15 million tonnes annually, making Azerbaijan a verified Russia-bypass energy corridor. BTC (Baku-Tbilisi-Ceyhan) pipeline carries 1% of global oil. Nagorno-Karabakh resolution removes political risk premium. Aliyev government's energy diplomacy makes CBAR a potential South Caucasus anchor.</div>
+          <div class="rm-target-box">TARGET: 2027 · Trans-Caspian volume trigger</div>
+        </div>
+        <div class="rm-card rm-card-speculative">
+          <div class="rm-name">🇷🇸 Serbia (NBS)</div>
+          <div class="rm-index">National Bank of Serbia · RSRI</div>
+          <div class="rm-trigger"><strong>Add when:</strong> EU accession negotiation Chapter 27 (Environment) closes OR Serbian lithium deposits (Jadar — world-class) enter active production. Rio Tinto's Jadar project is the largest lithium deposit in Europe. Serbia is simultaneously an EU accession candidate, China Belt-and-Road partner, and Russia-adjacent neutral. Fiat/Stellantis manufacturing hub. RSRI would be the only Balkans canary.</div>
+          <div class="rm-target-box">TARGET: 2027 · Lithium production trigger OR EU accession milestone</div>
+        </div>
+        <div class="rm-card rm-card-speculative">
+          <div class="rm-name">🇻🇪 Venezuela (BCV)</div>
+          <div class="rm-index">Central Bank of Venezuela · Sanctions Monitor</div>
+          <div class="rm-trigger">Currently: Structurally impossible (Category 1) — hyperinflation, OFAC sanctions, parallel FX markets, data opacity. <strong>Monitor if:</strong> Maduro government accepts free elections with international observers OR US sanctions waiver is extended to oil sector. Venezuela holds world's largest proven oil reserves (303 billion barrels). A BCV normalisation would transform global oil market dynamics.</div>
+          <div class="rm-target-box">Horizon: Political regime-change dependent · No time target</div>
+        </div>
       </div>
-      <div class="future-item">
-        <div class="future-item-title">🇸🇪 Sweden (Riksbank)</div>
-        <div class="future-item-desc">Policy pioneer (first negative rates, first to exit). Add in Round 2 expansion as ECB-adjacent signal with independent krona dimension.</div>
-      </div>
-      <div class="future-item">
-        <div class="future-item-title">🌐 Global Capital Flow Compass</div>
-        <div class="future-item-desc">Synthesis layer running across all 50+ canaries. Produces inflow/outflow/cascade map. Requires minimum 40 active canaries to be meaningful. Target: Q4 2026.</div>
-      </div>
+    </div>
+
+    <!-- Closing principle -->
+    <div style="margin-top:28px;padding:20px 24px;background:rgba(192,132,252,.05);border:1px solid rgba(192,132,252,.15);border-radius:8px;font-size:11px;line-height:1.8;color:var(--muted);">
+      <strong style="color:var(--accent);">CivilisationOS Expansion Doctrine:</strong> The network grows methodically — not promiscuously. Each promotion must pass the 5-criterion filter (Systemic Weight, Capital Flow Chokepoint, Commodity Anchor, Geopolitical Transmission, Regional Signal) plus a kill condition architecture review. Speed of expansion is constrained by signal quality, not by ambition. A weak canary corrupts the network. A strong canary amplifies every other.
+      <br/><br/>
+      <strong style="color:var(--text);">The objective:</strong> 50 active canaries + 4 cross-canary synthesis layers = the most comprehensive sovereign monetary intelligence network in systematic macro investing. Target: Q2 2027.
     </div>
   </div>
 </div>
 
 <footer class="page-footer">
-  <strong>CivilisationOS — Exclusion Registry</strong><br/>
-  Every exclusion has a reason. Every reason has a reversal condition. The system grows as the world changes.<br/>
-  BlueLotus Fund &mdash; Q3 2026 &mdash; Last Updated: July 2026
+  <strong>CivilisationOS — Exclusion Registry &amp; Upgrade Roadmap</strong><br/>
+  Every exclusion has a reason. Every reason has a reversal condition. Every promotion earns its slot.<br/>
+  BlueLotus Fund &mdash; Q3 2026 &mdash; 40 Active Canaries &mdash; Target: 50+ by Q2 2027 &mdash; Last Updated: July 2026
 </footer>
 
 </body>
