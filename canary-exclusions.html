@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Canary Exclusion Rationale — CivilisationOS</title>
+<style>
+:root{
+  --bg:#08080e;--surface:#0f0f1a;--surface2:#13131f;
+  --border:rgba(192,132,252,0.12);--text:#ddd8f0;
+  --muted:rgba(221,216,240,0.45);--accent:#c084fc;
+  --green:#4ade80;--amber:#fbbf24;--red:#f87171;--radius:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'JetBrains Mono','Courier New',monospace;font-size:13px;line-height:1.7;padding-top:0;}
+a{text-decoration:none;color:var(--accent);}
+a:hover{text-decoration:underline;}
+
+/* Hero */
+.hero{max-width:1100px;margin:0 auto;padding:60px 32px 40px;border-bottom:1px solid var(--border);margin-bottom:48px;text-align:center;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);border:1px solid rgba(251,191,36,.22);background:rgba(251,191,36,.06);padding:5px 14px;border-radius:20px;margin-bottom:24px;}
+.hero-title{font-size:32px;font-weight:800;letter-spacing:-.01em;background:linear-gradient(135deg,#fde68a 0%,#fbbf24 50%,#f59e0b 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:12px;}
+.hero-sub{font-size:13px;color:var(--muted);max-width:700px;margin:0 auto 24px;letter-spacing:.02em;}
+.hero-principle{display:inline-block;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px 24px;font-size:11px;color:var(--text);line-height:1.8;text-align:left;max-width:700px;margin:0 auto;}
+.hero-principle strong{color:var(--accent);}
+
+/* Filter criteria */
+.filter-box{max-width:1100px;margin:0 auto 48px;padding:0 32px;}
+.filter-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+.filter-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;}
+.filter-letter{font-size:20px;font-weight:800;color:var(--accent);display:block;margin-bottom:6px;}
+.filter-name{font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--text);display:block;margin-bottom:4px;}
+.filter-desc{font-size:10px;color:var(--muted);line-height:1.5;}
+
+/* Categories */
+.cat-section{max-width:1100px;margin:0 auto 16px;padding:0 32px;}
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin-top:16px;}
+.cat-card{background:var(--surface);border:1px solid rgba(251,191,36,.12);border-radius:8px;padding:14px 16px;display:flex;align-items:flex-start;gap:12px;}
+.cat-icon{font-size:18px;flex-shrink:0;margin-top:2px;}
+.cat-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);display:block;margin-bottom:3px;}
+.cat-desc{font-size:10px;color:var(--muted);line-height:1.5;}
+
+/* Region sections */
+.region{max-width:1100px;margin:0 auto 56px;padding:0 32px;}
+.region-header{border-bottom:1px solid var(--border);padding-bottom:14px;margin-bottom:24px;}
+.region-flag{font-size:22px;margin-right:10px;}
+.region-title{font-size:15px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);}
+.region-sub{font-size:10px;color:var(--muted);letter-spacing:.06em;margin-top:4px;}
+.region-intro{font-size:11px;color:var(--muted);line-height:1.8;margin-bottom:20px;padding:14px 16px;background:var(--surface);border:1px solid var(--border);border-radius:8px;border-left:3px solid var(--amber);}
+.region-intro strong{color:var(--text);}
+
+/* Exclusion table */
+.exc-table{width:100%;border-collapse:collapse;font-size:11px;}
+.exc-table th{text-align:left;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);padding:10px 14px;border-bottom:1px solid var(--border);}
+.exc-table td{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top;}
+.exc-table tr:last-child td{border-bottom:none;}
+.exc-table tr:hover td{background:rgba(255,255,255,.02);}
+.country-cell{display:flex;align-items:center;gap:8px;}
+.country-flag{font-size:16px;flex-shrink:0;}
+.country-name{font-weight:700;color:var(--text);display:block;font-size:11px;}
+.country-cb{font-size:9px;color:var(--muted);letter-spacing:.08em;}
+.cat-badge{font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:4px;white-space:nowrap;}
+.cat-1{background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3);}
+.cat-2{background:rgba(99,102,241,.15);color:#a5b4fc;border:1px solid rgba(99,102,241,.3);}
+.cat-3{background:rgba(156,163,175,.1);color:#9ca3af;border:1px solid rgba(156,163,175,.2);}
+.cat-4{background:rgba(251,191,36,.12);color:var(--amber);border:1px solid rgba(251,191,36,.25);}
+.exc-reason{color:var(--muted);line-height:1.7;font-size:11px;}
+.exc-reason strong{color:var(--text);}
+.round2-tag{display:inline-block;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--green);border:1px solid rgba(74,222,128,.25);background:rgba(74,222,128,.06);padding:1px 6px;border-radius:3px;margin-left:6px;}
+
+/* Future inclusion note */
+.future-box{max-width:1100px;margin:0 auto 48px;padding:0 32px;}
+.future-inner{background:var(--surface);border:1px solid rgba(192,132,252,.25);border-radius:10px;padding:28px 32px;}
+.future-title{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;}
+.future-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;}
+.future-item{border:1px solid var(--border);border-radius:7px;padding:14px;}
+.future-item-title{font-size:10px;font-weight:700;color:var(--green);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;}
+.future-item-desc{font-size:10px;color:var(--muted);line-height:1.6;}
+
+/* Page footer */
+.page-footer{text-align:center;padding:40px 32px;color:var(--muted);border-top:1px solid var(--border);margin-top:24px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;}
+.page-footer strong{color:var(--accent);}
+
+/* Nav pill */
+.region-nav{max-width:1100px;margin:0 auto 40px;padding:0 32px;display:flex;gap:8px;flex-wrap:wrap;}
+.rnav-pill{font-size:9px;letter-spacing:.13em;text-transform:uppercase;border:1px solid var(--border);color:var(--muted);padding:5px 14px;border-radius:20px;transition:all .18s;}
+.rnav-pill:hover{border-color:var(--accent);color:var(--accent);background:rgba(192,132,252,.07);}
+
+@media(max-width:720px){
+  .hero{padding:40px 16px 28px;}
+  .region{padding:0 16px;}
+  .filter-box,.future-box,.region-nav,.cat-section{padding:0 16px;}
+  .exc-table td:nth-child(3){display:none;}
+  .hero-title{font-size:22px;}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">⚠ Canary Exclusion Registry</div>
+  <h1 class="hero-title">Why These Economies Are Not Canaries</h1>
+  <p class="hero-sub">CivilisationOS applies a strict 5-criterion selection filter. Every excluded economy has a documented reason. As circumstances change — regimes fall, reforms take hold, financial markets open — these exclusions will be revisited and upgraded.</p>
+  <div class="hero-principle">
+    <strong>The Selection Principle:</strong> A canary earns a slot if it passes ≥2 of 5 criteria:<br/>
+    <strong>S</strong> — Systemic Weight &nbsp;·&nbsp; <strong>C</strong> — Capital Flow Chokepoint &nbsp;·&nbsp; <strong>K</strong> — Commodity Anchor<br/>
+    <strong>G</strong> — Geopolitical Transmission &nbsp;·&nbsp; <strong>R</strong> — Regional Signal<br/><br/>
+    Economies failing &lt;2 criteria are excluded. Their exclusion is <em>not a political judgment</em> — it is a signal quality and intelligence yield determination.
+  </div>
+</div>
+
+<!-- Four exclusion categories -->
+<div class="cat-section">
+  <div style="font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;">EXCLUSION CATEGORIES</div>
+  <div class="cat-grid">
+    <div class="cat-card">
+      <div class="cat-icon">🚫</div>
+      <div>
+        <span class="cat-title">Category 1 — Structurally Impossible</span>
+        <p class="cat-desc">No functioning central bank, under comprehensive sanctions, failed state, or command economy with no cross-border capital flows. Permanently excluded until regime or system changes.</p>
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-icon">📡</div>
+      <div>
+        <span class="cat-title">Category 2 — Signal Already Captured</span>
+        <p class="cat-desc">Economy's monetary policy is mechanically determined by an existing canary (USD peg follows FED, EUR peg follows ECB, INR peg follows RBI). Building a separate canary adds noise, not signal.</p>
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-icon">⏳</div>
+      <div>
+        <span class="cat-title">Category 3 — Too Small / Too Early</span>
+        <p class="cat-desc">Economy is too small for global capital flow significance, or is too early-stage in financial openness to generate reliable kill condition signals. Round 2 or Round 3 candidates.</p>
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-icon">🔧</div>
+      <div>
+        <span class="cat-title">Category 4 — Deferred for Design Complexity</span>
+        <p class="cat-desc">Economy is important but kill condition architecture is too complex to model correctly in a bloc-speed build. Requires a dedicated design session. Priority Round 2 additions.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Territory nav -->
+<nav class="region-nav">
+  <a class="rnav-pill" href="#north-america">North America</a>
+  <a class="rnav-pill" href="#europe">Europe</a>
+  <a class="rnav-pill" href="#middle-east">Middle East</a>
+  <a class="rnav-pill" href="#central-asia">Central Asia</a>
+  <a class="rnav-pill" href="#south-asia">South Asia</a>
+  <a class="rnav-pill" href="#africa">Africa</a>
+  <a class="rnav-pill" href="#latin-america">Latin America</a>
+  <a class="rnav-pill" href="#future">Future Inclusions</a>
+</nav>
+
+<!-- ═══ NORTH AMERICA ═══ -->
+<section class="region" id="north-america">
+  <div class="region-header">
+    <span class="region-flag">🌎</span>
+    <span class="region-title">North America</span>
+    <div class="region-sub">Included: 🇺🇸 FED FOMC · 🇨🇦 BOC Canada · 🇲🇽 Banxico Mexico</div>
+  </div>
+  <table class="exc-table">
+    <thead><tr><th>Economy</th><th>Category</th><th>Central Bank</th><th>Reason for Exclusion</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇨🇺</span><div><span class="country-name">Cuba</span><span class="country-cb">Banco Central de Cuba (BCC)</span></div></div></td>
+        <td><span class="cat-badge cat-1">Structurally Impossible</span></td>
+        <td>BCC</td>
+        <td class="exc-reason">Communist command economy. The BCC has no meaningful monetary policy function — the state sets all prices and exchange rates by decree. The 2021 dual-currency collapse (CUP/CUC unification) destroyed monetary credibility. No cross-border capital flows. No investable signal. <strong>Excluded indefinitely until regime transition.</strong></td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇸🇻</span><div><span class="country-name">El Salvador</span><span class="country-cb">Banco Central de Reserva</span></div></div></td>
+        <td><span class="cat-badge cat-2">Signal Captured</span></td>
+        <td>BCR</td>
+        <td class="exc-reason">Fully dollarised since 2001. Additionally adopted Bitcoin as legal tender in 2021. The BCR has zero independent monetary policy. Any monetary signal from El Salvador is entirely captured by the <strong>FED FOMC canary</strong>. The Bitcoin experiment is monitored as a policy novelty, not a CB signal.</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇵🇦</span><div><span class="country-name">Panama</span><span class="country-cb">Superintendencia de Bancos</span></div></div></td>
+        <td><span class="cat-badge cat-2">Signal Captured</span></td>
+        <td>SBN</td>
+        <td class="exc-reason">Fully dollarised since 1904 — the world's longest-running dollarisation. The SBN is a banking regulator, not a monetary policymaker. FED canary captures all monetary signal. Panama Canal traffic data is a global trade indicator tracked in a separate trade-flow layer, not a CB canary.</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇬🇹</span><div><span class="country-name">Guatemala, Honduras, Nicaragua, Costa Rica</span><span class="country-cb">Central American CBs</span></div></div></td>
+        <td><span class="cat-badge cat-3">Too Small</span></td>
+        <td>Various</td>
+        <td class="exc-reason">All four are small, heavily USD-correlated economies with limited monetary independence. Their central banks implicitly follow FED policy. Combined GDP smaller than one mid-tier US state. Low global capital flow significance. FED + Banxico adequately proxy the regional signal.</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇭🇹</span><div><span class="country-name">Haiti</span><span class="country-cb">Banque de la République d'Haïti (BRH)</span></div></div></td>
+        <td><span class="cat-badge cat-1">Structurally Impossible</span></td>
+        <td>BRH</td>
+        <td class="exc-reason">Failed state since the 2021 assassination of President Moïse. Gang control of Port-au-Prince prevents coherent monetary governance. BRH cannot conduct meaningful policy. No investable signal exists. <strong>Excluded indefinitely.</strong></td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇩🇴</span><div><span class="country-name">Dominican Republic, Jamaica, Trinidad &amp; Tobago</span><span class="country-cb">Caribbean CBs</span></div></div></td>
+        <td><span class="cat-badge cat-3">Too Small</span></td>
+        <td>Various</td>
+        <td class="exc-reason">Individually interesting — T&amp;T is an energy producer, Dominican Republic has strong tourism — but collectively too small for dedicated canary slots at this system scale. No single Caribbean economy is a meaningful global capital flow chokepoint. Round 3 candidates if system expands to 60+ canaries.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══ EUROPE ═══ -->
+<section class="region" id="europe">
+  <div class="region-header">
+    <span class="region-flag">🌍</span>
+    <span class="region-title">Europe</span>
+    <div class="region-sub">Included: 🇪🇺 ECB · 🇬🇧 BOE · 🇨🇭 SNB</div>
+  </div>
+  <div class="region-intro">
+    <strong>Key principle:</strong> The ECB canary simultaneously proxies 20 eurozone member states. Any eurozone member's national central bank (Bundesbank, Banque de France, Banca d'Italia, etc.) has had zero independent monetary policy since 1999 — they execute ECB directives. Building 20 individual canaries would produce 20 identical monetary signals. The ECB canary is the correct instrument.
+  </div>
+  <table class="exc-table">
+    <thead><tr><th>Economy</th><th>Category</th><th>Central Bank</th><th>Reason for Exclusion</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇩🇪</span><div><span class="country-name">Germany, France, Italy, Spain + 16 others</span><span class="country-cb">Eurozone National CBs</span></div></div></td>
+        <td><span class="cat-badge cat-2">Signal Captured</span></td>
+        <td>ECB (proxied)</td>
+        <td class="exc-reason">All 20 eurozone national central banks execute ECB rate decisions identically. The ECB canary (EKRI) represents all of them simultaneously. Individual canaries would be duplicates of the ECB signal with additional country-level political noise but no additional monetary intelligence.</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇳🇴</span><div><span class="country-name">Norway</span><span class="country-cb">Norges Bank</span></div></div></td>
+        <td><span class="cat-badge cat-4">Deferred</span><span class="round2-tag">Round 2</span></td>
+        <td>Norges Bank</td>
+        <td class="exc-reason">Norway manages the world's largest sovereign wealth fund by AUM ($1.7T Government Pension Fund Global), owns stakes in 9,000+ companies globally, and NOK is a petro-currency. However, Norges Bank closely tracks ECB policy, and the fund's global equity positions are publicly disclosed quarterly — the signal is partially available without a dedicated canary. <strong>Round 2 candidate</strong> — priority after India and Pakistan.</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇸🇪</span><div><span class="country-name">Sweden</span><span class="country-cb">Sveriges Riksbank</span></div></div></td>
+        <td><span class="cat-badge cat-3">Too ECB-Correlated</span><span class="round2-tag">Round 2</span></td>
+        <td>Riksbank</td>
+        <td class="exc-reason">Riksbank was the first CB to adopt negative rates (2015) and first to exit (2022) — historically important as a policy pioneer. SEK is a high-beta developed-market currency. But Sweden is EU (not eurozone) and remains tightly correlated to ECB. Signal largely captured by ECB canary. Round 2 candidate.</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇩🇰</span><div><span class="country-name">Denmark</span><span class="country-cb">Danmarks Nationalbank</span></div></div></td>
+        <td><span class="cat-badge cat-2">Signal Captured</span></td>
+        <td>Nationalbanken</td>
+        <td class="exc-reason">DKK pegged to EUR within ±2.25% band (ERM II) since 1999. Denmark follows ECB rate decisions mechanically. Nationalbanken has no de facto monetary independence. ECB canary fully captures the signal.</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇵🇱</span><div><span class="country-name">Poland</span><span class="country-cb">Narodowy Bank Polski (NBP)</span></div></div></td>
+        <td><span class="cat-badge cat-3">Too Small Globally</span><span class="round2-tag">Round 2</span></td>
+        <td>NBP</td>
+        <td class="exc-reason">Poland is the largest non-eurozone EU economy and has maintained some policy independence. However Poland is deeply EU-correlated in trade and financial flows, and its global capital significance remains secondary to ECB zone. Strong Round 2 candidate especially if EU defence spending becomes a macro theme (Poland spends 4% GDP on defence — highest in NATO).</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇭🇺</span><div><span class="country-name">Hungary, Czech Republic, Romania</span><span class="country-cb">MNB, CNB, BNR</span></div></div></td>
+        <td><span class="cat-badge cat-3">Too Small</span></td>
+        <td>Various</td>
+        <td class="exc-reason">All EU members with independent currencies but small GDP and tightly ECB-correlated economies. Hungary (MNB) is uniquely interesting for Orbán's fiscal heterodoxy and Russia proximity — but still too small for global capital flow significance at this stage.</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇺🇦</span><div><span class="country-name">Ukraine</span><span class="country-cb">National Bank of Ukraine (NBU)</span></div></div></td>
+        <td><span class="cat-badge cat-1">War Economy</span></td>
+        <td>NBU</td>
+        <td class="exc-reason">NBU is operating under martial law with capital controls. All monetary variables are conditional on military outcome rather than policy. No investable signal from a war economy. <strong>Add after post-war reconstruction phase begins</strong> — the NBU's post-war rebuild will be one of the most consequential CB stories of the 2030s.</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇮🇸</span><div><span class="country-name">Iceland</span><span class="country-cb">Seðlabanki Íslands</span></div></div></td>
+        <td><span class="cat-badge cat-3">Too Small</span></td>
+        <td>Seðlabanki</td>
+        <td class="exc-reason">Historically fascinating — Iceland was the first country to let major banks fail (2008), the only nation to imprison senior bankers, and recovered faster than any peer. Genuinely instructive monetary history. But at $27B GDP, Iceland's current scale is too small for global capital flow significance. Excluded on size grounds alone.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══ MIDDLE EAST ═══ -->
+<section class="region" id="middle-east">
+  <div class="region-header">
+    <span class="region-flag">🕌</span>
+    <span class="region-title">Middle East</span>
+    <div class="region-sub">Included: 🇸🇦 SAMA · 🇦🇪 CBUAE · 🇹🇷 CBRT · 🇮🇱 BOI</div>
+  </div>
+  <div class="region-intro">
+    <strong>Key principle:</strong> All six GCC states (Saudi, UAE, Kuwait, Qatar, Bahrain, Oman) operate USD-pegged or USD-basket-pegged currencies. They follow the FED mechanically. The SAMA canary proxies monetary conditions for the entire GCC. The CBUAE canary is included separately because Dubai is a unique global capital flow chokepoint that SAMA does not capture.
+  </div>
+  <table class="exc-table">
+    <thead><tr><th>Economy</th><th>Category</th><th>Central Bank</th><th>Reason for Exclusion</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇮🇷</span><div><span class="country-name">Iran</span><span class="country-cb">Central Bank of Iran (CBI)</span></div></div></td>
+        <td><span class="cat-badge cat-1">Structurally Impossible</span></td>
+        <td>CBI</td>
+        <td class="exc-reason">SWIFT-excluded since 2012. Under comprehensive US and EU sanctions. No legitimate cross-border capital flows — oil exports settled via barter, gold, cryptocurrency, or bilateral rupee/renminbi arrangements. The CBI cannot transmit monetary policy into global financial markets in any conventional sense. <strong>Excluded until sanctions regime ends — no visible timeline.</strong></td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇮🇶</span><div><span class="country-name">Iraq</span><span class="country-cb">Central Bank of Iraq (CBI)</span></div></div></td>
+        <td><span class="cat-badge cat-2">Signal Captured</span></td>
+        <td>CBI Iraq</td>
+        <td class="exc-reason">Effectively dollarised. The Iraqi dinar's USD peg means CBI Iraq follows FED policy mechanically with no independent signal. US military presence and oil revenue management by the Oil Ministry (not CBI) distort all economic variables. The relevant Iraq signal is crude output — tracked via SAMA/OPEC canary.</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇶🇦</span><div><span class="country-name">Qatar</span><span class="country-cb">Qatar Central Bank (QCB)</span></div></div></td>
+        <td><span class="cat-badge cat-2">Signal Captured</span><span class="round2-tag">Round 2</span></td>
+        <td>QCB</td>
+        <td class="exc-reason">QAR pegged to USD at fixed 3.64 since 1980. QCB follows FED mechanically. Qatar is geopolitically important (world's largest LNG exporter, Al-Udeid Air Base, Al Jazeera) but monetary signal captured by FED canary. <strong>Round 2 candidate</strong> specifically for the Qatar Investment Authority ($450B AUM) sovereign wealth capital flow lens — not for monetary policy.</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇰🇼</span><div><span class="country-name">Kuwait</span><span class="country-cb">Central Bank of Kuwait (CBK)</span></div></div></td>
+        <td><span class="cat-badge cat-2">Signal Captured</span></td>
+        <td>CBK</td>
+        <td class="exc-reason">KWD pegged to an undisclosed currency basket (predominantly USD). Very small population (4.8M). No independent monetary signal. Kuwait Investment Authority (KIA, $780B AUM — world's oldest SWF) is worth monitoring as a capital flow signal but fund composition is largely opaque. SAMA canary proxies GCC monetary conditions.</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇧🇭</span><div><span class="country-name">Bahrain</span><span class="country-cb">Central Bank of Bahrain (CBB)</span></div></div></td>
+        <td><span class="cat-badge cat-2">Signal Captured</span></td>
+        <td>CBB</td>
+        <td class="exc-reason">GCC member, USD-pegged at 0.376. Financially a satellite of Saudi Arabia — hosts GCC's banking hub but monetary policy follows SAMA. SAMA canary captures all relevant signal.</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇴🇲</span><div><span class="country-name">Oman</span><span class="country-cb">Central Bank of Oman (CBO)</span></div></div></td>
+        <td><span class="cat-badge cat-2">Signal Captured</span></td>
+        <td>CBO</td>
+        <td class="exc-reason">Rial pegged to USD at 0.385 since 1986. Mid-sized oil producer with a narrowing fiscal base as reserves decline. SAMA canary proxies the Gulf monetary signal adequately.</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇯🇴</span><div><span class="country-name">Jordan</span><span class="country-cb">Central Bank of Jordan (CBJ)</span></div></div></td>
+        <td><span class="cat-badge cat-2">Signal Captured</span></td>
+        <td>CBJ</td>
+        <td class="exc-reason">JOD pegged to USD since 1995. Jordan is a strategically important US ally hosting 1.3M Syrian refugees, but monetary policy is mechanically USD-linked and economy depends on US/GCC aid transfers. No independent monetary signal.</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇱🇧</span><div><span class="country-name">Lebanon</span><span class="country-cb">Banque du Liban (BdL)</span></div></div></td>
+        <td><span class="cat-badge cat-1">Structurally Impossible</span></td>
+        <td>BdL</td>
+        <td class="exc-reason">Banking system collapsed 2019–2020 — one of the worst financial crises globally since the 19th century. Lira went from 1,507/USD to over 130,000/USD. BdL's former governor Riad Salamé faces criminal charges in multiple European jurisdictions for fraud. This is not a central bank in any functional sense. <strong>Excluded until systemic reconstruction — minimum 10 years.</strong></td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇸🇾</span><div><span class="country-name">Syria</span><span class="country-cb">Central Bank of Syria (CBS)</span></div></div></td>
+        <td><span class="cat-badge cat-1">Failed State</span></td>
+        <td>CBS</td>
+        <td class="exc-reason">War economy since 2011. The CBS operates in a sanctions-constrained, war-distorted environment with no connection to global capital markets. <strong>Excluded indefinitely.</strong></td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇾🇪</span><div><span class="country-name">Yemen</span><span class="country-cb">Central Bank of Yemen (CBY)</span></div></div></td>
+        <td><span class="cat-badge cat-1">Dual CB / Failed State</span></td>
+        <td>CBY</td>
+        <td class="exc-reason">Two competing central banks — Aden (internationally recognised) and Sana'a (Houthi-controlled). Both operate in war economies. No coherent monetary signal is possible when a country has two competing currency authorities. <strong>Excluded until conflict resolution.</strong></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══ CENTRAL ASIA ═══ -->
+<section class="region" id="central-asia">
+  <div class="region-header">
+    <span class="region-flag">🏔</span>
+    <span class="region-title">Central Asia</span>
+    <div class="region-sub">Included: None — entire region currently excluded</div>
+  </div>
+  <div class="region-intro">
+    <strong>Three structural reasons apply across the entire Central Asian bloc:</strong>
+    (1) Every Central Asian economy is a tributary of two larger signals already in the system — Russia (CBR) and China (PBOC). A Central Asian canary largely re-reads those two canaries with added data noise.
+    (2) None of the five has a meaningfully liquid Eurobond market or freely convertible currency with genuine two-way institutional flows.
+    (3) All five central banks operate under governments with varying degrees of authoritarian control, making published monetary data difficult to independently cross-verify.
+  </div>
+  <table class="exc-table">
+    <thead><tr><th>Economy</th><th>Category</th><th>Central Bank</th><th>Reason for Exclusion</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇰🇿</span><div><span class="country-name">Kazakhstan</span><span class="country-cb">National Bank of Kazakhstan (NBK)</span></div></div></td>
+        <td><span class="cat-badge cat-4">Deferred — Close Call</span><span class="round2-tag">Round 2+</span></td>
+        <td>NBK</td>
+        <td class="exc-reason">The most defensible Central Asian inclusion candidate. $260B GDP. World's <strong>largest uranium producer (43% global supply)</strong> — a commodity position of genuine strategic importance as nuclear energy resurges. Oil producer (Tengiz/Kashagan). Astana AIFC launched with English common law jurisdiction. However: 80% of oil exports flow through Russia's Caspian Pipeline Consortium — a geopolitical hostage position. Tenge moves in sympathy with ruble even without sanctions. <strong>Add when Trans-Caspian pipeline route bypassing Russia becomes operational, and when uranium becomes explicitly priced into the canary commodity layer.</strong></td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇺🇿</span><div><span class="country-name">Uzbekistan</span><span class="country-cb">Central Bank of Uzbekistan (CBU)</span></div></div></td>
+        <td><span class="cat-badge cat-3">Signal Not Yet Mature</span></td>
+        <td>CBU</td>
+        <td class="exc-reason">Most populous Central Asian nation (36M). Genuine reform underway since Mirziyoyev (2016) — liberalised currency convertibility in 2017, gold producer (8th globally), cotton. Reform story is real but financial openness remains limited, Eurobond market is nascent, and monetary signal is still heavily Russia-correlated. <strong>Round 3 candidate (2028) if AIFC/Tashkent exchange development continues.</strong></td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇰🇬</span><div><span class="country-name">Kyrgyzstan</span><span class="country-cb">NBKR</span></div></div></td>
+        <td><span class="cat-badge cat-3">Russia Derivative</span></td>
+        <td>NBKR</td>
+        <td class="exc-reason">Very small economy ($10B GDP). Approximately 35% of GDP comes from Russian migrant worker remittances — meaning the monetary signal is almost entirely a derivative of Russian labour market conditions, already captured by the CBR canary. Gold mining (Kumtor) is the only independent variable. Too small, too Russia-derivative for independent canary.</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇹🇯</span><div><span class="country-name">Tajikistan</span><span class="country-cb">National Bank of Tajikistan (NBT)</span></div></div></td>
+        <td><span class="cat-badge cat-3">Dual Dependency</span></td>
+        <td>NBT</td>
+        <td class="exc-reason">Poorest former Soviet republic. Remittance dependency on Russia estimated at 45–50% of GDP. Chinese Belt and Road debt mounting (estimated 40%+ of external debt to China). The monetary signal is a blended read of CBR + PBOC — both already in the system. No independent monetary intelligence value.</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇹🇲</span><div><span class="country-name">Turkmenistan</span><span class="country-cb">Central Bank of Turkmenistan (CBTM)</span></div></div></td>
+        <td><span class="cat-badge cat-1">Hermit State</span></td>
+        <td>CBTM</td>
+        <td class="exc-reason">Effectively a hermit state. Holds the world's 4th largest natural gas reserves but operates a closed command economy under the Berdimuhamedov dynasty. The manat has an official rate and a parallel black market rate — the gap between them is the only real signal, and it is not observable through legitimate data channels. No financial openness. No capital market. <strong>Excluded indefinitely.</strong></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══ SOUTH ASIA ═══ -->
+<section class="region" id="south-asia">
+  <div class="region-header">
+    <span class="region-flag">🏛</span>
+    <span class="region-title">South Asia</span>
+    <div class="region-sub">Included: None currently — India (RBI) flagged as priority Round 2 addition</div>
+  </div>
+  <div class="region-intro">
+    <strong>The most significant gap in the current 37-canary system.</strong> South Asia (India, Pakistan, Bangladesh, Sri Lanka, Nepal, Bhutan, Maldives, Afghanistan) represents 1.85 billion people and approximately $5.5T in combined GDP — all currently excluded. India alone will be the world's 3rd largest economy by 2030. This is a deliberate deferral for design complexity reasons, not a dismissal. India is the next priority build.
+  </div>
+  <table class="exc-table">
+    <thead><tr><th>Economy</th><th>Category</th><th>Central Bank</th><th>Reason for Exclusion</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇮🇳</span><div><span class="country-name">India</span><span class="country-cb">Reserve Bank of India (RBI)</span></div></div></td>
+        <td><span class="cat-badge cat-4">Priority Round 2</span><span class="round2-tag">NEXT BUILD</span></td>
+        <td>RBI</td>
+        <td class="exc-reason"><strong>India scores ✅ on 4 of 5 selection criteria</strong> — Systemic Weight ($3.9T GDP, 5th world), Capital Flow (largest FDI recipient in Asia after China), Geopolitical (China LAC border, Pakistan nuclear, Indian Ocean), Regional (proxies Sri Lanka/Nepal/Bangladesh). It is NOT excluded because it is unimportant — it is deferred because RBI's kill condition architecture (14 scheduled banks, $620B+ FX buffer, partial capital account convertibility) requires a dedicated design session. The Apple/Foxconn manufacturing story, UPI digital payments, and Modi infrastructure push make this one of the most important positive-signal canaries in the dataset. <strong>India (RBI) is the first canary built in Round 2.</strong></td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇵🇰</span><div><span class="country-name">Pakistan</span><span class="country-cb">State Bank of Pakistan (SBP)</span></div></div></td>
+        <td><span class="cat-badge cat-4">Deferred — Design Complexity</span><span class="round2-tag">Round 2</span></td>
+        <td>SBP</td>
+        <td class="exc-reason">Pakistan is not excluded because it is unimportant (240M people, nuclear state, 24th IMF programme). It is excluded because kill condition architecture is uniquely difficult: IMF compliance vs political will, India-Pakistan LOC, Afghan border, Saudi/UAE/China bail cycles, and domestic security (TTP, Baloch separatism) must all be disentangled into scoreable kill conditions. The 2021 SBP Amendment Act granted genuine CB independence as an IMF condition. <strong>Add to Round 2 when inflation falls below 15% sustainably and rupee stabilises in a credible band.</strong></td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇧🇩</span><div><span class="country-name">Bangladesh</span><span class="country-cb">Bangladesh Bank (BB)</span></div></div></td>
+        <td><span class="cat-badge cat-4">Significant Gap — Round 2</span><span class="round2-tag">Round 2</span></td>
+        <td>BB</td>
+        <td class="exc-reason"><strong>The most significant omission that is not immediately obvious.</strong> Bangladesh is the world's 2nd largest garment exporter ($47B/year, after China), with 170M population and $460B GDP. The garment manufacturing signal (H&amp;M, Zara, Gap, Nike sourcing) is currently invisible in the canary system. The Yunus government transition (2024) is one of EM's most interesting experiments. However: Bangladesh Bank's 2016 SWIFT heist ($81M stolen from its Fed account) damaged institutional credibility still being rebuilt. Taka is not freely convertible. No meaningful Eurobond market. <strong>Add after Yunus government stabilises — likely Q2 2027.</strong></td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇱🇰</span><div><span class="country-name">Sri Lanka</span><span class="country-cb">Central Bank of Sri Lanka (CBSL)</span></div></div></td>
+        <td><span class="cat-badge cat-3">Post-Default Recovery</span><span class="round2-tag">Round 2</span></td>
+        <td>CBSL</td>
+        <td class="exc-reason">Sovereign default April 2022 — first South Asian default in 70 years. IMF programme ($2.9B) ongoing. Dissanayake (NPP/JVP) government elected September 2024 creates tension with IMF conditionality. Recovery story mirrors Ghana's trajectory. <strong>Excluded now, add after debt restructuring fully completes — estimated 2027.</strong> The same logic as Ghana (Africa bloc).</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇳🇵</span><div><span class="country-name">Nepal</span><span class="country-cb">Nepal Rastra Bank (NRB)</span></div></div></td>
+        <td><span class="cat-badge cat-2">Signal Captured</span></td>
+        <td>NRB</td>
+        <td class="exc-reason">Nepalese rupee pegged to Indian rupee at 1.6 NRS per INR. Nepal follows RBI mechanically with zero independent monetary policy. Once India (RBI) canary is built, Nepal becomes an automatic satellite reading. Hydropower and tourism are the economic variables — neither requires a CB canary.</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇧🇹</span><div><span class="country-name">Bhutan</span><span class="country-cb">Royal Monetary Authority (RMA)</span></div></div></td>
+        <td><span class="cat-badge cat-2">Signal Captured</span></td>
+        <td>RMA</td>
+        <td class="exc-reason">Ngultrum pegged to Indian rupee at 1:1. Follows RBI identically. $3B GDP. Gross National Happiness is the policy framework — not monetary optimisation. Permanently excluded as standalone canary; satellite to India (RBI) once built.</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇲🇻</span><div><span class="country-name">Maldives</span><span class="country-cb">Maldives Monetary Authority (MMA)</span></div></div></td>
+        <td><span class="cat-badge cat-3">Too Small</span></td>
+        <td>MMA</td>
+        <td class="exc-reason">$7B GDP. Tourist economy. Rufiyaa USD-pegged. The Chinese debt crisis risk (30%+ of external debt to China) is the only meaningful live signal — but at $7B GDP the global capital flow significance is too small. Maldives Debt-to-China ratio monitored as a satellite metric in the PBOC canary commentary.</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇦🇫</span><div><span class="country-name">Afghanistan</span><span class="country-cb">Da Afghanistan Bank (DAB)</span></div></div></td>
+        <td><span class="cat-badge cat-1">Failed State</span></td>
+        <td>DAB</td>
+        <td class="exc-reason">Taliban government since August 2021. DAB under comprehensive sanctions. Afghani (AFN) in freefall. 80%+ of economy is informal — aid-dependent, opium-connected, and cash-based. No functioning monetary system, no cross-border capital flows. <strong>Excluded indefinitely.</strong></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══ AFRICA ═══ -->
+<section class="region" id="africa">
+  <div class="region-header">
+    <span class="region-flag">🌍</span>
+    <span class="region-title">Africa</span>
+    <div class="region-sub">Included: 🇿🇦 SARB · 🇳🇬 CBN · 🇪🇬 CBE · 🇰🇪 CBK (one per sub-region)</div>
+  </div>
+  <div class="region-intro">
+    <strong>Key principle:</strong> The 16-nation CFA franc zone (West African BCEAO + Central African BEAC) operates currencies pegged to the EUR via an arrangement with the Banque de France. All 16 nations have zero independent monetary policy — they follow the ECB mechanically. The ECB canary captures all monetary signal from the CFA zone. Individual CFA canaries would duplicate the ECB signal.
+  </div>
+  <table class="exc-table">
+    <thead><tr><th>Economy</th><th>Category</th><th>Central Bank</th><th>Reason for Exclusion</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇲🇦</span><div><span class="country-name">Morocco</span><span class="country-cb">Bank Al-Maghrib (BAM)</span></div></div></td>
+        <td><span class="cat-badge cat-3">Peg Limits Signal</span><span class="round2-tag">Round 2</span></td>
+        <td>BAM</td>
+        <td class="exc-reason">MAD pegged to EUR/USD basket, limiting monetary independence. Morocco is building a genuine manufacturing base for European supply chains (Renault, Stellantis, Boeing components) and is North Africa's Atlantic coast anchor. Excluded now on grounds of monetary signal limitation — peg reduces kill condition diversity. <strong>Strong Round 2 candidate</strong> as Europe-Africa supply chain proxy once the Strait of Gibraltar railway link advances.</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇬🇭</span><div><span class="country-name">Ghana</span><span class="country-cb">Bank of Ghana (BOG)</span></div></div></td>
+        <td><span class="cat-badge cat-3">Post-Default Recovery</span><span class="round2-tag">Round 2 (2027)</span></td>
+        <td>BOG</td>
+        <td class="exc-reason">Ghana completed sovereign debt restructuring 2023–2024 after full IMF bailout (cedi lost 50%+ vs USD in 2022). Excluding Ghana is not a permanent judgment — it is a recognition that the monetary signal is currently dominated by restructuring mechanics (IMF conditionality, Eurobond haircut negotiations, BOG independence pressure) rather than independent policy. <strong>Add after post-restructuring CB credibility baseline is established — estimated 2027.</strong></td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇪🇹</span><div><span class="country-name">Ethiopia</span><span class="country-cb">National Bank of Ethiopia (NBE)</span></div></div></td>
+        <td><span class="cat-badge cat-3">Data Unreliable</span></td>
+        <td>NBE</td>
+        <td class="exc-reason">Ethiopia has genuine economic weight (LAPSSET corridor, 120M+ population, East Africa's second economy). However, Tigray civil war (2020–2022) aftermath severely distorted monetary data. Birr is subject to capital controls. NBE data quality and independence insufficient for reliable kill condition modelling. Revisit 2027 if political normalisation holds.</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇹🇿</span><div><span class="country-name">Tanzania</span><span class="country-cb">Bank of Tanzania (BOT-TZ)</span></div></div></td>
+        <td><span class="cat-badge cat-3">Financial Closure</span></td>
+        <td>BOT-TZ</td>
+        <td class="exc-reason">Operates a relatively closed economy with low financial openness. Hassan government restricts foreign investment. No meaningful EM investor exposure. The monetary signal is too domestically contained to generate global intelligence value.</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇦🇴</span><div><span class="country-name">Angola</span><span class="country-cb">Banco Nacional de Angola (BNA)</span></div></div></td>
+        <td><span class="cat-badge cat-3">Data Quality</span></td>
+        <td>BNA</td>
+        <td class="exc-reason">Significant OPEC oil producer (1.1M bpd) and second largest Sub-Saharan oil producer after Nigeria. Kwanza has been partially USD-linked. However, governance complexity and BNA monetary data reliability issues — independent cross-verification is difficult. Oil signal captured via SAMA and CBN canaries.</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇨🇮</span><div><span class="country-name">CFA Franc Zone — 16 Nations</span><span class="country-cb">BCEAO + BEAC</span></div></div></td>
+        <td><span class="cat-badge cat-2">Signal Captured</span></td>
+        <td>BCEAO / BEAC</td>
+        <td class="exc-reason">The CFA franc (West African and Central African variants) is pegged to the EUR via Banque de France arrangement. Sixteen African nations — including Côte d'Ivoire, Senegal, Cameroon, Gabon, Mali, Niger, Burkina Faso, Togo, Benin — have zero independent monetary policy. They follow ECB mechanically. The ECB canary captures all monetary signal. Individual BCEAO/BEAC canaries would produce identical intelligence to the ECB canary with African economic overlay that adds noise rather than signal.</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇨🇩</span><div><span class="country-name">Democratic Republic of Congo</span><span class="country-cb">Banque Centrale du Congo (BCC)</span></div></div></td>
+        <td><span class="cat-badge cat-3">Commodity Blind Spot</span><span class="round2-tag">Flagged Gap</span></td>
+        <td>BCC</td>
+        <td class="exc-reason">The DRC contains <strong>70%+ of the world's cobalt supply</strong> — the critical mineral for EV batteries — making it a commodity chokepoint the current system is blind to. The Congolese franc (CDF) is extremely volatile and the banking system is primitive. The relevant signal from DRC is the cobalt supply story — this belongs in a commodity intelligence layer rather than a central bank canary. <strong>Flagged as a known blind spot. A dedicated DRC Cobalt Canary is worth considering as the EV battery supply chain becomes more systemically critical.</strong></td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇿🇼</span><div><span class="country-name">Zimbabwe</span><span class="country-cb">Reserve Bank of Zimbabwe (RBZ)</span></div></div></td>
+        <td><span class="cat-badge cat-1">Monetary Destruction History</span></td>
+        <td>RBZ</td>
+        <td class="exc-reason">World's most instructive case study in monetary destruction — 79.6 billion percent annual inflation in 2008. Now on its fourth monetary experiment in 15 years (USD → RTGS → ZWL → ZiG gold-backed digital currency, 2024). Not investable, no external capital flow signal, no CB credibility. The ZiG experiment is monitored as a gold-standard laboratory in the SARB and GLD canary commentary. <strong>Permanently excluded as independent canary.</strong></td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇸🇩</span><div><span class="country-name">Sudan</span><span class="country-cb">Central Bank of Sudan (CBOS)</span></div></div></td>
+        <td><span class="cat-badge cat-1">Civil War</span></td>
+        <td>CBOS</td>
+        <td class="exc-reason">Active civil war between SAF (Sudanese Armed Forces) and RSF (Rapid Support Forces) since April 2023. Failed state monetary conditions. No data, no signal, no investable thesis. <strong>Excluded indefinitely.</strong></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══ LATIN AMERICA ═══ -->
+<section class="region" id="latin-america">
+  <div class="region-header">
+    <span class="region-flag">🌎</span>
+    <span class="region-title">Latin America</span>
+    <div class="region-sub">Included: 🇲🇽 Banxico · 🇧🇷 BCB · 🇦🇷 BCRA · 🇨🇱 BCCh · 🇨🇴 BanRep</div>
+  </div>
+  <table class="exc-table">
+    <thead><tr><th>Economy</th><th>Category</th><th>Central Bank</th><th>Reason for Exclusion</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇵🇪</span><div><span class="country-name">Peru</span><span class="country-cb">BCRP</span></div></div></td>
+        <td><span class="cat-badge cat-4">Round 2</span><span class="round2-tag">Round 2</span></td>
+        <td>BCRP</td>
+        <td class="exc-reason">World's 2nd largest copper producer (after Chile) and significant silver/zinc/gold miner. BCRP is genuinely independent and has performed well despite remarkable political instability (5 presidents since 2018, Castillo impeachment). The sol has remained relatively stable precisely because of CB credibility — an interesting divergence case. Excluded in Round 1 because BCCh canary partially proxies the copper signal and political instability makes kill condition modelling complex. <strong>Strong Round 2 candidate once political baseline stabilises.</strong></td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇪🇨</span><div><span class="country-name">Ecuador</span><span class="country-cb">BCE</span></div></div></td>
+        <td><span class="cat-badge cat-2">Signal Captured</span></td>
+        <td>BCE</td>
+        <td class="exc-reason">Fully dollarised since 2000 following its own sovereign default. BCE has had no independent monetary policy for 25 years. FED canary captures all monetary signal. Ecuador is an oil producer and world's largest banana exporter, but the commodity signal is better captured through trade flow data than through a powerless CB.</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇻🇪</span><div><span class="country-name">Venezuela</span><span class="country-cb">Banco Central de Venezuela (BCV)</span></div></div></td>
+        <td><span class="cat-badge cat-1">Monetary Collapse</span></td>
+        <td>BCV</td>
+        <td class="exc-reason">Venezuela has experienced the largest peacetime monetary collapse in modern history outside wartime. Bolívar lost more than 99.9999% of its value 2013–2023. De facto dollarisation has occurred in Caracas. BCV continues to exist as a political instrument rather than a functional monetary authority. Oil reserves (world's largest, officially) are largely unextractable due to infrastructure collapse and sanctions. <strong>Excluded permanently until regime transition and monetary reconstruction.</strong></td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇧🇴</span><div><span class="country-name">Bolivia</span><span class="country-cb">Banco Central de Bolivia (BCB-BO)</span></div></div></td>
+        <td><span class="cat-badge cat-3">Slow-Motion Crisis</span></td>
+        <td>BCB-BO</td>
+        <td class="exc-reason">Experiencing a slow-motion hard currency crisis — USD reserves near-depletion and fixed exchange rate (BOB 6.96 to USD, unchanged since 2011) is under structural pressure. Natural gas exports (the economic engine under Morales) are declining as fields deplete. Interesting as a potential canary for fixed-rate stress under resource depletion — parallels with Timor-Leste. <strong>Round 3 candidate.</strong></td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇵🇾</span><div><span class="country-name">Paraguay</span><span class="country-cb">Banco Central del Paraguay (BCP)</span></div></div></td>
+        <td><span class="cat-badge cat-3">Too Informal</span></td>
+        <td>BCP</td>
+        <td class="exc-reason">Large soybean and beef exporter. Paraguay operates one of LatAm's most informal economies and is a significant source of contraband trade through Ciudad del Este. BCP is functional but the economy is too small and too informally structured for meaningful kill condition modelling. Low global capital flow significance.</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇺🇾</span><div><span class="country-name">Uruguay</span><span class="country-cb">Banco Central del Uruguay (BCU)</span></div></div></td>
+        <td><span class="cat-badge cat-3">Too Small</span></td>
+        <td>BCU</td>
+        <td class="exc-reason">Uruguay is one of LatAm's best-governed economies — low corruption, strong institutions, early progressive policies. Peso relatively stable. However at $77B GDP with 3.6M population, global capital significance is too limited for a dedicated canary slot. Closely correlated to Argentina and Brazil — BCB and BCRA canaries capture relevant spillover effects.</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇨🇷</span><div><span class="country-name">Central America — Costa Rica, Guatemala, Honduras, Nicaragua</span><span class="country-cb">Various</span></div></div></td>
+        <td><span class="cat-badge cat-3">Too Small / USD-Correlated</span></td>
+        <td>Various</td>
+        <td class="exc-reason">All are small, heavily USD-correlated economies with limited monetary independence. Costa Rica is the most sophisticated (technology sector, strong institutions) but too small. FED + Banxico adequately proxy the regional monetary signal. El Salvador already excluded separately under North America.</td>
+      </tr>
+      <tr>
+        <td><div class="country-cell"><span class="country-flag">🇯🇲</span><div><span class="country-name">Caribbean LatAm — Jamaica, Trinidad &amp; Tobago, Barbados</span><span class="country-cb">Caribbean CBs</span></div></div></td>
+        <td><span class="cat-badge cat-3">Too Small</span></td>
+        <td>Various</td>
+        <td class="exc-reason">Individually interesting — T&amp;T is an OPEC-adjacent energy producer, Jamaica has a tourism and bauxite economy — but collectively too small for dedicated canary slots. No single Caribbean economy generates meaningful global capital flow signal. Round 3 candidates if system expands to 60+ canaries.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══ FUTURE INCLUSIONS ═══ -->
+<div class="future-box" id="future">
+  <div class="future-inner">
+    <div class="future-title">Planned Future Inclusions — Upgrade Roadmap</div>
+    <p style="font-size:11px;color:var(--muted);margin-bottom:20px;line-height:1.7;">The following economies are on the upgrade roadmap. As the triggers below are met, they will be promoted from excluded to active canaries. The system is designed to expand — not to remain static.</p>
+    <div class="future-grid">
+      <div class="future-item">
+        <div class="future-item-title">🇮🇳 India (RBI) — NEXT</div>
+        <div class="future-item-desc">Priority Round 2. First canary built after the current expansion. Kill condition architecture design session required. Target: Q3 2026 build.</div>
+      </div>
+      <div class="future-item">
+        <div class="future-item-title">🇵🇰 Pakistan (SBP)</div>
+        <div class="future-item-desc">Add when: CPI sustainably below 15% AND rupee in credible band. Nuclear + IMF kill condition architecture needed. Target: Q4 2026 if reform holds.</div>
+      </div>
+      <div class="future-item">
+        <div class="future-item-title">🇧🇩 Bangladesh (BB)</div>
+        <div class="future-item-desc">Add when: Yunus government stabilises OR elected government confirmed. Garment manufacturing signal currently invisible in system. Target: Q2 2027.</div>
+      </div>
+      <div class="future-item">
+        <div class="future-item-title">🇳🇴 Norway (Norges Bank)</div>
+        <div class="future-item-desc">Add for GPF-Global ($1.7T AUM) capital flow lens. NOK petro-currency signal. Target: Round 2 alongside India.</div>
+      </div>
+      <div class="future-item">
+        <div class="future-item-title">🇰🇿 Kazakhstan (NBK)</div>
+        <div class="future-item-desc">Add when: Trans-Caspian pipeline route bypasses Russia OR uranium explicitly priced in commodity layer. World's largest uranium producer (43% supply).</div>
+      </div>
+      <div class="future-item">
+        <div class="future-item-title">🇵🇪 Peru (BCRP)</div>
+        <div class="future-item-desc">Add when: Political baseline stabilises (5 presidents since 2018). World's 2nd largest copper producer. BCCh partially proxies until then.</div>
+      </div>
+      <div class="future-item">
+        <div class="future-item-title">🇬🇭 Ghana (BOG)</div>
+        <div class="future-item-desc">Add post-debt-restructuring completion. Same trajectory as Sri Lanka. Target: 2027 once IMF programme stabilises BOG credibility.</div>
+      </div>
+      <div class="future-item">
+        <div class="future-item-title">🇲🇦 Morocco (BAM)</div>
+        <div class="future-item-desc">Add as Europe-Africa supply chain proxy matures. Renault/Stellantis/Boeing manufacturing hub. Target: Round 2 when FTA with EU advances.</div>
+      </div>
+      <div class="future-item">
+        <div class="future-item-title">🇨🇩 DRC Cobalt Monitor</div>
+        <div class="future-item-desc">Not a CB canary — a commodity layer instrument. World's 70%+ cobalt supply. Required for complete EV battery supply chain intelligence. Design pending.</div>
+      </div>
+      <div class="future-item">
+        <div class="future-item-title">🇵🇱 Poland (NBP)</div>
+        <div class="future-item-desc">Add if EU defence spending becomes a macro theme. Poland spends 4% GDP on defence — highest in NATO. Largest non-eurozone EU economy.</div>
+      </div>
+      <div class="future-item">
+        <div class="future-item-title">🇸🇪 Sweden (Riksbank)</div>
+        <div class="future-item-desc">Policy pioneer (first negative rates, first to exit). Add in Round 2 expansion as ECB-adjacent signal with independent krona dimension.</div>
+      </div>
+      <div class="future-item">
+        <div class="future-item-title">🌐 Global Capital Flow Compass</div>
+        <div class="future-item-desc">Synthesis layer running across all 50+ canaries. Produces inflow/outflow/cascade map. Requires minimum 40 active canaries to be meaningful. Target: Q4 2026.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="page-footer">
+  <strong>CivilisationOS — Exclusion Registry</strong><br/>
+  Every exclusion has a reason. Every reason has a reversal condition. The system grows as the world changes.<br/>
+  BlueLotus Fund &mdash; Q3 2026 &mdash; Last Updated: July 2026
+</footer>
+
+</body>
+</html>
