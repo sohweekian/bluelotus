@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DANMARKS NATIONALBANK — DENMARK CANARY  |  CivilisationOS</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0A0A0A;
+    color: #E8E8E8;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 0;
+  }
+
+  /* ---- HEADER ---- */
+  .header {
+    background: linear-gradient(135deg, #002C5F 0%, #001A3A 60%, #0A0A0A 100%);
+    border-bottom: 4px solid #C60C30;
+    padding: 32px 40px 24px;
+  }
+  .header-flag {
+    display: flex;
+    align-items: flex-start;
+    gap: 28px;
+  }
+  .dk-flag {
+    width: 72px;
+    height: 50px;
+    flex-shrink: 0;
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  }
+  .header-text h1 {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: #FFFFFF;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .header-text h2 {
+    font-size: 1.0rem;
+    font-weight: 400;
+    color: #F5A623;
+    margin-top: 4px;
+    letter-spacing: 0.02em;
+  }
+  .callout-bar {
+    margin-top: 14px;
+    padding: 8px 16px;
+    background: rgba(198,12,48,0.15);
+    border-left: 4px solid #C60C30;
+    border-radius: 0 4px 4px 0;
+    color: #FFFFFF;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+  }
+  .meta-row {
+    margin-top: 14px;
+    display: flex;
+    gap: 24px;
+    font-size: 0.78rem;
+    color: #888;
+    flex-wrap: wrap;
+  }
+  .meta-row span { color: #E8E8E8; }
+
+  /* ---- DKRI HERO ---- */
+  .dkri-hero {
+    background: #111111;
+    border: 1px solid #222;
+    border-top: 3px solid #F5A623;
+    border-radius: 8px;
+    margin: 28px 40px;
+    padding: 24px 32px;
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .dkri-score-block {
+    flex: 0 0 auto;
+    text-align: center;
+  }
+  .dkri-score-value {
+    font-size: 4.0rem;
+    font-weight: 900;
+    color: #F5A623;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    font-family: "Courier New", monospace;
+  }
+  .dkri-zone-label {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #F5A623;
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+  }
+  .dkri-signal {
+    font-size: 0.85rem;
+    color: #F5A623;
+    margin-top: 8px;
+    font-style: italic;
+    letter-spacing: 0.04em;
+  }
+  .dkri-gauge {
+    flex: 0 0 auto;
+  }
+  .dkri-formula {
+    flex: 1;
+    min-width: 260px;
+    background: #0D0D0D;
+    border-radius: 6px;
+    padding: 16px 20px;
+    font-family: "Courier New", monospace;
+    font-size: 0.82rem;
+    color: #999;
+    line-height: 1.8;
+  }
+  .dkri-formula .val { color: #E8E8E8; font-weight: bold; }
+  .dkri-formula .result { color: #F5A623; font-weight: 900; font-size: 1.0rem; }
+
+  /* ---- UNIQUE MECHANISM ---- */
+  .unique-box {
+    margin: 0 40px 28px;
+    background: linear-gradient(90deg, rgba(0,44,95,0.3) 0%, #111111 100%);
+    border: 1px solid #002C5F;
+    border-left: 4px solid #002C5F;
+    border-radius: 0 8px 8px 0;
+    padding: 18px 24px;
+  }
+  .unique-box h3 {
+    color: #00B140;
+    font-size: 0.90rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+  .unique-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+  }
+  .unique-card {
+    background: rgba(0,0,0,0.3);
+    border-radius: 6px;
+    padding: 12px 16px;
+    border: 1px solid #1A2A3A;
+  }
+  .unique-card .u-title {
+    color: #F5A623;
+    font-weight: 700;
+    font-size: 0.82rem;
+    margin-bottom: 5px;
+  }
+  .unique-card p {
+    color: #aaa;
+    font-size: 0.78rem;
+    line-height: 1.55;
+  }
+
+  /* ---- SECTIONS ---- */
+  .section {
+    margin: 0 40px 32px;
+  }
+  .section-title {
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #F5A623;
+    margin-bottom: 14px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #222;
+  }
+
+  /* ---- TABLES ---- */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.84rem;
+  }
+  thead tr {
+    background: #181818;
+  }
+  thead th {
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #666;
+    border-bottom: 1px solid #2A2A2A;
+  }
+  tbody tr {
+    border-bottom: 1px solid #1A1A1A;
+  }
+  tbody tr:hover { background: #161616; }
+  tbody td {
+    padding: 10px 14px;
+    vertical-align: top;
+    color: #E8E8E8;
+  }
+
+  /* ---- GOVERNANCE BANNER ---- */
+  .governance-banner {
+    margin: 0 40px 28px;
+    background: #0D0D0D;
+    border: 1px solid #2A2A2A;
+    border-radius: 8px;
+    padding: 16px 24px;
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .gov-item {
+    font-size: 0.78rem;
+    color: #666;
+    font-family: monospace;
+  }
+  .gov-item .gov-val {
+    color: #00B140;
+    font-weight: bold;
+    margin-left: 6px;
+  }
+  .gov-warn {
+    font-size: 0.78rem;
+    color: #C60C30;
+    font-weight: bold;
+    letter-spacing: 0.06em;
+    margin-left: auto;
+  }
+
+  /* ---- FOOTER ---- */
+  .footer {
+    margin-top: 40px;
+    background: #002C5F;
+    border-top: 3px solid #C60C30;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-left {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.7;
+  }
+  .footer-right {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.4);
+    font-family: monospace;
+    text-align: right;
+  }
+  .canary-signal {
+    text-align: center;
+    padding: 16px 40px 0;
+    font-size: 1.05rem;
+    font-weight: 900;
+    color: #F5A623;
+    letter-spacing: 0.12em;
+    font-family: "Courier New", monospace;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-flag">
+    <!-- Danish flag SVG (red with white cross) -->
+    <svg class="dk-flag" viewBox="0 0 72 50" xmlns="http://www.w3.org/2000/svg">
+      <rect width="72" height="50" fill="#C60C30"/>
+      <rect x="20" y="0" width="8" height="50" fill="white"/>
+      <rect x="0" y="21" width="72" height="8" fill="white"/>
+    </svg>
+    <div class="header-text">
+      <h1>Danmarks Nationalbank — Denmark Canary</h1>
+      <h2>DKRI Wind Energy &amp; EUR Peg Intelligence  |  Domain 113  |  Cluster 5: Economics &amp; Business</h2>
+      <div class="callout-bar">
+        DKK PEGGED TO EUR  ·  WORLD'S OFFSHORE WIND CAPITAL  ·  HIGHEST HOUSEHOLD DEBT RATIO
+      </div>
+    </div>
+  </div>
+  <div class="meta-row">
+    <div>Domain: <span>nationalbanken_denmark_canary</span></div>
+    <div>Region: <span>EUROPE</span></div>
+    <div>Currency: <span>DKK (pegged to EUR at 7.46038 ±2.25%)</span></div>
+    <div>Issued: <span>2026-07-06</span></div>
+    <div>Generated: <span>2026-07-06 04:36 UTC</span></div>
+    <div>Horizon: <span>DAYS_TO_WEEKS</span></div>
+    <div>Languages: <span>EN · DA</span></div>
+  </div>
+</div>
+
+<!-- CANARY SIGNAL -->
+<div class="canary-signal">THE CANARY IS WATCHING</div>
+
+<!-- DKRI HERO -->
+<div class="dkri-hero">
+  <div class="dkri-score-block">
+    <div class="dkri-score-value">0.3220</div>
+    <div class="dkri-zone-label">WATCH</div>
+    <div class="dkri-signal">THE CANARY IS WATCHING</div>
+  </div>
+  <div class="dkri-gauge">
+    
+<svg width="240" height="145" viewBox="0 0 240 145" xmlns="http://www.w3.org/2000/svg">
+  <rect width="240" height="145" fill="#111111" rx="6"/>
+  <path d="M 20.0 120.0 A 100 100 0 0 0 61.2 39.1 L 83.6 69.8 A 62 62 0 0 1 58.0 120.0 Z" fill="#00B140" opacity="0.85"/>
+<path d="M 61.2 39.1 A 100 100 0 0 0 150.9 24.9 L 139.2 61.0 A 62 62 0 0 1 83.6 69.8 Z" fill="#F5A623" opacity="0.85"/>
+<path d="M 150.9 24.9 A 100 100 0 0 0 200.9 61.2 L 170.2 83.6 A 62 62 0 0 1 139.2 61.0 Z" fill="#FF6B35" opacity="0.85"/>
+<path d="M 200.9 61.2 A 100 100 0 0 0 220.0 120.0 L 182.0 120.0 A 62 62 0 0 1 170.2 83.6 Z" fill="#FF2020" opacity="0.85"/>
+
+  <!-- Needle -->
+  <line x1="120" y1="120" x2="73.3" y2="45.4"
+        stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="120" cy="120" r="7" fill="white"/>
+  <!-- Score label -->
+  <text x="120" y="142" text-anchor="middle" font-size="13" font-weight="bold"
+        fill="#F5A623" font-family="monospace">0.3220</text>
+  <text x="120" y="156" text-anchor="middle" font-size="10" fill="#F5A623"
+        font-family="monospace">WATCH</text>
+  <!-- Zone labels -->
+  <text x="20"  y="125" font-size="7" fill="#00B140"  font-weight="bold">NORMAL</text>
+  <text x="68"  y="105" font-size="7" fill="#F5A623" font-weight="bold">WATCH</text>
+  <text x="150" y="105" font-size="7" fill="#FF6B35"  font-weight="bold">ELEV</text>
+  <text x="196" y="125" font-size="7" fill="#FF2020"  font-weight="bold">CRIT</text>
+</svg>
+
+  </div>
+  <div class="dkri-formula">
+    <div><span style="color:#F5A623;font-weight:bold;">DKRI Formula</span></div>
+    <div>KC01 × 0.30  =  <span class="val">0.28 × 0.30  =  0.0840</span></div>
+    <div>KC02 × 0.25  =  <span class="val">0.38 × 0.25  =  0.0950</span></div>
+    <div>KC03 × 0.25  =  <span class="val">0.35 × 0.25  =  0.0875</span></div>
+    <div>KC04 × 0.15  =  <span class="val">0.25 × 0.15  =  0.0375</span></div>
+    <div>KC05 × 0.05  =  <span class="val">0.20 × 0.05  =  0.0100</span></div>
+    <div style="margin-top:8px;border-top:1px solid #333;padding-top:8px;">
+      DKRI  =  <span class="result">0.3220  WATCH</span>
+    </div>
+    <div style="margin-top:6px;font-size:0.72rem;color:#555;">
+      Total contribution: 0.3140 | Check: ✓
+    </div>
+  </div>
+</div>
+
+<!-- UNIQUE MECHANISM -->
+<div class="unique-box">
+  <h3>The Unique Denmark Mechanism — Why Denmark Is the Canary</h3>
+  <div class="unique-grid">
+    <div class="unique-card">
+      <div class="u-title">NO MONETARY INDEPENDENCE</div>
+      <p>Danmarks Nationalbank has zero independent monetary policy. DKK must track ECB
+         at 7.46038 DKK/EUR ±2.25%. Band: [7.29252, 7.62824].
+         FX reserves ~DKK 700B deployed to defend peg. Any housing correction arrives
+         with no domestic rate lever to offset it.</p>
+    </div>
+    <div class="unique-card">
+      <div class="u-title">OFFSHORE WIND SUPERPOWER</div>
+      <p>Ørsted (ORSTED.CO / DNNGY): world's largest offshore wind developer.
+         Vestas (VWS.CO / VWSYF): world's largest wind turbine manufacturer.
+         Both Danish. Both publicly listed. Denmark holds ~10% of global offshore wind capacity.
+         Ørsted stock crashed 60%+ in 2023 on US write-downs.</p>
+    </div>
+    <div class="unique-card">
+      <div class="u-title">WORLD'S HIGHEST HOUSEHOLD DEBT</div>
+      <p>Danish household debt at 280% of disposable income — the world's highest.
+         House prices 40% above EU average (price-to-income 8.2x).
+         A housing correction triggers demand collapse with no monetary offset.
+         Totalkredit and Realkreditrådet are key stress monitors.</p>
+    </div>
+    <div class="unique-card">
+      <div class="u-title">GLOBAL ENERGY TRANSITION CANARY</div>
+      <p>Denmark's Ørsted/Vestas complex makes it the first mover to register
+         global offshore wind stress. US offshore wind write-downs hit Denmark first.
+         Sector financing withdrawal shows in Ørsted stock before global peers.
+         Denmark = the canary for energy transition viability.</p>
+    </div>
+  </div>
+</div>
+
+<!-- KC SCORES -->
+<div class="section">
+  <div class="section-title">DKRI Kill Conditions — Current Scores</div>
+  <table>
+    <thead>
+      <tr>
+        <th>KC</th>
+        <th>Description &amp; Unique Factor</th>
+        <th>Weight</th>
+        <th>Score</th>
+        <th>Zone</th>
+        <th>Contribution</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+        <tr>
+          <td style="color:#F5A623;font-weight:bold;white-space:nowrap;">KC_01</td>
+          <td>
+            <div style="font-weight:bold;color:#E8E8E8;">DKK EUR Peg Defense</div>
+            <div style="font-size:0.78rem;color:#999;margin-top:3px;">DKK/EUR peg at 7.46038 ±2.25%. Nationalbank has NO independent monetary policy. FX reserves ~DKK 700B. Band: [7.29252, 7.62824]. Currently NORMAL — peg stable.</div>
+            <div style="font-size:0.72rem;color:#00B140;margin-top:4px;font-style:italic;">
+              Unique: Nationalbank tracks ECB exactly. Zero monetary independence.
+            </div>
+          </td>
+          <td style="text-align:center;font-weight:bold;color:#F5A623;">30%</td>
+          <td style="text-align:center;">
+            <div style="font-size:1.1rem;font-weight:bold;color:#00B140;">0.2800</div>
+            <div style="background:#222;border-radius:3px;height:8px;width:100%;margin-top:3px;"><div style="background:#00B140;height:8px;border-radius:3px;width:28.0%;"></div></div>
+          </td>
+          <td style="text-align:center;"><span style="background:#00B140;color:#000;padding:2px 8px;border-radius:3px;font-weight:bold;font-size:0.75rem;">NORMAL</span></td>
+          <td style="text-align:center;color:#888;font-size:0.85rem;">0.0840</td>
+        </tr>
+
+        <tr>
+          <td style="color:#F5A623;font-weight:bold;white-space:nowrap;">KC_02</td>
+          <td>
+            <div style="font-weight:bold;color:#E8E8E8;">Orsted / Wind Energy Collapse</div>
+            <div style="font-size:0.78rem;color:#999;margin-top:3px;">Orsted is world's largest offshore wind developer. Stock fell 60%+ in 2023 on US offshore wind write-downs. Vestas is world's largest wind turbine maker. Both Danish. Denmark = global wind energy canary.</div>
+            <div style="font-size:0.72rem;color:#00B140;margin-top:4px;font-style:italic;">
+              Unique: Orsted (DNNGY ADR): world's largest offshore wind. Vestas (VWSYF ADR): largest turbine maker.
+            </div>
+          </td>
+          <td style="text-align:center;font-weight:bold;color:#F5A623;">25%</td>
+          <td style="text-align:center;">
+            <div style="font-size:1.1rem;font-weight:bold;color:#F5A623;">0.3800</div>
+            <div style="background:#222;border-radius:3px;height:8px;width:100%;margin-top:3px;"><div style="background:#F5A623;height:8px;border-radius:3px;width:38.0%;"></div></div>
+          </td>
+          <td style="text-align:center;"><span style="background:#F5A623;color:#000;padding:2px 8px;border-radius:3px;font-weight:bold;font-size:0.75rem;">WATCH</span></td>
+          <td style="text-align:center;color:#888;font-size:0.85rem;">0.0950</td>
+        </tr>
+
+        <tr>
+          <td style="color:#F5A623;font-weight:bold;white-space:nowrap;">KC_03</td>
+          <td>
+            <div style="font-weight:bold;color:#E8E8E8;">Housing Property Bubble</div>
+            <div style="font-size:0.78rem;color:#999;margin-top:3px;">Danish household debt 280% of disposable income (world's highest). House prices 40% above EU average. Housing correction = demand collapse with NO monetary lever to offset. Totalkredit, Realkreditrådet key monitors.</div>
+            <div style="font-size:0.72rem;color:#00B140;margin-top:4px;font-style:italic;">
+              Unique: Household debt 280% DI = world's highest. No monetary policy lever available.
+            </div>
+          </td>
+          <td style="text-align:center;font-weight:bold;color:#F5A623;">25%</td>
+          <td style="text-align:center;">
+            <div style="font-size:1.1rem;font-weight:bold;color:#F5A623;">0.3500</div>
+            <div style="background:#222;border-radius:3px;height:8px;width:100%;margin-top:3px;"><div style="background:#F5A623;height:8px;border-radius:3px;width:35.0%;"></div></div>
+          </td>
+          <td style="text-align:center;"><span style="background:#F5A623;color:#000;padding:2px 8px;border-radius:3px;font-weight:bold;font-size:0.75rem;">WATCH</span></td>
+          <td style="text-align:center;color:#888;font-size:0.85rem;">0.0875</td>
+        </tr>
+
+        <tr>
+          <td style="color:#F5A623;font-weight:bold;white-space:nowrap;">KC_04</td>
+          <td>
+            <div style="font-weight:bold;color:#E8E8E8;">ECB Policy Divergence</div>
+            <div style="font-size:0.78rem;color:#999;margin-top:3px;">ECB rate decisions Denmark must track automatically. When ECB diverges from Danish economic needs, domestic stress builds. Current rate differential minimal.</div>
+            <div style="font-size:0.72rem;color:#00B140;margin-top:4px;font-style:italic;">
+              Unique: Denmark forced to track ECB regardless of domestic economic conditions.
+            </div>
+          </td>
+          <td style="text-align:center;font-weight:bold;color:#F5A623;">15%</td>
+          <td style="text-align:center;">
+            <div style="font-size:1.1rem;font-weight:bold;color:#00B140;">0.2500</div>
+            <div style="background:#222;border-radius:3px;height:8px;width:100%;margin-top:3px;"><div style="background:#00B140;height:8px;border-radius:3px;width:25.0%;"></div></div>
+          </td>
+          <td style="text-align:center;"><span style="background:#00B140;color:#000;padding:2px 8px;border-radius:3px;font-weight:bold;font-size:0.75rem;">NORMAL</span></td>
+          <td style="text-align:center;color:#888;font-size:0.85rem;">0.0375</td>
+        </tr>
+
+        <tr>
+          <td style="color:#F5A623;font-weight:bold;white-space:nowrap;">KC_05</td>
+          <td>
+            <div style="font-weight:bold;color:#E8E8E8;">Banking System Stress</div>
+            <div style="font-size:0.78rem;color:#999;margin-top:3px;">Danske Bank (2019 money laundering scandal legacy), Nordea Denmark, Jyske Bank. NPL ratios elevated but manageable. Financial stability review ongoing.</div>
+            <div style="font-size:0.72rem;color:#00B140;margin-top:4px;font-style:italic;">
+              Unique: Danske Bank: Europe's largest money laundering case history (EUR 200B).
+            </div>
+          </td>
+          <td style="text-align:center;font-weight:bold;color:#F5A623;">5%</td>
+          <td style="text-align:center;">
+            <div style="font-size:1.1rem;font-weight:bold;color:#00B140;">0.2000</div>
+            <div style="background:#222;border-radius:3px;height:8px;width:100%;margin-top:3px;"><div style="background:#00B140;height:8px;border-radius:3px;width:20.0%;"></div></div>
+          </td>
+          <td style="text-align:center;"><span style="background:#00B140;color:#000;padding:2px 8px;border-radius:3px;font-weight:bold;font-size:0.75rem;">NORMAL</span></td>
+          <td style="text-align:center;color:#888;font-size:0.85rem;">0.0100</td>
+        </tr>
+
+    </tbody>
+  </table>
+</div>
+
+<!-- TRANSMISSION CHANNELS -->
+<div class="section">
+  <div class="section-title">US Transmission Channels</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Channel</th>
+        <th>Weight</th>
+        <th>Score (Current)</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+        <tr>
+          <td style="font-weight:bold;color:#F5A623;">Wind Energy Transition</td>
+          <td style="text-align:center;">40%</td>
+          <td>
+            <div style="font-size:1.05rem;font-weight:bold;color:#E8E8E8;">0.3605</div>
+            <div style="background:#222;border-radius:3px;height:8px;width:100%;margin-top:3px;"><div style="background:#F5A623;height:8px;border-radius:3px;width:36.0%;"></div></div>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="font-weight:bold;color:#F5A623;">European Stability</td>
+          <td style="text-align:center;">30%</td>
+          <td>
+            <div style="font-size:1.05rem;font-weight:bold;color:#E8E8E8;">0.2605</div>
+            <div style="background:#222;border-radius:3px;height:8px;width:100%;margin-top:3px;"><div style="background:#00B140;height:8px;border-radius:3px;width:26.1%;"></div></div>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="font-weight:bold;color:#F5A623;">Housing Contagion</td>
+          <td style="text-align:center;">20%</td>
+          <td>
+            <div style="font-size:1.05rem;font-weight:bold;color:#E8E8E8;">0.3325</div>
+            <div style="background:#222;border-radius:3px;height:8px;width:100%;margin-top:3px;"><div style="background:#F5A623;height:8px;border-radius:3px;width:33.2%;"></div></div>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="font-weight:bold;color:#F5A623;">Safe Haven</td>
+          <td style="text-align:center;">10%</td>
+          <td>
+            <div style="font-size:1.05rem;font-weight:bold;color:#E8E8E8;">0.2550</div>
+            <div style="background:#222;border-radius:3px;height:8px;width:100%;margin-top:3px;"><div style="background:#00B140;height:8px;border-radius:3px;width:25.5%;"></div></div>
+          </td>
+        </tr>
+
+    </tbody>
+  </table>
+</div>
+
+<!-- US EQUITY IMPACTS -->
+<div class="section">
+  <div class="section-title">US Equity Impacts (10 Instruments)</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Ticker</th>
+        <th>Description</th>
+        <th>Channel</th>
+        <th>Direction</th>
+        <th>Sensitivity</th>
+        <th>Alert</th>
+        <th>Note</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+        <tr>
+          <td style="font-weight:bold;color:#F5A623;font-size:1rem;">DNNGY</td>
+          <td style="color:#E8E8E8;">Orsted ADR</td>
+          <td style="font-size:0.8rem;color:#999;">Wind Energy Transition</td>
+          <td style="text-align:center;"><span style="background:#C60C30;color:#fff;padding:2px 8px;border-radius:3px;font-weight:bold;font-size:0.75rem;">NEG ▼</span></td>
+          <td style="text-align:center;">
+            <div style="font-weight:bold;">0.95</div>
+            <div style="background:#222;border-radius:3px;height:8px;width:100%;margin-top:3px;"><div style="background:#FF2020;height:8px;border-radius:3px;width:95.0%;"></div></div>
+          </td>
+          <td style="text-align:center;"><span style="background:#F5A623;color:#fff;padding:2px 6px;border-radius:3px;font-size:0.70rem;">MODERATE</span></td>
+          <td style="font-size:0.78rem;color:#888;">Direct Orsted write-down/collapse = ADR falls proportionally. World's largest offshore wind.</td>
+        </tr>
+
+        <tr>
+          <td style="font-weight:bold;color:#F5A623;font-size:1rem;">VWSYF</td>
+          <td style="color:#E8E8E8;">Vestas ADR</td>
+          <td style="font-size:0.8rem;color:#999;">Wind Energy Transition</td>
+          <td style="text-align:center;"><span style="background:#C60C30;color:#fff;padding:2px 8px;border-radius:3px;font-weight:bold;font-size:0.75rem;">NEG ▼</span></td>
+          <td style="text-align:center;">
+            <div style="font-weight:bold;">0.85</div>
+            <div style="background:#222;border-radius:3px;height:8px;width:100%;margin-top:3px;"><div style="background:#FF2020;height:8px;border-radius:3px;width:85.0%;"></div></div>
+          </td>
+          <td style="text-align:center;"><span style="background:#F5A623;color:#fff;padding:2px 6px;border-radius:3px;font-size:0.70rem;">MODERATE</span></td>
+          <td style="font-size:0.78rem;color:#888;">Vestas turbine order collapse = ADR falls. World's largest wind turbine manufacturer.</td>
+        </tr>
+
+        <tr>
+          <td style="font-weight:bold;color:#F5A623;font-size:1rem;">NEE</td>
+          <td style="color:#E8E8E8;">NextEra Energy</td>
+          <td style="font-size:0.8rem;color:#999;">Wind Energy Transition</td>
+          <td style="text-align:center;"><span style="background:#C60C30;color:#fff;padding:2px 8px;border-radius:3px;font-weight:bold;font-size:0.75rem;">NEG ▼</span></td>
+          <td style="text-align:center;">
+            <div style="font-weight:bold;">0.55</div>
+            <div style="background:#222;border-radius:3px;height:8px;width:100%;margin-top:3px;"><div style="background:#F5A623;height:8px;border-radius:3px;width:55.0%;"></div></div>
+          </td>
+          <td style="text-align:center;"><span style="background:#002C5F;color:#fff;padding:2px 6px;border-radius:3px;font-size:0.70rem;">LOW</span></td>
+          <td style="font-size:0.78rem;color:#888;">Global wind sector stress = NextEra offshore wind peers affected.</td>
+        </tr>
+
+        <tr>
+          <td style="font-weight:bold;color:#F5A623;font-size:1rem;">ENPH</td>
+          <td style="color:#E8E8E8;">Enphase Energy</td>
+          <td style="font-size:0.8rem;color:#999;">Wind Energy Transition</td>
+          <td style="text-align:center;"><span style="background:#C60C30;color:#fff;padding:2px 8px;border-radius:3px;font-weight:bold;font-size:0.75rem;">NEG ▼</span></td>
+          <td style="text-align:center;">
+            <div style="font-weight:bold;">0.45</div>
+            <div style="background:#222;border-radius:3px;height:8px;width:100%;margin-top:3px;"><div style="background:#F5A623;height:8px;border-radius:3px;width:45.0%;"></div></div>
+          </td>
+          <td style="text-align:center;"><span style="background:#002C5F;color:#fff;padding:2px 6px;border-radius:3px;font-size:0.70rem;">LOW</span></td>
+          <td style="font-size:0.78rem;color:#888;">Renewables financing crisis = ENPH falls on broad sector sentiment.</td>
+        </tr>
+
+        <tr>
+          <td style="font-weight:bold;color:#F5A623;font-size:1rem;">EWD</td>
+          <td style="color:#E8E8E8;">iShares MSCI Sweden ETF</td>
+          <td style="font-size:0.8rem;color:#999;">European Stability</td>
+          <td style="text-align:center;"><span style="background:#C60C30;color:#fff;padding:2px 8px;border-radius:3px;font-weight:bold;font-size:0.75rem;">NEG ▼</span></td>
+          <td style="text-align:center;">
+            <div style="font-weight:bold;">0.60</div>
+            <div style="background:#222;border-radius:3px;height:8px;width:100%;margin-top:3px;"><div style="background:#FF6B35;height:8px;border-radius:3px;width:60.0%;"></div></div>
+          </td>
+          <td style="text-align:center;"><span style="background:#002C5F;color:#fff;padding:2px 6px;border-radius:3px;font-size:0.70rem;">LOW</span></td>
+          <td style="font-size:0.78rem;color:#888;">Nordic financial contagion signal. Sweden property bubble also elevated.</td>
+        </tr>
+
+        <tr>
+          <td style="font-weight:bold;color:#F5A623;font-size:1rem;">FXE</td>
+          <td style="color:#E8E8E8;">Euro Currency Trust ETF</td>
+          <td style="font-size:0.8rem;color:#999;">European Stability</td>
+          <td style="text-align:center;"><span style="background:#C60C30;color:#fff;padding:2px 8px;border-radius:3px;font-weight:bold;font-size:0.75rem;">NEG ▼</span></td>
+          <td style="text-align:center;">
+            <div style="font-weight:bold;">0.65</div>
+            <div style="background:#222;border-radius:3px;height:8px;width:100%;margin-top:3px;"><div style="background:#FF6B35;height:8px;border-radius:3px;width:65.0%;"></div></div>
+          </td>
+          <td style="text-align:center;"><span style="background:#002C5F;color:#fff;padding:2px 6px;border-radius:3px;font-size:0.70rem;">LOW</span></td>
+          <td style="font-size:0.78rem;color:#888;">DKK peg stress signals EUR fragility. FXE falls on European instability.</td>
+        </tr>
+
+        <tr>
+          <td style="font-weight:bold;color:#F5A623;font-size:1rem;">TLT</td>
+          <td style="color:#E8E8E8;">iShares 20+ Yr Treasury</td>
+          <td style="font-size:0.8rem;color:#999;">Safe Haven</td>
+          <td style="text-align:center;"><span style="background:#00B140;color:#000;padding:2px 8px;border-radius:3px;font-weight:bold;font-size:0.75rem;">POS ▲</span></td>
+          <td style="text-align:center;">
+            <div style="font-weight:bold;">0.60</div>
+            <div style="background:#222;border-radius:3px;height:8px;width:100%;margin-top:3px;"><div style="background:#FF6B35;height:8px;border-radius:3px;width:60.0%;"></div></div>
+          </td>
+          <td style="text-align:center;"><span style="background:#002C5F;color:#fff;padding:2px 6px;border-radius:3px;font-size:0.70rem;">LOW</span></td>
+          <td style="font-size:0.78rem;color:#888;">European stress triggers US Treasury flight to safety.</td>
+        </tr>
+
+        <tr>
+          <td style="font-weight:bold;color:#F5A623;font-size:1rem;">GLD</td>
+          <td style="color:#E8E8E8;">SPDR Gold Shares ETF</td>
+          <td style="font-size:0.8rem;color:#999;">Safe Haven</td>
+          <td style="text-align:center;"><span style="background:#00B140;color:#000;padding:2px 8px;border-radius:3px;font-weight:bold;font-size:0.75rem;">POS ▲</span></td>
+          <td style="text-align:center;">
+            <div style="font-weight:bold;">0.55</div>
+            <div style="background:#222;border-radius:3px;height:8px;width:100%;margin-top:3px;"><div style="background:#F5A623;height:8px;border-radius:3px;width:55.0%;"></div></div>
+          </td>
+          <td style="text-align:center;"><span style="background:#002C5F;color:#fff;padding:2px 6px;border-radius:3px;font-size:0.70rem;">LOW</span></td>
+          <td style="font-size:0.78rem;color:#888;">European peg stress drives gold safe haven demand.</td>
+        </tr>
+
+        <tr>
+          <td style="font-weight:bold;color:#F5A623;font-size:1rem;">BLK</td>
+          <td style="color:#E8E8E8;">BlackRock Inc.</td>
+          <td style="font-size:0.8rem;color:#999;">Housing Contagion</td>
+          <td style="text-align:center;"><span style="background:#C60C30;color:#fff;padding:2px 8px;border-radius:3px;font-weight:bold;font-size:0.75rem;">NEG ▼</span></td>
+          <td style="text-align:center;">
+            <div style="font-weight:bold;">0.40</div>
+            <div style="background:#222;border-radius:3px;height:8px;width:100%;margin-top:3px;"><div style="background:#F5A623;height:8px;border-radius:3px;width:40.0%;"></div></div>
+          </td>
+          <td style="text-align:center;"><span style="background:#002C5F;color:#fff;padding:2px 6px;border-radius:3px;font-size:0.70rem;">LOW</span></td>
+          <td style="font-size:0.78rem;color:#888;">European property market stress affects BlackRock property fund AUM.</td>
+        </tr>
+
+        <tr>
+          <td style="font-weight:bold;color:#F5A623;font-size:1rem;">SPY</td>
+          <td style="color:#E8E8E8;">SPDR S&P 500 ETF</td>
+          <td style="font-size:0.8rem;color:#999;">European Stability</td>
+          <td style="text-align:center;"><span style="background:#C60C30;color:#fff;padding:2px 8px;border-radius:3px;font-weight:bold;font-size:0.75rem;">NEG ▼</span></td>
+          <td style="text-align:center;">
+            <div style="font-weight:bold;">0.20</div>
+            <div style="background:#222;border-radius:3px;height:8px;width:100%;margin-top:3px;"><div style="background:#00B140;height:8px;border-radius:3px;width:20.0%;"></div></div>
+          </td>
+          <td style="text-align:center;"><span style="background:#444444;color:#fff;padding:2px 6px;border-radius:3px;font-size:0.70rem;">NEGLIGIBLE</span></td>
+          <td style="font-size:0.78rem;color:#888;">DKK peg stress = European financial stability signal. Mild broad market impact.</td>
+        </tr>
+
+    </tbody>
+  </table>
+</div>
+
+<!-- DATA SOURCES -->
+<div class="section">
+  <div class="section-title">Data Sources</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Source Slug</th>
+        <th>Description</th>
+        <th>Type</th>
+        <th>Credibility</th>
+        <th>Refresh (min)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td style="color:#F5A623;">nationalbanken_releases</td><td>Danmarks Nationalbank Press Releases</td><td>RSS</td><td>0.95</td><td>60</td></tr>
+      <tr><td style="color:#F5A623;">ecb_data</td><td>European Central Bank Data</td><td>REST_API</td><td>0.95</td><td>60</td></tr>
+      <tr><td style="color:#F5A623;">imf_denmark_data</td><td>IMF Denmark Data</td><td>REST_API</td><td>0.92</td><td>60</td></tr>
+      <tr><td style="color:#F5A623;">dst_statistics</td><td>Statistics Denmark (Danmarks Statistik)</td><td>REST_API</td><td>0.90</td><td>60</td></tr>
+      <tr><td style="color:#F5A623;">realkreditraadet_data</td><td>Realkreditrådet (Danish Mortgage Council)</td><td>REST_API</td><td>0.88</td><td>60</td></tr>
+      <tr><td style="color:#F5A623;">reuters_nordic_rss</td><td>Reuters Nordic RSS</td><td>RSS</td><td>0.85</td><td>60</td></tr>
+      <tr><td style="color:#F5A623;">orsted_releases</td><td>Ørsted Press Releases</td><td>RSS</td><td>0.85</td><td>60</td></tr>
+      <tr><td style="color:#F5A623;">financial_times_nordic</td><td>Financial Times Nordic RSS</td><td>RSS</td><td>0.82</td><td>60</td></tr>
+      <tr><td style="color:#F5A623;">borsen_dk_rss</td><td>Børsen (Danish Financial Daily)</td><td>RSS</td><td>0.80</td><td>60</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- GOVERNANCE BANNER -->
+<div class="governance-banner">
+  <div class="gov-item">EXECUTION_AUTHORITY: <span class="gov-val">HUMAN_ONLY_MANUAL</span></div>
+  <div class="gov-item">ORDER_ROUTING: <span class="gov-val">DISABLED</span></div>
+  <div class="gov-item">ORDERS_GENERATED: <span class="gov-val">0</span></div>
+  <div class="gov-item">DOMAIN: <span class="gov-val">113</span></div>
+  <div class="gov-item">CLUSTER: <span class="gov-val">5 — Economics &amp; Business</span></div>
+  <div class="gov-warn">NO ORDERS WILL BE GENERATED — INTELLIGENCE ONLY</div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-left">
+    <strong style="color:white;">CivilisationOS — Danmarks Nationalbank Denmark Canary</strong><br/>
+    Domain 113 · Cluster 5 · Region: EUROPE · Currency: DKK<br/>
+    DKRI: 0.3220 WATCH · Issued: 2026-07-06<br/>
+    <span style="color:rgba(255,255,255,0.35);">
+      DKK/EUR: 7.46038 ±2.25% · Ørsted (DNNGY) · Vestas (VWSYF) · AP Moller-Maersk (APMB.CO)
+    </span>
+  </div>
+  <div class="footer-right">
+    Generated: 2026-07-06 04:36 UTC<br/>
+    NATIONALBANKEN_DENMARK_CANARY<br/>
+    THE CANARY IS WATCHING<br/>
+    <span style="color:rgba(255,255,255,0.25);">
+      WORLD'S LARGEST OFFSHORE WIND NATION<br/>
+      DKK PEG TRACKS ECB · HOUSEHOLD DEBT 280% DI
+    </span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     CLUSTER 5 ECONOMICS — Injected by inject_c5_into_briefs.py
+     Supply Chain · Real Estate · Insurance
+     Structural metadata baseline (no live articles)
+     ═══════════════════════════════════════════════════════════════ -->
+<style>
+.c5-section{margin-bottom:40px;border:1px solid #30363d;border-radius:8px;overflow:hidden}
+.c5-header{background:#0d2232;border-bottom:1px solid #30363d;padding:14px 20px;display:flex;align-items:center;gap:12px}
+.c5-header-title{font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#58a6ff}
+.c5-header-sub{font-size:11px;color:#8b949e}
+.c5-composite-badge{margin-left:auto;padding:6px 16px;border-radius:6px;font-size:13px;font-weight:800;border:2px solid #238636;background:#0d2e14;color:#4ade80}
+.c5-grid{display:flex;gap:0;border-top:1px solid #30363d}
+.c5-metric{flex:1;padding:18px 16px;text-align:center;border-right:1px solid #30363d}
+.c5-metric:last-child{border-right:none}
+.c5-metric-abbr{font-size:16px;font-weight:800;letter-spacing:.06em;margin-bottom:2px}
+.c5-metric-label{font-size:10px;color:#8b949e;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em}
+.c5-metric-score{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;margin-bottom:6px}
+.c5-footer{padding:10px 20px;background:#0d1117;border-top:1px solid #30363d;font-size:10px;color:#8b949e}
+</style>
+<div class="section c5-section" id="cluster5">
+  <div class="c5-header">
+    <div>
+      <div class="c5-header-title">⚙ Cluster 5 Economics</div>
+      <div class="c5-header-sub">Supply Chain Risk · Real Estate Risk · Insurance Risk · Structural Baseline</div>
+    </div>
+    <div class="c5-composite-badge">C5 &nbsp; 0.1600 &nbsp; NORMAL</div>
+  </div>
+  <div class="c5-grid">
+        <div class="c5-metric"><div class="c5-metric-abbr" style="color:#fbbf24;">SCRI</div><div class="c5-metric-label">Supply Chain Risk</div><div class="c5-metric-score" style="color:#fbbf24;">0.2600</div><div class="c5-metric-zone" style="background:#2e1e00;color:#fbbf24;border:1px solid #B38600;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:.06em;">WATCH</div></div>
+        <div class="c5-metric"><div class="c5-metric-abbr" style="color:#4ade80;">RERI</div><div class="c5-metric-label">Real Estate Risk</div><div class="c5-metric-score" style="color:#4ade80;">0.1500</div><div class="c5-metric-zone" style="background:#0d2e14;color:#4ade80;border:1px solid #238636;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:.06em;">NORMAL</div></div>
+        <div class="c5-metric"><div class="c5-metric-abbr" style="color:#4ade80;">INRI</div><div class="c5-metric-label">Insurance Risk</div><div class="c5-metric-score" style="color:#4ade80;">0.0700</div><div class="c5-metric-zone" style="background:#0d2e14;color:#4ade80;border:1px solid #238636;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:.06em;">NORMAL</div></div>
+  </div>
+  <div class="c5-footer">
+    ⓘ Structural metadata baseline — scores derived from sovereign config features (chokepoints, market type, nat-cat perils, insurance depth). Live article analysis raises floor scores above these baselines.
+    &nbsp;|&nbsp; Region: Northern Europe &nbsp;|&nbsp; Market: developed &nbsp;|&nbsp; Supply depth: advanced
+  </div>
+</div>
+</body>
+</html>

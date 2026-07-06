@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taiwan AI Canary — Q3 2026 Intelligence Brief</title>
+<style>
+  :root {
+    --bg:        #0d1117;
+    --surface:   #161b22;
+    --border:    #30363d;
+    --blue:      #58a6ff;
+    --green:     #3fb950;
+    --amber:     #d29922;
+    --red:       #f85149;
+    --text:      #e6edf3;
+    --muted:     #8b949e;
+    --th-bg:     #1c2128;
+    --tr-alt:    #161b22;
+    --accent:    #1f6feb;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 32px 16px 64px;
+  }
+
+  .page { max-width: 1100px; margin: 0 auto; }
+
+  /* ── Header ── */
+  .report-header {
+    background: linear-gradient(135deg, #0d1b2e 0%, #162032 100%);
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+    padding: 28px 32px 22px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .report-header::before {
+    content: "";
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, #1f6feb, #58a6ff, #3fb950);
+  }
+  .report-header h1 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .report-header h2 { font-size: 14px; color: var(--blue); font-weight: 400; margin-bottom: 2px; }
+  .report-header h3 { font-size: 12px; color: var(--muted); font-weight: 400; }
+
+  /* ── Section titles ── */
+  h2.section {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--blue);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+    margin: 36px 0 16px;
+  }
+  h3.sub { font-size: 13px; font-weight: 600; color: var(--text); margin: 24px 0 12px; }
+
+  /* ── Callout ── */
+  .callout {
+    background: #0f2a1e;
+    border-left: 3px solid var(--green);
+    border-radius: 0 6px 6px 0;
+    padding: 12px 16px;
+    margin: 16px 0;
+    color: #aff0c0;
+    font-style: italic;
+    font-size: 13.5px;
+  }
+  .callout strong { color: #3fb950; font-style: normal; }
+
+  /* ── Tables ── */
+  .tbl-wrap { overflow-x: auto; margin: 0 0 24px; border-radius: 8px; border: 1px solid var(--border); }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  th {
+    background: var(--th-bg);
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    padding: 9px 14px;
+    border-bottom: 1px solid #21262d;
+    vertical-align: middle;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: var(--tr-alt); }
+  tr:hover td { background: #1c2128; }
+
+  /* ── Status table (2-col key-value) ── */
+  .status-table td:first-child { color: var(--muted); font-size: 12px; width: 200px; }
+  .status-table td:last-child  { font-weight: 500; }
+
+  /* ── Ticker badges ── */
+  .ticker {
+    background: #1c2128;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-family: monospace;
+    font-size: 12px;
+    color: var(--blue);
+    font-weight: 600;
+  }
+  .ticker.inverse { color: #a5d6ff; border-color: #388bfd; background: #0d2044; }
+
+  /* ── Score bars ── */
+  .bar-wrap { display: flex; align-items: center; gap: 8px; }
+  .bar { height: 6px; border-radius: 3px; min-width: 4px; }
+  .bar-val { font-family: monospace; font-size: 12px; color: var(--muted); }
+
+  /* ── Dependency / direction pills ── */
+  .pill {
+    display: inline-block;
+    border-radius: 12px;
+    padding: 2px 9px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .pill-green  { background: #0f2a1e; color: #3fb950; border: 1px solid #238636; }
+  .pill-red    { background: #2a0f0f; color: #f85149; border: 1px solid #6e1313; }
+  .pill-amber  { background: #2a1f0f; color: #d29922; border: 1px solid #6e4c13; }
+  .pill-blue   { background: #0d1f3c; color: #58a6ff; border: 1px solid #1f6feb; }
+  .pill-grey   { background: #1c2128; color: #8b949e; border: 1px solid #30363d; }
+
+  /* ── Mono / code ── */
+  code {
+    font-family: "Cascadia Code", "Fira Code", Consolas, monospace;
+    font-size: 12px;
+    background: #1c2128;
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: #e6edf3;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    margin-top: 48px;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+  .footer strong { color: var(--text); }
+
+  /* ── Divider ── */
+  hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+
+  p { margin-bottom: 12px; }
+  strong { color: #fff; }
+  em { color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ══════════════════════════════════════════════════════════ HEADER -->
+<div class="report-header">
+  <h1>🇹🇼 TAIWAN AI CANARY — Q3 2026 INTELLIGENCE BRIEF</h1>
+  <h2>CivilisationOS &nbsp;|&nbsp; TSMC_TAIWAN_CANARY &nbsp;|&nbsp; Domain 33</h2>
+  <h3>Issued: 2026-07-04 &nbsp;|&nbsp; Clerk: 台灣半導體情報員</h3>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ EXECUTIVE STATUS -->
+<h2 class="section">Executive Status</h2>
+<div class="tbl-wrap">
+<table class="status-table">
+  <tbody>
+    <tr><td>TCRI Composite</td>         <td>🟢 <strong>0.2050 — NORMAL</strong></td></tr>
+    <tr><td>CoWoS-L Status</td>         <td>🟢 Fully booked H2 2026 — demand confirmed</td></tr>
+    <tr><td>N2 Ramp Status</td>         <td>🟢 75% yield at Fab 20 — on schedule Q3</td></tr>
+    <tr><td>Taiwan Strait</td>          <td>🟢 Quiet — no major exercises June/July</td></tr>
+    <tr><td>CBC Rate</td>               <td>🟢 1.875% hold — 337bps below Fed, stable</td></tr>
+    <tr><td>TWD/USD</td>                <td>🟢 32.4 — 7.5% buffer above compression threshold</td></tr>
+    <tr><td>Cross-Domain Alert</td>     <td>⚪ None</td></tr>
+    <tr><td>Kill Conditions Triggered</td><td>⚪ 0 of 5</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout">
+  <strong>The canary is singing.</strong> All five kill conditions are green. The Taiwan semiconductor corridor is operating at full capacity with confirmed demand through year-end.
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ NEWS → SIGNAL MAP -->
+<h2 class="section">Today's News → Signal Map &nbsp;|&nbsp; 2026-07-04 Morning Sweep</h2>
+<p><em>8 items processed — 6 English, 2 Traditional Chinese (繁體中文)</em></p>
+<div class="tbl-wrap">
+<table>
+  <thead><tr><th>#</th><th>Source</th><th>Headline (condensed)</th><th>Signal</th><th>Direction</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>1</td><td>Digitimes 🇹🇼</td>
+      <td>CoWoS-L fully booked H2 2026 — NVIDIA GB300 ramp, 26-week lead time</td>
+      <td>CoWoS price raise</td>
+      <td><span class="pill pill-amber">🟡 MIXED</span> — demand confirmed, zero buffer</td>
+    </tr>
+    <tr>
+      <td>2</td><td>Digitimes 🇹🇼</td>
+      <td>N2 yield 75% at Fab 20, mass production Q3 on track</td>
+      <td>N2/N3 MILESTONE</td>
+      <td><span class="pill pill-green">🟢 BULLISH</span> — roadmap secured</td>
+    </tr>
+    <tr>
+      <td>3</td><td>TSMC IR 🏭</td>
+      <td>Q2 2026 Revenue NT$839.25B — CoWoS +38% YoY, Q4 expansion confirmed</td>
+      <td>CoWoS POSITIVE</td>
+      <td><span class="pill pill-green">🟢 BULLISH</span> — beat + forward capacity</td>
+    </tr>
+    <tr>
+      <td>4</td><td>Focus Taiwan 🇹🇼</td>
+      <td>Arizona Fab 21 Phase 2 N3 ahead of schedule</td>
+      <td>N2/N3 MILESTONE + Strait hedge</td>
+      <td><span class="pill pill-green">🟢 BULLISH</span> — diversification progressing</td>
+    </tr>
+    <tr>
+      <td>5</td><td>Taipei Times 🇹🇼</td>
+      <td>CBC holds 1.875% — Governor Yang: no near-term hike, TWD stable</td>
+      <td>CBC hold</td>
+      <td><span class="pill pill-grey">⚪ NEUTRAL</span> — no monetary surprise</td>
+    </tr>
+    <tr>
+      <td>6</td><td>經濟日報 🇹🇼</td>
+      <td>央行六月維持利率1.875%不變，台幣匯率穩定在32附近</td>
+      <td>CBC hold (ZH-TW confirmation)</td>
+      <td><span class="pill pill-grey">⚪ NEUTRAL</span> — bilingual confirmation</td>
+    </tr>
+    <tr>
+      <td>7</td><td>MND Taiwan 🛡️</td>
+      <td>No major PLA exercises June — median line transit June 12, no incursion</td>
+      <td>Strait quiet</td>
+      <td><span class="pill pill-grey">⚪ NEUTRAL</span> — below ADIZ threshold</td>
+    </tr>
+    <tr>
+      <td>8</td><td>商業時報 🇹🇼</td>
+      <td>台積電CoWoS-L產能供不應求，輝達GB300訂單強勁</td>
+      <td>CoWoS demand (ZH-TW confirmation)</td>
+      <td><span class="pill pill-amber">🟡 MIXED</span> — demand strong, supply tight</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p><strong>Net corpus signal: POSITIVE</strong> &nbsp;|&nbsp; 3 bullish items, 2 mixed, 3 neutral, 0 bearish</p>
+
+<!-- ══════════════════════════════════════════════════════════ KILL CONDITIONS -->
+<h2 class="section">Kill Condition Dashboard</h2>
+<div class="tbl-wrap">
+<table>
+  <thead><tr><th>Kill Condition</th><th>Label</th><th>Weight</th><th>Score</th><th>Triggered</th><th>Status</th></tr></thead>
+  <tbody>
+    <tr><td>TCRI_KC_01</td>      <td>CBC Rate Surprise</td>       <td>15%</td><td><code>0.10</code></td><td>❌ No</td><td>🟢 CBC on hold, no surprise</td></tr>
+    <tr><td>TCRI_KC_02</td>      <td>TWD Rapid Appreciation</td>  <td>15%</td><td><code>0.25</code></td><td>❌ No</td><td>🟢 32.4 — well above 30.0 floor</td></tr>
+    <tr><td><strong>TCRI_KC_03 ⚡</strong></td><td><strong>CoWoS Disruption</strong></td><td><strong>30%</strong></td><td><code>0.30</code></td><td>❌ No</td><td>🟢 Positive — fully booked, +38% YoY</td></tr>
+    <tr><td>TCRI_KC_04</td>      <td>TSMC Capacity Warning</td>   <td>25%</td><td><code>0.10</code></td><td>❌ No</td><td>🟢 N2 75% yield, Arizona ahead</td></tr>
+    <tr><td><strong>TCRI_KC_05 ⚡</strong></td><td><strong>Taiwan Strait Escalation</strong></td><td><strong>15%</strong></td><td><code>0.05</code></td><td>❌ No</td><td>🟢 Quiet — 0 aircraft, no exercises</td></tr>
+  </tbody>
+</table>
+</div>
+<p><em>⚡ = Single trigger: fires full alert at severity HIGH+ regardless of composite score</em></p>
+
+<!-- ══════════════════════════════════════════════════════════ CHANNELS -->
+<h2 class="section">Transmission Channel Scores</h2>
+<div class="tbl-wrap">
+<table>
+  <thead><tr><th>Channel</th><th>Weight</th><th>Score</th><th>Activity</th><th>Dominant Source</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>CoWoS Packaging</td><td>40%</td><td><code>0.300</code></td>
+      <td><div class="bar-wrap"><div class="bar" style="width:90px;background:#1f6feb;"></div><span class="bar-val">30%</span></div></td>
+      <td>Digitimes + TSMC IR</td>
+    </tr>
+    <tr>
+      <td>TSMC Capacity</td><td>30%</td><td><code>0.100</code></td>
+      <td><div class="bar-wrap"><div class="bar" style="width:30px;background:#388bfd;"></div><span class="bar-val">10%</span></div></td>
+      <td>Digitimes N2 yield</td>
+    </tr>
+    <tr>
+      <td>Taiwan Strait</td><td>20%</td><td><code>0.250</code></td>
+      <td><div class="bar-wrap"><div class="bar" style="width:75px;background:#d29922;"></div><span class="bar-val">25%</span></div></td>
+      <td>MND Taiwan</td>
+    </tr>
+    <tr>
+      <td>TWD / FX</td><td>10%</td><td><code>0.250</code></td>
+      <td><div class="bar-wrap"><div class="bar" style="width:75px;background:#d29922;"></div><span class="bar-val">25%</span></div></td>
+      <td>Taipei Times + 經濟日報</td>
+    </tr>
+    <tr style="border-top:2px solid var(--border);">
+      <td><strong>TCRI COMPOSITE</strong></td><td><strong>100%</strong></td><td><strong><code>0.2050</code></strong></td>
+      <td><div class="bar-wrap"><div class="bar" style="width:61px;background:#3fb950;"></div><span class="bar-val" style="color:#3fb950;font-weight:700;">🟢 NORMAL</span></div></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ STOCK IMPACT -->
+<h2 class="section">US AI Stock Impact Scores &nbsp;|&nbsp; Baseline TCRI 0.2050</h2>
+<div class="tbl-wrap">
+<table>
+  <thead><tr><th>Stock</th><th>Ticker</th><th>Dependency</th><th>Impact Score</th><th>Bar</th><th>Primary Channel</th><th>Note</th></tr></thead>
+  <tbody>
+    <tr><td>NVIDIA</td>            <td><span class="ticker">NVDA</span></td><td><span class="pill pill-red">🔴 CRITICAL</span></td><td><strong>0.1856</strong></td><td><div class="bar-wrap"><div class="bar" style="width:111px;background:#f85149;"></div></div></td><td>CoWoS packaging</td><td>GB300 sole path via CoWoS-L</td></tr>
+    <tr><td>AMD</td>               <td><span class="ticker">AMD</span></td> <td><span class="pill pill-amber">🟠 HIGH</span></td>    <td>0.1606</td><td><div class="bar-wrap"><div class="bar" style="width:96px;background:#f0883e;"></div></div></td><td>CoWoS packaging</td><td>MI350 via CoWoS-S</td></tr>
+    <tr><td>Broadcom</td>          <td><span class="ticker">AVGO</span></td><td><span class="pill pill-amber">🟠 HIGH</span></td>    <td>0.1480</td><td><div class="bar-wrap"><div class="bar" style="width:88px;background:#f0883e;"></div></div></td><td>CoWoS packaging</td><td>Custom ASIC CoWoS-S</td></tr>
+    <tr><td>Marvell</td>           <td><span class="ticker">MRVL</span></td><td><span class="pill pill-amber">🟠 HIGH</span></td>    <td>0.1411</td><td><div class="bar-wrap"><div class="bar" style="width:84px;background:#f0883e;"></div></div></td><td>CoWoS packaging</td><td>Custom AI silicon</td></tr>
+    <tr style="background:#0d1f3c22;">
+      <td><strong>Intel</strong></td><td><span class="ticker inverse">INTC</span></td><td><span class="pill pill-blue">🔵 COMPETITOR</span></td><td><strong>0.1175</strong></td><td><div class="bar-wrap"><div class="bar" style="width:70px;background:#388bfd;"></div></div></td><td>taiwan_strait</td><td><strong>⚡ INVERSE</strong> — escalation = bullish</td></tr>
+    <tr><td>ASML</td>              <td><span class="ticker">ASML</span></td><td><span class="pill pill-grey">🟡 EQUIPMENT</span></td><td>0.1161</td><td><div class="bar-wrap"><div class="bar" style="width:69px;background:#6e7681;"></div></div></td><td>Taiwan strait</td><td>EUV equipment supplier</td></tr>
+    <tr><td>Apple</td>             <td><span class="ticker">AAPL</span></td><td><span class="pill pill-amber">🟠 HIGH</span></td>    <td>0.1086</td><td><div class="bar-wrap"><div class="bar" style="width:65px;background:#f0883e;"></div></div></td><td>Taiwan strait</td><td>N2 lead customer (A19)</td></tr>
+    <tr><td>Applied Materials</td> <td><span class="ticker">AMAT</span></td><td><span class="pill pill-grey">🟡 EQUIPMENT</span></td><td>0.1070</td><td><div class="bar-wrap"><div class="bar" style="width:64px;background:#6e7681;"></div></div></td><td>Taiwan strait</td><td>Fab equipment</td></tr>
+    <tr><td>Lam Research</td>      <td><span class="ticker">LRCX</span></td><td><span class="pill pill-grey">🟡 EQUIPMENT</span></td><td>0.1049</td><td><div class="bar-wrap"><div class="bar" style="width:62px;background:#6e7681;"></div></div></td><td>Taiwan strait</td><td>Etch equipment</td></tr>
+    <tr><td>Qualcomm</td>          <td><span class="ticker">QCOM</span></td><td><span class="pill pill-grey">🟡 MED-HIGH</span></td> <td>0.1047</td><td><div class="bar-wrap"><div class="bar" style="width:62px;background:#6e7681;"></div></div></td><td>Taiwan strait</td><td>Mobile AI chips</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="callout" style="border-color:#388bfd;background:#0d1f3c;color:#a5d6ff;">
+  <strong>INTC inverse signal:</strong> Taiwan Strait escalation is the only kill condition in CivilisationOS that is bullish for one stock and bearish for all others. Intel Foundry Services benefits from customer fab diversification demand. Channel formula: <code>strait_score = (1.0 − raw_strait_score)</code> for INTC only.
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ Q3 OUTLOOK -->
+<h2 class="section">Q3 2026 Outlook — Three-Month Signal Calendar</h2>
+
+<h3 class="sub">The Three Conditions That Sustain the Positive Case</h3>
+<div class="tbl-wrap">
+<table>
+  <thead><tr><th>Condition</th><th>Current Reading</th><th>Break Threshold</th><th>Probability of Break</th></tr></thead>
+  <tbody>
+    <tr><td>🟢 No PLA major exercise</td><td>Strait quiet</td><td>≥20 aircraft single ADIZ incursion</td><td>Low — no political anniversary in Jul</td></tr>
+    <tr><td>🟢 N2 yield holds</td>       <td>75% at Fab 20</td><td>Drop below ~65%</td>                  <td>Low — on track as of Jul 4</td></tr>
+    <tr><td>🟢 TWD stable</td>           <td>32.4 TWD/USD</td><td>Break below 30.0 (−7.5% from here)</td><td>Very low — CBC monitoring</td></tr>
+  </tbody>
+</table>
+</div>
+<p><strong>All three green → Q3 positive bias holds.</strong></p>
+
+<h3 class="sub">July 2026 — Earnings Confirmation Month &nbsp;<span class="pill pill-green">🟢 LOW RISK</span></h3>
+<div class="tbl-wrap">
+<table>
+  <thead><tr><th>Event</th><th>Date (est.)</th><th>Watch For</th><th>Signal</th></tr></thead>
+  <tbody>
+    <tr><td>TSMC Q2 2026 Earnings Call</td><td>Mid-July</td><td>CoWoS Q3 guidance, N2 ramp pace, Arizona update</td><td>CoWoS POSITIVE if guidance holds</td></tr>
+    <tr><td>TSMC July Monthly Revenue</td><td>Aug 5–10</td><td>NT$270B+ = CoWoS throughput on track</td><td>Real-time packaging confirmation</td></tr>
+    <tr><td>CoWoS +8% pricing effect</td><td>All month</td><td>Does NVDA absorb or pass through cost?</td><td>Mixed — TSM+, NVDA margin watch</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3 class="sub">August 2026 — The Watch Month &nbsp;<span class="pill pill-amber">🟡 ELEVATED RISK WINDOW</span></h3>
+<div class="tbl-wrap">
+<table>
+  <thead><tr><th>Event</th><th>Date (est.)</th><th>Watch For</th><th>Signal</th></tr></thead>
+  <tbody>
+    <tr><td>CCP Beidaihe Summit</td>    <td>Early August</td><td>Leadership signalling; PLA posture change</td><td>Strait ELEVATED risk window</td></tr>
+    <tr><td>PLA Summer Exercises</td>   <td>Aug–Sep historical window</td><td>ADIZ incursions — threshold: ≥20 aircraft</td><td>KC_05 single trigger watch</td></tr>
+    <tr><td>TSMC August Revenue</td>    <td>Sep 5–10</td><td>N2 ramp contributing to revenue mix</td><td>N2/N3 MILESTONE confirmation</td></tr>
+    <tr><td>CoWoS Q4 capacity prep</td><td>All month</td><td>Equipment installation news from Hsinchu</td><td>CoWoS POSITIVE — bottleneck easing</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3 class="sub">September 2026 — The Proof Month &nbsp;<span class="pill pill-green">🟢 LOW–MEDIUM RISK</span></h3>
+<div class="tbl-wrap">
+<table>
+  <thead><tr><th>Event</th><th>Date (est.)</th><th>Watch For</th><th>Signal</th></tr></thead>
+  <tbody>
+    <tr><td>Apple iPhone 18 / A19 Launch</td><td>Mid-September</td><td>N2 ships at commercial scale — public proof</td><td>N2/N3 MILESTONE → NVDA de-risked</td></tr>
+    <tr><td>TSMC Q3 Revenue Trajectory</td><td>All month</td><td>N2 visibly adding to wafer revenue</td><td>CoWoS POSITIVE reinforced</td></tr>
+    <tr><td>CoWoS Q4 expansion online</td><td>Late Q3 / early Q4</td><td>26-week lead time begins to compress</td><td>Supply relief — NVDA, AMD</td></tr>
+    <tr><td>PLA autumn exercise window</td><td>Sep–Oct</td><td>Second annual risk window</td><td>KC_05 watch continues</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ SIGNAL REFERENCE -->
+<h2 class="section">Signal Interpretation Reference</h2>
+<div class="tbl-wrap">
+<table>
+  <thead><tr><th>Signal</th><th>Direction</th><th>Primary Affected</th><th>Typical NVDA 2-Day</th></tr></thead>
+  <tbody>
+    <tr><td>CoWoS DISRUPTION</td>  <td><span class="pill pill-red">🔴 BEARISH</span> — GPU production halted</td>      <td>NVDA, AMD, AVGO</td>           <td>−3.2% avg (2 events YTD)</td></tr>
+    <tr><td>CoWoS POSITIVE</td>    <td><span class="pill pill-green">🟢 BULLISH</span> — Supply secured</td>            <td>NVDA, AMD</td>                 <td>+4.1% avg (3 events YTD)</td></tr>
+    <tr><td>N2/N3 YIELD MISS</td>  <td><span class="pill pill-red">🔴 BEARISH</span> — Roadmap delayed</td>            <td>NVDA, AMD, AAPL</td>           <td>−2.5% est.</td></tr>
+    <tr><td>N2/N3 MILESTONE</td>   <td><span class="pill pill-green">🟢 BULLISH</span> — Roadmap confirmed</td>         <td>NVDA, AMD, AVGO, MRVL</td>    <td>+2.1% avg (1 event YTD)</td></tr>
+    <tr><td>Strait ESCALATION</td> <td><span class="pill pill-red">🔴 BEARISH ALL</span> / <span class="pill pill-blue">🟢 BULLISH INTC</span></td><td>All AI names; INTC ⚡ inverse</td><td>−4.2% avg (0 events YTD)</td></tr>
+    <tr><td>Strong TWD (&lt; 30)</td><td><span class="pill pill-amber">🟡 WATCH</span> — Earnings compression</td>     <td>TSMC supply watch</td>         <td>Indirect</td></tr>
+    <tr><td>CoWoS price raise</td> <td><span class="pill pill-amber">🟡 MIXED</span> — Demand confirmed, cost headwind</td><td>NVDA −, TSM +</td>          <td>−2.1% (Jul 1 episode)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ YTD TRACK RECORD -->
+<h2 class="section">2026 YTD Canary Track Record</h2>
+<div class="tbl-wrap">
+<table>
+  <thead><tr><th>Date</th><th>Event</th><th>NVDA 2-Day</th><th>QQQ 2-Day</th><th>KC</th><th>Outcome</th></tr></thead>
+  <tbody>
+    <tr><td>Jan 10</td><td>TSMC Q4 2025 Earnings — CoWoS record, NVDA allocation secured Q3</td>      <td style="color:#3fb950">+3.5%</td><td style="color:#3fb950">+1.8%</td><td>KC_03 positive</td><td>✅ Predicted</td></tr>
+    <tr><td>Feb 14</td><td>CBC hold — TWD stable 32.5</td>                                             <td style="color:#3fb950">+0.4%</td><td style="color:#3fb950">+0.2%</td><td>No trigger</td>    <td>✅ Neutral</td></tr>
+    <tr><td>Mar 5</td> <td>PLA ADIZ 24 aircraft — elevated, sub-blockade</td>                         <td style="color:#f85149">−1.8%</td><td style="color:#f85149">−0.9%</td><td>KC_05 LOW</td>     <td>✅ Detected</td></tr>
+    <tr><td>Apr 17</td><td>N2 yield milestone — first 2nm production qualified</td>                    <td style="color:#3fb950">+2.1%</td><td style="color:#3fb950">+1.2%</td><td>KC_04 positive</td><td>✅ Predicted</td></tr>
+    <tr><td>May 22</td><td>CoWoS-L fully booked H2 2026 — NVDA supply secured</td>                    <td style="color:#3fb950">+4.8%</td><td style="color:#3fb950">+2.3%</td><td>KC_03 positive</td><td>✅ Predicted</td></tr>
+    <tr><td>Jun 19</td><td>CBC hold — TWD appreciation concern noted</td>                              <td style="color:#3fb950">+0.6%</td><td style="color:#3fb950">+0.3%</td><td>No trigger</td>    <td>✅ Neutral</td></tr>
+    <tr><td>Jul 1</td> <td>TSMC CoWoS pricing +8% H2 — demand confirmed, cost pressure</td>           <td style="color:#f85149">−2.1%</td><td style="color:#f85149">−0.8%</td><td>KC_03 mixed</td>   <td>✅ Detected</td></tr>
+  </tbody>
+</table>
+</div>
+<p><strong>7 events tracked. 7 correct directional reads. 0 missed signals.</strong></p>
+
+<!-- ══════════════════════════════════════════════════════════ ARCHITECTURE -->
+<h2 class="section">Module Architecture Summary</h2>
+<div class="tbl-wrap">
+<table class="status-table">
+  <tbody>
+    <tr><td>Domain</td>                <td>TSMC_TAIWAN_CANARY (domain_id = 33)</td></tr>
+    <tr><td>Cluster</td>               <td>ECONOMICS_BUSINESS</td></tr>
+    <tr><td>Risk Index</td>            <td>Taiwan Composite Risk Index (TCRI)</td></tr>
+    <tr><td>Kill Conditions</td>       <td>5 (KC_01–KC_05) — 2 single-triggers (KC_03, KC_05)</td></tr>
+    <tr><td>Data Sources</td>          <td>9 sources — 4 ZH-TW, 5 English</td></tr>
+    <tr><td>Languages</td>             <td>Traditional Chinese (繁體中文) + English</td></tr>
+    <tr><td>NLP Pattern Sets</td>      <td>5 (CBC, TWD/FX, CoWoS, Capacity, Strait)</td></tr>
+    <tr><td>Transmission Channels</td> <td>4 (CoWoS 40%, Capacity 30%, Strait 20%, TWD 10%)</td></tr>
+    <tr><td>Stocks Monitored</td>      <td>10 US AI stocks including INTC inverse signal</td></tr>
+    <tr><td>Unique Features</td>       <td>Dual single-triggers · INTC inverse · ZH-TW bilingual NLP</td></tr>
+    <tr><td>Clerk Role</td>            <td>台灣半導體情報員 (Taiwan Semiconductor Intelligence Clerk)</td></tr>
+    <tr><td>Execution Authority</td>   <td>HUMAN_ONLY_MANUAL — research/advisory output only</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ FOOTER -->
+<div class="footer">
+  <p>
+    <em>TSMC_TAIWAN_CANARY is the third module in CivilisationOS's Asia Pacific intelligence stack, completing the triangle of
+    BOJ Monetary Policy (Tokyo) · BOK Monetary Policy (Seoul) · TSMC Taiwan Canary (Hsinchu).
+    Taiwan Strait escalation is the only kill condition that fires simultaneously across all three domains.</em>
+  </p>
+  <p>
+    <em>繁體中文資料由LLM台灣半導體情報員翻譯。Traditional Chinese data preserved as-is; translation at LLM Clerk layer.
+    No order routing. No orders generated. HUMAN_ONLY_MANUAL.</em>
+  </p>
+  <hr>
+  <p><strong>CivilisationOS · TSMC_TAIWAN_CANARY · Domain 33 · 2026-07-04</strong></p>
+</div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     CLUSTER 5 ECONOMICS — Injected by inject_c5_into_briefs.py
+     Supply Chain · Real Estate · Insurance
+     Structural metadata baseline (no live articles)
+     ═══════════════════════════════════════════════════════════════ -->
+<style>
+.c5-section{margin-bottom:40px;border:1px solid #30363d;border-radius:8px;overflow:hidden}
+.c5-header{background:#0d2232;border-bottom:1px solid #30363d;padding:14px 20px;display:flex;align-items:center;gap:12px}
+.c5-header-title{font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#58a6ff}
+.c5-header-sub{font-size:11px;color:#8b949e}
+.c5-composite-badge{margin-left:auto;padding:6px 16px;border-radius:6px;font-size:13px;font-weight:800;border:2px solid #B38600;background:#2e1e00;color:#fbbf24}
+.c5-grid{display:flex;gap:0;border-top:1px solid #30363d}
+.c5-metric{flex:1;padding:18px 16px;text-align:center;border-right:1px solid #30363d}
+.c5-metric:last-child{border-right:none}
+.c5-metric-abbr{font-size:16px;font-weight:800;letter-spacing:.06em;margin-bottom:2px}
+.c5-metric-label{font-size:10px;color:#8b949e;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em}
+.c5-metric-score{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;margin-bottom:6px}
+.c5-footer{padding:10px 20px;background:#0d1117;border-top:1px solid #30363d;font-size:10px;color:#8b949e}
+</style>
+<div class="section c5-section" id="cluster5">
+  <div class="c5-header">
+    <div>
+      <div class="c5-header-title">⚙ Cluster 5 Economics</div>
+      <div class="c5-header-sub">Supply Chain Risk · Real Estate Risk · Insurance Risk · Structural Baseline</div>
+    </div>
+    <div class="c5-composite-badge">C5 &nbsp; 0.2700 &nbsp; WATCH</div>
+  </div>
+  <div class="c5-grid">
+        <div class="c5-metric"><div class="c5-metric-abbr" style="color:#fbbf24;">SCRI</div><div class="c5-metric-label">Supply Chain Risk</div><div class="c5-metric-score" style="color:#fbbf24;">0.3900</div><div class="c5-metric-zone" style="background:#2e1e00;color:#fbbf24;border:1px solid #B38600;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:.06em;">WATCH</div></div>
+        <div class="c5-metric"><div class="c5-metric-abbr" style="color:#4ade80;">RERI</div><div class="c5-metric-label">Real Estate Risk</div><div class="c5-metric-score" style="color:#4ade80;">0.1000</div><div class="c5-metric-zone" style="background:#0d2e14;color:#4ade80;border:1px solid #238636;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:.06em;">NORMAL</div></div>
+        <div class="c5-metric"><div class="c5-metric-abbr" style="color:#fbbf24;">INRI</div><div class="c5-metric-label">Insurance Risk</div><div class="c5-metric-score" style="color:#fbbf24;">0.3200</div><div class="c5-metric-zone" style="background:#2e1e00;color:#fbbf24;border:1px solid #B38600;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:.06em;">WATCH</div></div>
+  </div>
+  <div class="c5-footer">
+    ⓘ Structural metadata baseline — scores derived from sovereign config features (chokepoints, market type, nat-cat perils, insurance depth). Live article analysis raises floor scores above these baselines.
+    &nbsp;|&nbsp; Region: East Asia &nbsp;|&nbsp; Market: developed &nbsp;|&nbsp; Supply depth: advanced
+  </div>
+</div>
+</body>
+</html>
