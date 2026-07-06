@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-06 12:06 SGT",
-  "cycle_id": "v3_cycle_20260706_120555",
-  "latest_cycle_id": "v3_cycle_20260706_120555",
+  "generated_at": "2026-07-06 12:56 SGT",
+  "cycle_id": "v3_cycle_20260706_125611",
+  "latest_cycle_id": "v3_cycle_20260706_125611",
   "fallback_from_cycle_id": "",
   "fallback_reason": "",
   "clerk_mode": "deterministic",
@@ -18,7 +18,7 @@
       "layer_id": "cycle_identity",
       "layer": "package_cycle_identity",
       "status": "DATA_CONFIRMED",
-      "summary": "Cycle v3_cycle_20260706_120555 · deterministic clerk · Zone A authority"
+      "summary": "Cycle v3_cycle_20260706_125611 · deterministic clerk · Zone A authority"
     },
     {
       "layer_id": "source_hierarchy",
@@ -30,7 +30,7 @@
       "layer_id": "regime_operating_truth",
       "layer": "operating_truth",
       "status": "DATA_CONFIRMED",
-      "summary": "Regime MILD RISK OFF · causal COMPLETE · CIO field WAIT / HOLD"
+      "summary": "Regime NEUTRAL · causal MOSTLY_COMPLETE_WITH_CRITICAL_GAP · CIO field WAIT / HOLD"
     },
     {
       "layer_id": "governance_readiness",
@@ -42,19 +42,19 @@
       "layer_id": "portfolio_execution",
       "layer": "broker_portfolio",
       "status": "PASS",
-      "summary": "Assets 53528.73 · cash 5837.83 (10.9%) · broker P/L authoritative (snapshot)"
+      "summary": "Assets 53544.63 · cash 5837.83 (10.9%) · broker P/L authoritative (snapshot)"
     },
     {
       "layer_id": "concentration_risk",
       "layer": "risk_metrics",
       "status": "DATA_CONFIRMED",
-      "summary": "status NORMAL · largest BAC · wt 12.3% · HHI 0.0865"
+      "summary": "status NORMAL · largest BAC · wt 12.3% · HHI 0.0864"
     },
     {
       "layer_id": "blind_spot_causal",
       "layer": "operating_truth",
       "status": "WARN",
-      "summary": "Causal COMPLETE · blind spot WARNING · failed: Investor Days, Analyst Days, Named Historical Events"
+      "summary": "Causal MOSTLY_COMPLETE_WITH_CRITICAL_GAP · blind spot WARNING · failed: Investor Days, Analyst Days, Named Historical Events"
     },
     {
       "layer_id": "deterministic_operators",
@@ -76,11 +76,11 @@
     }
   ],
   "manual_execution_required": true,
-  "created_at_sgt": "2026-07-06T12:05:55+08:00",
+  "created_at_sgt": "2026-07-06T12:56:11+08:00",
   "contradiction_register": {
     "schema_version": "bluelotus_v3_contradiction_register_v1.0",
-    "cycle_id": "v3_cycle_20260706_120555",
-    "created_at_sgt": "2026-07-06T12:05:55+08:00",
+    "cycle_id": "v3_cycle_20260706_125611",
+    "created_at_sgt": "2026-07-06T12:56:11+08:00",
     "contradiction_count": 0,
     "p1_count": 0,
     "p2_count": 0,
@@ -92,8 +92,8 @@
   },
   "cio_decision_strip": {
     "schema_version": "bluelotus_v3_cio_decision_strip_v1.0",
-    "cycle_id": "v3_cycle_20260706_120555",
-    "created_at_sgt": "2026-07-06T12:05:55+08:00",
+    "cycle_id": "v3_cycle_20260706_125611",
+    "created_at_sgt": "2026-07-06T12:56:11+08:00",
     "posture": "REVIEW",
     "new_information": [
       "Deterministic Chief Clerk mapped 10 Zone A layers. No LLM agent council. Report action field states: REVIEW. Contradictions: 0 (P1 0, P2 0).",
@@ -119,18 +119,55 @@
   },
   "nite_pei": {
     "schema_version": "bluelotus_v3_nite_pei_v1.0",
-    "generated_at_sgt": "2026-07-06T12:05:59+08:00",
+    "generated_at_sgt": "2026-07-06T12:56:15+08:00",
     "thesis_probability_snapshots": [
       {
         "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
         "thesis_type": "TRUMP_UNCERTAINTY_THESIS",
         "P_prior": 0.05,
-        "P_posterior": 0.05,
-        "delta_p": 0.0,
-        "events_applied": [],
-        "event_ids": [],
-        "brier_record_id": "",
-        "lr_lookups": [],
+        "P_posterior": 0.057072,
+        "delta_p": 0.007072,
+        "events_applied": [
+          {
+            "event_id": "signal:861027",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "raw_headline": "[SENTIMENT] BAC: NEUTRAL (-0.020) -- Bankers Say Asia Loan Market to Stay Weak as War Saps Confidence",
+            "source": "Ticker_Sentiment",
+            "source_tier": 3,
+            "published_at": "2026-07-06T12:53:14",
+            "source_url": "",
+            "matched_keyword": "war",
+            "noise_discount_factor": 0.25,
+            "lr_raw": 1.2,
+            "lr_adjusted": 1.15,
+            "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.0500 / 0.9500 = 0.0526",
+              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(0.0526) x LR_adjusted(1.1500) = 0.0605",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.0605 / 1.0605 = 0.0571",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.0571",
+              "delta_p": "+0.0071"
+            },
+            "p_prior_step": 0.05,
+            "p_posterior_step": 0.057072,
+            "delta_p_step": 0.007072
+          }
+        ],
+        "event_ids": [
+          "signal:861027"
+        ],
+        "brier_record_id": "NITE_BRIER_TRUMP_UNCERTAINTY_THESIS_D470ECAB",
+        "lr_lookups": [
+          {
+            "event_id": "signal:861027",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "lr_adjusted": 1.15,
+            "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW"
+          }
+        ],
         "kill_state_snapshot": {
           "TRUMP_KC_01": {
             "state": "WATCH",
@@ -143,7 +180,7 @@
         },
         "worst_kill_state": "WATCH",
         "posture": "THESIS_UNCHANGED — MONITOR",
-        "advisory_text": "[NITE-PEI] TRUMP_UNCERTAINTY_THESIS: no events. P: 0.050 → 0.050 (▲0.000). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] TRUMP_UNCERTAINTY_THESIS: GEOPOLITICAL_ESCALATION (LR 1.150 via GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS, confidence: LOW). P: 0.050 → 0.057 (▲0.007). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
@@ -151,10 +188,47 @@
         "P_prior": 0.95,
         "P_posterior": 0.95,
         "delta_p": 0.0,
-        "events_applied": [],
-        "event_ids": [],
-        "brier_record_id": "",
-        "lr_lookups": [],
+        "events_applied": [
+          {
+            "event_id": "signal:861027",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "raw_headline": "[SENTIMENT] BAC: NEUTRAL (-0.020) -- Bankers Say Asia Loan Market to Stay Weak as War Saps Confidence",
+            "source": "Ticker_Sentiment",
+            "source_tier": 3,
+            "published_at": "2026-07-06T12:53:14",
+            "source_url": "",
+            "matched_keyword": "war",
+            "noise_discount_factor": 0.25,
+            "lr_raw": 1.2,
+            "lr_adjusted": 1.15,
+            "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.9500 / 0.0500 = 19.0000",
+              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(19.0000) x LR_adjusted(1.1500) = 21.8500",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 21.8500 / 22.8500 = 0.9500",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.9500",
+              "delta_p": "+0.0000"
+            },
+            "p_prior_step": 0.95,
+            "p_posterior_step": 0.95,
+            "delta_p_step": 0.0
+          }
+        ],
+        "event_ids": [
+          "signal:861027"
+        ],
+        "brier_record_id": "NITE_BRIER_PETRO_RECYCLED_DOLLAR_THESIS_908C2BA9",
+        "lr_lookups": [
+          {
+            "event_id": "signal:861027",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "lr_adjusted": 1.15,
+            "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
+            "confidence": "LOW"
+          }
+        ],
         "kill_state_snapshot": {
           "PETRO_KC_01": {
             "state": "CONFIRMED",
@@ -167,22 +241,22 @@
         },
         "worst_kill_state": "CONFIRMED",
         "posture": "KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED",
-        "advisory_text": "[NITE-PEI] PETRO_RECYCLED_DOLLAR_THESIS: no events. P: 0.950 → 0.950 (▲0.000). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] PETRO_RECYCLED_DOLLAR_THESIS: GEOPOLITICAL_ESCALATION (LR 1.150 via GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS, confidence: LOW). P: 0.950 → 0.950 (▲0.000). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "STICKY_INFLATION_THESIS",
         "thesis_type": "STICKY_INFLATION_THESIS",
-        "P_prior": 0.789057,
-        "P_posterior": 0.729919,
-        "delta_p": -0.059138,
+        "P_prior": 0.729919,
+        "P_posterior": 0.661318,
+        "delta_p": -0.068601,
         "events_applied": [
           {
-            "event_id": "signal:859268",
+            "event_id": "signal:861040",
             "event_class": "CENTRAL_BANK_DOVISH",
             "raw_headline": "[SENTIMENT] AMKR: BULLISH (+0.245) -- Amkor Technology (AMKR) Expected to Benefit From Pivot Toward Advanced Packaging",
             "source": "Ticker_Sentiment",
             "source_tier": 3,
-            "published_at": "2026-07-06T12:03:08",
+            "published_at": "2026-07-06T12:53:18",
             "source_url": "",
             "matched_keyword": "pivot",
             "noise_discount_factor": 0.25,
@@ -191,24 +265,24 @@
             "lr_source": "CENTRAL_BANK_DOVISH/STICKY_INFLATION_THESIS",
             "confidence": "LOW",
             "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.7891 / 0.2109 = 3.7406",
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.7299 / 0.2701 = 2.7026",
               "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(0.8000) - 1) x (1 - noise_discount(0.25)) = 0.8500",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(3.7406) x LR_adjusted(0.8500) = 3.1795",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 3.1795 / 4.1795 = 0.7607",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.7607",
-              "delta_p": "-0.0283"
+              "step_3_posterior_odds": "posterior_odds = prior_odds(2.7026) x LR_adjusted(0.8500) = 2.2972",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 2.2972 / 3.2972 = 0.6967",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.6967",
+              "delta_p": "-0.0332"
             },
-            "p_prior_step": 0.789057,
-            "p_posterior_step": 0.760738,
-            "delta_p_step": -0.028319
+            "p_prior_step": 0.729919,
+            "p_posterior_step": 0.696713,
+            "delta_p_step": -0.033206
           },
           {
-            "event_id": "ticker_sentiment:547021c96b606ec5",
+            "event_id": "ticker_sentiment:c0a92fb56e92f219",
             "event_class": "CENTRAL_BANK_DOVISH",
             "raw_headline": "Amkor Technology (AMKR) Expected to Benefit From Pivot Toward Advanced Packaging Technologies",
             "source": "ticker_sentiment:AMKR",
             "source_tier": 3,
-            "published_at": "2026-07-06 12:03:08",
+            "published_at": "2026-07-06 12:53:18",
             "source_url": "",
             "matched_keyword": "pivot",
             "noise_discount_factor": 0.25,
@@ -217,33 +291,33 @@
             "lr_source": "CENTRAL_BANK_DOVISH/STICKY_INFLATION_THESIS",
             "confidence": "LOW",
             "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.7607 / 0.2393 = 3.1795",
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.6967 / 0.3033 = 2.2972",
               "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(0.8000) - 1) x (1 - noise_discount(0.25)) = 0.8500",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(3.1795) x LR_adjusted(0.8500) = 2.7026",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 2.7026 / 3.7026 = 0.7299",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.7299",
-              "delta_p": "-0.0308"
+              "step_3_posterior_odds": "posterior_odds = prior_odds(2.2972) x LR_adjusted(0.8500) = 1.9526",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 1.9526 / 2.9526 = 0.6613",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.6613",
+              "delta_p": "-0.0354"
             },
-            "p_prior_step": 0.760738,
-            "p_posterior_step": 0.729919,
-            "delta_p_step": -0.030819
+            "p_prior_step": 0.696713,
+            "p_posterior_step": 0.661318,
+            "delta_p_step": -0.035395
           }
         ],
         "event_ids": [
-          "signal:859268",
-          "ticker_sentiment:547021c96b606ec5"
+          "signal:861040",
+          "ticker_sentiment:c0a92fb56e92f219"
         ],
-        "brier_record_id": "NITE_BRIER_STICKY_INFLATION_THESIS_E8DCFB71",
+        "brier_record_id": "NITE_BRIER_STICKY_INFLATION_THESIS_28CE788B",
         "lr_lookups": [
           {
-            "event_id": "signal:859268",
+            "event_id": "signal:861040",
             "event_class": "CENTRAL_BANK_DOVISH",
             "lr_adjusted": 0.85,
             "lr_source": "CENTRAL_BANK_DOVISH/STICKY_INFLATION_THESIS",
             "confidence": "LOW"
           },
           {
-            "event_id": "ticker_sentiment:547021c96b606ec5",
+            "event_id": "ticker_sentiment:c0a92fb56e92f219",
             "event_class": "CENTRAL_BANK_DOVISH",
             "lr_adjusted": 0.85,
             "lr_source": "CENTRAL_BANK_DOVISH/STICKY_INFLATION_THESIS",
@@ -253,31 +327,31 @@
         "kill_state_snapshot": {
           "STICKY_KC_01": {
             "state": "CONFIRMED",
-            "P_kill": 0.729919
+            "P_kill": 0.661318
           },
           "STICKY_KC_02": {
             "state": "CONFIRMED",
-            "P_kill": 0.729919
+            "P_kill": 0.661318
           }
         },
         "worst_kill_state": "CONFIRMED",
         "posture": "KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED",
-        "advisory_text": "[NITE-PEI] STICKY_INFLATION_THESIS: CENTRAL_BANK_DOVISH, CENTRAL_BANK_DOVISH (LR 0.850 via CENTRAL_BANK_DOVISH/STICKY_INFLATION_THESIS, confidence: LOW). P: 0.789 → 0.730 (▼0.059). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] STICKY_INFLATION_THESIS: CENTRAL_BANK_DOVISH, CENTRAL_BANK_DOVISH (LR 0.850 via CENTRAL_BANK_DOVISH/STICKY_INFLATION_THESIS, confidence: LOW). P: 0.730 → 0.661 (▼0.069). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "HAWKISH_WARSH_THESIS",
         "thesis_type": "HAWKISH_WARSH_THESIS",
-        "P_prior": 0.597609,
-        "P_posterior": 0.471463,
-        "delta_p": -0.126146,
+        "P_prior": 0.471463,
+        "P_posterior": 0.348859,
+        "delta_p": -0.122604,
         "events_applied": [
           {
-            "event_id": "signal:859268",
+            "event_id": "signal:861040",
             "event_class": "CENTRAL_BANK_DOVISH",
             "raw_headline": "[SENTIMENT] AMKR: BULLISH (+0.245) -- Amkor Technology (AMKR) Expected to Benefit From Pivot Toward Advanced Packaging",
             "source": "Ticker_Sentiment",
             "source_tier": 3,
-            "published_at": "2026-07-06T12:03:08",
+            "published_at": "2026-07-06T12:53:18",
             "source_url": "",
             "matched_keyword": "pivot",
             "noise_discount_factor": 0.25,
@@ -286,24 +360,24 @@
             "lr_source": "CENTRAL_BANK_DOVISH/HAWKISH_WARSH_THESIS",
             "confidence": "LOW",
             "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.5976 / 0.4024 = 1.4851",
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.4715 / 0.5285 = 0.8920",
               "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(0.7000) - 1) x (1 - noise_discount(0.25)) = 0.7750",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(1.4851) x LR_adjusted(0.7750) = 1.1510",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 1.1510 / 2.1510 = 0.5351",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.5351",
-              "delta_p": "-0.0625"
+              "step_3_posterior_odds": "posterior_odds = prior_odds(0.8920) x LR_adjusted(0.7750) = 0.6913",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.6913 / 1.6913 = 0.4087",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.4087",
+              "delta_p": "-0.0627"
             },
-            "p_prior_step": 0.597609,
-            "p_posterior_step": 0.535097,
-            "delta_p_step": -0.062512
+            "p_prior_step": 0.471463,
+            "p_posterior_step": 0.408743,
+            "delta_p_step": -0.06272
           },
           {
-            "event_id": "ticker_sentiment:547021c96b606ec5",
+            "event_id": "ticker_sentiment:c0a92fb56e92f219",
             "event_class": "CENTRAL_BANK_DOVISH",
             "raw_headline": "Amkor Technology (AMKR) Expected to Benefit From Pivot Toward Advanced Packaging Technologies",
             "source": "ticker_sentiment:AMKR",
             "source_tier": 3,
-            "published_at": "2026-07-06 12:03:08",
+            "published_at": "2026-07-06 12:53:18",
             "source_url": "",
             "matched_keyword": "pivot",
             "noise_discount_factor": 0.25,
@@ -312,33 +386,33 @@
             "lr_source": "CENTRAL_BANK_DOVISH/HAWKISH_WARSH_THESIS",
             "confidence": "LOW",
             "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.5351 / 0.4649 = 1.1510",
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.4087 / 0.5913 = 0.6913",
               "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(0.7000) - 1) x (1 - noise_discount(0.25)) = 0.7750",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(1.1510) x LR_adjusted(0.7750) = 0.8920",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.8920 / 1.8920 = 0.4715",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.4715",
-              "delta_p": "-0.0636"
+              "step_3_posterior_odds": "posterior_odds = prior_odds(0.6913) x LR_adjusted(0.7750) = 0.5358",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.5358 / 1.5358 = 0.3489",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.3489",
+              "delta_p": "-0.0599"
             },
-            "p_prior_step": 0.535097,
-            "p_posterior_step": 0.471463,
-            "delta_p_step": -0.063634
+            "p_prior_step": 0.408743,
+            "p_posterior_step": 0.348859,
+            "delta_p_step": -0.059884
           }
         ],
         "event_ids": [
-          "signal:859268",
-          "ticker_sentiment:547021c96b606ec5"
+          "signal:861040",
+          "ticker_sentiment:c0a92fb56e92f219"
         ],
-        "brier_record_id": "NITE_BRIER_HAWKISH_WARSH_THESIS_7694B0CE",
+        "brier_record_id": "NITE_BRIER_HAWKISH_WARSH_THESIS_963D37B0",
         "lr_lookups": [
           {
-            "event_id": "signal:859268",
+            "event_id": "signal:861040",
             "event_class": "CENTRAL_BANK_DOVISH",
             "lr_adjusted": 0.775,
             "lr_source": "CENTRAL_BANK_DOVISH/HAWKISH_WARSH_THESIS",
             "confidence": "LOW"
           },
           {
-            "event_id": "ticker_sentiment:547021c96b606ec5",
+            "event_id": "ticker_sentiment:c0a92fb56e92f219",
             "event_class": "CENTRAL_BANK_DOVISH",
             "lr_adjusted": 0.775,
             "lr_source": "CENTRAL_BANK_DOVISH/HAWKISH_WARSH_THESIS",
@@ -347,32 +421,32 @@
         ],
         "kill_state_snapshot": {
           "WARSH_KC_01": {
-            "state": "TRIGGERED",
-            "P_kill": 0.471463
+            "state": "WATCH",
+            "P_kill": 0.348859
           },
           "WARSH_KC_02": {
-            "state": "TRIGGERED",
-            "P_kill": 0.471463
+            "state": "WATCH",
+            "P_kill": 0.348859
           }
         },
-        "worst_kill_state": "TRIGGERED",
+        "worst_kill_state": "WATCH",
         "posture": "THESIS_UNCHANGED — MONITOR",
-        "advisory_text": "[NITE-PEI] HAWKISH_WARSH_THESIS: CENTRAL_BANK_DOVISH, CENTRAL_BANK_DOVISH (LR 0.775 via CENTRAL_BANK_DOVISH/HAWKISH_WARSH_THESIS, confidence: LOW). P: 0.598 → 0.471 (▼0.126). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] HAWKISH_WARSH_THESIS: CENTRAL_BANK_DOVISH, CENTRAL_BANK_DOVISH (LR 0.775 via CENTRAL_BANK_DOVISH/HAWKISH_WARSH_THESIS, confidence: LOW). P: 0.471 → 0.349 (▼0.123). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "HAWKISH_BOJ_THESIS",
         "thesis_type": "HAWKISH_BOJ_THESIS",
-        "P_prior": 0.704336,
-        "P_posterior": 0.611294,
-        "delta_p": -0.093042,
+        "P_prior": 0.611294,
+        "P_posterior": 0.509368,
+        "delta_p": -0.101926,
         "events_applied": [
           {
-            "event_id": "signal:859268",
+            "event_id": "signal:861040",
             "event_class": "CENTRAL_BANK_DOVISH",
             "raw_headline": "[SENTIMENT] AMKR: BULLISH (+0.245) -- Amkor Technology (AMKR) Expected to Benefit From Pivot Toward Advanced Packaging",
             "source": "Ticker_Sentiment",
             "source_tier": 3,
-            "published_at": "2026-07-06T12:03:08",
+            "published_at": "2026-07-06T12:53:18",
             "source_url": "",
             "matched_keyword": "pivot",
             "noise_discount_factor": 0.25,
@@ -381,24 +455,24 @@
             "lr_source": "CENTRAL_BANK_DOVISH/HAWKISH_BOJ_THESIS",
             "confidence": "LOW",
             "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.7043 / 0.2957 = 2.3822",
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.6113 / 0.3887 = 1.5726",
               "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(0.7500) - 1) x (1 - noise_discount(0.25)) = 0.8125",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(2.3822) x LR_adjusted(0.8125) = 1.9356",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 1.9356 / 2.9356 = 0.6593",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.6593",
-              "delta_p": "-0.0450"
+              "step_3_posterior_odds": "posterior_odds = prior_odds(1.5726) x LR_adjusted(0.8125) = 1.2778",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 1.2778 / 2.2778 = 0.5610",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.5610",
+              "delta_p": "-0.0503"
             },
-            "p_prior_step": 0.704336,
-            "p_posterior_step": 0.659349,
-            "delta_p_step": -0.044987
+            "p_prior_step": 0.611294,
+            "p_posterior_step": 0.560974,
+            "delta_p_step": -0.05032
           },
           {
-            "event_id": "ticker_sentiment:547021c96b606ec5",
+            "event_id": "ticker_sentiment:c0a92fb56e92f219",
             "event_class": "CENTRAL_BANK_DOVISH",
             "raw_headline": "Amkor Technology (AMKR) Expected to Benefit From Pivot Toward Advanced Packaging Technologies",
             "source": "ticker_sentiment:AMKR",
             "source_tier": 3,
-            "published_at": "2026-07-06 12:03:08",
+            "published_at": "2026-07-06 12:53:18",
             "source_url": "",
             "matched_keyword": "pivot",
             "noise_discount_factor": 0.25,
@@ -407,33 +481,33 @@
             "lr_source": "CENTRAL_BANK_DOVISH/HAWKISH_BOJ_THESIS",
             "confidence": "LOW",
             "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.6593 / 0.3407 = 1.9356",
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.5610 / 0.4390 = 1.2778",
               "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(0.7500) - 1) x (1 - noise_discount(0.25)) = 0.8125",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(1.9356) x LR_adjusted(0.8125) = 1.5726",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 1.5726 / 2.5726 = 0.6113",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.6113",
-              "delta_p": "-0.0481"
+              "step_3_posterior_odds": "posterior_odds = prior_odds(1.2778) x LR_adjusted(0.8125) = 1.0382",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 1.0382 / 2.0382 = 0.5094",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.5094",
+              "delta_p": "-0.0516"
             },
-            "p_prior_step": 0.659349,
-            "p_posterior_step": 0.611294,
-            "delta_p_step": -0.048055
+            "p_prior_step": 0.560974,
+            "p_posterior_step": 0.509368,
+            "delta_p_step": -0.051606
           }
         ],
         "event_ids": [
-          "signal:859268",
-          "ticker_sentiment:547021c96b606ec5"
+          "signal:861040",
+          "ticker_sentiment:c0a92fb56e92f219"
         ],
-        "brier_record_id": "NITE_BRIER_HAWKISH_BOJ_THESIS_8EEA153E",
+        "brier_record_id": "NITE_BRIER_HAWKISH_BOJ_THESIS_E32C6FE9",
         "lr_lookups": [
           {
-            "event_id": "signal:859268",
+            "event_id": "signal:861040",
             "event_class": "CENTRAL_BANK_DOVISH",
             "lr_adjusted": 0.8125,
             "lr_source": "CENTRAL_BANK_DOVISH/HAWKISH_BOJ_THESIS",
             "confidence": "LOW"
           },
           {
-            "event_id": "ticker_sentiment:547021c96b606ec5",
+            "event_id": "ticker_sentiment:c0a92fb56e92f219",
             "event_class": "CENTRAL_BANK_DOVISH",
             "lr_adjusted": 0.8125,
             "lr_source": "CENTRAL_BANK_DOVISH/HAWKISH_BOJ_THESIS",
@@ -443,7 +517,7 @@
         "kill_state_snapshot": {
           "BOJ_KC_01": {
             "state": "TRIGGERED",
-            "P_kill": 0.611294
+            "P_kill": 0.509368
           },
           "BOJ_KC_02": {
             "state": "INACTIVE",
@@ -452,13 +526,13 @@
         },
         "worst_kill_state": "TRIGGERED",
         "posture": "THESIS_UNCHANGED — MONITOR",
-        "advisory_text": "[NITE-PEI] HAWKISH_BOJ_THESIS: CENTRAL_BANK_DOVISH, CENTRAL_BANK_DOVISH (LR 0.812 via CENTRAL_BANK_DOVISH/HAWKISH_BOJ_THESIS, confidence: LOW). P: 0.704 → 0.611 (▼0.093). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] HAWKISH_BOJ_THESIS: CENTRAL_BANK_DOVISH, CENTRAL_BANK_DOVISH (LR 0.812 via CENTRAL_BANK_DOVISH/HAWKISH_BOJ_THESIS, confidence: LOW). P: 0.611 → 0.509 (▼0.102). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
       }
     ],
-    "ckri": 0.776641,
+    "ckri": 0.72515,
     "ckri_zone": "HIGH",
     "ckri_detail": {
-      "weighted_sum": 2.683206,
+      "weighted_sum": 2.425749,
       "correlation_penalty_applied": 1.2,
       "total_weight": 5.0,
       "kill_breakdown": [
@@ -498,41 +572,41 @@
           "thesis_id": "STICKY_INFLATION_THESIS",
           "kill_id": "STICKY_KC_01",
           "kill_weight": 0.55,
-          "P_kill": 0.729919,
+          "P_kill": 0.661318,
           "current_state": "CONFIRMED",
-          "contribution": 0.401455
+          "contribution": 0.363725
         },
         {
           "thesis_id": "STICKY_INFLATION_THESIS",
           "kill_id": "STICKY_KC_02",
           "kill_weight": 0.45,
-          "P_kill": 0.729919,
+          "P_kill": 0.661318,
           "current_state": "CONFIRMED",
-          "contribution": 0.328464
+          "contribution": 0.297593
         },
         {
           "thesis_id": "HAWKISH_WARSH_THESIS",
           "kill_id": "WARSH_KC_01",
           "kill_weight": 0.7,
-          "P_kill": 0.471463,
-          "current_state": "TRIGGERED",
-          "contribution": 0.330024
+          "P_kill": 0.348859,
+          "current_state": "WATCH",
+          "contribution": 0.244201
         },
         {
           "thesis_id": "HAWKISH_WARSH_THESIS",
           "kill_id": "WARSH_KC_02",
           "kill_weight": 0.3,
-          "P_kill": 0.471463,
-          "current_state": "TRIGGERED",
-          "contribution": 0.141439
+          "P_kill": 0.348859,
+          "current_state": "WATCH",
+          "contribution": 0.104658
         },
         {
           "thesis_id": "HAWKISH_BOJ_THESIS",
           "kill_id": "BOJ_KC_01",
           "kill_weight": 0.65,
-          "P_kill": 0.611294,
+          "P_kill": 0.509368,
           "current_state": "TRIGGERED",
-          "contribution": 0.397341
+          "contribution": 0.331089
         },
         {
           "thesis_id": "HAWKISH_BOJ_THESIS",
@@ -548,9 +622,9 @@
       {
         "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
         "thesis_type": "TRUMP_UNCERTAINTY_THESIS",
-        "p_posterior_used": 0.05,
+        "p_posterior_used": 0.057072,
         "analyst_upside_pct": 0.15,
-        "f_star_full": -6.283333,
+        "f_star_full": -6.229115,
         "fractional_multiplier": 0.275,
         "f_star_kelly": 0.0,
         "coherence_score": 0.75,
@@ -558,7 +632,7 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 47690.9,
+        "nav_total": 47706.8,
         "target_usd_sleeve": 0.0,
         "current_usd_sleeve": 0.0,
         "delta_usd": 0.0,
@@ -577,18 +651,18 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 47690.9,
-        "target_usd_sleeve": 8087.57,
+        "nav_total": 47706.8,
+        "target_usd_sleeve": 8090.26,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 8087.57,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $8,088"
+        "delta_usd": 8090.26,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $8,090"
       },
       {
         "thesis_id": "STICKY_INFLATION_THESIS",
         "thesis_type": "STICKY_INFLATION_THESIS",
-        "p_posterior_used": 0.729919,
+        "p_posterior_used": 0.661318,
         "analyst_upside_pct": 0.15,
-        "f_star_full": -1.070621,
+        "f_star_full": -1.596562,
         "fractional_multiplier": 0.275,
         "f_star_kelly": 0.0,
         "coherence_score": 0.75,
@@ -596,7 +670,7 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 47690.9,
+        "nav_total": 47706.8,
         "target_usd_sleeve": 0.0,
         "current_usd_sleeve": 0.0,
         "delta_usd": 0.0,
@@ -605,9 +679,9 @@
       {
         "thesis_id": "HAWKISH_WARSH_THESIS",
         "thesis_type": "HAWKISH_WARSH_THESIS",
-        "p_posterior_used": 0.471463,
+        "p_posterior_used": 0.348859,
         "analyst_upside_pct": 0.15,
-        "f_star_full": -3.052117,
+        "f_star_full": -3.992081,
         "fractional_multiplier": 0.275,
         "f_star_kelly": 0.0,
         "coherence_score": 0.75,
@@ -615,7 +689,7 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 47690.9,
+        "nav_total": 47706.8,
         "target_usd_sleeve": 0.0,
         "current_usd_sleeve": 0.0,
         "delta_usd": 0.0,
@@ -624,9 +698,9 @@
       {
         "thesis_id": "HAWKISH_BOJ_THESIS",
         "thesis_type": "HAWKISH_BOJ_THESIS",
-        "p_posterior_used": 0.611294,
+        "p_posterior_used": 0.509368,
         "analyst_upside_pct": 0.15,
-        "f_star_full": -1.980079,
+        "f_star_full": -2.761512,
         "fractional_multiplier": 0.275,
         "f_star_kelly": 0.0,
         "coherence_score": 0.75,
@@ -634,7 +708,7 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 47690.9,
+        "nav_total": 47706.8,
         "target_usd_sleeve": 0.0,
         "current_usd_sleeve": 0.0,
         "delta_usd": 0.0,
@@ -647,15 +721,15 @@
     "manual_execution_required": true,
     "llm_order_generation": false,
     "order_routing_enabled": false,
-    "source_cycle_id": "v3_cycle_20260706_120555",
-    "source_cycle_path": "C:\\bluelotus3\\data\\v3_cycles\\v3_cycle_20260706_120555",
-    "nite_pei_generated_at_sgt": "2026-07-06T12:05:59+08:00",
+    "source_cycle_id": "v3_cycle_20260706_125611",
+    "source_cycle_path": "C:\\bluelotus3\\data\\v3_cycles\\v3_cycle_20260706_125611",
+    "nite_pei_generated_at_sgt": "2026-07-06T12:56:15+08:00",
     "generation_mode": "live_cycle",
     "event_extraction": {
       "dataset_path": "C:\\bluelotus3\\data\\frontend\\dataset_raw.json",
-      "candidate_events": 213,
-      "classified_events": 2,
-      "applied_events": 6
+      "candidate_events": 212,
+      "classified_events": 3,
+      "applied_events": 8
     }
   },
   "agents": []
