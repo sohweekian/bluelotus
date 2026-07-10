@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-10 22:37 SGT",
-  "cycle_id": "v3_cycle_20260710_223743",
-  "latest_cycle_id": "v3_cycle_20260710_223743",
+  "generated_at": "2026-07-10 23:50 SGT",
+  "cycle_id": "v3_cycle_20260710_234949",
+  "latest_cycle_id": "v3_cycle_20260710_234949",
   "fallback_from_cycle_id": "",
   "fallback_reason": "",
   "clerk_mode": "deterministic",
@@ -12,13 +12,15 @@
   "recommended_posture": "REVIEW",
   "agent_consensus": [],
   "disagreements": [],
-  "cio_attention_items": [],
+  "cio_attention_items": [
+    "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers."
+  ],
   "digest_layers": [
     {
       "layer_id": "cycle_identity",
       "layer": "package_cycle_identity",
       "status": "DATA_CONFIRMED",
-      "summary": "Cycle v3_cycle_20260710_223743 · deterministic clerk · Zone A authority"
+      "summary": "Cycle v3_cycle_20260710_234949 · deterministic clerk · Zone A authority"
     },
     {
       "layer_id": "source_hierarchy",
@@ -42,7 +44,7 @@
       "layer_id": "portfolio_execution",
       "layer": "broker_portfolio",
       "status": "PASS",
-      "summary": "Assets 51763.89 · cash 10065.65 (19.4%) · broker P/L authoritative (snapshot)"
+      "summary": "Assets 51705.6 · cash 10065.65 (19.5%) · broker P/L authoritative (snapshot)"
     },
     {
       "layer_id": "concentration_risk",
@@ -60,7 +62,7 @@
       "layer_id": "deterministic_operators",
       "layer": "operator_blocks",
       "status": "DATA_CONFIRMED",
-      "summary": "Blocked 4 · permitted HOLD, REVIEW, WAIT"
+      "summary": "Blocked 5 · permitted HOLD, REVIEW, WAIT"
     },
     {
       "layer_id": "forecast_brier",
@@ -76,31 +78,44 @@
     }
   ],
   "manual_execution_required": true,
-  "created_at_sgt": "2026-07-10T22:37:44+08:00",
+  "created_at_sgt": "2026-07-10T23:49:50+08:00",
   "contradiction_register": {
     "schema_version": "bluelotus_v3_contradiction_register_v1.0",
-    "cycle_id": "v3_cycle_20260710_223743",
-    "created_at_sgt": "2026-07-10T22:37:44+08:00",
-    "contradiction_count": 0,
-    "p1_count": 0,
+    "cycle_id": "v3_cycle_20260710_234949",
+    "created_at_sgt": "2026-07-10T23:49:50+08:00",
+    "contradiction_count": 1,
+    "p1_count": 1,
     "p2_count": 0,
     "p3_count": 0,
-    "contradictions": [],
+    "contradictions": [
+      {
+        "contradiction_id": "V3_CYCLE_20260710_234949_P1_THESIS_VS_ORDER_BOOK_GOLD_THESIS_OPERATOR_MOOMOO_READONLY_ORDERS_GOL",
+        "cycle_id": "v3_cycle_20260710_234949",
+        "severity": "P1",
+        "domain": "thesis_vs_order_book",
+        "source_a": "gold_thesis_operator",
+        "source_b": "moomoo_readonly_orders",
+        "conflict_statement": "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers.",
+        "cio_attention_required": true,
+        "recommended_resolution_path": "CIO must verify whether open orders are intentional support bids, stale orders, or should be cancelled."
+      }
+    ],
     "manual_execution_required": true,
     "llm_order_generation": false,
     "order_routing_enabled": false
   },
   "cio_decision_strip": {
     "schema_version": "bluelotus_v3_cio_decision_strip_v1.0",
-    "cycle_id": "v3_cycle_20260710_223743",
-    "created_at_sgt": "2026-07-10T22:37:44+08:00",
-    "posture": "REVIEW",
+    "cycle_id": "v3_cycle_20260710_234949",
+    "created_at_sgt": "2026-07-10T23:49:50+08:00",
+    "posture": "CIO_VERIFICATION_REQUIRED",
     "new_information": [
-      "Deterministic Chief Clerk mapped 10 Zone A layers. No LLM agent council. Report action field states: REVIEW. Contradictions: 0 (P1 0, P2 0).",
-      "No contradiction governance items detected."
+      "Deterministic Chief Clerk mapped 10 Zone A layers. No LLM agent council. Report action field states: REVIEW. Contradictions: 1 (P1 1, P2 0).",
+      "1 contradiction governance item(s) detected."
     ],
     "action_blocked": [
       "ADD_RISK_WITHOUT_CATALYST_REVIEW",
+      "INCREASE_GOLD_THESIS_RISK",
       "SCALE_IN_ADD",
       "SECOND_TRANCHE_ADD",
       "USE_ARCHIVE_AS_LIVE_TRUTH"
@@ -111,7 +126,7 @@
       "WAIT"
     ],
     "cio_decision_required": [
-      "No contradiction-triggered CIO decision required."
+      "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers."
     ],
     "manual_execution_required": true,
     "llm_order_generation": false,
@@ -119,18 +134,55 @@
   },
   "nite_pei": {
     "schema_version": "bluelotus_v3_nite_pei_v1.0",
-    "generated_at_sgt": "2026-07-10T22:37:48+08:00",
+    "generated_at_sgt": "2026-07-10T23:49:54+08:00",
     "thesis_probability_snapshots": [
       {
         "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
         "thesis_type": "TRUMP_UNCERTAINTY_THESIS",
         "P_prior": 0.337724,
-        "P_posterior": 0.337724,
-        "delta_p": 0.0,
-        "events_applied": [],
-        "event_ids": [],
-        "brier_record_id": "",
-        "lr_lookups": [],
+        "P_posterior": 0.375677,
+        "delta_p": 0.037953,
+        "events_applied": [
+          {
+            "event_id": "signal:1169908",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "raw_headline": "China issues temporary helium export ban as Iran war strains global supplies",
+            "source": "SCMP",
+            "source_tier": 2,
+            "published_at": "2026-07-10T09:16:59",
+            "source_url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPNm42Tzk1R25tR2prX1ZydFZ5OWFvM0JyMkI3Yk5aRWFYdHJNbVExRGRfa2ZjR0NPTE5qSGEzRjNrWDhoU0Rtd1NCeGwyN1ZJbWNwalVVZG85TGpBNGNwM3ZabkRkVmM2eV84aHJWckFodG9NVVNSeHBOcHU3SjRFRExuNzBPYURKM1hEYzhPbEFZWEdRM2ZzcVd3VktWTzE1UDBpY01n0gGmAUFVX3lxTFBEczhpNER1TjdhdTllSnNvNDY3X0pwY0hPTXM0Q2YzYjZ2MTcyN1czdlVlcks0Umx2dmctaU4xOVVndEk5Q3EwVTFlQklsc1hTOE5odGFCNU5ldlZuRURoUDJpM3c3TVJBSmpZTDFPby1HcjgxMXBPOWZXUU9jNUtDeURxVzd2STFHTXFtNUlIcjNDakNKeTdWTzVBTTZXeTI4WXE1Z3c?oc=5",
+            "matched_keyword": "war",
+            "noise_discount_factor": 0.1,
+            "lr_raw": 1.2,
+            "lr_adjusted": 1.18,
+            "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.3377 / 0.6623 = 0.5099",
+              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.10)) = 1.1800",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(0.5099) x LR_adjusted(1.1800) = 0.6017",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.6017 / 1.6017 = 0.3757",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.3757",
+              "delta_p": "+0.0380"
+            },
+            "p_prior_step": 0.337724,
+            "p_posterior_step": 0.375677,
+            "delta_p_step": 0.037953
+          }
+        ],
+        "event_ids": [
+          "signal:1169908"
+        ],
+        "brier_record_id": "NITE_BRIER_TRUMP_UNCERTAINTY_THESIS_C8108797",
+        "lr_lookups": [
+          {
+            "event_id": "signal:1169908",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "lr_adjusted": 1.18,
+            "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW"
+          }
+        ],
         "kill_state_snapshot": {
           "TRUMP_KC_01": {
             "state": "WATCH",
@@ -143,7 +195,7 @@
         },
         "worst_kill_state": "WATCH",
         "posture": "THESIS_UNCHANGED — MONITOR",
-        "advisory_text": "[NITE-PEI] TRUMP_UNCERTAINTY_THESIS: no events. P: 0.338 → 0.338 (▲0.000). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] TRUMP_UNCERTAINTY_THESIS: GEOPOLITICAL_ESCALATION (LR 1.180 via GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS, confidence: LOW). P: 0.338 → 0.376 (▲0.038). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
@@ -151,10 +203,47 @@
         "P_prior": 0.95,
         "P_posterior": 0.95,
         "delta_p": 0.0,
-        "events_applied": [],
-        "event_ids": [],
-        "brier_record_id": "",
-        "lr_lookups": [],
+        "events_applied": [
+          {
+            "event_id": "signal:1169908",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "raw_headline": "China issues temporary helium export ban as Iran war strains global supplies",
+            "source": "SCMP",
+            "source_tier": 2,
+            "published_at": "2026-07-10T09:16:59",
+            "source_url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPNm42Tzk1R25tR2prX1ZydFZ5OWFvM0JyMkI3Yk5aRWFYdHJNbVExRGRfa2ZjR0NPTE5qSGEzRjNrWDhoU0Rtd1NCeGwyN1ZJbWNwalVVZG85TGpBNGNwM3ZabkRkVmM2eV84aHJWckFodG9NVVNSeHBOcHU3SjRFRExuNzBPYURKM1hEYzhPbEFZWEdRM2ZzcVd3VktWTzE1UDBpY01n0gGmAUFVX3lxTFBEczhpNER1TjdhdTllSnNvNDY3X0pwY0hPTXM0Q2YzYjZ2MTcyN1czdlVlcks0Umx2dmctaU4xOVVndEk5Q3EwVTFlQklsc1hTOE5odGFCNU5ldlZuRURoUDJpM3c3TVJBSmpZTDFPby1HcjgxMXBPOWZXUU9jNUtDeURxVzd2STFHTXFtNUlIcjNDakNKeTdWTzVBTTZXeTI4WXE1Z3c?oc=5",
+            "matched_keyword": "war",
+            "noise_discount_factor": 0.1,
+            "lr_raw": 1.2,
+            "lr_adjusted": 1.18,
+            "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.9500 / 0.0500 = 19.0000",
+              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.10)) = 1.1800",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(19.0000) x LR_adjusted(1.1800) = 22.4200",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 22.4200 / 23.4200 = 0.9500",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.9500",
+              "delta_p": "+0.0000"
+            },
+            "p_prior_step": 0.95,
+            "p_posterior_step": 0.95,
+            "delta_p_step": 0.0
+          }
+        ],
+        "event_ids": [
+          "signal:1169908"
+        ],
+        "brier_record_id": "NITE_BRIER_PETRO_RECYCLED_DOLLAR_THESIS_A204F4F4",
+        "lr_lookups": [
+          {
+            "event_id": "signal:1169908",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "lr_adjusted": 1.18,
+            "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
+            "confidence": "LOW"
+          }
+        ],
         "kill_state_snapshot": {
           "PETRO_KC_01": {
             "state": "CONFIRMED",
@@ -167,7 +256,7 @@
         },
         "worst_kill_state": "CONFIRMED",
         "posture": "KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED",
-        "advisory_text": "[NITE-PEI] PETRO_RECYCLED_DOLLAR_THESIS: no events. P: 0.950 → 0.950 (▲0.000). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] PETRO_RECYCLED_DOLLAR_THESIS: GEOPOLITICAL_ESCALATION (LR 1.180 via GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS, confidence: LOW). P: 0.950 → 0.950 (▲0.000). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "STICKY_INFLATION_THESIS",
@@ -335,9 +424,9 @@
       {
         "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
         "thesis_type": "TRUMP_UNCERTAINTY_THESIS",
-        "p_posterior_used": 0.337724,
+        "p_posterior_used": 0.375677,
         "analyst_upside_pct": 0.15,
-        "f_star_full": -4.077449,
+        "f_star_full": -3.786476,
         "fractional_multiplier": 0.275,
         "f_star_kelly": 0.0,
         "coherence_score": 0.75,
@@ -345,7 +434,7 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 41698.24,
+        "nav_total": 41639.95,
         "target_usd_sleeve": 0.0,
         "current_usd_sleeve": 0.0,
         "delta_usd": 0.0,
@@ -364,11 +453,11 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 41698.24,
-        "target_usd_sleeve": 7071.31,
+        "nav_total": 41639.95,
+        "target_usd_sleeve": 7061.43,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 7071.31,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $7,071"
+        "delta_usd": 7061.43,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $7,061"
       },
       {
         "thesis_id": "STICKY_INFLATION_THESIS",
@@ -383,7 +472,7 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 41698.24,
+        "nav_total": 41639.95,
         "target_usd_sleeve": 0.0,
         "current_usd_sleeve": 0.0,
         "delta_usd": 0.0,
@@ -402,7 +491,7 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 41698.24,
+        "nav_total": 41639.95,
         "target_usd_sleeve": 0.0,
         "current_usd_sleeve": 0.0,
         "delta_usd": 0.0,
@@ -421,7 +510,7 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 41698.24,
+        "nav_total": 41639.95,
         "target_usd_sleeve": 0.0,
         "current_usd_sleeve": 0.0,
         "delta_usd": 0.0,
@@ -434,15 +523,15 @@
     "manual_execution_required": true,
     "llm_order_generation": false,
     "order_routing_enabled": false,
-    "source_cycle_id": "v3_cycle_20260710_223743",
-    "source_cycle_path": "C:\\bluelotus3\\data\\v3_cycles\\v3_cycle_20260710_223743",
-    "nite_pei_generated_at_sgt": "2026-07-10T22:37:48+08:00",
+    "source_cycle_id": "v3_cycle_20260710_234949",
+    "source_cycle_path": "C:\\bluelotus3\\data\\v3_cycles\\v3_cycle_20260710_234949",
+    "nite_pei_generated_at_sgt": "2026-07-10T23:49:54+08:00",
     "generation_mode": "live_cycle",
     "event_extraction": {
       "dataset_path": "C:\\bluelotus3\\data\\frontend\\dataset_raw.json",
-      "candidate_events": 196,
+      "candidate_events": 190,
       "classified_events": 1,
-      "applied_events": 0
+      "applied_events": 2
     }
   },
   "agents": []
