@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-13 15:43 SGT",
-  "cycle_id": "v3_cycle_20260713_154341",
-  "latest_cycle_id": "v3_cycle_20260713_154341",
+  "generated_at": "2026-07-13 16:56 SGT",
+  "cycle_id": "v3_cycle_20260713_165638",
+  "latest_cycle_id": "v3_cycle_20260713_165638",
   "fallback_from_cycle_id": "",
   "fallback_reason": "",
   "clerk_mode": "deterministic",
@@ -12,13 +12,15 @@
   "recommended_posture": "REVIEW",
   "agent_consensus": [],
   "disagreements": [],
-  "cio_attention_items": [],
+  "cio_attention_items": [
+    "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers."
+  ],
   "digest_layers": [
     {
       "layer_id": "cycle_identity",
       "layer": "package_cycle_identity",
       "status": "DATA_CONFIRMED",
-      "summary": "Cycle v3_cycle_20260713_154341 · deterministic clerk · Zone A authority"
+      "summary": "Cycle v3_cycle_20260713_165638 · deterministic clerk · Zone A authority"
     },
     {
       "layer_id": "source_hierarchy",
@@ -42,13 +44,13 @@
       "layer_id": "portfolio_execution",
       "layer": "broker_portfolio",
       "status": "PASS",
-      "summary": "Assets 51535.35 · cash 10065.65 (19.5%) · broker P/L authoritative (snapshot)"
+      "summary": "Assets 51469.55 · cash 10065.65 (19.6%) · broker P/L authoritative (snapshot)"
     },
     {
       "layer_id": "concentration_risk",
       "layer": "risk_metrics",
       "status": "DATA_CONFIRMED",
-      "summary": "status NORMAL · largest BAC · wt 14.4% · HHI 0.1107"
+      "summary": "status NORMAL · largest BAC · wt 14.5% · HHI 0.1106"
     },
     {
       "layer_id": "blind_spot_causal",
@@ -60,7 +62,7 @@
       "layer_id": "deterministic_operators",
       "layer": "operator_blocks",
       "status": "DATA_CONFIRMED",
-      "summary": "Blocked 5 · permitted HOLD, REVIEW, WAIT"
+      "summary": "Blocked 6 · permitted HOLD, REVIEW, WAIT"
     },
     {
       "layer_id": "forecast_brier",
@@ -76,32 +78,45 @@
     }
   ],
   "manual_execution_required": true,
-  "created_at_sgt": "2026-07-13T15:43:41+08:00",
+  "created_at_sgt": "2026-07-13T16:56:39+08:00",
   "contradiction_register": {
     "schema_version": "bluelotus_v3_contradiction_register_v1.0",
-    "cycle_id": "v3_cycle_20260713_154341",
-    "created_at_sgt": "2026-07-13T15:43:41+08:00",
-    "contradiction_count": 0,
-    "p1_count": 0,
+    "cycle_id": "v3_cycle_20260713_165638",
+    "created_at_sgt": "2026-07-13T16:56:39+08:00",
+    "contradiction_count": 1,
+    "p1_count": 1,
     "p2_count": 0,
     "p3_count": 0,
-    "contradictions": [],
+    "contradictions": [
+      {
+        "contradiction_id": "V3_CYCLE_20260713_165638_P1_THESIS_VS_ORDER_BOOK_GOLD_THESIS_OPERATOR_MOOMOO_READONLY_ORDERS_GOL",
+        "cycle_id": "v3_cycle_20260713_165638",
+        "severity": "P1",
+        "domain": "thesis_vs_order_book",
+        "source_a": "gold_thesis_operator",
+        "source_b": "moomoo_readonly_orders",
+        "conflict_statement": "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers.",
+        "cio_attention_required": true,
+        "recommended_resolution_path": "CIO must verify whether open orders are intentional support bids, stale orders, or should be cancelled."
+      }
+    ],
     "manual_execution_required": true,
     "llm_order_generation": false,
     "order_routing_enabled": false
   },
   "cio_decision_strip": {
     "schema_version": "bluelotus_v3_cio_decision_strip_v1.0",
-    "cycle_id": "v3_cycle_20260713_154341",
-    "created_at_sgt": "2026-07-13T15:43:41+08:00",
-    "posture": "REVIEW",
+    "cycle_id": "v3_cycle_20260713_165638",
+    "created_at_sgt": "2026-07-13T16:56:39+08:00",
+    "posture": "CIO_VERIFICATION_REQUIRED",
     "new_information": [
-      "Deterministic Chief Clerk mapped 10 Zone A layers. No LLM agent council. Report action field states: REVIEW. Contradictions: 0 (P1 0, P2 0).",
-      "No contradiction governance items detected."
+      "Deterministic Chief Clerk mapped 10 Zone A layers. No LLM agent council. Report action field states: REVIEW. Contradictions: 1 (P1 1, P2 0).",
+      "1 contradiction governance item(s) detected."
     ],
     "action_blocked": [
+      "ADD_HIGH_BETA_RISK",
       "ADD_RISK_WITHOUT_CATALYST_REVIEW",
-      "ADD_WITHOUT_THESIS_REVIEW",
+      "INCREASE_GOLD_THESIS_RISK",
       "SCALE_IN_ADD",
       "SECOND_TRANCHE_ADD",
       "USE_ARCHIVE_AS_LIVE_TRUTH"
@@ -112,7 +127,7 @@
       "WAIT"
     ],
     "cio_decision_required": [
-      "No contradiction-triggered CIO decision required."
+      "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers."
     ],
     "manual_execution_required": true,
     "llm_order_generation": false,
@@ -120,22 +135,22 @@
   },
   "nite_pei": {
     "schema_version": "bluelotus_v3_nite_pei_v1.0",
-    "generated_at_sgt": "2026-07-13T15:43:44+08:00",
+    "generated_at_sgt": "2026-07-13T16:56:41+08:00",
     "thesis_probability_snapshots": [
       {
         "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
         "thesis_type": "TRUMP_UNCERTAINTY_THESIS",
-        "P_prior": 0.323145,
-        "P_posterior": 0.258993,
-        "delta_p": -0.064152,
+        "P_prior": 0.258993,
+        "P_posterior": 0.216685,
+        "delta_p": -0.042308,
         "events_applied": [
           {
-            "event_id": "ticker_sentiment:71cc9ddd0ba82246",
+            "event_id": "ticker_sentiment:8fdf9a2d88d0f6f1",
             "event_class": "GEOPOLITICAL_DEESCALATION",
             "raw_headline": "INTC, AMD, NVDA, AVGO: Chip Stocks Slide As Fresh US-Iran Strikes Test Peace Deal",
             "source": "ticker_sentiment:INTC",
             "source_tier": 3,
-            "published_at": "2026-07-13 15:37:52",
+            "published_at": "2026-07-13 16:51:51",
             "source_url": "",
             "matched_keyword": "peace deal",
             "noise_discount_factor": 0.25,
@@ -144,24 +159,24 @@
             "lr_source": "GEOPOLITICAL_DEESCALATION/TRUMP_UNCERTAINTY_THESIS",
             "confidence": "LOW",
             "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.3231 / 0.6769 = 0.4774",
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.2590 / 0.7410 = 0.3495",
               "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(0.9000) - 1) x (1 - noise_discount(0.25)) = 0.9250",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(0.4774) x LR_adjusted(0.9250) = 0.4416",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.4416 / 1.4416 = 0.3063",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.3063",
-              "delta_p": "-0.0168"
+              "step_3_posterior_odds": "posterior_odds = prior_odds(0.3495) x LR_adjusted(0.9250) = 0.3233",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.3233 / 1.3233 = 0.2443",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.2443",
+              "delta_p": "-0.0147"
             },
-            "p_prior_step": 0.323145,
-            "p_posterior_step": 0.306333,
-            "delta_p_step": -0.016812
+            "p_prior_step": 0.258993,
+            "p_posterior_step": 0.244314,
+            "delta_p_step": -0.014679
           },
           {
-            "event_id": "ticker_sentiment:92a8504cf9789dad",
+            "event_id": "ticker_sentiment:5c33f81f4484eab6",
             "event_class": "GEOPOLITICAL_DEESCALATION",
             "raw_headline": "INTC, AMD, NVDA, AVGO: Chip Stocks Slide As Fresh US-Iran Strikes Test Peace Deal",
             "source": "ticker_sentiment:AVGO",
             "source_tier": 3,
-            "published_at": "2026-07-13 15:37:49",
+            "published_at": "2026-07-13 16:51:48",
             "source_url": "",
             "matched_keyword": "peace deal",
             "noise_discount_factor": 0.25,
@@ -170,24 +185,24 @@
             "lr_source": "GEOPOLITICAL_DEESCALATION/TRUMP_UNCERTAINTY_THESIS",
             "confidence": "LOW",
             "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.3063 / 0.6937 = 0.4416",
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.2443 / 0.7557 = 0.3233",
               "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(0.9000) - 1) x (1 - noise_discount(0.25)) = 0.9250",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(0.4416) x LR_adjusted(0.9250) = 0.4085",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.4085 / 1.4085 = 0.2900",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.2900",
-              "delta_p": "-0.0163"
+              "step_3_posterior_odds": "posterior_odds = prior_odds(0.3233) x LR_adjusted(0.9250) = 0.2991",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.2991 / 1.2991 = 0.2302",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.2302",
+              "delta_p": "-0.0141"
             },
-            "p_prior_step": 0.306333,
-            "p_posterior_step": 0.290021,
-            "delta_p_step": -0.016312
+            "p_prior_step": 0.244314,
+            "p_posterior_step": 0.230209,
+            "delta_p_step": -0.014105
           },
           {
-            "event_id": "ticker_sentiment:578156d6ce852b30",
+            "event_id": "ticker_sentiment:282b53c3cb2541bc",
             "event_class": "GEOPOLITICAL_DEESCALATION",
             "raw_headline": "INTC, AMD, NVDA, AVGO: Chip Stocks Slide As Fresh US-Iran Strikes Test Peace Deal",
             "source": "ticker_sentiment:AMD",
             "source_tier": 3,
-            "published_at": "2026-07-13 15:37:49",
+            "published_at": "2026-07-13 16:51:48",
             "source_url": "",
             "matched_keyword": "peace deal",
             "noise_discount_factor": 0.25,
@@ -196,75 +211,41 @@
             "lr_source": "GEOPOLITICAL_DEESCALATION/TRUMP_UNCERTAINTY_THESIS",
             "confidence": "LOW",
             "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.2900 / 0.7100 = 0.4085",
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.2302 / 0.7698 = 0.2991",
               "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(0.9000) - 1) x (1 - noise_discount(0.25)) = 0.9250",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(0.4085) x LR_adjusted(0.9250) = 0.3779",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.3779 / 1.3779 = 0.2742",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.2742",
-              "delta_p": "-0.0158"
+              "step_3_posterior_odds": "posterior_odds = prior_odds(0.2991) x LR_adjusted(0.9250) = 0.2766",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.2766 / 1.2766 = 0.2167",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.2167",
+              "delta_p": "-0.0135"
             },
-            "p_prior_step": 0.290021,
-            "p_posterior_step": 0.274234,
-            "delta_p_step": -0.015787
-          },
-          {
-            "event_id": "ticker_sentiment:626e9ef1c818af93",
-            "event_class": "GEOPOLITICAL_DEESCALATION",
-            "raw_headline": "INTC, AMD, NVDA, AVGO: Chip Stocks Slide As Fresh US-Iran Strikes Test Peace Deal",
-            "source": "ticker_sentiment:NVDA",
-            "source_tier": 3,
-            "published_at": "2026-07-13 15:37:49",
-            "source_url": "",
-            "matched_keyword": "peace deal",
-            "noise_discount_factor": 0.25,
-            "lr_raw": 0.9,
-            "lr_adjusted": 0.925,
-            "lr_source": "GEOPOLITICAL_DEESCALATION/TRUMP_UNCERTAINTY_THESIS",
-            "confidence": "LOW",
-            "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.2742 / 0.7258 = 0.3779",
-              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(0.9000) - 1) x (1 - noise_discount(0.25)) = 0.9250",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(0.3779) x LR_adjusted(0.9250) = 0.3495",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.3495 / 1.3495 = 0.2590",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.2590",
-              "delta_p": "-0.0152"
-            },
-            "p_prior_step": 0.274234,
-            "p_posterior_step": 0.258993,
-            "delta_p_step": -0.015241
+            "p_prior_step": 0.230209,
+            "p_posterior_step": 0.216685,
+            "delta_p_step": -0.013524
           }
         ],
         "event_ids": [
-          "ticker_sentiment:71cc9ddd0ba82246",
-          "ticker_sentiment:92a8504cf9789dad",
-          "ticker_sentiment:578156d6ce852b30",
-          "ticker_sentiment:626e9ef1c818af93"
+          "ticker_sentiment:8fdf9a2d88d0f6f1",
+          "ticker_sentiment:5c33f81f4484eab6",
+          "ticker_sentiment:282b53c3cb2541bc"
         ],
-        "brier_record_id": "NITE_BRIER_TRUMP_UNCERTAINTY_THESIS_4EBF03AC",
+        "brier_record_id": "NITE_BRIER_TRUMP_UNCERTAINTY_THESIS_F92F9A89",
         "lr_lookups": [
           {
-            "event_id": "ticker_sentiment:71cc9ddd0ba82246",
+            "event_id": "ticker_sentiment:8fdf9a2d88d0f6f1",
             "event_class": "GEOPOLITICAL_DEESCALATION",
             "lr_adjusted": 0.925,
             "lr_source": "GEOPOLITICAL_DEESCALATION/TRUMP_UNCERTAINTY_THESIS",
             "confidence": "LOW"
           },
           {
-            "event_id": "ticker_sentiment:92a8504cf9789dad",
+            "event_id": "ticker_sentiment:5c33f81f4484eab6",
             "event_class": "GEOPOLITICAL_DEESCALATION",
             "lr_adjusted": 0.925,
             "lr_source": "GEOPOLITICAL_DEESCALATION/TRUMP_UNCERTAINTY_THESIS",
             "confidence": "LOW"
           },
           {
-            "event_id": "ticker_sentiment:578156d6ce852b30",
-            "event_class": "GEOPOLITICAL_DEESCALATION",
-            "lr_adjusted": 0.925,
-            "lr_source": "GEOPOLITICAL_DEESCALATION/TRUMP_UNCERTAINTY_THESIS",
-            "confidence": "LOW"
-          },
-          {
-            "event_id": "ticker_sentiment:626e9ef1c818af93",
+            "event_id": "ticker_sentiment:282b53c3cb2541bc",
             "event_class": "GEOPOLITICAL_DEESCALATION",
             "lr_adjusted": 0.925,
             "lr_source": "GEOPOLITICAL_DEESCALATION/TRUMP_UNCERTAINTY_THESIS",
@@ -274,7 +255,7 @@
         "kill_state_snapshot": {
           "TRUMP_KC_01": {
             "state": "WATCH",
-            "P_kill": 0.258993
+            "P_kill": 0.216685
           },
           "TRUMP_KC_02": {
             "state": "INACTIVE",
@@ -283,7 +264,7 @@
         },
         "worst_kill_state": "WATCH",
         "posture": "THESIS_UNCHANGED — MONITOR",
-        "advisory_text": "[NITE-PEI] TRUMP_UNCERTAINTY_THESIS: GEOPOLITICAL_DEESCALATION, GEOPOLITICAL_DEESCALATION, GEOPOLITICAL_DEESCALATION, GEOPOLITICAL_DEESCALATION (LR 0.925 via GEOPOLITICAL_DEESCALATION/TRUMP_UNCERTAINTY_THESIS, confidence: LOW). P: 0.323 → 0.259 (▼0.064). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] TRUMP_UNCERTAINTY_THESIS: GEOPOLITICAL_DEESCALATION, GEOPOLITICAL_DEESCALATION, GEOPOLITICAL_DEESCALATION (LR 0.925 via GEOPOLITICAL_DEESCALATION/TRUMP_UNCERTAINTY_THESIS, confidence: LOW). P: 0.259 → 0.217 (▼0.042). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
@@ -382,10 +363,10 @@
         "advisory_text": "[NITE-PEI] HAWKISH_BOJ_THESIS: no events. P: 0.088 → 0.088 (▲0.000). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
       }
     ],
-    "ckri": 0.495079,
+    "ckri": 0.490002,
     "ckri_zone": "ELEVATED",
     "ckri_detail": {
-      "weighted_sum": 1.275396,
+      "weighted_sum": 1.250011,
       "correlation_penalty_applied": 1.2,
       "total_weight": 5.0,
       "kill_breakdown": [
@@ -393,9 +374,9 @@
           "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
           "kill_id": "TRUMP_KC_01",
           "kill_weight": 0.6,
-          "P_kill": 0.258993,
+          "P_kill": 0.216685,
           "current_state": "WATCH",
-          "contribution": 0.155396
+          "contribution": 0.130011
         },
         {
           "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
@@ -475,9 +456,9 @@
       {
         "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
         "thesis_type": "TRUMP_UNCERTAINTY_THESIS",
-        "p_posterior_used": 0.258993,
+        "p_posterior_used": 0.216685,
         "analyst_upside_pct": 0.15,
-        "f_star_full": -4.681054,
+        "f_star_full": -5.005415,
         "fractional_multiplier": 0.275,
         "f_star_kelly": 0.0,
         "coherence_score": 0.75,
@@ -485,7 +466,7 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 41469.7,
+        "nav_total": 41403.9,
         "target_usd_sleeve": 0.0,
         "current_usd_sleeve": 0.0,
         "delta_usd": 0.0,
@@ -504,11 +485,11 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 41469.7,
-        "target_usd_sleeve": 7032.56,
+        "nav_total": 41403.9,
+        "target_usd_sleeve": 7021.4,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 7032.56,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $7,033"
+        "delta_usd": 7021.4,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $7,021"
       },
       {
         "thesis_id": "STICKY_INFLATION_THESIS",
@@ -523,7 +504,7 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 41469.7,
+        "nav_total": 41403.9,
         "target_usd_sleeve": 0.0,
         "current_usd_sleeve": 0.0,
         "delta_usd": 0.0,
@@ -542,7 +523,7 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 41469.7,
+        "nav_total": 41403.9,
         "target_usd_sleeve": 0.0,
         "current_usd_sleeve": 0.0,
         "delta_usd": 0.0,
@@ -561,7 +542,7 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 41469.7,
+        "nav_total": 41403.9,
         "target_usd_sleeve": 0.0,
         "current_usd_sleeve": 0.0,
         "delta_usd": 0.0,
@@ -574,15 +555,15 @@
     "manual_execution_required": true,
     "llm_order_generation": false,
     "order_routing_enabled": false,
-    "source_cycle_id": "v3_cycle_20260713_154341",
-    "source_cycle_path": "C:\\bluelotus3\\data\\v3_cycles\\v3_cycle_20260713_154341",
-    "nite_pei_generated_at_sgt": "2026-07-13T15:43:44+08:00",
+    "source_cycle_id": "v3_cycle_20260713_165638",
+    "source_cycle_path": "C:\\bluelotus3\\data\\v3_cycles\\v3_cycle_20260713_165638",
+    "nite_pei_generated_at_sgt": "2026-07-13T16:56:41+08:00",
     "generation_mode": "live_cycle",
     "event_extraction": {
       "dataset_path": "C:\\bluelotus3\\data\\frontend\\dataset_raw.json",
-      "candidate_events": 208,
-      "classified_events": 4,
-      "applied_events": 4
+      "candidate_events": 207,
+      "classified_events": 3,
+      "applied_events": 3
     }
   },
   "agents": []
