@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-14 08:12 SGT",
-  "cycle_id": "v3_cycle_20260714_081159",
-  "latest_cycle_id": "v3_cycle_20260714_081159",
+  "generated_at": "2026-07-14 09:36 SGT",
+  "cycle_id": "v3_cycle_20260714_093545",
+  "latest_cycle_id": "v3_cycle_20260714_093545",
   "fallback_from_cycle_id": "",
   "fallback_reason": "",
   "clerk_mode": "deterministic",
@@ -9,16 +9,18 @@
   "deterministic_clerk": true,
   "degraded_llm_cycle": false,
   "agent_errors": [],
-  "recommended_posture": "HOLD",
+  "recommended_posture": "REVIEW",
   "agent_consensus": [],
   "disagreements": [],
-  "cio_attention_items": [],
+  "cio_attention_items": [
+    "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers."
+  ],
   "digest_layers": [
     {
       "layer_id": "cycle_identity",
       "layer": "package_cycle_identity",
       "status": "DATA_CONFIRMED",
-      "summary": "Cycle v3_cycle_20260714_081159 · deterministic clerk · Zone A authority"
+      "summary": "Cycle v3_cycle_20260714_093545 · deterministic clerk · Zone A authority"
     },
     {
       "layer_id": "source_hierarchy",
@@ -30,7 +32,7 @@
       "layer_id": "regime_operating_truth",
       "layer": "operating_truth",
       "status": "DATA_CONFIRMED",
-      "summary": "Regime RISK OFF · causal COMPLETE · CIO field WAIT / HOLD"
+      "summary": "Regime MILD RISK OFF · causal MOSTLY_COMPLETE_WITH_CRITICAL_GAP · CIO field WAIT / HOLD"
     },
     {
       "layer_id": "governance_readiness",
@@ -42,25 +44,25 @@
       "layer_id": "portfolio_execution",
       "layer": "broker_portfolio",
       "status": "PASS",
-      "summary": "Assets 51046.25 · cash 14877.79 (29.1%) · broker P/L authoritative (snapshot)"
+      "summary": "Assets 51020.49 · cash 14877.79 (29.2%) · broker P/L authoritative (snapshot)"
     },
     {
       "layer_id": "concentration_risk",
       "layer": "risk_metrics",
       "status": "DATA_CONFIRMED",
-      "summary": "status NORMAL · largest BAC · wt 16.4% · HHI 0.1229"
+      "summary": "status NORMAL · largest BAC · wt 16.4% · HHI 0.1226"
     },
     {
       "layer_id": "blind_spot_causal",
       "layer": "operating_truth",
       "status": "WARN",
-      "summary": "Causal COMPLETE · blind spot WARNING · failed: Investor Days, Analyst Days, Named Historical Events"
+      "summary": "Causal MOSTLY_COMPLETE_WITH_CRITICAL_GAP · blind spot WARNING · failed: Investor Days, Analyst Days, Named Historical Events"
     },
     {
       "layer_id": "deterministic_operators",
       "layer": "operator_blocks",
       "status": "DATA_CONFIRMED",
-      "summary": "Blocked 5 · permitted HOLD, REVIEW, WAIT"
+      "summary": "Blocked 6 · permitted HOLD, REVIEW, WAIT"
     },
     {
       "layer_id": "forecast_brier",
@@ -76,32 +78,45 @@
     }
   ],
   "manual_execution_required": true,
-  "created_at_sgt": "2026-07-14T08:12:01+08:00",
+  "created_at_sgt": "2026-07-14T09:35:47+08:00",
   "contradiction_register": {
     "schema_version": "bluelotus_v3_contradiction_register_v1.0",
-    "cycle_id": "v3_cycle_20260714_081159",
-    "created_at_sgt": "2026-07-14T08:12:01+08:00",
-    "contradiction_count": 0,
-    "p1_count": 0,
+    "cycle_id": "v3_cycle_20260714_093545",
+    "created_at_sgt": "2026-07-14T09:35:47+08:00",
+    "contradiction_count": 1,
+    "p1_count": 1,
     "p2_count": 0,
     "p3_count": 0,
-    "contradictions": [],
+    "contradictions": [
+      {
+        "contradiction_id": "V3_CYCLE_20260714_093545_P1_THESIS_VS_ORDER_BOOK_GOLD_THESIS_OPERATOR_MOOMOO_READONLY_ORDERS_GOL",
+        "cycle_id": "v3_cycle_20260714_093545",
+        "severity": "P1",
+        "domain": "thesis_vs_order_book",
+        "source_a": "gold_thesis_operator",
+        "source_b": "moomoo_readonly_orders",
+        "conflict_statement": "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers.",
+        "cio_attention_required": true,
+        "recommended_resolution_path": "CIO must verify whether open orders are intentional support bids, stale orders, or should be cancelled."
+      }
+    ],
     "manual_execution_required": true,
     "llm_order_generation": false,
     "order_routing_enabled": false
   },
   "cio_decision_strip": {
     "schema_version": "bluelotus_v3_cio_decision_strip_v1.0",
-    "cycle_id": "v3_cycle_20260714_081159",
-    "created_at_sgt": "2026-07-14T08:12:01+08:00",
-    "posture": "HOLD",
+    "cycle_id": "v3_cycle_20260714_093545",
+    "created_at_sgt": "2026-07-14T09:35:47+08:00",
+    "posture": "CIO_VERIFICATION_REQUIRED",
     "new_information": [
-      "Deterministic Chief Clerk mapped 10 Zone A layers. No LLM agent council. Report action field states: HOLD. Contradictions: 0 (P1 0, P2 0).",
-      "No contradiction governance items detected."
+      "Deterministic Chief Clerk mapped 10 Zone A layers. No LLM agent council. Report action field states: REVIEW. Contradictions: 1 (P1 1, P2 0).",
+      "1 contradiction governance item(s) detected."
     ],
     "action_blocked": [
       "ADD_HIGH_BETA_RISK",
       "ADD_RISK_WITHOUT_CATALYST_REVIEW",
+      "INCREASE_GOLD_THESIS_RISK",
       "SCALE_IN_ADD",
       "SECOND_TRANCHE_ADD",
       "USE_ARCHIVE_AS_LIVE_TRUTH"
@@ -112,7 +127,7 @@
       "WAIT"
     ],
     "cio_decision_required": [
-      "No contradiction-triggered CIO decision required."
+      "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers."
     ],
     "manual_execution_required": true,
     "llm_order_generation": false,
@@ -120,22 +135,48 @@
   },
   "nite_pei": {
     "schema_version": "bluelotus_v3_nite_pei_v1.0",
-    "generated_at_sgt": "2026-07-14T08:12:13+08:00",
+    "generated_at_sgt": "2026-07-14T09:35:53+08:00",
     "thesis_probability_snapshots": [
       {
         "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
         "thesis_type": "TRUMP_UNCERTAINTY_THESIS",
-        "P_prior": 0.323063,
-        "P_posterior": 0.454952,
-        "delta_p": 0.131889,
+        "P_prior": 0.454952,
+        "P_posterior": 0.664551,
+        "delta_p": 0.209599,
         "events_applied": [
           {
-            "event_id": "signal:1271426",
+            "event_id": "signal:1273973",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "raw_headline": "Oil Holds Jump After Trump Reinstates Blockade on Iranian Ships",
+            "source": "Bloomberg",
+            "source_tier": 2,
+            "published_at": "2026-07-13T22:01:33",
+            "source_url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNMVd2RUFVd0JpUTQ0eVBMTHJYQXFWaXBBVmQyOUt1amotUC1nRzhaNGNuV21fTlFFdXdPdTRaREJvUE1ROUs2QU52bHZwWXB4RFptUWgtN2REVEF5YkluRVlMeW9LSkk3bTR3TkJzSU5ScG9BSWN1VndKQ0JqQTY4REoydG9KUTRGcXpoTGtuUHBiUnR3OVlfNVVTQzZFcUU?oc=5",
+            "matched_keyword": "blockade",
+            "noise_discount_factor": 0.1,
+            "lr_raw": 1.2,
+            "lr_adjusted": 1.18,
+            "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.4550 / 0.5450 = 0.8347",
+              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.10)) = 1.1800",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(0.8347) x LR_adjusted(1.1800) = 0.9849",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.9849 / 1.9849 = 0.4962",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.4962",
+              "delta_p": "+0.0413"
+            },
+            "p_prior_step": 0.454952,
+            "p_posterior_step": 0.496208,
+            "delta_p_step": 0.041256
+          },
+          {
+            "event_id": "signal:1273665",
             "event_class": "GEOPOLITICAL_ESCALATION",
             "raw_headline": "[SENTIMENT] GOOGL: NEUTRAL (-0.047) -- S&P 500, Nasdaq, Dow End Lower As US-Iran War Fear Remerges — PSKY, META, GOOGL,",
             "source": "Ticker_Sentiment",
             "source_tier": 3,
-            "published_at": "2026-07-14T07:55:09",
+            "published_at": "2026-07-14T09:25:24",
             "source_url": "",
             "matched_keyword": "war",
             "noise_discount_factor": 0.25,
@@ -144,50 +185,76 @@
             "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
             "confidence": "LOW",
             "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.3231 / 0.6769 = 0.4772",
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.4962 / 0.5038 = 0.9849",
               "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(0.4772) x LR_adjusted(1.1500) = 0.5488",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.5488 / 1.5488 = 0.3544",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.3544",
-              "delta_p": "+0.0313"
+              "step_3_posterior_odds": "posterior_odds = prior_odds(0.9849) x LR_adjusted(1.1500) = 1.1327",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 1.1327 / 2.1327 = 0.5311",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.5311",
+              "delta_p": "+0.0349"
             },
-            "p_prior_step": 0.323063,
-            "p_posterior_step": 0.354351,
-            "delta_p_step": 0.031288
+            "p_prior_step": 0.496208,
+            "p_posterior_step": 0.531108,
+            "delta_p_step": 0.0349
           },
           {
-            "event_id": "signal:1271417",
+            "event_id": "signal:1273656",
             "event_class": "GEOPOLITICAL_ESCALATION",
-            "raw_headline": "[SENTIMENT] INTC: BEARISH (-0.195) -- S&P 500, Nasdaq, Dow End Lower As US-Iran War Fear Remerges — PSKY, META, GOOGL,",
+            "raw_headline": "[SENTIMENT] INTC: BEARISH (-0.212) -- Trump Reinstates the Iran Blockade and Demands a 20% Toll as America Becomes Hor",
             "source": "Ticker_Sentiment",
             "source_tier": 3,
-            "published_at": "2026-07-14T07:55:05",
+            "published_at": "2026-07-14T09:25:20",
             "source_url": "",
-            "matched_keyword": "war",
+            "matched_keyword": "blockade",
             "noise_discount_factor": 0.25,
             "lr_raw": 1.2,
             "lr_adjusted": 1.15,
             "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
             "confidence": "LOW",
             "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.3544 / 0.6456 = 0.5488",
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.5311 / 0.4689 = 1.1327",
               "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(0.5488) x LR_adjusted(1.1500) = 0.6312",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.6312 / 1.6312 = 0.3869",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.3869",
-              "delta_p": "+0.0326"
+              "step_3_posterior_odds": "posterior_odds = prior_odds(1.1327) x LR_adjusted(1.1500) = 1.3026",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 1.3026 / 2.3026 = 0.5657",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.5657",
+              "delta_p": "+0.0346"
             },
-            "p_prior_step": 0.354351,
-            "p_posterior_step": 0.386937,
-            "delta_p_step": 0.032586
+            "p_prior_step": 0.531108,
+            "p_posterior_step": 0.565707,
+            "delta_p_step": 0.034599
           },
           {
-            "event_id": "ticker_sentiment:23b59a20bde4f52b",
+            "event_id": "signal:1273652",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "raw_headline": "[SENTIMENT] AMAT: BULLISH (+0.169) -- Trump Reinstates the Iran Blockade and Demands a 20% Toll as America Becomes Hor",
+            "source": "Ticker_Sentiment",
+            "source_tier": 3,
+            "published_at": "2026-07-14T09:25:18",
+            "source_url": "",
+            "matched_keyword": "blockade",
+            "noise_discount_factor": 0.25,
+            "lr_raw": 1.2,
+            "lr_adjusted": 1.15,
+            "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.5657 / 0.4343 = 1.3026",
+              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(1.3026) x LR_adjusted(1.1500) = 1.4980",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 1.4980 / 2.4980 = 0.5997",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.5997",
+              "delta_p": "+0.0340"
+            },
+            "p_prior_step": 0.565707,
+            "p_posterior_step": 0.599677,
+            "delta_p_step": 0.03397
+          },
+          {
+            "event_id": "ticker_sentiment:834c6cc4e32cece4",
             "event_class": "GEOPOLITICAL_ESCALATION",
             "raw_headline": "S&P 500, Nasdaq, Dow End Lower As US-Iran War Fear Remerges — PSKY, META, GOOGL, INTC, NFLX In Focus",
             "source": "ticker_sentiment:GOOGL",
             "source_tier": 3,
-            "published_at": "2026-07-14 07:55:09",
+            "published_at": "2026-07-14 09:25:24",
             "source_url": "",
             "matched_keyword": "war",
             "noise_discount_factor": 0.25,
@@ -196,24 +263,24 @@
             "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
             "confidence": "LOW",
             "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.3869 / 0.6131 = 0.6312",
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.5997 / 0.4003 = 1.4980",
               "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(0.6312) x LR_adjusted(1.1500) = 0.7258",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.7258 / 1.7258 = 0.4206",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.4206",
-              "delta_p": "+0.0336"
+              "step_3_posterior_odds": "posterior_odds = prior_odds(1.4980) x LR_adjusted(1.1500) = 1.7227",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 1.7227 / 2.7227 = 0.6327",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.6327",
+              "delta_p": "+0.0330"
             },
-            "p_prior_step": 0.386937,
-            "p_posterior_step": 0.420568,
-            "delta_p_step": 0.033631
+            "p_prior_step": 0.599677,
+            "p_posterior_step": 0.632715,
+            "delta_p_step": 0.033038
           },
           {
-            "event_id": "ticker_sentiment:c16d9890af2fcdad",
+            "event_id": "ticker_sentiment:d2d3db3be2675760",
             "event_class": "GEOPOLITICAL_ESCALATION",
             "raw_headline": "S&P 500, Nasdaq, Dow End Lower As US-Iran War Fear Remerges — PSKY, META, GOOGL, INTC, NFLX In Focus",
             "source": "ticker_sentiment:INTC",
             "source_tier": 3,
-            "published_at": "2026-07-14 07:55:05",
+            "published_at": "2026-07-14 09:25:20",
             "source_url": "",
             "matched_keyword": "war",
             "noise_discount_factor": 0.25,
@@ -222,49 +289,65 @@
             "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
             "confidence": "LOW",
             "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.4206 / 0.5794 = 0.7258",
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.6327 / 0.3673 = 1.7227",
               "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(0.7258) x LR_adjusted(1.1500) = 0.8347",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.8347 / 1.8347 = 0.4550",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.4550",
-              "delta_p": "+0.0344"
+              "step_3_posterior_odds": "posterior_odds = prior_odds(1.7227) x LR_adjusted(1.1500) = 1.9811",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 1.9811 / 2.9811 = 0.6646",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.6646",
+              "delta_p": "+0.0318"
             },
-            "p_prior_step": 0.420568,
-            "p_posterior_step": 0.454952,
-            "delta_p_step": 0.034384
+            "p_prior_step": 0.632715,
+            "p_posterior_step": 0.664551,
+            "delta_p_step": 0.031836
           }
         ],
         "event_ids": [
-          "signal:1271426",
-          "signal:1271417",
-          "ticker_sentiment:23b59a20bde4f52b",
-          "ticker_sentiment:c16d9890af2fcdad"
+          "signal:1273973",
+          "signal:1273665",
+          "signal:1273656",
+          "signal:1273652",
+          "ticker_sentiment:834c6cc4e32cece4",
+          "ticker_sentiment:d2d3db3be2675760"
         ],
-        "brier_record_id": "NITE_BRIER_TRUMP_UNCERTAINTY_THESIS_50F42996",
+        "brier_record_id": "NITE_BRIER_TRUMP_UNCERTAINTY_THESIS_3130298B",
         "lr_lookups": [
           {
-            "event_id": "signal:1271426",
+            "event_id": "signal:1273973",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "lr_adjusted": 1.18,
+            "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW"
+          },
+          {
+            "event_id": "signal:1273665",
             "event_class": "GEOPOLITICAL_ESCALATION",
             "lr_adjusted": 1.15,
             "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
             "confidence": "LOW"
           },
           {
-            "event_id": "signal:1271417",
+            "event_id": "signal:1273656",
             "event_class": "GEOPOLITICAL_ESCALATION",
             "lr_adjusted": 1.15,
             "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
             "confidence": "LOW"
           },
           {
-            "event_id": "ticker_sentiment:23b59a20bde4f52b",
+            "event_id": "signal:1273652",
             "event_class": "GEOPOLITICAL_ESCALATION",
             "lr_adjusted": 1.15,
             "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
             "confidence": "LOW"
           },
           {
-            "event_id": "ticker_sentiment:c16d9890af2fcdad",
+            "event_id": "ticker_sentiment:834c6cc4e32cece4",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "lr_adjusted": 1.15,
+            "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW"
+          },
+          {
+            "event_id": "ticker_sentiment:d2d3db3be2675760",
             "event_class": "GEOPOLITICAL_ESCALATION",
             "lr_adjusted": 1.15,
             "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
@@ -282,8 +365,8 @@
           }
         },
         "worst_kill_state": "WATCH",
-        "posture": "THESIS_UNCHANGED — MONITOR",
-        "advisory_text": "[NITE-PEI] TRUMP_UNCERTAINTY_THESIS: GEOPOLITICAL_ESCALATION, GEOPOLITICAL_ESCALATION, GEOPOLITICAL_ESCALATION, GEOPOLITICAL_ESCALATION (LR 1.150 via GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS, confidence: LOW). P: 0.323 → 0.455 (▲0.132). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+        "posture": "THESIS_STRENGTHENED — CIO_REVIEW_FOR_ADD",
+        "advisory_text": "[NITE-PEI] TRUMP_UNCERTAINTY_THESIS: GEOPOLITICAL_ESCALATION, GEOPOLITICAL_ESCALATION, GEOPOLITICAL_ESCALATION, GEOPOLITICAL_ESCALATION, GEOPOLITICAL_ESCALATION, GEOPOLITICAL_ESCALATION (LR 1.180 via GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS, confidence: LOW). P: 0.455 → 0.665 (▲0.210). Posture: THESIS_STRENGTHENED — CIO_REVIEW_FOR_ADD. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
@@ -293,12 +376,38 @@
         "delta_p": 0.0,
         "events_applied": [
           {
-            "event_id": "signal:1271426",
+            "event_id": "signal:1273973",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "raw_headline": "Oil Holds Jump After Trump Reinstates Blockade on Iranian Ships",
+            "source": "Bloomberg",
+            "source_tier": 2,
+            "published_at": "2026-07-13T22:01:33",
+            "source_url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNMVd2RUFVd0JpUTQ0eVBMTHJYQXFWaXBBVmQyOUt1amotUC1nRzhaNGNuV21fTlFFdXdPdTRaREJvUE1ROUs2QU52bHZwWXB4RFptUWgtN2REVEF5YkluRVlMeW9LSkk3bTR3TkJzSU5ScG9BSWN1VndKQ0JqQTY4REoydG9KUTRGcXpoTGtuUHBiUnR3OVlfNVVTQzZFcUU?oc=5",
+            "matched_keyword": "blockade",
+            "noise_discount_factor": 0.1,
+            "lr_raw": 1.2,
+            "lr_adjusted": 1.18,
+            "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.9500 / 0.0500 = 19.0000",
+              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.10)) = 1.1800",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(19.0000) x LR_adjusted(1.1800) = 22.4200",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 22.4200 / 23.4200 = 0.9500",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.9500",
+              "delta_p": "+0.0000"
+            },
+            "p_prior_step": 0.95,
+            "p_posterior_step": 0.95,
+            "delta_p_step": 0.0
+          },
+          {
+            "event_id": "signal:1273665",
             "event_class": "GEOPOLITICAL_ESCALATION",
             "raw_headline": "[SENTIMENT] GOOGL: NEUTRAL (-0.047) -- S&P 500, Nasdaq, Dow End Lower As US-Iran War Fear Remerges — PSKY, META, GOOGL,",
             "source": "Ticker_Sentiment",
             "source_tier": 3,
-            "published_at": "2026-07-14T07:55:09",
+            "published_at": "2026-07-14T09:25:24",
             "source_url": "",
             "matched_keyword": "war",
             "noise_discount_factor": 0.25,
@@ -319,14 +428,14 @@
             "delta_p_step": 0.0
           },
           {
-            "event_id": "signal:1271417",
+            "event_id": "signal:1273656",
             "event_class": "GEOPOLITICAL_ESCALATION",
-            "raw_headline": "[SENTIMENT] INTC: BEARISH (-0.195) -- S&P 500, Nasdaq, Dow End Lower As US-Iran War Fear Remerges — PSKY, META, GOOGL,",
+            "raw_headline": "[SENTIMENT] INTC: BEARISH (-0.212) -- Trump Reinstates the Iran Blockade and Demands a 20% Toll as America Becomes Hor",
             "source": "Ticker_Sentiment",
             "source_tier": 3,
-            "published_at": "2026-07-14T07:55:05",
+            "published_at": "2026-07-14T09:25:20",
             "source_url": "",
-            "matched_keyword": "war",
+            "matched_keyword": "blockade",
             "noise_discount_factor": 0.25,
             "lr_raw": 1.2,
             "lr_adjusted": 1.15,
@@ -345,12 +454,38 @@
             "delta_p_step": 0.0
           },
           {
-            "event_id": "ticker_sentiment:23b59a20bde4f52b",
+            "event_id": "signal:1273652",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "raw_headline": "[SENTIMENT] AMAT: BULLISH (+0.169) -- Trump Reinstates the Iran Blockade and Demands a 20% Toll as America Becomes Hor",
+            "source": "Ticker_Sentiment",
+            "source_tier": 3,
+            "published_at": "2026-07-14T09:25:18",
+            "source_url": "",
+            "matched_keyword": "blockade",
+            "noise_discount_factor": 0.25,
+            "lr_raw": 1.2,
+            "lr_adjusted": 1.15,
+            "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.9500 / 0.0500 = 19.0000",
+              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(19.0000) x LR_adjusted(1.1500) = 21.8500",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 21.8500 / 22.8500 = 0.9500",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.9500",
+              "delta_p": "+0.0000"
+            },
+            "p_prior_step": 0.95,
+            "p_posterior_step": 0.95,
+            "delta_p_step": 0.0
+          },
+          {
+            "event_id": "ticker_sentiment:834c6cc4e32cece4",
             "event_class": "GEOPOLITICAL_ESCALATION",
             "raw_headline": "S&P 500, Nasdaq, Dow End Lower As US-Iran War Fear Remerges — PSKY, META, GOOGL, INTC, NFLX In Focus",
             "source": "ticker_sentiment:GOOGL",
             "source_tier": 3,
-            "published_at": "2026-07-14 07:55:09",
+            "published_at": "2026-07-14 09:25:24",
             "source_url": "",
             "matched_keyword": "war",
             "noise_discount_factor": 0.25,
@@ -371,12 +506,12 @@
             "delta_p_step": 0.0
           },
           {
-            "event_id": "ticker_sentiment:c16d9890af2fcdad",
+            "event_id": "ticker_sentiment:d2d3db3be2675760",
             "event_class": "GEOPOLITICAL_ESCALATION",
             "raw_headline": "S&P 500, Nasdaq, Dow End Lower As US-Iran War Fear Remerges — PSKY, META, GOOGL, INTC, NFLX In Focus",
             "source": "ticker_sentiment:INTC",
             "source_tier": 3,
-            "published_at": "2026-07-14 07:55:05",
+            "published_at": "2026-07-14 09:25:20",
             "source_url": "",
             "matched_keyword": "war",
             "noise_discount_factor": 0.25,
@@ -398,36 +533,52 @@
           }
         ],
         "event_ids": [
-          "signal:1271426",
-          "signal:1271417",
-          "ticker_sentiment:23b59a20bde4f52b",
-          "ticker_sentiment:c16d9890af2fcdad"
+          "signal:1273973",
+          "signal:1273665",
+          "signal:1273656",
+          "signal:1273652",
+          "ticker_sentiment:834c6cc4e32cece4",
+          "ticker_sentiment:d2d3db3be2675760"
         ],
-        "brier_record_id": "NITE_BRIER_PETRO_RECYCLED_DOLLAR_THESIS_BAE1D8C0",
+        "brier_record_id": "NITE_BRIER_PETRO_RECYCLED_DOLLAR_THESIS_A0220744",
         "lr_lookups": [
           {
-            "event_id": "signal:1271426",
+            "event_id": "signal:1273973",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "lr_adjusted": 1.18,
+            "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
+            "confidence": "LOW"
+          },
+          {
+            "event_id": "signal:1273665",
             "event_class": "GEOPOLITICAL_ESCALATION",
             "lr_adjusted": 1.15,
             "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
             "confidence": "LOW"
           },
           {
-            "event_id": "signal:1271417",
+            "event_id": "signal:1273656",
             "event_class": "GEOPOLITICAL_ESCALATION",
             "lr_adjusted": 1.15,
             "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
             "confidence": "LOW"
           },
           {
-            "event_id": "ticker_sentiment:23b59a20bde4f52b",
+            "event_id": "signal:1273652",
             "event_class": "GEOPOLITICAL_ESCALATION",
             "lr_adjusted": 1.15,
             "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
             "confidence": "LOW"
           },
           {
-            "event_id": "ticker_sentiment:c16d9890af2fcdad",
+            "event_id": "ticker_sentiment:834c6cc4e32cece4",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "lr_adjusted": 1.15,
+            "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
+            "confidence": "LOW"
+          },
+          {
+            "event_id": "ticker_sentiment:d2d3db3be2675760",
             "event_class": "GEOPOLITICAL_ESCALATION",
             "lr_adjusted": 1.15,
             "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
@@ -446,7 +597,7 @@
         },
         "worst_kill_state": "CONFIRMED",
         "posture": "KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED",
-        "advisory_text": "[NITE-PEI] PETRO_RECYCLED_DOLLAR_THESIS: GEOPOLITICAL_ESCALATION, GEOPOLITICAL_ESCALATION, GEOPOLITICAL_ESCALATION, GEOPOLITICAL_ESCALATION (LR 1.150 via GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS, confidence: LOW). P: 0.950 → 0.950 (▲0.000). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] PETRO_RECYCLED_DOLLAR_THESIS: GEOPOLITICAL_ESCALATION, GEOPOLITICAL_ESCALATION, GEOPOLITICAL_ESCALATION, GEOPOLITICAL_ESCALATION, GEOPOLITICAL_ESCALATION, GEOPOLITICAL_ESCALATION (LR 1.180 via GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS, confidence: LOW). P: 0.950 → 0.950 (▲0.000). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "STICKY_INFLATION_THESIS",
@@ -614,9 +765,9 @@
       {
         "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
         "thesis_type": "TRUMP_UNCERTAINTY_THESIS",
-        "p_posterior_used": 0.454952,
+        "p_posterior_used": 0.664551,
         "analyst_upside_pct": 0.15,
-        "f_star_full": -3.178701,
+        "f_star_full": -1.571776,
         "fractional_multiplier": 0.275,
         "f_star_kelly": 0.0,
         "coherence_score": 0.75,
@@ -624,7 +775,7 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 36168.46,
+        "nav_total": 36142.7,
         "target_usd_sleeve": 0.0,
         "current_usd_sleeve": 0.0,
         "delta_usd": 0.0,
@@ -643,11 +794,11 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 36168.46,
-        "target_usd_sleeve": 6133.56,
+        "nav_total": 36142.7,
+        "target_usd_sleeve": 6129.19,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 6133.56,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $6,134"
+        "delta_usd": 6129.19,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $6,129"
       },
       {
         "thesis_id": "STICKY_INFLATION_THESIS",
@@ -662,7 +813,7 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 36168.46,
+        "nav_total": 36142.7,
         "target_usd_sleeve": 0.0,
         "current_usd_sleeve": 0.0,
         "delta_usd": 0.0,
@@ -681,7 +832,7 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 36168.46,
+        "nav_total": 36142.7,
         "target_usd_sleeve": 0.0,
         "current_usd_sleeve": 0.0,
         "delta_usd": 0.0,
@@ -700,7 +851,7 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 36168.46,
+        "nav_total": 36142.7,
         "target_usd_sleeve": 0.0,
         "current_usd_sleeve": 0.0,
         "delta_usd": 0.0,
@@ -713,15 +864,15 @@
     "manual_execution_required": true,
     "llm_order_generation": false,
     "order_routing_enabled": false,
-    "source_cycle_id": "v3_cycle_20260714_081159",
-    "source_cycle_path": "C:\\bluelotus3\\data\\v3_cycles\\v3_cycle_20260714_081159",
-    "nite_pei_generated_at_sgt": "2026-07-14T08:12:13+08:00",
+    "source_cycle_id": "v3_cycle_20260714_093545",
+    "source_cycle_path": "C:\\bluelotus3\\data\\v3_cycles\\v3_cycle_20260714_093545",
+    "nite_pei_generated_at_sgt": "2026-07-14T09:35:53+08:00",
     "generation_mode": "live_cycle",
     "event_extraction": {
       "dataset_path": "C:\\bluelotus3\\data\\frontend\\dataset_raw.json",
-      "candidate_events": 201,
-      "classified_events": 4,
-      "applied_events": 8
+      "candidate_events": 196,
+      "classified_events": 6,
+      "applied_events": 12
     }
   },
   "agents": []
