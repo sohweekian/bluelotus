@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-14 17:26 SGT",
-  "cycle_id": "v3_cycle_20260714_172636",
-  "latest_cycle_id": "v3_cycle_20260714_172636",
+  "generated_at": "2026-07-15 17:24 SGT",
+  "cycle_id": "v3_cycle_20260715_172159",
+  "latest_cycle_id": "v3_cycle_20260715_172159",
   "fallback_from_cycle_id": "",
   "fallback_reason": "",
   "clerk_mode": "deterministic",
@@ -9,16 +9,18 @@
   "deterministic_clerk": true,
   "degraded_llm_cycle": false,
   "agent_errors": [],
-  "recommended_posture": "HOLD",
+  "recommended_posture": "REVIEW",
   "agent_consensus": [],
   "disagreements": [],
-  "cio_attention_items": [],
+  "cio_attention_items": [
+    "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers."
+  ],
   "digest_layers": [
     {
       "layer_id": "cycle_identity",
       "layer": "package_cycle_identity",
       "status": "DATA_CONFIRMED",
-      "summary": "Cycle v3_cycle_20260714_172636 · deterministic clerk · Zone A authority"
+      "summary": "Cycle v3_cycle_20260715_172159 · deterministic clerk · Zone A authority"
     },
     {
       "layer_id": "source_hierarchy",
@@ -30,7 +32,7 @@
       "layer_id": "regime_operating_truth",
       "layer": "operating_truth",
       "status": "DATA_CONFIRMED",
-      "summary": "Regime MILD RISK OFF · causal COMPLETE · CIO field WAIT / HOLD"
+      "summary": "Regime NEUTRAL · causal COMPLETE · CIO field WAIT / HOLD"
     },
     {
       "layer_id": "governance_readiness",
@@ -42,13 +44,13 @@
       "layer_id": "portfolio_execution",
       "layer": "broker_portfolio",
       "status": "PASS",
-      "summary": "Assets 51217.65 · cash 17516.85 (34.2%) · broker P/L authoritative (snapshot)"
+      "summary": "Assets 51280.44 · cash 26018.24 (50.7%) · broker P/L authoritative (snapshot)"
     },
     {
       "layer_id": "concentration_risk",
       "layer": "risk_metrics",
       "status": "DATA_CONFIRMED",
-      "summary": "status NORMAL · largest BAC · wt 17.6% · HHI 0.1241"
+      "summary": "status NORMAL · largest VIXY · wt 21.2% · HHI 0.1535"
     },
     {
       "layer_id": "blind_spot_causal",
@@ -60,7 +62,7 @@
       "layer_id": "deterministic_operators",
       "layer": "operator_blocks",
       "status": "DATA_CONFIRMED",
-      "summary": "Blocked 4 · permitted HOLD, REVIEW, WAIT"
+      "summary": "Blocked 6 · permitted HOLD, REVIEW, WAIT"
     },
     {
       "layer_id": "forecast_brier",
@@ -76,31 +78,45 @@
     }
   ],
   "manual_execution_required": true,
-  "created_at_sgt": "2026-07-14T17:26:38+08:00",
+  "created_at_sgt": "2026-07-15T17:22:02+08:00",
   "contradiction_register": {
     "schema_version": "bluelotus_v3_contradiction_register_v1.0",
-    "cycle_id": "v3_cycle_20260714_172636",
-    "created_at_sgt": "2026-07-14T17:26:38+08:00",
-    "contradiction_count": 0,
-    "p1_count": 0,
+    "cycle_id": "v3_cycle_20260715_172159",
+    "created_at_sgt": "2026-07-15T17:22:02+08:00",
+    "contradiction_count": 1,
+    "p1_count": 1,
     "p2_count": 0,
     "p3_count": 0,
-    "contradictions": [],
+    "contradictions": [
+      {
+        "contradiction_id": "V3_CYCLE_20260715_172159_P1_THESIS_VS_ORDER_BOOK_GOLD_THESIS_OPERATOR_MOOMOO_READONLY_ORDERS_GOL",
+        "cycle_id": "v3_cycle_20260715_172159",
+        "severity": "P1",
+        "domain": "thesis_vs_order_book",
+        "source_a": "gold_thesis_operator",
+        "source_b": "moomoo_readonly_orders",
+        "conflict_statement": "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers.",
+        "cio_attention_required": true,
+        "recommended_resolution_path": "CIO must verify whether open orders are intentional support bids, stale orders, or should be cancelled."
+      }
+    ],
     "manual_execution_required": true,
     "llm_order_generation": false,
     "order_routing_enabled": false
   },
   "cio_decision_strip": {
     "schema_version": "bluelotus_v3_cio_decision_strip_v1.0",
-    "cycle_id": "v3_cycle_20260714_172636",
-    "created_at_sgt": "2026-07-14T17:26:38+08:00",
-    "posture": "HOLD",
+    "cycle_id": "v3_cycle_20260715_172159",
+    "created_at_sgt": "2026-07-15T17:22:02+08:00",
+    "posture": "CIO_VERIFICATION_REQUIRED",
     "new_information": [
-      "Deterministic Chief Clerk mapped 10 Zone A layers. No LLM agent council. Report action field states: HOLD. Contradictions: 0 (P1 0, P2 0).",
-      "No contradiction governance items detected."
+      "Deterministic Chief Clerk mapped 10 Zone A layers. No LLM agent council. Report action field states: REVIEW. Contradictions: 1 (P1 1, P2 0).",
+      "1 contradiction governance item(s) detected."
     ],
     "action_blocked": [
       "ADD_RISK_WITHOUT_CATALYST_REVIEW",
+      "ADD_WITHOUT_THESIS_REVIEW",
+      "INCREASE_GOLD_THESIS_RISK",
       "SCALE_IN_ADD",
       "SECOND_TRANCHE_ADD",
       "USE_ARCHIVE_AS_LIVE_TRUTH"
@@ -111,7 +127,7 @@
       "WAIT"
     ],
     "cio_decision_required": [
-      "No contradiction-triggered CIO decision required."
+      "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers."
     ],
     "manual_execution_required": true,
     "llm_order_generation": false,
@@ -119,123 +135,18 @@
   },
   "nite_pei": {
     "schema_version": "bluelotus_v3_nite_pei_v1.0",
-    "generated_at_sgt": "2026-07-14T17:26:44+08:00",
+    "generated_at_sgt": "2026-07-15T17:22:42+08:00",
     "thesis_probability_snapshots": [
       {
         "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
         "thesis_type": "TRUMP_UNCERTAINTY_THESIS",
-        "P_prior": 0.889069,
-        "P_posterior": 0.878929,
-        "delta_p": -0.01014,
-        "events_applied": [
-          {
-            "event_id": "ticker_sentiment:689b92e21c9499f8",
-            "event_class": "GEOPOLITICAL_ESCALATION",
-            "raw_headline": "S&P 500, Nasdaq, Dow End Lower As US-Iran War Fear Remerges — PSKY, META, GOOGL, INTC, NFLX In Focus",
-            "source": "ticker_sentiment:INTC",
-            "source_tier": 3,
-            "published_at": "2026-07-14 17:15:38",
-            "source_url": "",
-            "matched_keyword": "war",
-            "noise_discount_factor": 0.25,
-            "lr_raw": 1.2,
-            "lr_adjusted": 1.15,
-            "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
-            "confidence": "LOW",
-            "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.8891 / 0.1109 = 8.0146",
-              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(8.0146) x LR_adjusted(1.1500) = 9.2168",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 9.2168 / 10.2168 = 0.9021",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.9021",
-              "delta_p": "+0.0131"
-            },
-            "p_prior_step": 0.889069,
-            "p_posterior_step": 0.902122,
-            "delta_p_step": 0.013053
-          },
-          {
-            "event_id": "ticker_sentiment:33be5e6b8eb52758",
-            "event_class": "CENTRAL_BANK_HAWKISH",
-            "raw_headline": "Nasdaq, S&P 500 Futures Drift Ahead Of CPI, Bank Earnings, And Warsh’s Congressional Debut: Why USO, JPM, BAC, NVDA, CRCL, SLS, SRXH Are In Focus",
-            "source": "ticker_sentiment:NVDA",
-            "source_tier": 3,
-            "published_at": "2026-07-14 17:15:34",
-            "source_url": "",
-            "matched_keyword": "warsh",
-            "noise_discount_factor": 0.25,
-            "lr_raw": 0.85,
-            "lr_adjusted": 0.8875,
-            "lr_source": "CENTRAL_BANK_HAWKISH/TRUMP_UNCERTAINTY_THESIS",
-            "confidence": "LOW",
-            "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.9021 / 0.0979 = 9.2168",
-              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(0.8500) - 1) x (1 - noise_discount(0.25)) = 0.8875",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(9.2168) x LR_adjusted(0.8875) = 8.1799",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 8.1799 / 9.1799 = 0.8911",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.8911",
-              "delta_p": "-0.0111"
-            },
-            "p_prior_step": 0.902122,
-            "p_posterior_step": 0.891066,
-            "delta_p_step": -0.011056
-          },
-          {
-            "event_id": "ticker_sentiment:65fce0da969a7a17",
-            "event_class": "CENTRAL_BANK_HAWKISH",
-            "raw_headline": "Nasdaq, S&P 500 Futures Drift Ahead Of CPI, Bank Earnings, And Warsh’s Congressional Debut: Why USO, JPM, BAC, NVDA, CRCL, SLS, SRXH Are In Focus",
-            "source": "ticker_sentiment:BAC",
-            "source_tier": 3,
-            "published_at": "2026-07-14 17:15:33",
-            "source_url": "",
-            "matched_keyword": "warsh",
-            "noise_discount_factor": 0.25,
-            "lr_raw": 0.85,
-            "lr_adjusted": 0.8875,
-            "lr_source": "CENTRAL_BANK_HAWKISH/TRUMP_UNCERTAINTY_THESIS",
-            "confidence": "LOW",
-            "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.8911 / 0.1089 = 8.1799",
-              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(0.8500) - 1) x (1 - noise_discount(0.25)) = 0.8875",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(8.1799) x LR_adjusted(0.8875) = 7.2596",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 7.2596 / 8.2596 = 0.8789",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.8789",
-              "delta_p": "-0.0121"
-            },
-            "p_prior_step": 0.891066,
-            "p_posterior_step": 0.878929,
-            "delta_p_step": -0.012137
-          }
-        ],
-        "event_ids": [
-          "ticker_sentiment:689b92e21c9499f8",
-          "ticker_sentiment:33be5e6b8eb52758",
-          "ticker_sentiment:65fce0da969a7a17"
-        ],
-        "brier_record_id": "NITE_BRIER_TRUMP_UNCERTAINTY_THESIS_0891C5D9",
-        "lr_lookups": [
-          {
-            "event_id": "ticker_sentiment:689b92e21c9499f8",
-            "event_class": "GEOPOLITICAL_ESCALATION",
-            "lr_adjusted": 1.15,
-            "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
-            "confidence": "LOW"
-          },
-          {
-            "event_id": "ticker_sentiment:33be5e6b8eb52758",
-            "event_class": "CENTRAL_BANK_HAWKISH",
-            "lr_adjusted": 0.8875,
-            "lr_source": "CENTRAL_BANK_HAWKISH/TRUMP_UNCERTAINTY_THESIS",
-            "confidence": "LOW"
-          },
-          {
-            "event_id": "ticker_sentiment:65fce0da969a7a17",
-            "event_class": "CENTRAL_BANK_HAWKISH",
-            "lr_adjusted": 0.8875,
-            "lr_source": "CENTRAL_BANK_HAWKISH/TRUMP_UNCERTAINTY_THESIS",
-            "confidence": "LOW"
-          }
-        ],
+        "P_prior": 0.922266,
+        "P_posterior": 0.922266,
+        "delta_p": 0.0,
+        "events_applied": [],
+        "event_ids": [],
+        "brier_record_id": "",
+        "lr_lookups": [],
         "kill_state_snapshot": {
           "TRUMP_KC_01": {
             "state": "WATCH",
@@ -248,7 +159,7 @@
         },
         "worst_kill_state": "WATCH",
         "posture": "THESIS_UNCHANGED — MONITOR",
-        "advisory_text": "[NITE-PEI] TRUMP_UNCERTAINTY_THESIS: GEOPOLITICAL_ESCALATION, CENTRAL_BANK_HAWKISH, CENTRAL_BANK_HAWKISH (LR 1.150 via GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS, confidence: LOW). P: 0.889 → 0.879 (▼0.010). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] TRUMP_UNCERTAINTY_THESIS: no events. P: 0.922 → 0.922 (▲0.000). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
@@ -256,47 +167,10 @@
         "P_prior": 0.95,
         "P_posterior": 0.95,
         "delta_p": 0.0,
-        "events_applied": [
-          {
-            "event_id": "ticker_sentiment:689b92e21c9499f8",
-            "event_class": "GEOPOLITICAL_ESCALATION",
-            "raw_headline": "S&P 500, Nasdaq, Dow End Lower As US-Iran War Fear Remerges — PSKY, META, GOOGL, INTC, NFLX In Focus",
-            "source": "ticker_sentiment:INTC",
-            "source_tier": 3,
-            "published_at": "2026-07-14 17:15:38",
-            "source_url": "",
-            "matched_keyword": "war",
-            "noise_discount_factor": 0.25,
-            "lr_raw": 1.2,
-            "lr_adjusted": 1.15,
-            "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
-            "confidence": "LOW",
-            "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.9500 / 0.0500 = 19.0000",
-              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(19.0000) x LR_adjusted(1.1500) = 21.8500",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 21.8500 / 22.8500 = 0.9500",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.9500",
-              "delta_p": "+0.0000"
-            },
-            "p_prior_step": 0.95,
-            "p_posterior_step": 0.95,
-            "delta_p_step": 0.0
-          }
-        ],
-        "event_ids": [
-          "ticker_sentiment:689b92e21c9499f8"
-        ],
-        "brier_record_id": "NITE_BRIER_PETRO_RECYCLED_DOLLAR_THESIS_A1E6DC46",
-        "lr_lookups": [
-          {
-            "event_id": "ticker_sentiment:689b92e21c9499f8",
-            "event_class": "GEOPOLITICAL_ESCALATION",
-            "lr_adjusted": 1.15,
-            "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
-            "confidence": "LOW"
-          }
-        ],
+        "events_applied": [],
+        "event_ids": [],
+        "brier_record_id": "",
+        "lr_lookups": [],
         "kill_state_snapshot": {
           "PETRO_KC_01": {
             "state": "CONFIRMED",
@@ -309,89 +183,18 @@
         },
         "worst_kill_state": "CONFIRMED",
         "posture": "KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED",
-        "advisory_text": "[NITE-PEI] PETRO_RECYCLED_DOLLAR_THESIS: GEOPOLITICAL_ESCALATION (LR 1.150 via GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS, confidence: LOW). P: 0.950 → 0.950 (▲0.000). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] PETRO_RECYCLED_DOLLAR_THESIS: no events. P: 0.950 → 0.950 (▲0.000). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "STICKY_INFLATION_THESIS",
         "thesis_type": "STICKY_INFLATION_THESIS",
-        "P_prior": 0.108529,
-        "P_posterior": 0.138676,
-        "delta_p": 0.030147,
-        "events_applied": [
-          {
-            "event_id": "ticker_sentiment:33be5e6b8eb52758",
-            "event_class": "CENTRAL_BANK_HAWKISH",
-            "raw_headline": "Nasdaq, S&P 500 Futures Drift Ahead Of CPI, Bank Earnings, And Warsh’s Congressional Debut: Why USO, JPM, BAC, NVDA, CRCL, SLS, SRXH Are In Focus",
-            "source": "ticker_sentiment:NVDA",
-            "source_tier": 3,
-            "published_at": "2026-07-14 17:15:34",
-            "source_url": "",
-            "matched_keyword": "warsh",
-            "noise_discount_factor": 0.25,
-            "lr_raw": 1.2,
-            "lr_adjusted": 1.15,
-            "lr_source": "CENTRAL_BANK_HAWKISH/STICKY_INFLATION_THESIS",
-            "confidence": "LOW",
-            "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.1085 / 0.8915 = 0.1217",
-              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(0.1217) x LR_adjusted(1.1500) = 0.1400",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.1400 / 1.1400 = 0.1228",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.1228",
-              "delta_p": "+0.0143"
-            },
-            "p_prior_step": 0.108529,
-            "p_posterior_step": 0.122809,
-            "delta_p_step": 0.01428
-          },
-          {
-            "event_id": "ticker_sentiment:65fce0da969a7a17",
-            "event_class": "CENTRAL_BANK_HAWKISH",
-            "raw_headline": "Nasdaq, S&P 500 Futures Drift Ahead Of CPI, Bank Earnings, And Warsh’s Congressional Debut: Why USO, JPM, BAC, NVDA, CRCL, SLS, SRXH Are In Focus",
-            "source": "ticker_sentiment:BAC",
-            "source_tier": 3,
-            "published_at": "2026-07-14 17:15:33",
-            "source_url": "",
-            "matched_keyword": "warsh",
-            "noise_discount_factor": 0.25,
-            "lr_raw": 1.2,
-            "lr_adjusted": 1.15,
-            "lr_source": "CENTRAL_BANK_HAWKISH/STICKY_INFLATION_THESIS",
-            "confidence": "LOW",
-            "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.1228 / 0.8772 = 0.1400",
-              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(0.1400) x LR_adjusted(1.1500) = 0.1610",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.1610 / 1.1610 = 0.1387",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.1387",
-              "delta_p": "+0.0159"
-            },
-            "p_prior_step": 0.122809,
-            "p_posterior_step": 0.138676,
-            "delta_p_step": 0.015867
-          }
-        ],
-        "event_ids": [
-          "ticker_sentiment:33be5e6b8eb52758",
-          "ticker_sentiment:65fce0da969a7a17"
-        ],
-        "brier_record_id": "NITE_BRIER_STICKY_INFLATION_THESIS_E5C427E4",
-        "lr_lookups": [
-          {
-            "event_id": "ticker_sentiment:33be5e6b8eb52758",
-            "event_class": "CENTRAL_BANK_HAWKISH",
-            "lr_adjusted": 1.15,
-            "lr_source": "CENTRAL_BANK_HAWKISH/STICKY_INFLATION_THESIS",
-            "confidence": "LOW"
-          },
-          {
-            "event_id": "ticker_sentiment:65fce0da969a7a17",
-            "event_class": "CENTRAL_BANK_HAWKISH",
-            "lr_adjusted": 1.15,
-            "lr_source": "CENTRAL_BANK_HAWKISH/STICKY_INFLATION_THESIS",
-            "confidence": "LOW"
-          }
-        ],
+        "P_prior": 0.156228,
+        "P_posterior": 0.156228,
+        "delta_p": 0.0,
+        "events_applied": [],
+        "event_ids": [],
+        "brier_record_id": "",
+        "lr_lookups": [],
         "kill_state_snapshot": {
           "STICKY_KC_01": {
             "state": "INACTIVE",
@@ -404,89 +207,18 @@
         },
         "worst_kill_state": "INACTIVE",
         "posture": "THESIS_UNCHANGED — MONITOR",
-        "advisory_text": "[NITE-PEI] STICKY_INFLATION_THESIS: CENTRAL_BANK_HAWKISH, CENTRAL_BANK_HAWKISH (LR 1.150 via CENTRAL_BANK_HAWKISH/STICKY_INFLATION_THESIS, confidence: LOW). P: 0.109 → 0.139 (▲0.030). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] STICKY_INFLATION_THESIS: no events. P: 0.156 → 0.156 (▲0.000). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "HAWKISH_WARSH_THESIS",
         "thesis_type": "HAWKISH_WARSH_THESIS",
-        "P_prior": 0.175682,
-        "P_posterior": 0.253564,
-        "delta_p": 0.077882,
-        "events_applied": [
-          {
-            "event_id": "ticker_sentiment:33be5e6b8eb52758",
-            "event_class": "CENTRAL_BANK_HAWKISH",
-            "raw_headline": "Nasdaq, S&P 500 Futures Drift Ahead Of CPI, Bank Earnings, And Warsh’s Congressional Debut: Why USO, JPM, BAC, NVDA, CRCL, SLS, SRXH Are In Focus",
-            "source": "ticker_sentiment:NVDA",
-            "source_tier": 3,
-            "published_at": "2026-07-14 17:15:34",
-            "source_url": "",
-            "matched_keyword": "warsh",
-            "noise_discount_factor": 0.25,
-            "lr_raw": 1.35,
-            "lr_adjusted": 1.2625,
-            "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_WARSH_THESIS",
-            "confidence": "LOW",
-            "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.1757 / 0.8243 = 0.2131",
-              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.3500) - 1) x (1 - noise_discount(0.25)) = 1.2625",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(0.2131) x LR_adjusted(1.2625) = 0.2691",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.2691 / 1.2691 = 0.2120",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.2120",
-              "delta_p": "+0.0363"
-            },
-            "p_prior_step": 0.175682,
-            "p_posterior_step": 0.212021,
-            "delta_p_step": 0.036339
-          },
-          {
-            "event_id": "ticker_sentiment:65fce0da969a7a17",
-            "event_class": "CENTRAL_BANK_HAWKISH",
-            "raw_headline": "Nasdaq, S&P 500 Futures Drift Ahead Of CPI, Bank Earnings, And Warsh’s Congressional Debut: Why USO, JPM, BAC, NVDA, CRCL, SLS, SRXH Are In Focus",
-            "source": "ticker_sentiment:BAC",
-            "source_tier": 3,
-            "published_at": "2026-07-14 17:15:33",
-            "source_url": "",
-            "matched_keyword": "warsh",
-            "noise_discount_factor": 0.25,
-            "lr_raw": 1.35,
-            "lr_adjusted": 1.2625,
-            "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_WARSH_THESIS",
-            "confidence": "LOW",
-            "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.2120 / 0.7880 = 0.2691",
-              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.3500) - 1) x (1 - noise_discount(0.25)) = 1.2625",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(0.2691) x LR_adjusted(1.2625) = 0.3397",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.3397 / 1.3397 = 0.2536",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.2536",
-              "delta_p": "+0.0415"
-            },
-            "p_prior_step": 0.212021,
-            "p_posterior_step": 0.253564,
-            "delta_p_step": 0.041543
-          }
-        ],
-        "event_ids": [
-          "ticker_sentiment:33be5e6b8eb52758",
-          "ticker_sentiment:65fce0da969a7a17"
-        ],
-        "brier_record_id": "NITE_BRIER_HAWKISH_WARSH_THESIS_1140A0C6",
-        "lr_lookups": [
-          {
-            "event_id": "ticker_sentiment:33be5e6b8eb52758",
-            "event_class": "CENTRAL_BANK_HAWKISH",
-            "lr_adjusted": 1.2625,
-            "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_WARSH_THESIS",
-            "confidence": "LOW"
-          },
-          {
-            "event_id": "ticker_sentiment:65fce0da969a7a17",
-            "event_class": "CENTRAL_BANK_HAWKISH",
-            "lr_adjusted": 1.2625,
-            "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_WARSH_THESIS",
-            "confidence": "LOW"
-          }
-        ],
+        "P_prior": 0.300147,
+        "P_posterior": 0.300147,
+        "delta_p": 0.0,
+        "events_applied": [],
+        "event_ids": [],
+        "brier_record_id": "",
+        "lr_lookups": [],
         "kill_state_snapshot": {
           "WARSH_KC_01": {
             "state": "INACTIVE",
@@ -499,89 +231,18 @@
         },
         "worst_kill_state": "INACTIVE",
         "posture": "THESIS_UNCHANGED — MONITOR",
-        "advisory_text": "[NITE-PEI] HAWKISH_WARSH_THESIS: CENTRAL_BANK_HAWKISH, CENTRAL_BANK_HAWKISH (LR 1.262 via CENTRAL_BANK_HAWKISH/HAWKISH_WARSH_THESIS, confidence: LOW). P: 0.176 → 0.254 (▲0.078). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] HAWKISH_WARSH_THESIS: no events. P: 0.300 → 0.300 (▲0.000). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "HAWKISH_BOJ_THESIS",
         "thesis_type": "HAWKISH_BOJ_THESIS",
-        "P_prior": 0.150998,
-        "P_posterior": 0.210667,
-        "delta_p": 0.059669,
-        "events_applied": [
-          {
-            "event_id": "ticker_sentiment:33be5e6b8eb52758",
-            "event_class": "CENTRAL_BANK_HAWKISH",
-            "raw_headline": "Nasdaq, S&P 500 Futures Drift Ahead Of CPI, Bank Earnings, And Warsh’s Congressional Debut: Why USO, JPM, BAC, NVDA, CRCL, SLS, SRXH Are In Focus",
-            "source": "ticker_sentiment:NVDA",
-            "source_tier": 3,
-            "published_at": "2026-07-14 17:15:34",
-            "source_url": "",
-            "matched_keyword": "warsh",
-            "noise_discount_factor": 0.25,
-            "lr_raw": 1.3,
-            "lr_adjusted": 1.225,
-            "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_BOJ_THESIS",
-            "confidence": "LOW",
-            "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.1510 / 0.8490 = 0.1779",
-              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.3000) - 1) x (1 - noise_discount(0.25)) = 1.2250",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(0.1779) x LR_adjusted(1.2250) = 0.2179",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.2179 / 1.2179 = 0.1789",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.1789",
-              "delta_p": "+0.0279"
-            },
-            "p_prior_step": 0.150998,
-            "p_posterior_step": 0.178895,
-            "delta_p_step": 0.027897
-          },
-          {
-            "event_id": "ticker_sentiment:65fce0da969a7a17",
-            "event_class": "CENTRAL_BANK_HAWKISH",
-            "raw_headline": "Nasdaq, S&P 500 Futures Drift Ahead Of CPI, Bank Earnings, And Warsh’s Congressional Debut: Why USO, JPM, BAC, NVDA, CRCL, SLS, SRXH Are In Focus",
-            "source": "ticker_sentiment:BAC",
-            "source_tier": 3,
-            "published_at": "2026-07-14 17:15:33",
-            "source_url": "",
-            "matched_keyword": "warsh",
-            "noise_discount_factor": 0.25,
-            "lr_raw": 1.3,
-            "lr_adjusted": 1.225,
-            "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_BOJ_THESIS",
-            "confidence": "LOW",
-            "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.1789 / 0.8211 = 0.2179",
-              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.3000) - 1) x (1 - noise_discount(0.25)) = 1.2250",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(0.2179) x LR_adjusted(1.2250) = 0.2669",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.2669 / 1.2669 = 0.2107",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.2107",
-              "delta_p": "+0.0318"
-            },
-            "p_prior_step": 0.178895,
-            "p_posterior_step": 0.210667,
-            "delta_p_step": 0.031772
-          }
-        ],
-        "event_ids": [
-          "ticker_sentiment:33be5e6b8eb52758",
-          "ticker_sentiment:65fce0da969a7a17"
-        ],
-        "brier_record_id": "NITE_BRIER_HAWKISH_BOJ_THESIS_B024CB51",
-        "lr_lookups": [
-          {
-            "event_id": "ticker_sentiment:33be5e6b8eb52758",
-            "event_class": "CENTRAL_BANK_HAWKISH",
-            "lr_adjusted": 1.225,
-            "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_BOJ_THESIS",
-            "confidence": "LOW"
-          },
-          {
-            "event_id": "ticker_sentiment:65fce0da969a7a17",
-            "event_class": "CENTRAL_BANK_HAWKISH",
-            "lr_adjusted": 1.225,
-            "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_BOJ_THESIS",
-            "confidence": "LOW"
-          }
-        ],
+        "P_prior": 0.246388,
+        "P_posterior": 0.246388,
+        "delta_p": 0.0,
+        "events_applied": [],
+        "event_ids": [],
+        "brier_record_id": "",
+        "lr_lookups": [],
         "kill_state_snapshot": {
           "BOJ_KC_01": {
             "state": "INACTIVE",
@@ -594,7 +255,7 @@
         },
         "worst_kill_state": "INACTIVE",
         "posture": "THESIS_UNCHANGED — MONITOR",
-        "advisory_text": "[NITE-PEI] HAWKISH_BOJ_THESIS: CENTRAL_BANK_HAWKISH, CENTRAL_BANK_HAWKISH (LR 1.225 via CENTRAL_BANK_HAWKISH/HAWKISH_BOJ_THESIS, confidence: LOW). P: 0.151 → 0.211 (▲0.060). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] HAWKISH_BOJ_THESIS: no events. P: 0.246 → 0.246 (▲0.000). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
       }
     ],
     "ckri": 0.479487,
@@ -690,21 +351,21 @@
       {
         "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
         "thesis_type": "TRUMP_UNCERTAINTY_THESIS",
-        "p_posterior_used": 0.878929,
+        "p_posterior_used": 0.922266,
         "analyst_upside_pct": 0.15,
-        "f_star_full": 0.071789,
+        "f_star_full": 0.404039,
         "fractional_multiplier": 0.275,
-        "f_star_kelly": 0.019742,
+        "f_star_kelly": 0.111111,
         "coherence_score": 0.75,
         "h_norm_used": 0.0,
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 33700.8,
-        "target_usd_sleeve": 665.32,
+        "nav_total": 25262.2,
+        "target_usd_sleeve": 2806.91,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 665.32,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $665"
+        "delta_usd": 2806.91,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $2,807"
       },
       {
         "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
@@ -719,18 +380,18 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 33700.8,
-        "target_usd_sleeve": 5715.08,
+        "nav_total": 25262.2,
+        "target_usd_sleeve": 4284.04,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 5715.08,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $5,715"
+        "delta_usd": 4284.04,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $4,284"
       },
       {
         "thesis_id": "STICKY_INFLATION_THESIS",
         "thesis_type": "STICKY_INFLATION_THESIS",
-        "p_posterior_used": 0.138676,
+        "p_posterior_used": 0.156228,
         "analyst_upside_pct": 0.15,
-        "f_star_full": -5.603484,
+        "f_star_full": -5.468919,
         "fractional_multiplier": 0.275,
         "f_star_kelly": 0.0,
         "coherence_score": 0.75,
@@ -738,7 +399,7 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 33700.8,
+        "nav_total": 25262.2,
         "target_usd_sleeve": 0.0,
         "current_usd_sleeve": 0.0,
         "delta_usd": 0.0,
@@ -747,9 +408,9 @@
       {
         "thesis_id": "HAWKISH_WARSH_THESIS",
         "thesis_type": "HAWKISH_WARSH_THESIS",
-        "p_posterior_used": 0.253564,
+        "p_posterior_used": 0.300147,
         "analyst_upside_pct": 0.15,
-        "f_star_full": -4.722676,
+        "f_star_full": -4.36554,
         "fractional_multiplier": 0.275,
         "f_star_kelly": 0.0,
         "coherence_score": 0.75,
@@ -757,7 +418,7 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 33700.8,
+        "nav_total": 25262.2,
         "target_usd_sleeve": 0.0,
         "current_usd_sleeve": 0.0,
         "delta_usd": 0.0,
@@ -766,9 +427,9 @@
       {
         "thesis_id": "HAWKISH_BOJ_THESIS",
         "thesis_type": "HAWKISH_BOJ_THESIS",
-        "p_posterior_used": 0.210667,
+        "p_posterior_used": 0.246388,
         "analyst_upside_pct": 0.15,
-        "f_star_full": -5.051553,
+        "f_star_full": -4.777692,
         "fractional_multiplier": 0.275,
         "f_star_kelly": 0.0,
         "coherence_score": 0.75,
@@ -776,7 +437,7 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 33700.8,
+        "nav_total": 25262.2,
         "target_usd_sleeve": 0.0,
         "current_usd_sleeve": 0.0,
         "delta_usd": 0.0,
@@ -789,15 +450,15 @@
     "manual_execution_required": true,
     "llm_order_generation": false,
     "order_routing_enabled": false,
-    "source_cycle_id": "v3_cycle_20260714_172636",
-    "source_cycle_path": "C:\\bluelotus3\\data\\v3_cycles\\v3_cycle_20260714_172636",
-    "nite_pei_generated_at_sgt": "2026-07-14T17:26:44+08:00",
+    "source_cycle_id": "v3_cycle_20260715_172159",
+    "source_cycle_path": "C:\\bluelotus3\\data\\v3_cycles\\v3_cycle_20260715_172159",
+    "nite_pei_generated_at_sgt": "2026-07-15T17:22:42+08:00",
     "generation_mode": "live_cycle",
     "event_extraction": {
       "dataset_path": "C:\\bluelotus3\\data\\frontend\\dataset_raw.json",
-      "candidate_events": 205,
-      "classified_events": 3,
-      "applied_events": 10
+      "candidate_events": 207,
+      "classified_events": 0,
+      "applied_events": 0
     }
   },
   "agents": []
