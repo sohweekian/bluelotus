@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CivilisationOS — A Mathematics of Civilisational Survival</title>
+<meta name="description" content="CivilisationOS applies the Psychohistory framework to measure civilisational fitness. Φ(C,2026) ≈ 0.31. The Seldon Manifold threshold is 0.95."/>
+<meta name="author" content="CivilisationOS"/>
+
+<!-- MathJax for equation rendering -->
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+<style>
+/* ─── CSS Variables ─────────────────────────────────────────────────────── */
+:root {
+  --bg:         #050508;
+  --bg2:        #08080f;
+  --bg3:        #0d0d18;
+  --gold:       #c9a84c;
+  --gold-light: #e8c96d;
+  --gold-dim:   rgba(201,168,76,0.15);
+  --gold-border:rgba(201,168,76,0.28);
+  --text:       #e8e6d9;
+  --text-muted: rgba(232,230,217,0.52);
+  --text-dim:   rgba(232,230,217,0.32);
+  --red:        #e05252;
+  --orange:     #e07830;
+  --green:      #4ade80;
+  --blue:       #60a5fa;
+  --serif:      'Playfair Display', Georgia, serif;
+  --sans:       'Inter', system-ui, sans-serif;
+  --mono:       'JetBrains Mono', 'Courier New', monospace;
+}
+
+/* ─── Reset ─────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+a { color: var(--gold); text-decoration: none; }
+a:hover { color: var(--gold-light); }
+
+/* ─── Particle Canvas ───────────────────────────────────────────────────── */
+#particle-canvas {
+  position: fixed; top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* ─── Navigation ────────────────────────────────────────────────────────── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(5,5,8,0.92);
+  border-bottom: 1px solid var(--gold-border);
+  backdrop-filter: blur(18px);
+  font-family: var(--mono);
+}
+.nav-inner {
+  max-width: 1280px; margin: 0 auto;
+  padding: 0 32px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 52px;
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.22em;
+  color: var(--gold); text-transform: uppercase;
+}
+.nav-sigil {
+  width: 22px; height: 22px;
+  border: 1.5px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; color: var(--gold);
+  transform: rotate(45deg);
+}
+.nav-sigil span { transform: rotate(-45deg); display: block; line-height: 1; }
+.nav-links {
+  display: flex; align-items: center; gap: 2px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--text-muted); padding: 6px 12px; border-radius: 3px;
+  transition: color 0.18s, background 0.18s;
+}
+.nav-links a:hover { color: var(--gold); background: var(--gold-dim); }
+.nav-phi {
+  font-family: var(--mono);
+  font-size: 11px; color: var(--text-dim);
+  letter-spacing: 0.05em;
+}
+.nav-phi span { color: var(--orange); }
+
+/* ─── Layout ────────────────────────────────────────────────────────────── */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 1; }
+section { padding: 100px 0; }
+section + section { border-top: 1px solid var(--gold-border); }
+
+/* ─── Section Labels ────────────────────────────────────────────────────── */
+.section-label {
+  font-family: var(--mono);
+  font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--gold); opacity: 0.7;
+  margin-bottom: 18px;
+}
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 700; color: var(--text);
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+.section-sub {
+  font-size: 16px; color: var(--text-muted);
+  max-width: 680px; margin-bottom: 56px;
+}
+
+/* ─── HERO ──────────────────────────────────────────────────────────────── */
+#hero {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  position: relative;
+  padding: 120px 32px 80px;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--gold);
+  border: 1px solid var(--gold-border);
+  padding: 6px 16px; border-radius: 2px;
+  margin-bottom: 32px;
+  background: var(--gold-dim);
+}
+.hero-badge::before { content: '◆'; font-size: 8px; }
+.hero-title {
+  font-family: var(--serif);
+  font-size: clamp(52px, 8vw, 96px);
+  font-weight: 900; letter-spacing: -0.02em;
+  color: var(--text); line-height: 0.95;
+  margin-bottom: 8px;
+}
+.hero-title-gold { color: var(--gold); }
+.hero-tagline {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(18px, 2.5vw, 26px);
+  color: var(--text-muted);
+  margin-bottom: 48px;
+}
+.hero-stats {
+  display: flex; align-items: center; justify-content: center; gap: 0;
+  margin-bottom: 56px; flex-wrap: wrap;
+}
+.hero-stat {
+  padding: 20px 36px;
+  border: 1px solid var(--gold-border);
+  background: rgba(201,168,76,0.04);
+  text-align: center;
+  margin: -1px;
+}
+.hero-stat:first-child { border-radius: 3px 0 0 3px; }
+.hero-stat:last-child { border-radius: 0 3px 3px 0; }
+.hero-stat-value {
+  font-family: var(--mono);
+  font-size: 28px; font-weight: 600;
+  display: block; margin-bottom: 4px;
+}
+.hero-stat-value.critical { color: var(--red); }
+.hero-stat-value.threshold { color: var(--text-muted); }
+.hero-stat-value.status { color: var(--orange); font-size: 14px; letter-spacing: 0.08em; }
+.hero-stat-label {
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--text-dim);
+}
+.hero-ctas {
+  display: flex; align-items: center; justify-content: center; gap: 16px;
+  flex-wrap: wrap;
+}
+.btn-primary {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--bg);
+  background: var(--gold); border: none;
+  padding: 14px 28px; border-radius: 2px; cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  display: inline-block;
+}
+.btn-primary:hover { background: var(--gold-light); color: var(--bg); transform: translateY(-1px); }
+.btn-ghost {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--gold);
+  background: transparent;
+  border: 1px solid var(--gold-border);
+  padding: 14px 28px; border-radius: 2px; cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  display: inline-block;
+}
+.btn-ghost:hover { background: var(--gold-dim); color: var(--gold-light); }
+.hero-corpus {
+  margin-top: 64px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.15em;
+  color: var(--text-dim); text-transform: uppercase;
+}
+.hero-corpus span { color: var(--gold); opacity: 0.6; margin: 0 12px; }
+
+/* ─── EQUATION SECTION ──────────────────────────────────────────────────── */
+.eq-box {
+  background: #070710;
+  border: 1px solid var(--gold-border);
+  border-radius: 4px;
+  padding: 48px;
+  margin: 40px 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.eq-box::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 40% at 50% 50%, rgba(201,168,76,0.04), transparent);
+  pointer-events: none;
+}
+.eq-display {
+  font-size: clamp(13px, 2vw, 18px);
+  color: var(--gold-light);
+  line-height: 2;
+  margin-bottom: 8px;
+}
+.eq-label {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--text-dim);
+  margin-top: 16px;
+}
+.eq-split {
+  display: grid; grid-template-columns: 1fr auto 1fr;
+  gap: 24px; align-items: start;
+  margin-top: 40px;
+}
+.eq-part {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 4px; padding: 24px;
+}
+.eq-part.numerator { border-color: rgba(74,222,128,0.2); }
+.eq-part.denominator { border-color: rgba(224,82,82,0.2); }
+.eq-part-label {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em;
+  text-transform: uppercase; margin-bottom: 12px;
+}
+.numerator .eq-part-label { color: var(--green); }
+.denominator .eq-part-label { color: var(--red); }
+.eq-part-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+.eq-divider {
+  font-family: var(--serif); font-size: 36px; color: var(--gold);
+  align-self: center; text-align: center; opacity: 0.4;
+}
+.eq-threshold {
+  display: inline-flex; align-items: center; gap: 12px;
+  margin-top: 32px;
+  background: rgba(224,120,48,0.1); border: 1px solid rgba(224,120,48,0.3);
+  border-radius: 3px; padding: 12px 24px;
+  font-family: var(--mono); font-size: 12px; color: var(--orange);
+}
+.eq-threshold strong { color: var(--gold-light); margin-left: 4px; }
+
+/* ─── VARIABLES GRID ────────────────────────────────────────────────────── */
+.vars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2px;
+  margin-top: 40px;
+}
+.var-card {
+  background: var(--bg2);
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 28px;
+  transition: border-color 0.25s, background 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.var-card:hover {
+  border-color: var(--gold-border);
+  background: rgba(201,168,76,0.03);
+}
+.var-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+}
+.var-card.warn::before { background: linear-gradient(90deg, transparent, #e0a030, transparent); }
+.var-card.strong::before { background: linear-gradient(90deg, transparent, #4ade80, transparent); }
+.var-card.marginal::before { background: linear-gradient(90deg, transparent, #60a5fa, transparent); }
+.var-card.critical::before { background: linear-gradient(90deg, transparent, #e05252, transparent); }
+.var-card.elevated::before { background: linear-gradient(90deg, transparent, #e05252, transparent); }
+.var-card.declining::before { background: linear-gradient(90deg, transparent, #e07830, transparent); }
+
+.var-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.var-symbol {
+  font-family: var(--serif); font-size: 48px; font-weight: 700;
+  color: var(--gold); line-height: 1; letter-spacing: -0.02em;
+}
+.var-badge {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em;
+  text-transform: uppercase; padding: 4px 10px; border-radius: 2px;
+  border: 1px solid; display: inline-flex; align-items: center; gap: 5px;
+}
+.badge-warn   { color: #e0a030; border-color: rgba(224,160,48,0.4); background: rgba(224,160,48,0.08); }
+.badge-strong { color: #4ade80; border-color: rgba(74,222,128,0.4); background: rgba(74,222,128,0.08); }
+.badge-marginal { color: #60a5fa; border-color: rgba(96,165,250,0.4); background: rgba(96,165,250,0.08); }
+.badge-critical { color: #e05252; border-color: rgba(224,82,82,0.4); background: rgba(224,82,82,0.08); }
+.badge-elevated { color: #e05252; border-color: rgba(224,82,82,0.4); background: rgba(224,82,82,0.08); }
+.badge-declining { color: #e07830; border-color: rgba(224,120,48,0.4); background: rgba(224,120,48,0.08); }
+
+.var-name { font-family: var(--serif); font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+.var-fullname { font-family: var(--mono); font-size: 10px; color: var(--text-dim); letter-spacing: 0.1em; margin-bottom: 12px; }
+.var-value-row {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 16px;
+}
+.var-value {
+  font-family: var(--mono); font-size: 24px; font-weight: 600; color: var(--gold-light);
+}
+.var-direction { font-size: 18px; }
+.var-exponent {
+  font-family: var(--mono); font-size: 11px; color: var(--text-dim);
+  margin-left: auto;
+}
+.var-def { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; font-style: italic; }
+.var-evidence {
+  list-style: none; padding: 0;
+}
+.var-evidence li {
+  font-size: 12px; color: var(--text-muted);
+  padding: 5px 0; border-top: 1px solid rgba(255,255,255,0.04);
+  padding-left: 14px; position: relative;
+}
+.var-evidence li::before {
+  content: '·'; position: absolute; left: 2px; color: var(--gold); opacity: 0.5;
+}
+
+/* ─── CALCULATION ───────────────────────────────────────────────────────── */
+.calc-steps {
+  background: #060610;
+  border: 1px solid var(--gold-border);
+  border-radius: 4px; padding: 40px;
+  margin-top: 40px;
+}
+.calc-row {
+  display: flex; align-items: center; gap: 20px;
+  padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+  flex-wrap: wrap;
+}
+.calc-row:last-child { border-bottom: none; padding-bottom: 0; }
+.calc-label {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--text-dim);
+  min-width: 120px;
+}
+.calc-expr {
+  font-family: var(--mono); font-size: 13px; color: var(--text-muted);
+  flex: 1;
+}
+.calc-result {
+  font-family: var(--mono); font-size: 16px; font-weight: 600;
+  color: var(--gold-light); margin-left: auto;
+}
+.calc-final {
+  margin-top: 32px;
+  padding: 28px;
+  background: rgba(224,82,82,0.06);
+  border: 1px solid rgba(224,82,82,0.3);
+  border-radius: 3px;
+  text-align: center;
+}
+.calc-final-phi {
+  font-family: var(--mono); font-size: 36px; font-weight: 600; color: var(--red);
+  margin-bottom: 8px;
+}
+.calc-final-label { font-family: var(--mono); font-size: 11px; color: var(--text-dim); letter-spacing: 0.15em; text-transform: uppercase; }
+.calc-vs {
+  display: flex; align-items: center; justify-content: center; gap: 32px;
+  margin-top: 20px; flex-wrap: wrap;
+}
+.calc-vs-item { text-align: center; }
+.calc-vs-item .val { font-family: var(--mono); font-size: 22px; font-weight: 600; }
+.calc-vs-item .lbl { font-family: var(--mono); font-size: 9px; color: var(--text-dim); letter-spacing: 0.15em; text-transform: uppercase; }
+.calc-vs-item.bad .val { color: var(--red); }
+.calc-vs-item.good .val { color: var(--green); }
+.calc-vs-sep { font-family: var(--mono); font-size: 18px; color: var(--text-dim); }
+
+/* ─── SELDON CONDITIONS ─────────────────────────────────────────────────── */
+.conditions-table {
+  width: 100%; border-collapse: collapse; margin-top: 40px;
+  font-size: 14px;
+}
+.conditions-table th {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--text-dim);
+  padding: 12px 16px; text-align: left;
+  border-bottom: 1px solid var(--gold-border);
+}
+.conditions-table td {
+  padding: 18px 16px; border-bottom: 1px solid rgba(255,255,255,0.04);
+  vertical-align: top;
+}
+.conditions-table tr:last-child td { border-bottom: none; }
+.conditions-table tr:hover td { background: rgba(201,168,76,0.02); }
+.cond-id {
+  font-family: var(--mono); font-size: 11px; font-weight: 600;
+  color: var(--gold); white-space: nowrap;
+}
+.cond-name { font-family: var(--serif); font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+.cond-desc { font-size: 13px; color: var(--text-muted); }
+.cond-evidence { font-size: 12px; color: var(--text-muted); }
+.status-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em;
+  text-transform: uppercase; padding: 5px 10px; border-radius: 2px; white-space: nowrap;
+  border: 1px solid;
+}
+.status-partial  { color: #e0a030; border-color: rgba(224,160,48,0.4); background: rgba(224,160,48,0.08); }
+.status-margin   { color: #60a5fa; border-color: rgba(96,165,250,0.4); background: rgba(96,165,250,0.08); }
+.status-not-met  { color: #e05252; border-color: rgba(224,82,82,0.4); background: rgba(224,82,82,0.08); }
+.status-met      { color: #4ade80; border-color: rgba(74,222,128,0.4); background: rgba(74,222,128,0.08); }
+
+/* ─── FINDINGS ──────────────────────────────────────────────────────────── */
+.findings-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px; margin-top: 40px;
+}
+.finding-card {
+  background: var(--bg2);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 4px; padding: 32px;
+  position: relative; overflow: hidden;
+  transition: border-color 0.25s;
+}
+.finding-card:hover { border-color: var(--gold-border); }
+.finding-num {
+  font-family: var(--mono); font-size: 48px; font-weight: 700;
+  color: rgba(201,168,76,0.12); position: absolute;
+  top: 16px; right: 20px; line-height: 1;
+}
+.finding-tag {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--gold); opacity: 0.7;
+  margin-bottom: 12px;
+}
+.finding-title { font-family: var(--serif); font-size: 20px; font-weight: 700; margin-bottom: 12px; }
+.finding-body { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
+.finding-implication {
+  margin-top: 16px; padding: 12px 16px;
+  background: rgba(201,168,76,0.06); border-left: 2px solid var(--gold);
+  font-size: 12px; color: var(--gold-light); font-style: italic;
+}
+
+/* ─── SELDON EQUATIONS (ACCORDION) ─────────────────────────────────────── */
+.accordion { margin-top: 40px; }
+.acc-item {
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 3px; margin-bottom: 2px;
+  overflow: hidden;
+}
+.acc-item + .acc-item { margin-top: 2px; }
+.acc-header {
+  display: flex; align-items: center; gap: 16px;
+  padding: 18px 24px; cursor: pointer;
+  background: var(--bg2);
+  transition: background 0.18s;
+  user-select: none;
+}
+.acc-header:hover { background: rgba(201,168,76,0.04); }
+.acc-label {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--gold); min-width: 40px;
+}
+.acc-title { font-family: var(--serif); font-size: 17px; font-weight: 600; flex: 1; }
+.acc-sub { font-size: 12px; color: var(--text-dim); }
+.acc-toggle {
+  font-family: var(--mono); font-size: 18px; color: var(--gold);
+  transition: transform 0.25s; flex-shrink: 0;
+}
+.acc-item.open .acc-toggle { transform: rotate(45deg); }
+.acc-body {
+  display: none; padding: 24px 24px 28px;
+  background: #060610; border-top: 1px solid rgba(255,255,255,0.04);
+}
+.acc-item.open .acc-body { display: block; }
+.acc-eq {
+  background: #070712; border: 1px solid var(--gold-border);
+  border-radius: 3px; padding: 20px 24px; margin-bottom: 16px;
+  font-size: 14px; overflow-x: auto;
+}
+.acc-interp { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
+.acc-implication {
+  margin-top: 12px; padding: 12px 16px;
+  border-left: 2px solid var(--gold); background: var(--gold-dim);
+  font-size: 13px; color: var(--gold-light); font-style: italic;
+}
+
+/* ─── PROBABILITY ───────────────────────────────────────────────────────── */
+.prob-box {
+  background: var(--bg2);
+  border: 1px solid var(--gold-border);
+  border-radius: 4px; padding: 48px;
+  text-align: center; margin-top: 40px;
+  position: relative; overflow: hidden;
+}
+.prob-box::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 50% 60% at 50% 50%, rgba(201,168,76,0.06), transparent);
+  pointer-events: none;
+}
+.prob-chain {
+  display: flex; align-items: center; justify-content: center;
+  gap: 16px; flex-wrap: wrap; margin-bottom: 32px;
+}
+.prob-step {
+  text-align: center; padding: 16px 20px;
+  border: 1px solid rgba(255,255,255,0.07); border-radius: 3px;
+  min-width: 120px;
+}
+.prob-step-val {
+  font-family: var(--mono); font-size: 16px; font-weight: 600;
+  color: var(--text-muted); margin-bottom: 4px;
+}
+.prob-step-val.highlight { color: var(--gold-light); font-size: 26px; }
+.prob-step-lbl { font-family: var(--mono); font-size: 9px; color: var(--text-dim); letter-spacing: 0.14em; text-transform: uppercase; }
+.prob-arrow { font-size: 20px; color: var(--gold); opacity: 0.4; }
+.prob-quote {
+  font-family: var(--serif); font-style: italic;
+  font-size: 18px; color: var(--text-muted);
+  max-width: 600px; margin: 0 auto;
+  line-height: 1.6;
+}
+.prob-quote::before { content: '"'; }
+.prob-quote::after  { content: '"'; }
+
+/* ─── DOWNLOADS ─────────────────────────────────────────────────────────── */
+.downloads-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px; margin-top: 40px;
+}
+.dl-card {
+  background: var(--bg2);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 4px; padding: 28px;
+  transition: border-color 0.25s, background 0.25s;
+  display: flex; flex-direction: column;
+}
+.dl-card:hover {
+  border-color: var(--gold-border);
+  background: rgba(201,168,76,0.03);
+}
+.dl-icon {
+  font-size: 28px; margin-bottom: 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.dl-type {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--gold);
+  border: 1px solid var(--gold-border); padding: 3px 8px; border-radius: 2px;
+  background: var(--gold-dim);
+}
+.dl-title {
+  font-family: var(--serif); font-size: 18px; font-weight: 700;
+  margin-bottom: 8px; line-height: 1.3;
+}
+.dl-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; flex: 1; margin-bottom: 20px; }
+.dl-meta {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.dl-author {
+  font-family: var(--mono); font-size: 10px; color: var(--text-dim);
+  letter-spacing: 0.1em;
+}
+.dl-size {
+  font-family: var(--mono); font-size: 10px; color: var(--text-dim);
+}
+.dl-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; padding: 12px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--gold);
+  background: transparent; border: 1px solid var(--gold-border);
+  border-radius: 2px; cursor: pointer; text-decoration: none;
+  transition: background 0.18s, color 0.18s;
+}
+.dl-btn:hover { background: var(--gold); color: var(--bg); }
+.dl-btn:hover { text-decoration: none; }
+
+/* ─── FOOTER ────────────────────────────────────────────────────────────── */
+footer {
+  border-top: 1px solid var(--gold-border);
+  padding: 56px 0 40px;
+  position: relative; z-index: 1;
+  text-align: center;
+}
+.footer-sigil {
+  font-family: var(--serif); font-size: 32px; font-weight: 900;
+  color: var(--gold); margin-bottom: 16px; letter-spacing: -0.02em;
+}
+.footer-motto {
+  font-family: var(--serif); font-style: italic;
+  font-size: 14px; color: var(--text-dim);
+  margin-bottom: 24px;
+}
+.footer-corpus {
+  font-family: var(--mono); font-size: 10px; color: var(--text-dim);
+  letter-spacing: 0.12em; margin-bottom: 8px;
+}
+.footer-copy {
+  font-family: var(--mono); font-size: 10px; color: var(--text-dim);
+  letter-spacing: 0.1em; opacity: 0.5;
+}
+
+/* ─── Responsive ─────────────────────────────────────────────────────────── */
+@media (max-width: 720px) {
+  .container { padding: 0 20px; }
+  section { padding: 70px 0; }
+  .eq-split { grid-template-columns: 1fr; }
+  .eq-divider { display: none; }
+  .nav-links { display: none; }
+  .calc-row { flex-direction: column; align-items: flex-start; }
+  .calc-result { margin-left: 0; }
+  .hero-stats { flex-direction: column; gap: 1px; }
+  .hero-stat:first-child, .hero-stat:last-child { border-radius: 0; }
+  .hero-stat:first-child { border-radius: 3px 3px 0 0; }
+  .hero-stat:last-child { border-radius: 0 0 3px 3px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Particle Canvas -->
+<canvas id="particle-canvas"></canvas>
+
+<!-- Navigation -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <div class="nav-sigil"><span>Φ</span></div>
+      CivilisationOS
+    </div>
+    <ul class="nav-links">
+      <li><a href="#equation">Equation</a></li>
+      <li><a href="#variables">Variables</a></li>
+      <li><a href="#assessment">2026</a></li>
+      <li><a href="#conditions">Seldon</a></li>
+      <li><a href="#findings">Findings</a></li>
+      <li><a href="#equations">S-Equations</a></li>
+      <li><a href="#downloads">Downloads</a></li>
+    </ul>
+    <div class="nav-phi">Φ(C,2026) ≈ <span>0.31</span></div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- HERO                                                                   -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-badge">CivilisationOS · Psychohistory Framework · July 2026</div>
+    <h1 class="hero-title">Civilisation<span class="hero-title-gold">OS</span></h1>
+    <p class="hero-tagline">A Mathematics of Civilisational Survival</p>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-value critical">0.31</span>
+        <span class="hero-stat-label">Φ(C, 2026)</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-value threshold">0.95</span>
+        <span class="hero-stat-label">Φ_crit · Seldon Manifold</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-value status">BELOW THRESHOLD</span>
+        <span class="hero-stat-label">Collapse Attractor Basin</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-value" style="color:var(--gold-light)">2.2%</span>
+        <span class="hero-stat-label">Persistence Probability</span>
+      </div>
+    </div>
+
+    <div class="hero-ctas">
+      <a href="#equation" class="btn-primary">↓ Read the Thesis</a>
+      <a href="#downloads" class="btn-ghost">⬇ Download Documents</a>
+    </div>
+
+    <div class="hero-corpus">
+      56 RAG Collections
+      <span>·</span>
+      1,729,519+ Corpus Chunks
+      <span>·</span>
+      4,000 Years of Human History
+      <span>·</span>
+      Author: CivilisationOS
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- THE MASTER EQUATION                                                    -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section id="equation">
+  <div class="container">
+    <div class="section-label">Part I · The Master Equation</div>
+    <h2 class="section-title">The Civilisational Fitness Function</h2>
+    <p class="section-sub">Φ(C,t) is the conditional probability that civilisation C persists from time t to t + Δt. It is determined by four civilisational assets in the numerator and two collapse drivers in the denominator.</p>
+
+    <div class="eq-box">
+      <div class="eq-display">
+        $$\Phi(C,t) = \frac{A(t)^{0.31} \times K(t)^{0.22} \times I(t)^{0.29} \times L(t)^{0.18} \times \bigl(1+\xi(t)\bigr)^{0.12}}{1 + \Omega(t)^{0.88} \times E(t)^{0.44}}$$
+      </div>
+      <div class="eq-label">The Seldon Psychohistory Master Equation</div>
+
+      <div class="eq-split" style="margin-top:36px;">
+        <div class="eq-part numerator">
+          <div class="eq-part-label">↑ Numerator — Civilisational Assets</div>
+          <div class="eq-part-desc">
+            Social cohesion (A), knowledge capital (K), institutional resilience (I), legitimacy (L), and distributed governance bonus (ξ). These are the constructive forces that enable civilisational persistence. Each variable is raised to an exponent calibrated against historical collapse data.
+          </div>
+        </div>
+        <div class="eq-divider">÷</div>
+        <div class="eq-part denominator">
+          <div class="eq-part-label">↓ Denominator — Collapse Drivers</div>
+          <div class="eq-part-desc">
+            Existential risk exposure (Ω) and elite overproduction (E) compound in the denominator. Their combined effect is nonlinear: Ω carries exponent 0.88 (near-linear with catastrophic tail) and E carries 0.44 (concave). Together they are more dangerous than either alone.
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:24px;">
+        <span class="eq-threshold">
+          Critical Threshold: <strong>Φ_crit = 0.95</strong>
+          &nbsp;·&nbsp; Above: Persistence Basin &nbsp;·&nbsp; Below: Collapse Attractor
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- SEVEN STATE VARIABLES                                                  -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section id="variables">
+  <div class="container">
+    <div class="section-label">Part II · Seven State Variables</div>
+    <h2 class="section-title">The State Vector</h2>
+    <p class="section-sub">Seven measurable quantities define the complete state of a civilisation at any point in time. Each is calibrated to a 0–1 scale against historical baselines, with 2026 readings derived from 1.7 million corpus chunks.</p>
+
+    <div class="vars-grid">
+
+      <!-- A — Asabiyyah -->
+      <div class="var-card warn">
+        <div class="var-header">
+          <div class="var-symbol">A</div>
+          <span class="var-badge badge-warn">↓ Declining</span>
+        </div>
+        <div class="var-name">Asabiyyah</div>
+        <div class="var-fullname">SOCIAL COHESION · EXPONENT α = 0.31</div>
+        <div class="var-value-row">
+          <span class="var-value">0.34</span>
+          <span class="var-direction" style="color:#e0a030;">↓</span>
+          <span class="var-exponent">baseline: 0.50</span>
+        </div>
+        <div class="var-def">The degree to which a civilisation acts as a coherent collective rather than fragmented competing factions.</div>
+        <ul class="var-evidence">
+          <li>ASEAN centrality eroding under US/China great-power pressure</li>
+          <li>NATO cohesion rests on external threat, not shared values</li>
+          <li>4 simultaneous civilisational collapse zones: Myanmar, Sudan, Afghanistan, Gaza</li>
+          <li>Japan stable but brittle in post-Abe political landscape</li>
+        </ul>
+      </div>
+
+      <!-- K — Knowledge Capital -->
+      <div class="var-card strong">
+        <div class="var-header">
+          <div class="var-symbol">K</div>
+          <span class="var-badge badge-strong">↑ Rising Fast</span>
+        </div>
+        <div class="var-name">Knowledge Capital</div>
+        <div class="var-fullname">KNOWLEDGE ACCUMULATION · EXPONENT β = 0.22</div>
+        <div class="var-value-row">
+          <span class="var-value">1.00</span>
+          <span class="var-direction" style="color:#4ade80;">↑</span>
+          <span class="var-exponent">AI-driven boom</span>
+        </div>
+        <div class="var-def">The stock and rate of growth of knowledge, weighted by institutional maintenance capacity and universal accessibility.</div>
+        <ul class="var-evidence">
+          <li>$500B+ annual global AI infrastructure investment (2025–2026)</li>
+          <li>40–70% productivity uplift across knowledge work tasks (MGI)</li>
+          <li>India's DPI: Aadhaar + UPI + ONDC at scale for 1.4B people</li>
+          <li><strong>Risk:</strong> 65% of compute held by 3 entities — K-discontinuity exposure</li>
+        </ul>
+      </div>
+
+      <!-- I — Institutional Resilience -->
+      <div class="var-card marginal">
+        <div class="var-header">
+          <div class="var-symbol">I</div>
+          <span class="var-badge badge-marginal">→ Marginal</span>
+        </div>
+        <div class="var-name">Institutional Resilience</div>
+        <div class="var-fullname">SYSTEM ADAPTABILITY · EXPONENT γ = 0.29</div>
+        <div class="var-value-row">
+          <span class="var-value">0.41</span>
+          <span class="var-direction" style="color:#60a5fa;">→</span>
+          <span class="var-exponent">I_min = 0.40</span>
+        </div>
+        <div class="var-def">The system's capacity to absorb exogenous shocks without catastrophic restructuring. Operating 0.01 above the constitutional floor.</div>
+        <ul class="var-evidence">
+          <li>RSF Press Freedom Index 2025: 162/180 countries declining</li>
+          <li>Global military spending: $2.44T (SIPRI) — indicator of institutional failure</li>
+          <li>Positive: South Korea impeached Yoon via Constitutional Court in 4 months (I ≈ 0.80)</li>
+          <li>US fiscal trajectory will force Fed-Treasury confrontation (I-collapse event risk)</li>
+        </ul>
+      </div>
+
+      <!-- L — Legitimacy -->
+      <div class="var-card critical">
+        <div class="var-header">
+          <div class="var-symbol">L</div>
+          <span class="var-badge badge-critical">↓ Critical</span>
+        </div>
+        <div class="var-name">Legitimacy</div>
+        <div class="var-fullname">PUBLIC TRUST · EXPONENT δ = 0.18</div>
+        <div class="var-value-row">
+          <span class="var-value" style="color:var(--red)">0.39</span>
+          <span class="var-direction" style="color:#e05252;">↓</span>
+          <span class="var-exponent">below L_crit</span>
+        </div>
+        <div class="var-def">The degree to which governed populations accept the authority of governing institutions as rightful, without requiring constant coercive enforcement.</div>
+        <ul class="var-evidence">
+          <li>Japan: Cabinet approval &lt;30%; LDP retains power via opposition fragmentation only</li>
+          <li>China: Youth unemployment peaked 21.3%; property crisis; GDP pillar collapsing</li>
+          <li>International order L declining: Iraq WMD, 2008, COVID, Ukraine, Gaza selective law</li>
+          <li>Formula: L &lt; L_crit + E prevents organizing alternatives = pre-revolutionary condition</li>
+        </ul>
+      </div>
+
+      <!-- Ω — Existential Risk -->
+      <div class="var-card elevated">
+        <div class="var-header">
+          <div class="var-symbol">Ω</div>
+          <span class="var-badge badge-elevated">↑ Elevated</span>
+        </div>
+        <div class="var-name">Existential Risk</div>
+        <div class="var-fullname">OMEGA · EXPONENT ζ = 0.88</div>
+        <div class="var-value-row">
+          <span class="var-value" style="color:var(--red)">0.72</span>
+          <span class="var-direction" style="color:#e05252;">↑</span>
+          <span class="var-exponent">rising monotonically</span>
+        </div>
+        <div class="var-def">The cumulative exposure to civilisation-ending risks. Weighted with exponent 0.88 — near-linear, with catastrophic nonlinear tail above Ω_crit.</div>
+        <ul class="var-evidence">
+          <li>WEF GRR 2025 Top 10-year risk: Misinformation/disinformation at scale</li>
+          <li>6 of 9 planetary boundaries breached; synthetic biology dual-use expanding</li>
+          <li>Russia tactical nuclear doctrine; China nuclear expansion faster than projected</li>
+          <li>AI capability growth outpacing institutional management capacity</li>
+        </ul>
+      </div>
+
+      <!-- E — Elite Overproduction -->
+      <div class="var-card elevated">
+        <div class="var-header">
+          <div class="var-symbol">E</div>
+          <span class="var-badge badge-elevated">↑ Elevated</span>
+        </div>
+        <div class="var-name">Elite Overproduction</div>
+        <div class="var-fullname">TURCHIN VARIABLE · EXPONENT η = 0.44</div>
+        <div class="var-value-row">
+          <span class="var-value" style="color:var(--red)">0.68</span>
+          <span class="var-direction" style="color:#e05252;">↑</span>
+          <span class="var-exponent">near E_crit</span>
+        </div>
+        <div class="var-def">The surplus of credentialed population seeking elite positions relative to available positions. When E &gt; E_crit, competition destroys social cohesion.</div>
+        <ul class="var-evidence">
+          <li>India: 1.5M engineering graduates/year for 200K available positions</li>
+          <li>China: 12M graduates/year; "lying flat" (躺平) + "let it rot" (摆烂) cultural movements</li>
+          <li>AI first-wave white-collar displacement hitting credentialed class globally</li>
+          <li>N_betrayal count increasing: generation promised security denied it</li>
+        </ul>
+      </div>
+
+      <!-- ξ — Gaia Coefficient -->
+      <div class="var-card declining">
+        <div class="var-header">
+          <div class="var-symbol">ξ</div>
+          <span class="var-badge badge-declining">↓ Declining</span>
+        </div>
+        <div class="var-name">Gaia Coefficient</div>
+        <div class="var-fullname">DISTRIBUTION · EXPONENT ε = 0.12</div>
+        <div class="var-value-row">
+          <span class="var-value" style="color:var(--orange)">0.28</span>
+          <span class="var-direction" style="color:#e07830;">↓</span>
+          <span class="var-exponent">long-run target: 1.00</span>
+        </div>
+        <div class="var-def">The ratio of distributed-to-centralised control across civilisational systems. Long-run persistence requires ξ trending toward 1 per century.</div>
+        <ul class="var-evidence">
+          <li>Crisis-centralisation dominant 2016–2026: EU, Russia, China, BOJ all centralising</li>
+          <li>Positive signal: India's UPI ($3T transactions 2024) + ONDC as ξ-engine</li>
+          <li>AUKUS, Quad, US-ROK-Japan trilateral = distributed security (ξ-positive)</li>
+          <li>ASEAN confidence in regional institutions declining</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- 2026 ASSESSMENT                                                        -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section id="assessment">
+  <div class="container">
+    <div class="section-label">Part III · Quantitative Assessment</div>
+    <h2 class="section-title">Φ(C, 2026) Calculation</h2>
+    <p class="section-sub">Substituting 2026 empirical readings into the master equation yields a precise fitness value that can be compared against the Seldon Manifold threshold.</p>
+
+    <div class="calc-steps">
+      <div class="calc-row">
+        <div class="calc-label">Asabiyyah</div>
+        <div class="calc-expr">$A^{0.31} = 0.34^{0.31}$</div>
+        <div class="calc-result">= 0.724</div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-label">Knowledge</div>
+        <div class="calc-expr">$K^{0.22} = 1.00^{0.22}$</div>
+        <div class="calc-result">= 1.000</div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-label">Institutions</div>
+        <div class="calc-expr">$I^{0.29} = 0.41^{0.29}$</div>
+        <div class="calc-result">= 0.798</div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-label">Legitimacy</div>
+        <div class="calc-expr">$L^{0.18} = 0.39^{0.18}$</div>
+        <div class="calc-result">= 0.842</div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-label">Gaia Bonus</div>
+        <div class="calc-expr">$(1+\xi)^{0.12} = 1.28^{0.12}$</div>
+        <div class="calc-result">= 1.031</div>
+      </div>
+      <div class="calc-row" style="background:rgba(74,222,128,0.04);padding:16px 12px;border-radius:3px;">
+        <div class="calc-label" style="color:#4ade80;">Numerator</div>
+        <div class="calc-expr" style="color:var(--text);">$0.724 \times 1.000 \times 0.798 \times 0.842 \times 1.031$</div>
+        <div class="calc-result" style="color:#4ade80;">≈ 0.503</div>
+      </div>
+      <div class="calc-row" style="margin-top:20px;">
+        <div class="calc-label">Exist. Risk</div>
+        <div class="calc-expr">$\Omega^{0.88} = 0.72^{0.88}$</div>
+        <div class="calc-result">= 0.752</div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-label">Elite Overprod.</div>
+        <div class="calc-expr">$E^{0.44} = 0.68^{0.44}$</div>
+        <div class="calc-result">= 0.852</div>
+      </div>
+      <div class="calc-row" style="background:rgba(224,82,82,0.04);padding:16px 12px;border-radius:3px;">
+        <div class="calc-label" style="color:#e05252;">Denominator</div>
+        <div class="calc-expr" style="color:var(--text);">$1 + 0.752 \times 0.852$</div>
+        <div class="calc-result" style="color:#e05252;">= 1.641</div>
+      </div>
+
+      <div class="calc-final">
+        <div class="calc-final-phi">$$\Phi(C, 2026) = \frac{0.503}{1.641} \approx 0.307$$</div>
+        <div class="calc-final-label">Rounded to Φ(C, 2026) ≈ 0.31</div>
+        <div class="calc-vs">
+          <div class="calc-vs-item bad">
+            <div class="val">0.31</div>
+            <div class="lbl">Current Φ(C, 2026)</div>
+          </div>
+          <div class="calc-vs-sep">vs</div>
+          <div class="calc-vs-item good">
+            <div class="val">0.95</div>
+            <div class="lbl">Φ_crit · Seldon Manifold</div>
+          </div>
+        </div>
+        <div style="margin-top:16px;font-family:var(--mono);font-size:11px;color:var(--orange);letter-spacing:0.14em;">
+          STATUS: IN COLLAPSE ATTRACTOR BASIN · NOT IN FREE-FALL · NO IRREVERSIBLE DISCONTINUITY YET
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- FIVE SELDON CONDITIONS                                                 -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section id="conditions">
+  <div class="container">
+    <div class="section-label">Part IV · Seldon Conditions</div>
+    <h2 class="section-title">The Five Engineering Specifications</h2>
+    <p class="section-sub">The Seldon Theorem proves that civilisational persistence to 5 billion years is achievable — but only if all five conditions hold simultaneously. Three are currently unmet.</p>
+
+    <table class="conditions-table">
+      <thead>
+        <tr>
+          <th>Condition</th>
+          <th>Name &amp; Requirement</th>
+          <th>Status</th>
+          <th>Key Evidence</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="cond-id">S1</span></td>
+          <td>
+            <div class="cond-name">The Living Library</div>
+            <div class="cond-desc">Knowledge must be actively maintained, multi-node redundant, universally accessible, and verified continuously — not passively stored.</div>
+          </td>
+          <td><span class="status-pill status-partial">⚠ Partial</span></td>
+          <td class="cond-evidence">K growing exponentially via AI, but 65% of global compute held by 3 entities. Access bifurcated. Substrate concentration = K-discontinuity risk. S1.5 (AI Governance Floor) not met.</td>
+        </tr>
+        <tr>
+          <td><span class="cond-id">S2</span></td>
+          <td>
+            <div class="cond-name">The Constitutional Floor</div>
+            <div class="cond-desc">I(t) ≥ 0.40 must be maintained continuously. Cannot fall below for more than 5 consecutive years without automatic constitutional review trigger.</div>
+          </td>
+          <td><span class="status-pill status-margin">⚠ Margin</span></td>
+          <td class="cond-evidence">I = 0.41 globally — only 0.01 above the floor. Several individual states below I_min. RSF: 162/180 countries declining in press freedom. No automatic review mechanism exists.</td>
+        </tr>
+        <tr>
+          <td><span class="cond-id">S3</span></td>
+          <td>
+            <div class="cond-name">The Ark Protocol</div>
+            <div class="cond-desc">Before planetary substrate expires, complete knowledge transfer to extra-solar substrate. Standard: destroy Earth entirely, and knowledge survives.</div>
+          </td>
+          <td><span class="status-pill status-not-met">✗ Not Met</span></td>
+          <td class="cond-evidence">SpaceX Starlink orbital but not knowledge-preservation substrate. No lunar/Mars repositories. No extra-solar sequencing programme. No institutional mandate for substrate transition.</td>
+        </tr>
+        <tr>
+          <td><span class="cond-id">S4</span></td>
+          <td>
+            <div class="cond-name">The Mule Register</div>
+            <div class="cond-desc">Standing constitutional institution maintaining continuously updated catalogue of civilisation-ending risks across three classes: Known, Known-Unknown, Unknown-Unknown.</div>
+          </td>
+          <td><span class="status-pill status-not-met">✗ Not Met</span></td>
+          <td class="cond-evidence">ODNI ATA + WEF GRR exist as precursors but lack constitutional status, can be defunded, have no open-access mandate. CivilisationOS 1.7M+ chunk synthesis = closest existing implementation.</td>
+        </tr>
+        <tr>
+          <td><span class="cond-id">S5</span></td>
+          <td>
+            <div class="cond-name">The Gaia Mandate</div>
+            <div class="cond-desc">Every century, ξ(t) must be statistically higher than the preceding century. Any reduction of ξ by &gt;0.05 in a decade triggers automatic constitutional review.</div>
+          </td>
+          <td><span class="status-pill status-not-met">✗ Not Met</span></td>
+          <td class="cond-evidence">ξ declining 2016–2026. Crisis-centralisation dominant globally. No Gaia index measured or published. No constitutional mechanism for distribution convergence. No enforcement instrument.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- THREE CRITICAL FINDINGS                                                -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section id="findings">
+  <div class="container">
+    <div class="section-label">Part V · Corpus Findings</div>
+    <h2 class="section-title">Three Critical Findings</h2>
+    <p class="section-sub">Applying the Psychohistory framework to 1,729,519+ corpus chunks reveals structural gaps and refinements not present in the original thesis formulation.</p>
+
+    <div class="findings-grid">
+      <div class="finding-card">
+        <div class="finding-num">01</div>
+        <div class="finding-tag">Finding One · Structural Gap</div>
+        <h3 class="finding-title">The AI K-Ω Coupling</h3>
+        <p class="finding-body">The thesis treats K (Knowledge Capital) and Ω (Existential Risk) as independent variables. The corpus reveals they are coupled through a single variable: AI capability. AI simultaneously drives K-growth AND Ω-sources — misinformation scale, weapon design acceleration, financial manipulation, surveillance infrastructure, and AGI misalignment risk.</p>
+        <div class="finding-implication">Implication: Coupled K-Ω system changes Seldon Manifold stability analysis in an unmodelled direction. A missing condition S1.5 (AI Governance Floor) is required between S1 and S2 before K can be counted as net-positive for Φ.</div>
+      </div>
+
+      <div class="finding-card">
+        <div class="finding-num">02</div>
+        <div class="finding-tag">Finding Two · Bifurcation Point</div>
+        <h3 class="finding-title">India as Civilisational Wildcard</h3>
+        <p class="finding-body">The thesis was calibrated on Chinese, Islamic, and Western historical examples. It does not model India separately. In 2026, India is the highest-variance variable in the 2026–2040 forecast period — operating simultaneously as the world's largest elite overproduction pressure cooker (600M+ youth under 25) and the most promising Gaia-positive experiment (DPI, UPI at $3T/year).</p>
+        <div class="finding-implication">Implication: India has two distinct attractors. Success path: I + K absorption → primary S5 engine. Stress path: E-crisis + Hindu nationalism L-bifurcation → nuclear instability. Must be modelled as bifurcation point, not trend line.</div>
+      </div>
+
+      <div class="finding-card">
+        <div class="finding-num">03</div>
+        <div class="finding-tag">Finding Three · S4 Validation</div>
+        <h3 class="finding-title">The Mule Register Exists But Is Unnamed</h3>
+        <p class="finding-body">The corpus contains the components of a Mule Register already: ODNI Annual Threat Assessment (443 chunks) as Known-class register, WEF Global Risks Report as Known-Unknown catalogue, IPBES Global Assessment as biodiversity collapse documentation, and CivilisationOS itself as 1.7M+ chunk synthesis capability.</p>
+        <div class="finding-implication">Implication: S4 is tractable. Missing elements are constitutional status, open-access mandate, and a single institutional entity. A tractable path exists: OECD-jurisdiction instrument adopted by 38 member states, with a secretariat that cannot be defunded.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- SELDON DIFFERENTIAL EQUATIONS                                          -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section id="equations">
+  <div class="container">
+    <div class="section-label">Part VI · The Differential System</div>
+    <h2 class="section-title">The Seven Seldon Equations</h2>
+    <p class="section-sub">The full dynamical system governing civilisational evolution. Each equation describes how one state variable changes over time as a function of the others and external inputs.</p>
+
+    <div class="accordion">
+
+      <div class="acc-item open">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <span class="acc-label">S1</span>
+          <div>
+            <div class="acc-title">Asabiyyah Dynamics</div>
+            <div class="acc-sub">The Ibn Khaldun Equation — Social Cohesion</div>
+          </div>
+          <span class="acc-toggle">+</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-eq">
+            $$\frac{dA}{dt} = \mu_1 \cdot A(1-A) - \lambda_1 \cdot E(t) - \rho_1 \cdot \text{Gini}(t) + \sigma_1 \cdot \Theta(T_{\text{ext}})$$
+          </div>
+          <div class="acc-interp">Asabiyyah follows logistic growth (bounded by 0 and 1), decayed by elite overproduction (λ₁) and economic inequality (ρ₁), and amplified by external threat (σ₁·Θ). The logistic term μ₁·A(1-A) models the self-reinforcing dynamics of social trust — high cohesion begets more cohesion until saturation.</div>
+          <div class="acc-implication">Ibn Khaldun's empirical finding: social cohesion follows a three-generation cycle (~100 years) from peak asabiyyah to collapse, accelerated in modern states by inequality and elite fragmentation.</div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <span class="acc-label">S2</span>
+          <div>
+            <div class="acc-title">Knowledge Capital Dynamics</div>
+            <div class="acc-sub">The Library Equation — Knowledge Accumulation</div>
+          </div>
+          <span class="acc-toggle">+</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-eq">
+            $$\frac{dK}{dt} = \nu_1 \cdot \text{ResearchInvestment}(t) + \nu_2 \cdot \text{ExchangeNetwork}(t) - \psi_1 \cdot K(t) \cdot (1-I(t))$$
+          </div>
+          <div class="acc-interp">Knowledge grows through active investment and network exchange. The critical term is the decay function ψ₁·K·(1-I): when institutional resilience I approaches zero, knowledge decays at rate proportional to existing stock — the Library of Alexandria mechanism. Knowledge preservation is fundamentally an institutional problem, not a storage problem.</div>
+          <div class="acc-implication">The Dark Ages were not caused by knowledge destruction, but by institutional collapse that made knowledge inaccessible and non-transmissible. The equation captures this precisely.</div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <span class="acc-label">S3</span>
+          <div>
+            <div class="acc-title">Institutional Resilience Dynamics</div>
+            <div class="acc-sub">The Seldon Foundation Equation</div>
+          </div>
+          <span class="acc-toggle">+</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-eq">
+            $$\frac{dI}{dt} = \tau_1 \cdot Q_{\text{const}}(t) + \tau_2 \cdot \xi(t) - \theta_1 \cdot \text{PowerConcentration}(t) - \theta_2 \cdot \max\!\left(0,\, \frac{\text{CrisisFreq}(t)}{I(t)} - I_{\text{cap}}\right)$$
+          </div>
+          <div class="acc-interp">Institutions strengthen through quality constitutional design (Q_const) and distributed governance (ξ). They weaken through power concentration (θ₁) and crisis overwhelm. The final term is nonlinear: when crisis frequency divided by resilience exceeds the institutional capacity ceiling I_cap, each additional crisis degrades I faster — a ratchet toward collapse.</div>
+          <div class="acc-implication">The Roman Republic's institutional capacity collapsed not from one crisis but from sequential crises (Gracchi, Sulla, Caesar) that each consumed institutional reserves without replenishment.</div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <span class="acc-label">S4</span>
+          <div>
+            <div class="acc-title">Legitimacy Dynamics</div>
+            <div class="acc-sub">The Consent Equation — Most Dangerous Variable</div>
+          </div>
+          <span class="acc-toggle">+</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-eq">
+            $$\frac{dL}{dt} = \phi_1(P(t)-\mathbb{E}[t]) + \phi_2 \cdot \text{ProceduralFairness}(t) - \phi_3 \cdot \text{Repression}(t) - \phi_4 \cdot N_{\text{betrayal}}(t)$$
+          </div>
+          <div class="acc-interp">Legitimacy grows through delivery relative to expectations (P(t)−E[t]) and procedural fairness; collapses through repression and, most critically, through N_betrayal — the count of significant betrayal events. The N_betrayal term is the most dangerous: one large enough betrayal can drive L below L_crit permanently. Legitimacy recovery is extremely slow; loss is rapid and irreversible.</div>
+          <div class="acc-implication">The Iraq WMD claim (2003), 2008 financial crisis, COVID institutional failures, and selective enforcement on Ukraine vs. Gaza each increment N_betrayal. The count does not decrement.</div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <span class="acc-label">S5</span>
+          <div>
+            <div class="acc-title">Existential Risk Dynamics</div>
+            <div class="acc-sub">The Technological Acceleration Equation</div>
+          </div>
+          <span class="acc-toggle">+</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-eq">
+            $$\frac{d\Omega}{dt} = \omega_1 \cdot \text{TechCapability}(t) + \omega_2 \cdot \text{EnvStress}(t) + \omega_3 \cdot \text{GeopoliticalComp}(t) - \omega_4 \cdot I(t) - \omega_5 \cdot \xi(t)$$
+          </div>
+          <div class="acc-interp">Existential risk grows with every technology capability increase, environmental stress increment, and geopolitical competition escalation. It is dampened only by strong institutions and distributed governance. The critical implication: Ω grows monotonically with technological development absent proportional institutional growth. A civilisation developing nuclear weapons, engineered pathogens, and ASI without proportional governance has Ω → ∞ and Φ → 0.</div>
+          <div class="acc-implication">There is no technology-only solution to existential risk. The only term that reduces Ω in this equation is institutional strength (I) and distributed control (ξ). This is why S2 and S5 are engineering specifications, not philosophical preferences.</div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <span class="acc-label">S6</span>
+          <div>
+            <div class="acc-title">Elite Overproduction Dynamics</div>
+            <div class="acc-sub">The Turchin Equation — 50-Year Cycles</div>
+          </div>
+          <span class="acc-toggle">+</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-eq">
+            $$\frac{dE}{dt} = \varepsilon_1 \cdot \text{PopGrowth}(t) + \varepsilon_2 \cdot \text{EliteEducationExpansion}(t) - \varepsilon_3 \cdot \text{EconMobility}(t) - \varepsilon_4 \cdot A(t)$$
+          </div>
+          <div class="acc-interp">Elite overproduction rises with population growth and credential expansion; it falls with economic mobility and social cohesion. The dangerous nonlinearity: when E exceeds E_crit, elite competition actively destroys social cohesion, turning asabiyyah decay into a collapse amplifier — E and A become mutually reinforcing downward spirals.</div>
+          <div class="acc-implication">Peter Turchin's empirical finding: elite overproduction cycles ~50 years with high precision across Roman, Chinese, and European history. Current global cycle entered peak E phase 2015–2020.</div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <span class="acc-label">S7</span>
+          <div>
+            <div class="acc-title">Gaia Coefficient Dynamics</div>
+            <div class="acc-sub">The Distribution Equation — Long-Run Attractor</div>
+          </div>
+          <span class="acc-toggle">+</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-eq">
+            $$\frac{d\xi}{dt} = \chi_1 \cdot \text{DemocraticDeepening}(t) + \chi_2 \cdot \text{InfoDistribution}(t) - \chi_3 \cdot \text{CrisisCentralisation}(t)$$
+          </div>
+          <div class="acc-interp">Distributed governance grows with democratic deepening and information access; shrinks during crises as power centralises for emergency management. The Gaia Mandate (S5) requires ξ to trend upward per century despite crisis-centralisation pressure. The long-run prediction: ξ must converge to 1 over civilisational time, or the system becomes a single point of failure — the Gaia Mandate.</div>
+          <div class="acc-implication">India's Digital Public Infrastructure is currently the only large-scale institution building ξ at meaningful scale: government-created but open-access, distributing economic power without concentrating political power.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- PROBABILITY STATEMENT                                                  -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section id="probability">
+  <div class="container">
+    <div class="section-label">Part VII · The Probability</div>
+    <h2 class="section-title">The Reckoning with Time</h2>
+    <p class="section-sub">The Fermi Paradox, base rates of civilisational collapse, and dimensional analysis all converge on the same conclusion. The Seldon Theorem then offers the only known escape route.</p>
+
+    <div class="prob-box">
+      <div class="prob-chain">
+        <div class="prob-step">
+          <div class="prob-step-val">2.5×10⁻¹²</div>
+          <div class="prob-step-lbl">P_base<br/>Great Silence Estimate</div>
+        </div>
+        <div class="prob-arrow">→</div>
+        <div class="prob-step">
+          <div class="prob-step-val">×8.75×10⁹</div>
+          <div class="prob-step-lbl">Bayesian Update<br/>All 5 Seldon Conditions Met</div>
+        </div>
+        <div class="prob-arrow">→</div>
+        <div class="prob-step">
+          <div class="prob-step-val highlight">2.2%</div>
+          <div class="prob-step-lbl">P_updated<br/>5-Billion-Year Persistence</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:32px 0;text-align:left;">
+        <div style="padding:16px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:3px;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:8px;">Historical Base Rate</div>
+          <div style="font-family:var(--mono);font-size:14px;color:var(--red);">100% collapse rate</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">All known major civilisations. Mean lifespan: 336 years.</div>
+        </div>
+        <div style="padding:16px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:3px;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:8px;">Target Duration</div>
+          <div style="font-family:var(--mono);font-size:14px;color:var(--gold-light);">5×10⁹ years</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">14.9 million times longer than historical mean.</div>
+        </div>
+        <div style="padding:16px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:3px;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:8px;">Fermi Constraint</div>
+          <div style="font-family:var(--mono);font-size:14px;color:var(--red);">≤ 10⁻³</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">P(interstellar persistence) from Great Silence. We see zero.</div>
+        </div>
+        <div style="padding:16px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:3px;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:8px;">With Seldon Conditions</div>
+          <div style="font-family:var(--mono);font-size:14px;color:var(--green);">2.2%</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">Low but non-zero. Counter-thesis retains 97.8% probability.</div>
+        </div>
+      </div>
+
+      <p class="prob-quote">Low but non-zero. The mathematics is not a solution to execution; it is an instrument for making civilisational strategy legible enough to be corrected by future generations. The architecture is the argument.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- DOWNLOADS                                                              -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section id="downloads">
+  <div class="container">
+    <div class="section-label">CivilisationOS Library</div>
+    <h2 class="section-title">Download the Documents</h2>
+    <p class="section-sub">The complete CivilisationOS research corpus. All documents authored by CivilisationOS, synthesised from 56 RAG collections and 1,729,519+ primary-source chunks spanning 4,000 years of human history.</p>
+
+    <div class="downloads-grid">
+
+      <div class="dl-card">
+        <div class="dl-icon">📐 <span class="dl-type">DOCX</span></div>
+        <div class="dl-title">Psychohistory Synthesis</div>
+        <div class="dl-desc">The 2026 corpus assessment applying the Φ framework to all 56 RAG collections. Full state vector readings, Seldon Condition compliance, and three critical findings. Φ(C,2026) ≈ 0.31.</div>
+        <div class="dl-meta">
+          <span class="dl-author">CivilisationOS</span>
+          <span class="dl-size">22 KB · July 2026</span>
+        </div>
+        <a href="downloads/CivilisationOS_Psychohistory_Synthesis_July2026.docx" download class="dl-btn">⬇ Download</a>
+      </div>
+
+      <div class="dl-card">
+        <div class="dl-icon">📜 <span class="dl-type">DOCX</span></div>
+        <div class="dl-title">BlueLotus Psychohistory Thesis</div>
+        <div class="dl-desc">The formal thesis. Seven axioms, the master equation, all differential equations, five key theorems, five-method verification, and the five engineering specifications for civilisational persistence to 5 billion years.</div>
+        <div class="dl-meta">
+          <span class="dl-author">CivilisationOS</span>
+          <span class="dl-size">60 KB · July 2026</span>
+        </div>
+        <a href="downloads/BlueLotus_PsychohistoryThesis_July2026.docx" download class="dl-btn">⬇ Download</a>
+      </div>
+
+      <div class="dl-card">
+        <div class="dl-icon">📖 <span class="dl-type">DOCX</span></div>
+        <div class="dl-title">CivilisationOS: The Book</div>
+        <div class="dl-desc">A 365-day civilisational engineering manual drawn from a 2,500-year archive, read through five methods, for the five-billion-year project. One page per day. Begins with the invocation and the democracy of death.</div>
+        <div class="dl-meta">
+          <span class="dl-author">CivilisationOS</span>
+          <span class="dl-size">318 KB · July 2026</span>
+        </div>
+        <a href="downloads/CivilisationOS_Book.docx" download class="dl-btn">⬇ Download</a>
+      </div>
+
+      <div class="dl-card">
+        <div class="dl-icon">🔧 <span class="dl-type">DOCX</span></div>
+        <div class="dl-title">The Complete Manual</div>
+        <div class="dl-desc">Comprehensive field guide to the seven measurable variables of civilisational health. Compiled from 1.73M primary-source passages across history, finance, intelligence, philosophy, and human rights records.</div>
+        <div class="dl-meta">
+          <span class="dl-author">CivilisationOS</span>
+          <span class="dl-size">325 KB · July 2026</span>
+        </div>
+        <a href="downloads/CivilisationOS_The_Complete_Manual_July2026.docx" download class="dl-btn">⬇ Download</a>
+      </div>
+
+      <div class="dl-card">
+        <div class="dl-icon">🌍 <span class="dl-type">DOCX</span></div>
+        <div class="dl-title">Triumphant Nations 2056</div>
+        <div class="dl-desc">A 30-year Seldon fitness assessment identifying which nations will sustain positive civilisational trajectories through 2056. Applies five civilisational filters and scores all major states against the master equation.</div>
+        <div class="dl-meta">
+          <span class="dl-author">CivilisationOS</span>
+          <span class="dl-size">36 KB · July 2026</span>
+        </div>
+        <a href="downloads/CivilisationOS_2056_Triumphant_Nations_July2026.docx" download class="dl-btn">⬇ Download</a>
+      </div>
+
+      <div class="dl-card">
+        <div class="dl-icon">⚠️ <span class="dl-type">DOCX</span></div>
+        <div class="dl-title">Civilisational Crisis Policy Report</div>
+        <div class="dl-desc">Country-by-country diagnostic assessment applying all five research methods simultaneously. Threats, trajectories, and prescribed remedies across North America, Europe, Asia, the Middle East, and Africa.</div>
+        <div class="dl-meta">
+          <span class="dl-author">CivilisationOS</span>
+          <span class="dl-size">54 KB · July 2026</span>
+        </div>
+        <a href="downloads/CivilisationOS_CivilisationalCrisis_PolicyReport_July2026.docx" download class="dl-btn">⬇ Download</a>
+      </div>
+
+      <div class="dl-card">
+        <div class="dl-icon">🧭 <span class="dl-type">DOCX</span></div>
+        <div class="dl-title">Where Our Civilisation Is Heading</div>
+        <div class="dl-desc">The most direct synthesis: core achievements, documented failures, and evidence-based prescriptions. Φ(C,2026) ≈ 0.31 means the denominator risk factors are winning. A verdict on where 4,000 years of accumulated evidence points.</div>
+        <div class="dl-meta">
+          <span class="dl-author">CivilisationOS</span>
+          <span class="dl-size">21 KB · July 2026</span>
+        </div>
+        <a href="downloads/Where Our Civilisation Is Heading.docx" download class="dl-btn">⬇ Download</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- FOOTER                                                                 -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-sigil">CivilisationOS</div>
+    <div class="footer-motto">The architecture is the argument.</div>
+    <div class="footer-corpus">
+      56 RAG Collections &nbsp;·&nbsp; 1,729,519+ Corpus Chunks &nbsp;·&nbsp; 4,000 Years of Human History &nbsp;·&nbsp; July 2026
+    </div>
+    <div class="footer-copy" style="margin-top:12px;">
+      © 2026 CivilisationOS · All Rights Reserved · Author: CivilisationOS
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- JAVASCRIPT                                                             -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<script>
+/* ── Particle Canvas ─────────────────────────────────────────────────── */
+(function() {
+  const canvas = document.getElementById('particle-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles;
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function initParticles() {
+    particles = [];
+    const count = Math.floor(W * H / 18000);
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.2 + 0.3,
+        vx: (Math.random() - 0.5) * 0.12,
+        vy: (Math.random() - 0.5) * 0.12,
+        a: Math.random() * 0.5 + 0.15,
+      });
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    for (const p of particles) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(201,168,76,${p.a})`;
+      ctx.fill();
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0) p.x = W;
+      if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H;
+      if (p.y > H) p.y = 0;
+    }
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', () => { resize(); initParticles(); });
+  resize(); initParticles(); draw();
+})();
+
+/* ── Accordion ───────────────────────────────────────────────────────── */
+function toggleAcc(header) {
+  const item = header.closest('.acc-item');
+  const wasOpen = item.classList.contains('open');
+  // close all
+  document.querySelectorAll('.acc-item.open').forEach(el => el.classList.remove('open'));
+  // open clicked (if was closed)
+  if (!wasOpen) item.classList.add('open');
+  // re-render MathJax in newly opened section
+  if (window.MathJax && window.MathJax.typesetPromise) {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+/* ── Smooth scroll offset for fixed nav ─────────────────────────────── */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (!target) return;
+    e.preventDefault();
+    window.scrollTo({ top: target.offsetTop - 60, behavior: 'smooth' });
+  });
+});
+</script>
+
+</body>
+</html>
