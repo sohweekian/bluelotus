@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-20 03:47 SGT",
-  "cycle_id": "v3_cycle_20260720_034723",
-  "latest_cycle_id": "v3_cycle_20260720_034723",
+  "generated_at": "2026-07-20 04:59 SGT",
+  "cycle_id": "v3_cycle_20260720_045921",
+  "latest_cycle_id": "v3_cycle_20260720_045921",
   "fallback_from_cycle_id": "",
   "fallback_reason": "",
   "clerk_mode": "deterministic",
@@ -9,16 +9,18 @@
   "deterministic_clerk": true,
   "degraded_llm_cycle": false,
   "agent_errors": [],
-  "recommended_posture": "HOLD",
+  "recommended_posture": "REVIEW",
   "agent_consensus": [],
   "disagreements": [],
-  "cio_attention_items": [],
+  "cio_attention_items": [
+    "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers."
+  ],
   "digest_layers": [
     {
       "layer_id": "cycle_identity",
       "layer": "package_cycle_identity",
       "status": "DATA_CONFIRMED",
-      "summary": "Cycle v3_cycle_20260720_034723 · deterministic clerk · Zone A authority"
+      "summary": "Cycle v3_cycle_20260720_045921 · deterministic clerk · Zone A authority"
     },
     {
       "layer_id": "source_hierarchy",
@@ -76,32 +78,44 @@
     }
   ],
   "manual_execution_required": true,
-  "created_at_sgt": "2026-07-20T03:47:24+08:00",
+  "created_at_sgt": "2026-07-20T04:59:22+08:00",
   "contradiction_register": {
     "schema_version": "bluelotus_v3_contradiction_register_v1.0",
-    "cycle_id": "v3_cycle_20260720_034723",
-    "created_at_sgt": "2026-07-20T03:47:24+08:00",
-    "contradiction_count": 0,
-    "p1_count": 0,
+    "cycle_id": "v3_cycle_20260720_045921",
+    "created_at_sgt": "2026-07-20T04:59:22+08:00",
+    "contradiction_count": 1,
+    "p1_count": 1,
     "p2_count": 0,
     "p3_count": 0,
-    "contradictions": [],
+    "contradictions": [
+      {
+        "contradiction_id": "V3_CYCLE_20260720_045921_P1_THESIS_VS_ORDER_BOOK_GOLD_THESIS_OPERATOR_MOOMOO_READONLY_ORDERS_GOL",
+        "cycle_id": "v3_cycle_20260720_045921",
+        "severity": "P1",
+        "domain": "thesis_vs_order_book",
+        "source_a": "gold_thesis_operator",
+        "source_b": "moomoo_readonly_orders",
+        "conflict_statement": "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers.",
+        "cio_attention_required": true,
+        "recommended_resolution_path": "CIO must verify whether open orders are intentional support bids, stale orders, or should be cancelled."
+      }
+    ],
     "manual_execution_required": true,
     "llm_order_generation": false,
     "order_routing_enabled": false
   },
   "cio_decision_strip": {
     "schema_version": "bluelotus_v3_cio_decision_strip_v1.0",
-    "cycle_id": "v3_cycle_20260720_034723",
-    "created_at_sgt": "2026-07-20T03:47:24+08:00",
-    "posture": "HOLD",
+    "cycle_id": "v3_cycle_20260720_045921",
+    "created_at_sgt": "2026-07-20T04:59:22+08:00",
+    "posture": "CIO_VERIFICATION_REQUIRED",
     "new_information": [
-      "Deterministic Chief Clerk mapped 10 Zone A layers. No LLM agent council. Report action field states: HOLD. Contradictions: 0 (P1 0, P2 0).",
-      "No contradiction governance items detected."
+      "Deterministic Chief Clerk mapped 10 Zone A layers. No LLM agent council. Report action field states: REVIEW. Contradictions: 1 (P1 1, P2 0).",
+      "1 contradiction governance item(s) detected."
     ],
     "action_blocked": [
-      "ADD_HIGH_BETA_RISK",
       "ADD_RISK_WITHOUT_CATALYST_REVIEW",
+      "INCREASE_GOLD_THESIS_RISK",
       "SCALE_IN_ADD",
       "SECOND_TRANCHE_ADD",
       "USE_ARCHIVE_AS_LIVE_TRUTH"
@@ -112,7 +126,7 @@
       "WAIT"
     ],
     "cio_decision_required": [
-      "No contradiction-triggered CIO decision required."
+      "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers."
     ],
     "manual_execution_required": true,
     "llm_order_generation": false,
@@ -120,22 +134,22 @@
   },
   "nite_pei": {
     "schema_version": "bluelotus_v3_nite_pei_v1.0",
-    "generated_at_sgt": "2026-07-20T03:47:27+08:00",
+    "generated_at_sgt": "2026-07-20T04:59:26+08:00",
     "thesis_probability_snapshots": [
       {
         "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
         "thesis_type": "TRUMP_UNCERTAINTY_THESIS",
-        "P_prior": 0.937365,
-        "P_posterior": 0.929981,
-        "delta_p": -0.007384,
+        "P_prior": 0.929981,
+        "P_posterior": 0.921799,
+        "delta_p": -0.008182,
         "events_applied": [
           {
-            "event_id": "signal:1412083",
+            "event_id": "signal:1413889",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "raw_headline": "[SENTIMENT] BAC: NEUTRAL (+0.054) -- Bond Traders Take Warsh at Word, See Inflation Fight Continuing",
             "source": "Ticker_Sentiment",
             "source_tier": 3,
-            "published_at": "2026-07-20T03:42:14",
+            "published_at": "2026-07-20T04:54:23",
             "source_url": "",
             "matched_keyword": "warsh",
             "noise_discount_factor": 0.25,
@@ -144,25 +158,25 @@
             "lr_source": "CENTRAL_BANK_HAWKISH/TRUMP_UNCERTAINTY_THESIS",
             "confidence": "LOW",
             "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.9374 / 0.0626 = 14.9655",
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.9300 / 0.0700 = 13.2818",
               "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(0.8500) - 1) x (1 - noise_discount(0.25)) = 0.8875",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(14.9655) x LR_adjusted(0.8875) = 13.2819",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 13.2819 / 14.2819 = 0.9300",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.9300",
-              "delta_p": "-0.0074"
+              "step_3_posterior_odds": "posterior_odds = prior_odds(13.2818) x LR_adjusted(0.8875) = 11.7876",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 11.7876 / 12.7876 = 0.9218",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.9218",
+              "delta_p": "-0.0082"
             },
-            "p_prior_step": 0.937365,
-            "p_posterior_step": 0.929981,
-            "delta_p_step": -0.007384
+            "p_prior_step": 0.929981,
+            "p_posterior_step": 0.921799,
+            "delta_p_step": -0.008182
           }
         ],
         "event_ids": [
-          "signal:1412083"
+          "signal:1413889"
         ],
-        "brier_record_id": "NITE_BRIER_TRUMP_UNCERTAINTY_THESIS_CEC7DA84",
+        "brier_record_id": "NITE_BRIER_TRUMP_UNCERTAINTY_THESIS_3A50D278",
         "lr_lookups": [
           {
-            "event_id": "signal:1412083",
+            "event_id": "signal:1413889",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "lr_adjusted": 0.8875,
             "lr_source": "CENTRAL_BANK_HAWKISH/TRUMP_UNCERTAINTY_THESIS",
@@ -181,7 +195,7 @@
         },
         "worst_kill_state": "WATCH",
         "posture": "THESIS_UNCHANGED — MONITOR",
-        "advisory_text": "[NITE-PEI] TRUMP_UNCERTAINTY_THESIS: CENTRAL_BANK_HAWKISH (LR 0.887 via CENTRAL_BANK_HAWKISH/TRUMP_UNCERTAINTY_THESIS, confidence: LOW). P: 0.937 → 0.930 (▼0.007). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] TRUMP_UNCERTAINTY_THESIS: CENTRAL_BANK_HAWKISH (LR 0.887 via CENTRAL_BANK_HAWKISH/TRUMP_UNCERTAINTY_THESIS, confidence: LOW). P: 0.930 → 0.922 (▼0.008). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
@@ -210,17 +224,17 @@
       {
         "thesis_id": "STICKY_INFLATION_THESIS",
         "thesis_type": "STICKY_INFLATION_THESIS",
-        "P_prior": 0.271355,
-        "P_posterior": 0.299853,
-        "delta_p": 0.028498,
+        "P_prior": 0.299853,
+        "P_posterior": 0.329989,
+        "delta_p": 0.030136,
         "events_applied": [
           {
-            "event_id": "signal:1412083",
+            "event_id": "signal:1413889",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "raw_headline": "[SENTIMENT] BAC: NEUTRAL (+0.054) -- Bond Traders Take Warsh at Word, See Inflation Fight Continuing",
             "source": "Ticker_Sentiment",
             "source_tier": 3,
-            "published_at": "2026-07-20T03:42:14",
+            "published_at": "2026-07-20T04:54:23",
             "source_url": "",
             "matched_keyword": "warsh",
             "noise_discount_factor": 0.25,
@@ -229,25 +243,25 @@
             "lr_source": "CENTRAL_BANK_HAWKISH/STICKY_INFLATION_THESIS",
             "confidence": "LOW",
             "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.2714 / 0.7286 = 0.3724",
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.2999 / 0.7001 = 0.4283",
               "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(0.3724) x LR_adjusted(1.1500) = 0.4283",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.4283 / 1.4283 = 0.2999",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.2999",
-              "delta_p": "+0.0285"
+              "step_3_posterior_odds": "posterior_odds = prior_odds(0.4283) x LR_adjusted(1.1500) = 0.4925",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.4925 / 1.4925 = 0.3300",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.3300",
+              "delta_p": "+0.0301"
             },
-            "p_prior_step": 0.271355,
-            "p_posterior_step": 0.299853,
-            "delta_p_step": 0.028498
+            "p_prior_step": 0.299853,
+            "p_posterior_step": 0.329989,
+            "delta_p_step": 0.030136
           }
         ],
         "event_ids": [
-          "signal:1412083"
+          "signal:1413889"
         ],
-        "brier_record_id": "NITE_BRIER_STICKY_INFLATION_THESIS_65FC91C7",
+        "brier_record_id": "NITE_BRIER_STICKY_INFLATION_THESIS_56F1A857",
         "lr_lookups": [
           {
-            "event_id": "signal:1412083",
+            "event_id": "signal:1413889",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "lr_adjusted": 1.15,
             "lr_source": "CENTRAL_BANK_HAWKISH/STICKY_INFLATION_THESIS",
@@ -266,22 +280,22 @@
         },
         "worst_kill_state": "INACTIVE",
         "posture": "THESIS_UNCHANGED — MONITOR",
-        "advisory_text": "[NITE-PEI] STICKY_INFLATION_THESIS: CENTRAL_BANK_HAWKISH (LR 1.150 via CENTRAL_BANK_HAWKISH/STICKY_INFLATION_THESIS, confidence: LOW). P: 0.271 → 0.300 (▲0.028). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] STICKY_INFLATION_THESIS: CENTRAL_BANK_HAWKISH (LR 1.150 via CENTRAL_BANK_HAWKISH/STICKY_INFLATION_THESIS, confidence: LOW). P: 0.300 → 0.330 (▲0.030). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "HAWKISH_WARSH_THESIS",
         "thesis_type": "HAWKISH_WARSH_THESIS",
-        "P_prior": 0.579049,
-        "P_posterior": 0.634591,
-        "delta_p": 0.055542,
+        "P_prior": 0.634591,
+        "P_posterior": 0.686769,
+        "delta_p": 0.052178,
         "events_applied": [
           {
-            "event_id": "signal:1412083",
+            "event_id": "signal:1413889",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "raw_headline": "[SENTIMENT] BAC: NEUTRAL (+0.054) -- Bond Traders Take Warsh at Word, See Inflation Fight Continuing",
             "source": "Ticker_Sentiment",
             "source_tier": 3,
-            "published_at": "2026-07-20T03:42:14",
+            "published_at": "2026-07-20T04:54:23",
             "source_url": "",
             "matched_keyword": "warsh",
             "noise_discount_factor": 0.25,
@@ -290,25 +304,25 @@
             "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_WARSH_THESIS",
             "confidence": "LOW",
             "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.5790 / 0.4210 = 1.3756",
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.6346 / 0.3654 = 1.7367",
               "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.3500) - 1) x (1 - noise_discount(0.25)) = 1.2625",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(1.3756) x LR_adjusted(1.2625) = 1.7367",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 1.7367 / 2.7367 = 0.6346",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.6346",
-              "delta_p": "+0.0555"
+              "step_3_posterior_odds": "posterior_odds = prior_odds(1.7367) x LR_adjusted(1.2625) = 2.1925",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 2.1925 / 3.1925 = 0.6868",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.6868",
+              "delta_p": "+0.0522"
             },
-            "p_prior_step": 0.579049,
-            "p_posterior_step": 0.634591,
-            "delta_p_step": 0.055542
+            "p_prior_step": 0.634591,
+            "p_posterior_step": 0.686769,
+            "delta_p_step": 0.052178
           }
         ],
         "event_ids": [
-          "signal:1412083"
+          "signal:1413889"
         ],
-        "brier_record_id": "NITE_BRIER_HAWKISH_WARSH_THESIS_7E218FA3",
+        "brier_record_id": "NITE_BRIER_HAWKISH_WARSH_THESIS_A487E9D4",
         "lr_lookups": [
           {
-            "event_id": "signal:1412083",
+            "event_id": "signal:1413889",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "lr_adjusted": 1.2625,
             "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_WARSH_THESIS",
@@ -327,22 +341,22 @@
         },
         "worst_kill_state": "INACTIVE",
         "posture": "THESIS_UNCHANGED — MONITOR",
-        "advisory_text": "[NITE-PEI] HAWKISH_WARSH_THESIS: CENTRAL_BANK_HAWKISH (LR 1.262 via CENTRAL_BANK_HAWKISH/HAWKISH_WARSH_THESIS, confidence: LOW). P: 0.579 → 0.635 (▲0.056). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] HAWKISH_WARSH_THESIS: CENTRAL_BANK_HAWKISH (LR 1.262 via CENTRAL_BANK_HAWKISH/HAWKISH_WARSH_THESIS, confidence: LOW). P: 0.635 → 0.687 (▲0.052). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "HAWKISH_BOJ_THESIS",
         "thesis_type": "HAWKISH_BOJ_THESIS",
-        "P_prior": 0.474208,
-        "P_posterior": 0.5249,
-        "delta_p": 0.050692,
+        "P_prior": 0.5249,
+        "P_posterior": 0.575084,
+        "delta_p": 0.050184,
         "events_applied": [
           {
-            "event_id": "signal:1412083",
+            "event_id": "signal:1413889",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "raw_headline": "[SENTIMENT] BAC: NEUTRAL (+0.054) -- Bond Traders Take Warsh at Word, See Inflation Fight Continuing",
             "source": "Ticker_Sentiment",
             "source_tier": 3,
-            "published_at": "2026-07-20T03:42:14",
+            "published_at": "2026-07-20T04:54:23",
             "source_url": "",
             "matched_keyword": "warsh",
             "noise_discount_factor": 0.25,
@@ -351,25 +365,25 @@
             "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_BOJ_THESIS",
             "confidence": "LOW",
             "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.4742 / 0.5258 = 0.9019",
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.5249 / 0.4751 = 1.1048",
               "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.3000) - 1) x (1 - noise_discount(0.25)) = 1.2250",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(0.9019) x LR_adjusted(1.2250) = 1.1048",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 1.1048 / 2.1048 = 0.5249",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.5249",
-              "delta_p": "+0.0507"
+              "step_3_posterior_odds": "posterior_odds = prior_odds(1.1048) x LR_adjusted(1.2250) = 1.3534",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 1.3534 / 2.3534 = 0.5751",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.5751",
+              "delta_p": "+0.0502"
             },
-            "p_prior_step": 0.474208,
-            "p_posterior_step": 0.5249,
-            "delta_p_step": 0.050692
+            "p_prior_step": 0.5249,
+            "p_posterior_step": 0.575084,
+            "delta_p_step": 0.050184
           }
         ],
         "event_ids": [
-          "signal:1412083"
+          "signal:1413889"
         ],
-        "brier_record_id": "NITE_BRIER_HAWKISH_BOJ_THESIS_76753081",
+        "brier_record_id": "NITE_BRIER_HAWKISH_BOJ_THESIS_EB3BE137",
         "lr_lookups": [
           {
-            "event_id": "signal:1412083",
+            "event_id": "signal:1413889",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "lr_adjusted": 1.225,
             "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_BOJ_THESIS",
@@ -388,7 +402,7 @@
         },
         "worst_kill_state": "INACTIVE",
         "posture": "THESIS_UNCHANGED — MONITOR",
-        "advisory_text": "[NITE-PEI] HAWKISH_BOJ_THESIS: CENTRAL_BANK_HAWKISH (LR 1.225 via CENTRAL_BANK_HAWKISH/HAWKISH_BOJ_THESIS, confidence: LOW). P: 0.474 → 0.525 (▲0.051). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] HAWKISH_BOJ_THESIS: CENTRAL_BANK_HAWKISH (LR 1.225 via CENTRAL_BANK_HAWKISH/HAWKISH_BOJ_THESIS, confidence: LOW). P: 0.525 → 0.575 (▲0.050). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
       }
     ],
     "ckri": 0.479487,
@@ -484,21 +498,21 @@
       {
         "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
         "thesis_type": "TRUMP_UNCERTAINTY_THESIS",
-        "p_posterior_used": 0.929981,
+        "p_posterior_used": 0.921799,
         "analyst_upside_pct": 0.15,
-        "f_star_full": 0.463188,
+        "f_star_full": 0.400459,
         "fractional_multiplier": 0.275,
-        "f_star_kelly": 0.127377,
+        "f_star_kelly": 0.110126,
         "coherence_score": 0.75,
         "h_norm_used": 0.0,
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
         "nav_total": 26095.32,
-        "target_usd_sleeve": 3323.94,
+        "target_usd_sleeve": 2873.77,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 3323.94,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $3,324"
+        "delta_usd": 2873.77,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $2,874"
       },
       {
         "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
@@ -522,9 +536,9 @@
       {
         "thesis_id": "STICKY_INFLATION_THESIS",
         "thesis_type": "STICKY_INFLATION_THESIS",
-        "p_posterior_used": 0.299853,
+        "p_posterior_used": 0.329989,
         "analyst_upside_pct": 0.15,
-        "f_star_full": -4.367794,
+        "f_star_full": -4.136751,
         "fractional_multiplier": 0.275,
         "f_star_kelly": 0.0,
         "coherence_score": 0.75,
@@ -541,9 +555,9 @@
       {
         "thesis_id": "HAWKISH_WARSH_THESIS",
         "thesis_type": "HAWKISH_WARSH_THESIS",
-        "p_posterior_used": 0.634591,
+        "p_posterior_used": 0.686769,
         "analyst_upside_pct": 0.15,
-        "f_star_full": -1.801469,
+        "f_star_full": -1.401438,
         "fractional_multiplier": 0.275,
         "f_star_kelly": 0.0,
         "coherence_score": 0.75,
@@ -560,9 +574,9 @@
       {
         "thesis_id": "HAWKISH_BOJ_THESIS",
         "thesis_type": "HAWKISH_BOJ_THESIS",
-        "p_posterior_used": 0.5249,
+        "p_posterior_used": 0.575084,
         "analyst_upside_pct": 0.15,
-        "f_star_full": -2.642433,
+        "f_star_full": -2.257689,
         "fractional_multiplier": 0.275,
         "f_star_kelly": 0.0,
         "coherence_score": 0.75,
@@ -583,9 +597,9 @@
     "manual_execution_required": true,
     "llm_order_generation": false,
     "order_routing_enabled": false,
-    "source_cycle_id": "v3_cycle_20260720_034723",
-    "source_cycle_path": "C:\\bluelotus3\\data\\v3_cycles\\v3_cycle_20260720_034723",
-    "nite_pei_generated_at_sgt": "2026-07-20T03:47:27+08:00",
+    "source_cycle_id": "v3_cycle_20260720_045921",
+    "source_cycle_path": "C:\\bluelotus3\\data\\v3_cycles\\v3_cycle_20260720_045921",
+    "nite_pei_generated_at_sgt": "2026-07-20T04:59:26+08:00",
     "generation_mode": "live_cycle",
     "event_extraction": {
       "dataset_path": "C:\\bluelotus3\\data\\frontend\\dataset_raw.json",
