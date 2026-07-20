@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-21 05:05 SGT",
-  "cycle_id": "v3_cycle_20260721_050531",
-  "latest_cycle_id": "v3_cycle_20260721_050531",
+  "generated_at": "2026-07-21 06:17 SGT",
+  "cycle_id": "v3_cycle_20260721_061735",
+  "latest_cycle_id": "v3_cycle_20260721_061735",
   "fallback_from_cycle_id": "",
   "fallback_reason": "",
   "clerk_mode": "deterministic",
@@ -12,13 +12,15 @@
   "recommended_posture": "REVIEW",
   "agent_consensus": [],
   "disagreements": [],
-  "cio_attention_items": [],
+  "cio_attention_items": [
+    "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers."
+  ],
   "digest_layers": [
     {
       "layer_id": "cycle_identity",
       "layer": "package_cycle_identity",
       "status": "DATA_CONFIRMED",
-      "summary": "Cycle v3_cycle_20260721_050531 · deterministic clerk · Zone A authority"
+      "summary": "Cycle v3_cycle_20260721_061735 · deterministic clerk · Zone A authority"
     },
     {
       "layer_id": "source_hierarchy",
@@ -42,13 +44,13 @@
       "layer_id": "portfolio_execution",
       "layer": "broker_portfolio",
       "status": "PASS",
-      "summary": "Assets 50240.61 · cash 24343.84 (48.5%) · broker P/L authoritative (snapshot)"
+      "summary": "Assets 50317.07 · cash 24343.84 (48.4%) · broker P/L authoritative (snapshot)"
     },
     {
       "layer_id": "concentration_risk",
       "layer": "risk_metrics",
       "status": "DATA_CONFIRMED",
-      "summary": "status NORMAL · largest NEM · wt 20.7% · HHI 0.1491"
+      "summary": "status NORMAL · largest NEM · wt 20.6% · HHI 0.1488"
     },
     {
       "layer_id": "blind_spot_causal",
@@ -60,7 +62,7 @@
       "layer_id": "deterministic_operators",
       "layer": "operator_blocks",
       "status": "DATA_CONFIRMED",
-      "summary": "Blocked 4 · permitted HOLD, REVIEW, WAIT"
+      "summary": "Blocked 5 · permitted HOLD, REVIEW, WAIT"
     },
     {
       "layer_id": "forecast_brier",
@@ -76,31 +78,44 @@
     }
   ],
   "manual_execution_required": true,
-  "created_at_sgt": "2026-07-21T05:05:32+08:00",
+  "created_at_sgt": "2026-07-21T06:17:36+08:00",
   "contradiction_register": {
     "schema_version": "bluelotus_v3_contradiction_register_v1.0",
-    "cycle_id": "v3_cycle_20260721_050531",
-    "created_at_sgt": "2026-07-21T05:05:32+08:00",
-    "contradiction_count": 0,
-    "p1_count": 0,
+    "cycle_id": "v3_cycle_20260721_061735",
+    "created_at_sgt": "2026-07-21T06:17:36+08:00",
+    "contradiction_count": 1,
+    "p1_count": 1,
     "p2_count": 0,
     "p3_count": 0,
-    "contradictions": [],
+    "contradictions": [
+      {
+        "contradiction_id": "V3_CYCLE_20260721_061735_P1_THESIS_VS_ORDER_BOOK_GOLD_THESIS_OPERATOR_MOOMOO_READONLY_ORDERS_GOL",
+        "cycle_id": "v3_cycle_20260721_061735",
+        "severity": "P1",
+        "domain": "thesis_vs_order_book",
+        "source_a": "gold_thesis_operator",
+        "source_b": "moomoo_readonly_orders",
+        "conflict_statement": "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers.",
+        "cio_attention_required": true,
+        "recommended_resolution_path": "CIO must verify whether open orders are intentional support bids, stale orders, or should be cancelled."
+      }
+    ],
     "manual_execution_required": true,
     "llm_order_generation": false,
     "order_routing_enabled": false
   },
   "cio_decision_strip": {
     "schema_version": "bluelotus_v3_cio_decision_strip_v1.0",
-    "cycle_id": "v3_cycle_20260721_050531",
-    "created_at_sgt": "2026-07-21T05:05:32+08:00",
-    "posture": "REVIEW",
+    "cycle_id": "v3_cycle_20260721_061735",
+    "created_at_sgt": "2026-07-21T06:17:36+08:00",
+    "posture": "CIO_VERIFICATION_REQUIRED",
     "new_information": [
-      "Deterministic Chief Clerk mapped 10 Zone A layers. No LLM agent council. Report action field states: REVIEW. Contradictions: 0 (P1 0, P2 0).",
-      "No contradiction governance items detected."
+      "Deterministic Chief Clerk mapped 10 Zone A layers. No LLM agent council. Report action field states: REVIEW. Contradictions: 1 (P1 1, P2 0).",
+      "1 contradiction governance item(s) detected."
     ],
     "action_blocked": [
       "ADD_RISK_WITHOUT_CATALYST_REVIEW",
+      "INCREASE_GOLD_THESIS_RISK",
       "SCALE_IN_ADD",
       "SECOND_TRANCHE_ADD",
       "USE_ARCHIVE_AS_LIVE_TRUTH"
@@ -111,7 +126,7 @@
       "WAIT"
     ],
     "cio_decision_required": [
-      "No contradiction-triggered CIO decision required."
+      "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers."
     ],
     "manual_execution_required": true,
     "llm_order_generation": false,
@@ -119,51 +134,51 @@
   },
   "nite_pei": {
     "schema_version": "bluelotus_v3_nite_pei_v1.0",
-    "generated_at_sgt": "2026-07-21T05:05:36+08:00",
+    "generated_at_sgt": "2026-07-21T06:17:40+08:00",
     "thesis_probability_snapshots": [
       {
         "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
         "thesis_type": "TRUMP_UNCERTAINTY_THESIS",
-        "P_prior": 0.847261,
-        "P_posterior": 0.867472,
-        "delta_p": 0.020211,
+        "P_prior": 0.867472,
+        "P_posterior": 0.882731,
+        "delta_p": 0.015259,
         "events_applied": [
           {
-            "event_id": "signal:1449249",
+            "event_id": "ticker_sentiment:2ca731b80c65346e",
             "event_class": "GEOPOLITICAL_ESCALATION",
-            "raw_headline": "Can Europe win a trade war with China? It may depend on how victory is defined",
-            "source": "SCMP",
-            "source_tier": 2,
-            "published_at": "2026-07-20T14:00:18",
-            "source_url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQNWhWX0RYelNrOXk5cHlsczhoWUpXRGZBTmxvQTMydWlncXptMWtMSnhfc2xwZ0JlTHpOUkp2ekhvR2JvOFpOMmF4anRzWkpES0tuelpqdDNpVE5sdlY5dW5LZlNUQUhRbTNmSGxXWmpYODFJUy14Uy1aaDQ0dmQ5UVM5NmpleXFEa3lDVVdtZkJyNHdCWmRKck8wSTd4MDcyOFM4cGtZaThKb0FPTXRHRDF2T3NMVDljSWtFUkVwZ9IBvwFBVV95cUxOSFhIcmszNG1aWDd5NXJ4Mmh4bkk1dTdFZTB4RTlSQm1FWGtmTnIyZnFCUVhNQl8wVEZSaW02TWhJNVdfZWc0ZEpYejBtakxHNGhZYnZfZGpRU2xMWnpwd24xN2k0Smx6ODhHb3o2bTVCUC10VXZ2ZDlscGwxVlhsenJHNzdSbElnRnBqZWJaTHQtc2g1cjVUR3JsblNLQ25hbUpwaUlBeDNoZEw0cEtZMzJYa19ic0RiZGJleVYxMA?oc=5",
+            "raw_headline": "Apple’s Lawsuit Against OpenAI Could Be the Opening Move in the Next AI Hardware War",
+            "source": "ticker_sentiment:AAPL",
+            "source_tier": 3,
+            "published_at": "2026-07-21 06:12:44",
+            "source_url": "",
             "matched_keyword": "war",
-            "noise_discount_factor": 0.1,
+            "noise_discount_factor": 0.25,
             "lr_raw": 1.2,
-            "lr_adjusted": 1.18,
+            "lr_adjusted": 1.15,
             "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
             "confidence": "LOW",
             "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.8473 / 0.1527 = 5.5471",
-              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.10)) = 1.1800",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(5.5471) x LR_adjusted(1.1800) = 6.5456",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 6.5456 / 7.5456 = 0.8675",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.8675",
-              "delta_p": "+0.0202"
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.8675 / 0.1325 = 6.5456",
+              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(6.5456) x LR_adjusted(1.1500) = 7.5274",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 7.5274 / 8.5274 = 0.8827",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.8827",
+              "delta_p": "+0.0153"
             },
-            "p_prior_step": 0.847261,
-            "p_posterior_step": 0.867472,
-            "delta_p_step": 0.020211
+            "p_prior_step": 0.867472,
+            "p_posterior_step": 0.882731,
+            "delta_p_step": 0.015259
           }
         ],
         "event_ids": [
-          "signal:1449249"
+          "ticker_sentiment:2ca731b80c65346e"
         ],
-        "brier_record_id": "NITE_BRIER_TRUMP_UNCERTAINTY_THESIS_FCFC7C52",
+        "brier_record_id": "NITE_BRIER_TRUMP_UNCERTAINTY_THESIS_DDA09AE1",
         "lr_lookups": [
           {
-            "event_id": "signal:1449249",
+            "event_id": "ticker_sentiment:2ca731b80c65346e",
             "event_class": "GEOPOLITICAL_ESCALATION",
-            "lr_adjusted": 1.18,
+            "lr_adjusted": 1.15,
             "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
             "confidence": "LOW"
           }
@@ -180,7 +195,7 @@
         },
         "worst_kill_state": "WATCH",
         "posture": "THESIS_UNCHANGED — MONITOR",
-        "advisory_text": "[NITE-PEI] TRUMP_UNCERTAINTY_THESIS: GEOPOLITICAL_ESCALATION (LR 1.180 via GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS, confidence: LOW). P: 0.847 → 0.867 (▲0.020). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] TRUMP_UNCERTAINTY_THESIS: GEOPOLITICAL_ESCALATION (LR 1.150 via GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS, confidence: LOW). P: 0.867 → 0.883 (▲0.015). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
@@ -190,24 +205,24 @@
         "delta_p": 0.0,
         "events_applied": [
           {
-            "event_id": "signal:1449249",
+            "event_id": "ticker_sentiment:2ca731b80c65346e",
             "event_class": "GEOPOLITICAL_ESCALATION",
-            "raw_headline": "Can Europe win a trade war with China? It may depend on how victory is defined",
-            "source": "SCMP",
-            "source_tier": 2,
-            "published_at": "2026-07-20T14:00:18",
-            "source_url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQNWhWX0RYelNrOXk5cHlsczhoWUpXRGZBTmxvQTMydWlncXptMWtMSnhfc2xwZ0JlTHpOUkp2ekhvR2JvOFpOMmF4anRzWkpES0tuelpqdDNpVE5sdlY5dW5LZlNUQUhRbTNmSGxXWmpYODFJUy14Uy1aaDQ0dmQ5UVM5NmpleXFEa3lDVVdtZkJyNHdCWmRKck8wSTd4MDcyOFM4cGtZaThKb0FPTXRHRDF2T3NMVDljSWtFUkVwZ9IBvwFBVV95cUxOSFhIcmszNG1aWDd5NXJ4Mmh4bkk1dTdFZTB4RTlSQm1FWGtmTnIyZnFCUVhNQl8wVEZSaW02TWhJNVdfZWc0ZEpYejBtakxHNGhZYnZfZGpRU2xMWnpwd24xN2k0Smx6ODhHb3o2bTVCUC10VXZ2ZDlscGwxVlhsenJHNzdSbElnRnBqZWJaTHQtc2g1cjVUR3JsblNLQ25hbUpwaUlBeDNoZEw0cEtZMzJYa19ic0RiZGJleVYxMA?oc=5",
+            "raw_headline": "Apple’s Lawsuit Against OpenAI Could Be the Opening Move in the Next AI Hardware War",
+            "source": "ticker_sentiment:AAPL",
+            "source_tier": 3,
+            "published_at": "2026-07-21 06:12:44",
+            "source_url": "",
             "matched_keyword": "war",
-            "noise_discount_factor": 0.1,
+            "noise_discount_factor": 0.25,
             "lr_raw": 1.2,
-            "lr_adjusted": 1.18,
+            "lr_adjusted": 1.15,
             "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
             "confidence": "LOW",
             "bayesian_equation": {
               "step_1_prior_odds": "prior_odds = P/(1-P) = 0.9500 / 0.0500 = 19.0000",
-              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.10)) = 1.1800",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(19.0000) x LR_adjusted(1.1800) = 22.4200",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 22.4200 / 23.4200 = 0.9500",
+              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(19.0000) x LR_adjusted(1.1500) = 21.8500",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 21.8500 / 22.8500 = 0.9500",
               "step_5_clamp": "clamp([0.05, 0.95]) => 0.9500",
               "delta_p": "+0.0000"
             },
@@ -217,14 +232,14 @@
           }
         ],
         "event_ids": [
-          "signal:1449249"
+          "ticker_sentiment:2ca731b80c65346e"
         ],
-        "brier_record_id": "NITE_BRIER_PETRO_RECYCLED_DOLLAR_THESIS_EA968C75",
+        "brier_record_id": "NITE_BRIER_PETRO_RECYCLED_DOLLAR_THESIS_F8C3A310",
         "lr_lookups": [
           {
-            "event_id": "signal:1449249",
+            "event_id": "ticker_sentiment:2ca731b80c65346e",
             "event_class": "GEOPOLITICAL_ESCALATION",
-            "lr_adjusted": 1.18,
+            "lr_adjusted": 1.15,
             "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
             "confidence": "LOW"
           }
@@ -241,7 +256,7 @@
         },
         "worst_kill_state": "CONFIRMED",
         "posture": "KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED",
-        "advisory_text": "[NITE-PEI] PETRO_RECYCLED_DOLLAR_THESIS: GEOPOLITICAL_ESCALATION (LR 1.180 via GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS, confidence: LOW). P: 0.950 → 0.950 (▲0.000). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] PETRO_RECYCLED_DOLLAR_THESIS: GEOPOLITICAL_ESCALATION (LR 1.150 via GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS, confidence: LOW). P: 0.950 → 0.950 (▲0.000). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "STICKY_INFLATION_THESIS",
@@ -409,21 +424,21 @@
       {
         "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
         "thesis_type": "TRUMP_UNCERTAINTY_THESIS",
-        "p_posterior_used": 0.867472,
+        "p_posterior_used": 0.882731,
         "analyst_upside_pct": 0.15,
-        "f_star_full": -0.016048,
+        "f_star_full": 0.100938,
         "fractional_multiplier": 0.275,
-        "f_star_kelly": 0.0,
+        "f_star_kelly": 0.027758,
         "coherence_score": 0.75,
         "h_norm_used": 0.0,
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 25896.77,
-        "target_usd_sleeve": 0.0,
+        "nav_total": 25973.23,
+        "target_usd_sleeve": 720.96,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 0.0,
-        "advisory_text": "POSITION NEAR KELLY TARGET — HOLD"
+        "delta_usd": 720.96,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $721"
       },
       {
         "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
@@ -438,11 +453,11 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 25896.77,
-        "target_usd_sleeve": 4391.65,
+        "nav_total": 25973.23,
+        "target_usd_sleeve": 4404.62,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 4391.65,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $4,392"
+        "delta_usd": 4404.62,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $4,405"
       },
       {
         "thesis_id": "STICKY_INFLATION_THESIS",
@@ -457,7 +472,7 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 25896.77,
+        "nav_total": 25973.23,
         "target_usd_sleeve": 0.0,
         "current_usd_sleeve": 0.0,
         "delta_usd": 0.0,
@@ -476,11 +491,11 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 25896.77,
-        "target_usd_sleeve": 4391.65,
+        "nav_total": 25973.23,
+        "target_usd_sleeve": 4404.62,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 4391.65,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $4,392"
+        "delta_usd": 4404.62,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $4,405"
       },
       {
         "thesis_id": "HAWKISH_BOJ_THESIS",
@@ -495,11 +510,11 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 25896.77,
-        "target_usd_sleeve": 3111.76,
+        "nav_total": 25973.23,
+        "target_usd_sleeve": 3120.94,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 3111.76,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $3,112"
+        "delta_usd": 3120.94,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $3,121"
       }
     ],
     "nite_pei_contradictions": [],
@@ -508,13 +523,13 @@
     "manual_execution_required": true,
     "llm_order_generation": false,
     "order_routing_enabled": false,
-    "source_cycle_id": "v3_cycle_20260721_050531",
-    "source_cycle_path": "C:\\bluelotus3\\data\\v3_cycles\\v3_cycle_20260721_050531",
-    "nite_pei_generated_at_sgt": "2026-07-21T05:05:36+08:00",
+    "source_cycle_id": "v3_cycle_20260721_061735",
+    "source_cycle_path": "C:\\bluelotus3\\data\\v3_cycles\\v3_cycle_20260721_061735",
+    "nite_pei_generated_at_sgt": "2026-07-21T06:17:40+08:00",
     "generation_mode": "live_cycle",
     "event_extraction": {
       "dataset_path": "C:\\bluelotus3\\data\\frontend\\dataset_raw.json",
-      "candidate_events": 198,
+      "candidate_events": 197,
       "classified_events": 1,
       "applied_events": 2
     }
