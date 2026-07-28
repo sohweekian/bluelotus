@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Seldon Φ Probability Tree — CivilisationOS</title>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cinzel:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#04102A;--navy2:#071840;--navy3:#0a2060;
+  --gold:#C9A84C;--gold2:#E8C76A;--gold3:#a07830;
+  --green:#2ecc71;--amber:#f39c12;--red:#e74c3c;
+  --dim:rgba(201,168,76,0.12);--dimb:rgba(201,168,76,0.06);
+}
+html,body{height:100%;background:var(--navy);color:#e8dfc0;font-family:'EB Garamond',serif;overflow:hidden}
+
+/* LAYOUT */
+#app{display:flex;height:100vh;width:100vw}
+#sidebar{width:280px;min-width:280px;background:var(--navy2);border-right:1px solid var(--gold3);display:flex;flex-direction:column;overflow:hidden}
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative}
+
+/* SIDEBAR */
+#sidebar-header{padding:18px 16px 12px;border-bottom:1px solid var(--dim)}
+#sidebar-header h2{font-family:'Cinzel',serif;font-size:13px;color:var(--gold);letter-spacing:2px;text-transform:uppercase}
+#sidebar-header p{font-size:11px;color:#8899bb;margin-top:4px;font-style:italic}
+#search-box{margin:10px 12px;position:relative}
+#search-box input{width:100%;background:var(--navy3);border:1px solid var(--gold3);border-radius:4px;padding:7px 10px;color:#e8dfc0;font-size:12px;outline:none;font-family:'EB Garamond',serif}
+#search-box input::placeholder{color:#556}
+#country-list{flex:1;overflow-y:auto;padding:4px 0}
+#country-list::-webkit-scrollbar{width:4px}
+#country-list::-webkit-scrollbar-track{background:var(--navy2)}
+#country-list::-webkit-scrollbar-thumb{background:var(--gold3);border-radius:2px}
+.region-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;color:#556;padding:10px 14px 4px;text-transform:uppercase}
+.c-item{display:flex;align-items:center;padding:6px 14px;cursor:pointer;transition:background 0.15s;border-left:2px solid transparent}
+.c-item:hover{background:var(--dimb)}
+.c-item.active{background:var(--dim);border-left-color:var(--gold)}
+.c-name{flex:1;font-size:13px}
+.phi-pill{font-family:'Cinzel',serif;font-size:10px;padding:1px 6px;border-radius:10px;font-weight:700}
+.phi-high{background:#1a3a1a;color:#2ecc71;border:1px solid #2ecc71}
+.phi-mid{background:#3a2a08;color:#f39c12;border:1px solid #f39c12}
+.phi-low{background:#3a0808;color:#e74c3c;border:1px solid #e74c3c}
+.phi-crit{background:#2a0808;color:#c0392b;border:1px solid #c0392b}
+
+/* HEADER */
+#header{padding:16px 24px 12px;border-bottom:1px solid var(--dim);display:flex;align-items:center;gap:16px}
+#header h1{font-family:'Cinzel',serif;font-size:18px;color:var(--gold);letter-spacing:2px}
+#header .subtitle{font-size:12px;color:#8899bb;font-style:italic}
+#country-display{margin-left:auto;text-align:right}
+#country-display .cname{font-family:'Cinzel',serif;font-size:20px;color:var(--gold2)}
+#country-display .cphi{font-size:13px;color:#aabbcc}
+
+/* TREE AREA */
+#tree-area{flex:1;position:relative;overflow:hidden}
+#tree-svg{width:100%;height:100%}
+
+/* SCENARIO CARDS */
+#scenario-bar{height:180px;border-top:1px solid var(--dim);display:flex;gap:0;overflow:hidden}
+.s-card{flex:1;padding:14px 16px;border-right:1px solid var(--dim);cursor:pointer;transition:background 0.2s}
+.s-card:last-child{border-right:none}
+.s-card:hover{background:var(--dimb)}
+.s-card.active{background:var(--dim)}
+.s-card-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.s-icon{width:10px;height:10px;border-radius:50%}
+.s-label{font-family:'Cinzel',serif;font-size:11px;letter-spacing:1px;text-transform:uppercase}
+.s-prob{font-family:'Cinzel',serif;font-size:22px;font-weight:700;margin-bottom:4px}
+.s-desc{font-size:11px;color:#aabbcc;line-height:1.5;font-style:italic}
+.s-phi-delta{font-size:11px;margin-top:6px}
+.s-driver{font-size:10px;color:#8899bb;margin-top:4px}
+
+/* TOOLTIP */
+#tooltip{position:absolute;background:rgba(4,16,42,0.97);border:1px solid var(--gold3);border-radius:6px;padding:10px 14px;font-size:11px;pointer-events:none;opacity:0;transition:opacity 0.15s;max-width:220px;z-index:100}
+#tooltip .tt-year{font-family:'Cinzel',serif;color:var(--gold);font-size:12px;margin-bottom:4px}
+#tooltip .tt-phi{font-size:18px;font-family:'Cinzel',serif}
+#tooltip .tt-desc{color:#aabbcc;margin-top:4px;line-height:1.4}
+
+/* LEGEND */
+#legend{position:absolute;bottom:190px;right:16px;background:rgba(4,16,42,0.9);border:1px solid var(--gold3);border-radius:6px;padding:10px 14px;font-size:10px}
+#legend div{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+#legend .dot{width:8px;height:8px;border-radius:50%}
+#legend span{color:#aabbcc}
+
+/* FORMULA BAR */
+#formula{position:absolute;top:10px;right:16px;background:rgba(4,16,42,0.9);border:1px solid var(--dim);border-radius:6px;padding:8px 14px;font-size:11px;color:#8899bb;font-style:italic}
+#formula strong{color:var(--gold);font-style:normal}
+
+/* NO SELECTION */
+#no-sel{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;color:#556}
+#no-sel .big-phi{font-family:'Cinzel',serif;font-size:80px;color:var(--dim);line-height:1}
+#no-sel p{font-size:14px;font-style:italic}
+
+/* SCROLL for sidebar */
+@media(max-height:700px){#scenario-bar{height:140px}}
+</style>
+</head>
+<body>
+<div id="app">
+<!-- SIDEBAR -->
+<div id="sidebar">
+  <div id="sidebar-header">
+    <h2>Seldon Φ Probability Tree</h2>
+    <p>Select a nation to explore civilisational trajectories</p>
+  </div>
+  <div id="search-box"><input id="search" type="text" placeholder="Search nations…" autocomplete="off"></div>
+  <div id="country-list"></div>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+  <div id="header">
+    <div>
+      <h1>Φ Probability Tree</h1>
+      <div class="subtitle">Civilisational Trajectory — Seldon Framework 2026→2031→2038</div>
+    </div>
+    <div id="country-display">
+      <div class="cname" id="hdr-name">—</div>
+      <div class="cphi" id="hdr-phi"></div>
+    </div>
+  </div>
+
+  <div id="tree-area">
+    <svg id="tree-svg"></svg>
+    <div id="no-sel">
+      <div class="big-phi">Φ</div>
+      <p>Select a nation from the left panel to visualise its probability tree</p>
+    </div>
+    <div id="formula"><strong>Φ</strong>(C,t) = 0.32·I + 0.25·E + 0.18·S + 0.15·R + 0.10·K</div>
+    <div id="legend">
+      <div><div class="dot" style="background:#2ecc71"></div><span>Φ ≥ 0.70 — Stable</span></div>
+      <div><div class="dot" style="background:#f39c12"></div><span>Φ 0.50–0.69 — Moderate</span></div>
+      <div><div class="dot" style="background:#e74c3c"></div><span>Φ 0.30–0.49 — Fragile</span></div>
+      <div><div class="dot" style="background:#8e44ad"></div><span>Φ &lt; 0.30 — Critical</span></div>
+    </div>
+    <div id="tooltip">
+      <div class="tt-year" id="tt-year"></div>
+      <div class="tt-phi" id="tt-phi"></div>
+      <div class="tt-desc" id="tt-desc"></div>
+    </div>
+  </div>
+
+  <div id="scenario-bar">
+    <div class="s-card" id="sc0" onclick="selectScen(0)">
+      <div class="s-card-head"><div class="s-icon" style="background:#2ecc71"></div><div class="s-label" style="color:#2ecc71">Optimistic</div></div>
+      <div class="s-prob" id="sp0" style="color:#2ecc71">—</div>
+      <div class="s-desc" id="sd0"></div>
+      <div class="s-phi-delta" id="sdelta0"></div>
+      <div class="s-driver" id="sdrv0"></div>
+    </div>
+    <div class="s-card" id="sc1" onclick="selectScen(1)">
+      <div class="s-card-head"><div class="s-icon" style="background:#f39c12"></div><div class="s-label" style="color:#f39c12">Baseline</div></div>
+      <div class="s-prob" id="sp1" style="color:#f39c12">—</div>
+      <div class="s-desc" id="sd1"></div>
+      <div class="s-phi-delta" id="sdelta1"></div>
+      <div class="s-driver" id="sdrv1"></div>
+    </div>
+    <div class="s-card" id="sc2" onclick="selectScen(2)">
+      <div class="s-card-head"><div class="s-icon" style="background:#e74c3c"></div><div class="s-label" style="color:#e74c3c">Decline</div></div>
+      <div class="s-prob" id="sp2" style="color:#e74c3c">—</div>
+      <div class="s-desc" id="sd2"></div>
+      <div class="s-phi-delta" id="sdelta2"></div>
+      <div class="s-driver" id="sdrv2"></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+// ─── COUNTRY DATA ───────────────────────────────────────────────────────────
+const COUNTRIES = [
+// EAST ASIA
+{r:"East Asia",n:"Japan",phi:0.78,I:0.82,E:0.55,S:0.80,R:0.72,K:0.90},
+{r:"East Asia",n:"South Korea",phi:0.74,I:0.79,E:0.60,S:0.74,R:0.65,K:0.85},
+{r:"East Asia",n:"China",phi:0.54,I:0.58,E:0.42,S:0.62,R:0.68,K:0.72},
+{r:"East Asia",n:"Taiwan",phi:0.70,I:0.76,E:0.58,S:0.70,R:0.55,K:0.82},
+{r:"East Asia",n:"Mongolia",phi:0.42,I:0.44,E:0.48,S:0.52,R:0.58,K:0.35},
+{r:"East Asia",n:"North Korea",phi:0.18,I:0.15,E:0.30,S:0.35,R:0.22,K:0.20},
+// SOUTHEAST ASIA
+{r:"Southeast Asia",n:"Singapore",phi:0.82,I:0.90,E:0.72,S:0.78,R:0.70,K:0.88},
+{r:"Southeast Asia",n:"Vietnam",phi:0.58,I:0.60,E:0.52,S:0.70,R:0.62,K:0.55},
+{r:"Southeast Asia",n:"Thailand",phi:0.52,I:0.50,E:0.44,S:0.60,R:0.58,K:0.55},
+{r:"Southeast Asia",n:"Malaysia",phi:0.60,I:0.62,E:0.55,S:0.60,R:0.65,K:0.62},
+{r:"Southeast Asia",n:"Indonesia",phi:0.56,I:0.58,E:0.48,S:0.68,R:0.72,K:0.50},
+{r:"Southeast Asia",n:"Philippines",phi:0.48,I:0.46,E:0.40,S:0.60,R:0.50,K:0.52},
+{r:"Southeast Asia",n:"Myanmar",phi:0.24,I:0.18,E:0.30,S:0.38,R:0.42,K:0.28},
+{r:"Southeast Asia",n:"Cambodia",phi:0.34,I:0.30,E:0.35,S:0.50,R:0.38,K:0.30},
+{r:"Southeast Asia",n:"Laos",phi:0.32,I:0.30,E:0.38,S:0.52,R:0.40,K:0.28},
+// SOUTH ASIA
+{r:"South Asia",n:"India",phi:0.59,I:0.60,E:0.48,S:0.62,R:0.62,K:0.68},
+{r:"South Asia",n:"Bangladesh",phi:0.44,I:0.42,E:0.40,S:0.58,R:0.45,K:0.40},
+{r:"South Asia",n:"Pakistan",phi:0.32,I:0.28,E:0.25,S:0.40,R:0.38,K:0.38},
+{r:"South Asia",n:"Sri Lanka",phi:0.40,I:0.42,E:0.38,S:0.55,R:0.35,K:0.45},
+{r:"South Asia",n:"Nepal",phi:0.38,I:0.36,E:0.40,S:0.55,R:0.38,K:0.35},
+// MIDDLE EAST
+{r:"Middle East",n:"UAE",phi:0.70,I:0.72,E:0.62,S:0.62,R:0.88,K:0.68},
+{r:"Middle East",n:"Saudi Arabia",phi:0.62,I:0.62,E:0.52,S:0.60,R:0.92,K:0.58},
+{r:"Middle East",n:"Qatar",phi:0.68,I:0.70,E:0.60,S:0.62,R:0.90,K:0.65},
+{r:"Middle East",n:"Israel",phi:0.66,I:0.72,E:0.55,S:0.58,R:0.50,K:0.80},
+{r:"Middle East",n:"Turkey",phi:0.50,I:0.46,E:0.40,S:0.58,R:0.52,K:0.58},
+{r:"Middle East",n:"Iran",phi:0.38,I:0.35,E:0.28,S:0.48,R:0.60,K:0.50},
+{r:"Middle East",n:"Iraq",phi:0.28,I:0.25,E:0.22,S:0.38,R:0.62,K:0.28},
+{r:"Middle East",n:"Jordan",phi:0.46,I:0.48,E:0.42,S:0.58,R:0.30,K:0.45},
+{r:"Middle East",n:"Lebanon",phi:0.22,I:0.18,E:0.20,S:0.35,R:0.20,K:0.48},
+{r:"Middle East",n:"Syria",phi:0.14,I:0.10,E:0.18,S:0.22,R:0.20,K:0.20},
+{r:"Middle East",n:"Yemen",phi:0.10,I:0.08,E:0.12,S:0.18,R:0.25,K:0.12},
+// EUROPE
+{r:"Europe",n:"Germany",phi:0.78,I:0.82,E:0.65,S:0.78,R:0.60,K:0.90},
+{r:"Europe",n:"France",phi:0.76,I:0.80,E:0.62,S:0.72,R:0.60,K:0.88},
+{r:"Europe",n:"United Kingdom",phi:0.74,I:0.78,E:0.60,S:0.72,R:0.58,K:0.86},
+{r:"Europe",n:"Netherlands",phi:0.82,I:0.86,E:0.70,S:0.80,R:0.62,K:0.88},
+{r:"Europe",n:"Sweden",phi:0.84,I:0.88,E:0.72,S:0.82,R:0.70,K:0.88},
+{r:"Europe",n:"Norway",phi:0.86,I:0.90,E:0.74,S:0.84,R:0.88,K:0.88},
+{r:"Europe",n:"Denmark",phi:0.85,I:0.90,E:0.74,S:0.84,R:0.72,K:0.88},
+{r:"Europe",n:"Finland",phi:0.83,I:0.88,E:0.72,S:0.82,R:0.70,K:0.88},
+{r:"Europe",n:"Switzerland",phi:0.88,I:0.92,E:0.75,S:0.86,R:0.72,K:0.90},
+{r:"Europe",n:"Austria",phi:0.80,I:0.84,E:0.68,S:0.80,R:0.64,K:0.86},
+{r:"Europe",n:"Belgium",phi:0.78,I:0.80,E:0.65,S:0.74,R:0.60,K:0.85},
+{r:"Europe",n:"Poland",phi:0.68,I:0.68,E:0.58,S:0.72,R:0.60,K:0.75},
+{r:"Europe",n:"Spain",phi:0.70,I:0.72,E:0.58,S:0.72,R:0.55,K:0.78},
+{r:"Europe",n:"Italy",phi:0.66,I:0.68,E:0.52,S:0.70,R:0.52,K:0.80},
+{r:"Europe",n:"Greece",phi:0.55,I:0.55,E:0.45,S:0.65,R:0.42,K:0.68},
+{r:"Europe",n:"Ukraine",phi:0.32,I:0.30,E:0.28,S:0.55,R:0.45,K:0.55},
+{r:"Europe",n:"Russia",phi:0.36,I:0.32,E:0.30,S:0.48,R:0.78,K:0.58},
+{r:"Europe",n:"Belarus",phi:0.28,I:0.22,E:0.25,S:0.40,R:0.45,K:0.48},
+{r:"Europe",n:"Serbia",phi:0.48,I:0.46,E:0.42,S:0.58,R:0.45,K:0.50},
+{r:"Europe",n:"Hungary",phi:0.52,I:0.50,E:0.45,S:0.60,R:0.48,K:0.60},
+// AFRICA
+{r:"Africa",n:"Nigeria",phi:0.34,I:0.30,E:0.28,S:0.42,R:0.58,K:0.35},
+{r:"Africa",n:"South Africa",phi:0.44,I:0.48,E:0.35,S:0.45,R:0.58,K:0.55},
+{r:"Africa",n:"Kenya",phi:0.40,I:0.40,E:0.35,S:0.55,R:0.38,K:0.42},
+{r:"Africa",n:"Ethiopia",phi:0.30,I:0.28,E:0.25,S:0.45,R:0.38,K:0.28},
+{r:"Africa",n:"Egypt",phi:0.42,I:0.42,E:0.35,S:0.52,R:0.40,K:0.48},
+{r:"Africa",n:"Morocco",phi:0.50,I:0.52,E:0.44,S:0.60,R:0.42,K:0.50},
+{r:"Africa",n:"Ghana",phi:0.46,I:0.48,E:0.40,S:0.60,R:0.42,K:0.44},
+{r:"Africa",n:"Tanzania",phi:0.36,I:0.36,E:0.32,S:0.55,R:0.38,K:0.30},
+{r:"Africa",n:"DR Congo",phi:0.18,I:0.15,E:0.18,S:0.28,R:0.50,K:0.18},
+{r:"Africa",n:"Somalia",phi:0.08,I:0.05,E:0.10,S:0.15,R:0.22,K:0.12},
+// AMERICAS
+{r:"Americas",n:"United States",phi:0.68,I:0.70,E:0.52,S:0.62,R:0.82,K:0.92},
+{r:"Americas",n:"Canada",phi:0.80,I:0.84,E:0.70,S:0.80,R:0.85,K:0.88},
+{r:"Americas",n:"Brazil",phi:0.46,I:0.44,E:0.38,S:0.55,R:0.78,K:0.52},
+{r:"Americas",n:"Mexico",phi:0.40,I:0.38,E:0.32,S:0.50,R:0.62,K:0.45},
+{r:"Americas",n:"Argentina",phi:0.38,I:0.36,E:0.30,S:0.52,R:0.60,K:0.52},
+{r:"Americas",n:"Chile",phi:0.60,I:0.62,E:0.52,S:0.65,R:0.65,K:0.62},
+{r:"Americas",n:"Colombia",phi:0.42,I:0.40,E:0.35,S:0.50,R:0.55,K:0.46},
+{r:"Americas",n:"Venezuela",phi:0.18,I:0.14,E:0.18,S:0.30,R:0.58,K:0.28},
+{r:"Americas",n:"Peru",phi:0.40,I:0.38,E:0.35,S:0.52,R:0.58,K:0.42},
+// CENTRAL ASIA
+{r:"Central Asia",n:"Kazakhstan",phi:0.44,I:0.42,E:0.40,S:0.50,R:0.70,K:0.42},
+{r:"Central Asia",n:"Uzbekistan",phi:0.38,I:0.36,E:0.35,S:0.52,R:0.45,K:0.35},
+{r:"Central Asia",n:"Azerbaijan",phi:0.46,I:0.44,E:0.40,S:0.52,R:0.62,K:0.42},
+{r:"Central Asia",n:"Georgia",phi:0.50,I:0.52,E:0.44,S:0.60,R:0.38,K:0.50},
+// OCEANIA
+{r:"Oceania",n:"Australia",phi:0.82,I:0.86,E:0.70,S:0.82,R:0.88,K:0.88},
+{r:"Oceania",n:"New Zealand",phi:0.84,I:0.88,E:0.72,S:0.86,R:0.82,K:0.85},
+// OTHERS
+{r:"Other",n:"Iceland",phi:0.88,I:0.92,E:0.78,S:0.90,R:0.82,K:0.86},
+{r:"Other",n:"Ireland",phi:0.80,I:0.84,E:0.70,S:0.80,R:0.62,K:0.85},
+{r:"Other",n:"Cuba",phi:0.32,I:0.28,E:0.30,S:0.52,R:0.30,K:0.48},
+{r:"Other",n:"Afghanistan",phi:0.12,I:0.08,E:0.12,S:0.22,R:0.25,K:0.14},
+{r:"Other",n:"Libya",phi:0.20,I:0.16,E:0.18,S:0.28,R:0.55,K:0.22},
+{r:"Other",n:"Sudan",phi:0.14,I:0.10,E:0.14,S:0.22,R:0.30,K:0.16},
+];
+
+// ─── SCENARIO GENERATION ───────────────────────────────────────────────────
+function genScenarios(c){
+  const phi=c.phi;
+  let pA,pB,pC,dA,dB,dC,DA,DB,DC,drA,drB,drC;
+  if(phi>=0.80){
+    pA=55;pB=35;pC=10;
+    DA=+0.06;DB=+0.01;DC=-0.08;
+    dA="Sustained institutional excellence drives further resilience gains. Knowledge capital and social cohesion reinforce each other. Φ approaches the Seldon Manifold.";
+    dB="Nation maintains institutional capacity but faces demographic or fiscal headwinds. Moderate consolidation. Φ stable within safe corridor.";
+    dC="External shock — trade collapse, climate event, or elite fracture — erodes structural advantages. Reversal from high base but not catastrophic.";
+    drA="Driver: institutional lock-in + K capital momentum";drB="Driver: steady-state governance";drC="Driver: external disruption";
+  } else if(phi>=0.65){
+    pA=40;pB=40;pC=20;
+    DA=+0.09;DB=+0.02;DC=-0.10;
+    dA="Reform momentum compounds. Institutional and social cohesion gains unlock K capital investment. Path toward high-stability corridor.";
+    dB="Status quo maintained. Some structural weaknesses persist but no acute crisis. Φ oscillates within current band.";
+    dC="Political polarisation or resource stress triggers institutional erosion. Elite overproduction risk rises. Downward trajectory accelerates.";
+    drA="Driver: reform coalition success";drB="Driver: managed status quo";drC="Driver: elite overproduction";
+  } else if(phi>=0.50){
+    pA=30;pB=38;pC=32;
+    DA=+0.10;DB=+0.01;DC=-0.14;
+    dA="Structural reform succeeds. External debt restructured, governance upgraded. Nations break into moderate-stability tier by 2031.";
+    dB="Muddling through. Growth sustains but structural vulnerabilities remain. Φ drift is minimal — either direction possible by 2038.";
+    dC="Fiscal crisis, energy shock, or social rupture accelerates fragility. Critical infrastructure investment stalls. Φ approaches warning threshold.";
+    drA="Driver: reform + external support";drB="Driver: commodity cycle stability";drC="Driver: fiscal/social shock";
+  } else if(phi>=0.30){
+    pA=20;pB=32;pC=48;
+    DA=+0.12;DB=-0.02;DC=-0.16;
+    dA="International stabilisation effort succeeds. Institutional rebuilding gains traction. Fragility persists but downward spiral arrested.";
+    dB="Chronic fragility. Nation functions but barely. No acute collapse, but compounding weakness continues slow erosion.";
+    dC="Acute crisis trigger — civil conflict, natural disaster, debt default — pushes Φ below no-return threshold of 0.25. Collapse risk rising.";
+    drA="Driver: international intervention";drB="Driver: chronic stagnation";drC="Driver: acute crisis trigger";
+  } else {
+    pA=10;pB=25;pC=65;
+    DA=+0.10;DB=-0.05;DC=-0.10;
+    dA="Unlikely but possible: state reconstruction with strong external sponsor. Historical parallel: post-WWII Germany/Japan. Requires complete elite replacement.";
+    dB="Prolonged failed-state conditions. Fragmented authority. Economy informally functions below radar. No collapse, no recovery.";
+    dC="Φ crosses 0.10 — civilisational collapse threshold. Territorial fragmentation likely. Historical parallel: Western Roman Empire post-410 CE.";
+    drA="Driver: full external reconstruction";drB="Driver: fragmented persistence";drC="Driver: civilisational collapse";
+  }
+  // Build sub-branches for 2031 and 2038
+  const scenarios=[
+    {label:"Optimistic",col:"#2ecc71",prob:pA,desc:dA,driver:drA,
+     phi31:Math.min(0.99,+(phi+DA*0.5).toFixed(2)),
+     phi38:Math.min(0.99,+(phi+DA).toFixed(2))},
+    {label:"Baseline",col:"#f39c12",prob:pB,desc:dB,driver:drB,
+     phi31:+(phi+DB*0.5).toFixed(2),
+     phi38:+(phi+DB).toFixed(2)},
+    {label:"Decline",col:"#e74c3c",prob:pC,desc:dC,driver:drC,
+     phi31:Math.max(0.01,+(phi+DC*0.5).toFixed(2)),
+     phi38:Math.max(0.01,+(phi+DC).toFixed(2))},
+  ];
+  return scenarios;
+}
+
+function phiColor(phi){
+  if(phi>=0.70)return"#2ecc71";
+  if(phi>=0.50)return"#f39c12";
+  if(phi>=0.30)return"#e74c3c";
+  return"#8e44ad";
+}
+function phiClass(phi){
+  if(phi>=0.70)return"phi-high";
+  if(phi>=0.50)return"phi-mid";
+  if(phi>=0.30)return"phi-low";
+  return"phi-crit";
+}
+
+// ─── STATE ─────────────────────────────────────────────────────────────────
+let selected=null, activeScen=1;
+
+// ─── SIDEBAR ───────────────────────────────────────────────────────────────
+function buildSidebar(filter=""){
+  const list=document.getElementById("country-list");
+  list.innerHTML="";
+  const regions=[...new Set(COUNTRIES.map(c=>c.r))];
+  regions.forEach(r=>{
+    const items=COUNTRIES.filter(c=>c.r===r&&c.n.toLowerCase().includes(filter.toLowerCase()));
+    if(!items.length)return;
+    const rl=document.createElement("div");rl.className="region-label";rl.textContent=r;
+    list.appendChild(rl);
+    items.forEach(c=>{
+      const el=document.createElement("div");
+      el.className="c-item"+(selected&&selected.n===c.n?" active":"");
+      el.innerHTML=`<span class="c-name">${c.n}</span><span class="phi-pill ${phiClass(c.phi)}">${c.phi.toFixed(2)}</span>`;
+      el.onclick=()=>selectCountry(c);
+      list.appendChild(el);
+    });
+  });
+}
+
+document.getElementById("search").addEventListener("input",e=>buildSidebar(e.target.value));
+
+// ─── SELECT COUNTRY ────────────────────────────────────────────────────────
+function selectCountry(c){
+  selected=c;
+  activeScen=1;
+  buildSidebar(document.getElementById("search").value);
+  document.getElementById("no-sel").style.display="none";
+  document.getElementById("hdr-name").textContent=c.n;
+  document.getElementById("hdr-phi").textContent=`Φ = ${c.phi.toFixed(2)} — ${phiBand(c.phi)}`;
+  updateScenCards();
+  drawTree();
+  selectScen(1,true);
+}
+
+function phiBand(phi){
+  if(phi>=0.80)return"High Resilience";
+  if(phi>=0.65)return"Moderate-High";
+  if(phi>=0.50)return"Moderate";
+  if(phi>=0.30)return"Fragile";
+  return"Critical";
+}
+
+function selectScen(i, skipRedraw=false){
+  activeScen=i;
+  [0,1,2].forEach(j=>{
+    document.getElementById("sc"+j).classList.toggle("active",j===i);
+  });
+  if(!skipRedraw&&selected) drawTree();
+}
+
+function updateScenCards(){
+  if(!selected)return;
+  const scens=genScenarios(selected);
+  const phi0=selected.phi;
+  scens.forEach((s,i)=>{
+    document.getElementById("sp"+i).textContent=s.prob+"%";
+    document.getElementById("sd"+i).textContent=s.desc.substring(0,120)+"…";
+    const delta=(s.phi38-phi0).toFixed(2);
+    const sign=delta>=0?"+":"";
+    document.getElementById("sdelta"+i).innerHTML=`<span style="color:${s.col}">Φ 2038: ${s.phi38.toFixed(2)}</span> <span style="color:#8899bb">(${sign}${delta})</span>`;
+    document.getElementById("sdrv"+i).textContent=s.driver;
+  });
+}
+
+// ─── DRAW TREE ─────────────────────────────────────────────────────────────
+function drawTree(){
+  const svg=document.getElementById("tree-svg");
+  const {width:W,height:H}=svg.getBoundingClientRect();
+  svg.innerHTML="";
+
+  if(!selected)return;
+  const c=selected;
+  const scens=genScenarios(c);
+
+  // Layout: root at left-center, branches spread right
+  const rootX=80, rootY=H/2;
+  const col1X=W*0.38, col2X=W*0.68, col3X=W*0.93;
+  const spacing=H*0.25;
+  const mid=H/2;
+
+  const branchY=[mid-spacing, mid, mid+spacing];
+
+  function makePath(x1,y1,x2,y2,col,prob,active){
+    const cx=(x1+x2)/2;
+    const d=`M${x1},${y1} C${cx},${y1} ${cx},${y2} ${x2},${y2}`;
+    const p=document.createElementNS("http://www.w3.org/2000/svg","path");
+    p.setAttribute("d",d);
+    p.setAttribute("fill","none");
+    p.setAttribute("stroke",col);
+    p.setAttribute("stroke-width",active?3.5:1.5);
+    p.setAttribute("stroke-opacity",active?0.9:0.35);
+    p.setAttribute("stroke-dasharray",active?"none":"6,4");
+    // animate
+    const len=p.getTotalLength?p.getTotalLength():400;
+    if(active){
+      p.setAttribute("stroke-dasharray",len);
+      p.setAttribute("stroke-dashoffset",len);
+      const anim=document.createElementNS("http://www.w3.org/2000/svg","animate");
+      anim.setAttribute("attributeName","stroke-dashoffset");
+      anim.setAttribute("from",len);anim.setAttribute("to",0);
+      anim.setAttribute("dur","0.6s");anim.setAttribute("fill","freeze");
+      p.appendChild(anim);
+    }
+    svg.appendChild(p);
+    // probability label on path
+    if(active){
+      const mx=(x1+x2)/2, my=(y1+y2)/2-8;
+      const t=document.createElementNS("http://www.w3.org/2000/svg","text");
+      t.setAttribute("x",mx);t.setAttribute("y",my);
+      t.setAttribute("text-anchor","middle");t.setAttribute("fill",col);
+      t.setAttribute("font-size","12");t.setAttribute("font-family","Cinzel, serif");
+      t.setAttribute("opacity","0.9");t.textContent=prob+"%";
+      svg.appendChild(t);
+    }
+  }
+
+  function makeNode(x,y,phi,label,year,scenIdx,isRoot=false){
+    const r=isRoot?22:18;
+    const col=phiColor(phi);
+    const active=(scenIdx===activeScen||isRoot);
+
+    // glow
+    const glow=document.createElementNS("http://www.w3.org/2000/svg","circle");
+    glow.setAttribute("cx",x);glow.setAttribute("cy",y);glow.setAttribute("r",r+8);
+    glow.setAttribute("fill",col);glow.setAttribute("opacity",active?0.12:0.04);
+    svg.appendChild(glow);
+
+    const circle=document.createElementNS("http://www.w3.org/2000/svg","circle");
+    circle.setAttribute("cx",x);circle.setAttribute("cy",y);circle.setAttribute("r",r);
+    circle.setAttribute("fill",active?"#04102A":"#020d1f");
+    circle.setAttribute("stroke",col);
+    circle.setAttribute("stroke-width",active?2.5:1);
+    circle.setAttribute("opacity",active?1:0.45);
+    circle.style.cursor="pointer";
+    circle.addEventListener("mouseenter",e=>showTooltip(e,x,y,phi,year,label,col));
+    circle.addEventListener("mouseleave",hideTooltip);
+    if(!isRoot)circle.addEventListener("click",()=>selectScen(scenIdx));
+    svg.appendChild(circle);
+
+    // phi text
+    const phiTxt=document.createElementNS("http://www.w3.org/2000/svg","text");
+    phiTxt.setAttribute("x",x);phiTxt.setAttribute("y",y+5);
+    phiTxt.setAttribute("text-anchor","middle");phiTxt.setAttribute("fill",col);
+    phiTxt.setAttribute("font-size",isRoot?14:12);phiTxt.setAttribute("font-family","Cinzel, serif");
+    phiTxt.setAttribute("font-weight","700");phiTxt.setAttribute("opacity",active?1:0.45);
+    phiTxt.textContent=phi.toFixed(2);
+    svg.appendChild(phiTxt);
+
+    // label
+    const lbl=document.createElementNS("http://www.w3.org/2000/svg","text");
+    lbl.setAttribute("x",x);lbl.setAttribute("y",y+r+14);
+    lbl.setAttribute("text-anchor","middle");lbl.setAttribute("fill","#8899bb");
+    lbl.setAttribute("font-size","10");lbl.setAttribute("font-family","EB Garamond, serif");
+    lbl.setAttribute("opacity",active?0.9:0.3);lbl.textContent=year;
+    svg.appendChild(lbl);
+  }
+
+  // Draw year headers
+  ["2026","2031","2038"].forEach((yr,i)=>{
+    const x=[rootX,col1X,col2X,col3X][i===0?0:i+1]||[rootX,col1X,col2X,col3X][i];
+    const xs=[rootX,col1X,col2X,col3X];
+    const xt=[rootX,col1X,col2X,col3X][i];
+    const hdr=document.createElementNS("http://www.w3.org/2000/svg","text");
+    hdr.setAttribute("x",xs[i===0?0:i]);hdr.setAttribute("y",20);
+    hdr.setAttribute("text-anchor","middle");hdr.setAttribute("fill","#C9A84C");
+    hdr.setAttribute("font-size","11");hdr.setAttribute("font-family","Cinzel, serif");
+    hdr.setAttribute("opacity","0.6");hdr.setAttribute("letter-spacing","2");
+    hdr.textContent=["2026","2031","2038"][i];
+    svg.appendChild(hdr);
+  });
+  // Fix positions for year labels
+  const xs=[rootX,col1X,col2X,col3X];
+  svg.querySelectorAll("text").forEach((t,i)=>{});
+
+  // Root node
+  makeNode(rootX,rootY,c.phi,c.n,"2026",-1,true);
+
+  // Country label above root
+  const cLbl=document.createElementNS("http://www.w3.org/2000/svg","text");
+  cLbl.setAttribute("x",rootX);cLbl.setAttribute("y",rootY-30);
+  cLbl.setAttribute("text-anchor","middle");cLbl.setAttribute("fill","#C9A84C");
+  cLbl.setAttribute("font-size","13");cLbl.setAttribute("font-family","Cinzel, serif");
+  cLbl.textContent=c.n;
+  svg.appendChild(cLbl);
+
+  // Year headers placed at top
+  const yHdrs=["2026","2031","2038"];
+  const yXs=[rootX,col1X,col2X];
+  // already appended above – skip duplicate
+
+  // 3 scenario branches at col1
+  scens.forEach((s,i)=>{
+    const y1=branchY[i];
+    const active=(i===activeScen);
+    makePath(rootX,rootY,col1X,y1,s.col,s.prob,active);
+    makeNode(col1X,y1,s.phi31,s.label,"2031",i,false);
+
+    // 3 sub-branches at col2 from each scenario
+    const subBranches=[
+      {dy:-spacing*0.4, pFactor:0.55, dPhi:+0.04},
+      {dy:0,           pFactor:0.35, dPhi: 0.00},
+      {dy:+spacing*0.4, pFactor:0.10, dPhi:-0.05},
+    ];
+    subBranches.forEach((sb,j)=>{
+      const y2=y1+sb.dy;
+      const phi2=Math.min(0.99,Math.max(0.01,+(s.phi31+sb.dPhi).toFixed(2)));
+      const subActive=(i===activeScen);
+      makePath(col1X,y1,col2X,y2,s.col,Math.round(s.prob*sb.pFactor),subActive&&j===1);
+      makeNode(col2X,y2,phi2,"","2038",i,false);
+    });
+    // 2038 final node
+    makeNode(col3X,y1,s.phi38,s.label,"",i,false);
+    makePath(col2X,y1,col3X,y1,s.col,s.prob,active);
+  });
+
+  // Variable bars at root
+  const vars=[{k:"I",v:c.I,label:"Institutional"},{k:"E",v:c.E,label:"Elite"},{k:"S",v:c.S,label:"Social"},{k:"R",v:c.R,label:"Resource"},{k:"K",v:c.K,label:"Knowledge"}];
+  const barX=rootX-60, barStartY=rootY+50, barH=10, barGap=18, barMaxW=120;
+  vars.forEach((vr,i)=>{
+    const y=barStartY+i*barGap;
+    // bg
+    const bg=document.createElementNS("http://www.w3.org/2000/svg","rect");
+    bg.setAttribute("x",barX);bg.setAttribute("y",y);
+    bg.setAttribute("width",barMaxW);bg.setAttribute("height",barH);
+    bg.setAttribute("fill","#071840");bg.setAttribute("rx","3");
+    svg.appendChild(bg);
+    // fill
+    const fill=document.createElementNS("http://www.w3.org/2000/svg","rect");
+    fill.setAttribute("x",barX);fill.setAttribute("y",y);
+    fill.setAttribute("width",vr.v*barMaxW);fill.setAttribute("height",barH);
+    fill.setAttribute("fill",phiColor(vr.v));fill.setAttribute("rx","3");fill.setAttribute("opacity","0.7");
+    svg.appendChild(fill);
+    // label
+    const lbl=document.createElementNS("http://www.w3.org/2000/svg","text");
+    lbl.setAttribute("x",barX-2);lbl.setAttribute("y",y+8);
+    lbl.setAttribute("text-anchor","end");lbl.setAttribute("fill","#8899bb");
+    lbl.setAttribute("font-size","9");lbl.setAttribute("font-family","Cinzel, serif");
+    lbl.textContent=vr.k;
+    svg.appendChild(lbl);
+  });
+
+  // Year line guides
+  [col1X,col2X,col3X].forEach(x=>{
+    const line=document.createElementNS("http://www.w3.org/2000/svg","line");
+    line.setAttribute("x1",x);line.setAttribute("y1",30);
+    line.setAttribute("x2",x);line.setAttribute("y2",H);
+    line.setAttribute("stroke","#C9A84C");line.setAttribute("stroke-opacity","0.06");
+    line.setAttribute("stroke-dasharray","4,6");
+    svg.insertBefore(line,svg.firstChild);
+    const t=document.createElementNS("http://www.w3.org/2000/svg","text");
+    t.setAttribute("x",x);t.setAttribute("y",18);
+    t.setAttribute("text-anchor","middle");t.setAttribute("fill","#C9A84C");
+    t.setAttribute("font-size","10");t.setAttribute("font-family","Cinzel, serif");
+    t.setAttribute("opacity","0.5");t.setAttribute("letter-spacing","2");
+    t.textContent=x===col1X?"2031":x===col2X?"2035":"2038";
+    svg.appendChild(t);
+  });
+  // 2026 label
+  const t0=document.createElementNS("http://www.w3.org/2000/svg","text");
+  t0.setAttribute("x",rootX);t0.setAttribute("y",18);
+  t0.setAttribute("text-anchor","middle");t0.setAttribute("fill","#C9A84C");
+  t0.setAttribute("font-size","10");t0.setAttribute("font-family","Cinzel, serif");
+  t0.setAttribute("opacity","0.5");t0.setAttribute("letter-spacing","2");
+  t0.textContent="2026";svg.appendChild(t0);
+}
+
+// ─── TOOLTIP ───────────────────────────────────────────────────────────────
+function showTooltip(e,nx,ny,phi,year,label,col){
+  const tt=document.getElementById("tooltip");
+  const area=document.getElementById("tree-area").getBoundingClientRect();
+  const x=e.clientX-area.left+16, y=e.clientY-area.top-60;
+  document.getElementById("tt-year").textContent=year||label;
+  document.getElementById("tt-phi").innerHTML=`Φ = <span style="color:${col}">${phi.toFixed(2)}</span>`;
+  document.getElementById("tt-desc").textContent=phiBand(phi)+" — "+getPhiReading(phi);
+  tt.style.left=Math.min(x,area.width-240)+"px";
+  tt.style.top=Math.max(10,y)+"px";
+  tt.style.opacity="1";
+}
+function hideTooltip(){document.getElementById("tooltip").style.opacity="0";}
+function getPhiReading(phi){
+  if(phi>=0.85)return"Approaching Seldon Manifold (Φ_crit=0.95)";
+  if(phi>=0.70)return"High resilience — institutions robust";
+  if(phi>=0.50)return"Moderate fragility — reform pathway open";
+  if(phi>=0.30)return"Structural fragility — crisis risk elevated";
+  if(phi>=0.15)return"Critical state — collapse risk present";
+  return"Below no-return threshold (Φ=0.25)";
+}
+
+// ─── INIT ──────────────────────────────────────────────────────────────────
+buildSidebar();
+window.addEventListener("resize",()=>{if(selected)drawTree();});
+</script>
+</body>
+</html>
