@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-29 06:30 SGT",
-  "cycle_id": "v3_cycle_20260729_063009",
-  "latest_cycle_id": "v3_cycle_20260729_063009",
+  "generated_at": "2026-07-29 07:45 SGT",
+  "cycle_id": "v3_cycle_20260729_074501",
+  "latest_cycle_id": "v3_cycle_20260729_074501",
   "fallback_from_cycle_id": "",
   "fallback_reason": "",
   "clerk_mode": "deterministic",
@@ -12,13 +12,15 @@
   "recommended_posture": "REVIEW",
   "agent_consensus": [],
   "disagreements": [],
-  "cio_attention_items": [],
+  "cio_attention_items": [
+    "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers."
+  ],
   "digest_layers": [
     {
       "layer_id": "cycle_identity",
       "layer": "package_cycle_identity",
       "status": "DATA_CONFIRMED",
-      "summary": "Cycle v3_cycle_20260729_063009 · deterministic clerk · Zone A authority"
+      "summary": "Cycle v3_cycle_20260729_074501 · deterministic clerk · Zone A authority"
     },
     {
       "layer_id": "source_hierarchy",
@@ -42,13 +44,13 @@
       "layer_id": "portfolio_execution",
       "layer": "broker_portfolio",
       "status": "PASS",
-      "summary": "Assets 53402.92 · cash 45254.32 (84.7%) · broker P/L authoritative (snapshot)"
+      "summary": "Assets 53097.56 · cash 45254.32 (85.2%) · broker P/L authoritative (snapshot)"
     },
     {
       "layer_id": "concentration_risk",
       "layer": "risk_metrics",
       "status": "DATA_CONFIRMED",
-      "summary": "status NORMAL · largest SKHY · wt 50.0% · HHI 0.3336"
+      "summary": "status NORMAL · largest SKHY · wt 47.6% · HHI 0.3186"
     },
     {
       "layer_id": "blind_spot_causal",
@@ -60,7 +62,7 @@
       "layer_id": "deterministic_operators",
       "layer": "operator_blocks",
       "status": "DATA_CONFIRMED",
-      "summary": "Blocked 4 · permitted HOLD, REVIEW, WAIT"
+      "summary": "Blocked 6 · permitted HOLD, REVIEW, WAIT"
     },
     {
       "layer_id": "forecast_brier",
@@ -76,31 +78,45 @@
     }
   ],
   "manual_execution_required": true,
-  "created_at_sgt": "2026-07-29T06:30:10+08:00",
+  "created_at_sgt": "2026-07-29T07:45:02+08:00",
   "contradiction_register": {
     "schema_version": "bluelotus_v3_contradiction_register_v1.0",
-    "cycle_id": "v3_cycle_20260729_063009",
-    "created_at_sgt": "2026-07-29T06:30:10+08:00",
-    "contradiction_count": 0,
-    "p1_count": 0,
+    "cycle_id": "v3_cycle_20260729_074501",
+    "created_at_sgt": "2026-07-29T07:45:02+08:00",
+    "contradiction_count": 1,
+    "p1_count": 1,
     "p2_count": 0,
     "p3_count": 0,
-    "contradictions": [],
+    "contradictions": [
+      {
+        "contradiction_id": "V3_CYCLE_20260729_074501_P1_THESIS_VS_ORDER_BOOK_GOLD_THESIS_OPERATOR_MOOMOO_READONLY_ORDERS_GOL",
+        "cycle_id": "v3_cycle_20260729_074501",
+        "severity": "P1",
+        "domain": "thesis_vs_order_book",
+        "source_a": "gold_thesis_operator",
+        "source_b": "moomoo_readonly_orders",
+        "conflict_statement": "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers.",
+        "cio_attention_required": true,
+        "recommended_resolution_path": "CIO must verify whether open orders are intentional support bids, stale orders, or should be cancelled."
+      }
+    ],
     "manual_execution_required": true,
     "llm_order_generation": false,
     "order_routing_enabled": false
   },
   "cio_decision_strip": {
     "schema_version": "bluelotus_v3_cio_decision_strip_v1.0",
-    "cycle_id": "v3_cycle_20260729_063009",
-    "created_at_sgt": "2026-07-29T06:30:10+08:00",
-    "posture": "REVIEW",
+    "cycle_id": "v3_cycle_20260729_074501",
+    "created_at_sgt": "2026-07-29T07:45:02+08:00",
+    "posture": "CIO_VERIFICATION_REQUIRED",
     "new_information": [
-      "Deterministic Chief Clerk mapped 10 Zone A layers. No LLM agent council. Report action field states: REVIEW. Contradictions: 0 (P1 0, P2 0).",
-      "No contradiction governance items detected."
+      "Deterministic Chief Clerk mapped 10 Zone A layers. No LLM agent council. Report action field states: REVIEW. Contradictions: 1 (P1 1, P2 0).",
+      "1 contradiction governance item(s) detected."
     ],
     "action_blocked": [
+      "ADD_HIGH_BETA_RISK",
       "ADD_RISK_WITHOUT_CATALYST_REVIEW",
+      "INCREASE_GOLD_THESIS_RISK",
       "SCALE_IN_ADD",
       "SECOND_TRANCHE_ADD",
       "USE_ARCHIVE_AS_LIVE_TRUTH"
@@ -111,7 +127,7 @@
       "WAIT"
     ],
     "cio_decision_required": [
-      "No contradiction-triggered CIO decision required."
+      "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers."
     ],
     "manual_execution_required": true,
     "llm_order_generation": false,
@@ -119,22 +135,22 @@
   },
   "nite_pei": {
     "schema_version": "bluelotus_v3_nite_pei_v1.0",
-    "generated_at_sgt": "2026-07-29T06:30:14+08:00",
+    "generated_at_sgt": "2026-07-29T07:45:06+08:00",
     "thesis_probability_snapshots": [
       {
         "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
         "thesis_type": "TRUMP_UNCERTAINTY_THESIS",
-        "P_prior": 0.912751,
-        "P_posterior": 0.902767,
-        "delta_p": -0.009984,
+        "P_prior": 0.902767,
+        "P_posterior": 0.891776,
+        "delta_p": -0.010991,
         "events_applied": [
           {
-            "event_id": "signal:1750362",
+            "event_id": "signal:1752349",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "raw_headline": "[SENTIMENT] BAC: BULLISH (+0.273) -- Citadel Securities’ Fed Rate Hike Call Adds to Market Angst",
             "source": "Ticker_Sentiment",
             "source_tier": 3,
-            "published_at": "2026-07-29T06:24:12",
+            "published_at": "2026-07-29T07:38:20",
             "source_url": "",
             "matched_keyword": "rate hike",
             "noise_discount_factor": 0.25,
@@ -143,25 +159,25 @@
             "lr_source": "CENTRAL_BANK_HAWKISH/TRUMP_UNCERTAINTY_THESIS",
             "confidence": "LOW",
             "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.9128 / 0.0872 = 10.4614",
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.9028 / 0.0972 = 9.2846",
               "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(0.8500) - 1) x (1 - noise_discount(0.25)) = 0.8875",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(10.4614) x LR_adjusted(0.8875) = 9.2845",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 9.2845 / 10.2845 = 0.9028",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.9028",
-              "delta_p": "-0.0100"
+              "step_3_posterior_odds": "posterior_odds = prior_odds(9.2846) x LR_adjusted(0.8875) = 8.2401",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 8.2401 / 9.2401 = 0.8918",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.8918",
+              "delta_p": "-0.0110"
             },
-            "p_prior_step": 0.912751,
-            "p_posterior_step": 0.902767,
-            "delta_p_step": -0.009984
+            "p_prior_step": 0.902767,
+            "p_posterior_step": 0.891776,
+            "delta_p_step": -0.010991
           }
         ],
         "event_ids": [
-          "signal:1750362"
+          "signal:1752349"
         ],
-        "brier_record_id": "NITE_BRIER_TRUMP_UNCERTAINTY_THESIS_F3BB352F",
+        "brier_record_id": "NITE_BRIER_TRUMP_UNCERTAINTY_THESIS_E0DE37FB",
         "lr_lookups": [
           {
-            "event_id": "signal:1750362",
+            "event_id": "signal:1752349",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "lr_adjusted": 0.8875,
             "lr_source": "CENTRAL_BANK_HAWKISH/TRUMP_UNCERTAINTY_THESIS",
@@ -180,7 +196,7 @@
         },
         "worst_kill_state": "CONFIRMED",
         "posture": "KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED",
-        "advisory_text": "[NITE-PEI] TRUMP_UNCERTAINTY_THESIS: CENTRAL_BANK_HAWKISH (LR 0.887 via CENTRAL_BANK_HAWKISH/TRUMP_UNCERTAINTY_THESIS, confidence: LOW). P: 0.913 → 0.903 (▼0.010). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] TRUMP_UNCERTAINTY_THESIS: CENTRAL_BANK_HAWKISH (LR 0.887 via CENTRAL_BANK_HAWKISH/TRUMP_UNCERTAINTY_THESIS, confidence: LOW). P: 0.903 → 0.892 (▼0.011). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
@@ -209,17 +225,17 @@
       {
         "thesis_id": "STICKY_INFLATION_THESIS",
         "thesis_type": "STICKY_INFLATION_THESIS",
-        "P_prior": 0.832359,
-        "P_posterior": 0.850966,
-        "delta_p": 0.018607,
+        "P_prior": 0.850966,
+        "P_posterior": 0.867836,
+        "delta_p": 0.01687,
         "events_applied": [
           {
-            "event_id": "signal:1750362",
+            "event_id": "signal:1752349",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "raw_headline": "[SENTIMENT] BAC: BULLISH (+0.273) -- Citadel Securities’ Fed Rate Hike Call Adds to Market Angst",
             "source": "Ticker_Sentiment",
             "source_tier": 3,
-            "published_at": "2026-07-29T06:24:12",
+            "published_at": "2026-07-29T07:38:20",
             "source_url": "",
             "matched_keyword": "rate hike",
             "noise_discount_factor": 0.25,
@@ -228,25 +244,25 @@
             "lr_source": "CENTRAL_BANK_HAWKISH/STICKY_INFLATION_THESIS",
             "confidence": "LOW",
             "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.8324 / 0.1676 = 4.9651",
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.8510 / 0.1490 = 5.7099",
               "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(4.9651) x LR_adjusted(1.1500) = 5.7099",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 5.7099 / 6.7099 = 0.8510",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.8510",
-              "delta_p": "+0.0186"
+              "step_3_posterior_odds": "posterior_odds = prior_odds(5.7099) x LR_adjusted(1.1500) = 6.5664",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 6.5664 / 7.5664 = 0.8678",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.8678",
+              "delta_p": "+0.0169"
             },
-            "p_prior_step": 0.832359,
-            "p_posterior_step": 0.850966,
-            "delta_p_step": 0.018607
+            "p_prior_step": 0.850966,
+            "p_posterior_step": 0.867836,
+            "delta_p_step": 0.01687
           }
         ],
         "event_ids": [
-          "signal:1750362"
+          "signal:1752349"
         ],
-        "brier_record_id": "NITE_BRIER_STICKY_INFLATION_THESIS_A77D2AE3",
+        "brier_record_id": "NITE_BRIER_STICKY_INFLATION_THESIS_AE8C9059",
         "lr_lookups": [
           {
-            "event_id": "signal:1750362",
+            "event_id": "signal:1752349",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "lr_adjusted": 1.15,
             "lr_source": "CENTRAL_BANK_HAWKISH/STICKY_INFLATION_THESIS",
@@ -265,7 +281,7 @@
         },
         "worst_kill_state": "CONFIRMED",
         "posture": "KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED",
-        "advisory_text": "[NITE-PEI] STICKY_INFLATION_THESIS: CENTRAL_BANK_HAWKISH (LR 1.150 via CENTRAL_BANK_HAWKISH/STICKY_INFLATION_THESIS, confidence: LOW). P: 0.832 → 0.851 (▲0.019). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] STICKY_INFLATION_THESIS: CENTRAL_BANK_HAWKISH (LR 1.150 via CENTRAL_BANK_HAWKISH/STICKY_INFLATION_THESIS, confidence: LOW). P: 0.851 → 0.868 (▲0.017). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "HAWKISH_WARSH_THESIS",
@@ -275,12 +291,12 @@
         "delta_p": 0.0,
         "events_applied": [
           {
-            "event_id": "signal:1750362",
+            "event_id": "signal:1752349",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "raw_headline": "[SENTIMENT] BAC: BULLISH (+0.273) -- Citadel Securities’ Fed Rate Hike Call Adds to Market Angst",
             "source": "Ticker_Sentiment",
             "source_tier": 3,
-            "published_at": "2026-07-29T06:24:12",
+            "published_at": "2026-07-29T07:38:20",
             "source_url": "",
             "matched_keyword": "rate hike",
             "noise_discount_factor": 0.25,
@@ -302,12 +318,12 @@
           }
         ],
         "event_ids": [
-          "signal:1750362"
+          "signal:1752349"
         ],
-        "brier_record_id": "NITE_BRIER_HAWKISH_WARSH_THESIS_87E34394",
+        "brier_record_id": "NITE_BRIER_HAWKISH_WARSH_THESIS_BAD9AE02",
         "lr_lookups": [
           {
-            "event_id": "signal:1750362",
+            "event_id": "signal:1752349",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "lr_adjusted": 1.2625,
             "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_WARSH_THESIS",
@@ -336,12 +352,12 @@
         "delta_p": 0.0,
         "events_applied": [
           {
-            "event_id": "signal:1750362",
+            "event_id": "signal:1752349",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "raw_headline": "[SENTIMENT] BAC: BULLISH (+0.273) -- Citadel Securities’ Fed Rate Hike Call Adds to Market Angst",
             "source": "Ticker_Sentiment",
             "source_tier": 3,
-            "published_at": "2026-07-29T06:24:12",
+            "published_at": "2026-07-29T07:38:20",
             "source_url": "",
             "matched_keyword": "rate hike",
             "noise_discount_factor": 0.25,
@@ -363,12 +379,12 @@
           }
         ],
         "event_ids": [
-          "signal:1750362"
+          "signal:1752349"
         ],
-        "brier_record_id": "NITE_BRIER_HAWKISH_BOJ_THESIS_FCD99280",
+        "brier_record_id": "NITE_BRIER_HAWKISH_BOJ_THESIS_963E8668",
         "lr_lookups": [
           {
-            "event_id": "signal:1750362",
+            "event_id": "signal:1752349",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "lr_adjusted": 1.225,
             "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_BOJ_THESIS",
@@ -483,21 +499,21 @@
       {
         "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
         "thesis_type": "TRUMP_UNCERTAINTY_THESIS",
-        "p_posterior_used": 0.902767,
+        "p_posterior_used": 0.891776,
         "analyst_upside_pct": 0.15,
-        "f_star_full": 0.254547,
+        "f_star_full": 0.170283,
         "fractional_multiplier": 0.275,
-        "f_star_kelly": 0.07,
+        "f_star_kelly": 0.046828,
         "coherence_score": 0.75,
         "h_norm_used": 0.0,
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 8148.6,
-        "target_usd_sleeve": 570.4,
+        "nav_total": 7843.24,
+        "target_usd_sleeve": 367.28,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 570.4,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $570"
+        "delta_usd": 367.28,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $367"
       },
       {
         "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
@@ -512,18 +528,18 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 8148.6,
-        "target_usd_sleeve": 1381.86,
+        "nav_total": 7843.24,
+        "target_usd_sleeve": 1330.08,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 1381.86,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $1,382"
+        "delta_usd": 1330.08,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $1,330"
       },
       {
         "thesis_id": "STICKY_INFLATION_THESIS",
         "thesis_type": "STICKY_INFLATION_THESIS",
-        "p_posterior_used": 0.850966,
+        "p_posterior_used": 0.867836,
         "analyst_upside_pct": 0.15,
-        "f_star_full": -0.142594,
+        "f_star_full": -0.013257,
         "fractional_multiplier": 0.275,
         "f_star_kelly": 0.0,
         "coherence_score": 0.75,
@@ -531,7 +547,7 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 8148.6,
+        "nav_total": 7843.24,
         "target_usd_sleeve": 0.0,
         "current_usd_sleeve": 0.0,
         "delta_usd": 0.0,
@@ -550,11 +566,11 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 8148.6,
-        "target_usd_sleeve": 1381.86,
+        "nav_total": 7843.24,
+        "target_usd_sleeve": 1330.08,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 1381.86,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $1,382"
+        "delta_usd": 1330.08,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $1,330"
       },
       {
         "thesis_id": "HAWKISH_BOJ_THESIS",
@@ -569,11 +585,11 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 8148.6,
-        "target_usd_sleeve": 1381.86,
+        "nav_total": 7843.24,
+        "target_usd_sleeve": 1330.08,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 1381.86,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $1,382"
+        "delta_usd": 1330.08,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $1,330"
       }
     ],
     "nite_pei_contradictions": [],
@@ -582,13 +598,13 @@
     "manual_execution_required": true,
     "llm_order_generation": false,
     "order_routing_enabled": false,
-    "source_cycle_id": "v3_cycle_20260729_063009",
-    "source_cycle_path": "C:\\bluelotus3\\data\\v3_cycles\\v3_cycle_20260729_063009",
-    "nite_pei_generated_at_sgt": "2026-07-29T06:30:14+08:00",
+    "source_cycle_id": "v3_cycle_20260729_074501",
+    "source_cycle_path": "C:\\bluelotus3\\data\\v3_cycles\\v3_cycle_20260729_074501",
+    "nite_pei_generated_at_sgt": "2026-07-29T07:45:06+08:00",
     "generation_mode": "live_cycle",
     "event_extraction": {
       "dataset_path": "C:\\bluelotus3\\data\\frontend\\dataset_raw.json",
-      "candidate_events": 193,
+      "candidate_events": 195,
       "classified_events": 1,
       "applied_events": 4
     }
