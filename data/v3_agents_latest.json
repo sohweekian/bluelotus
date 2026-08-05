@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-08-06 03:47 SGT",
-  "cycle_id": "v3_cycle_20260806_034708",
-  "latest_cycle_id": "v3_cycle_20260806_034708",
+  "generated_at": "2026-08-06 05:02 SGT",
+  "cycle_id": "v3_cycle_20260806_050150",
+  "latest_cycle_id": "v3_cycle_20260806_050150",
   "fallback_from_cycle_id": "",
   "fallback_reason": "",
   "clerk_mode": "deterministic",
@@ -12,13 +12,15 @@
   "recommended_posture": "REVIEW",
   "agent_consensus": [],
   "disagreements": [],
-  "cio_attention_items": [],
+  "cio_attention_items": [
+    "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers."
+  ],
   "digest_layers": [
     {
       "layer_id": "cycle_identity",
       "layer": "package_cycle_identity",
       "status": "DATA_CONFIRMED",
-      "summary": "Cycle v3_cycle_20260806_034708 · deterministic clerk · Zone A authority"
+      "summary": "Cycle v3_cycle_20260806_050150 · deterministic clerk · Zone A authority"
     },
     {
       "layer_id": "source_hierarchy",
@@ -30,7 +32,7 @@
       "layer_id": "regime_operating_truth",
       "layer": "operating_truth",
       "status": "DATA_CONFIRMED",
-      "summary": "Regime MILD RISK OFF · causal COMPLETE · CIO field WAIT / HOLD"
+      "summary": "Regime NEUTRAL · causal MOSTLY_COMPLETE_WITH_CRITICAL_GAP · CIO field WAIT / HOLD"
     },
     {
       "layer_id": "governance_readiness",
@@ -42,25 +44,25 @@
       "layer_id": "portfolio_execution",
       "layer": "broker_portfolio",
       "status": "PASS",
-      "summary": "Assets 52654.91 · cash 36081.46 (68.5%) · broker P/L authoritative (snapshot)"
+      "summary": "Assets 52849.0 · cash 36081.46 (68.3%) · broker P/L authoritative (snapshot)"
     },
     {
       "layer_id": "concentration_risk",
       "layer": "risk_metrics",
       "status": "DATA_CONFIRMED",
-      "summary": "status NORMAL · largest UVXY · wt 39.5% · HHI 0.3391"
+      "summary": "status NORMAL · largest UVXY · wt 39.6% · HHI 0.3394"
     },
     {
       "layer_id": "blind_spot_causal",
       "layer": "operating_truth",
       "status": "WARN",
-      "summary": "Causal COMPLETE · blind spot WARNING · failed: Portfolio Catalyst Calendar, Investor Days, Analyst Days, Named Historical Events"
+      "summary": "Causal MOSTLY_COMPLETE_WITH_CRITICAL_GAP · blind spot WARNING · failed: Portfolio Catalyst Calendar, Investor Days, Analyst Days, Named Historical Events"
     },
     {
       "layer_id": "deterministic_operators",
       "layer": "operator_blocks",
       "status": "DATA_CONFIRMED",
-      "summary": "Blocked 4 · permitted HOLD, REVIEW, WAIT"
+      "summary": "Blocked 5 · permitted HOLD, REVIEW, WAIT"
     },
     {
       "layer_id": "forecast_brier",
@@ -76,31 +78,44 @@
     }
   ],
   "manual_execution_required": true,
-  "created_at_sgt": "2026-08-06T03:47:09+08:00",
+  "created_at_sgt": "2026-08-06T05:01:51+08:00",
   "contradiction_register": {
     "schema_version": "bluelotus_v3_contradiction_register_v1.0",
-    "cycle_id": "v3_cycle_20260806_034708",
-    "created_at_sgt": "2026-08-06T03:47:09+08:00",
-    "contradiction_count": 0,
-    "p1_count": 0,
+    "cycle_id": "v3_cycle_20260806_050150",
+    "created_at_sgt": "2026-08-06T05:01:51+08:00",
+    "contradiction_count": 1,
+    "p1_count": 1,
     "p2_count": 0,
     "p3_count": 0,
-    "contradictions": [],
+    "contradictions": [
+      {
+        "contradiction_id": "V3_CYCLE_20260806_050150_P1_THESIS_VS_ORDER_BOOK_GOLD_THESIS_OPERATOR_MOOMOO_READONLY_ORDERS_GOL",
+        "cycle_id": "v3_cycle_20260806_050150",
+        "severity": "P1",
+        "domain": "thesis_vs_order_book",
+        "source_a": "gold_thesis_operator",
+        "source_b": "moomoo_readonly_orders",
+        "conflict_statement": "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers.",
+        "cio_attention_required": true,
+        "recommended_resolution_path": "CIO must verify whether open orders are intentional support bids, stale orders, or should be cancelled."
+      }
+    ],
     "manual_execution_required": true,
     "llm_order_generation": false,
     "order_routing_enabled": false
   },
   "cio_decision_strip": {
     "schema_version": "bluelotus_v3_cio_decision_strip_v1.0",
-    "cycle_id": "v3_cycle_20260806_034708",
-    "created_at_sgt": "2026-08-06T03:47:09+08:00",
-    "posture": "REVIEW",
+    "cycle_id": "v3_cycle_20260806_050150",
+    "created_at_sgt": "2026-08-06T05:01:51+08:00",
+    "posture": "CIO_VERIFICATION_REQUIRED",
     "new_information": [
-      "Deterministic Chief Clerk mapped 10 Zone A layers. No LLM agent council. Report action field states: REVIEW. Contradictions: 0 (P1 0, P2 0).",
-      "No contradiction governance items detected."
+      "Deterministic Chief Clerk mapped 10 Zone A layers. No LLM agent council. Report action field states: REVIEW. Contradictions: 1 (P1 1, P2 0).",
+      "1 contradiction governance item(s) detected."
     ],
     "action_blocked": [
       "ADD_RISK_WITHOUT_CATALYST_REVIEW",
+      "INCREASE_GOLD_THESIS_RISK",
       "SCALE_IN_ADD",
       "SECOND_TRANCHE_ADD",
       "USE_ARCHIVE_AS_LIVE_TRUTH"
@@ -111,7 +126,7 @@
       "WAIT"
     ],
     "cio_decision_required": [
-      "No contradiction-triggered CIO decision required."
+      "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers."
     ],
     "manual_execution_required": true,
     "llm_order_generation": false,
@@ -119,74 +134,22 @@
   },
   "nite_pei": {
     "schema_version": "bluelotus_v3_nite_pei_v1.0",
-    "generated_at_sgt": "2026-08-06T03:47:13+08:00",
+    "generated_at_sgt": "2026-08-06T05:01:55+08:00",
     "thesis_probability_snapshots": [
       {
         "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
         "thesis_type": "TRUMP_UNCERTAINTY_THESIS",
-        "P_prior": 0.787108,
-        "P_posterior": 0.820429,
-        "delta_p": 0.033321,
+        "P_prior": 0.820429,
+        "P_posterior": 0.84283,
+        "delta_p": 0.022401,
         "events_applied": [
           {
-            "event_id": "signal:1995698",
-            "event_class": "GEOPOLITICAL_ESCALATION",
-            "raw_headline": "Why did a Chinese bomber carry a nuclear-capable missile in an anti-ship exercise?",
-            "source": "SCMP",
-            "source_tier": 2,
-            "published_at": "2026-08-06T03:39:33",
-            "source_url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxOb0tVaURUSVNHYXFVNlF5X0lwSWFIcE8zei02QWlPTVk2a0thdmlVU2JSdkZXcnlEN2Q2N09wSm5QeXRKMDVzWFp4OVNKSlJpNTR0Y1FQWkU0UG90V0tXTzFKUVlhak54Z01sZEt0QWxhdVBOUGR1X2txaDhoTlB4OS1GTFVhczdOVGdxYmFtSGRRdTVsaUdrQnZaNTczNjBXR3RtaVFnU2hLaFV6ZVpyNWM5UC1waHNsaHNMU1dQdk9feVVfTEJJ0gHHAUFVX3lxTFBSX283X0RDT2lkTk9TdmZWblpKd3FPeDNuaFNqVjJiWWFONFFBNzJkT0JiSWhVVTE4WFduWmF6VTNpQVFCbUdrbEYwWTJfMzlnd3RIYldJNmloMVdOdHdDeUZMdlNETWZrV3EzUHhHSVhieWlPXy1XU2NhZXd2QjF3ZjJqa3FDVE03dVU5NF8waHJQZkRNOFA2YzgyRXpMN21UMER1UHdyU1hkcFljQ0U4TlF4ejh4SzBIYmVRWjFLZUZIV1JzeGs?oc=5",
-            "matched_keyword": "missile",
-            "noise_discount_factor": 0.1,
-            "lr_raw": 1.2,
-            "lr_adjusted": 1.18,
-            "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
-            "confidence": "LOW",
-            "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.7871 / 0.2129 = 3.6972",
-              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.10)) = 1.1800",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(3.6972) x LR_adjusted(1.1800) = 4.3627",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 4.3627 / 5.3627 = 0.8135",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.8135",
-              "delta_p": "+0.0264"
-            },
-            "p_prior_step": 0.787108,
-            "p_posterior_step": 0.813527,
-            "delta_p_step": 0.026419
-          },
-          {
-            "event_id": "signal:1995697",
-            "event_class": "GEOPOLITICAL_ESCALATION",
-            "raw_headline": "Japan tests long-range missile as counterstrike capability against China grows",
-            "source": "SCMP",
-            "source_tier": 2,
-            "published_at": "2026-08-06T03:39:33",
-            "source_url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxPVGhoRnBUcy1Ibnh6M05nYWVzWl9mSEhmR2V4ZmJSeGdSWXRZd0FuUlpBWUdUUnkzWDhxZTRUaDNRWjh6eGxhSFJnNndsVjNseWpJeWJtSkY2cjc5TW9ZN0ZuNFhuTklrWXdlN0VzRkJEWFVEWTVHRzVUa0prbWJmQkc5ZEYzNDRiYW1mUlh2TTBILU5ZRENnblNPUTJsUktEUm9PTUQ5YUJEb01RclA2aGFlV0JhUUxQZ0RmTjhneDRKSUZOZ2IzRHE4Zkd3TG9RMFlDeGVmZ9IB1wFBVV95cUxNeTF0VE5BdUVUZG1ESF9WWk5TU2dyX2NJazlEblhvR0x6OFFLa2tqTk9OeDFfVzgxQ3ZKcHpWcVN5RXNxZXhMd2RmWmtMMXlIX3haZ0k2aXQ4SnkxYU9UeTJsNV84TXRrMVFES2xGdE5kcUdTZDh0TGpBazNENy1oUUZsNmFkNVNUa2Vnb2tqcVVnV2VLQW5tNkkzdXZ5NUFlZHJ5Y2lPUVBLaUwtLTZvMHdNSkstdnJkQ1RPR0p2VGM0SVV1WndtT0g0aUtTdXFVR2s0Uzd4TQ?oc=5",
-            "matched_keyword": "missile",
-            "noise_discount_factor": 0.1,
-            "lr_raw": 1.2,
-            "lr_adjusted": 1.18,
-            "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
-            "confidence": "LOW",
-            "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.8135 / 0.1865 = 4.3627",
-              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.10)) = 1.1800",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(4.3627) x LR_adjusted(1.1800) = 5.1480",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 5.1480 / 6.1480 = 0.8373",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.8373",
-              "delta_p": "+0.0238"
-            },
-            "p_prior_step": 0.813527,
-            "p_posterior_step": 0.837345,
-            "delta_p_step": 0.023818
-          },
-          {
-            "event_id": "signal:1995680",
+            "event_id": "signal:1997816",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "raw_headline": "[SENTIMENT] ARM: NEUTRAL (+0.119) -- US Stock Market Today: S&P 500 Futures Edge Higher As Rate Hike Risks Linger",
             "source": "Ticker_Sentiment",
             "source_tier": 3,
-            "published_at": "2026-08-06T03:39:25",
+            "published_at": "2026-08-06T04:54:22",
             "source_url": "",
             "matched_keyword": "rate hike",
             "noise_discount_factor": 0.25,
@@ -195,44 +158,96 @@
             "lr_source": "CENTRAL_BANK_HAWKISH/TRUMP_UNCERTAINTY_THESIS",
             "confidence": "LOW",
             "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.8373 / 0.1627 = 5.1480",
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.8204 / 0.1796 = 4.5688",
               "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(0.8500) - 1) x (1 - noise_discount(0.25)) = 0.8875",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(5.1480) x LR_adjusted(0.8875) = 4.5688",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 4.5688 / 5.5688 = 0.8204",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.8204",
-              "delta_p": "-0.0169"
+              "step_3_posterior_odds": "posterior_odds = prior_odds(4.5688) x LR_adjusted(0.8875) = 4.0548",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 4.0548 / 5.0548 = 0.8022",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.8022",
+              "delta_p": "-0.0183"
             },
-            "p_prior_step": 0.837345,
-            "p_posterior_step": 0.820429,
-            "delta_p_step": -0.016916
+            "p_prior_step": 0.820429,
+            "p_posterior_step": 0.80217,
+            "delta_p_step": -0.018259
+          },
+          {
+            "event_id": "signal:1997810",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "raw_headline": "[SENTIMENT] AMD: NEUTRAL (+0.103) -- Update: Dow Hits New High, S&P 500 Retreats as Traders Await Hormuz Deal",
+            "source": "Ticker_Sentiment",
+            "source_tier": 3,
+            "published_at": "2026-08-06T04:54:20",
+            "source_url": "",
+            "matched_keyword": "hormuz",
+            "noise_discount_factor": 0.25,
+            "lr_raw": 1.2,
+            "lr_adjusted": 1.15,
+            "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.8022 / 0.1978 = 4.0548",
+              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(4.0548) x LR_adjusted(1.1500) = 4.6631",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 4.6631 / 5.6631 = 0.8234",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.8234",
+              "delta_p": "+0.0212"
+            },
+            "p_prior_step": 0.80217,
+            "p_posterior_step": 0.823417,
+            "delta_p_step": 0.021247
+          },
+          {
+            "event_id": "ticker_sentiment:2c94404904add270",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "raw_headline": "US Equity Markets Mixed as SpaceX, AMD Shares Drop; Iran Announces Hormuz Plan",
+            "source": "ticker_sentiment:AMD",
+            "source_tier": 3,
+            "published_at": "2026-08-06 04:54:20",
+            "source_url": "",
+            "matched_keyword": "hormuz",
+            "noise_discount_factor": 0.25,
+            "lr_raw": 1.2,
+            "lr_adjusted": 1.15,
+            "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW",
+            "bayesian_equation": {
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.8234 / 0.1766 = 4.6631",
+              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(4.6631) x LR_adjusted(1.1500) = 5.3625",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 5.3625 / 6.3625 = 0.8428",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.8428",
+              "delta_p": "+0.0194"
+            },
+            "p_prior_step": 0.823417,
+            "p_posterior_step": 0.84283,
+            "delta_p_step": 0.019413
           }
         ],
         "event_ids": [
-          "signal:1995698",
-          "signal:1995697",
-          "signal:1995680"
+          "signal:1997816",
+          "signal:1997810",
+          "ticker_sentiment:2c94404904add270"
         ],
-        "brier_record_id": "NITE_BRIER_TRUMP_UNCERTAINTY_THESIS_FC9487C1",
+        "brier_record_id": "NITE_BRIER_TRUMP_UNCERTAINTY_THESIS_3842B13D",
         "lr_lookups": [
           {
-            "event_id": "signal:1995698",
-            "event_class": "GEOPOLITICAL_ESCALATION",
-            "lr_adjusted": 1.18,
-            "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
-            "confidence": "LOW"
-          },
-          {
-            "event_id": "signal:1995697",
-            "event_class": "GEOPOLITICAL_ESCALATION",
-            "lr_adjusted": 1.18,
-            "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
-            "confidence": "LOW"
-          },
-          {
-            "event_id": "signal:1995680",
+            "event_id": "signal:1997816",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "lr_adjusted": 0.8875,
             "lr_source": "CENTRAL_BANK_HAWKISH/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW"
+          },
+          {
+            "event_id": "signal:1997810",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "lr_adjusted": 1.15,
+            "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
+            "confidence": "LOW"
+          },
+          {
+            "event_id": "ticker_sentiment:2c94404904add270",
+            "event_class": "GEOPOLITICAL_ESCALATION",
+            "lr_adjusted": 1.15,
+            "lr_source": "GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS",
             "confidence": "LOW"
           }
         ],
@@ -248,7 +263,7 @@
         },
         "worst_kill_state": "CONFIRMED",
         "posture": "KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED",
-        "advisory_text": "[NITE-PEI] TRUMP_UNCERTAINTY_THESIS: GEOPOLITICAL_ESCALATION, GEOPOLITICAL_ESCALATION, CENTRAL_BANK_HAWKISH (LR 1.180 via GEOPOLITICAL_ESCALATION/TRUMP_UNCERTAINTY_THESIS, confidence: LOW). P: 0.787 → 0.820 (▲0.033). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] TRUMP_UNCERTAINTY_THESIS: CENTRAL_BANK_HAWKISH, GEOPOLITICAL_ESCALATION, GEOPOLITICAL_ESCALATION (LR 0.887 via CENTRAL_BANK_HAWKISH/TRUMP_UNCERTAINTY_THESIS, confidence: LOW). P: 0.820 → 0.843 (▲0.022). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "PETRO_RECYCLED_DOLLAR_THESIS",
@@ -258,24 +273,24 @@
         "delta_p": 0.0,
         "events_applied": [
           {
-            "event_id": "signal:1995698",
+            "event_id": "signal:1997810",
             "event_class": "GEOPOLITICAL_ESCALATION",
-            "raw_headline": "Why did a Chinese bomber carry a nuclear-capable missile in an anti-ship exercise?",
-            "source": "SCMP",
-            "source_tier": 2,
-            "published_at": "2026-08-06T03:39:33",
-            "source_url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxOb0tVaURUSVNHYXFVNlF5X0lwSWFIcE8zei02QWlPTVk2a0thdmlVU2JSdkZXcnlEN2Q2N09wSm5QeXRKMDVzWFp4OVNKSlJpNTR0Y1FQWkU0UG90V0tXTzFKUVlhak54Z01sZEt0QWxhdVBOUGR1X2txaDhoTlB4OS1GTFVhczdOVGdxYmFtSGRRdTVsaUdrQnZaNTczNjBXR3RtaVFnU2hLaFV6ZVpyNWM5UC1waHNsaHNMU1dQdk9feVVfTEJJ0gHHAUFVX3lxTFBSX283X0RDT2lkTk9TdmZWblpKd3FPeDNuaFNqVjJiWWFONFFBNzJkT0JiSWhVVTE4WFduWmF6VTNpQVFCbUdrbEYwWTJfMzlnd3RIYldJNmloMVdOdHdDeUZMdlNETWZrV3EzUHhHSVhieWlPXy1XU2NhZXd2QjF3ZjJqa3FDVE03dVU5NF8waHJQZkRNOFA2YzgyRXpMN21UMER1UHdyU1hkcFljQ0U4TlF4ejh4SzBIYmVRWjFLZUZIV1JzeGs?oc=5",
-            "matched_keyword": "missile",
-            "noise_discount_factor": 0.1,
+            "raw_headline": "[SENTIMENT] AMD: NEUTRAL (+0.103) -- Update: Dow Hits New High, S&P 500 Retreats as Traders Await Hormuz Deal",
+            "source": "Ticker_Sentiment",
+            "source_tier": 3,
+            "published_at": "2026-08-06T04:54:20",
+            "source_url": "",
+            "matched_keyword": "hormuz",
+            "noise_discount_factor": 0.25,
             "lr_raw": 1.2,
-            "lr_adjusted": 1.18,
+            "lr_adjusted": 1.15,
             "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
             "confidence": "LOW",
             "bayesian_equation": {
               "step_1_prior_odds": "prior_odds = P/(1-P) = 0.9500 / 0.0500 = 19.0000",
-              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.10)) = 1.1800",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(19.0000) x LR_adjusted(1.1800) = 22.4200",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 22.4200 / 23.4200 = 0.9500",
+              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(19.0000) x LR_adjusted(1.1500) = 21.8500",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 21.8500 / 22.8500 = 0.9500",
               "step_5_clamp": "clamp([0.05, 0.95]) => 0.9500",
               "delta_p": "+0.0000"
             },
@@ -284,24 +299,24 @@
             "delta_p_step": 0.0
           },
           {
-            "event_id": "signal:1995697",
+            "event_id": "ticker_sentiment:2c94404904add270",
             "event_class": "GEOPOLITICAL_ESCALATION",
-            "raw_headline": "Japan tests long-range missile as counterstrike capability against China grows",
-            "source": "SCMP",
-            "source_tier": 2,
-            "published_at": "2026-08-06T03:39:33",
-            "source_url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxPVGhoRnBUcy1Ibnh6M05nYWVzWl9mSEhmR2V4ZmJSeGdSWXRZd0FuUlpBWUdUUnkzWDhxZTRUaDNRWjh6eGxhSFJnNndsVjNseWpJeWJtSkY2cjc5TW9ZN0ZuNFhuTklrWXdlN0VzRkJEWFVEWTVHRzVUa0prbWJmQkc5ZEYzNDRiYW1mUlh2TTBILU5ZRENnblNPUTJsUktEUm9PTUQ5YUJEb01RclA2aGFlV0JhUUxQZ0RmTjhneDRKSUZOZ2IzRHE4Zkd3TG9RMFlDeGVmZ9IB1wFBVV95cUxNeTF0VE5BdUVUZG1ESF9WWk5TU2dyX2NJazlEblhvR0x6OFFLa2tqTk9OeDFfVzgxQ3ZKcHpWcVN5RXNxZXhMd2RmWmtMMXlIX3haZ0k2aXQ4SnkxYU9UeTJsNV84TXRrMVFES2xGdE5kcUdTZDh0TGpBazNENy1oUUZsNmFkNVNUa2Vnb2tqcVVnV2VLQW5tNkkzdXZ5NUFlZHJ5Y2lPUVBLaUwtLTZvMHdNSkstdnJkQ1RPR0p2VGM0SVV1WndtT0g0aUtTdXFVR2s0Uzd4TQ?oc=5",
-            "matched_keyword": "missile",
-            "noise_discount_factor": 0.1,
+            "raw_headline": "US Equity Markets Mixed as SpaceX, AMD Shares Drop; Iran Announces Hormuz Plan",
+            "source": "ticker_sentiment:AMD",
+            "source_tier": 3,
+            "published_at": "2026-08-06 04:54:20",
+            "source_url": "",
+            "matched_keyword": "hormuz",
+            "noise_discount_factor": 0.25,
             "lr_raw": 1.2,
-            "lr_adjusted": 1.18,
+            "lr_adjusted": 1.15,
             "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
             "confidence": "LOW",
             "bayesian_equation": {
               "step_1_prior_odds": "prior_odds = P/(1-P) = 0.9500 / 0.0500 = 19.0000",
-              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.10)) = 1.1800",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(19.0000) x LR_adjusted(1.1800) = 22.4200",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 22.4200 / 23.4200 = 0.9500",
+              "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(1.2000) - 1) x (1 - noise_discount(0.25)) = 1.1500",
+              "step_3_posterior_odds": "posterior_odds = prior_odds(19.0000) x LR_adjusted(1.1500) = 21.8500",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 21.8500 / 22.8500 = 0.9500",
               "step_5_clamp": "clamp([0.05, 0.95]) => 0.9500",
               "delta_p": "+0.0000"
             },
@@ -311,22 +326,22 @@
           }
         ],
         "event_ids": [
-          "signal:1995698",
-          "signal:1995697"
+          "signal:1997810",
+          "ticker_sentiment:2c94404904add270"
         ],
-        "brier_record_id": "NITE_BRIER_PETRO_RECYCLED_DOLLAR_THESIS_5C86776B",
+        "brier_record_id": "NITE_BRIER_PETRO_RECYCLED_DOLLAR_THESIS_F84FB47F",
         "lr_lookups": [
           {
-            "event_id": "signal:1995698",
+            "event_id": "signal:1997810",
             "event_class": "GEOPOLITICAL_ESCALATION",
-            "lr_adjusted": 1.18,
+            "lr_adjusted": 1.15,
             "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
             "confidence": "LOW"
           },
           {
-            "event_id": "signal:1995697",
+            "event_id": "ticker_sentiment:2c94404904add270",
             "event_class": "GEOPOLITICAL_ESCALATION",
-            "lr_adjusted": 1.18,
+            "lr_adjusted": 1.15,
             "lr_source": "GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS",
             "confidence": "LOW"
           }
@@ -343,7 +358,7 @@
         },
         "worst_kill_state": "CONFIRMED",
         "posture": "KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED",
-        "advisory_text": "[NITE-PEI] PETRO_RECYCLED_DOLLAR_THESIS: GEOPOLITICAL_ESCALATION, GEOPOLITICAL_ESCALATION (LR 1.180 via GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS, confidence: LOW). P: 0.950 → 0.950 (▲0.000). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] PETRO_RECYCLED_DOLLAR_THESIS: GEOPOLITICAL_ESCALATION, GEOPOLITICAL_ESCALATION (LR 1.150 via GEOPOLITICAL_ESCALATION/PETRO_RECYCLED_DOLLAR_THESIS, confidence: LOW). P: 0.950 → 0.950 (▲0.000). Posture: KILL_CONDITION_CONFIRMED — CIO_DECISION_REQUIRED. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "STICKY_INFLATION_THESIS",
@@ -353,12 +368,12 @@
         "delta_p": 0.0,
         "events_applied": [
           {
-            "event_id": "signal:1995680",
+            "event_id": "signal:1997816",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "raw_headline": "[SENTIMENT] ARM: NEUTRAL (+0.119) -- US Stock Market Today: S&P 500 Futures Edge Higher As Rate Hike Risks Linger",
             "source": "Ticker_Sentiment",
             "source_tier": 3,
-            "published_at": "2026-08-06T03:39:25",
+            "published_at": "2026-08-06T04:54:22",
             "source_url": "",
             "matched_keyword": "rate hike",
             "noise_discount_factor": 0.25,
@@ -380,12 +395,12 @@
           }
         ],
         "event_ids": [
-          "signal:1995680"
+          "signal:1997816"
         ],
-        "brier_record_id": "NITE_BRIER_STICKY_INFLATION_THESIS_7D016775",
+        "brier_record_id": "NITE_BRIER_STICKY_INFLATION_THESIS_B81BED55",
         "lr_lookups": [
           {
-            "event_id": "signal:1995680",
+            "event_id": "signal:1997816",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "lr_adjusted": 1.15,
             "lr_source": "CENTRAL_BANK_HAWKISH/STICKY_INFLATION_THESIS",
@@ -414,12 +429,12 @@
         "delta_p": 0.0,
         "events_applied": [
           {
-            "event_id": "signal:1995680",
+            "event_id": "signal:1997816",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "raw_headline": "[SENTIMENT] ARM: NEUTRAL (+0.119) -- US Stock Market Today: S&P 500 Futures Edge Higher As Rate Hike Risks Linger",
             "source": "Ticker_Sentiment",
             "source_tier": 3,
-            "published_at": "2026-08-06T03:39:25",
+            "published_at": "2026-08-06T04:54:22",
             "source_url": "",
             "matched_keyword": "rate hike",
             "noise_discount_factor": 0.25,
@@ -441,12 +456,12 @@
           }
         ],
         "event_ids": [
-          "signal:1995680"
+          "signal:1997816"
         ],
-        "brier_record_id": "NITE_BRIER_HAWKISH_WARSH_THESIS_DC8C9D11",
+        "brier_record_id": "NITE_BRIER_HAWKISH_WARSH_THESIS_A756C40F",
         "lr_lookups": [
           {
-            "event_id": "signal:1995680",
+            "event_id": "signal:1997816",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "lr_adjusted": 1.2625,
             "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_WARSH_THESIS",
@@ -475,12 +490,12 @@
         "delta_p": 0.0,
         "events_applied": [
           {
-            "event_id": "signal:1995680",
+            "event_id": "signal:1997816",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "raw_headline": "[SENTIMENT] ARM: NEUTRAL (+0.119) -- US Stock Market Today: S&P 500 Futures Edge Higher As Rate Hike Risks Linger",
             "source": "Ticker_Sentiment",
             "source_tier": 3,
-            "published_at": "2026-08-06T03:39:25",
+            "published_at": "2026-08-06T04:54:22",
             "source_url": "",
             "matched_keyword": "rate hike",
             "noise_discount_factor": 0.25,
@@ -502,12 +517,12 @@
           }
         ],
         "event_ids": [
-          "signal:1995680"
+          "signal:1997816"
         ],
-        "brier_record_id": "NITE_BRIER_HAWKISH_BOJ_THESIS_AE824480",
+        "brier_record_id": "NITE_BRIER_HAWKISH_BOJ_THESIS_5699C594",
         "lr_lookups": [
           {
-            "event_id": "signal:1995680",
+            "event_id": "signal:1997816",
             "event_class": "CENTRAL_BANK_HAWKISH",
             "lr_adjusted": 1.225,
             "lr_source": "CENTRAL_BANK_HAWKISH/HAWKISH_BOJ_THESIS",
@@ -622,9 +637,9 @@
       {
         "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
         "thesis_type": "TRUMP_UNCERTAINTY_THESIS",
-        "p_posterior_used": 0.820429,
+        "p_posterior_used": 0.84283,
         "analyst_upside_pct": 0.15,
-        "f_star_full": -0.376711,
+        "f_star_full": -0.20497,
         "fractional_multiplier": 0.275,
         "f_star_kelly": 0.0,
         "coherence_score": 0.75,
@@ -632,7 +647,7 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 16573.45,
+        "nav_total": 16767.54,
         "target_usd_sleeve": 0.0,
         "current_usd_sleeve": 0.0,
         "delta_usd": 0.0,
@@ -651,11 +666,11 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 16573.45,
-        "target_usd_sleeve": 2810.58,
+        "nav_total": 16767.54,
+        "target_usd_sleeve": 2843.49,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 2810.58,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $2,811"
+        "delta_usd": 2843.49,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $2,843"
       },
       {
         "thesis_id": "STICKY_INFLATION_THESIS",
@@ -670,11 +685,11 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 16573.45,
-        "target_usd_sleeve": 2810.58,
+        "nav_total": 16767.54,
+        "target_usd_sleeve": 2843.49,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 2810.58,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $2,811"
+        "delta_usd": 2843.49,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $2,843"
       },
       {
         "thesis_id": "HAWKISH_WARSH_THESIS",
@@ -689,11 +704,11 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 16573.45,
-        "target_usd_sleeve": 2810.58,
+        "nav_total": 16767.54,
+        "target_usd_sleeve": 2843.49,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 2810.58,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $2,811"
+        "delta_usd": 2843.49,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $2,843"
       },
       {
         "thesis_id": "HAWKISH_BOJ_THESIS",
@@ -708,11 +723,11 @@
         "dispersion_used": 0.5,
         "manual_execution_required": true,
         "llm_order_generation": false,
-        "nav_total": 16573.45,
-        "target_usd_sleeve": 2810.58,
+        "nav_total": 16767.54,
+        "target_usd_sleeve": 2843.49,
         "current_usd_sleeve": 0.0,
-        "delta_usd": 2810.58,
-        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $2,811"
+        "delta_usd": 2843.49,
+        "advisory_text": "THESIS STRENGTHENED — CONSIDER ADD of $2,843"
       }
     ],
     "nite_pei_contradictions": [],
@@ -721,14 +736,14 @@
     "manual_execution_required": true,
     "llm_order_generation": false,
     "order_routing_enabled": false,
-    "source_cycle_id": "v3_cycle_20260806_034708",
-    "source_cycle_path": "C:\\bluelotus3\\data\\v3_cycles\\v3_cycle_20260806_034708",
-    "nite_pei_generated_at_sgt": "2026-08-06T03:47:13+08:00",
+    "source_cycle_id": "v3_cycle_20260806_050150",
+    "source_cycle_path": "C:\\bluelotus3\\data\\v3_cycles\\v3_cycle_20260806_050150",
+    "nite_pei_generated_at_sgt": "2026-08-06T05:01:55+08:00",
     "generation_mode": "live_cycle",
     "event_extraction": {
       "dataset_path": "C:\\bluelotus3\\data\\frontend\\dataset_raw.json",
-      "candidate_events": 196,
-      "classified_events": 5,
+      "candidate_events": 202,
+      "classified_events": 4,
       "applied_events": 8
     }
   },
