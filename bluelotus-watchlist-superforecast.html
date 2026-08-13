@@ -1845,6 +1845,7 @@ thead tr {
 </div>
 </div>
 <!-- BLUELOTUS_BRIER_AUDIT_START -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
 <section id="bluelotus-forecast-audit" style="margin:28px auto;max-width:1320px;padding:24px;border:1px solid rgba(192,132,252,.22);border-radius:18px;background:linear-gradient(135deg,rgba(13,17,26,.97),rgba(9,13,20,.97));color:#e6edf3;font-family:Outfit,Arial,sans-serif;">
   <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#c084fc;margin-bottom:8px;">BlueLotus Forecast Audit / CRC Layer</div>
   <h2 style="font-family:'Cormorant Garamond',serif;font-size:34px;margin:0 0 8px;color:#fff;">90-Day BL Forecast Accuracy Tracker</h2>
@@ -1856,6 +1857,179 @@ thead tr {
     <div style="padding:14px;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(255,255,255,.03);"><div style="font-size:10px;color:#7d8590;letter-spacing:.12em;text-transform:uppercase;">Interim Hit Rate</div><b style="font-size:24px;color:#4ade80;">16.7%</b></div>
     <div style="padding:14px;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(255,255,255,.03);"><div style="font-size:10px;color:#7d8590;letter-spacing:.12em;text-transform:uppercase;">Interim Brier (hits)</div><b style="font-size:24px;color:#a3e635;">0.1869</b></div>
   </div>
+
+  <!-- BRIER BY DAY CHART -->
+  <div style="margin-bottom:24px;padding:20px;border:1px solid rgba(255,255,255,.07);border-radius:14px;background:rgba(255,255,255,.02);">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#c084fc;margin-bottom:4px;">Brier Score Evolution</div>
+    <div style="font-size:12px;color:#7d8590;margin-bottom:16px;">Snapshot at D5 / D10 / D20 / D30 / D60 / D80 &nbsp;&middot;&nbsp; Baseline 2026-05-26 &nbsp;&middot;&nbsp; Random baseline = 0.25 &nbsp;&middot;&nbsp; Elite tier &lt; 0.15</div>
+    <div style="position:relative;height:260px;">
+      <canvas id="brierByDayChart"></canvas>
+    </div>
+    <div style="display:flex;gap:20px;margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:10px;flex-wrap:wrap;color:#aeb8c5;">
+      <span style="display:flex;align-items:center;gap:6px;"><span style="width:22px;height:3px;background:#a3e635;display:inline-block;border-radius:2px;"></span>Brier (hits only)</span>
+      <span style="display:flex;align-items:center;gap:6px;"><span style="width:22px;height:2px;background:#fbbf24;display:inline-block;border-top:2px dashed #fbbf24;"></span>Brier (full / pessimistic)</span>
+      <span style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;background:rgba(74,222,128,0.4);border:1px solid rgba(74,222,128,0.6);border-radius:2px;display:inline-block;"></span>Hits (right axis)</span>
+      <span style="display:flex;align-items:center;gap:6px;"><span style="width:22px;height:1px;border-top:1px dashed rgba(251,191,36,0.5);display:inline-block;"></span>Random baseline 0.25</span>
+      <span style="display:flex;align-items:center;gap:6px;"><span style="width:22px;height:1px;border-top:1px dashed rgba(163,230,53,0.5);display:inline-block;"></span>Elite tier 0.15</span>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var ctx = document.getElementById('brierByDayChart');
+    if (!ctx) return;
+    var labels = ['D5  Jun 01','D10  Jun 05','D20  Jun 15','D30  Jun 25','D60  Jul 25','D80  Aug 13'];
+    var brierHits = [0.1237, 0.2686, 0.2041, 0.2442, 0.2720, 0.2528];
+    var brierFull = [0.2470, 0.2624, 0.2509, 0.2509, 0.2611, 0.2509];
+    var hitCounts = [4, 7, 8, 22, 26, 17];
+    var gridClr = 'rgba(255,255,255,0.055)';
+    var tickClr = '#7d8590';
+
+    new Chart(ctx, {
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            type: 'bar',
+            label: 'Hits',
+            data: hitCounts,
+            yAxisID: 'y2',
+            backgroundColor: 'rgba(74,222,128,0.13)',
+            borderColor: 'rgba(74,222,128,0.35)',
+            borderWidth: 1,
+            borderRadius: 4,
+            order: 3
+          },
+          {
+            type: 'line',
+            label: 'Brier (hits only)',
+            data: brierHits,
+            yAxisID: 'y',
+            borderColor: '#a3e635',
+            backgroundColor: 'rgba(163,230,53,0.07)',
+            borderWidth: 2.5,
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            pointBackgroundColor: '#a3e635',
+            pointBorderColor: '#090d14',
+            pointBorderWidth: 2,
+            tension: 0.32,
+            fill: false,
+            order: 1,
+            z: 10
+          },
+          {
+            type: 'line',
+            label: 'Brier (full / pessimistic)',
+            data: brierFull,
+            yAxisID: 'y',
+            borderColor: '#fbbf24',
+            backgroundColor: 'transparent',
+            borderWidth: 1.5,
+            borderDash: [5, 4],
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            pointBackgroundColor: '#fbbf24',
+            pointBorderColor: '#090d14',
+            pointBorderWidth: 2,
+            tension: 0.32,
+            fill: false,
+            order: 2,
+            z: 9
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: 'rgba(9,13,20,0.97)',
+            borderColor: 'rgba(192,132,252,0.28)',
+            borderWidth: 1,
+            titleColor: '#c084fc',
+            bodyColor: '#e6edf3',
+            titleFont: { family: "'JetBrains Mono',monospace", size: 11 },
+            bodyFont:  { family: "'JetBrains Mono',monospace", size: 11 },
+            padding: 12,
+            callbacks: {
+              label: function(ctx) {
+                if (ctx.dataset.label === 'Hits') return '  Hits: ' + ctx.parsed.y;
+                return '  ' + ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(4);
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            ticks: { color: tickClr, font: { family: "'JetBrains Mono',monospace", size: 10 } },
+            grid:  { color: gridClr }
+          },
+          y: {
+            position: 'left',
+            min: 0,
+            max: 0.34,
+            title: {
+              display: true,
+              text: 'Brier Score',
+              color: tickClr,
+              font: { family: "'JetBrains Mono',monospace", size: 10 }
+            },
+            ticks: {
+              color: tickClr,
+              font: { family: "'JetBrains Mono',monospace", size: 10 },
+              callback: function(v) { return v.toFixed(2); }
+            },
+            grid: { color: gridClr },
+            afterDraw: function(axis) {
+              var chart = axis.chart;
+              var c = chart.ctx;
+              var ys = chart.scales.y;
+              var xs = chart.scales.x;
+              c.save();
+              // Random baseline 0.25
+              var y25 = ys.getPixelForValue(0.25);
+              c.setLineDash([5, 5]);
+              c.strokeStyle = 'rgba(251,191,36,0.45)';
+              c.lineWidth = 1;
+              c.beginPath(); c.moveTo(xs.left, y25); c.lineTo(xs.right, y25); c.stroke();
+              c.fillStyle = 'rgba(251,191,36,0.55)';
+              c.font = "9px 'JetBrains Mono',monospace";
+              c.fillText('Random 0.25', xs.left + 4, y25 - 4);
+              // Elite tier 0.15
+              var y15 = ys.getPixelForValue(0.15);
+              c.setLineDash([3, 6]);
+              c.strokeStyle = 'rgba(163,230,53,0.45)';
+              c.beginPath(); c.moveTo(xs.left, y15); c.lineTo(xs.right, y15); c.stroke();
+              c.fillStyle = 'rgba(163,230,53,0.55)';
+              c.fillText('Elite ≤ 0.15', xs.left + 4, y15 - 4);
+              c.restore();
+            }
+          },
+          y2: {
+            position: 'right',
+            min: 0,
+            max: 38,
+            title: {
+              display: true,
+              text: 'Hits',
+              color: '#4ade80',
+              font: { family: "'JetBrains Mono',monospace", size: 10 }
+            },
+            ticks: {
+              color: '#4ade80',
+              font: { family: "'JetBrains Mono',monospace", size: 10 },
+              stepSize: 5
+            },
+            grid: { display: false }
+          }
+        }
+      }
+    });
+  })();
+  </script>
+
   <div style="margin-bottom:8px;font-size:11px;color:#7d8590;">
     &#9679; <span style="color:#4ade80">HIT</span> = BL target reached &nbsp;&#9679; <span style="color:#fb923c">NEAR</span> = within 5% &nbsp;&#9679; <span style="color:#fbbf24">PENDING</span> = unresolved &nbsp;| Resolution date: 2026-08-24
   </div>
