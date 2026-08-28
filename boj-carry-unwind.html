@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"/>
+<title>BOJ Carry Unwind — Japan's $4 Trillion Liquidity Bomb — BlueLotus Intelligence</title>
+<meta name="description" content="The Bank of Japan is about to detonate the world's largest carry trade. P=70-75% September hike. $4 trillion in leveraged yen positions. BlueLotus Intelligence Article 11, August 2026.">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Cormorant+Garamond:wght@500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  --bg:#080c14;--bg2:#0d1421;--card:#0f1a2e;
+  --text:#e8f4fd;--text2:#aad4f5;--muted:#6a9fc0;
+  --border:#1a3a5c;--border2:#1e4976;
+  --mono:'JetBrains Mono','Courier New',monospace;
+  --body:'Inter','Segoe UI',system-ui,sans-serif;
+  --serif:'Cormorant Garamond',Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:15px;line-height:1.75;}
+.content{max-width:900px;margin:0 auto;padding:52px 24px 88px;}
+.content h1{font-size:1.85rem;margin:2.6rem 0 1rem;padding-bottom:.4rem;font-family:var(--serif);}
+.content h2{font-size:1.35rem;color:#e6f4ff;margin:2rem 0 .7rem;}
+.content h3{font-size:1.1rem;color:#cfe8f7;margin:1.5rem 0 .5rem;}
+.content p{line-height:1.85;margin:0 0 1.1rem;color:#c7d3e0;}
+.content ul,.content ol{margin:0 0 1.2rem 1.6rem;line-height:1.75;color:#c7d3e0;}
+.content li{margin:.4rem 0;}
+.content blockquote{margin:1.4rem 0;padding:.7rem 1.4rem;color:#9fb3c8;
+border-radius:0 6px 6px 0;font-family:var(--serif);font-size:16px;}
+.content strong{color:var(--text);}
+.content em{font-style:italic;}
+.content hr{border:none;border-top:1px solid rgba(255,255,255,.08);margin:3rem 0;}
+.table-wrapper{overflow-x:auto;margin:24px 0 28px;border-radius:8px;border:1px solid var(--border);}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+thead tr{background:rgba(79,195,247,0.07);}
+th{text-align:left;padding:11px 16px;font-family:var(--mono);font-size:10px;
+letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid var(--border2);}
+td{padding:10px 16px;border-bottom:1px solid rgba(26,58,92,.4);color:var(--text2);vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:24px 0 32px;}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:20px;}
+.stat-label{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.stat-value{font-size:28px;font-weight:700;line-height:1;margin-bottom:4px;}
+.stat-sub{font-size:12px;color:var(--muted);}
+.alert{border-left:4px solid;border-radius:0 8px 8px 0;padding:20px 24px;margin:32px 0;}
+.alert-title{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;}
+.alert p{font-size:14px;margin:0;}
+.kw-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:40px;}
+.kw-tag{border-radius:12px;padding:4px 12px;font-size:11px;font-family:var(--mono);}
+.cite{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.05em;margin-top:4px;}
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:36px;
+text-align:center;font-size:11px;color:var(--muted);font-family:var(--mono);}
+footer a{text-decoration:none;}
+footer .disc{font-size:10px;max-width:700px;margin:12px auto 0;line-height:1.6;
+color:rgba(106,159,192,.55);}
+@media(max-width:600px){.content{padding:32px 16px 64px;}}
+:root{--accent:#ffd54f;}
+.hero{background:linear-gradient(135deg,#080c14 0%,#1a1500 40%,#1f1a00 100%);border-bottom:1px solid rgba(255,255,255,.08);
+  padding:72px 32px 56px;text-align:center;position:relative;overflow:hidden;}
+.hero h1{font-size:clamp(24px,4.2vw,42px);font-weight:700;color:var(--text);
+  line-height:1.2;max-width:820px;margin:0 auto 16px;font-family:var(--serif);}
+.hero h1 .hl{color:var(--accent);}
+.hero .tagline{font-size:clamp(13px,2vw,16px);color:var(--text2);max-width:660px;
+  margin:0 auto 32px;line-height:1.6;}
+.hero .meta{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;
+  font-size:11px;color:var(--muted);font-family:var(--mono);}
+.series-pill{display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);
+  border-radius:20px;padding:6px 18px;font-family:var(--mono);font-size:11px;
+  color:var(--accent);margin-bottom:28px;letter-spacing:.1em;text-transform:uppercase;}
+.content h1{color:var(--accent);border-bottom:1px solid rgba(255,255,255,.12);}
+.stat-card{border-top:2px solid var(--accent);}
+.stat-value{color:var(--accent);}
+.alert{background:rgba(255,255,255,.03);border-color:var(--accent);}
+.alert-title{color:var(--accent);}
+.alert p{color:var(--text2);}
+.kw-tag{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);color:var(--accent);}
+th{color:var(--accent);}
+footer a{color:var(--accent);}
+.content blockquote{border-left:3px solid var(--accent);
+  background:rgba(255,255,255,.03);}
+</style>
+</head>
+<body>
+<style id="bl-nav-css">
+.bl-nav{position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(8,8,14,0.97);
+border-bottom:1px solid rgba(192,132,252,0.18);backdrop-filter:blur(16px);
+font-family:'JetBrains Mono','Courier New',monospace;}
+.bl-nav-inner{max-width:1500px;margin:0 auto;padding:0 28px;display:flex;align-items:center;
+justify-content:space-between;height:52px;}
+.bl-nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.bl-nav-petal{width:18px;height:18px;background:linear-gradient(135deg,#c084fc,#a855f7);
+border-radius:50% 50% 50% 0;transform:rotate(-45deg);}
+.bl-nav-brand{font-size:10px;font-weight:500;letter-spacing:0.22em;color:#c084fc;text-transform:uppercase;}
+.bl-nav-links{display:flex;align-items:center;gap:0;list-style:none;margin:0;padding:0;}
+.bl-nav-links>li>a{display:block;font-size:9px;letter-spacing:0.13em;color:rgba(221,216,240,0.4);
+text-decoration:none;text-transform:uppercase;padding:6px 11px;border-radius:3px;
+transition:color 0.18s,background 0.18s;white-space:nowrap;}
+.bl-nav-links>li>a:hover{color:#c084fc;background:rgba(192,132,252,0.07);}
+.bl-nav-links .sep{width:1px;height:14px;background:rgba(255,255,255,0.07);margin:0 1px;}
+body{padding-top:52px;}
+</style>
+<nav class="bl-nav">
+<div class="bl-nav-inner">
+<a class="bl-nav-logo" href="https://sohweekian.github.io/bluelotus/">
+<div class="bl-nav-petal"></div>
+<span class="bl-nav-brand">BlueLotus&nbsp;Intelligence</span></a>
+<ul class="bl-nav-links">
+<li><a href="https://sohweekian.github.io/bluelotus/">Dashboard</a></li>
+<li class="sep"></li>
+<li><a href="https://sohweekian.github.io/bluelotus/grand-summary-q3-2026.html">Grand Oracle</a></li>
+<li class="sep"></li>
+<li><a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist-superforecast.html">Superforecast</a></li>
+</ul></div></nav>
+<div class="hero">
+<div class="series-pill">&#9670; Article 11 &nbsp;&middot;&nbsp; August 2026 &nbsp;&middot;&nbsp; Macro Intelligence</div>
+<h1>BOJ Carry Unwind — <span class="hl">Japan's $4 Trillion Liquidity Bomb</span></h1>
+<p class="tagline">The Bank of Japan's September hike probability is 70–75%. USD/JPY at 159. The Liberation Day carry unwind was the preview. The September detonation will be the main event — and the vol sleeve is loaded to capture it.</p>
+<div class="meta">
+<span>&#9670; CivilisationOS | Macro Intelligence</span>
+<span>&#9670; 28 August 2026</span>
+<span>&#9670; Sources: BOJ policy data &middot; BL3 MySQL historical_prices &middot; Seldon L=0.56, xi=0.72</span>
+</div></div>
+<div class="content">
+<div class="kw-row">
+<span class="kw-tag">Bank of Japan</span><span class="kw-tag">Yen Carry Trade</span>
+<span class="kw-tag">USD/JPY</span><span class="kw-tag">September Hike</span>
+<span class="kw-tag">Japan PPI</span><span class="kw-tag">Vol Sleeve</span>
+<span class="kw-tag">Phase 1 HARVEST</span><span class="kw-tag">SVXY Phase 1B</span>
+</div>
+<div class="alert">
+<div class="alert-title">&#11044; Macro Assessment — August 28, 2026 | BOJ SEPTEMBER HIKE IMMINENT</div>
+<p>BOJ September rate decision probability: <strong>P=70–75% hike, P=44% active carry unwind cascade.</strong> Japan PPI running at 7.2% YoY — highest since April 2023. USD/JPY: 159.2 (yen still suppressed; coiling for second carry unwind). The Liberation Day carry unwind (August 5, 2025) was a -15% to -32% compression in VIX products within 14 days. September is the same setup with higher stakes: the world's largest carry trade ($4 trillion notional) unwinding into an AI bubble scare.</p>
+</div>
+
+<h1>Key Findings</h1>
+<div class="stat-grid">
+<div class="stat-card"><div class="stat-label">BOJ Sep Hike Probability</div><div class="stat-value">72%</div><div class="stat-sub">Consensus range: 70–75%. Takaichi cabinet approving.</div></div>
+<div class="stat-card"><div class="stat-label">Japan PPI (July 2026)</div><div class="stat-value">7.2%</div><div class="stat-sub">YoY — highest since April 2023. Domestic price pressure confirmed.</div></div>
+<div class="stat-card"><div class="stat-label">USD/JPY Rate</div><div class="stat-value">159.2</div><div class="stat-sub">Yen at suppressed level — maximally coiled for unwind</div></div>
+<div class="stat-card"><div class="stat-label">Carry Trade Notional Est.</div><div class="stat-value">$4T</div><div class="stat-sub">Leveraged yen borrowing globally (BIS estimates)</div></div>
+</div>
+
+<h1>Part I — The Carry Trade Anatomy</h1>
+<p>The yen carry trade is the world's largest leveraged macro position. The mechanics: borrow yen at near-zero Japanese rates, convert to USD (or other high-yield currencies), invest in US Treasuries, equities, or credit. Profit = yield differential minus FX hedging cost. At USD/JPY 159, the yen is historically weak; the carry has been extremely profitable.</p>
+<p>The risk: when the BOJ raises rates, two things happen simultaneously. Japanese government bond yields rise (making domestic investment attractive relative to offshore carry). USD/JPY reverses as yen shorts cover. The unwind is self-reinforcing: yen short covering → USD/JPY falls → more yen shorts must cover → accelerating reversal.</p>
+<blockquote>
+"Nomura flagged coordinated FX intervention (協調為替介入) signalling in August 2026. The Takaichi administration is approving the September hike trajectory. USD/JPY 159.2 — the yen is maximally coiled. The second carry unwind is priced to fire in September."
+<br><span class="cite">— CivilisationOS Dashboard Read, BOJ Watcher S5, August 2026</span>
+</blockquote>
+
+<h1>Part II — The Liberation Day Preview (August 5, 2025)</h1>
+<p>August 5, 2025 was the first BOJ carry unwind of this cycle. The BOJ raised rates unexpectedly; USD/JPY dropped 4% in a single session; Nikkei fell 12% (worst single-day drop since 1987). VIX spiked to 65. UVXY peaked at $61.65. The compression from that peak was documented via BL3 MySQL historical_prices:</p>
+<div class="table-wrapper"><table>
+<thead><tr><th>Day</th><th>UVXY Price</th><th>UVXY vs Peak</th><th>VIXY vs Peak</th><th>Phase</th></tr></thead>
+<tbody>
+<tr><td>Peak (Day 0)</td><td>$61.65</td><td>0%</td><td>0%</td><td>—</td></tr>
+<tr><td>+4 cal days</td><td>$52.30</td><td>-15.2%</td><td>-10.1%</td><td>Phase A begins</td></tr>
+<tr><td>+14 cal days</td><td>$41.92</td><td>-32.0%</td><td>-22.2%</td><td>CIO thesis: within 2 weeks ✅</td></tr>
+<tr><td>+60 cal days</td><td>$31.41</td><td>-49.1%</td><td>-35.5%</td><td>Phase B (SVXY entry)</td></tr>
+<tr><td>+139 cal days</td><td>$20.52</td><td>-66.7%</td><td>-50.7%</td><td>Fully compressed</td></tr>
+</tbody></table></div>
+<p class="cite">Source: BL3 MySQL historical_prices — UVXY/VIXY Liberation Day sequence verified. All figures from database, not training data.</p>
+
+<h1>Part III — September 2026: The Main Event</h1>
+<p>The September setup is structurally more dangerous than August 5, 2025 for three reasons. First, the yen carry trade has re-accumulated: USD/JPY 159 is nearly as weak as pre-Liberation Day levels. Second, the Warsh hawkish Fed repricing (P=25%) means US yields may not fall as aggressively post-BOJ hike, reducing the cushion. Third, the AI bubble scare (AVGO Sep 2 earnings binary) creates a compound risk event window where BOJ hike + AI crack signal could fire simultaneously.</p>
+<p>The vol sleeve (UVXY 500sh + VXX 400sh + VIXY 400sh, as of August 19 pre-harvest) is positioned for exactly this scenario. The SVXY canary ($62.95 as of Aug 28) shows no distress — vol is not yet spiking. This is the pre-event window, not the event itself. Patience.</p>
+
+<h1>Part IV — Capital Cycle Playbook</h1>
+<div class="table-wrapper"><table>
+<thead><tr><th>Trigger</th><th>Vol Response</th><th>Harvest Action</th><th>Phase 1B Entry</th></tr></thead>
+<tbody>
+<tr><td>BOJ hike announcement (Sep)</td><td>VIX 35–55 expected</td><td>Harvest 50% VXX + 50% VIXY residual</td><td>Wait for VIX compression to 20–25</td></tr>
+<tr><td>AVGO Sep 2 bear case (P=25%)</td><td>VIX spike 25–40</td><td>Harvest Tranche 1 UVXY 75%</td><td>Phase 1B partial — size carefully</td></tr>
+<tr><td>Combined BOJ + AVGO + Warsh</td><td>VIX 55–80</td><td>Full harvest — maximum dry powder</td><td>Phase 1B SVXY full load post-compression</td></tr>
+<tr><td>BOJ hold (P=25–30%)</td><td>VIX 13–18 (suppressed)</td><td>No harvest — hold for Oct FOMC</td><td>Extended Phase 0; SVXY canary monitors</td></tr>
+</tbody></table></div>
+<p>The SVXY Phase 1B compression trade (buying SVXY after harvest) captures the VIX mean reversion from spike highs. Liberation Day validated: -32% Phase A in 14 days, -49% Phase B by day 60. SVXY captures the compression in real time. Phase 2 RELOAD proceeds fund the AI/Space/Quantum/Nuclear secular positions.</p>
+
+<hr>
+<p class="cite" style="font-size:11px;line-height:1.7;">INTELLIGENCE BRIEF — NOT FINANCIAL ADVICE. BOJ probability figures from CivilisationOS S5 BOJ Watcher (15/15 ACTIVE as of August 2026). USD/JPY and UVXY/VIXY prices from BL3 MySQL. No training data. CivilisationOS × Blue Lotus Intelligence.</p>
+</div><footer>
+<div>Blue Lotus Intelligence &nbsp;·&nbsp; CivilisationOS &nbsp;·&nbsp; Article 11 &nbsp;·&nbsp; August 2026</div>
+<div><a href="https://sohweekian.github.io/bluelotus/">blueLotus.fund</a> &nbsp;·&nbsp;
+<a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist-superforecast.html">Superforecast</a></div>
+<div class="disc">INTELLIGENCE BRIEF — NOT FINANCIAL ADVICE. All data from Blue Lotus MySQL (historical_prices) and CivilisationOS RAG corpus. No Claude training data used for any market figure. CivilisationOS × Blue Lotus Intelligence.</div>
+</footer>
+</body></html>
