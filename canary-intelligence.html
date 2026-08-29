@@ -4,7 +4,42 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Canary Intelligence Portal — CivilisationOS</title>
-
+<style id="bl-nav-css">
+.bl-nav{position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(8,8,14,0.97);border-bottom:1px solid rgba(192,132,252,0.18);backdrop-filter:blur(16px);font-family:'JetBrains Mono','Courier New',monospace;overflow:visible;}
+.bl-nav-inner{max-width:1500px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:52px;gap:12px;min-width:0;overflow:visible;}
+.bl-nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;}
+.bl-nav-petal{width:18px;height:18px;background:linear-gradient(135deg,#c084fc,#a855f7);border-radius:50% 50% 50% 0;transform:rotate(-45deg);flex-shrink:0;}
+.bl-nav-brand{font-size:10px;font-weight:500;letter-spacing:0.22em;color:#c084fc;text-transform:uppercase;}
+.bl-nav-links{display:flex;align-items:center;gap:0;list-style:none;margin:0;padding:0;flex:1 1 auto;min-width:0;overflow:visible;}
+.bl-nav-links > li{position:relative;}
+.bl-nav-links > li > a{display:block;font-size:9px;letter-spacing:0.13em;color:rgba(221,216,240,0.4);text-decoration:none;text-transform:uppercase;padding:6px 11px;border-radius:3px;transition:color 0.18s,background 0.18s;white-space:nowrap;}
+.bl-nav-links > li > a:hover,.bl-nav-links > li > a.active{color:#c084fc;background:rgba(192,132,252,0.07);}
+.bl-nav-links .sep{width:1px;height:14px;background:rgba(255,255,255,0.07);margin:0 1px;flex-shrink:0;}
+.bl-dropdown{position:relative;}
+.bl-dropdown:hover,.bl-dropdown.open{z-index:10050;}
+.bl-dropdown::after{content:'';position:absolute;left:0;right:0;top:100%;height:12px;}
+.bl-dropdown-btn{display:flex;align-items:center;gap:4px;font-size:9px;letter-spacing:0.13em;color:rgba(221,216,240,0.4);text-decoration:none;text-transform:uppercase;padding:6px 11px;border-radius:3px;cursor:pointer;transition:color 0.18s,background 0.18s;white-space:nowrap;background:none;border:none;font-family:inherit;}
+.bl-dropdown-btn:hover,.bl-dropdown:hover .bl-dropdown-btn,.bl-dropdown.open .bl-dropdown-btn{color:#c084fc;background:rgba(192,132,252,0.07);}
+.bl-dropdown-arrow{font-size:7px;opacity:0.5;transition:transform 0.2s;}
+.bl-dropdown:hover .bl-dropdown-arrow,.bl-dropdown.open .bl-dropdown-arrow{transform:rotate(180deg);}
+.bl-dropdown-menu{display:none;position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:2px;background:rgba(10,10,20,0.98);border:1px solid rgba(192,132,252,0.2);border-radius:6px;padding:6px;min-width:190px;backdrop-filter:blur(20px);box-shadow:0 16px 40px rgba(0,0,0,0.6);z-index:10051;}
+.bl-dropdown:hover .bl-dropdown-menu,.bl-dropdown.open .bl-dropdown-menu{display:block;}
+.bl-dropdown-menu a{display:flex;align-items:center;gap:10px;padding:8px 12px;font-size:9px;letter-spacing:0.12em;color:rgba(221,216,240,0.5);text-decoration:none;text-transform:uppercase;border-radius:4px;transition:all 0.15s;white-space:nowrap;}
+.bl-dropdown-menu a:hover{color:#c084fc;background:rgba(192,132,252,0.08);}
+.bl-dropdown-menu .tribute-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.bl-dropdown-divider{height:1px;background:rgba(255,255,255,0.06);margin:4px 0;}
+.bl-nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.bl-nav-live{font-size:9px;letter-spacing:0.12em;color:#4ade80;text-transform:uppercase;display:flex;align-items:center;gap:5px;}
+.bl-nav-dot{width:5px;height:5px;background:#4ade80;border-radius:50%;animation:blPulse 1.8s ease infinite;}
+@keyframes blPulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.bl-dropdown-menu.wide{min-width:260px;text-align:left;}
+.bl-dropdown-menu .subline{display:block;font-size:7px;letter-spacing:.06em;color:rgba(221,216,240,.28);text-transform:none;margin-top:2px;line-height:1.25;}
+.bl-nav-action{border:1px solid rgba(192,132,252,.22)!important;background:rgba(192,132,252,.06)!important;color:rgba(232,222,255,.72)!important;}
+.bl-nav-action:hover,.bl-dropdown.open .bl-nav-action{background:rgba(192,132,252,.12)!important;color:#fff!important;}
+body{padding-top:52px !important;}
+@media(max-width:1100px){.bl-nav-links > li > a,.bl-dropdown-btn{font-size:8px;padding:5px 8px;}.bl-nav-brand{display:none;}}
+@media(max-width:720px){.bl-nav-links .sep{display:none;}.bl-nav-links > li > a,.bl-dropdown-btn{padding:5px 6px;letter-spacing:0.07em;}}
+</style>
 <style>
 :root{
   --bg:#08080e;--surface:#0f0f1a;--surface2:#13131f;
@@ -67,42 +102,6 @@ a{text-decoration:none;color:inherit;}
 </style>
 </head>
 <body>
-<style id="bl-nav-css">
-.bl-nav{position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(8,8,14,0.97);border-bottom:1px solid rgba(192,132,252,0.18);backdrop-filter:blur(16px);font-family:'JetBrains Mono','Courier New',monospace;overflow:visible;}
-.bl-nav-inner{max-width:1500px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:52px;gap:12px;min-width:0;overflow:visible;}
-.bl-nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;}
-.bl-nav-petal{width:18px;height:18px;background:linear-gradient(135deg,#c084fc,#a855f7);border-radius:50% 50% 50% 0;transform:rotate(-45deg);flex-shrink:0;}
-.bl-nav-brand{font-size:10px;font-weight:500;letter-spacing:0.22em;color:#c084fc;text-transform:uppercase;}
-.bl-nav-links{display:flex;align-items:center;gap:0;list-style:none;margin:0;padding:0;flex:1 1 auto;min-width:0;overflow:visible;}
-.bl-nav-links > li{position:relative;}
-.bl-nav-links > li > a{display:block;font-size:9px;letter-spacing:0.13em;color:rgba(221,216,240,0.4);text-decoration:none;text-transform:uppercase;padding:6px 11px;border-radius:3px;transition:color 0.18s,background 0.18s;white-space:nowrap;}
-.bl-nav-links > li > a:hover,.bl-nav-links > li > a.active{color:#c084fc;background:rgba(192,132,252,0.07);}
-.bl-nav-links .sep{width:1px;height:14px;background:rgba(255,255,255,0.07);margin:0 1px;flex-shrink:0;}
-.bl-dropdown{position:relative;}
-.bl-dropdown:hover,.bl-dropdown.open{z-index:10050;}
-.bl-dropdown::after{content:'';position:absolute;left:0;right:0;top:100%;height:12px;}
-.bl-dropdown-btn{display:flex;align-items:center;gap:4px;font-size:9px;letter-spacing:0.13em;color:rgba(221,216,240,0.4);text-decoration:none;text-transform:uppercase;padding:6px 11px;border-radius:3px;cursor:pointer;transition:color 0.18s,background 0.18s;white-space:nowrap;background:none;border:none;font-family:inherit;}
-.bl-dropdown-btn:hover,.bl-dropdown:hover .bl-dropdown-btn,.bl-dropdown.open .bl-dropdown-btn{color:#c084fc;background:rgba(192,132,252,0.07);}
-.bl-dropdown-arrow{font-size:7px;opacity:0.5;transition:transform 0.2s;}
-.bl-dropdown:hover .bl-dropdown-arrow,.bl-dropdown.open .bl-dropdown-arrow{transform:rotate(180deg);}
-.bl-dropdown-menu{display:none;position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:2px;background:rgba(10,10,20,0.98);border:1px solid rgba(192,132,252,0.2);border-radius:6px;padding:6px;min-width:190px;backdrop-filter:blur(20px);box-shadow:0 16px 40px rgba(0,0,0,0.6);z-index:10051;}
-.bl-dropdown:hover .bl-dropdown-menu,.bl-dropdown.open .bl-dropdown-menu{display:block;}
-.bl-dropdown-menu a{display:flex;align-items:center;gap:10px;padding:8px 12px;font-size:9px;letter-spacing:0.12em;color:rgba(221,216,240,0.5);text-decoration:none;text-transform:uppercase;border-radius:4px;transition:all 0.15s;white-space:nowrap;}
-.bl-dropdown-menu a:hover{color:#c084fc;background:rgba(192,132,252,0.08);}
-.bl-dropdown-menu .tribute-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.bl-dropdown-divider{height:1px;background:rgba(255,255,255,0.06);margin:4px 0;}
-.bl-nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
-.bl-nav-live{font-size:9px;letter-spacing:0.12em;color:#4ade80;text-transform:uppercase;display:flex;align-items:center;gap:5px;}
-.bl-nav-dot{width:5px;height:5px;background:#4ade80;border-radius:50%;animation:blPulse 1.8s ease infinite;}
-@keyframes blPulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
-.bl-dropdown-menu.wide{min-width:250px;text-align:left;}
-.bl-dropdown-menu .subline{display:block;font-size:7px;letter-spacing:.06em;color:rgba(221,216,240,.28);text-transform:none;margin-top:2px;line-height:1.25;}
-.bl-nav-action{border:1px solid rgba(192,132,252,.22)!important;background:rgba(192,132,252,.06)!important;color:rgba(232,222,255,.72)!important;}
-.bl-nav-action:hover,.bl-dropdown.open .bl-nav-action{background:rgba(192,132,252,.12)!important;color:#fff!important;}
-body{padding-top:52px !important;}
-@media(max-width:1100px){.bl-nav-links > li > a,.bl-dropdown-btn{font-size:8px;padding:5px 8px;}.bl-nav-brand{display:none;}}
-@media(max-width:720px){.bl-nav-links .sep{display:none;}.bl-nav-links > li > a,.bl-dropdown-btn{padding:5px 6px;letter-spacing:0.07em;}}
-</style>
 <nav class="bl-nav" role="navigation" aria-label="BlueLotus Navigation">
   <div class="bl-nav-inner">
     <a class="bl-nav-logo" href="https://sohweekian.github.io/bluelotus/">
@@ -115,21 +114,55 @@ body{padding-top:52px !important;}
       <li><a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist.html">Portfolio</a></li>
       <li class="sep"></li>
       <li class="bl-dropdown">
+        <button class="bl-dropdown-btn bl-nav-action active">Canary Intel <span class="bl-dropdown-arrow">&#9660;</span></button>
+        <div class="bl-dropdown-menu wide">
+          <a href="https://sohweekian.github.io/bluelotus/canary-grand-summary.html"><span class="tribute-dot" style="background:#f59e0b;"></span><span>Grand Summary &mdash; World at a Glance<span class="subline">108 canaries &middot; 6 charts &middot; Full intelligence synthesis</span></span></a>
+          <div class="bl-dropdown-divider"></div>
+          <a href="https://sohweekian.github.io/bluelotus/canary-intelligence.html"><span class="tribute-dot" style="background:#c084fc;"></span><span>Canary Catalog<span class="subline">All 108 canaries &mdash; 15 territories &middot; 29 thematic &mdash; Q3 2026</span></span></a>
+          <div class="bl-dropdown-divider"></div>
+          <a href="https://sohweekian.github.io/bluelotus/canary/FED_FOMC_Canary_Q3_2026_Brief.html"><span class="tribute-dot" style="background:#0A2240;"></span><span>FED FOMC<span class="subline">The Mother of All Canaries &mdash; FRKI 0.3420 WATCH</span></span></a>
+          <div class="bl-dropdown-divider"></div>
+          <a href="https://sohweekian.github.io/bluelotus/canary-intelligence.html#north-america"><span class="tribute-dot" style="background:#B22234;"></span><span>North America<span class="subline">BOC Canada &middot; Banxico Mexico</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/canary-intelligence.html#europe"><span class="tribute-dot" style="background:#003399;"></span><span>Europe<span class="subline">ECB &middot; BOE UK &middot; SNB Switzerland</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/canary-intelligence.html#east-asia"><span class="tribute-dot" style="background:#DE2910;"></span><span>East Asia<span class="subline">PBOC &middot; BOJ &middot; BOK &middot; TSMC Taiwan</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/canary-intelligence.html#middle-east"><span class="tribute-dot" style="background:#006C35;"></span><span>Middle East<span class="subline">SAMA &middot; UAE &middot; CBRT &middot; BOI &middot; QCB &middot; CBKW &middot; CBI Iraq &middot; Iran &middot; Jordan &middot; Bahrain</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/canary-intelligence.html#africa"><span class="tribute-dot" style="background:#007A4D;"></span><span>Africa<span class="subline">SARB &middot; CBN &middot; CBE &middot; CBK &middot; BOG &middot; NBE &middot; BCEAO &middot; BNA &middot; BOTZ Tanzania &middot; BOZ Zambia</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/canary-intelligence.html#latam"><span class="tribute-dot" style="background:#009C3B;"></span><span>Latin America<span class="subline">BCB &middot; BCRA &middot; BCCh &middot; BanRep &middot; BCRP &middot; BCV Venezuela &middot; BCE Ecuador &middot; Bolivia &middot; BCRD DR</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/canary-intelligence.html#southeast-asia"><span class="tribute-dot" style="background:#EF3340;"></span><span>Southeast Asia<span class="subline">ASEAN-11 Monetary Intelligence Block</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/canary-intelligence.html#oceania"><span class="tribute-dot" style="background:#00843D;"></span><span>Oceania<span class="subline">RBA Australia &middot; RBNZ New Zealand</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/canary-intelligence.html#south-asia"><span class="tribute-dot" style="background:#FF9933;"></span><span>South Asia<span class="subline">RBI India &middot; SBP Pakistan &middot; BB Bangladesh &middot; CBSL Sri Lanka</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/canary-intelligence.html#northern-europe"><span class="tribute-dot" style="background:#EF2B2D;"></span><span>Northern Europe<span class="subline">Norges Bank Norway &middot; Riksbank Sweden</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/canary-intelligence.html#north-africa"><span class="tribute-dot" style="background:#006233;"></span><span>North Africa<span class="subline">Banque Al-Maghrib Morocco &mdash; MKRI 0.3150</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/canary-intelligence.html#central-europe"><span class="tribute-dot" style="background:#DC143C;"></span><span>Central Europe<span class="subline">NBP Poland &middot; CNB Czech Republic</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/canary-intelligence.html#central-asia"><span class="tribute-dot" style="background:#00AFCA;"></span><span>Central Asia<span class="subline">NBK Kazakhstan &mdash; KZRI 0.3380 &middot; Uranium</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/canary-intelligence.html#caucasus"><span class="tribute-dot" style="background:#E63329;"></span><span>South Caucasus<span class="subline">NBG Georgia &middot; CBA Azerbaijan — BTC Pipeline</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/canary-intelligence.html#strategic-actors"><span class="tribute-dot" style="background:#CC0000;"></span><span>Strategic Actors<span class="subline">CBR Russia &middot; DPRK</span></span></a>
+          <div class="bl-dropdown-divider"></div>
+          <a href="https://sohweekian.github.io/bluelotus/canary-intelligence.html#chokepoints"><span class="tribute-dot" style="background:#c084fc;"></span><span>Chokepoints &amp; Resources<span class="subline">Suez &middot; Taiwan &middot; OPEC &middot; Panama &middot; Baltic &middot; Rare Earth</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/canary-intelligence.html#macro-financial"><span class="tribute-dot" style="background:#c084fc;"></span><span>Macro-Financial Systemic<span class="subline">US Debt &middot; Equity &middot; Credit &middot; Dollar &middot; Banking &middot; Housing</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/canary-intelligence.html#tech-research"><span class="tribute-dot" style="background:#c084fc;"></span><span>Technology &amp; Research<span class="subline">Academic &middot; AI Capex &middot; Semiconductor &middot; Cyber &middot; Quantum</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/canary-intelligence.html#enviro-health"><span class="tribute-dot" style="background:#c084fc;"></span><span>Environment, Food &amp; Health<span class="subline">Food Security &middot; Climate &middot; Water &middot; Pandemic</span></span></a>
+          <div class="bl-dropdown-divider"></div>
+          <a href="https://sohweekian.github.io/bluelotus/canary-exclusions.html"><span class="tribute-dot" style="background:#6b7280;"></span><span>Coverage Exclusions &amp; Roadmap<span class="subline">Coverage exclusions &amp; future roadmap</span></span></a>
+        </div>
+      </li>
+      <li class="sep"></li>
+      <li class="bl-dropdown">
         <button class="bl-dropdown-btn bl-nav-action">Forecast <span class="bl-dropdown-arrow">&#9660;</span></button>
         <div class="bl-dropdown-menu wide">
           <a href="https://sohweekian.github.io/bluelotus/bluelotus-watchlist-superforecast.html"><span class="tribute-dot" style="background:#4ade80;"></span><span>Superforecast Report<span class="subline">78-ticker valuation + Brier tracker</span></span></a>
           <div class="bl-dropdown-divider"></div>
-          <a href="https://sohweekian.github.io/bluelotus/superforecasting-thesis.html"><span class="tribute-dot" style="background:#fbbf24;"></span><span>Research Thesis I<span class="subline">May 2026 — protocol, calibration, Kelly</span></span></a>
-          <a href="https://sohweekian.github.io/bluelotus/superforecasting-eipe-thesis-v3.html"><span class="tribute-dot" style="background:#a78bfa;"></span><span>Research Thesis II<span class="subline">Jun 2026 — Brier ledger, EIPE, CIO learning</span></span></a>
-          <a href="https://sohweekian.github.io/bluelotus/slicdo-probabilistic-intelligence-thesis-v3.html"><span class="tribute-dot" style="background:#2dd4bf;"></span><span>Research Thesis III<span class="subline">Jun 2026 — PEI, ACMS&#x2013;COP, dual Brier</span></span></a>
-          <a href="https://sohweekian.github.io/bluelotus/bgtm-thesis.html"><span class="tribute-dot" style="background:#38bdf8;"></span><span>BGTM-V1<span class="subline">Jun 2026 — Nash equilibrium, game theory</span></span></a>
-          <a href="https://sohweekian.github.io/bluelotus/agentic-turn-thesis.html"><span class="tribute-dot" style="background:#c084fc;"></span><span>The Agentic Turn<span class="subline">Jun 2026 — Claude Code &amp; SE labour</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/superforecasting-thesis.html"><span class="tribute-dot" style="background:#fbbf24;"></span><span>Research Thesis I<span class="subline">May 2026 &mdash; protocol, calibration, Kelly</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/superforecasting-eipe-thesis-v3.html"><span class="tribute-dot" style="background:#a78bfa;"></span><span>Research Thesis II<span class="subline">Jun 2026 &mdash; Brier ledger, EIPE, CIO learning</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/slicdo-probabilistic-intelligence-thesis-v3.html"><span class="tribute-dot" style="background:#2dd4bf;"></span><span>Research Thesis III<span class="subline">Jun 2026 &mdash; PEI, ACMS-COP, dual Brier</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/bgtm-thesis.html"><span class="tribute-dot" style="background:#38bdf8;"></span><span>BGTM-V1<span class="subline">Jun 2026 &mdash; Nash equilibrium, game theory</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/agentic-turn-thesis.html"><span class="tribute-dot" style="background:#c084fc;"></span><span>The Agentic Turn<span class="subline">Jun 2026 &mdash; Claude Code and SE labour</span></span></a>
           <div class="bl-dropdown-divider"></div>
-          <a href="https://sohweekian.github.io/bluelotus/demotion-thesis.html"><span class="tribute-dot" style="background:#f97316;"></span><span>Dissertation I<span class="subline">Jul 2026 — LLM demotion &amp; MVR principle</span></span></a>
-          <a href="https://sohweekian.github.io/bluelotus/calibration-mirror-thesis.html"><span class="tribute-dot" style="background:#ec4899;"></span><span>Dissertation II<span class="subline">Jul 2026 — Calibration Mirror &amp; Brier</span></span></a>
-          <a href="https://sohweekian.github.io/bluelotus/shannon-thorp-edge-thesis.html"><span class="tribute-dot" style="background:#eab308;"></span><span>Dissertation III<span class="subline">Jul 2026 — Shannon-Thorp signal edge</span></span></a>
-          <a href="https://sohweekian.github.io/bluelotus/prospective-event-intelligence-thesis.html"><span class="tribute-dot" style="background:#22d3ee;"></span><span>Dissertation IV<span class="subline">Jul 2026 — NITE-PEI regime transitions</span></span></a>
-          <a href="https://sohweekian.github.io/bluelotus/agentic-production-function-thesis.html"><span class="tribute-dot" style="background:#a3e635;"></span><span>Dissertation V<span class="subline">Jul 2026 — Agentic Production Function</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/demotion-thesis.html"><span class="tribute-dot" style="background:#f97316;"></span><span>Dissertation I<span class="subline">Jul 2026 &mdash; LLM demotion and MVR principle</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/calibration-mirror-thesis.html"><span class="tribute-dot" style="background:#ec4899;"></span><span>Dissertation II<span class="subline">Jul 2026 &mdash; Calibration Mirror and Brier</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/shannon-thorp-edge-thesis.html"><span class="tribute-dot" style="background:#eab308;"></span><span>Dissertation III<span class="subline">Jul 2026 &mdash; Shannon-Thorp signal edge</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/prospective-event-intelligence-thesis.html"><span class="tribute-dot" style="background:#22d3ee;"></span><span>Dissertation IV<span class="subline">Jul 2026 &mdash; NITE-PEI regime transitions</span></span></a>
+          <a href="https://sohweekian.github.io/bluelotus/agentic-production-function-thesis.html"><span class="tribute-dot" style="background:#a3e635;"></span><span>Dissertation V<span class="subline">Jul 2026 &mdash; Agentic Production Function</span></span></a>
         </div>
       </li>
       <li class="sep"></li>
@@ -140,16 +173,6 @@ body{padding-top:52px !important;}
       <li><a href="https://sohweekian.github.io/bluelotus/chief-strategist.html">Clerk Map</a></li>
       <li class="sep"></li>
       <li><a href="https://sohweekian.github.io/bluelotus/cio-letter.html">CIO Letter</a></li>
-      <li class="sep"></li>
-      <li class="bl-dropdown">
-        <button class="bl-dropdown-btn">Intelligence <span class="bl-dropdown-arrow">&#9660;</span></button>
-        <div class="bl-dropdown-menu">
-          <a href="https://sohweekian.github.io/bluelotus/boj-carry-unwind.html"><span class="tribute-dot" style="background:#fbbf24;"></span><span>BOJ Carry Unwind<span class="subline">Aug 2026 — Japan's $4 trillion liquidity bomb</span></span></a>
-          <a href="https://sohweekian.github.io/bluelotus/hormuz-chokepoint.html"><span class="tribute-dot" style="background:#ef4444;"></span><span>Hormuz Chokepoint<span class="subline">Aug 2026 — The $10 trillion chokepoint</span></span></a>
-          <a href="https://sohweekian.github.io/bluelotus/nuclear-renaissance.html"><span class="tribute-dot" style="background:#4ade80;"></span><span>Nuclear Renaissance<span class="subline">Aug 2026 — The grid that didn't build itself</span></span></a>
-          <a href="https://sohweekian.github.io/bluelotus/quantum-2032-horizon.html"><span class="tribute-dot" style="background:#818cf8;"></span><span>Quantum 2032 Horizon<span class="subline">Aug 2026 — The 2032 threshold</span></span></a>
-        </div>
-      </li>
       <li class="sep"></li>
       <li class="bl-dropdown">
         <button class="bl-dropdown-btn">Tributes <span class="bl-dropdown-arrow">&#9660;</span></button>
@@ -164,42 +187,20 @@ body{padding-top:52px !important;}
       </li>
     </ul>
     <div class="bl-nav-right">
-      <div class="bl-nav-live"><div class="bl-nav-dot"></div>Live&nbsp;v1.7</div>
+      <div class="bl-nav-live"><div class="bl-nav-dot"></div>Live&nbsp;v3.4</div>
     </div>
   </div>
 </nav>
-<script id="bl-nav-js">
-(function(){
-  document.querySelectorAll('.bl-dropdown').forEach(function(dd){
-    dd.addEventListener('mouseenter', function(){ dd.classList.add('open'); });
-    dd.addEventListener('mouseleave', function(){ dd.classList.remove('open'); });
-  });
-  document.querySelectorAll('.bl-dropdown-btn').forEach(function(btn){
-    btn.addEventListener('click', function(e){
-      e.preventDefault();
-      e.stopPropagation();
-      var parent = btn.closest('.bl-dropdown');
-      document.querySelectorAll('.bl-dropdown.open').forEach(function(el){ if(el!==parent) el.classList.remove('open'); });
-      if(parent) parent.classList.toggle('open');
-    });
-  });
-  document.addEventListener('click', function(e){
-    if(!e.target.closest('.bl-dropdown')){
-      document.querySelectorAll('.bl-dropdown.open').forEach(function(el){ el.classList.remove('open'); });
-    }
-  });
-})();
-</script>
 <div class="hero">
   <div class="hero-badge"><span class="dot"></span> CivilisationOS Intelligence</div>
   <h1 class="hero-title">Canary Intelligence Portal</h1>
   <p class="hero-sub">
-    Deterministic macroeconomic surveillance across 79 sovereign actors.
-    Kill-condition monitoring. Zero LLMs. Weekly cadence.
+    Deterministic macroeconomic surveillance across 108 canaries &mdash;
+    15 territories &middot; 29 thematic. Kill-condition monitoring. Zero LLMs. Weekly cadence.
   </p>
   <div class="hero-stats">
-    <div class="stat"><span class="stat-num">79</span><span class="stat-label">Canaries</span></div>
-    <div class="stat"><span class="stat-num">14</span><span class="stat-label">Territories</span></div>
+    <div class="stat"><span class="stat-num">108</span><span class="stat-label">Canaries</span></div>
+    <div class="stat"><span class="stat-num">15</span><span class="stat-label">Territories</span></div>
     <div class="stat"><span class="stat-num">Q3 2026</span><span class="stat-label">Issue</span></div>
     <div class="stat"><span class="stat-num">Weekly</span><span class="stat-label">Cadence</span></div>
   </div>
@@ -221,6 +222,10 @@ body{padding-top:52px !important;}
   <a class="tnav-pill" href="#central-asia">Central Asia</a>
   <a class="tnav-pill" href="#caucasus">South Caucasus</a>
   <a class="tnav-pill" href="#strategic-actors">Strategic Actors</a>
+  <a class="tnav-pill" href="#chokepoints">Chokepoints & Resources</a>
+  <a class="tnav-pill" href="#macro-financial">Macro-Financial Systemic</a>
+  <a class="tnav-pill" href="#tech-research">Technology & Research</a>
+  <a class="tnav-pill" href="#enviro-health">Environment, Food & Health</a>
 </nav>
 
 
@@ -2176,6 +2181,709 @@ body{padding-top:52px !important;}
 </div>
   </div>
 </section>
+<section class="territory-section" id="chokepoints">
+  <div class="section-header">
+    <h2 class="section-title">Chokepoints & Resources</h2>
+    <span class="section-sub">Suez · Taiwan · OPEC · Panama · Baltic Dry · Rare Earth · Nuclear · Space</span>
+    <span class="section-count">9 canaries</span>
+  </div>
+  <div class="cards-grid">
+    
+<div class="canary-card">
+  <div class="card-header">
+    <div class="card-flag-abbr">
+      <span class="flag">🚢</span>
+      <span class="abbr" style="color:#c084fc;">SUEZ</span>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">Suez Shipping Canary</div>
+      <div class="card-country">Global Trade Routes Stack</div>
+    </div>
+    <div class="zone-badge" style="background:#2e1500;color:#fb923c;border:1px solid #c2410c;">ELEVATED</div>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-index">SRSI</span>
+    <div class="gauge-track">
+      <div class="gauge-fill" style="width:52%;background:#fb923c;"></div>
+    </div>
+    <span class="gauge-val" style="color:#fb923c;">0.5200</span>
+  </div>
+  <div class="card-highlights">KC_04 Cape rerouting >40% breached &nbsp;&middot;&nbsp; Container rates near KC_03 &nbsp;&middot;&nbsp; 18-month disruption</div>
+  <a class="open-btn" href="https://sohweekian.github.io/bluelotus/canary/Suez_Shipping_Canary_Q3_2026_Brief.html">Open Report &rarr;</a>
+</div>
+
+<div class="canary-card">
+  <div class="card-header">
+    <div class="card-flag-abbr">
+      <span class="flag">🗺</span>
+      <span class="abbr" style="color:#c084fc;">TSGRI</span>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">Taiwan Strait Canary</div>
+      <div class="card-country">Global · Domain 118</div>
+    </div>
+    <div class="zone-badge" style="background:#2e1e00;color:#fbbf24;border:1px solid #B38600;">WATCH</div>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-index">TSGRI</span>
+    <div class="gauge-track">
+      <div class="gauge-fill" style="width:41%;background:#fbbf24;"></div>
+    </div>
+    <span class="gauge-val" style="color:#fbbf24;">0.4100</span>
+  </div>
+  <div class="card-highlights">PLA exercises &nbsp;&middot;&nbsp; Semiconductor chokepoint &nbsp;&middot;&nbsp; US-China flashpoint</div>
+  <a class="open-btn" href="https://sohweekian.github.io/bluelotus/canary/Taiwan_Strait_Canary_Q3_2026_Brief.html">Open Report &rarr;</a>
+</div>
+
+<div class="canary-card">
+  <div class="card-header">
+    <div class="card-flag-abbr">
+      <span class="flag">🛢</span>
+      <span class="abbr" style="color:#c084fc;">OPRI</span>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">OPEC Oil Canary</div>
+      <div class="card-country">Global · Domain 119</div>
+    </div>
+    <div class="zone-badge" style="background:#2e1e00;color:#fbbf24;border:1px solid #B38600;">WATCH</div>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-index">OPRI</span>
+    <div class="gauge-track">
+      <div class="gauge-fill" style="width:31%;background:#fbbf24;"></div>
+    </div>
+    <span class="gauge-val" style="color:#fbbf24;">0.3150</span>
+  </div>
+  <div class="card-highlights">OPEC+ production cuts &nbsp;&middot;&nbsp; Spare capacity declining &nbsp;&middot;&nbsp; Geopolitical premium</div>
+  <a class="open-btn" href="https://sohweekian.github.io/bluelotus/canary/OPEC_Oil_Canary_Q3_2026_Brief.html">Open Report &rarr;</a>
+</div>
+
+<div class="canary-card">
+  <div class="card-header">
+    <div class="card-flag-abbr">
+      <span class="flag">🔥</span>
+      <span class="abbr" style="color:#c084fc;">NGRI</span>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">Natural Gas LNG Canary</div>
+      <div class="card-country">Global · Domain 120</div>
+    </div>
+    <div class="zone-badge" style="background:#0d2e14;color:#4ade80;border:1px solid #238636;">NORMAL</div>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-index">NGRI</span>
+    <div class="gauge-track">
+      <div class="gauge-fill" style="width:28%;background:#4ade80;"></div>
+    </div>
+    <span class="gauge-val" style="color:#4ade80;">0.2800</span>
+  </div>
+  <div class="card-highlights">EU storage adequate &nbsp;&middot;&nbsp; LNG supply diversified &nbsp;&middot;&nbsp; Winter demand seasonal</div>
+  <a class="open-btn" href="https://sohweekian.github.io/bluelotus/canary/Natural_Gas_LNG_Canary_Q3_2026_Brief.html">Open Report &rarr;</a>
+</div>
+
+<div class="canary-card">
+  <div class="card-header">
+    <div class="card-flag-abbr">
+      <span class="flag">🌊</span>
+      <span class="abbr" style="color:#c084fc;">PCRI</span>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">Panama Canal Canary</div>
+      <div class="card-country">Global Trade Routes Stack</div>
+    </div>
+    <div class="zone-badge" style="background:#2e1e00;color:#fbbf24;border:1px solid #B38600;">WATCH</div>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-index">PCRI</span>
+    <div class="gauge-track">
+      <div class="gauge-fill" style="width:34%;background:#fbbf24;"></div>
+    </div>
+    <span class="gauge-val" style="color:#fbbf24;">0.3400</span>
+  </div>
+  <div class="card-highlights">Drought restrictions ongoing &nbsp;&middot;&nbsp; Transit slot auction premium &nbsp;&middot;&nbsp; Neopanamax backlog</div>
+  <a class="open-btn" href="https://sohweekian.github.io/bluelotus/canary/Panama_Canal_Canary_Q3_2026_Brief.html">Open Report &rarr;</a>
+</div>
+
+<div class="canary-card">
+  <div class="card-header">
+    <div class="card-flag-abbr">
+      <span class="flag">⚓</span>
+      <span class="abbr" style="color:#c084fc;">BDRI</span>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">Baltic Dry Canary</div>
+      <div class="card-country">Global · Domain 122</div>
+    </div>
+    <div class="zone-badge" style="background:#0d2e14;color:#4ade80;border:1px solid #238636;">NORMAL</div>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-index">BDRI</span>
+    <div class="gauge-track">
+      <div class="gauge-fill" style="width:22%;background:#4ade80;"></div>
+    </div>
+    <span class="gauge-val" style="color:#4ade80;">0.2200</span>
+  </div>
+  <div class="card-highlights">Dry bulk rates stable &nbsp;&middot;&nbsp; China iron ore demand steady &nbsp;&middot;&nbsp; Fleet utilisation normal</div>
+  <a class="open-btn" href="https://sohweekian.github.io/bluelotus/canary/Baltic_Dry_Canary_Q3_2026_Brief.html">Open Report &rarr;</a>
+</div>
+
+<div class="canary-card">
+  <div class="card-header">
+    <div class="card-flag-abbr">
+      <span class="flag">⚡</span>
+      <span class="abbr" style="color:#c084fc;">RERI</span>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">Rare Earth Canary</div>
+      <div class="card-country">Global · Domain 124</div>
+    </div>
+    <div class="zone-badge" style="background:#2e1e00;color:#fbbf24;border:1px solid #B38600;">WATCH</div>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-index">RERI</span>
+    <div class="gauge-track">
+      <div class="gauge-fill" style="width:45%;background:#fbbf24;"></div>
+    </div>
+    <span class="gauge-val" style="color:#fbbf24;">0.4500</span>
+  </div>
+  <div class="card-highlights">Ga/Ge licensing active &nbsp;&middot;&nbsp; China export controls &nbsp;&middot;&nbsp; Defence supply chain risk</div>
+  <a class="open-btn" href="https://sohweekian.github.io/bluelotus/canary/Rare_Earth_Canary_Q3_2026_Brief.html">Open Report &rarr;</a>
+</div>
+
+<div class="canary-card">
+  <div class="card-header">
+    <div class="card-flag-abbr">
+      <span class="flag">☢</span>
+      <span class="abbr" style="color:#c084fc;">NERI</span>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">Nuclear Escalation Canary</div>
+      <div class="card-country">Global · Domain 182</div>
+    </div>
+    <div class="zone-badge" style="background:#0d2e14;color:#4ade80;border:1px solid #238636;">NORMAL</div>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-index">NERI</span>
+    <div class="gauge-track">
+      <div class="gauge-fill" style="width:28%;background:#4ade80;"></div>
+    </div>
+    <span class="gauge-val" style="color:#4ade80;">0.2900</span>
+  </div>
+  <div class="card-highlights">Arms control erosion &nbsp;&middot;&nbsp; Tactical nuclear rhetoric &nbsp;&middot;&nbsp; New START expiry</div>
+  <a class="open-btn" href="https://sohweekian.github.io/bluelotus/canary/Nuclear_Escalation_Canary_Q3_2026_Brief.html">Open Report &rarr;</a>
+</div>
+
+<div class="canary-card">
+  <div class="card-header">
+    <div class="card-flag-abbr">
+      <span class="flag">🛰</span>
+      <span class="abbr" style="color:#c084fc;">SMRI</span>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">Space Militarization Canary</div>
+      <div class="card-country">Global · Domain 184</div>
+    </div>
+    <div class="zone-badge" style="background:#0d2e14;color:#4ade80;border:1px solid #238636;">NORMAL</div>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-index">SMRI</span>
+    <div class="gauge-track">
+      <div class="gauge-fill" style="width:25%;background:#4ade80;"></div>
+    </div>
+    <span class="gauge-val" style="color:#4ade80;">0.2500</span>
+  </div>
+  <div class="card-highlights">ASAT testing moratorium fragile &nbsp;&middot;&nbsp; LEO congestion &nbsp;&middot;&nbsp; GPS vulnerability</div>
+  <a class="open-btn" href="https://sohweekian.github.io/bluelotus/canary/Space_Militarization_Canary_Q3_2026_Brief.html">Open Report &rarr;</a>
+</div>
+  </div>
+</section>
+<section class="territory-section" id="macro-financial">
+  <div class="section-header">
+    <h2 class="section-title">Macro-Financial Systemic</h2>
+    <span class="section-sub">US Debt · Equity · Credit · Dollar · Banking · Housing · EM · Crypto · NBFI</span>
+    <span class="section-count">9 canaries</span>
+  </div>
+  <div class="cards-grid">
+    
+<div class="canary-card">
+  <div class="card-header">
+    <div class="card-flag-abbr">
+      <span class="flag">🏛</span>
+      <span class="abbr" style="color:#c084fc;">FDRI</span>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">US Federal Debt Canary</div>
+      <div class="card-country">Global · Domain 123</div>
+    </div>
+    <div class="zone-badge" style="background:#2e1e00;color:#fbbf24;border:1px solid #B38600;">WATCH</div>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-index">FDRI</span>
+    <div class="gauge-track">
+      <div class="gauge-fill" style="width:35%;background:#fbbf24;"></div>
+    </div>
+    <span class="gauge-val" style="color:#fbbf24;">0.3500</span>
+  </div>
+  <div class="card-highlights">Debt/GDP >120% &nbsp;&middot;&nbsp; Interest payments exceed defence budget &nbsp;&middot;&nbsp; Fiscal dominance risk</div>
+  <a class="open-btn" href="https://sohweekian.github.io/bluelotus/canary/US_Federal_Debt_Canary_Q3_2026_Brief.html">Open Report &rarr;</a>
+</div>
+
+<div class="canary-card">
+  <div class="card-header">
+    <div class="card-flag-abbr">
+      <span class="flag">📈</span>
+      <span class="abbr" style="color:#c084fc;">USKRI</span>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">US Equity Stress Canary</div>
+      <div class="card-country">Batch 8 Systemic Financial Risk Stack</div>
+    </div>
+    <div class="zone-badge" style="background:#0d2e14;color:#4ade80;border:1px solid #238636;">NORMAL</div>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-index">USKRI</span>
+    <div class="gauge-track">
+      <div class="gauge-fill" style="width:24%;background:#4ade80;"></div>
+    </div>
+    <span class="gauge-val" style="color:#4ade80;">0.2400</span>
+  </div>
+  <div class="card-highlights">VIX subdued &nbsp;&middot;&nbsp; Concentration risk in Mag-7 &nbsp;&middot;&nbsp; Put-call ratio normal</div>
+  <a class="open-btn" href="https://sohweekian.github.io/bluelotus/canary/US_Equity_Stress_Canary_Q3_2026_Brief.html">Open Report &rarr;</a>
+</div>
+
+<div class="canary-card">
+  <div class="card-header">
+    <div class="card-flag-abbr">
+      <span class="flag">💳</span>
+      <span class="abbr" style="color:#c084fc;">USCRI</span>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">US Credit Cycle Canary</div>
+      <div class="card-country">Batch 8 Systemic Financial Risk Stack</div>
+    </div>
+    <div class="zone-badge" style="background:#0d2e14;color:#4ade80;border:1px solid #238636;">NORMAL</div>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-index">USCRI</span>
+    <div class="gauge-track">
+      <div class="gauge-fill" style="width:22%;background:#4ade80;"></div>
+    </div>
+    <span class="gauge-val" style="color:#4ade80;">0.2200</span>
+  </div>
+  <div class="card-highlights">HY spreads contained &nbsp;&middot;&nbsp; CCC issuance low &nbsp;&middot;&nbsp; Maturity wall 2025-26</div>
+  <a class="open-btn" href="https://sohweekian.github.io/bluelotus/canary/US_Credit_Cycle_Canary_Q3_2026_Brief.html">Open Report &rarr;</a>
+</div>
+
+<div class="canary-card">
+  <div class="card-header">
+    <div class="card-flag-abbr">
+      <span class="flag">💵</span>
+      <span class="abbr" style="color:#c084fc;">DXYKRI</span>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">Dollar Dominance Canary</div>
+      <div class="card-country">Batch 8 Systemic Financial Risk Stack</div>
+    </div>
+    <div class="zone-badge" style="background:#0d2e14;color:#4ade80;border:1px solid #238636;">NORMAL</div>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-index">DXYKRI</span>
+    <div class="gauge-track">
+      <div class="gauge-fill" style="width:26%;background:#4ade80;"></div>
+    </div>
+    <span class="gauge-val" style="color:#4ade80;">0.2600</span>
+  </div>
+  <div class="card-highlights">DXY stable &nbsp;&middot;&nbsp; BRICS de-dollarisation slow &nbsp;&middot;&nbsp; SWIFT share 47%</div>
+  <a class="open-btn" href="https://sohweekian.github.io/bluelotus/canary/Dollar_Dominance_Canary_Q3_2026_Brief.html">Open Report &rarr;</a>
+</div>
+
+<div class="canary-card">
+  <div class="card-header">
+    <div class="card-flag-abbr">
+      <span class="flag">🏦</span>
+      <span class="abbr" style="color:#c084fc;">USBRI</span>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">US Banking Stress Canary</div>
+      <div class="card-country">Batch 8 Systemic Financial Risk Stack</div>
+    </div>
+    <div class="zone-badge" style="background:#0d2e14;color:#4ade80;border:1px solid #238636;">NORMAL</div>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-index">USBRI</span>
+    <div class="gauge-track">
+      <div class="gauge-fill" style="width:21%;background:#4ade80;"></div>
+    </div>
+    <span class="gauge-val" style="color:#4ade80;">0.2100</span>
+  </div>
+  <div class="card-highlights">FDIC problem banks 68 &nbsp;&middot;&nbsp; CRE watch ongoing &nbsp;&middot;&nbsp; Deposit flight stabilised</div>
+  <a class="open-btn" href="https://sohweekian.github.io/bluelotus/canary/US_Banking_Stress_Canary_Q3_2026_Brief.html">Open Report &rarr;</a>
+</div>
+
+<div class="canary-card">
+  <div class="card-header">
+    <div class="card-flag-abbr">
+      <span class="flag">🏠</span>
+      <span class="abbr" style="color:#c084fc;">GHRI</span>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">Global Housing Stress</div>
+      <div class="card-country">Global · Domain 178</div>
+    </div>
+    <div class="zone-badge" style="background:#2e1e00;color:#fbbf24;border:1px solid #B38600;">WATCH</div>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-index">GHRI</span>
+    <div class="gauge-track">
+      <div class="gauge-fill" style="width:34%;background:#fbbf24;"></div>
+    </div>
+    <span class="gauge-val" style="color:#fbbf24;">0.3400</span>
+  </div>
+  <div class="card-highlights">Affordability crisis OECD-wide &nbsp;&middot;&nbsp; Rate sensitivity &nbsp;&middot;&nbsp; China property overhang</div>
+  <a class="open-btn" href="https://sohweekian.github.io/bluelotus/canary/Global_Housing_Stress_Canary_Q3_2026_Brief.html">Open Report &rarr;</a>
+</div>
+
+<div class="canary-card">
+  <div class="card-header">
+    <div class="card-flag-abbr">
+      <span class="flag">🌎</span>
+      <span class="abbr" style="color:#c084fc;">EMKRI</span>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">EM Contagion Aggregator</div>
+      <div class="card-country">Global · Domain 179</div>
+    </div>
+    <div class="zone-badge" style="background:#0d2e14;color:#4ade80;border:1px solid #238636;">NORMAL</div>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-index">EMKRI</span>
+    <div class="gauge-track">
+      <div class="gauge-fill" style="width:27%;background:#4ade80;"></div>
+    </div>
+    <span class="gauge-val" style="color:#4ade80;">0.2700</span>
+  </div>
+  <div class="card-highlights">Idiosyncratic EM stress &nbsp;&middot;&nbsp; No systemic contagion &nbsp;&middot;&nbsp; FX reserves adequate</div>
+  <a class="open-btn" href="https://sohweekian.github.io/bluelotus/canary/EM_Contagion_Aggregator_Canary_Q3_2026_Brief.html">Open Report &rarr;</a>
+</div>
+
+<div class="canary-card">
+  <div class="card-header">
+    <div class="card-flag-abbr">
+      <span class="flag">🔁</span>
+      <span class="abbr" style="color:#c084fc;">STCRI</span>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">Stablecoin & Crypto Risk</div>
+      <div class="card-country">Global · Domain 180</div>
+    </div>
+    <div class="zone-badge" style="background:#0d2e14;color:#4ade80;border:1px solid #238636;">NORMAL</div>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-index">STCRI</span>
+    <div class="gauge-track">
+      <div class="gauge-fill" style="width:23%;background:#4ade80;"></div>
+    </div>
+    <span class="gauge-val" style="color:#4ade80;">0.2300</span>
+  </div>
+  <div class="card-highlights">Tether attestation gaps &nbsp;&middot;&nbsp; MiCA enforcement pending &nbsp;&middot;&nbsp; DeFi TVL recovering</div>
+  <a class="open-btn" href="https://sohweekian.github.io/bluelotus/canary/Stablecoin_Crypto_Risk_Canary_Q3_2026_Brief.html">Open Report &rarr;</a>
+</div>
+
+<div class="canary-card">
+  <div class="card-header">
+    <div class="card-flag-abbr">
+      <span class="flag">🏭</span>
+      <span class="abbr" style="color:#c084fc;">NBFI</span>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">Shadow Banking NBFI</div>
+      <div class="card-country">Global · Domain 181</div>
+    </div>
+    <div class="zone-badge" style="background:#0d2e14;color:#4ade80;border:1px solid #238636;">NORMAL</div>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-index">NBFI</span>
+    <div class="gauge-track">
+      <div class="gauge-fill" style="width:24%;background:#4ade80;"></div>
+    </div>
+    <span class="gauge-val" style="color:#4ade80;">0.2400</span>
+  </div>
+  <div class="card-highlights">FSB NBFI monitoring &nbsp;&middot;&nbsp; Margin call cascade risk &nbsp;&middot;&nbsp; Basis trade leverage</div>
+  <a class="open-btn" href="https://sohweekian.github.io/bluelotus/canary/Shadow_Banking_NBFI_Canary_Q3_2026_Brief.html">Open Report &rarr;</a>
+</div>
+  </div>
+</section>
+<section class="territory-section" id="tech-research">
+  <div class="section-header">
+    <h2 class="section-title">Technology & Research</h2>
+    <span class="section-sub">Academic · Gov R&D · Think Tanks · AI Capex · Semiconductors · Cyber · Quantum</span>
+    <span class="section-count">7 canaries</span>
+  </div>
+  <div class="cards-grid">
+    
+<div class="canary-card">
+  <div class="card-header">
+    <div class="card-flag-abbr">
+      <span class="flag">🏫</span>
+      <span class="abbr" style="color:#c084fc;">AIRI</span>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">Academic Research Canary</div>
+      <div class="card-country">Global · Domain 126</div>
+    </div>
+    <div class="zone-badge" style="background:#0d2e14;color:#4ade80;border:1px solid #238636;">NORMAL</div>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-index">AIRI</span>
+    <div class="gauge-track">
+      <div class="gauge-fill" style="width:28%;background:#4ade80;"></div>
+    </div>
+    <span class="gauge-val" style="color:#4ade80;">0.2800</span>
+  </div>
+  <div class="card-highlights">Federal R&D budget intact &nbsp;&middot;&nbsp; No kill conditions triggered &nbsp;&middot;&nbsp; NIH/NSF stable</div>
+  <a class="open-btn" href="https://sohweekian.github.io/bluelotus/canary/Academic_Research_Canary_Q3_2026_Brief.html">Open Report &rarr;</a>
+</div>
+
+<div class="canary-card">
+  <div class="card-header">
+    <div class="card-flag-abbr">
+      <span class="flag">🏛</span>
+      <span class="abbr" style="color:#c084fc;">GRPRI</span>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">Gov Research Pipeline</div>
+      <div class="card-country">Global · Domain 127</div>
+    </div>
+    <div class="zone-badge" style="background:#0d2e14;color:#4ade80;border:1px solid #238636;">NORMAL</div>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-index">GRPRI</span>
+    <div class="gauge-track">
+      <div class="gauge-fill" style="width:22%;background:#4ade80;"></div>
+    </div>
+    <span class="gauge-val" style="color:#4ade80;">0.2200</span>
+  </div>
+  <div class="card-highlights">DoD/DoE R&D pipeline intact &nbsp;&middot;&nbsp; Budget resolution pending &nbsp;&middot;&nbsp; DARPA stable</div>
+  <a class="open-btn" href="https://sohweekian.github.io/bluelotus/canary/Gov_Research_Pipeline_Canary_Q3_2026_Brief.html">Open Report &rarr;</a>
+</div>
+
+<div class="canary-card">
+  <div class="card-header">
+    <div class="card-flag-abbr">
+      <span class="flag">📋</span>
+      <span class="abbr" style="color:#c084fc;">TTPRI</span>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">Think Tank Policy Canary</div>
+      <div class="card-country">Global · Domain 128</div>
+    </div>
+    <div class="zone-badge" style="background:#0d2e14;color:#4ade80;border:1px solid #238636;">NORMAL</div>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-index">TTPRI</span>
+    <div class="gauge-track">
+      <div class="gauge-fill" style="width:25%;background:#4ade80;"></div>
+    </div>
+    <span class="gauge-val" style="color:#4ade80;">0.2500</span>
+  </div>
+  <div class="card-highlights">Policy ecosystem intact &nbsp;&middot;&nbsp; Foreign influence WATCH &nbsp;&middot;&nbsp; FARA enforcement</div>
+  <a class="open-btn" href="https://sohweekian.github.io/bluelotus/canary/Think_Tank_Policy_Canary_Q3_2026_Brief.html">Open Report &rarr;</a>
+</div>
+
+<div class="canary-card">
+  <div class="card-header">
+    <div class="card-flag-abbr">
+      <span class="flag">🤖</span>
+      <span class="abbr" style="color:#c084fc;">AICRI</span>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">AI Capex Bubble Canary</div>
+      <div class="card-country">Global · Domain 172</div>
+    </div>
+    <div class="zone-badge" style="background:#2e1e00;color:#fbbf24;border:1px solid #B38600;">WATCH</div>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-index">AICRI</span>
+    <div class="gauge-track">
+      <div class="gauge-fill" style="width:31%;background:#fbbf24;"></div>
+    </div>
+    <span class="gauge-val" style="color:#fbbf24;">0.3100</span>
+  </div>
+  <div class="card-highlights">Hyperscaler capex $200B+ &nbsp;&middot;&nbsp; Revenue/capex ratio declining &nbsp;&middot;&nbsp; GPU utilisation watch</div>
+  <a class="open-btn" href="https://sohweekian.github.io/bluelotus/canary/AI_Capex_Bubble_Canary_Q3_2026_Brief.html">Open Report &rarr;</a>
+</div>
+
+<div class="canary-card">
+  <div class="card-header">
+    <div class="card-flag-abbr">
+      <span class="flag">🔬</span>
+      <span class="abbr" style="color:#c084fc;">SECKI</span>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">Semiconductor Equipment</div>
+      <div class="card-country">Global · Domain 173</div>
+    </div>
+    <div class="zone-badge" style="background:#0d2e14;color:#4ade80;border:1px solid #238636;">NORMAL</div>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-index">SECKI</span>
+    <div class="gauge-track">
+      <div class="gauge-fill" style="width:28%;background:#4ade80;"></div>
+    </div>
+    <span class="gauge-val" style="color:#4ade80;">0.2800</span>
+  </div>
+  <div class="card-highlights">ASML order book strong &nbsp;&middot;&nbsp; Export controls tightening &nbsp;&middot;&nbsp; China self-sufficiency push</div>
+  <a class="open-btn" href="https://sohweekian.github.io/bluelotus/canary/Semiconductor_Equipment_Canary_Q3_2026_Brief.html">Open Report &rarr;</a>
+</div>
+
+<div class="canary-card">
+  <div class="card-header">
+    <div class="card-flag-abbr">
+      <span class="flag">🔒</span>
+      <span class="abbr" style="color:#c084fc;">CSRI</span>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">Cyber Systemic Risk</div>
+      <div class="card-country">Global · Domain 174</div>
+    </div>
+    <div class="zone-badge" style="background:#2e1e00;color:#fbbf24;border:1px solid #B38600;">WATCH</div>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-index">CSRI</span>
+    <div class="gauge-track">
+      <div class="gauge-fill" style="width:28%;background:#fbbf24;"></div>
+    </div>
+    <span class="gauge-val" style="color:#fbbf24;">0.2900</span>
+  </div>
+  <div class="card-highlights">Ransomware frequency rising &nbsp;&middot;&nbsp; Critical infrastructure targeting &nbsp;&middot;&nbsp; Zero-day stockpiles</div>
+  <a class="open-btn" href="https://sohweekian.github.io/bluelotus/canary/Cyber_Systemic_Risk_Canary_Q3_2026_Brief.html">Open Report &rarr;</a>
+</div>
+
+<div class="canary-card">
+  <div class="card-header">
+    <div class="card-flag-abbr">
+      <span class="flag">⚛</span>
+      <span class="abbr" style="color:#c084fc;">QCRI</span>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">Quantum Computing Race</div>
+      <div class="card-country">Global · Domain 175</div>
+    </div>
+    <div class="zone-badge" style="background:#0d2e14;color:#4ade80;border:1px solid #238636;">NORMAL</div>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-index">QCRI</span>
+    <div class="gauge-track">
+      <div class="gauge-fill" style="width:18%;background:#4ade80;"></div>
+    </div>
+    <span class="gauge-val" style="color:#4ade80;">0.1800</span>
+  </div>
+  <div class="card-highlights">CRQC timeline >10yr &nbsp;&middot;&nbsp; Error correction progress slow &nbsp;&middot;&nbsp; No cryptographic threat yet</div>
+  <a class="open-btn" href="https://sohweekian.github.io/bluelotus/canary/Quantum_Computing_Race_Canary_Q3_2026_Brief.html">Open Report &rarr;</a>
+</div>
+  </div>
+</section>
+<section class="territory-section" id="enviro-health">
+  <div class="section-header">
+    <h2 class="section-title">Environment, Food & Health</h2>
+    <span class="section-sub">Food Security · Climate · Water · Pandemic & Biosecurity</span>
+    <span class="section-count">4 canaries</span>
+  </div>
+  <div class="cards-grid">
+    
+<div class="canary-card">
+  <div class="card-header">
+    <div class="card-flag-abbr">
+      <span class="flag">🌿</span>
+      <span class="abbr" style="color:#c084fc;">FSRI</span>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">Food Security Canary</div>
+      <div class="card-country">Global · Domain 125</div>
+    </div>
+    <div class="zone-badge" style="background:#2e1e00;color:#fbbf24;border:1px solid #B38600;">WATCH</div>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-index">FSRI</span>
+    <div class="gauge-track">
+      <div class="gauge-fill" style="width:32%;background:#fbbf24;"></div>
+    </div>
+    <span class="gauge-val" style="color:#fbbf24;">0.3200</span>
+  </div>
+  <div class="card-highlights">FAO FFPI 108.0 &nbsp;&middot;&nbsp; El Niño risk &nbsp;&middot;&nbsp; Ukraine grain corridor fragile</div>
+  <a class="open-btn" href="https://sohweekian.github.io/bluelotus/canary/Food_Security_Canary_Q3_2026_Brief.html">Open Report &rarr;</a>
+</div>
+
+<div class="canary-card">
+  <div class="card-header">
+    <div class="card-flag-abbr">
+      <span class="flag">🌼</span>
+      <span class="abbr" style="color:#c084fc;">CCRI</span>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">Climate Commodity Shock</div>
+      <div class="card-country">Global · Domain 176</div>
+    </div>
+    <div class="zone-badge" style="background:#0d2e14;color:#4ade80;border:1px solid #238636;">NORMAL</div>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-index">CCRI</span>
+    <div class="gauge-track">
+      <div class="gauge-fill" style="width:25%;background:#4ade80;"></div>
+    </div>
+    <span class="gauge-val" style="color:#4ade80;">0.2500</span>
+  </div>
+  <div class="card-highlights">Extreme weather events rising &nbsp;&middot;&nbsp; Crop insurance claims elevated &nbsp;&middot;&nbsp; Carbon price volatility</div>
+  <a class="open-btn" href="https://sohweekian.github.io/bluelotus/canary/Climate_Commodity_Shock_Canary_Q3_2026_Brief.html">Open Report &rarr;</a>
+</div>
+
+<div class="canary-card">
+  <div class="card-header">
+    <div class="card-flag-abbr">
+      <span class="flag">💧</span>
+      <span class="abbr" style="color:#c084fc;">GWRI</span>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">Global Water Scarcity</div>
+      <div class="card-country">Global · Domain 177</div>
+    </div>
+    <div class="zone-badge" style="background:#2e1e00;color:#fbbf24;border:1px solid #B38600;">WATCH</div>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-index">GWRI</span>
+    <div class="gauge-track">
+      <div class="gauge-fill" style="width:32%;background:#fbbf24;"></div>
+    </div>
+    <span class="gauge-val" style="color:#fbbf24;">0.3200</span>
+  </div>
+  <div class="card-highlights">Aquifer depletion accelerating &nbsp;&middot;&nbsp; Desalination capex surge &nbsp;&middot;&nbsp; Interstate water disputes</div>
+  <a class="open-btn" href="https://sohweekian.github.io/bluelotus/canary/Global_Water_Scarcity_Canary_Q3_2026_Brief.html">Open Report &rarr;</a>
+</div>
+
+<div class="canary-card">
+  <div class="card-header">
+    <div class="card-flag-abbr">
+      <span class="flag">🦠</span>
+      <span class="abbr" style="color:#c084fc;">PBRI</span>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">Pandemic & Biosecurity</div>
+      <div class="card-country">Global · Domain 183</div>
+    </div>
+    <div class="zone-badge" style="background:#0d2e14;color:#4ade80;border:1px solid #238636;">NORMAL</div>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-index">PBRI</span>
+    <div class="gauge-track">
+      <div class="gauge-fill" style="width:26%;background:#4ade80;"></div>
+    </div>
+    <span class="gauge-val" style="color:#4ade80;">0.2600</span>
+  </div>
+  <div class="card-highlights">H5N1 mammalian spillover watch &nbsp;&middot;&nbsp; Gain-of-function oversight gaps &nbsp;&middot;&nbsp; Pandemic treaty stalled</div>
+  <a class="open-btn" href="https://sohweekian.github.io/bluelotus/canary/Pandemic_Biosecurity_Canary_Q3_2026_Brief.html">Open Report &rarr;</a>
+</div>
+  </div>
+</section>
 
 <div class="exclusion-banner">
   <a href="https://sohweekian.github.io/bluelotus/canary-exclusions.html">
@@ -2189,8 +2897,31 @@ body{padding-top:52px !important;}
 </div>
 
 <footer class="page-footer">
-  <strong>79 canaries. Deterministic. Zero LLMs. Weekly cadence.</strong><br/>
+  <strong>108 canaries. Deterministic. Zero LLMs. Weekly cadence.</strong><br/>
   CivilisationOS &mdash; BlueLotus Fund &mdash; Q3 2026
 </footer>
+
+<script id="bl-nav-js">
+(function(){
+  document.querySelectorAll('.bl-dropdown').forEach(function(dd){
+    dd.addEventListener('mouseenter', function(){ dd.classList.add('open'); });
+    dd.addEventListener('mouseleave', function(){ dd.classList.remove('open'); });
+  });
+  document.querySelectorAll('.bl-dropdown-btn').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      var parent = btn.closest('.bl-dropdown');
+      document.querySelectorAll('.bl-dropdown.open').forEach(function(el){ if(el!==parent) el.classList.remove('open'); });
+      if(parent) parent.classList.toggle('open');
+    });
+  });
+  document.addEventListener('click', function(e){
+    if(!e.target.closest('.bl-dropdown')){
+      document.querySelectorAll('.bl-dropdown.open').forEach(function(el){ el.classList.remove('open'); });
+    }
+  });
+})();
+</script>
 </body>
 </html>
