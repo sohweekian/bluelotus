@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-08-30 20:56 SGT",
-  "cycle_id": "v3_cycle_20260830_205620",
-  "latest_cycle_id": "v3_cycle_20260830_205620",
+  "generated_at": "2026-08-30 22:15 SGT",
+  "cycle_id": "v3_cycle_20260830_221534",
+  "latest_cycle_id": "v3_cycle_20260830_221534",
   "fallback_from_cycle_id": "",
   "fallback_reason": "",
   "clerk_mode": "deterministic",
@@ -13,6 +13,7 @@
   "agent_consensus": [],
   "disagreements": [],
   "cio_attention_items": [
+    "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers.",
     "Portfolio policy/mandate must be reconciled with concentration warning for UVXY."
   ],
   "digest_layers": [
@@ -20,7 +21,7 @@
       "layer_id": "cycle_identity",
       "layer": "package_cycle_identity",
       "status": "DATA_CONFIRMED",
-      "summary": "Cycle v3_cycle_20260830_205620 · deterministic clerk · Zone A authority"
+      "summary": "Cycle v3_cycle_20260830_221534 · deterministic clerk · Zone A authority"
     },
     {
       "layer_id": "source_hierarchy",
@@ -62,7 +63,7 @@
       "layer_id": "deterministic_operators",
       "layer": "operator_blocks",
       "status": "DATA_CONFIRMED",
-      "summary": "Blocked 7 · permitted HOLD, REVIEW, WAIT"
+      "summary": "Blocked 9 · permitted HOLD, REVIEW, WAIT"
     },
     {
       "layer_id": "forecast_brier",
@@ -78,19 +79,30 @@
     }
   ],
   "manual_execution_required": true,
-  "created_at_sgt": "2026-08-30T20:56:21+08:00",
+  "created_at_sgt": "2026-08-30T22:15:36+08:00",
   "contradiction_register": {
     "schema_version": "bluelotus_v3_contradiction_register_v1.0",
-    "cycle_id": "v3_cycle_20260830_205620",
-    "created_at_sgt": "2026-08-30T20:56:21+08:00",
-    "contradiction_count": 1,
-    "p1_count": 0,
+    "cycle_id": "v3_cycle_20260830_221534",
+    "created_at_sgt": "2026-08-30T22:15:36+08:00",
+    "contradiction_count": 2,
+    "p1_count": 1,
     "p2_count": 1,
     "p3_count": 0,
     "contradictions": [
       {
-        "contradiction_id": "V3_CYCLE_20260830_205620_P2_PORTFOLIO_POLICY_VS_RISK_PORTFOLIO_MANDATES_RISK_METRICS_PORTFOLIO_P",
-        "cycle_id": "v3_cycle_20260830_205620",
+        "contradiction_id": "V3_CYCLE_20260830_221534_P1_THESIS_VS_ORDER_BOOK_GOLD_THESIS_OPERATOR_MOOMOO_READONLY_ORDERS_GOL",
+        "cycle_id": "v3_cycle_20260830_221534",
+        "severity": "P1",
+        "domain": "thesis_vs_order_book",
+        "source_a": "gold_thesis_operator",
+        "source_b": "moomoo_readonly_orders",
+        "conflict_statement": "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers.",
+        "cio_attention_required": true,
+        "recommended_resolution_path": "CIO must verify whether open orders are intentional support bids, stale orders, or should be cancelled."
+      },
+      {
+        "contradiction_id": "V3_CYCLE_20260830_221534_P2_PORTFOLIO_POLICY_VS_RISK_PORTFOLIO_MANDATES_RISK_METRICS_PORTFOLIO_P",
+        "cycle_id": "v3_cycle_20260830_221534",
         "severity": "P2",
         "domain": "portfolio_policy_vs_risk",
         "source_a": "portfolio_mandates",
@@ -106,17 +118,19 @@
   },
   "cio_decision_strip": {
     "schema_version": "bluelotus_v3_cio_decision_strip_v1.0",
-    "cycle_id": "v3_cycle_20260830_205620",
-    "created_at_sgt": "2026-08-30T20:56:21+08:00",
-    "posture": "REVIEW",
+    "cycle_id": "v3_cycle_20260830_221534",
+    "created_at_sgt": "2026-08-30T22:15:36+08:00",
+    "posture": "CIO_VERIFICATION_REQUIRED",
     "new_information": [
-      "Deterministic Chief Clerk mapped 10 Zone A layers. No LLM agent council. Report action field states: REVIEW. Contradictions: 1 (P1 0, P2 1).",
-      "1 contradiction governance item(s) detected."
+      "Deterministic Chief Clerk mapped 10 Zone A layers. No LLM agent council. Report action field states: REVIEW. Contradictions: 2 (P1 1, P2 1).",
+      "2 contradiction governance item(s) detected."
     ],
     "action_blocked": [
+      "ADD_HIGH_BETA_RISK",
       "ADD_RISK_WITHOUT_CATALYST_REVIEW",
       "ADD_TO_MULTI-ASSET",
       "ADD_UVXY",
+      "INCREASE_GOLD_THESIS_RISK",
       "INCREASE_MULTI-ASSET_EXPOSURE",
       "SCALE_IN_ADD",
       "SECOND_TRANCHE_ADD",
@@ -128,6 +142,7 @@
       "WAIT"
     ],
     "cio_decision_required": [
+      "Gold thesis risk increase is blocked while open order book contains gold/miner-linked tickers.",
       "Portfolio policy/mandate must be reconciled with concentration warning for UVXY."
     ],
     "manual_execution_required": true,
@@ -136,7 +151,7 @@
   },
   "nite_pei": {
     "schema_version": "bluelotus_v3_nite_pei_v1.0",
-    "generated_at_sgt": "2026-08-30T20:56:27+08:00",
+    "generated_at_sgt": "2026-08-30T22:15:41+08:00",
     "thesis_probability_snapshots": [
       {
         "thesis_id": "TRUMP_UNCERTAINTY_THESIS",
@@ -189,17 +204,17 @@
       {
         "thesis_id": "STICKY_INFLATION_THESIS",
         "thesis_type": "STICKY_INFLATION_THESIS",
-        "P_prior": 0.190257,
-        "P_posterior": 0.166469,
-        "delta_p": -0.023788,
+        "P_prior": 0.166469,
+        "P_posterior": 0.145122,
+        "delta_p": -0.021347,
         "events_applied": [
           {
-            "event_id": "ticker_sentiment:11342de054ddcfa1",
+            "event_id": "ticker_sentiment:e05eb000e31e55d0",
             "event_class": "CENTRAL_BANK_DOVISH",
             "raw_headline": "Cadence Design Systems (CDNS) Is Up 10.8% After Raising Guidance On AI Agents Pivot - Has The Bull Case Changed?",
             "source": "ticker_sentiment:CDNS",
             "source_tier": 3,
-            "published_at": "2026-08-30 20:36:32",
+            "published_at": "2026-08-30 21:55:43",
             "source_url": "",
             "matched_keyword": "pivot",
             "noise_discount_factor": 0.25,
@@ -208,25 +223,25 @@
             "lr_source": "CENTRAL_BANK_DOVISH/STICKY_INFLATION_THESIS",
             "confidence": "LOW",
             "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.1903 / 0.8097 = 0.2350",
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.1665 / 0.8335 = 0.1997",
               "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(0.8000) - 1) x (1 - noise_discount(0.25)) = 0.8500",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(0.2350) x LR_adjusted(0.8500) = 0.1997",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.1997 / 1.1997 = 0.1665",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.1665",
-              "delta_p": "-0.0238"
+              "step_3_posterior_odds": "posterior_odds = prior_odds(0.1997) x LR_adjusted(0.8500) = 0.1698",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.1698 / 1.1698 = 0.1451",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.1451",
+              "delta_p": "-0.0213"
             },
-            "p_prior_step": 0.190257,
-            "p_posterior_step": 0.166469,
-            "delta_p_step": -0.023788
+            "p_prior_step": 0.166469,
+            "p_posterior_step": 0.145122,
+            "delta_p_step": -0.021347
           }
         ],
         "event_ids": [
-          "ticker_sentiment:11342de054ddcfa1"
+          "ticker_sentiment:e05eb000e31e55d0"
         ],
-        "brier_record_id": "NITE_BRIER_STICKY_INFLATION_THESIS_F847F1DC",
+        "brier_record_id": "NITE_BRIER_STICKY_INFLATION_THESIS_D5D1C9DE",
         "lr_lookups": [
           {
-            "event_id": "ticker_sentiment:11342de054ddcfa1",
+            "event_id": "ticker_sentiment:e05eb000e31e55d0",
             "event_class": "CENTRAL_BANK_DOVISH",
             "lr_adjusted": 0.85,
             "lr_source": "CENTRAL_BANK_DOVISH/STICKY_INFLATION_THESIS",
@@ -236,16 +251,16 @@
         "kill_state_snapshot": {
           "STICKY_KC_01": {
             "state": "WATCH",
-            "P_kill": 0.166469
+            "P_kill": 0.145122
           },
           "STICKY_KC_02": {
             "state": "WATCH",
-            "P_kill": 0.166469
+            "P_kill": 0.145122
           }
         },
         "worst_kill_state": "WATCH",
         "posture": "THESIS_UNCHANGED — MONITOR",
-        "advisory_text": "[NITE-PEI] STICKY_INFLATION_THESIS: CENTRAL_BANK_DOVISH (LR 0.850 via CENTRAL_BANK_DOVISH/STICKY_INFLATION_THESIS, confidence: LOW). P: 0.190 → 0.166 (▼0.024). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] STICKY_INFLATION_THESIS: CENTRAL_BANK_DOVISH (LR 0.850 via CENTRAL_BANK_DOVISH/STICKY_INFLATION_THESIS, confidence: LOW). P: 0.166 → 0.145 (▼0.021). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
       },
       {
         "thesis_id": "HAWKISH_WARSH_THESIS",
@@ -255,12 +270,12 @@
         "delta_p": 0.0,
         "events_applied": [
           {
-            "event_id": "ticker_sentiment:11342de054ddcfa1",
+            "event_id": "ticker_sentiment:e05eb000e31e55d0",
             "event_class": "CENTRAL_BANK_DOVISH",
             "raw_headline": "Cadence Design Systems (CDNS) Is Up 10.8% After Raising Guidance On AI Agents Pivot - Has The Bull Case Changed?",
             "source": "ticker_sentiment:CDNS",
             "source_tier": 3,
-            "published_at": "2026-08-30 20:36:32",
+            "published_at": "2026-08-30 21:55:43",
             "source_url": "",
             "matched_keyword": "pivot",
             "noise_discount_factor": 0.25,
@@ -282,12 +297,12 @@
           }
         ],
         "event_ids": [
-          "ticker_sentiment:11342de054ddcfa1"
+          "ticker_sentiment:e05eb000e31e55d0"
         ],
-        "brier_record_id": "NITE_BRIER_HAWKISH_WARSH_THESIS_2474816E",
+        "brier_record_id": "NITE_BRIER_HAWKISH_WARSH_THESIS_CE1939E6",
         "lr_lookups": [
           {
-            "event_id": "ticker_sentiment:11342de054ddcfa1",
+            "event_id": "ticker_sentiment:e05eb000e31e55d0",
             "event_class": "CENTRAL_BANK_DOVISH",
             "lr_adjusted": 0.775,
             "lr_source": "CENTRAL_BANK_DOVISH/HAWKISH_WARSH_THESIS",
@@ -311,17 +326,17 @@
       {
         "thesis_id": "HAWKISH_BOJ_THESIS",
         "thesis_type": "HAWKISH_BOJ_THESIS",
-        "P_prior": 0.077396,
-        "P_posterior": 0.06381,
-        "delta_p": -0.013586,
+        "P_prior": 0.06381,
+        "P_posterior": 0.052473,
+        "delta_p": -0.011337,
         "events_applied": [
           {
-            "event_id": "ticker_sentiment:11342de054ddcfa1",
+            "event_id": "ticker_sentiment:e05eb000e31e55d0",
             "event_class": "CENTRAL_BANK_DOVISH",
             "raw_headline": "Cadence Design Systems (CDNS) Is Up 10.8% After Raising Guidance On AI Agents Pivot - Has The Bull Case Changed?",
             "source": "ticker_sentiment:CDNS",
             "source_tier": 3,
-            "published_at": "2026-08-30 20:36:32",
+            "published_at": "2026-08-30 21:55:43",
             "source_url": "",
             "matched_keyword": "pivot",
             "noise_discount_factor": 0.25,
@@ -330,25 +345,25 @@
             "lr_source": "CENTRAL_BANK_DOVISH/HAWKISH_BOJ_THESIS",
             "confidence": "LOW",
             "bayesian_equation": {
-              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.0774 / 0.9226 = 0.0839",
+              "step_1_prior_odds": "prior_odds = P/(1-P) = 0.0638 / 0.9362 = 0.0682",
               "step_2_lr_adjustment": "LR_adjusted = 1 + (LR_raw(0.7500) - 1) x (1 - noise_discount(0.25)) = 0.8125",
-              "step_3_posterior_odds": "posterior_odds = prior_odds(0.0839) x LR_adjusted(0.8125) = 0.0682",
-              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.0682 / 1.0682 = 0.0638",
-              "step_5_clamp": "clamp([0.05, 0.95]) => 0.0638",
-              "delta_p": "-0.0136"
+              "step_3_posterior_odds": "posterior_odds = prior_odds(0.0682) x LR_adjusted(0.8125) = 0.0554",
+              "step_4_posterior_prob": "P_posterior = posterior_odds / (1 + posterior_odds) = 0.0554 / 1.0554 = 0.0525",
+              "step_5_clamp": "clamp([0.05, 0.95]) => 0.0525",
+              "delta_p": "-0.0113"
             },
-            "p_prior_step": 0.077396,
-            "p_posterior_step": 0.06381,
-            "delta_p_step": -0.013586
+            "p_prior_step": 0.06381,
+            "p_posterior_step": 0.052473,
+            "delta_p_step": -0.011337
           }
         ],
         "event_ids": [
-          "ticker_sentiment:11342de054ddcfa1"
+          "ticker_sentiment:e05eb000e31e55d0"
         ],
-        "brier_record_id": "NITE_BRIER_HAWKISH_BOJ_THESIS_7B059954",
+        "brier_record_id": "NITE_BRIER_HAWKISH_BOJ_THESIS_B921879D",
         "lr_lookups": [
           {
-            "event_id": "ticker_sentiment:11342de054ddcfa1",
+            "event_id": "ticker_sentiment:e05eb000e31e55d0",
             "event_class": "CENTRAL_BANK_DOVISH",
             "lr_adjusted": 0.8125,
             "lr_source": "CENTRAL_BANK_DOVISH/HAWKISH_BOJ_THESIS",
@@ -358,7 +373,7 @@
         "kill_state_snapshot": {
           "BOJ_KC_01": {
             "state": "INACTIVE",
-            "P_kill": 0.06381
+            "P_kill": 0.052473
           },
           "BOJ_KC_02": {
             "state": "INACTIVE",
@@ -367,13 +382,13 @@
         },
         "worst_kill_state": "INACTIVE",
         "posture": "THESIS_UNCHANGED — MONITOR",
-        "advisory_text": "[NITE-PEI] HAWKISH_BOJ_THESIS: CENTRAL_BANK_DOVISH (LR 0.812 via CENTRAL_BANK_DOVISH/HAWKISH_BOJ_THESIS, confidence: LOW). P: 0.077 → 0.064 (▼0.014). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
+        "advisory_text": "[NITE-PEI] HAWKISH_BOJ_THESIS: CENTRAL_BANK_DOVISH (LR 0.812 via CENTRAL_BANK_DOVISH/HAWKISH_BOJ_THESIS, confidence: LOW). P: 0.064 → 0.052 (▼0.011). Posture: THESIS_UNCHANGED — MONITOR. MANUAL_EXECUTION_REQUIRED."
       }
     ],
-    "ckri": 0.58586,
+    "ckri": 0.580117,
     "ckri_zone": "ELEVATED",
     "ckri_detail": {
-      "weighted_sum": 1.729299,
+      "weighted_sum": 1.700583,
       "correlation_penalty_applied": 1.2,
       "total_weight": 5.0,
       "kill_breakdown": [
@@ -413,17 +428,17 @@
           "thesis_id": "STICKY_INFLATION_THESIS",
           "kill_id": "STICKY_KC_01",
           "kill_weight": 0.55,
-          "P_kill": 0.166469,
+          "P_kill": 0.145122,
           "current_state": "WATCH",
-          "contribution": 0.091558
+          "contribution": 0.079817
         },
         {
           "thesis_id": "STICKY_INFLATION_THESIS",
           "kill_id": "STICKY_KC_02",
           "kill_weight": 0.45,
-          "P_kill": 0.166469,
+          "P_kill": 0.145122,
           "current_state": "WATCH",
-          "contribution": 0.074911
+          "contribution": 0.065305
         },
         {
           "thesis_id": "HAWKISH_WARSH_THESIS",
@@ -445,9 +460,9 @@
           "thesis_id": "HAWKISH_BOJ_THESIS",
           "kill_id": "BOJ_KC_01",
           "kill_weight": 0.65,
-          "P_kill": 0.06381,
+          "P_kill": 0.052473,
           "current_state": "INACTIVE",
-          "contribution": 0.041477
+          "contribution": 0.034107
         },
         {
           "thesis_id": "HAWKISH_BOJ_THESIS",
@@ -501,9 +516,9 @@
       {
         "thesis_id": "STICKY_INFLATION_THESIS",
         "thesis_type": "STICKY_INFLATION_THESIS",
-        "p_posterior_used": 0.166469,
+        "p_posterior_used": 0.145122,
         "analyst_upside_pct": 0.15,
-        "f_star_full": -5.390404,
+        "f_star_full": -5.554065,
         "fractional_multiplier": 0.275,
         "f_star_kelly": 0.0,
         "coherence_score": 0.75,
@@ -539,9 +554,9 @@
       {
         "thesis_id": "HAWKISH_BOJ_THESIS",
         "thesis_type": "HAWKISH_BOJ_THESIS",
-        "p_posterior_used": 0.06381,
+        "p_posterior_used": 0.052473,
         "analyst_upside_pct": 0.15,
-        "f_star_full": -6.177457,
+        "f_star_full": -6.264374,
         "fractional_multiplier": 0.275,
         "f_star_kelly": 0.0,
         "coherence_score": 0.75,
@@ -562,9 +577,9 @@
     "manual_execution_required": true,
     "llm_order_generation": false,
     "order_routing_enabled": false,
-    "source_cycle_id": "v3_cycle_20260830_205620",
-    "source_cycle_path": "C:\\bluelotus3\\data\\v3_cycles\\v3_cycle_20260830_205620",
-    "nite_pei_generated_at_sgt": "2026-08-30T20:56:27+08:00",
+    "source_cycle_id": "v3_cycle_20260830_221534",
+    "source_cycle_path": "C:\\bluelotus3\\data\\v3_cycles\\v3_cycle_20260830_221534",
+    "nite_pei_generated_at_sgt": "2026-08-30T22:15:41+08:00",
     "generation_mode": "live_cycle",
     "event_extraction": {
       "dataset_path": "C:\\bluelotus3\\data\\frontend\\dataset_raw.json",
