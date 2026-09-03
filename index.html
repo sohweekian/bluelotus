@@ -1951,6 +1951,129 @@ body{padding-top:52px !important;}
 </script>
 <!-- THESIS_WIDGETS_END -->
 
+<div id="smart-money-live" style="margin-bottom:16px">
+  <div style="background:rgba(13,16,32,.60);border:1px solid rgba(192,132,252,.14);
+    border-radius:12px;padding:14px 24px;color:#444;font-family:JetBrains Mono,monospace;
+    font-size:10px;letter-spacing:.12em">S12 · SMART MONEY SIGNAL — loading…</div>
+</div>
+<script>
+(function(){
+  var BASE="https://sohweekian.github.io/bluelotus";
+  function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+  function badge(txt,col){
+    return '<span style="background:'+col+'22;color:'+col+';border-radius:4px;'
+      +'padding:2px 7px;font-size:11px;font-weight:600">'+esc(txt)+'</span>';
+  }
+  function hexRgb(h){
+    h=(h||"#94a3b8").replace('#','');
+    return parseInt(h.slice(0,2),16)+','+parseInt(h.slice(2,4),16)+','+parseInt(h.slice(4,6),16);
+  }
+  function numColor(v,inverse){
+    var f=parseFloat(v||0);if(f===0)return"#94a3b8";
+    var good=f>0;if(inverse)good=!good;return good?"#4ade80":"#ff5566";
+  }
+  function arrowStr(v){return parseFloat(v||0)>=0?"&#9650;":"&#9660;";}
+  function render(d){
+    var ac=d.alignment_color||"#94a3b8";
+    var score=Math.min(100,Math.max(0,parseInt(d.alignment_score||0)));
+    var cot=d.cftc_cot||{};
+    var etf=d.etf_flows||{};
+    var vts=d.vix_term_structure||{};
+    var html='<div style="background:rgba(13,16,32,.94);border:1px solid rgba(192,132,252,.18);'
+      +'border-radius:12px;padding:18px 22px;margin-bottom:16px">';
+    /* Header */
+    html+='<div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;flex-wrap:wrap">'
+      +'<div style="font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.18em;'
+      +'text-transform:uppercase;color:#c084fc;font-weight:700">S12 · SMART MONEY SIGNAL</div>'
+      +'<span style="height:1px;background:rgba(192,132,252,.18);flex:1;display:block;min-width:20px"></span>'
+      +badge(d.overall_alignment||"UNKNOWN",ac)
+      +'<span style="font-size:9px;color:#555;font-family:JetBrains Mono,monospace">'+esc(d.generated_at||"")+'</span>'
+      +'</div>';
+    /* Alignment score bar */
+    html+='<div style="padding:10px 14px;background:rgba('+hexRgb(ac)+',.08);'
+      +'border:1px solid '+ac+'33;border-radius:8px;margin-bottom:14px">'
+      +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">'
+      +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.10em">ALIGNMENT SCORE</span>'
+      +'<span style="font-family:JetBrains Mono,monospace;font-size:14px;font-weight:700;color:'+ac+'">'+score+'/100</span></div>'
+      +'<div style="height:4px;background:rgba(255,255,255,.06);border-radius:3px">'
+      +'<div style="height:100%;width:'+score+'%;background:'+ac+';border-radius:3px;transition:width .6s ease"></div></div>'
+      +(d.alignment_note?'<div style="margin-top:8px;font-size:10px;color:#94a3b8;font-family:JetBrains Mono,monospace">'+esc(d.alignment_note)+'</div>':"")
+      +'</div>';
+    html+='<div style="display:grid;grid-template-columns:1fr;gap:8px">';
+    /* CFTC COT row */
+    var cotC=cot.signal_color||"#94a3b8";
+    var net=cot.net_non_commercial||0;
+    var wchg=cot.week_chg||0;
+    html+='<div style="padding:10px 14px;background:rgba(8,10,24,.85);border:1px solid rgba(255,255,255,.07);border-radius:8px">'
+      +'<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">'
+      +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;letter-spacing:.12em;'
+      +'text-transform:uppercase;color:#94a3b8;flex:1">CFTC COT &#8212; JPY Non-Commercial Futures</span>'
+      +badge(cot.signal||"UNKNOWN",cotC)+'</div>'
+      +'<div style="display:flex;gap:18px;flex-wrap:wrap;font-family:JetBrains Mono,monospace;font-size:10px;align-items:center">'
+      +'<span style="color:#555">NET <span style="color:#e2e8f0;font-weight:700">'+(net>=0?"+":"")+net.toLocaleString()+'</span></span>'
+      +(wchg?'<span style="color:'+numColor(wchg,true)+'">'+arrowStr(wchg)+'&thinsp;'+Math.abs(wchg).toLocaleString()+' WoW</span>':"")
+      +(cot.pct_of_open_interest!==undefined?'<span style="color:#555">OI&nbsp;<span style="color:'+cotC+'">'+parseFloat(cot.pct_of_open_interest).toFixed(1)+'%</span></span>':"")
+      +(cot.report_date?'<span style="color:#333;margin-left:auto;font-size:9px">as of '+esc(cot.report_date)+'</span>':"")
+      +'</div>'
+      +(cot.note?'<div style="margin-top:5px;font-size:9px;color:#555;font-family:JetBrains Mono,monospace">'+esc(cot.note)+'</div>':"")
+      +'</div>';
+    /* ETF AUM flows row */
+    var etfC=etf.signal_color||"#94a3b8";
+    var uvxy=etf.uvxy||{},vxx=etf.vxx||{},vixy=etf.vixy||{};
+    html+='<div style="padding:10px 14px;background:rgba(8,10,24,.85);border:1px solid rgba(255,255,255,.07);border-radius:8px">'
+      +'<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">'
+      +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;letter-spacing:.12em;'
+      +'text-transform:uppercase;color:#94a3b8;flex:1">Vol ETF AUM &#8212; 30-Day Flow</span>'
+      +badge(etf.composite_signal||"UNKNOWN",etfC)+'</div>'
+      +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:6px">';
+    [["UVXY",uvxy],["VXX",vxx],["VIXY",vixy]].forEach(function(pair){
+      var nm=pair[0],e=pair[1];
+      var chg=parseFloat(e.chg_pct||0);
+      var col=chg>0?"#4ade80":chg<0?"#ff5566":"#94a3b8";
+      html+='<div style="text-align:center;padding:6px 4px;background:rgba(255,255,255,.03);border-radius:6px">'
+        +'<div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.08em">'+nm+'</div>'
+        +'<div style="font-family:JetBrains Mono,monospace;font-size:12px;font-weight:700;color:#e2e8f0;margin:2px 0">'
+        +(e.aum_m?"$"+parseFloat(e.aum_m).toLocaleString()+"M":"&#8212;")+'</div>'
+        +'<div style="font-family:JetBrains Mono,monospace;font-size:10px;color:'+col+'">'
+        +(chg>=0?"+":"")+chg.toFixed(1)+'%</div></div>';
+    });
+    html+='</div>'
+      +(etf.note?'<div style="font-size:9px;color:#555;font-family:JetBrains Mono,monospace">'+esc(etf.note)+'</div>':"")
+      +'</div>';
+    /* VIX term structure row */
+    var vtsC=vts.signal_color||"#94a3b8";
+    html+='<div style="padding:10px 14px;background:rgba(8,10,24,.85);border:1px solid rgba(255,255,255,.07);border-radius:8px">'
+      +'<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">'
+      +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;letter-spacing:.12em;'
+      +'text-transform:uppercase;color:#94a3b8;flex:1">VIX Term Structure</span>'
+      +badge(vts.slope_status||"UNKNOWN",vtsC)+'</div>'
+      +'<div style="display:flex;gap:16px;flex-wrap:wrap;font-family:JetBrains Mono,monospace;font-size:10px">'
+      +(vts.vix_spot?'<span style="color:#555">SPOT <span style="color:#e2e8f0;font-weight:700">'+vts.vix_spot+'</span></span>':"")
+      +(vts.vx_m1?'<span style="color:#555">M1 <span style="color:#fbbf24">'+vts.vx_m1+'</span></span>':"")
+      +(vts.vx_m2?'<span style="color:#555">M2 <span style="color:#fbbf24">'+vts.vx_m2+'</span></span>':"")
+      +(vts.m1_premium_pct!==undefined?'<span style="color:#555">PREMIUM <span style="color:'+vtsC+'">'+(parseFloat(vts.m1_premium_pct)>=0?"+":"")+parseFloat(vts.m1_premium_pct).toFixed(1)+'%</span></span>':"")
+      +'</div>'
+      +(vts.note?'<div style="margin-top:5px;font-size:9px;color:#555;font-family:JetBrains Mono,monospace">'+esc(vts.note)+'</div>':"")
+      +'</div>';
+    html+='</div></div>';
+    document.getElementById("smart-money-live").innerHTML=html;
+  }
+  function load(){
+    fetch(BASE+"/data/smart_money_live.json?t="+Date.now())
+      .then(function(r){return r.ok?r.json():Promise.reject(r.status);})
+      .then(render)
+      .catch(function(){
+        document.getElementById("smart-money-live").innerHTML=
+          '<div style="background:rgba(13,16,32,.60);border:1px solid rgba(192,132,252,.14);'
+          +'border-radius:12px;padding:14px 24px;color:#444;font-family:JetBrains Mono,monospace;'
+          +'font-size:10px;letter-spacing:.10em">S12 · SMART MONEY SIGNAL &#8212; data not available (pipeline not running)</div>';
+      });
+  }
+  load();
+  setInterval(load,1800000);
+})();
+</script>
+
 <div style="font-family:JetBrains Mono,monospace;font-size:10px;color:#555;padding:10px 0 4px;border-top:1px solid rgba(255,255,255,.05);letter-spacing:.06em">System Health&nbsp;·&nbsp;Sources active: 77 / baseline 52&nbsp;·&nbsp;Signals 415186&nbsp;·&nbsp;Integrity <span style="color:#4ade80">PASS</span>&nbsp;·&nbsp;Research only, no advice or orders&nbsp;·&nbsp;<a href="https://sohweekian.github.io/bluelotus/chief-strategist.html" style="color:#c084fc;text-decoration:none">Full Clerk Map &rarr;</a></div>
 </main>
 </body></html>
