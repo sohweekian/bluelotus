@@ -1200,7 +1200,7 @@ body{padding-top:52px !important;}
 (function(){
   var BASE="https://sohweekian.github.io/bluelotus";
   var ENDPOINT="data/thesis_widgets/ai_infrastructure_power_latest.json";
-  var REFRESH_MS=600000;
+  var REFRESH_MS=3600000;
   var MARKER_ID="ai-infra-live";
   var TITLE="S6 · AI Infrastructure / Power Bottleneck";
   var SAFETY_FOOTER="EXECUTION: CIO_ONLY_MANUAL · ORDER_ROUTING: DISABLED · THESIS: AI_INFRASTRUCTURE_POWER_THESIS";
@@ -1323,7 +1323,7 @@ body{padding-top:52px !important;}
 (function(){
   var BASE="https://sohweekian.github.io/bluelotus";
   var ENDPOINT="data/thesis_widgets/credit_refinancing_liquidity_latest.json";
-  var REFRESH_MS=600000;
+  var REFRESH_MS=3600000;
   var MARKER_ID="credit-refi-live";
   var TITLE="S7 · Credit / Refinancing / Liquidity";
   var SAFETY_FOOTER="EXECUTION: CIO_ONLY_MANUAL · ORDER_ROUTING: DISABLED · THESIS: CREDIT_REFINANCING_LIQUIDITY_THESIS";
@@ -1446,7 +1446,7 @@ body{padding-top:52px !important;}
 (function(){
   var BASE="https://sohweekian.github.io/bluelotus";
   var ENDPOINT="data/thesis_widgets/global_leverage_unwind_latest.json";
-  var REFRESH_MS=600000;
+  var REFRESH_MS=3600000;
   var MARKER_ID="global-leverage-live";
   var TITLE="S8 · Global Leverage Unwind";
   var SAFETY_FOOTER="EXECUTION: CIO_ONLY_MANUAL · ORDER_ROUTING: DISABLED · THESIS: GLOBAL_LEVERAGE_UNWIND_THESIS";
@@ -1569,7 +1569,7 @@ body{padding-top:52px !important;}
 (function(){
   var BASE="https://sohweekian.github.io/bluelotus";
   var ENDPOINT="data/thesis_widgets/oil_deescalation_peace_dividend_latest.json";
-  var REFRESH_MS=600000;
+  var REFRESH_MS=3600000;
   var MARKER_ID="oil-peace-dividend-live";
   var TITLE="S9 - Oil De-escalation / Peace Dividend";
   var SAFETY_FOOTER="EXECUTION: CIO_ONLY_MANUAL - ORDER_ROUTING: DISABLED - THESIS: OIL_DEESCALATION_PEACE_DIVIDEND_THESIS";
@@ -1692,7 +1692,7 @@ body{padding-top:52px !important;}
 (function(){
   var BASE="https://sohweekian.github.io/bluelotus";
   var ENDPOINT="data/thesis_widgets/korea_ai_infrastructure_latest.json";
-  var REFRESH_MS=600000;
+  var REFRESH_MS=3600000;
   var MARKER_ID="korea-ai-infra-live";
   var TITLE="S10 · Korea AI Infrastructure — Memory / HBM Bellwether";
   var SAFETY_FOOTER="EXECUTION: CIO_ONLY_MANUAL · ORDER_ROUTING: DISABLED · THESIS: KOREA_AI_INFRASTRUCTURE_THESIS";
@@ -1815,7 +1815,7 @@ body{padding-top:52px !important;}
 (function(){
   var BASE="https://sohweekian.github.io/bluelotus";
   var ENDPOINT="data/thesis_widgets/japan_ai_infrastructure_latest.json";
-  var REFRESH_MS=600000;
+  var REFRESH_MS=3600000;
   var MARKER_ID="japan-ai-infra-live";
   var TITLE="S11 · Japan AI Infrastructure — Equipment / Materials Bellwether";
   var SAFETY_FOOTER="EXECUTION: CIO_ONLY_MANUAL · ORDER_ROUTING: DISABLED · THESIS: JAPAN_AI_INFRASTRUCTURE_THESIS";
@@ -1928,61 +1928,132 @@ body{padding-top:52px !important;}
   setInterval(load,REFRESH_MS);
 })();
 </script>
-<!-- THESIS_WIDGETS_END -->
 
-<div id="smart-money-live" style="margin-bottom:16px">
-  <div style="background:rgba(13,16,32,.60);border:1px solid rgba(192,132,252,.14);border-radius:12px;padding:14px 24px;color:#444;font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.12em">S12 · SMART MONEY — 5 PILLAR FRAMEWORK — loading…</div>
+<div id="smart-money-s12-live" data-dashboard-widget="smart_money_5pillar" style="margin-bottom:16px">
+  <div style="background:rgba(13,16,32,.60);border:1px solid #4ade8022;border-radius:12px;
+    padding:14px 24px;color:#555;font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.12em">
+    S12 · Smart Money — 5-Pillar Framework - loading...</div>
 </div>
 <script>
 (function(){
   var BASE="https://sohweekian.github.io/bluelotus";
+  var ENDPOINT="data/thesis_widgets/smart_money_s12_latest.json";
+  var REFRESH_MS=3600000;
+  var MARKER_ID="smart-money-s12-live";
+  var TITLE="S12 · Smart Money — 5-Pillar Framework";
+  var SAFETY_FOOTER="EXECUTION: CIO_ONLY_MANUAL · ORDER_ROUTING: DISABLED · THESIS: SMART_MONEY_S12_THESIS";
+  var STATUS_COLORS={"CONFIRMING": "#4ade80", "WATCH": "#fbbf24", "MIXED": "#fb923c", "WEAKENING": "#f97316", "CONTRADICTED": "#ff5566", "UNKNOWN": "#94a3b8"};
+  var SIGNAL_COLORS={"STRESS": "#ff5566", "WATCH": "#fbbf24", "CALM": "#4ade80", "PASS": "#4ade80", "FAIL": "#ff5566", "UNKNOWN": "#94a3b8"};
+  var FALLBACK_COLOR="#94a3b8";
+  var SCORE_LABEL="THESIS SCORE";
+  var _lastData=null;
   function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
-  function badge(txt,col){return'<span style="background:'+col+'22;color:'+col+';border-radius:4px;padding:2px 8px;font-size:10px;font-weight:700;letter-spacing:.06em">'+esc(txt)+'</span>';}
-  function hexRgb(h){h=(h||"#94a3b8").replace('#','');return parseInt(h.slice(0,2),16)+','+parseInt(h.slice(2,4),16)+','+parseInt(h.slice(4,6),16);}
-  var SC={"CONFIRMED":"#4ade80","LOCKED":"#4ade80","ACTIVE":"#4ade80","ALL_5_CONFIRMED":"#4ade80","POSITIONED":"#4ade80","DIVERGENCE_ACTIVE":"#4ade80","FIRST_MOVER_ACTIVE":"#4ade80","PRIMED":"#fbbf24","SPRING_COILED":"#fbbf24","WATCH":"#fbbf24","CONTANGO":"#fbbf24","REVERSAL_RISK":"#fb923c","MIXED":"#fb923c","EXIT_SIGNAL":"#c084fc","AMPLIFIER":"#ff5566","EXTREME_SHORT":"#ff5566","CARRY_UNWIND_RISK":"#ff5566","BACKWARDATION":"#22d3ee","ARMED":"#22d3ee","MONITOR":"#94a3b8","UNKNOWN":"#94a3b8"};
-  var INV={"P1":"The market's prevailing belief is wrong. We have identified the mispricing and positioned before the correction. The reflexivity loop is fully wound — reversal is a matter of when, not if.","P2":"Goldman Sachs published their $120 oil call — meaning their own position is already fully built. We are positioned ahead of the retail wave they will sell into at the peak.","P3":"The Bank of Japan is raising rates while the US Fed holds. This monetary divergence is historically the trigger for a yen carry trade collapse. That collapse — and its volatility cascade — is exactly what we are positioned for.","P4":"Over $100 billion of computer-driven funds are at maximum long exposure. A 3% market fall automatically forces mechanical selling across all these funds simultaneously — amplifying any volatility move and directly benefiting our UVXY position.","P5":"Asian sovereign funds — Japan, Korea, Taiwan, Singapore — receive BOJ intelligence before US markets open. Their positioning ahead of the US session is Phase 1 of the institutional cascade. It is active now."};
-
-  function renderPillar(p){
-    if(!p)return'';var pc=p.color||"#94a3b8";var psig=(p.signal||"UNKNOWN").toUpperCase().replace(/\s/g,"_");var sigCol=SC[psig]||pc;
-    var html='<div style="margin-bottom:10px;border:1px solid '+pc+'2a;border-radius:8px;overflow:hidden"><div style="display:flex;align-items:center;gap:10px;padding:8px 13px;background:rgba('+hexRgb(pc)+',.07)">'+(p.stars?'<span style="font-size:11px">'+esc(p.stars)+'</span>':'')+'<span style="font-family:JetBrains Mono,monospace;font-size:9px;letter-spacing:.14em;color:'+pc+';font-weight:700;flex:1;text-transform:uppercase">'+esc(p.label||"")+'</span>'+badge(p.signal||"UNKNOWN",sigCol)+'</div>';
-    if(p.conditions&&p.conditions.length){html+='<div style="padding:8px 13px 6px">';p.conditions.forEach(function(c){var ok=(c.war_room_status||"").indexOf("✅")>=0;html+='<div style="display:flex;gap:7px;font-family:JetBrains Mono,monospace;font-size:9px"><span style="color:'+(ok?"#4ade80":"#fbbf24")+';flex-shrink:0">'+(ok?"✅":"⚠️")+'</span><span style="color:#8b93a7">'+esc(c.condition)+'</span></div>';});html+='</div>';}
-    if(p.indicators&&p.indicators.length){html+='<div style="padding:8px 13px 6px">';p.indicators.forEach(function(ind){var ic=SC[(ind.status||"").toUpperCase().replace(/\s/g,"_")]||"#94a3b8";html+='<div style="display:flex;align-items:center;gap:6px;font-family:JetBrains Mono,monospace;font-size:9px;padding:2px 0;border-bottom:1px solid rgba(255,255,255,.03)"><span style="color:#555;width:160px">'+esc(ind.name)+'</span><span style="color:#e2e8f0;font-weight:700">'+esc(String(ind.value||""))+'</span>'+(ind.threshold?'<span style="color:#444;font-size:8px">&nbsp;/&nbsp;'+esc(ind.threshold)+'</span>':"")+'<span style="margin-left:auto">'+badge(ind.status||"",ic)+'</span></div>'+(ind.note?'<div style="font-family:JetBrains Mono,monospace;font-size:8px;color:#444;padding:1px 0 3px">'+esc(ind.note)+'</div>':"");});html+='</div>';}
-    if(p.regions&&p.regions.length){html+='<div style="padding:8px 13px 4px;display:flex;flex-wrap:wrap;gap:6px">';p.regions.forEach(function(r){var rc=SC[(r.status||"").toUpperCase()]||"#94a3b8";html+='<div style="padding:4px 10px;background:'+rc+'18;border:1px solid '+rc+'44;border-radius:4px"><div style="font-family:JetBrains Mono,monospace;font-size:9px;font-weight:700;color:'+rc+'">'+esc(r.country)+'</div><div style="font-family:JetBrains Mono,monospace;font-size:8px;color:#555">'+esc(r.institutions)+'</div></div>';});html+='</div>';if(p.cascade_timeline){var ct=p.cascade_timeline;html+='<div style="padding:4px 13px 8px">';[ct.phase_1,ct.phase_2,ct.phase_3,ct.phase_4].forEach(function(ph,i){if(!ph)return;html+='<div style="font-family:JetBrains Mono,monospace;font-size:8px;color:'+(i===0?"#4ade80":"#555")+';padding:1px 0">'+(i===0?"▶ ":"  ")+esc(ph)+'</div>';});html+='</div>';}}
-    if(p.summary)html+='<div style="padding:6px 13px 8px;font-family:JetBrains Mono,monospace;font-size:9px;color:#555;border-top:1px solid rgba(255,255,255,.04)">'+esc(p.summary)+'</div>';
-    var pKey=(p.label||"").match(/P(\d)/);
-    if(pKey&&INV["P"+pKey[1]])html+='<div style="padding:6px 13px 10px;font-family:Georgia,serif;font-size:10px;color:#5b7fa6;font-style:italic;border-top:1px solid rgba(90,140,200,.08);background:rgba(30,60,120,.06)">"'+esc(INV["P"+pKey[1]])+'"</div>';
-    return html+'</div>';
+  function colorFor(map,key){return map[String(key||"").toUpperCase()]||FALLBACK_COLOR;}
+  function badge(label,col){
+    return '<span style="background:'+col+'22;color:'+col+';border-radius:4px;padding:2px 7px;font-size:10px;font-weight:700">'+esc(label)+'</span>';
   }
-
-  function renderTriggers(mt){if(!mt||!mt.top_5)return'';var html='<div style="margin-bottom:10px;padding:10px 13px;background:rgba(8,10,24,.85);border:1px solid rgba(255,255,255,.07);border-radius:8px"><div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px">MASTER TRIGGER CHECKLIST &#8212; TOP 5</div>';mt.top_5.forEach(function(t){var tc=SC[(t.status||"").toUpperCase()]||"#94a3b8";html+='<div style="display:flex;align-items:center;gap:8px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.03);font-family:JetBrains Mono,monospace"><span style="font-size:10px">'+esc(t.stars||"")+'</span><span style="font-size:9px;color:#8b93a7;flex:1">'+esc(t.trigger)+'</span>'+badge(t.status||"",tc)+'</div>';});return html+'</div>';}
-
-  function renderDataStrip(d){var cot=d.cftc_cot||{},etf=d.etf_flows||{},vts=d.vix_term_structure||{};var cotC=cot.signal_color||"#94a3b8",etfC=etf.signal_color||"#94a3b8",vtsC=vts.signal_color||"#94a3b8";var uvxy=etf.uvxy||{},vxx=etf.vxx||{},vixy=etf.vixy||{};var net=cot.net_non_commercial||0;var html='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px">';html+='<div style="padding:9px 12px;background:rgba(8,10,24,.85);border:1px solid rgba(255,255,255,.07);border-radius:8px"><div style="display:flex;align-items:center;gap:6px;margin-bottom:5px"><span style="font-family:JetBrains Mono,monospace;font-size:8px;letter-spacing:.10em;text-transform:uppercase;color:#555;flex:1">CFTC JPY Lev Money</span>'+badge(cot.signal||"?",cotC)+'</div><div style="font-family:JetBrains Mono,monospace;font-size:14px;font-weight:700;color:'+cotC+'">'+(net>=0?"+":"")+net.toLocaleString()+'</div><div style="font-family:JetBrains Mono,monospace;font-size:8px;color:#444">'+(cot.pct_of_open_interest!==undefined?parseFloat(cot.pct_of_open_interest).toFixed(1)+"% OI":"")+(cot.report_date?' as of '+esc(cot.report_date):"")+'</div></div>';html+='<div style="padding:9px 12px;background:rgba(8,10,24,.85);border:1px solid rgba(255,255,255,.07);border-radius:8px"><div style="display:flex;align-items:center;gap:6px;margin-bottom:5px"><span style="font-family:JetBrains Mono,monospace;font-size:8px;letter-spacing:.10em;text-transform:uppercase;color:#555;flex:1">Vol ETF AUM 30d</span>'+badge(etf.composite_signal||"?",etfC)+'</div><div style="display:flex;gap:8px">';[["UVXY",uvxy],["VXX",vxx],["VIXY",vixy]].forEach(function(pair){var nm=pair[0],e=pair[1];var chg=parseFloat(e.chg_pct||0);var col=chg>2?"#4ade80":chg<-2?"#ff5566":"#94a3b8";html+='<div style="text-align:center"><div style="font-family:JetBrains Mono,monospace;font-size:8px;color:#444">'+nm+'</div><div style="font-family:JetBrains Mono,monospace;font-size:10px;font-weight:700;color:'+col+'">'+(chg>=0?"+":"")+chg.toFixed(1)+'%</div></div>';});html+='</div></div>';html+='<div style="padding:9px 12px;background:rgba(8,10,24,.85);border:1px solid rgba(255,255,255,.07);border-radius:8px"><div style="display:flex;align-items:center;gap:6px;margin-bottom:5px"><span style="font-family:JetBrains Mono,monospace;font-size:8px;letter-spacing:.10em;text-transform:uppercase;color:#555;flex:1">VIX Term Structure</span>'+badge(vts.slope_status||"?",vtsC)+'</div>'+(vts.vix_spot?'<div style="font-family:JetBrains Mono,monospace;font-size:14px;font-weight:700;color:#e2e8f0">'+vts.vix_spot+'<span style="font-size:9px;color:#555"> spot</span></div>':'')+(vts.vx_m1?'<div style="font-family:JetBrains Mono,monospace;font-size:10px;color:'+vtsC+'">'+(vts.m1_premium_pct!==undefined?"M1 "+vts.vx_m1+" ("+(parseFloat(vts.m1_premium_pct)>=0?"+":"")+parseFloat(vts.m1_premium_pct).toFixed(1)+"%)":"M1 "+vts.vx_m1)+'</div>':'')+'</div>';return html+'</div>';}
-
+  function chgStr(v){
+    if(v===null||v===undefined)return '<span style="color:#444">--</span>';
+    var f=parseFloat(v);
+    var col=f>0?"#4ade80":f<0?"#ff5566":"#94a3b8";
+    return '<span style="color:'+col+'">'+(f>=0?"+":"")+f.toFixed(2)+"%</span>";
+  }
+  function scoreColor(score,status){return colorFor(STATUS_COLORS,status)||FALLBACK_COLOR;}
   function render(d){
-    var ac=d.alignment_color||"#4ade80";var score=Math.min(100,Math.max(0,parseInt(d.alignment_score||0)));var tConf=parseInt(d.triggers_confirmed||0);var tTotal=parseInt(d.triggers_total||10);var trigColor=tConf>=8?"#ff5566":tConf>=6?"#fbbf24":"#94a3b8";
-    var html='<div style="background:rgba(13,16,32,.94);border:1px solid rgba(192,132,252,.22);border-radius:12px;padding:18px 22px">';
-    html+='<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap"><div style="font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#c084fc;font-weight:700">S12 · SMART MONEY — 5 PILLAR FRAMEWORK</div><span style="height:1px;background:rgba(192,132,252,.18);flex:1;display:block;min-width:20px"></span>'+badge(d.overall_alignment||"UNKNOWN",ac)+'<span style="font-size:8px;color:#444;font-family:JetBrains Mono,monospace">'+esc(d.generated_at||"")+'</span></div>';
-    html+='<div style="display:grid;grid-template-columns:1fr auto;gap:10px;margin-bottom:14px;align-items:stretch"><div style="padding:10px 14px;background:rgba('+hexRgb(ac)+',.07);border:1px solid '+ac+'2a;border-radius:8px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.10em">INSTITUTIONAL ALIGNMENT SCORE</span><span style="font-family:JetBrains Mono,monospace;font-size:14px;font-weight:700;color:'+ac+'">'+score+'/100</span></div><div style="height:4px;background:rgba(255,255,255,.06);border-radius:3px"><div style="height:100%;width:'+score+'%;background:'+ac+';border-radius:3px;transition:width .6s ease"></div></div>'+(d.alignment_note?'<div style="margin-top:7px;font-size:9px;color:#555;font-family:JetBrains Mono,monospace">'+esc(d.alignment_note)+'</div>':"")+'</div><div style="padding:10px 18px;background:rgba('+hexRgb(trigColor)+',.08);border:1px solid '+trigColor+'2a;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:110px"><span style="font-family:JetBrains Mono,monospace;font-size:8px;color:#555;letter-spacing:.10em;text-transform:uppercase;margin-bottom:4px">TRIGGERS</span><span style="font-family:JetBrains Mono,monospace;font-size:26px;font-weight:700;color:'+trigColor+';line-height:1">'+tConf+'<span style="font-size:13px;color:#444">/'+tTotal+'</span></span><span style="font-family:JetBrains Mono,monospace;font-size:8px;color:#555;margin-top:3px;text-align:center">CONFIRMED<br>OR PRIMED</span></div></div>';
-    html+='<div style="margin-bottom:12px;padding:12px 16px;background:rgba(30,60,120,.10);border:1px solid rgba(90,140,200,.18);border-radius:8px"><div style="font-family:JetBrains Mono,monospace;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:#5b7fa6;font-weight:700;margin-bottom:7px">&#9432;&nbsp; FOR INVESTORS — WHAT IS THIS?</div><p style="font-family:Georgia,serif;font-size:10.5px;color:#7a94b8;line-height:1.65;margin:0 0 7px 0">BlueLotus uses a five-pillar institutional intelligence framework — the <strong style="color:#a0b8d8">Reflexivity Harvest Engine</strong> — to detect when global market forces are aligned for a volatility event. Each pillar is named after a legendary investor whose methodology it applies: Soros, Goldman, Dalio, JPMorgan, and APAC sovereign institutions.</p><p style="font-family:Georgia,serif;font-size:10.5px;color:#7a94b8;line-height:1.65;margin:0 0 7px 0">The <strong style="color:#a0b8d8">alignment score (0–100)</strong> measures how many conditions across all five pillars are confirmed. STRONG (75–89) means the thesis is live and the position is held. FULL (90–100) means all systems are confirmed — maximum conviction.</p><p style="font-family:Georgia,serif;font-size:10.5px;color:#7a94b8;line-height:1.65;margin:0">The current fund position is <strong style="color:#a0b8d8">2,205 shares of UVXY</strong> — an instrument that rises sharply when market fear spikes. The thesis: the Bank of Japan rate decision (Sep 17–18) triggers a yen carry trade collapse, causing a volatility cascade that drives UVXY from ~$18 to our target of $89.</p></div>';
-    html+=renderDataStrip(d);
-    if(d.master_triggers)html+=renderTriggers(d.master_triggers);
-    html+=renderPillar(d.pillar_1_soros);html+=renderPillar(d.pillar_2_goldman);html+=renderPillar(d.pillar_3_dalio);html+=renderPillar(d.pillar_4_jpmorgan);html+=renderPillar(d.pillar_5_apac);
-    var today=new Date();var ds=today.getFullYear()+'-'+(today.getMonth()+1<10?'0':'')+(today.getMonth()+1)+'-'+(today.getDate()<10?'0':'')+today.getDate();
-    html+='<div style="margin-top:14px;margin-bottom:4px;padding:14px 16px;background:rgba(40,30,10,.18);border:1px solid rgba(251,191,36,.20);border-radius:8px"><div style="font-family:JetBrains Mono,monospace;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:#fbbf24;font-weight:700;margin-bottom:8px">CIO SUMMARY FOR INVESTORS &mdash; '+ds+'</div><p style="font-family:Georgia,serif;font-size:10.5px;color:#c9a84c;line-height:1.65;margin:0 0 6px 0">All five institutional frameworks confirm the thesis. The Bank of Japan rate decision is days away. The market's fear index (VIX) sits near historic lows — while our intelligence shows the yen carry trade is beginning to unwind: the yen is strengthening, Japanese equities are falling, and bank stocks are under stress globally.</p><p style="font-family:Georgia,serif;font-size:10.5px;color:#c9a84c;line-height:1.65;margin:0">We remain fully positioned. The Reflexivity Harvest Engine is live. We do not discuss our strategy outside this circle. We will write again when the event resolves.</p></div>';
-    html+='<div style="margin-top:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,.04);font-size:9px;color:#2a2a3a;letter-spacing:.07em;font-family:JetBrains Mono,monospace">EXECUTION: CIO_ONLY_MANUAL &nbsp;·&nbsp; ORDER_ROUTING: DISABLED &nbsp;·&nbsp; GOVERNANCE: 5PILLAR_v1.0 &nbsp;·&nbsp; DOCTRINE: WAR_ROOM_ENTRY_111</div></div>';
-    document.getElementById("smart-money-live").innerHTML=html;
+    _lastData=d||{};
+    var status=(d.status||"UNKNOWN").toUpperCase();
+    var score=parseFloat(d.score)||0;
+    var scoreMax=d.score_max||100;
+    var scorePct=Math.min(100,Math.round((score/scoreMax)*100));
+    var sc=scoreColor(score,status);
+    var marketOpen=d.market_open===true;
+    var marketStatus=d.market_status||"";
+    var freshness=d.data_freshness_label||"";
+    var marketTime=d.market_time_et||"";
+    var lastSession=d.last_market_session||"";
+    var addAllowed=d.add_allowed===true;
+    var cioAction=d.cio_action||"CIO_REVIEW_REQUIRED";
+    var byBasket={};
+    (d.ticker_evidence||[]).forEach(function(t){var g=t.group||"OTHER"; if(!byBasket[g])byBasket[g]=[]; byBasket[g].push(t);});
+    var html='<div style="background:rgba(13,16,32,.94);border:1px solid '+sc+'33;border-radius:12px;padding:18px 22px">'
+      +(!marketOpen&&marketStatus?'<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;padding:7px 12px;background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.18);border-radius:6px">'
+        +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#fbbf24;font-weight:700;letter-spacing:.12em">&#9679; MARKET CLOSED</span>'
+        +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.08em">'+esc(freshness)+(lastSession?' &middot; last session '+esc(lastSession):'')+'</span>'
+        +(marketTime?'<span style="margin-left:auto;font-family:JetBrains Mono,monospace;font-size:9px;color:#444">'+esc(marketTime)+'</span>':'')+'</div>':'')
+      +'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px"><div>'
+      +'<div style="font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:'+sc+';margin-bottom:4px">'+esc(TITLE)+'</div>'
+      +'<div style="font-family:JetBrains Mono,monospace;font-size:11px;color:#555">'+esc(d.last_updated_sgt||d.last_updated_utc||"")+'</div></div>'+badge(status,sc)+'</div>'
+      +'<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">'
+      +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.1em">'+esc(SCORE_LABEL)+'</span>'
+      +'<span style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:700;color:'+sc+'">'+score.toFixed(0)+' / '+scoreMax+'</span></div>'
+      +'<div style="height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden"><div style="height:100%;width:'+scorePct+'%;background:'+sc+';border-radius:3px;transition:width .6s ease"></div></div></div>'
+      +'<div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;padding:8px 12px;background:rgba(255,255,255,.03);border-radius:8px">'
+      +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.1em">CIO ACTION</span>'
+      +'<span style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:700;color:#e2e8f0">'+esc(cioAction)+'</span>'
+      +'<span style="margin-left:auto;font-family:JetBrains Mono,monospace;font-size:9px;color:#555;letter-spacing:.1em">ADD</span>'
+      +'<span style="font-family:JetBrains Mono,monospace;font-size:12px;font-weight:700;color:'+(addAllowed?"#4ade80":"#ff5566")+'">'+(addAllowed?"ALLOWED":"BLOCKED")+'</span></div>'
+      +(d.summary?'<div style="font-family:JetBrains Mono,monospace;font-size:10px;color:#94a3b8;margin-bottom:12px">'+esc(d.summary)+'</div>':'');
+    (d.primary_signals||[]).forEach(function(b){
+      var bId=b.basket||"";
+      var sig=(b.signal||"UNKNOWN").toUpperCase();
+      var bc=colorFor(SIGNAL_COLORS,sig);
+      var rows=byBasket[bId]||[];
+      html+='<div style="margin-bottom:12px;border:1px solid rgba(255,255,255,.05);border-radius:8px;overflow:hidden">'
+        +'<div style="display:flex;align-items:center;gap:10px;padding:7px 12px;background:rgba(255,255,255,.03)">'
+        +'<span style="font-family:JetBrains Mono,monospace;font-size:10px;color:#e2e8f0;font-weight:600;flex:1">'+esc(b.label||bId)+'</span>'
+        +'<span style="font-family:JetBrains Mono,monospace;font-size:9px;color:#444">wt '+esc(b.scoring_weight||0)+'</span>'+badge(sig,bc)+'</div>'
+        +'<table style="width:100%;border-collapse:collapse">';
+      rows.forEach(function(t){
+        var ts=(t.signal||"UNKNOWN").toUpperCase();
+        var tc=colorFor(SIGNAL_COLORS,ts);
+        var price=t.price_formatted||(t.price?'$'+parseFloat(t.price).toFixed(2):'--');
+        html+='<tr style="border-top:1px solid rgba(255,255,255,.04)">'
+          +'<td style="padding:5px 12px;font-family:JetBrains Mono,monospace;font-size:11px;font-weight:700;color:#e2e8f0;width:86px">'+esc(t.display_symbol||t.ticker||t.yf_symbol||"")+'</td>'
+          +'<td style="padding:5px 8px;font-family:JetBrains Mono,monospace;font-size:10px;color:#94a3b8;width:86px">'+price+'</td>'
+          +'<td style="padding:5px 8px;font-family:JetBrains Mono,monospace;font-size:11px;font-weight:600">'+chgStr(t.day_change_pct)+'</td>'
+          +'<td style="padding:5px 12px;text-align:right">'+badge(ts,tc)+'</td></tr>';
+      });
+      if(!rows.length)html+='<tr><td colspan="4" style="padding:6px 12px;font-family:JetBrains Mono,monospace;font-size:10px;color:#444">no price data</td></tr>';
+      html+='</table></div>';
+    });
+    if(d.headline_evidence&&d.headline_evidence.length){
+      html+='<div style="margin-bottom:12px;padding:8px 12px;border:1px solid '+sc+'22;border-radius:8px"><div style="font-family:JetBrains Mono,monospace;font-size:9px;color:'+sc+';letter-spacing:.1em;margin-bottom:4px">HEADLINE EVIDENCE</div>';
+      d.headline_evidence.slice(0,3).forEach(function(h){html+='<div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#94a3b8;padding:2px 0">&#9642; '+esc(h.headline||h.title||"")+'</div>'; });
+      html+='</div>';
+    }
+    if(d.escalation_evidence&&d.escalation_evidence.length){
+      html+='<div style="margin-bottom:12px;padding:8px 12px;border:1px solid rgba(255,85,102,.24);border-radius:8px"><div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#ff5566;letter-spacing:.1em;margin-bottom:4px">ESCALATION EVIDENCE</div>';
+      d.escalation_evidence.slice(0,3).forEach(function(h){html+='<div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#fca5a5;padding:2px 0">&#9642; '+esc(h.headline||h.title||"")+'</div>'; });
+      html+='</div>';
+    }
+    if(d.false_positive_flags&&d.false_positive_flags.length){
+      html+='<div style="margin-bottom:12px;padding:8px 12px;border:1px solid rgba(251,191,36,.22);border-radius:8px"><div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#fbbf24;letter-spacing:.1em;margin-bottom:4px">FALSE-POSITIVE FLAGS</div>';
+      d.false_positive_flags.forEach(function(f){html+='<div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#fde68a;padding:2px 0">&#9642; '+esc(f.message||f.rule||"")+'</div>'; });
+      html+='</div>';
+    }
+    if(d.external_evidence&&d.external_evidence.length){
+      html+='<div style="margin-bottom:12px;padding:8px 12px;border:1px solid rgba(148,163,184,.18);border-radius:8px"><div style="font-family:JetBrains Mono,monospace;font-size:9px;color:#94a3b8;letter-spacing:.1em;margin-bottom:4px">EXTERNAL EVIDENCE</div>';
+      d.external_evidence.forEach(function(e){
+        var ec=e.blocks_add?"#ff5566":(e.available===false?"#64748b":"#60a5fa");
+        html+='<div style="display:flex;gap:8px;align-items:center;font-family:JetBrains Mono,monospace;font-size:9px;color:#94a3b8;padding:2px 0"><span style="flex:1">'+esc(e.label||e.source||"")+'</span><span style="color:'+ec+';font-weight:700">'+esc(e.status||"UNKNOWN")+'</span></div>';
+      });
+      html+='</div>';
+    }
+    html+='<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.04);font-size:9px;color:#333;letter-spacing:.07em;font-family:JetBrains Mono,monospace">'+esc(SAFETY_FOOTER)+'</div></div>';
+    document.getElementById(MARKER_ID).innerHTML=html;
   }
-
   function load(){
-    fetch(BASE+"/data/smart_money_live.json?t="+Date.now())
-      .then(function(r){return r.ok?r.json():Promise.reject(r.status);})
-      .then(render)
-      .catch(function(){document.getElementById("smart-money-live").innerHTML='<div style="background:rgba(13,16,32,.60);border:1px solid rgba(192,132,252,.14);border-radius:12px;padding:14px 24px;color:#444;font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.10em">S12 · SMART MONEY — 5 PILLAR FRAMEWORK &#8212; data not available</div>';});
+    fetch(BASE+"/"+ENDPOINT+"?t="+Date.now()).then(function(r){return r.ok?r.json():Promise.reject(r.status);}).then(render).catch(function(){
+      if(!_lastData)document.getElementById(MARKER_ID).innerHTML='<div style="background:rgba(13,16,32,.60);border:1px solid '+FALLBACK_COLOR+'22;border-radius:12px;padding:14px 24px;color:#555;font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.1em">'+esc(TITLE)+' - widget not yet running</div>';
+    });
   }
   load();
-  setInterval(load,1800000);
+  setInterval(load,REFRESH_MS);
 })();
 </script>
+<!-- THESIS_WIDGETS_END -->
+
+
 <div style="font-family:JetBrains Mono,monospace;font-size:10px;color:#555;padding:10px 0 4px;border-top:1px solid rgba(255,255,255,.05);letter-spacing:.06em">System Health&nbsp;·&nbsp;Sources active: 77 / baseline 52&nbsp;·&nbsp;Signals 994515&nbsp;·&nbsp;Integrity <span style="color:#4ade80">PASS</span>&nbsp;·&nbsp;Research only, no advice or orders&nbsp;·&nbsp;<a href="https://sohweekian.github.io/bluelotus/chief-strategist.html" style="color:#c084fc;text-decoration:none">Full Clerk Map &rarr;</a></div>
 </main>
 </body></html>
