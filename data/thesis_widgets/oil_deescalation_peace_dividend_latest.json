@@ -3,18 +3,18 @@
   "thesis_id": "OIL_DEESCALATION_PEACE_DIVIDEND_THESIS",
   "title": "Oil De-escalation / Peace Dividend Thesis",
   "status": "WATCH",
-  "score": 72.2,
+  "score": 57.2,
   "score_max": 100,
   "confidence": "MEDIUM",
   "cio_action": "HOLD",
   "add_allowed": false,
-  "risk_level": "MODERATE",
+  "risk_level": "ELEVATED",
   "data_quality": "FULL",
-  "last_updated_sgt": "2026-09-28 14:57 SGT",
-  "last_updated_utc": "2026-09-28T06:57:39Z",
+  "last_updated_sgt": "2026-09-28 15:57 SGT",
+  "last_updated_utc": "2026-09-28T07:57:41Z",
   "market_open": false,
   "market_status": "CLOSED_PRE",
-  "market_time_et": "02:57 ET",
+  "market_time_et": "03:57 ET",
   "last_market_session": "2026-09-25",
   "data_freshness_label": "EQUITY / ETF DATA LAST SESSION CLOSE",
   "summary": "Peace-dividend setup under watch; confirmation is present but incomplete.",
@@ -43,9 +43,9 @@
     {
       "basket": "SAFE_HAVEN_UNWIND",
       "label": "Safe-Haven / Volatility Unwind",
-      "signal": "WATCH",
+      "signal": "FAIL",
       "scoring_weight": 15,
-      "basket_score": 7.2
+      "basket_score": 4.2
     },
     {
       "basket": "BROAD_RISK_ON",
@@ -307,12 +307,12 @@
       "display_symbol": "VIX",
       "yf_symbol": "^VIX",
       "group": "SAFE_HAVEN_UNWIND",
-      "price": 14.87,
-      "day_change_pct": -5.1053,
-      "relative_to_spy": -5.649,
-      "relative_to_qqq": -5.564,
-      "signal": "PASS",
-      "interpretation": "Safe-haven and volatility premium unwinding",
+      "price": 16.19,
+      "day_change_pct": 8.8769,
+      "relative_to_spy": 8.333,
+      "relative_to_qqq": 8.418,
+      "signal": "FAIL",
+      "interpretation": "Safe havens or volatility rising - de-escalation conflict",
       "available": true
     },
     {
@@ -433,8 +433,8 @@
       "source": "credit_liquidity",
       "label": "S7 Credit / Refinancing / Liquidity",
       "status": "LOW_STRESS",
-      "score": 29.5,
-      "generated_at": "2026-09-28T06:57:35Z",
+      "score": 33.5,
+      "generated_at": "2026-09-28T07:57:37Z",
       "available": true,
       "blocks_add": false,
       "watch_context": false
@@ -444,17 +444,23 @@
       "label": "S8 Global Leverage Unwind",
       "status": "WATCH",
       "score": 45.6,
-      "generated_at": "2026-09-28T05:57:39Z",
+      "generated_at": "2026-09-28T06:57:41Z",
       "available": true,
       "blocks_add": true,
       "watch_context": false
     }
   ],
-  "false_positive_penalty": 0.0,
-  "false_positive_flags": [],
-  "pass_count": 19,
+  "false_positive_penalty": 12.0,
+  "false_positive_flags": [
+    {
+      "rule": "safe_haven_conflict",
+      "message": "Oil relief conflicts with rising safe-haven or volatility assets",
+      "penalty": 12.0
+    }
+  ],
+  "pass_count": 18,
   "watch_count": 8,
-  "fail_count": 3,
+  "fail_count": 4,
   "blind_spots": [
     "ETF and equity data reflect last US market session when market is closed",
     "No direct Brent/WTI futures term-structure monitoring",
